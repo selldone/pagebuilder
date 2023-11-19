@@ -353,7 +353,7 @@ import SProductsSortView from "@components/product/sort/SProductsSortView.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import CategorySelect from "@components/backoffice/category/CategorySelect.vue";
-import VendorInputField from "@app-backoffice/pages/marketplace/widgets/VendorInputField.vue";
+import VendorInputField from "@components/ui/input/vendor/VendorInputField.vue";
 import { BusinessModel } from "@core/enums/shop/BusinessModel";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 

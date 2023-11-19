@@ -179,7 +179,7 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import SSmartCheckVerifyAction from "@components/smart/SSmartCheckVerifyAction.vue";
-import ClusterSelect from "@app-backoffice/components/cluster/ClusterSelect.vue";
+import ClusterSelect from "@components/cluster/ClusterSelect.vue";
 
 export default {
   name: "SettingCustomPage",
