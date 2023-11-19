@@ -24,7 +24,7 @@
       can-buy
       show-cover
       class="product-view mx-auto text-start"
-      style="max-width: 1650px;font-size: 14px;"
+      style="max-width: 1650px; font-size: 14px"
       :hss-sticky-but-button="false"
     />
     <product-info-loading-view v-else-if="busy"> </product-info-loading-view>
@@ -58,9 +58,9 @@ export default {
   group: "Products",
   label: "Product",
 
-    help: {
-        title: "Utilize this section to showcase a product on your webpage.",
-    },
+  help: {
+    title: "Utilize this section to showcase a product on your webpage.",
+  },
 
   $schema: {
     classes: types.ClassList,
@@ -74,9 +74,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({
@@ -84,9 +84,7 @@ export default {
     product: null,
     product_info: null,
   }),
-  computed: {
-
-  },
+  computed: {},
   watch: {
     "$sectionData.product_info"(value) {
       if (value instanceof Object && value.id !== this.product?.id) {
@@ -114,14 +112,16 @@ export default {
 
       this.busy = true;
 
-window.$storefront.products.optimize(600).getInfo(this.product_info.id,{ no_article: true})
+      window.$storefront.products
+        .optimize(600)
+        .getInfo(this.product_info.id, { no_article: true })
         .then(({ product }) => {
           this.product = product;
 
           GtagEcommerce.MeasuringViewsOfProductDetails(
-              this.getShop(),
+            this.getShop(),
             product,
-              this.GetUserSelectedCurrency().code,
+            this.GetUserSelectedCurrency().code,
             "quick-view"
           );
         })
