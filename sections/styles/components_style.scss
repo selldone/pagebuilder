@@ -1,0 +1,164 @@
+/*!
+ * Copyright (c) 2023. Selldone® Business OS™
+ *
+ * Author: M.Pajuhaan
+ * Web: https://selldone.com
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+ * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+ * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+ * Our journey is not just about reaching a destination, but about creating a masterpiece.
+ * Tread carefully, for you're treading on dreams.
+ */
+
+.custom-btn{
+
+  &.is-samin {
+    background-image: linear-gradient(30deg, var(--plate-light-1), var(--plate-dark-1))!important;
+    color: white !important;
+  }
+
+  &.is-red {
+    background-image: linear-gradient(30deg, var(--plate-light-2), var(--plate-dark-2))!important;
+    color: white !important;
+  }
+  &.is-black {
+    background-image: linear-gradient(30deg, var(--plate-light-3), var(--plate-dark-3))!important;
+    color: white !important;
+  }
+  &.is-green {
+    background-image: linear-gradient(30deg, var(--plate-light-4),  var(--plate-dark-4))!important;
+    color: white !important;
+  }
+  &.is-blue {
+    background-image: linear-gradient(30deg, var(--plate-light-5),  var(--plate-dark-5))!important;
+    color: white !important;
+  }
+  &.is-white {
+    background-image: linear-gradient(45deg, var(--plate-light-6),  var(--plate-dark-6))!important;
+    color: #333 !important;
+  }
+
+  &.is-deep-purple {
+    background-image: linear-gradient(45deg, var(--plate-light-7),  var(--plate-dark-7)) !important;
+    color: white !important;
+  }
+
+  &.is-teal {
+    background-image: linear-gradient(45deg, var(--plate-light-8),  var(--plate-dark-8)) !important;
+    color: white !important;
+  }
+  &.is-cyan {
+    background-image: linear-gradient(45deg, var(--plate-light-9),  var(--plate-dark-9)) !important;
+    color: white !important;
+  }
+
+  &.is-amber {
+    background-image: linear-gradient(45deg, var(--plate-light-10),  var(--plate-dark-10)) !important;
+    color: #222 !important;
+  }
+  &.is-pink {
+    background-image: linear-gradient(45deg, var(--plate-light-11),  var(--plate-dark-11)) !important;
+    color: white !important;
+  }
+  &.is-blue-grey {
+    background-image: linear-gradient(45deg, var(--plate-light-12),  var(--plate-dark-12)) !important;
+    color: white !important;
+  }
+
+
+
+  &.button-glow {
+    text-align: center;
+
+    padding: 8px 24px;
+    font-weight: 400;
+    cursor: pointer;
+
+    border: none;
+    background-size: 300% 100%;
+
+    min-height: 30px;
+    min-width: 120px;
+    border-radius: 40px;
+    moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+
+    text-decoration: none;
+
+
+    font-size: 1.4rem;
+
+    background-image: linear-gradient(45deg, darken(#ffffff, 10%), #ffffff);
+    color: #333;
+    box-shadow: 0 4px 15px 0 rgba(255, 254, 242, 0.75) !important;
+
+
+    &:hover {
+      background-position: 100% 0;
+      moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      -webkit-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+      text-decoration: none;
+
+    }
+    &:focus {
+      outline: none;
+    }
+    &.is-samin {
+      box-shadow: 0 4px 15px 0 rgba(112, 85, 126, 0.75) !important;
+    }
+
+    &.is-red {
+      box-shadow: 0 4px 15px 0 rgba(196, 0, 15, 0.75) !important;
+    }
+    &.is-black {
+      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.75) !important;
+    }
+    &.is-green {
+      box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75) !important;
+    }
+    &.is-blue {
+
+      box-shadow: 0 4px 15px 0 rgba(2, 135, 208, 0.75) !important;
+    }
+    &.is-white {
+
+      box-shadow: 0 4px 15px 0 rgba(255, 254, 242, 0.75) !important;
+    }
+
+    &.is-deep-purple {
+
+      box-shadow: 0 4px 15px 0 rgba(81, 45, 167, 0.75) !important;
+    }
+
+    &.is-teal {
+
+      box-shadow: 0 4px 15px 0 rgba(0, 121, 107, 0.75) !important;
+    }
+    &.is-cyan {
+
+      box-shadow: 0 4px 15px 0 rgba(0, 150, 166, 0.75) !important;
+    }
+
+    &.is-amber {
+
+      box-shadow: 0 4px 15px 0 rgba(253, 159, 1, 0.75) !important;
+    }
+    &.is-pink {
+
+      box-shadow: 0 4px 15px 0 rgba(193, 24, 91, 0.75) !important;
+    }
+    &.is-blue-grey {
+
+      box-shadow: 0 4px 15px 0 rgba(69, 90, 100, 0.75) !important;
+    }
+  }
+
+
+
+}

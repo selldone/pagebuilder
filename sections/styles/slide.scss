@@ -1,0 +1,38 @@
+/*!
+ * Copyright (c) 2023. Selldone® Business OS™
+ *
+ * Author: M.Pajuhaan
+ * Web: https://selldone.com
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+ * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+ * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+ * Our journey is not just about reaching a destination, but about creating a masterpiece.
+ * Tread carefully, for you're treading on dreams.
+ */
+
+.page-content{
+
+  .slide-elevation {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    transition: all 0.35s ease-in-out;
+    transform: scaleX(1.05);
+    z-index: 1;
+  }
+
+  .slide-bordered {
+    border: solid medium var(--theme-light);
+    transition: none;
+  }
+
+  .slide-up {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px,
+    -5px -5px 30px 0px rgba(167, 167, 167, 0.11);
+    transition: all 0.35s ease-in-out;
+    transform: translateY(-24px);
+    z-index: 1;
+  }
+}
+

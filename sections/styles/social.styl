@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2023. Selldone® Business OS™
+ *
+ * Author: M.Pajuhaan
+ * Web: https://selldone.com
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+ * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+ * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+ * Our journey is not just about reaching a destination, but about creating a masterpiece.
+ * Tread carefully, for you're treading on dreams.
+ */
+
+.page-builder
+  .social
+    padding: 100px 0
+    &-number
+      font-size: 50px
+      margin: 20px 0 50px
+    &-item
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+    &-title
+      font-size: 30px
+      margin: 30px 0
+      text-align: center
+    &-content
+      font-size: 20px
+      margin: 0 0 40px
+      text-align: center
+    &-logo
+      width: 100%
+      margin: 20px 0
+      @extend $flexCenter
+
+    &-quote
+      font-size: 30px
+      color: $black
+      quotes: "”" "“" "’" "‘"
+      &:before
+        content: open-quote
+        margin-right: 20px
+        font-size: 40px
+      &:after
+        content: close-quote
+        margin-left: 20px
+        font-size: 40px
+
+
+    &.is-samin
+      background: #70557e
+
+    &.is-red
+      background: $red
+    &.is-black
+      background: $black
+    &.is-green
+      background: $green
+    &.is-blue
+      background: $blue
+
+    &.is-deep-purple
+      background: #512DA8
+
+
+    &.is-teal
+      background: #00796B
+
+    &.is-cyan
+      background: #0097A7
+
+
+    &.is-amber
+      background: #FFA000
+
+    &.is-pink
+      background: #C2185B
+
+    &.is-blue-grey
+      background: #455A64
+
+    &.is-transparent
+      background: transparent

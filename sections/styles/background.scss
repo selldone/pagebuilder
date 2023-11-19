@@ -1,0 +1,142 @@
+/*!
+ * Copyright (c) 2023. Selldone® Business OS™
+ *
+ * Author: M.Pajuhaan
+ * Web: https://selldone.com
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+ * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+ * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+ * Our journey is not just about reaching a destination, but about creating a masterpiece.
+ * Tread carefully, for you're treading on dreams.
+ */
+
+.background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+
+
+  .bg-video{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+section {
+  position: relative; // All section has relative position by default!
+}
+
+.artboard { // first main page!
+
+  section {
+    --def-color: #9C27B0;
+
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    --def-color: red;
+  }
+
+  .row {
+    --def-color: #8BC34A;
+  }
+
+  .col {
+    --def-color: #03A9F4
+  }
+
+  .container {
+    --def-color: #FFA000
+  }
+
+  .is-editable {
+    // .is-editable {
+    &:not(.v-btn), &:not(.v-btn) {
+
+
+      &:hover {
+        // background: rgba(242, 242, 242, 0.13) ;
+        border-radius: 4px;
+        filter: sepia(10%);
+        /*
+                  border-color: var(--def-color) !important;
+                  border-style: solid ;
+                  border-width: 2px;*/
+        outline-color: var(--def-color) !important;
+        outline-style: solid;
+        outline-width: thick;
+        transition: none;
+
+        // Row:
+        &.row {
+          //  border-color: #8BC34A !important;
+          //   border-style: solid !important;
+        }
+
+        // Col:
+        &.col {
+          //    border-color: #03A9F4 !important;
+          //   border-style: solid !important;
+          filter: sepia(40%);
+        }
+
+        // Container:
+        &.container {
+          //    border-color: #FFA000 !important;
+          //    border-style: solid !important;
+        }
+
+
+      }
+
+      //------------------ Internal ---------------
+      .is-editable {
+        &:not(.v-btn) {
+          &:hover {
+            background: rgba(223, 223, 223, 0.18);
+          }
+        }
+      }
+
+
+    }
+
+
+    //  }
+
+  }
+}
+
+// Highlight when mouse over styler of an element!
+.highlight-blueprint{
+  animation: none;
+  transition: none;
+ // outline: solid #323c47 medium;
+  background: #225082 !important;
+  color: #fff !important;
+  //outline: #225082 10px double !important;
+  z-index: 1;
+  video{
+    opacity: 0;
+  }
+}
+
+// Highlight an element when editing dialog open:
+.element-focus-editing{
+  outline: #1e1e1e 16px double !important;
+  z-index: 10;
+}
