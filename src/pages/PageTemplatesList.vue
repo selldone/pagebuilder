@@ -32,7 +32,7 @@
       <h1 class="display-2 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
-            src="../../../../Components/assets/selldone-logo/selldone-gradient-purple.svg"
+            src="@components/assets/selldone-logo/selldone-gradient-purple.svg"
             width="55%"
             height="55%"
         /></span>

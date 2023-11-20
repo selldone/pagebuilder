@@ -14,7 +14,7 @@
 
 import Styler from "./SStyler.vue";
 import { getTypeFromTagName, getTypeFromSchema } from "../util";
-import vuetify from "../../../../Components/plugins/vuetify/vuetify";
+import vuetify from "@components/plugins/vuetify/vuetify";
 
 function installStyler({ builder, Vue }) {
   const StylerInstance = Vue.extend(Styler).extend({

@@ -333,7 +333,7 @@
               <li>
                 Click on the
                 <img
-                  src="../../../../Components/assets/icons/ci-logo.png"
+                  src="@components/assets/icons/ci-logo.png"
                   :width="24"
                   :height="24"
                   class="mx-1"
@@ -580,7 +580,7 @@
 
 <script>
 import SetupService from "@core/server/SetupService";
-import SDropZone from "../../../../Components/uploader/SDropZone.vue";
+import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import WidgetHeader from "@components/widget/WidgetHeader.vue";
 

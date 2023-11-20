@@ -215,7 +215,7 @@
 
 <script>
 import WidgetHeader from "@components/widget/WidgetHeader.vue";
-import SImageUploader from "../../../../Components/uploader/SImageUploader.vue";
+import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { findAllFontsInSection } from "@app-page-builder/src/util";
 import { FontLoader } from "@core/helper/font/FontLoader";
 import _ from "lodash-es";
