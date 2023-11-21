@@ -2,7 +2,7 @@
 
 # Selldone ® Business OS | Open Source Page Builder
 
-* **Mode:** 🌍 Public
+* **Mode:** 🌍 Public.  
 
 
 Selldone's Page Builder is a cutting-edge tool designed for ease of use and professional output, requiring no coding
