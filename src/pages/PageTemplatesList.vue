@@ -134,6 +134,16 @@
             class="align-items-center justify-start"
             hide-on-leave
           >
+            <v-col v-if="page_count > 1" cols="12" key="p">
+              <v-pagination
+                v-model="page"
+                :disabled="busy_fetch"
+                circle
+                :length="page_count"
+                @input="fetchTemplates()"
+              />
+            </v-col>
+
             <v-col
               v-for="item in templates"
               :key="'tem-' + item.id"
@@ -176,6 +186,9 @@ export default {
 
       search: null,
       templates: null,
+      total: 0,
+      limit: 20,
+      page: 1,
       busy_fetch: false,
 
       blur: false,
@@ -194,6 +207,7 @@ export default {
           ? [{ code: "raw", title: "landing_categories.raw" }]
           : []),
 
+        { code: "*", title: "landing_categories.all" },
         { code: "marketing", title: "landing_categories.marketing" },
         { code: "product", title: "landing_categories.product" },
         { code: "health", title: "landing_categories.health" },
@@ -206,14 +220,20 @@ export default {
         { code: "jewellery", title: "landing_categories.jewellery" },
       ];
     },
+
+    page_count() {
+      return Math.ceil(this.total / this.limit);
+    },
   },
 
   watch: {
     search: _.throttle(function (newVal, oldVal) {
+      this.page = 1;
       this.fetchTemplates();
     }, window.SERACH_THROTTLE),
 
     selected_category() {
+      this.page = 1;
       this.fetchTemplates();
     },
   },
@@ -227,7 +247,7 @@ export default {
     }
 
     if (!this.has_raw_themes) {
-      this.selected_category = "marketing";
+      this.selected_category = "*";
     }
   },
   mounted() {},
@@ -248,11 +268,14 @@ export default {
           params: {
             search: this.search,
             category: this.selected_category,
+            limit: this.limit,
+            offset: (this.page - 1) * this.limit,
           },
         })
         .then(({ data }) => {
           if (!data.error) {
             this.templates = data.templates;
+            this.total = data.total;
           } else {
             this.showErrorAlert(null, data.error_msg);
           }
