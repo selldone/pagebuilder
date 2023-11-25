@@ -136,10 +136,9 @@ export default {
         let observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-
-              let threshold = parseFloat($(entry.target).data('threshold')) || 0.3;// Get from this attribute: data-threshold="0.7"
-             // console.log('threshold',threshold,entry.intersectionRatio)
-
+              let threshold =
+                parseFloat($(entry.target).data("threshold")) || 0.3; // Get from this attribute: data-threshold="0.7"
+              // console.log('threshold',threshold,entry.intersectionRatio)
 
               if (entry.intersectionRatio >= threshold) {
                 //console.log("observer :", entry);
@@ -165,7 +164,7 @@ export default {
             });
           },
           {
-            threshold: [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1], // Set the threshold to 0.5
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], // Set the threshold to 0.5
           }
         );
 

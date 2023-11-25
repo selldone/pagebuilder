@@ -321,7 +321,9 @@ class SelldonePageBuilderCore {
 
     // II. Initialize builder:
     {
-      const builder = new SelldonePageBuilderCore(Object.assign({}, BUILDER_OPTIONS, options));
+      const builder = new SelldonePageBuilderCore(
+        Object.assign({}, BUILDER_OPTIONS, options)
+      );
       // configer assets output location
       Vue.util.defineReactive(builder, "sections", builder.sections);
       Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
@@ -347,7 +349,9 @@ class SelldonePageBuilderCore {
 
     // II. Initialize render:
     {
-      const builder = new SelldonePageBuilderCore(Object.assign({}, BUILDER_OPTIONS, options));
+      const builder = new SelldonePageBuilderCore(
+        Object.assign({}, BUILDER_OPTIONS, options)
+      );
       // configer assets output location
       Vue.util.defineReactive(builder, "sections", builder.sections);
       /*    Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
@@ -368,7 +372,9 @@ class SelldonePageBuilderCore {
 
     // III. Initialize popup render:
     {
-      const builder = new SelldonePageBuilderCore(Object.assign({}, BUILDER_OPTIONS, options));
+      const builder = new SelldonePageBuilderCore(
+        Object.assign({}, BUILDER_OPTIONS, options)
+      );
       // configer assets output location
       Vue.util.defineReactive(builder, "sections", builder.sections);
       /*  Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
@@ -391,7 +397,9 @@ class SelldonePageBuilderCore {
     }
     // IV. Initialize menu render:
     {
-      const builder = new SelldonePageBuilderCore(Object.assign({}, BUILDER_OPTIONS, options));
+      const builder = new SelldonePageBuilderCore(
+        Object.assign({}, BUILDER_OPTIONS, options)
+      );
       // configer assets output location
       Vue.util.defineReactive(builder, "sections", builder.sections);
       /* Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
