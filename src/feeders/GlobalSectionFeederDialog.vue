@@ -157,7 +157,7 @@
             >Modify the appearance of the search box here.</v-subheader
           >
 
-          <shop-search-box
+          <s-storefront-search-box
             :solo="section_data.search.solo"
             :filled="section_data.search.filled"
             :flat="section_data.search.flat"
@@ -168,7 +168,7 @@
             :background-color="section_data.search.color"
             expand-input
             label="Preview of search box..."
-          ></shop-search-box>
+          ></s-storefront-search-box>
 
           <s-value-dashed>
             <template v-slot:label>Search Box</template>
@@ -347,7 +347,7 @@ import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import { Button } from "@app-page-builder/src/types";
 import Seeder from "@app-page-builder/src/seeder";
 import ColorSelector from "@components/ui/color/ColorSelector.vue";
-import ShopSearchBox from "@components/storefront/search/ShopSearchBox.vue";
+import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/src/tools/product/widgets/SPageProductsFilter.vue";
 import FeederNewsletter from "@app-page-builder/src/feeders/FeederNewsletter.vue";
@@ -362,7 +362,7 @@ export default {
     FeederNewsletter,
     SPageProductsFilter,
     ProductSelectBox,
-    ShopSearchBox,
+    SStorefrontSearchBox,
     ColorSelector,
     SValueDashed,
     SSmartToggle,

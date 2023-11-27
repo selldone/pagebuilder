@@ -54,7 +54,7 @@
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ Start Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <shop-search-box
+          <s-storefront-search-box
             :shop-name="getShop() && getShop().name"
             class="fadeIn delay_300"
             @onSearch="onSearch"
@@ -67,22 +67,17 @@
             :filled="$sectionData.search.filled"
             :rounded="$sectionData.search.rounded"
             :placeholder="$sectionData.search.placeholder"
-
-
-
             :label="$sectionData.search.label"
             :messages="$sectionData.search.messages"
             :hint="$sectionData.search.hint"
             :persistent-placeholder="$sectionData.search.persistentPlaceholder"
             :single-line="false"
-
             no-qr
             block
             :readonly="$builder.isEditing"
             expand-input
             v-styler:input="$sectionData.search"
-          ></shop-search-box>
-
+          ></s-storefront-search-box>
 
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ End Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </v-col>
@@ -118,22 +113,21 @@
 
 <script>
 import * as types from "../../src/types";
-import ShopSearchBox from "@components/storefront/search/ShopSearchBox.vue";
+import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
-import {StorefrontRoutesName} from "@core/enums/route/StorefrontRoutesName";
+import { StorefrontRoutesName } from "@core/enums/route/StorefrontRoutesName";
 
 export default {
   name: "SectionHeroSearch",
-  components: { VideoBackground, ShopSearchBox },
+  components: { VideoBackground, SStorefrontSearchBox },
   cover: require("../../assets/images/covers/hero-search.svg"),
   group: "Hero",
   label: "Search Hero",
 
   help: {
-    title: "Utilize this section to display a search box on your page. This search box allows customers to conveniently search through products and categories.",
+    title:
+      "Utilize this section to display a search box on your page. This search box allows customers to conveniently search through products and categories.",
     video: require("../../assets/helps/Search.m4v"),
-
-
   },
 
   $schema: {
@@ -160,9 +154,9 @@ export default {
       color: null,
       backgroundColor: null,
       placeholder: null,
-      label:null,
-      messages:null,
-      hint:null
+      label: null,
+      messages: null,
+      hint: null,
     },
 
     // Columns:
