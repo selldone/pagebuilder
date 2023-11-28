@@ -65,25 +65,55 @@ SelldonePageBuilderCore.mix({
 });
 
 // register shops.
-SelldonePageBuilderCore.component(SectionHeroHorizontal.name, SectionHeroHorizontal);
-SelldonePageBuilderCore.component(SectionHeroVertical.name, SectionHeroVertical);
+SelldonePageBuilderCore.component(
+  SectionHeroHorizontal.name,
+  SectionHeroHorizontal
+);
+SelldonePageBuilderCore.component(
+  SectionHeroVertical.name,
+  SectionHeroVertical
+);
 SelldonePageBuilderCore.component(SectionHeroLottie.name, SectionHeroLottie);
 SelldonePageBuilderCore.component(SectionHeroSearch.name, SectionHeroSearch);
 
-SelldonePageBuilderCore.component(Section2TextColumns.name, Section2TextColumns);
-SelldonePageBuilderCore.component(Section3TextColumns.name, Section3TextColumns);
-SelldonePageBuilderCore.component(Section3NumberColumns.name, Section3NumberColumns);
+SelldonePageBuilderCore.component(
+  Section2TextColumns.name,
+  Section2TextColumns
+);
+SelldonePageBuilderCore.component(
+  Section3TextColumns.name,
+  Section3TextColumns
+);
+SelldonePageBuilderCore.component(
+  Section3NumberColumns.name,
+  Section3NumberColumns
+);
 SelldonePageBuilderCore.component(SectionSingleImage.name, SectionSingleImage);
 SelldonePageBuilderCore.component(Section3Images.name, Section3Images);
 SelldonePageBuilderCore.component(Section3ImagesText.name, Section3ImagesText);
-SelldonePageBuilderCore.component(SectionInfinitStream.name, SectionInfinitStream);
+SelldonePageBuilderCore.component(
+  SectionInfinitStream.name,
+  SectionInfinitStream
+);
 
-SelldonePageBuilderCore.component(SectionGalleryExpanding.name, SectionGalleryExpanding);
-SelldonePageBuilderCore.component(SectionGalleryLogos.name, SectionGalleryLogos);
+SelldonePageBuilderCore.component(
+  SectionGalleryExpanding.name,
+  SectionGalleryExpanding
+);
+SelldonePageBuilderCore.component(
+  SectionGalleryLogos.name,
+  SectionGalleryLogos
+);
 
-SelldonePageBuilderCore.component(SectionProductCategoryList.name, SectionProductCategoryList);
+SelldonePageBuilderCore.component(
+  SectionProductCategoryList.name,
+  SectionProductCategoryList
+);
 SelldonePageBuilderCore.component(SectionProductView.name, SectionProductView);
-SelldonePageBuilderCore.component(SectionProductsCustomList.name, SectionProductsCustomList);
+SelldonePageBuilderCore.component(
+  SectionProductsCustomList.name,
+  SectionProductsCustomList
+);
 
 SelldonePageBuilderCore.component(SectionArticle.name, SectionArticle);
 SelldonePageBuilderCore.component(SectionRawHtml.name, SectionRawHtml);
@@ -95,7 +125,10 @@ SelldonePageBuilderCore.component(Newsletter.name, Newsletter);
 SelldonePageBuilderCore.component(SectionTwoCol.name, SectionTwoCol);
 SelldonePageBuilderCore.component(SectionThreeCol.name, SectionThreeCol);
 
-SelldonePageBuilderCore.component(SectionImageTextCards.name, SectionImageTextCards);
+SelldonePageBuilderCore.component(
+  SectionImageTextCards.name,
+  SectionImageTextCards
+);
 
 SelldonePageBuilderCore.component(SectionBlogsList.name, SectionBlogsList);
 
