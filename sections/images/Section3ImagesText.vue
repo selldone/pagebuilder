@@ -28,7 +28,7 @@
       />
 
       <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-      <x-buttons :object="$sectionData" path="$sectionData"></x-buttons>
+      <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
       <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
       <x-row

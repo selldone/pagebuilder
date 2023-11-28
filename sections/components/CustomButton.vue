@@ -18,7 +18,7 @@
     class="custom-btn text-no-transform -trackable"
     :class="[btnData.classes, { 'button-glow': btnData.glow }]"
     :href="editing ? ' ' : btnData.href"
-    v-html="btnData.content?.applyAugment(augment,editing)"
+    v-html="btnData.content?.applyAugment(augment, editing)"
     :color="btnData.glow ? undefined : btnData.color"
     :dark="btnData.dark"
     :icon="btnData.icon"

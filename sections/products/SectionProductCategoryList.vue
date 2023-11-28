@@ -55,6 +55,7 @@
 import * as types from "../../src/types";
 import SShopProductsListing from "@components/storefront/products-listing/SShopProductsListing.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
+import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
 
 export default {
   name: "SectionProductCategoryList",
@@ -102,7 +103,11 @@ export default {
         //console.log("watch", value);
         //console.log("force_package", this.$sectionData.products_list);
 
-        this.force_package = value;
+        this.force_package =  ApplyAugmentToObject(
+          value,
+          this.augment,
+          this.$builder.isEditing
+        );
         this.mode_view = value.mode_view;
 
       }
@@ -116,13 +121,13 @@ export default {
       this.mode_view = this.force_package.mode_view;
 
     // Set dynamic values for filter:
-    if (Array.isArray(this.force_package?.tags)) {
-      this.force_package.tags = this.force_package.tags.map((x) =>
-        this.isString(x) ? x.applyAugment(this.augment, this.$builder.isEditing) : x
-      );
-    }
 
-    ////  if (this.shop_name) this.shop_name = this.getCurrentShopName();
+    this.force_package = ApplyAugmentToObject(
+      this.force_package,
+      this.augment,
+      this.$builder.isEditing
+    );
+
   },
 
   mounted() {},

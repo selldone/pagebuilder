@@ -28,7 +28,7 @@
           <p v-styler="$sectionData.content" v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)" />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :object="$sectionData" path="$sectionData"></x-buttons>
+          <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </v-col>
         <v-col cols="12" sm="6" md="8">

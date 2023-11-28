@@ -60,7 +60,7 @@
     <p v-styler="$sectionData.content" v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)" />
 
     <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-    <x-buttons :object="$sectionData" path="$sectionData"></x-buttons>
+    <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
     <div class="container-gallery addable">

@@ -45,7 +45,7 @@
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :object="$sectionData" path="$sectionData"></x-buttons>
+          <x-buttons :object="$sectionData" path="$sectionData"  :augment="augment"></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
 
@@ -79,7 +79,6 @@ export default {
   help: {
     title: "Place this section at the beginning of your page.",
     video: require("../../assets/helps/SectionHeroHorizontal.mp4"),
-
   },
 
   group: "Hero",

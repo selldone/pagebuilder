@@ -30,7 +30,7 @@
         </p>
       </div>
     </v-fade-transition>
-    <!-- --------------------------------- Top Tools --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <page-builder-top-tools
       v-if="page && inEditMode"
@@ -118,7 +118,7 @@
         </div>
       </div>
     </v-expand-transition>
-    <!-- --------------------------------- Design --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Design ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <SPageEditor
       v-show="tab === 'design'"
@@ -148,7 +148,7 @@
         <slot name="header"></slot>
       </template>
     </SPageEditor>
-    <!-- --------------------------------- Setting --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <setting-custom-page
       v-show="tab === 'setting'"
@@ -163,20 +163,20 @@
       :is-official-page="isOfficialPage"
     ></setting-custom-page>
 
-    <!-- --------------------------------- SEO --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
     <s-page-builder-seo v-if="page" v-show="tab === 'seo'" :page="page" />
 
-    <!-- --------------------------------- Statistic --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <page-builder-users-behavior
       v-if="page && tab === 'behavior'"
       :page="page"
     ></page-builder-users-behavior>
 
-    <!-- --------------------------------- Files --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Files ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
     <page-builder-files-list v-if="page?.id && tab === 'files'" :page="page" />
 
-    <!-- --------------------------------- History --------------------------------- -->
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
     <v-bottom-sheet
       v-if="page"
       v-model="history_dialog"

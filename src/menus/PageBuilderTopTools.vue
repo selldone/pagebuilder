@@ -214,7 +214,8 @@
           </template>
           <div class="text-start small pa-1">
             <b class="d-block"> Page Style </b>
-            Personalize the primary page's appearance, such as background and top menu here.
+            Personalize the primary page's appearance, such as background and
+            top menu here.
           </div>
         </v-tooltip>
 
@@ -678,7 +679,6 @@ export default {
   }),
 
   methods: {
-
     toggleLandingShowElementsRepository() {
       this.$store.commit(
         "setLandingShowElementsRepository",

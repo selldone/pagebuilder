@@ -50,19 +50,6 @@
       :augment="augment"
     >
     </custom-button>
-    <!--
-    <v-btn
-      v-if="SHOW_EDIT_TOOLS"
-      key="add"
-      fab
-      color="#225082"
-      dark
-      class="m-2 add-btn"
-      @click="addItemToArray(object.buttons, types.Button)"
-      title="Add action button."
-    >
-      <v-icon>add</v-icon></v-btn
-    >-->
   </v-row>
   <!-- End Buttons group -->
   <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->

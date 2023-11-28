@@ -1142,8 +1142,7 @@ export default {
 
     // Add global past:
     this.onPast = (event) => {
-      if(window.PAGE_BUILDER_BLOCK_LISTEN_KEYS)return ;
-
+      if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
 
       let paste = (event.clipboardData || window.clipboardData).getData("text");
 
@@ -1253,7 +1252,7 @@ export default {
     //const t = this;
 
     this.key_listener_keydown = (event) => {
-      if(window.PAGE_BUILDER_BLOCK_LISTEN_KEYS)return ;
+      if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
 
       //------------- Global key listener -----------
 

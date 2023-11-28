@@ -250,24 +250,34 @@
         placeholder="Write tag and press enter. ex. new collection"
         persistent-placeholder
         label="Tags list"
-        hint="You can set dynamic values { {key} } here. This value will be replace by augmentation data in product,category or other pages."
+        hint="You can set dynamic values { { key } } here. This value will be replace by augmentation data in product,category or other pages."
       >
-        <template v-slot:selection="data">
+        <template
+          v-slot:selection="{ item, attrs, selected, disabled, parent }"
+        >
           <v-chip
-            :key="JSON.stringify(data.item)"
-            v-bind="data.attrs"
-            :input-value="data.selected"
-            :disabled="data.disabled"
-            @click:close="data.parent.selectItem(data.item)"
+            :key="JSON.stringify(item)"
+            v-bind="attrs"
+            :input-value="selected"
+            :disabled="disabled"
+            @click:close="parent.selectItem(item)"
             close
           >
             <v-avatar
               class="white--text"
-              :color="data.item ? data.item.toColor(true) : '#333'"
+              :color="
+                isDynamicValue(item)
+                  ? '#FFF'
+                  : item
+                  ? item.toColor(true)
+                  : '#333'
+              "
               left
-              v-text="data.item?.slice(0, 1).toUpperCase()"
-            ></v-avatar>
-            {{ data.item }}
+              >{{
+                isDynamicValue(item) ? "🪄" : item?.slice(0, 1).toUpperCase()
+              }}</v-avatar
+            >
+            {{ item }}
           </v-chip>
         </template>
       </v-combobox>
@@ -476,6 +486,9 @@ export default {
     this.setDefaultValues(this.value ? this.value : this.defaultValue);
   },
   methods: {
+    isDynamicValue(item) {
+      return item?.includes("{{") && item?.includes("}}");
+    },
     //================================= Product Filter ===================================
 
     setDefaultValues(filter_bundle) {
