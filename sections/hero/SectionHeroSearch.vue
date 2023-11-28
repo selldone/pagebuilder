@@ -115,7 +115,6 @@
 import * as types from "../../src/types";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
-import { StorefrontRoutesName } from "@core/enums/route/StorefrontRoutesName";
 
 export default {
   name: "SectionHeroSearch",
@@ -228,7 +227,7 @@ export default {
       if (this.$builder.isEditing || !this.getShop()) return;
 
       this.$router.push({
-        name: StorefrontRoutesName.SHOP_PAGE,
+        name: window.$storefront.routes.SHOP_PAGE,
         params: { shop_name: this.getShop().name },
         query: { search: event.search, search_type: event.search_type },
       });

@@ -17,7 +17,7 @@ import Router from "vue-router";
 
 //――――――――――――――――――――――――― Page Builder ―――――――――――――――――――――――――
 import PageBuilder from "../SPageBuilder.vue";
-import {StorefrontRoutesName} from "@core/enums/route/StorefrontRoutesName";
+import { StorefrontRoutesName } from "@core/enums/route/StorefrontRoutesName";
 
 Vue.use(Router);
 const router = new Router({
@@ -53,13 +53,13 @@ const router = new Router({
         // ▶ ▶ ⬬⬬⬬⬬⬬⬬⬬⬬ Product Page ⬬⬬⬬⬬⬬⬬⬬⬬
         {
           path: "product/:product_id",
-          name: "ProductPage",
+          name: StorefrontRoutesName.PRODUCT_PAGE,
         },
 
         // ▶ ▶ ⬬⬬⬬⬬⬬⬬⬬⬬ Basket Page (Physical) ⬬⬬⬬⬬⬬⬬⬬⬬
         {
           path: "basket",
-          name: "BasketPage",
+          name: StorefrontRoutesName.BASKET_PAGE,
         },
       ],
     },
