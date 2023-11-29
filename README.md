@@ -3,7 +3,9 @@
 # Selldone ® Business OS | Open Source Page Builder
 
 * **Mode:** 🌍 Public
+* **Project Type:** Vue Components Library
 
+🛍️ Go to the [**Full Storefront Project ▶**](https://github.com/selldone/storefront)
 
 Selldone's Page Builder is a cutting-edge tool designed for ease of use and professional output, requiring no coding
 skills or additional plugins. It's a modern solution that empowers users to create visually stunning, responsive
