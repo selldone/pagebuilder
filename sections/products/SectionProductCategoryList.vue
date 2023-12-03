@@ -29,7 +29,7 @@
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
-      <s-shop-products-listing
+      <s-storefront-products-listing
         :shop="getShop()"
         silent
         landing-page-mode
@@ -40,7 +40,7 @@
         v-bind:has-arrange="true"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
-      ></s-shop-products-listing>
+      ></s-storefront-products-listing>
 
       <p
         v-styler="$sectionData.text"
@@ -53,13 +53,13 @@
 
 <script>
 import * as types from "../../src/types";
-import SShopProductsListing from "@components/storefront/products-listing/SShopProductsListing.vue";
+import SStorefrontProductsListing from "@components/storefront/products-listing/SStorefrontProductsListing.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
 
 export default {
   name: "SectionProductCategoryList",
-  components: { SShopProductsListing },
+  components: { SStorefrontProductsListing },
   cover: require("../../assets/images/covers/products.svg"),
 
   group: "Products",

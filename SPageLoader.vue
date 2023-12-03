@@ -30,7 +30,7 @@
     <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
     <div v-if="busy" class="min-height-80vh">
-      <loading height="240px" class="my-10"></loading>
+      <s-loading height="240px" class="my-10"></s-loading>
     </div>
 
     <SPageRender

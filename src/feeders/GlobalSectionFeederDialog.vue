@@ -82,9 +82,9 @@
             messages=" "
           >
             <template v-slot:message>
-              <augment-keys-finder
+              <s-backoffice-augment-keys-finder
                 :value="section_data.title"
-              ></augment-keys-finder>
+              ></s-backoffice-augment-keys-finder>
             </template>
           </v-textarea>
           <v-textarea
@@ -95,9 +95,9 @@
             v-model="section_data.content"
           >
             <template v-slot:message>
-              <augment-keys-finder
+              <s-backoffice-augment-keys-finder
                 :value="section_data.content"
-              ></augment-keys-finder>
+              ></s-backoffice-augment-keys-finder>
             </template>
           </v-textarea>
         </div>
@@ -352,12 +352,12 @@ import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/src/tools/product/widgets/SPageProductsFilter.vue";
 import FeederNewsletter from "@app-page-builder/src/feeders/FeederNewsletter.vue";
 import FeederImage from "@app-page-builder/src/feeders/FeederImage.vue";
-import AugmentKeysFinder from "@components/backoffice/augment/AugmentKeysFinder.vue";
+import SBackofficeAugmentKeysFinder from "@components/backoffice/augment/SBackofficeAugmentKeysFinder.vue";
 import SValueDashed from "@components/ui/text/SValueDashed.vue";
 export default {
   name: "GlobalSectionFeederDialog",
   components: {
-    AugmentKeysFinder,
+    SBackofficeAugmentKeysFinder,
     FeederImage,
     FeederNewsletter,
     SPageProductsFilter,
