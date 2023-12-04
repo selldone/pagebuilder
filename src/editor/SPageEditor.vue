@@ -847,7 +847,7 @@
 <script>
 import Sortable from "sortablejs";
 import SStylerIcon from "../components/SStylerIcon";
-import CircleButton from "@components/ui/button/CircleButton.vue";
+
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import GlobalPageStyleEditorDialog from "../tools/style/GlobalPageStyleEditorDialog.vue";
 import GlobalBackgroundEditorDialog from "../tools/background/GlobalBackgroundEditorDialog.vue";
@@ -906,7 +906,7 @@ export default {
     GlobalStyleEditorDialog,
     GlobalBackgroundEditorDialog,
     GlobalPageStyleEditorDialog,
-    CircleButton,
+
     SStylerIcon,
   },
   props: {
