@@ -89,7 +89,7 @@
 
       <v-spacer></v-spacer>
 
-      <progress-loading v-if="busy_fetch"></progress-loading>
+      <s-progress-loading v-if="busy_fetch"></s-progress-loading>
     </div>
 
     <v-bottom-sheet

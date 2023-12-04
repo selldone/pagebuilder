@@ -96,7 +96,7 @@
               automatically on your custom page.</v-subheader
             >
 
-            <progress-loading v-if="busy_scripts"></progress-loading>
+            <s-progress-loading v-if="busy_scripts"></s-progress-loading>
             <v-list class="border-between-vertical bg-transparent">
               <v-list-item v-for="item in scripts_list" :key="item.url">
                 <v-list-item-avatar rounded>

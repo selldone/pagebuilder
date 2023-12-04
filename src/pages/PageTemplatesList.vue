@@ -44,7 +44,7 @@
       </p>
     </div>
 
-    <progress-loading v-if="busy_fetch"></progress-loading>
+    <s-progress-loading v-if="busy_fetch"></s-progress-loading>
 
     <div class="position-relative min-height-60vh">
       <v-navigation-drawer

@@ -46,7 +46,7 @@
         >
       </div>
     </v-img>
-    <progress-loading v-if="loading"></progress-loading>
+    <s-progress-loading v-if="loading"></s-progress-loading>
     <v-card-title>
       {{ template.name }}
     </v-card-title>

@@ -105,7 +105,6 @@ export default {
     delete KEEPER[this.id];
   },
   mounted() {
-
     if (this.$refs.editorContainer) {
       this.$refs.editorContainer.processAfterChangeBody(); //Assign full screen click...
     }
@@ -121,7 +120,7 @@ export default {
       }
 
       // For official page:
-      return window.API.UPLOAD_ARTICLE_IMAGE(ArticleTypes.SaminBlog.code, null);
+      return window.API.UPLOAD_ARTICLE_IMAGE(ArticleTypes.SelldoneBlog.code, null);
     },
   },
 };

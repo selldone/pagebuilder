@@ -46,7 +46,11 @@
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
+          <x-buttons
+            :object="$sectionData"
+            path="$sectionData"
+            :augment="augment"
+          ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
 
@@ -67,7 +71,7 @@
             file-key="lottie"
           >
             <template v-slot="{ src }">
-              <lottie
+              <s-lottie
                 v-if="show_lottie_view"
                 style="max-width: 800px; max-height: 800px"
                 :options="{
