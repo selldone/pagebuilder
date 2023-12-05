@@ -65,7 +65,7 @@
         >
         <v-card-text>
           <div class="widget-box -large mb-5">
-            <widget-header title="Your Custom Code" icon="code"></widget-header>
+            <s-widget-header title="Your Custom Code" icon="code"></s-widget-header>
             <v-subheader
               >Here, you can either write raw HTML code or paste your code.
               However, please be aware that pasting code containing 'script'
@@ -88,7 +88,7 @@
           </div>
 
           <div class="widget-box -large mb-5">
-            <widget-header title="Scripts" icon="code"></widget-header>
+            <s-widget-header title="Scripts" icon="code"></s-widget-header>
             <v-subheader
               >If your code includes scripts, they will be identified and
               displayed here for your review. These scripts will be

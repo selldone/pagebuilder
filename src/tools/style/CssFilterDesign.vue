@@ -43,10 +43,10 @@
     </v-img>
     <!-- ████████████████████ Collection ████████████████████ -->
 
-    <widget-header
+    <s-widget-header
       title="Filters collection"
       icon="filter_vintage"
-    ></widget-header>
+    ></s-widget-header>
     <v-subheader>Select a filter from the collection. Using complex filters may slow down your page experience.</v-subheader>
 
     <v-item-group v-model="filter_value">
@@ -91,7 +91,7 @@
 
     <!-- ████████████████████ Customize ████████████████████ -->
 
-    <widget-header title="Tune" icon="tune"></widget-header>
+    <s-widget-header title="Tune" icon="tune"></s-widget-header>
     <v-subheader>You can customize and make your filter here.</v-subheader>
 
     <v-expansion-panels>

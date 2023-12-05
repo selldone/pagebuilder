@@ -27,7 +27,7 @@ export default {
                     </div>
 
 <div class="flex-grow-1"></div>
-<count-down class="my-2" end="{product.dis_end}"></count-down>
+<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>
 
                         <a href="{url}" class="btn btn-primary" target="_blank">Buy Now</a>
 
@@ -48,7 +48,7 @@ export default {
                     </div>
 
 <div class="flex-grow-1"></div>
-<count-down class="my-2" end="{product.dis_end}"></count-down>
+<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>
 <variants class="my-2"></variants>
 
 <a href="{url}" class="btn btn-primary" target="_blank" style="padding: 12px 16px;background: #222;color: #fff;border-radius: 12px;">Buy Now</a>

@@ -17,7 +17,7 @@
     <div :style="{ background: gradient }" class="gradient-view"></div>
     <div class="container">
       <v-fade-transition group tag="div" class="row m-1">
-        <color-selector
+        <s-color-selector
           v-for="(color, index) in value"
           :key="index"
           v-model="value[index]"
@@ -25,15 +25,23 @@
           class="m-1 inline-block"
         >
           lens
-        </color-selector>
+        </s-color-selector>
       </v-fade-transition>
 
-      <v-btn @click="addColor" icon title="Add a color"><v-icon>add</v-icon></v-btn>
-      <v-btn v-if="value && value.length > 2" @click="removeColor" icon title="Remove last color"
+      <v-btn @click="addColor" icon title="Add a color"
+        ><v-icon>add</v-icon></v-btn
+      >
+      <v-btn
+        v-if="value && value.length > 2"
+        @click="removeColor"
+        icon
+        title="Remove last color"
         ><v-icon>remove</v-icon></v-btn
       >
 
-      <v-btn @click="generateGradient" icon title="Create random colors"><v-icon>fas fa-dice</v-icon></v-btn>
+      <v-btn @click="generateGradient" icon title="Create random colors"
+        ><v-icon>fas fa-dice</v-icon></v-btn
+      >
       <v-btn v-if="clearable" @click="$emit('input', [])" icon
         ><v-icon>delete</v-icon></v-btn
       >
@@ -42,10 +50,10 @@
 </template>
 
 <script>
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 export default {
   name: "GradientBuilder",
-  components: { ColorSelector },
+  components: { SColorSelector },
   props: {
     value: {
       type: Array,

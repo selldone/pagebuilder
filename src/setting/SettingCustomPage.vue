@@ -17,10 +17,10 @@
     <!-- ============== Name ============== -->
 
     <div class="widget-box mb-5">
-      <widget-header
+      <s-widget-header
         :title="$t('global.commons.general_config')"
         icon="tune"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader
         >Adjusting the page URL and modifying the publication status of the
@@ -58,7 +58,7 @@
 
     <!-- ---------------------- Label ---------------------- -->
     <div class="widget-box mb-5">
-      <widget-header title="Designer" icon="architecture"></widget-header>
+      <s-widget-header title="Designer" icon="architecture"></s-widget-header>
 
       <!-- ============== colors ============== -->
       <v-subheader
@@ -93,32 +93,32 @@
       />
 
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
-      <widget-header
+      <s-widget-header
         title="Cluster"
         icon="workspaces"
         add-text
         add-caption="Management"
         add-icon="settings"
         :to="{ name: 'ClustersManagement_List' }"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader>
         By linking this page to a cluster, you can effortlessly locate and
         manage it.
       </v-subheader>
-      <cluster-select
+      <s-cluster-select
         :value="clusterId"
         @input="(val) => $emit('update:clusterId', val)"
         :return-object="false"
         clearable
         no-home
         icon="workspaces_filled"
-      ></cluster-select>
+      ></s-cluster-select>
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
     </div>
 
     <div class="widget-box mb-5">
-      <widget-header title="Image" icon="image"></widget-header>
+      <s-widget-header title="Image" icon="image"></s-widget-header>
       <v-subheader
         >Upload an image for the page. This image will serve as the cover for
         SEO purposes and will also be used in the page listings.</v-subheader
@@ -140,7 +140,7 @@
 
     <!-- ---------------------- Delete ---------------------- -->
     <div class="widget-box mb-5" style="border-top: solid medium red">
-      <widget-header title="Delete page" icon="error_outline"></widget-header>
+      <s-widget-header title="Delete page" icon="error_outline"></s-widget-header>
 
       <v-subheader>
         <div>
@@ -179,12 +179,12 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import SSmartCheckVerifyAction from "@components/smart/SSmartCheckVerifyAction.vue";
-import ClusterSelect from "@components/cluster/ClusterSelect.vue";
+import SClusterSelect from "@components/cluster/SClusterSelect.vue";
 
 export default {
   name: "SettingCustomPage",
   components: {
-    ClusterSelect,
+    SClusterSelect,
     SSmartCheckVerifyAction,
     SSmartSwitch,
     SImageUploader,

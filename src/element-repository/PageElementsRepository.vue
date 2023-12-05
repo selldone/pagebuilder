@@ -117,7 +117,7 @@
         </v-card-title>
         <v-card-text>
           <div class="widget-box mb-5">
-            <widget-header title="Configuration" icon="tune"></widget-header>
+            <s-widget-header title="Configuration" icon="tune"></s-widget-header>
             <v-subheader>
               You can save custom-designed sections for later use in your page
               designs. These saved sections are accessible to all admins in this
@@ -141,7 +141,7 @@
           </div>
 
           <div v-if="selected_element" class="widget-box mb-5">
-            <widget-header title="Image" icon="image"></widget-header>
+            <s-widget-header title="Image" icon="image"></s-widget-header>
             <v-subheader>Public image in the list.</v-subheader>
 
             <s-image-uploader
@@ -162,7 +162,7 @@
           </div>
 
           <div class="widget-box mb-5">
-            <widget-header title="Code" icon="data_object"></widget-header>
+            <s-widget-header title="Code" icon="data_object"></s-widget-header>
             <v-subheader>
               You can copy and past the element code form left side of sections
               in the page builder.</v-subheader
@@ -214,7 +214,6 @@
 </template>
 
 <script>
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
 import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { findAllFontsInSection } from "@app-page-builder/src/util";
 import { FontLoader } from "@core/helper/font/FontLoader";
@@ -222,7 +221,7 @@ import _ from "lodash-es";
 
 export default {
   name: "PageElementsRepository",
-  components: {SImageUploader, WidgetHeader },
+  components: { SImageUploader },
 
   props: {
     scaleDownMode: {
@@ -285,9 +284,9 @@ export default {
       localStorage.setItem("page-builder:repository", value ? "true" : "false"); // Keep hide state!
     },
 
-    dialog(dialog){
+    dialog(dialog) {
       window.PAGE_BUILDER_BLOCK_LISTEN_KEYS = dialog;
-    }
+    },
   },
 
   created() {
@@ -455,12 +454,7 @@ export default {
           this.busy_delete = true;
 
           axios
-            .delete(
-              window.API.DELETE_PAGE_ELEMENT(
-                this.shop_id,
-                element.id
-              )
-            )
+            .delete(window.API.DELETE_PAGE_ELEMENT(this.shop_id, element.id))
             .then(({ data }) => {
               if (data.error) {
                 this.showErrorAlert(null, data.error_msg);

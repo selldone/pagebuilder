@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -41,11 +37,11 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre">
-        <color-selector
+        <s-color-selector
           title="Background color"
           v-model="bg_color"
           nullable
-        ></color-selector>
+        ></s-color-selector>
         <background-image-editor
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
@@ -70,17 +66,17 @@
 <script>
 import BackgroundImageEditor from "./BackgroundImageEditor.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
 export default {
   name: "GlobalBackgroundEditorDialog",
-  mixins:[PageBuilderMixin],
+  mixins: [PageBuilderMixin],
 
   components: {
-    ColorSelector,
+    SColorSelector,
     BackgroundImageEditor,
   },
 
@@ -137,13 +133,11 @@ export default {
       this.setBackgroundDebounced();
     },
 
-      show_edit_style(dialog) {
-          // Keep highlight active element:
-          if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-          else if(this.el)      HighlightEditingElements.Activate(this.el );
-      },
-
-
+    show_edit_style(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
   },
   created() {},
   mounted() {

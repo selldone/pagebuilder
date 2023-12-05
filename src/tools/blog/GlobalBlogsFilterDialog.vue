@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -66,7 +62,9 @@
                     :value="val.value"
                     class="tnt"
                   >
-                    <v-icon v-if="val.icon" small class="me-1">{{val.icon}}</v-icon>
+                    <v-icon v-if="val.icon" small class="me-1">{{
+                      val.icon
+                    }}</v-icon>
                     {{ $t(val.label) }}
                   </v-btn>
                 </v-btn-toggle>
@@ -203,13 +201,13 @@
                 false-icon="light_mode"
               ></s-smart-toggle>
 
-              <color-selector
+              <s-color-selector
                 class="my-3"
                 title="Card Color"
                 v-model="blogs_filter.style.color"
                 @change="$forceUpdate()"
                 nullable
-              ></color-selector>
+              ></s-color-selector>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -222,12 +220,12 @@
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import _ from "lodash-es";
 export default {
   name: "GlobalBlogsFilterDialog",
   components: {
-    ColorSelector,
+    SColorSelector,
     SSmartToggle,
     SNumberInput,
   },
@@ -248,12 +246,16 @@ export default {
 
     keys: [
       { label: "global.sort.title", value: "title" },
-      { label: "global.sort.like", value: "like" ,icon:'favorite'},
-      { label: "global.commons.comments", value: "comments_count" ,icon:'chat_bubble'},
-      { label: "global.commons.views", value: "views",icon:'visibility' },
+      { label: "global.sort.like", value: "like", icon: "favorite" },
+      {
+        label: "global.commons.comments",
+        value: "comments_count",
+        icon: "chat_bubble",
+      },
+      { label: "global.commons.views", value: "views", icon: "visibility" },
 
-      { label: "global.sort.created_at", value: "created_at",icon:'' },
-      { label: "global.sort.updated_at", value: "updated_at",icon:'' },
+      { label: "global.sort.created_at", value: "created_at", icon: "" },
+      { label: "global.sort.updated_at", value: "updated_at", icon: "" },
     ],
 
     //--------------------------

@@ -14,7 +14,7 @@
 
 <template>
   <div class="widget-box">
-    <widget-header
+    <s-widget-header
       title="Image"
       icon="image"
       add-icon="whatshot"
@@ -25,7 +25,7 @@
       "
       add-text
     >
-    </widget-header>
+    </s-widget-header>
     <v-text-field
       v-model="value.src"
       label="Image path"

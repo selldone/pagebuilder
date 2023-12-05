@@ -49,7 +49,7 @@
       <v-card-title> </v-card-title>
 
       <v-card-text v-if="dialog_pre" class="text-start">
-        <widget-header title="Color Selector" icon="palette"></widget-header>
+        <s-widget-header title="Color Selector" icon="palette"></s-widget-header>
         <v-subheader></v-subheader>
         <v-color-picker
           @click.stop

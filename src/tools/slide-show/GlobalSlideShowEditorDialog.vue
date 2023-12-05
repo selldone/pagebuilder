@@ -56,13 +56,13 @@
         </s-smart-switch>
 
         <!-- ████████████████████ Slides ████████████████████ -->
-        <widget-header
+        <s-widget-header
           title="Slides"
           icon="layers"
           add-caption="Add Slide"
           @click:add="addSlide"
           class="mt-5"
-        ></widget-header>
+        ></s-widget-header>
         <v-subheader>You can customize and make your filter here.</v-subheader>
 
         <v-expansion-panels>
@@ -121,7 +121,7 @@
 
         <!-- ████████████████████ Settings ████████████████████ -->
 
-        <widget-header
+        <s-widget-header
           title="Settings"
           icon="settings"
           @click:add="refresh()"
@@ -129,7 +129,7 @@
           add-icon="refresh"
           add-text
           class="mt-5"
-        ></widget-header>
+        ></s-widget-header>
         <v-subheader>You can customize and make your filter here.</v-subheader>
 
         <v-expansion-panels>
@@ -453,7 +453,7 @@ import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInpu
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import Seeder from "@app-page-builder/src/seeder";
 import * as types from "@app-page-builder/src/types";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
@@ -497,7 +497,7 @@ export default {
     SSmartSelect,
     SSmartToggle,
     SSmartSwitch,
-    WidgetHeader,
+
     SNumberInput,
     SNumberDimensionInput,
   },

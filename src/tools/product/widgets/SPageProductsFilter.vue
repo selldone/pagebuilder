@@ -17,10 +17,10 @@
     <!-- ████████████████████ Sort ████████████████████ -->
 
     <div v-if="hasSort" class="mb-5">
-      <widget-header
+      <s-widget-header
         :title="$t('global.commons.sort')"
         icon="sort"
-      ></widget-header>
+      ></s-widget-header>
       <v-subheader> {{ $t("styler.products.sort_options") }} </v-subheader>
 
       <s-products-sort-view
@@ -41,12 +41,12 @@
       class="py-5"
       style="border-top: dashed thin #777"
     >
-      <widget-header
+      <s-widget-header
         :title="
           $t('global.commons.category') + ' / ' + $t('global.commons.product')
         "
         icon="dashboard_customize"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader>{{ $t("styler.products.item_types") }}</v-subheader>
 
@@ -103,10 +103,10 @@
 
     <!-- ████████████████████ Categories ████████████████████ -->
     <div class="py-5" style="border-top: dashed thin #777">
-      <widget-header
+      <s-widget-header
         :title="$t('global.commons.categories')"
         icon="folder_open"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader>{{ $t("styler.products.select_categories") }}</v-subheader>
 
@@ -233,7 +233,7 @@
       class="py-5"
       style="border-top: dashed thin #777"
     >
-      <widget-header title="Tags" icon="label"></widget-header>
+      <s-widget-header title="Tags" icon="label"></s-widget-header>
 
       <v-subheader
         ><div>
@@ -290,7 +290,7 @@
       class="py-5"
       style="border-top: dashed thin #777"
     >
-      <widget-header title="Vendor" icon="storefront"></widget-header>
+      <s-widget-header title="Vendor" icon="storefront"></s-widget-header>
 
       <v-subheader
         >Show products only for a selected vendor. You can use this option to
@@ -322,10 +322,10 @@
 
     <!-- ████████████████████ Count ████████████████████ -->
     <div v-if="hasCount" class="py-5" style="border-top: dashed thin #777">
-      <widget-header
+      <s-widget-header
         :title="$t('global.commons.limit')"
         icon="margin"
-      ></widget-header>
+      ></s-widget-header>
 
       <s-number-input
         v-if="!categories_only"

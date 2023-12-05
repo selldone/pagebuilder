@@ -42,7 +42,7 @@
       </v-card-actions>
 
       <v-card-text class="text-start">
-        <widget-header title="Product" icon="inventory"></widget-header>
+        <s-widget-header title="Product" icon="inventory"></s-widget-header>
         <v-subheader
           >Choose a single product to feature on the homepage.</v-subheader
         >

@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -51,7 +47,7 @@
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <widget-header title="Element Class"></widget-header>
+            <s-widget-header title="Element Class"></s-widget-header>
 
             <small>
               You can allocate classes to the root element of each product. By
@@ -75,7 +71,7 @@
               class="mt-2"
             >
             </v-combobox>
-            <widget-header title="Product Frame Code"></widget-header>
+            <s-widget-header title="Product Frame Code"></s-widget-header>
 
             <small>
               Input the custom code for each product in this area, allowing for
@@ -88,7 +84,10 @@
                 :items="Object.keys(ProductFramesSample)"
                 v-model="val_sample_product"
                 @change="
-                  (val) => {frame_product.code = ProductFramesSample[val];onFrameCodeChange()}
+                  (val) => {
+                    frame_product.code = ProductFramesSample[val];
+                    onFrameCodeChange();
+                  }
                 "
                 class="max-w-200"
                 outlined
@@ -139,7 +138,7 @@
             <div><v-icon class="me-1" dark>folder</v-icon> Category Frame</div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <widget-header title="Element Class"></widget-header>
+            <s-widget-header title="Element Class"></s-widget-header>
             <small>
               You can allocate classes to the root element of each product. By
               default, the template code duplicates within a row element. Each
@@ -162,7 +161,7 @@
               @change="onFrameCodeChange"
             >
             </v-combobox>
-            <widget-header title="Category Frame Code"></widget-header>
+            <s-widget-header title="Category Frame Code"></s-widget-header>
 
             <small>
               Input the unique code for each category in this section, utilizing
@@ -175,7 +174,10 @@
                 :items="Object.keys(CategoryFramesSample)"
                 v-model="val_sample_category"
                 @change="
-                  (val) => {frame_category.code = CategoryFramesSample[val];onFrameCodeChange()}
+                  (val) => {
+                    frame_category.code = CategoryFramesSample[val];
+                    onFrameCodeChange();
+                  }
                 "
                 class="max-w-200"
                 outlined
@@ -225,14 +227,14 @@
 
 <script>
 import { ClassesHelper } from "@core/helper/style/Classes";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import ProductFramesSample from "@app-page-builder/sections/products/frames/ProductFramesSample";
 import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 
 export default {
   name: "GlobalProductsFrameDialog",
-  components: { WidgetHeader },
+  components: {},
 
   props: {},
   data: () => ({
@@ -259,7 +261,6 @@ export default {
     frame_product: {},
     frame_category: {},
 
-
     /**
      * These values automatically replaces in section.
      * {@see SectionProductsCustomList}
@@ -268,7 +269,8 @@ export default {
       "{product.icon}": "Product main image URL.",
       "{product.title}": "Product title.",
       "{product.price}": "Product price in the #.## format.",
-      "{product.final_price}": "Product price after applying discount in the #.## format.",
+      "{product.final_price}":
+        "Product price after applying discount in the #.## format.",
       "{url}": "Product page URL.",
       "{product.rate}": "Product rate value from 1 to 5.",
       "{product.rate_count}": "Total rate count.",
@@ -283,7 +285,7 @@ export default {
         "Show rating of the product ★★★★☆.",
       '<variants class="my-2" center="true" small="true"></variants>':
         "Show variants.",
-      '<count-down class="my-2" end="{product.dis_end}"></count-down>':
+      '<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>':
         "Show discount count down.",
     },
     category_codes: {
@@ -296,27 +298,22 @@ export default {
     //--------------------------
     key_listener_keydown: null,
 
-
-      LOCK: false, // 🔐 Lock changes
-
+    LOCK: false, // 🔐 Lock changes
   }),
 
   computed: {},
-  watch: {
-
-  },
+  watch: {},
   created() {},
   mounted() {
     this.EventBus.$on(
       "show:GlobalProductsFrameDialog",
 
       ({ el, section }) => {
-          this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
+        this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
-          this.LOCK = true; // 🔒 Prevent update style and classes
+        this.LOCK = true; // 🔒 Prevent update style and classes
 
-
-          this.el = el;
+        this.el = el;
         this.section = section;
         this.showProductsDialog();
       }
@@ -358,7 +355,6 @@ export default {
 
   methods: {
     showProductsDialog() {
-
       this.frame_product = this.section.get(this.productFramePath);
       this.frame_category = this.section.get(this.categoryFramePath);
 
@@ -367,13 +363,11 @@ export default {
       this.frame_product = this.fixFrame(this.frame_product);
       this.frame_category = this.fixFrame(this.frame_category);
 
-
       this.dialog_pre = false;
       this.$nextTick(() => {
         this.dialog_pre = true;
         this.dialog_frame = true;
-          this.LOCK = false; // 🔓 Now can update values
-
+        this.LOCK = false; // 🔓 Now can update values
       });
     },
     fixFrame(frame) {
@@ -389,10 +383,9 @@ export default {
       return out;
     },
 
-
     //----------------------------------------------------------------------------
     onFrameCodeChange() {
-        if(!this.dialog_frame || this.LOCK)return;
+      if (!this.dialog_frame || this.LOCK) return;
 
       this.section?.set(this.productFramePath, this.frame_product); // Save data in section!
       this.section?.set(this.categoryFramePath, this.frame_category); // Save data in section!

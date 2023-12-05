@@ -71,7 +71,7 @@
     <v-window v-model="tab">
       <!-- ████████████████████ Custom style ████████████████████ -->
       <v-window-item :value="1" class="py-5">
-        <widget-header title="Custom style" icon="style"></widget-header>
+        <s-widget-header title="Custom style" icon="style"></s-widget-header>
 
         <v-subheader
           >To create a more custom style, you can use this option.</v-subheader
@@ -111,7 +111,7 @@
         <!-- ████████████████████ Gradient ████████████████████ -->
         <v-expand-transition>
           <div v-if="!raw_style_mode">
-            <widget-header title="Gradient" icon="gradient"></widget-header>
+            <s-widget-header title="Gradient" icon="gradient"></s-widget-header>
 
             <v-subheader
               >Select more than one color to create a gradient.</v-subheader
@@ -139,7 +139,7 @@
         :class="{ disabled: raw_style_mode }"
         class="py-5"
       >
-        <widget-header title="Background image" icon="texture"></widget-header>
+        <s-widget-header title="Background image" icon="texture"></s-widget-header>
 
         <v-subheader>Add an image as your background pattern.</v-subheader>
 
@@ -245,7 +245,7 @@
       <!-- ████████████████████ Background video ████████████████████ -->
 
       <v-window-item :value="3" v-if="hasBgVideo" class="py-5">
-        <widget-header title="Background video" icon="movie"></widget-header>
+        <s-widget-header title="Background video" icon="movie"></s-widget-header>
 
         <v-subheader style="min-height: unset" class="my-2"
           ><div>
@@ -314,13 +314,13 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import GradientBuilder from "./widgets/GradientBuilder.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import SVideoUploader from "@components/uploader/SVideoUploader.vue";
 export default {
   name: "BackgroundImageEditor",
   components: {
     SVideoUploader,
-    WidgetHeader,
+
     SNumberDimensionInput,
     GradientBuilder,
    SImageUploader,

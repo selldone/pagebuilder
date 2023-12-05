@@ -67,7 +67,7 @@ import * as types from "../../src/types";
 import Vue from "vue";
 import { VRating } from "vuetify/lib/components";
 import ProductVariantsView from "@components/product/variant/ProductVariantsView.vue";
-import CountDown from "@components/ui/count-down/CountDown.vue";
+import SCountDown from "@components/ui/count-down/SCountDown.vue";
 
 export default {
   name: "SectionProductsCustomList",
@@ -181,7 +181,9 @@ export default {
       }
 
       Object.keys(product)
-        .filter((key) => !["icon", "price",'discount','final_price'].includes(key))
+        .filter(
+          (key) => !["icon", "price", "discount", "final_price"].includes(key)
+        )
         .forEach((key) => {
           const val = product[key];
           if (this.isObject(val) || Array.isArray(val)) return;
@@ -351,7 +353,7 @@ export default {
       // Count down view:
       autoReplaceComponents(
         "count-down",
-        CountDown,
+        SCountDown,
         {
           end: (categoryId, productId, val) => val && val.convertToLocalDate(),
         },

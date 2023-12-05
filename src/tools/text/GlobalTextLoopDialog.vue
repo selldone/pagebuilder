@@ -78,11 +78,11 @@
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <color-selector
+              <s-color-selector
                 class="my-3"
                 v-model="text_loop.font_color"
                 title="Font Color"
-              ></color-selector>
+              ></s-color-selector>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
@@ -131,14 +131,14 @@
 <script>
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import _ from "lodash-es";
 export default {
   name: "GlobalTextLoopDialog",
   components: {
     SSmartToggle,
-    ColorSelector,
+    SColorSelector,
     SNumberDimensionInput,
   },
 

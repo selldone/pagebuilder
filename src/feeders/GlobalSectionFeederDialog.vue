@@ -31,7 +31,7 @@
       <v-card-text>
         <!-- ████████████████████ Background ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.background">
-          <widget-header title="Background" icon="wallpaper"></widget-header>
+          <s-widget-header title="Background" icon="wallpaper"></s-widget-header>
           <v-subheader
             >Alter the background of this section by choosing from a variety of
             options, including patterns, gradients, images, and videos to serve
@@ -68,7 +68,7 @@
 
         <!-- ████████████████████ Main Title / Content ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.title || schema.content">
-          <widget-header title="Title & Subtitle" icon="sort"></widget-header>
+          <s-widget-header title="Title & Subtitle" icon="sort"></s-widget-header>
           <v-subheader
             >You can modify the primary section heading and subheading in this
             area.</v-subheader
@@ -104,13 +104,13 @@
 
         <!-- ████████████████████ Buttons ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.buttons">
-          <widget-header
+          <s-widget-header
             title="Buttons"
             icon="smart_button"
             add-text
             add-caption="Add Button"
             @click:add="addButton"
-          ></widget-header>
+          ></s-widget-header>
           <v-subheader
             >In this section, you can configure the call-to-action
             elements.</v-subheader
@@ -152,7 +152,7 @@
 
         <!-- ████████████████████ Search ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.search">
-          <widget-header title="Search" icon="search"></widget-header>
+          <s-widget-header title="Search" icon="search"></s-widget-header>
           <v-subheader
             >Modify the appearance of the search box here.</v-subheader
           >
@@ -172,10 +172,10 @@
 
           <s-value-dashed>
             <template v-slot:label>Search Box</template>
-            <color-selector
+            <s-color-selector
               v-model="section_data.search.color"
               nullable
-            ></color-selector>
+            ></s-color-selector>
           </s-value-dashed>
 
           <s-smart-toggle
@@ -207,7 +207,7 @@
           class="widget-box mb-5"
           v-if="schema.product_info && section_data.product_info"
         >
-          <widget-header title="Product" icon="inventory"></widget-header>
+          <s-widget-header title="Product" icon="inventory"></s-widget-header>
           <v-subheader
             >The chosen product information will be displayed in the product
             section.</v-subheader
@@ -235,10 +235,10 @@
           class="widget-box mb-5"
           v-if="schema.products_list && section_data.products_list"
         >
-          <widget-header
+          <s-widget-header
             title="Products & Categories"
             icon="filter_alt"
-          ></widget-header>
+          ></s-widget-header>
           <v-subheader
             >The chosen product information will be displayed in the product
             section.</v-subheader
@@ -255,7 +255,7 @@
 
         <!-- ████████████████████ Row ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.row">
-          <widget-header title="Row" icon="view_week"></widget-header>
+          <s-widget-header title="Row" icon="view_week"></s-widget-header>
           <v-subheader
             >Organize columns within a row, allowing for both vertical and
             horizontal alignment adjustments to be made for each
@@ -313,7 +313,7 @@
           class="widget-box mb-5"
           v-if="schema.newsletter && section_data.newsletter"
         >
-          <widget-header title="Newsletter" icon="newspaper"></widget-header>
+          <s-widget-header title="Newsletter" icon="newspaper"></s-widget-header>
           <v-subheader
             >You can modify the newsletter email input form in this
             location.</v-subheader
@@ -337,7 +337,7 @@
 </template>
 
 <script>
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import FeederColumn from "@app-page-builder/src/feeders/FeederColumn.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
@@ -346,7 +346,7 @@ import FeederJustify from "@app-page-builder/src/feeders/FeederJustify.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import { Button } from "@app-page-builder/src/types";
 import Seeder from "@app-page-builder/src/seeder";
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/src/tools/product/widgets/SPageProductsFilter.vue";
@@ -363,7 +363,7 @@ export default {
     SPageProductsFilter,
     ProductSelectBox,
     SStorefrontSearchBox,
-    ColorSelector,
+    SColorSelector,
     SValueDashed,
     SSmartToggle,
     FeederJustify,
@@ -371,7 +371,7 @@ export default {
     SSmartSwitch,
     FeederColumn,
 
-    WidgetHeader,
+
   },
 
   props: {

@@ -45,10 +45,10 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre">
-        <widget-header
+        <s-widget-header
           title="Image Size"
           icon="photo_size_select_large"
-        ></widget-header>
+        ></s-widget-header>
         <v-subheader></v-subheader>
 
         <div class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3">
@@ -67,7 +67,7 @@
           </v-img>
         </div>
 
-        <widget-header title="Preferred size" icon="fullscreen"></widget-header>
+        <s-widget-header title="Preferred size" icon="fullscreen"></s-widget-header>
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
@@ -86,10 +86,10 @@
           </v-col>
         </v-row>
 
-        <widget-header
+        <s-widget-header
           title="Minimum size"
           icon="fullscreen_exit"
-        ></widget-header>
+        ></s-widget-header>
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
@@ -108,7 +108,7 @@
           </v-col>
         </v-row>
 
-        <widget-header title="Maximum size" icon="crop_free"></widget-header>
+        <s-widget-header title="Maximum size" icon="crop_free"></s-widget-header>
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">

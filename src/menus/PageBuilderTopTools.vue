@@ -487,8 +487,8 @@
       <v-card class="text-start" flat>
         <v-card-title></v-card-title>
         <v-card-text>
-          <widget-header icon="input" title="Import Design File">
-          </widget-header>
+          <s-widget-header icon="input" title="Import Design File">
+          </s-widget-header>
           <v-subheader>
             <div>
               You can import custom-designed pages in this section. Ensure that
@@ -583,7 +583,7 @@
 import SetupService from "@core/server/SetupService";
 import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -604,7 +604,7 @@ const ShortKeys = {
 
 export default {
   name: "PageBuilderTopTools",
-  components: { WidgetHeader, AiButton, SDropZone },
+  components: {  AiButton, SDropZone },
   props: {
     shop: {
       required: false,

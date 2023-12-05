@@ -17,10 +17,10 @@
     <!-- ============== SEO ============== -->
 
     <div class="widget-box mb-5">
-      <widget-header
+      <s-widget-header
         :title="$t('global.commons.seo')"
         icon="radar"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader>You can set the page title and the description meta tag of this page.</v-subheader>
 
@@ -55,10 +55,10 @@
     <!-- ============== SEO ============== -->
 
     <div class="widget-box mb-5"   style="--background:#FFF">
-      <widget-header
+      <s-widget-header
         title="SEO Preview"
         icon="fa-brands fa-google"
-      ></widget-header>
+      ></s-widget-header>
 
       <v-subheader></v-subheader>
 

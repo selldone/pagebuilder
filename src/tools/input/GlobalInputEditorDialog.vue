@@ -43,7 +43,7 @@
 
       <v-card-title>
 
-        <widget-header title="Input" icon="input"></widget-header>
+        <s-widget-header title="Input" icon="input"></s-widget-header>
         <v-subheader>You can adjust the field property here to customize its appearance.</v-subheader>
         <feeder-input v-model="input" @change="onChange"> </feeder-input>
 

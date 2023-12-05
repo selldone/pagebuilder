@@ -38,10 +38,10 @@
       </v-card-actions>
 
       <v-card-text>
-        <widget-header
+        <s-widget-header
           title="Column Layout"
           icon="auto_awesome_motion"
-        ></widget-header>
+        ></s-widget-header>
 
         <v-subheader>
           Choose your preferred column layout from the options provided in the
@@ -116,12 +116,12 @@
         >
         </v-combobox>
 
-        <widget-header icon="smart_button" title="Call To Action" class="my-5">
+        <s-widget-header icon="smart_button" title="Call To Action" class="my-5">
           <v-subheader>
             You can place a button at the edge of the view and assign a URL to
             it.
           </v-subheader>
-        </widget-header>
+        </s-widget-header>
         <s-smart-toggle
           true-title="Has Button"
           true-description="Add a call to action button to the column."

@@ -38,7 +38,7 @@
       </v-card-actions>
 
       <v-card-text>
-        <widget-header title="Font & Typo" icon="format_quote"></widget-header>
+        <s-widget-header title="Font & Typo" icon="format_quote"></s-widget-header>
         <v-subheader></v-subheader>
       </v-card-text>
 
@@ -52,11 +52,11 @@
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <widget-header
+            <s-widget-header
               title="Page default font"
               icon="title"
               class="mt-5"
-            ></widget-header>
+            ></s-widget-header>
             <v-subheader>First, add fonts, then select it here.</v-subheader>
 
             <v-select
@@ -77,11 +77,11 @@
             </v-select>
 
             <div class="my-3">
-              <widget-header
+              <s-widget-header
                 title="Added fonts"
                 icon="folder_open"
                 class="mt-5"
-              ></widget-header>
+              ></s-widget-header>
 
               <v-subheader
                 >You can add new fonts from Google fonts. Just write the font
@@ -143,10 +143,10 @@
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <widget-header
+            <s-widget-header
               title="Default font size"
               icon="format_size"
-            ></widget-header>
+            ></s-widget-header>
             <v-subheader
               >Add fonts, and change the base font size. This option is used to
               calibrate font size based on the custom font.
@@ -163,11 +163,11 @@
               lock
             ></s-number-input>
 
-            <widget-header
+            <s-widget-header
               title="Headers & Paragraph"
               icon="format_size"
               class="mt-5"
-            ></widget-header>
+            ></s-widget-header>
             <v-subheader> </v-subheader>
 
             <s-number-dimension-input
@@ -256,7 +256,7 @@
 <script>
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import { FontLoader, FONTS } from "@core/helper/font/FontLoader";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
@@ -270,7 +270,7 @@ export default {
   components: {
     SNumberDimensionInput,
 
-    WidgetHeader,
+
     SNumberInput,
   },
 

@@ -40,10 +40,10 @@
       </v-card-actions>
 
       <v-card-text>
-        <widget-header
+        <s-widget-header
           :title="$t('styler.products.title')"
           icon="filter_alt"
-        ></widget-header>
+        ></s-widget-header>
         <v-subheader></v-subheader>
 
         <v-container>

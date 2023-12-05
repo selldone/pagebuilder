@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -115,10 +111,10 @@
                 @click:area="(val) => (Selected_tab = indexOf(val))"
               ></style-preview>
 
-              <widget-header
+              <s-widget-header
                 title="Preferred size"
                 icon="fullscreen"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader
                 >The element will have this size by default.</v-subheader
               >
@@ -142,10 +138,10 @@
                 </v-col>
               </v-row>
 
-              <widget-header
+              <s-widget-header
                 title="Minimum size"
                 icon="fullscreen_exit"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader
                 >The element is forced to have this minimum size.</v-subheader
               >
@@ -169,10 +165,10 @@
                 </v-col>
               </v-row>
 
-              <widget-header
+              <s-widget-header
                 title="Maximum size"
                 icon="crop_free"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader
                 >The element size will be limited to these
                 constraints.</v-subheader
@@ -265,7 +261,7 @@
                 @click:area="(val) => (Selected_tab = indexOf(val))"
               ></style-preview>
 
-              <widget-header title="Padding" icon="padding"></widget-header>
+              <s-widget-header title="Padding" icon="padding"></s-widget-header>
               <v-subheader
                 >An element's padding area is the space between its content and
                 its border.</v-subheader
@@ -359,7 +355,7 @@
                 @click:area="(val) => (Selected_tab = indexOf(val))"
               ></style-preview>
 
-              <widget-header title="Margin" icon="margin"></widget-header>
+              <s-widget-header title="Margin" icon="margin"></s-widget-header>
               <v-subheader
                 >In CSS, a margin is the space around an element's border, while
                 padding is the space between an element's border and the
@@ -473,10 +469,10 @@
                 @click:area="(val) => (Selected_tab = indexOf(val))"
               ></style-preview>
 
-              <widget-header
+              <s-widget-header
                 title="Border radius"
                 icon="rounded_corner"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader
                 >The CSS border is a shorthand property used to set the border
                 on an element.</v-subheader
@@ -501,10 +497,10 @@
                 </v-col>
               </v-row>
 
-              <widget-header
+              <s-widget-header
                 title="Border style"
                 icon="border_style"
-              ></widget-header>
+              ></s-widget-header>
 
               <style-border
                 v-model="in_borderLeft"
@@ -566,10 +562,10 @@
                 </div>
               </div>
 
-              <widget-header
+              <s-widget-header
                 title="Classes"
                 icon="integration_instructions"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader
                 >In CSS, a class represents a collection of elements with
                 similar or identical characteristics. All classes in Bootstrap 4
@@ -655,10 +651,10 @@
                 <!-- Custom shadow edit mode -->
 
                 <div v-if="in_shadow_edit">
-                  <widget-header
+                  <s-widget-header
                     title="Horizontal shadow length"
                     icon="looks_one"
-                  ></widget-header>
+                  ></s-widget-header>
 
                   <v-slider
                     v-model="shadow.h"
@@ -669,10 +665,10 @@
                     thumb-color="#555"
                   ></v-slider>
 
-                  <widget-header
+                  <s-widget-header
                     title="Vertical shadow length"
                     icon="looks_two"
-                  ></widget-header>
+                  ></s-widget-header>
 
                   <v-slider
                     v-model="shadow.w"
@@ -683,10 +679,10 @@
                     thumb-color="#555"
                   ></v-slider>
 
-                  <widget-header
+                  <s-widget-header
                     title="Blur Radius"
                     icon="blur_on"
-                  ></widget-header>
+                  ></s-widget-header>
 
                   <v-slider
                     v-model="shadow.r"
@@ -697,10 +693,10 @@
                     thumb-color="#555"
                   ></v-slider>
 
-                  <widget-header
+                  <s-widget-header
                     title="Spread Radius"
                     icon="blur_linear"
-                  ></widget-header>
+                  ></s-widget-header>
 
                   <v-slider
                     v-model="shadow.s"
@@ -722,15 +718,15 @@
                     dark
                   ></s-smart-switch>
 
-                  <widget-header
+                  <s-widget-header
                     title="Color"
                     icon="format_color_fill"
-                  ></widget-header>
+                  ></s-widget-header>
 
-                  <color-selector
+                  <s-color-selector
                     v-model="shadow.c"
                     title="Shadow Color"
-                  ></color-selector>
+                  ></s-color-selector>
                 </div>
 
                 <!-- Select shadow collection (default) -->
@@ -944,10 +940,10 @@
                 </div>
               </div>
 
-              <widget-header
+              <s-widget-header
                 title="Rotation"
                 icon="rotate_90_degrees_ccw"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader>
                 The rotation defines a transformation that rotates an element
                 around a fixed point on the 2D plane, without deforming
@@ -993,10 +989,10 @@
                 </v-col>
               </v-row>
 
-              <widget-header
+              <s-widget-header
                 title="Translate"
                 icon="flip_to_back"
-              ></widget-header>
+              ></s-widget-header>
               <v-subheader>
                 The translate allows you to transfer an element from one place
                 to another along the X (horizontal) axis, the Y (vertical) axis,
@@ -1027,7 +1023,7 @@
                 </v-col>
               </v-row>
 
-              <widget-header title="Scale" icon="transform"></widget-header>
+              <s-widget-header title="Scale" icon="transform"></s-widget-header>
               <v-subheader>
                 The scale defines a transformation that resizes an element on
                 the 2D plane.</v-subheader
@@ -1080,7 +1076,7 @@
                   ></s-number-dimension-input>
                 </v-col>
               </v-row>
-              <widget-header title="Skew" icon="360"></widget-header>
+              <s-widget-header title="Skew" icon="360"></s-widget-header>
               <v-subheader
                 >This transformation is a shear mapping that distorts each point
                 within an element by a certain angle in the horizontal and
@@ -1121,11 +1117,11 @@ import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInpu
 import { ClassesHelper } from "@core/helper/style/Classes";
 import StylePreview from "./widgets/StylePreview.vue";
 import StyleBorder from "./widgets/StyleBorder.vue";
-import ColorSelector from "@components/ui/color/ColorSelector.vue";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import CssFilterDesign from "./CssFilterDesign.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import ShadowCollection from "../../enums/ShadowCollection";
-import WidgetHeader from "@components/widget/WidgetHeader.vue";
+
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
@@ -1148,10 +1144,10 @@ export default {
   components: {
     SSmartSwitch,
     SSmartToggle,
-    WidgetHeader,
+
     SNumberInput,
     CssFilterDesign,
-    ColorSelector,
+    SColorSelector,
     StyleBorder,
     StylePreview,
     SNumberDimensionInput,
@@ -1692,7 +1688,7 @@ export default {
         (element) => !cur_classes.includes(element)
       );
 
-     //  console.log(' Set classes', 'deletes',deletes,'adds',adds)
+      //  console.log(' Set classes', 'deletes',deletes,'adds',adds)
 
       this.el_class.classList.remove(...deletes);
       this.el_class.classList.add(...adds);
