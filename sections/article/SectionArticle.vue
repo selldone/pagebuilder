@@ -24,10 +24,10 @@
     <v-container
       :fluid="$sectionData.container ? $sectionData.container.fluid : false"
       v-styler:container="$sectionData.container"
-      :class="[$sectionData.container.classes]"
+      :class="[$sectionData.container?.classes]"
       :style="[
-        $sectionData.container.style,
-        backgroundStyle($sectionData.container.background),
+        $sectionData.container?.style,
+        backgroundStyle($sectionData.container?.background),
       ]"
     >
       <s-article-editor

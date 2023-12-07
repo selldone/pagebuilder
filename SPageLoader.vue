@@ -357,7 +357,7 @@ export default {
             this.$route.params.shop_id,
             this.$route.params.page_id
           );
-        } else if (this.$route.name === window.$storefront.routes.INCLUDE_PAGE_RENDER) {
+        } else if (this.$route.name === window.$storefront?.routes.INCLUDE_PAGE_RENDER) {
           if (!this.shop_name) return;
           url = window.XAPI.GET_INCLUDE_PAGE_DATA(
             this.shop_name,
