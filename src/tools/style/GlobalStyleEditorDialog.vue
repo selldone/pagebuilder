@@ -1125,7 +1125,7 @@ import ShadowCollection from "../../enums/ShadowCollection";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
 
 const STYLE_TABS = [

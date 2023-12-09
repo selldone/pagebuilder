@@ -47,7 +47,10 @@
       title="Filters collection"
       icon="filter_vintage"
     ></s-widget-header>
-    <v-subheader>Select a filter from the collection. Using complex filters may slow down your page experience.</v-subheader>
+    <v-subheader
+      >Select a filter from the collection. Using complex filters may slow down
+      your page experience.</v-subheader
+    >
 
     <v-item-group v-model="filter_value">
       <v-container>
@@ -121,13 +124,11 @@
 </template>
 
 <script>
-import CssFilter, {
-  CssFiltersGallery,
-} from "@core/helper/style/CssFilters";
+import { CssFilter, CssFiltersGallery } from "@core/helper/style/CssFilters";
 
 export default {
   name: "CssFilterDesign",
-  components: {  },
+  components: {},
   props: {
     value: {},
     previewImage: {

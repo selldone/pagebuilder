@@ -68,7 +68,7 @@ import BackgroundImageEditor from "./BackgroundImageEditor.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
 export default {

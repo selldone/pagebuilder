@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -49,7 +45,10 @@
       <v-card-title> </v-card-title>
 
       <v-card-text v-if="dialog_pre" class="text-start">
-        <s-widget-header title="Color Selector" icon="palette"></s-widget-header>
+        <s-widget-header
+          title="Color Selector"
+          icon="palette"
+        ></s-widget-header>
         <v-subheader></v-subheader>
         <v-color-picker
           @click.stop
@@ -65,12 +64,12 @@
 
 <script>
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
 
 export default {
   name: "GlobalColorSelectorDialog",
-  components: {  },
+  components: {},
 
   props: {},
   data: () => ({

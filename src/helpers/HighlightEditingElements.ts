@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export default class HighlightEditingElements {
+export class HighlightEditingElements {
   static ELEMENT_FOCUS_EDITING_CLASS = "element-focus-editing";
   static RemoveAllElementFocusEditing() {
     const elements = document.querySelectorAll(

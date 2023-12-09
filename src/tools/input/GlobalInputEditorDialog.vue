@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -42,22 +38,21 @@
       </v-card-actions>
 
       <v-card-title>
-
         <s-widget-header title="Input" icon="input"></s-widget-header>
-        <v-subheader>You can adjust the field property here to customize its appearance.</v-subheader>
+        <v-subheader
+          >You can adjust the field property here to customize its
+          appearance.</v-subheader
+        >
         <feeder-input v-model="input" @change="onChange"> </feeder-input>
-
-
       </v-card-title>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import FeederInput from "@app-page-builder/src/feeders/FeederInput.vue";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 
 export default {
   name: "GlobalInputEditorDialog",
@@ -81,12 +76,11 @@ export default {
 
   computed: {},
   watch: {
-      dialog(dialog) {
-          // Keep highlight active element:
-          if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-          else if(this.el)      HighlightEditingElements.Activate(this.el );
-      },
-
+    dialog(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
   },
   created() {},
   mounted() {
@@ -140,10 +134,8 @@ export default {
   },
 
   methods: {
-
-
     showDialog() {
-      this.input =  this.section.get(this.inputPath);
+      this.input = this.section.get(this.inputPath);
 
       this.dialog_pre = false;
       this.$nextTick(() => {

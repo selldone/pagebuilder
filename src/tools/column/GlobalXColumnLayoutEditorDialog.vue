@@ -116,7 +116,11 @@
         >
         </v-combobox>
 
-        <s-widget-header icon="smart_button" title="Call To Action" class="my-5">
+        <s-widget-header
+          icon="smart_button"
+          title="Call To Action"
+          class="my-5"
+        >
           <v-subheader>
             You can place a button at the edge of the view and assign a URL to
             it.
@@ -138,11 +142,11 @@
 
 <script>
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 
 import { ClassesHelper } from "@core/helper/style/Classes";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import Seeder from "@app-page-builder/src/seeder";
+import { Seeder } from "@app-page-builder/src/seeder";
 import * as Types from "@app-page-builder/src/types";
 
 const LAYOUTS = [

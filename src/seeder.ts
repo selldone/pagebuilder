@@ -204,7 +204,7 @@ const data = new Map([
 
 ]);
 
-export default class Seeder {
+export class Seeder {
   // Seeds values using a schema.
   static seed(schema) {
     //console.log("seeder > schema", schema);

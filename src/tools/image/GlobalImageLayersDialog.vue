@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -41,13 +37,13 @@
           >
 
           <v-btn text @click="dialog_layers = false" x-large
-            ><v-icon class="me-1">close</v-icon>{{ $t("global.actions.close") }}</v-btn>
-
+            ><v-icon class="me-1">close</v-icon
+            >{{ $t("global.actions.close") }}</v-btn
+          >
         </div>
       </v-card-actions>
 
       <template v-if="dialog_pre">
-
         <v-expansion-panels flat v-model="layers_tab">
           <!-- ████████████████████ Background ████████████████████ -->
           <v-expansion-panel>
@@ -122,11 +118,11 @@
 import BackgroundImageEditor from "../background/BackgroundImageEditor.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 export default {
   name: "GlobalImageLayersDialog",
-  mixins:[PageBuilderMixin],
+  mixins: [PageBuilderMixin],
 
   components: {
     BackgroundImageEditor,
@@ -153,10 +149,7 @@ export default {
     //--------------------------
     key_listener_keydown: null,
 
-      LOCK: false, // 🔐 Lock changes
-
-
-
+    LOCK: false, // 🔐 Lock changes
   }),
 
   computed: {
@@ -197,12 +190,11 @@ export default {
       this.setLayers();
     },
 
-      dialog_layers(dialog) {
-          // Keep highlight active element:
-          if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-          else if(this.el)      HighlightEditingElements.Activate(this.el );
-      },
-
+    dialog_layers(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
   },
   created() {},
   mounted() {
@@ -211,7 +203,7 @@ export default {
 
       ({ el, section, settingPath, src, setting, updateCallback }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
-          this.LOCK = true; // 🔒 Prevent update style and classes
+        this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.section = section;
@@ -268,8 +260,7 @@ export default {
       this.$nextTick(() => {
         this.dialog_pre = true;
         this.dialog_layers = true;
-          this.LOCK = false; // 🔓 Now can update values
-
+        this.LOCK = false; // 🔓 Now can update values
       });
     },
     resetLayers() {

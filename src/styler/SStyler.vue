@@ -962,7 +962,7 @@ import Popper from "popper.js";
 import SStylerIcon from "../components/SStylerIcon";
 import { isParentTo } from "../util";
 import * as types from "@app-page-builder/src/types";
-import Seeder from "@app-page-builder/src/seeder";
+import { Seeder } from "@app-page-builder/src/seeder";
 import ALIGN from "@app-page-builder/src/enums/ALIGN";
 import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";

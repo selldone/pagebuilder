@@ -580,7 +580,7 @@
 </template>
 
 <script>
-import SetupService from "@core/server/SetupService";
+import { SetupService } from "@core/server/SetupService";
 import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 

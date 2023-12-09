@@ -13,7 +13,7 @@
  */
 
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import Seeder from "../src/seeder";
+import { Seeder } from "../src/seeder";
 import * as types from "../src/types";
 
 function installMixin({ builder }) {

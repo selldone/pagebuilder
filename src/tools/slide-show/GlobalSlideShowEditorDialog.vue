@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -66,7 +62,11 @@
         <v-subheader>You can customize and make your filter here.</v-subheader>
 
         <v-expansion-panels>
-          <v-expansion-panel v-for="(item, i) in slide.items" :key="i" @click="goToSlide(i)">
+          <v-expansion-panel
+            v-for="(item, i) in slide.items"
+            :key="i"
+            @click="goToSlide(i)"
+          >
             <v-expansion-panel-header class="text-start"
               ><div class="flex-grow-0">
                 <v-avatar v-if="item.image?.src" size="16" rounded class="me-1"
@@ -81,7 +81,9 @@
               >
                 | {{ StripTags(item.title)?.limitWords(5) }}
               </div>
-              <v-btn icon @click.stop="removeSlide(i)" class="flex-grow-0"><v-icon>delete</v-icon></v-btn>
+              <v-btn icon @click.stop="removeSlide(i)" class="flex-grow-0"
+                ><v-icon>delete</v-icon></v-btn
+              >
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <s-image-uploader
@@ -214,8 +216,6 @@
                 false-gray
               >
               </s-smart-toggle>
-
-
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -246,13 +246,12 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-
           <!-- ▃▃▃▃▃▃▃▃▃▃ Animation ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-expansion-panel>
             <v-expansion-panel-header
-            ><span
-            ><v-icon class="me-1" small>animation</v-icon>
+              ><span
+                ><v-icon class="me-1" small>animation</v-icon>
                 Animations
               </span>
             </v-expansion-panel-header>
@@ -260,82 +259,64 @@
               <!-- ▃▃▃▃▃▃▃▃▃▃ Direction ▃▃▃▃▃▃▃▃▃▃ -->
 
               <s-smart-toggle
-                  v-model="slide.vertical"
-                  @change="refresh()"
-                  dark
-                  true-icon="vertical_distribute"
-                  false-icon="horizontal_distribute"
-                  true-title="Direction: Vertical"
-                  false-title="Direction: Horizontal"
-                  true-description="The presentation slides will be displayed in a portrait orientation."
-                  false-description="The presentation slides will be displayed in landscape orientation."
-                  class="my-3"
-                  false-gray
+                v-model="slide.vertical"
+                @change="refresh()"
+                dark
+                true-icon="vertical_distribute"
+                false-icon="horizontal_distribute"
+                true-title="Direction: Vertical"
+                false-title="Direction: Horizontal"
+                true-description="The presentation slides will be displayed in a portrait orientation."
+                false-description="The presentation slides will be displayed in landscape orientation."
+                class="my-3"
+                false-gray
               >
               </s-smart-toggle>
 
               <!-- ▃▃▃▃▃▃▃▃▃▃ Auto Play ▃▃▃▃▃▃▃▃▃▃ -->
 
               <s-smart-toggle
-                  v-model="slide.autoplay"
-                  @change="refresh()"
-                  dark
-                  true-icon="play_arrow"
-                  false-icon="stop"
-                  true-title="Auto Play: On"
-                  false-title="Auto Play: Off"
-                  true-description="Auto play slides. This option available only in the live page."
-                  false-description="Manually slide change only."
-                  class="my-3"
-                  false-gray
+                v-model="slide.autoplay"
+                @change="refresh()"
+                dark
+                true-icon="play_arrow"
+                false-icon="stop"
+                true-title="Auto Play: On"
+                false-title="Auto Play: Off"
+                true-description="Auto play slides. This option available only in the live page."
+                false-description="Manually slide change only."
+                class="my-3"
+                false-gray
               >
               </s-smart-toggle>
 
               <s-smart-select
-                  v-model="slide.effect"
-                  :items="EFFECTS"
-                  @change="refresh()"
-                  item-text="title"
-                  item-value="value"
-                  label="Slide Effect"
-                  :return-object="false"
-                  class="my-3"
-                  dark
+                v-model="slide.effect"
+                :items="EFFECTS"
+                @change="refresh()"
+                item-text="title"
+                item-value="value"
+                label="Slide Effect"
+                :return-object="false"
+                class="my-3"
+                dark
               >
               </s-smart-select>
-
-
 
               <s-smart-select
-                  v-model="slide.active"
-                  :items="ACTIVE_CENTER"
-                  @change="refresh()"
-                  item-text="title"
-                  item-value="value"
-                  label="Center Slide Style"
-                  :return-object="false"
-                  dark class="my-3"
+                v-model="slide.active"
+                :items="ACTIVE_CENTER"
+                @change="refresh()"
+                item-text="title"
+                item-value="value"
+                label="Center Slide Style"
+                :return-object="false"
+                dark
+                class="my-3"
               >
               </s-smart-select>
-
-
             </v-expansion-panel-content>
           </v-expansion-panel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           <!-- ▃▃▃▃▃▃▃▃▃▃ Thumbnail ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -376,7 +357,8 @@
                     false-icon="crop_square"
                     true-title="Rounded Corner"
                     false-title="Rect Corner"
-                    class="my-3"     false-gray
+                    class="my-3"
+                    false-gray
                   >
                   </s-smart-toggle>
 
@@ -392,54 +374,22 @@
                   >
                   </s-smart-select>
 
-
                   <s-smart-select
-                      v-model="slide.thumbs_active"
-                      :items="ACTIVE_CENTER"
-                      @change="refresh()"
-                      item-text="title"
-                      item-value="value"
-                      label="Center Slide Style"
-                      :return-object="false"
-                      dark class="my-3"
+                    v-model="slide.thumbs_active"
+                    :items="ACTIVE_CENTER"
+                    @change="refresh()"
+                    item-text="title"
+                    item-value="value"
+                    label="Center Slide Style"
+                    :return-object="false"
+                    dark
+                    class="my-3"
                   >
                   </s-smart-select>
-
                 </div>
               </v-expand-transition>
             </v-expansion-panel-content>
           </v-expansion-panel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </v-expansion-panels>
       </v-card-text>
     </v-card>
@@ -448,10 +398,10 @@
 
 <script>
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
-import Seeder from "@app-page-builder/src/seeder";
+import { Seeder } from "@app-page-builder/src/seeder";
 import * as types from "@app-page-builder/src/types";
 
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
@@ -459,7 +409,7 @@ import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
 import { StripTags } from "@core/helper/html/HtmlHelper";
 import SImageUploader from "@components/uploader/SImageUploader.vue";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
 
 const THUMBS_TYPES = [
@@ -482,7 +432,7 @@ const EFFECTS = [
 ];
 
 const ACTIVE_CENTER = [
-  { title: "None", value: '' },
+  { title: "None", value: "" },
   { title: "Elevation", value: "slide-elevation" },
   { title: "Bordered", value: "slide-bordered" },
   { title: "Slide Up", value: "slide-up" },
@@ -490,10 +440,10 @@ const ACTIVE_CENTER = [
 
 export default {
   name: "GlobalSlideShowEditorDialog",
-  mixins:[PageBuilderMixin],
+  mixins: [PageBuilderMixin],
 
   components: {
-   SImageUploader,
+    SImageUploader,
     SSmartSelect,
     SSmartToggle,
     SSmartSwitch,
@@ -507,7 +457,6 @@ export default {
     THUMBS_TYPES: THUMBS_TYPES,
     EFFECTS: EFFECTS,
     ACTIVE_CENTER: ACTIVE_CENTER,
-
 
     el: null,
     section: null,
@@ -525,10 +474,7 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {
-
-
-  },
+  computed: {},
   watch: {
     show_edit_slide(dialog) {
       // Keep highlight active element:
@@ -543,7 +489,6 @@ export default {
   },
   created() {},
   mounted() {
-
     this.EventBus.$on(
       "show:GlobalSlideShowEditorDialog",
 
@@ -649,7 +594,6 @@ export default {
       this.refresh();
     },
 
-
     toggleAutoplay() {
       this.slide.autoplay = !this.slide.autoplay;
       this.refresh();
@@ -659,8 +603,8 @@ export default {
       this.setSlideDebounced();
     },
 
-    goToSlide(index){
-this.section.__goToSlide(index)
+    goToSlide(index) {
+      this.section.__goToSlide(index);
     },
 
     //----------------------------------------------------------------------------
@@ -676,8 +620,6 @@ this.section.__goToSlide(index)
 
       this.section?.__refreshCallback();
     },
-
-
   },
 };
 </script>

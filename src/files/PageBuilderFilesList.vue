@@ -27,7 +27,10 @@
         >
           <div class="con-asset">
             <video muted controls class="prev-asset">
-              <source :src="getVideoUrl(file.path)" :type="VideoHelper.GetMime(file.path)" />
+              <source
+                :src="getVideoUrl(file.path)"
+                :type="VideoHelper.GetMime(file.path)"
+              />
             </video>
             <v-spacer></v-spacer>
             <div class="pa-1 d-flex align-center">
@@ -81,7 +84,8 @@
           v-if="!busy && !images?.length && !videos?.length"
           class="pa-6 display-1 font-weight-light op-0-4 usn min-height-40vh d-flex align-center justify-center"
         >
-          <v-icon x-large class="ma-2">folder_open</v-icon> No asset uploaded yet.
+          <v-icon x-large class="ma-2">folder_open</v-icon> No asset uploaded
+          yet.
         </v-col>
       </v-row>
     </v-container>
@@ -89,7 +93,7 @@
 </template>
 
 <script>
-import VideoHelper from "@core/helper/video/VideoHelper";
+import { VideoHelper } from "@core/helper/video/VideoHelper";
 
 export default {
   name: "PageBuilderFilesList",

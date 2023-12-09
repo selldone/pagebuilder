@@ -13,7 +13,12 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData" class="p-0"    v-styler:slide="$sectionData.slide">
+  <x-section
+    :object="$sectionData"
+    path="$sectionData"
+    class="p-0"
+    v-styler:slide="$sectionData.slide"
+  >
     <!--
     <v-sheet
       dark
@@ -362,12 +367,22 @@
 
           <h2
             v-styler="$sectionData.slide.items[index].title"
-            v-html="$sectionData.slide.items[index].title?.applyAugment(augment,$builder.isEditing)"
+            v-html="
+              $sectionData.slide.items[index].title?.applyAugment(
+                augment,
+                $builder.isEditing
+              )
+            "
             :index="index"
           />
           <p
             v-styler="$sectionData.slide.items[index].subtitle"
-            v-html="$sectionData.slide.items[index].subtitle?.applyAugment(augment,$builder.isEditing)"
+            v-html="
+              $sectionData.slide.items[index].subtitle?.applyAugment(
+                augment,
+                $builder.isEditing
+              )
+            "
             :index="index"
           ></p>
 
@@ -443,7 +458,7 @@
 
 <script>
 import * as types from "../../src/types";
-import Seeder from "@app-page-builder/src/seeder";
+import { Seeder } from "@app-page-builder/src/seeder";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput";
 import CustomButton from "@app-page-builder/sections/components/CustomButton";
@@ -479,9 +494,9 @@ export default {
   group: "Gallery",
   label: "Scroll View",
 
-    help: {
-        title: "This section showcases a combination of images and text.",
-    },
+  help: {
+    title: "This section showcases a combination of images and text.",
+  },
 
   $schema: {
     classes: types.ClassList,
@@ -510,9 +525,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({
@@ -520,7 +535,6 @@ export default {
     ACTIVE_CENTER: ACTIVE_CENTER,
 
     showSlider: true,
-
 
     swiperTop: {},
 
@@ -534,8 +548,9 @@ export default {
   created() {
     this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
-    this.$section.__goToSlide = (index)=>{  this.$refs.swiperTop?.$swiper?.slideTo(index)};
-
+    this.$section.__goToSlide = (index) => {
+      this.$refs.swiperTop?.$swiper?.slideTo(index);
+    };
 
     this.init();
   },
@@ -640,7 +655,7 @@ export default {
       this.openDeleteAlert(() => {
         this.$sectionData.slide.items.splice(index, 1);
         this.$refs.swiperTop.$swiper.update();
-          this.refresh();
+        this.refresh();
       });
     },
 
@@ -701,6 +716,4 @@ export default {
     pointer-events: auto;
   }
 }
-
-
 </style>

@@ -19,11 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
-        ? 560
-        : $vuetify.breakpoint.lgAndUp
-        ? 420
-        : 320
+      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -67,7 +63,10 @@
           </v-img>
         </div>
 
-        <s-widget-header title="Preferred size" icon="fullscreen"></s-widget-header>
+        <s-widget-header
+          title="Preferred size"
+          icon="fullscreen"
+        ></s-widget-header>
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
@@ -108,7 +107,10 @@
           </v-col>
         </v-row>
 
-        <s-widget-header title="Maximum size" icon="crop_free"></s-widget-header>
+        <s-widget-header
+          title="Maximum size"
+          icon="crop_free"
+        ></s-widget-header>
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
@@ -134,7 +136,7 @@
 <script>
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
 export default {
   name: "GlobalImageSizeDialog",
@@ -167,9 +169,7 @@ export default {
     //--------------------------
     key_listener_keydown: null,
 
-      LOCK: false, // 🔐 Lock changes
-
-
+    LOCK: false, // 🔐 Lock changes
   }),
 
   computed: {},
@@ -193,13 +193,11 @@ export default {
       this.setSizeDebounced();
     },
 
-      dialog_resize(dialog) {
-          // Keep highlight active element:
-          if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-          else if(this.el)      HighlightEditingElements.Activate(this.el );
-      },
-
-
+    dialog_resize(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
   },
   created() {},
   mounted() {
@@ -207,11 +205,11 @@ export default {
       "show:GlobalImageSizeDialog",
 
       ({ el, section, sizePath, src, setting, updateCallback }) => {
-          this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
+        this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
-          this.LOCK = true; // 🔒 Prevent update style and classes
+        this.LOCK = true; // 🔒 Prevent update style and classes
 
-          this.el = el;
+        this.el = el;
         this.section = section;
         this.sizePath = sizePath;
         this.updateCallback = updateCallback;
@@ -264,8 +262,7 @@ export default {
       this.$nextTick(() => {
         this.dialog_pre = true;
         this.dialog_resize = true;
-          this.LOCK = false; // 🔓 Now can update values
-
+        this.LOCK = false; // 🔓 Now can update values
       });
     },
     assignSizes() {
@@ -307,7 +304,7 @@ export default {
     }, 100),
 
     setSize() {
-      if (!this.dialog_resize|| this.LOCK) return;
+      if (!this.dialog_resize || this.LOCK) return;
 
       const new_size = {
         w: this.w,
@@ -317,7 +314,7 @@ export default {
         max_w: this.max_w,
         max_h: this.max_h,
       };
-     // console.log("setSize", new_size);
+      // console.log("setSize", new_size);
 
       this.setting.size = new_size; // Save data in section!
 

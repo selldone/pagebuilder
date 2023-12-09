@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import VideoHelper from "@core/helper/video/VideoHelper";
+import { VideoHelper } from "@core/helper/video/VideoHelper";
 
 export default {
   name: "VideoBackground",

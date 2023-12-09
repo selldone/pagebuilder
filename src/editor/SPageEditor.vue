@@ -871,13 +871,13 @@ import GlobalSlideShowEditorDialog from "@app-page-builder/src/tools/slide-show/
 import GlobalXColumnLayoutEditorDialog from "@app-page-builder/src/tools/column/GlobalXColumnLayoutEditorDialog.vue";
 import GlobalTypographyEditorDialog from "@app-page-builder/src/tools/typography/GlobalTypographyEditorDialog.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
-import VideoHelper from "@core/helper/video/VideoHelper";
+import { VideoHelper } from "@core/helper/video/VideoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import GlobalTextLoopDialog from "@app-page-builder/src/tools/text/GlobalTextLoopDialog.vue";
 import NotesDigestView from "@components/backoffice/note/NotesDigestView.vue";
 import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import HighlightEditingElements from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
 
 const DEBUG = false;

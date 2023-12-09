@@ -14,7 +14,7 @@
 
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
-import Seeder from "./seeder";
+import { Seeder } from "./seeder";
 
 const SECTION_OPTIONS = {
   name: null,
@@ -23,7 +23,7 @@ const SECTION_OPTIONS = {
 
 let counter = 0;
 
-export default class Section {
+export class Section {
   constructor(options) {
     this.id = counter++;
     options = Object.assign({}, SECTION_OPTIONS, options);

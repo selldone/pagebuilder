@@ -48,7 +48,7 @@
 import * as types from "../../src/types";
 import SShopProductMainCard from "@components/product/info/SShopProductMainCard.vue";
 import ProductInfoLoadingView from "@components/product/loading/ProductInfoLoadingView";
-import GtagEcommerce from "@components/plugins/gtag/GtagEcommerce";
+import {GtagEcommerce} from "@components/plugins/gtag/GtagEcommerce";
 
 export default {
   name: "SectionProductView",

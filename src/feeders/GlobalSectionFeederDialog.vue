@@ -31,7 +31,10 @@
       <v-card-text>
         <!-- ████████████████████ Background ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.background">
-          <s-widget-header title="Background" icon="wallpaper"></s-widget-header>
+          <s-widget-header
+            title="Background"
+            icon="wallpaper"
+          ></s-widget-header>
           <v-subheader
             >Alter the background of this section by choosing from a variety of
             options, including patterns, gradients, images, and videos to serve
@@ -68,7 +71,10 @@
 
         <!-- ████████████████████ Main Title / Content ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.title || schema.content">
-          <s-widget-header title="Title & Subtitle" icon="sort"></s-widget-header>
+          <s-widget-header
+            title="Title & Subtitle"
+            icon="sort"
+          ></s-widget-header>
           <v-subheader
             >You can modify the primary section heading and subheading in this
             area.</v-subheader
@@ -313,7 +319,10 @@
           class="widget-box mb-5"
           v-if="schema.newsletter && section_data.newsletter"
         >
-          <s-widget-header title="Newsletter" icon="newspaper"></s-widget-header>
+          <s-widget-header
+            title="Newsletter"
+            icon="newspaper"
+          ></s-widget-header>
           <v-subheader
             >You can modify the newsletter email input form in this
             location.</v-subheader
@@ -337,7 +346,6 @@
 </template>
 
 <script>
-
 import FeederColumn from "@app-page-builder/src/feeders/FeederColumn.vue";
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
@@ -345,7 +353,7 @@ import FeederAlign from "@app-page-builder/src/feeders/FeederAlign.vue";
 import FeederJustify from "@app-page-builder/src/feeders/FeederJustify.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import { Button } from "@app-page-builder/src/types";
-import Seeder from "@app-page-builder/src/seeder";
+import { Seeder } from "@app-page-builder/src/seeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
@@ -370,8 +378,6 @@ export default {
     FeederAlign,
     SSmartSwitch,
     FeederColumn,
-
-
   },
 
   props: {

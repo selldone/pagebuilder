@@ -13,7 +13,7 @@
  */
 
 import merge from "lodash-es/merge";
-import Section from "./section";
+import { Section } from "./section";
 import VuseBuilder from "./editor/SPageEditor.vue";
 import SPageRender from "../SPageRender.vue";
 import styler from "./styler/styler";
