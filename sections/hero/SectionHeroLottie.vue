@@ -103,7 +103,7 @@ export default {
 
   help: {
     title: "Use this section to display Lottie animation files.",
-    video: require("../../assets/helps/Lottie.m4v"),
+    video: "/app/videos/page-builder/Lottie.m4v",
   },
 
   group: "Hero",

@@ -65,7 +65,10 @@
         >
         <v-card-text>
           <div class="widget-box -large mb-5">
-            <s-widget-header title="Your Custom Code" icon="code"></s-widget-header>
+            <s-widget-header
+              title="Your Custom Code"
+              icon="code"
+            ></s-widget-header>
             <v-subheader
               >Here, you can either write raw HTML code or paste your code.
               However, please be aware that pasting code containing 'script'
@@ -146,7 +149,7 @@ export default {
   help: {
     title:
       "This section allows you to insert raw HTML code and iframes, such as embedding YouTube videos.",
-    video: require("../../assets/helps/RawHtml.m4v"),
+    video: "/app/videos/page-builder/RawHtml.m4v",
   },
   $schema: {
     classes: types.ClassList,

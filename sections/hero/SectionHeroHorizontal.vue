@@ -78,7 +78,8 @@ export default {
   label: "Horizontal Hero",
   help: {
     title: "Place this section at the beginning of your page.",
-    video: require("../../assets/helps/SectionHeroHorizontal.mp4"),
+    video: "/app/videos/page-builder/SectionHeroHorizontal.mp4",
+
   },
 
   group: "Hero",

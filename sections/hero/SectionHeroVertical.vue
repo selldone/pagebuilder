@@ -30,18 +30,26 @@
         >
           <h1
             v-styler:text="$sectionData.title"
-            v-html="$sectionData.title?.applyAugment(augment,$builder.isEditing)"
+            v-html="
+              $sectionData.title?.applyAugment(augment, $builder.isEditing)
+            "
             class="mb-2 fadeIn delay_100"
           />
 
           <p
             v-styler:text="$sectionData.content"
-            v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)"
+            v-html="
+              $sectionData.content?.applyAugment(augment, $builder.isEditing)
+            "
             class="mb-4 fadeIn delay_300"
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
+          <x-buttons
+            :object="$sectionData"
+            path="$sectionData"
+            :augment="augment"
+          ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
         <!-- ██████████████████████ Column 2 ██████████████████████ -->
@@ -51,7 +59,7 @@
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
         >
-          <uploader path="$sectionData.image"     :augment="augment"/>
+          <uploader path="$sectionData.image" :augment="augment" />
         </x-column>
       </x-row>
     </x-container>
@@ -69,8 +77,7 @@ export default {
   label: "Vertical Hero",
   help: {
     title: "Place this section at the beginning of your page.",
-    video: require("../../assets/helps/Sectionherovertical.mp4"),
-
+    video: "/app/videos/page-builder/Sectionherovertical.mp4",
   },
 
   $schema: {
@@ -126,9 +133,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
   data: () => ({
     types: types,

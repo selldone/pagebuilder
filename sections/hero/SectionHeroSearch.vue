@@ -126,7 +126,8 @@ export default {
   help: {
     title:
       "Utilize this section to display a search box on your page. This search box allows customers to conveniently search through products and categories.",
-    video: require("../../assets/helps/Search.m4v"),
+    video: "/app/videos/page-builder/Search.m4v",
+
   },
 
   $schema: {

@@ -140,8 +140,7 @@ export default {
   help: {
     title:
       "In this section, you can gather email addresses. These collected emails can be found under the Shop > Marketing > Stream tab.",
-    video: require("../../assets/helps/NewsletterForm.mp4"),
-
+    video: "/app/videos/page-builder/NewsletterForm.mp4",
   },
 
   group: "Form",

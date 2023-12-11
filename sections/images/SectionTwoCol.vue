@@ -75,7 +75,7 @@ export default {
   help: {
     title:
       "This section contains three horizontal subsections, and you have the option to add more sub-columns within each column.",
-    video: require("../../assets/helps/Sectiontwocol.mp4"),
+    video: "/app/videos/page-builder/Sectiontwocol.mp4",
   },
   $schema: {
     classes: types.ClassList,
@@ -183,9 +183,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({
