@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -39,9 +39,9 @@
 
       <v-card-title>
         <s-widget-header title="Input" icon="input"></s-widget-header>
-        <v-subheader
+        <v-list-subheader
           >You can adjust the field property here to customize its
-          appearance.</v-subheader
+          appearance.</v-list-subheader
         >
         <feeder-input v-model="input" @change="onChange"> </feeder-input>
       </v-card-title>

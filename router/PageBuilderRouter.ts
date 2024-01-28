@@ -12,17 +12,14 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Vue from "vue";
-import Router from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 //――――――――――――――――――――――――― Page Builder ―――――――――――――――――――――――――
 import PageBuilder from "../SPageBuilder.vue";
 import { StorefrontRoutesName } from "@core/enums/route/StorefrontRoutesName";
 
-Vue.use(Router);
-const router = new Router({
-  mode: "history",
-  base: "page-builder", //process.env.BASE_URL
+const router = createRouter({
+  history: createWebHistory("page-builder" /*process.env.BASE_URL*/),
   routes: [
     {
       path: "/:shop_id",

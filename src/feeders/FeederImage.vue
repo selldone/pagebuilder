@@ -30,8 +30,8 @@
       v-model="value.src"
       label="Image path"
       @change="$emit('change', value)"
-      @click:append="lock = !lock"
-      :append-icon="lock ? 'lock' : 'lock_open'"
+      @click:append-inner="lock = !lock"
+      :append-inner-icon="lock ? 'lock' : 'lock_open'"
       :disabled="lock"
       messages="You can input an image URL or a dynamic value like { { key } }. This dynamic value can even be part of a complete URL."
     ></v-text-field>

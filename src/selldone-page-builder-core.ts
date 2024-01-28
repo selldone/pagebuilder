@@ -20,7 +20,7 @@ import styler from "./styler/styler";
 import mixin from "./../mixins/mixin";
 import { cleanDOM, isObject, removeBRFromSectionData } from "./util";
 import SPageRenderPopup from "../SPageRenderPopup.vue";
-import Vue from "vue";
+import Vue, {App, defineComponent, reactive} from "vue";
 import XColumnImageText from "@app-page-builder/sections/components/XColumnImageText.vue";
 import XRow from "@app-page-builder/sections/components/XRow.vue";
 import XColumn from "@app-page-builder/sections/components/XColumn.vue";
@@ -28,6 +28,8 @@ import XSection from "@app-page-builder/sections/components/XSection.vue";
 import XContainer from "@app-page-builder/sections/components/XContainer.vue";
 import XButtons from "@app-page-builder/sections/components/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/sections/components/XCustomProductsList.vue";
+import initDataAttributeDirective from './directives/initDataAttributeDirective';
+
 
 const PLUGINS = [];
 let mixier = {};
@@ -48,7 +50,7 @@ const BUILDER_OPTIONS = {
 };
 
 // To tell if it is installed or not
-let _Vue = null;
+let _Vue:App|null = null;
 
 class SelldonePageBuilderCore {
   constructor(options) {
@@ -74,8 +76,8 @@ class SelldonePageBuilderCore {
     this.cloneStyle = false;
     this.cloneObject = null;
 
-    this.installPlugins();
-    this.initEspecialComponents();
+    this.installPlugins(_Vue!);
+    this.initEspecialComponents(_Vue!);
   }
 
   /**
@@ -247,12 +249,24 @@ class SelldonePageBuilderCore {
    * @param {*} definition
    */
   component(name, definition) {
-    // reoslve the component name automatically.
+    // Resolve the component name automatically.
     if (typeof name === "object") {
       definition = name;
       name = definition.name;
     }
 
+    // Define the component using Vue 3's defineComponent
+    // If passed a plain object, wrap it with defineComponent
+    let componentDefinition = typeof definition === 'function' ? definition : defineComponent(definition);
+
+    // Extend the component with additional options
+    this.components[name] = defineComponent({
+      extends: componentDefinition,
+      directives: { styler: this.styler },
+      mixins: [this.mixin], // Vue 3 still supports mixins
+      components: mixier.components,
+    });
+/*
     // if passed a plain object
     if (!definition.extend) {
       definition = _Vue.extend(definition);
@@ -262,13 +276,42 @@ class SelldonePageBuilderCore {
       directives: { styler: this.styler },
       mixins: [this.mixin],
       components: mixier.components,
-    });
+    });*/
   }
 
   /**
    * Initialize especial components
    */
-  initEspecialComponents() {
+  initEspecialComponents(app:App) {
+
+    const components = [
+      XColumnImageText,
+      XRow,
+      XColumn,
+      XSection,
+      XContainer,
+      XButtons,
+      XCustomProductsList,
+    ];
+
+    components.forEach((_component) => {
+      const ExtendedComponent = defineComponent({
+        extends: _component,
+        directives: { styler: this.styler },
+        mixins: [this.mixin], // Vue 3 still supports mixins
+        components: mixier.components,
+        beforeCreate() {
+          this.$sectionData = this.$parent.$sectionData;
+          this.$builder = this.$parent.$builder;
+          this.$section = this.$parent.$section;
+          this.$X_PARENT_BUILDER = this.$parent.$builder; // Keep parent builder for styler
+        },
+      });
+
+      app.component(_component.name, ExtendedComponent);
+    });
+
+    /*
     [
       XColumnImageText,
       XRow,
@@ -293,13 +336,13 @@ class SelldonePageBuilderCore {
           },
         })
       );
-    });
+    });*/
   }
 
   /**
    * Installs added plugins.
    */
-  installPlugins() {
+  installPlugins(app:App) {
     PLUGINS.forEach((ctx) => {
       ctx.plugin({ builder: this, Vue: _Vue }, ctx.options);
     });
@@ -312,20 +355,40 @@ class SelldonePageBuilderCore {
     ///////// Remove for multi render / builder PLUGINS = [];
   }
 
-  static install(Vue, options = {}) {
+  static install(app:App, options = {}) {
     // already installed
     if (_Vue) return;
 
-    _Vue = Vue;
+
+    /**
+     * Use this directive to add extra data-x attribute to elements in page builder.
+     */
+    app.directive('initDataAttribute', initDataAttributeDirective);
+
+
+
+
+
+
+
+
+
+
+
+
+    _Vue = app;
     // console.log('Vue',Vue)
 
     // II. Initialize builder:
     {
-      const builder = new SelldonePageBuilderCore(
-        Object.assign({}, BUILDER_OPTIONS, options)
-      );
+      // Initialize builder
+      const builder = reactive(new SelldonePageBuilderCore(
+          Object.assign({}, BUILDER_OPTIONS, options)
+      ));
+      app.config.globalProperties.$builder = builder; // 🌴 Add to global properties
+
       // configer assets output location
-      Vue.util.defineReactive(builder, "sections", builder.sections);
+    /*  Vue.util.defineReactive(builder, "sections", builder.sections);
       Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
       Vue.util.defineReactive(builder, "isHideExtra", builder.isHideExtra);
       Vue.util.defineReactive(builder, "isSorting", builder.isSorting);
@@ -335,25 +398,36 @@ class SelldonePageBuilderCore {
 
       Vue.util.defineReactive(builder, "cloneStyle", builder.cloneStyle);
       Vue.util.defineReactive(builder, "cloneObject", builder.cloneObject);
-
+*/
       const extension = {
         components: builder.components,
         beforeCreate() {
           this.$builder = builder;
         },
       };
+      const ExtendedSPageRender = defineComponent({
+        extends: VuseBuilder,
+        ...extension
+      });
 
-      // register the main shops.
-      Vue.component("SPageEditor", Vue.extend(VuseBuilder).extend(extension));
+
+      // Register the main components
+      app.component('SPageEditor', ExtendedSPageRender);
+
+     // Vue.component("SPageEditor", Vue.extend(VuseBuilder).extend(extension));
     }
 
     // II. Initialize render:
     {
-      const builder = new SelldonePageBuilderCore(
-        Object.assign({}, BUILDER_OPTIONS, options)
-      );
+      // Initialize builder
+      const builder = reactive(new SelldonePageBuilderCore(
+          Object.assign({}, BUILDER_OPTIONS, options)
+      ));
+      app.config.globalProperties.$builder = builder; // 🌴 Add to global properties
+
+
       // configer assets output location
-      Vue.util.defineReactive(builder, "sections", builder.sections);
+   /*   Vue.util.defineReactive(builder, "sections", builder.sections);*/
       /*    Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
       Vue.util.defineReactive(builder, "isSorting", builder.isSorting);
 
@@ -366,17 +440,28 @@ class SelldonePageBuilderCore {
           this.$builder = builder;
         },
       };
-      Vue.component("SPageRender", Vue.extend(SPageRender).extend(extension));
+      const ExtendedSPageRender = defineComponent({
+        extends: SPageRender,
+        ...extension
+      });
+
+      // Register the main components
+      app.component('SPageRender', ExtendedSPageRender);
+      //app.component("SPageRender", Vue.extend(SPageRender).extend(extension));
       // console.log('extension',extension)
     }
 
     // III. Initialize popup render:
     {
-      const builder = new SelldonePageBuilderCore(
-        Object.assign({}, BUILDER_OPTIONS, options)
-      );
+      // Initialize builder
+      const builder = reactive(new SelldonePageBuilderCore(
+          Object.assign({}, BUILDER_OPTIONS, options)
+      ));
+      app.config.globalProperties.$builder = builder; // 🌴 Add to global properties
+
+
       // configer assets output location
-      Vue.util.defineReactive(builder, "sections", builder.sections);
+     /* Vue.util.defineReactive(builder, "sections", builder.sections);*/
       /*  Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
       Vue.util.defineReactive(builder, "isSorting", builder.isSorting);
 
@@ -389,25 +474,38 @@ class SelldonePageBuilderCore {
           this.$builder = builder;
         },
       };
+      const ExtendedSPageRender = defineComponent({
+        extends: SPageRenderPopup,
+        ...extension
+      });
+
+      // Register the main components
+      app.component('SPageRenderPopup', ExtendedSPageRender);
+
+     /*
       Vue.component(
         "SPageRenderPopup",
         Vue.extend(SPageRenderPopup).extend(extension)
-      );
+      );*/
       // console.log('extension',extension)
     }
     // IV. Initialize menu render:
     {
-      const builder = new SelldonePageBuilderCore(
-        Object.assign({}, BUILDER_OPTIONS, options)
-      );
+      // Initialize builder
+      const builder = reactive(new SelldonePageBuilderCore(
+          Object.assign({}, BUILDER_OPTIONS, options)
+      ));
+      app.config.globalProperties.$builder = builder; // 🌴 Add to global properties
+
+
       // configer assets output location
-      Vue.util.defineReactive(builder, "sections", builder.sections);
+     /* Vue.util.defineReactive(builder, "sections", builder.sections);*/
       /* Vue.util.defineReactive(builder, "isEditing", builder.isEditing);
       Vue.util.defineReactive(builder, "isSorting", builder.isSorting);
 
       Vue.util.defineReactive(builder, "isAnimation", builder.isAnimation);
       Vue.util.defineReactive(builder, "isTracking", builder.isTracking);*/
-
+/*
       const extension = {
         components: builder.components,
         beforeCreate() {
@@ -417,7 +515,18 @@ class SelldonePageBuilderCore {
       Vue.component(
         "SPageRenderMenu",
         Vue.extend(SPageRenderPopup).extend(extension)
-      );
+      );*/
+
+      const ExtendedSPageRenderPopup = defineComponent({
+        extends: SPageRenderPopup,
+        components: builder.components,
+        beforeCreate() {
+          this.$builder = builder;
+        },
+        // ... add other extension options if needed
+      });
+      app.component('SPageRenderMenu', ExtendedSPageRenderPopup);
+
       // console.log('extension',extension)
     }
   }
@@ -576,22 +685,6 @@ class SelldonePageBuilderCore {
 SelldonePageBuilderCore.use(styler);
 SelldonePageBuilderCore.use(mixin);
 
-/**
- * Use this directive to add extra data-x attribute to elements in page builder.
- */
-Vue.directive("initDataAttribute", {
-  bind: function (el, binding, vnode) {
-    // The value passed to our directive
-    const style = binding.value;
 
-    if (!style) return;
-
-    // Animation play threshold:
-    if (style.threshold) {
-      // Set attribute to the element
-      el.setAttribute("data-threshold", style.threshold);
-    }
-  },
-});
 
 export default SelldonePageBuilderCore;

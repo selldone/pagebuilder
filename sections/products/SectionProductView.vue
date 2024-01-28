@@ -31,7 +31,7 @@
 
     <div
       v-else-if="$builder.isEditing && !$builder.isHideExtra"
-      class="text-center min-height-40vh widget-hover pointer-pointer d-flex align-items-center justify-content-center flex-column bg-tiny-checkers"
+      class="text-center min-height-40vh widget-hover pointer-pointer d-flex align-items-center justify-center flex-column bg-tiny-checkers"
     >
       <img
         src="@components/assets/icons/product-comparison.svg"
@@ -39,7 +39,7 @@
         height="96"
         class="m-3"
       />
-      <p class="display-3">Select a product</p>
+      <p class="text-h2">Select a product</p>
     </div>
   </x-section>
 </template>
@@ -141,7 +141,7 @@ export default {
   // max-width: 1720px;
   margin: auto;
 }
-::v-deep .is-editable {
+::v-deep(.is-editable) {
   .product-view {
     a {
       pointer-events: none !important;

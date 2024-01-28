@@ -15,13 +15,13 @@
 <template>
   <div class="widget-box mb-5">
     <s-widget-header :title="title" icon="view_agenda"></s-widget-header>
-    <v-subheader
+    <v-list-subheader
       >Enter column values here and adjust their size according to your
-      customization preferences.</v-subheader
+      customization preferences.</v-list-subheader
     >
     <div class="border-between-vertical-white-space">
       <div v-for="(_column, i) in column.columns" :key="i">
-        <v-subheader>
+        <v-list-subheader>
           <div class="flex-grow-1">
             <v-icon>arrow_drop_down</v-icon> Contents of sub-column {{ i + 1 }}.
           </div>
@@ -29,7 +29,7 @@
             <v-icon v-if="_column.image.src.includes('{{')">tonality</v-icon>
             <img v-else :src="getShopImagePath(_column.image.src)"
           /></v-avatar>
-        </v-subheader>
+        </v-list-subheader>
 
         <v-text-field
           v-if="hasTitle(_column)"

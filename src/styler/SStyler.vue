@@ -102,7 +102,7 @@
           @click="showStyleDialog()"
           title="Background image"
         >
-          <v-icon size="20" dark>fas fa-image</v-icon>
+          <v-icon size="20" dark>fa:fas fa-image</v-icon>
         </button>
       </li>
 

@@ -27,8 +27,8 @@
       label="Placeholder"
       placeholder="Sample of input..."
       @change="$emit('change', value)"
-      :append-icon="value.persistentPlaceholder ? 'lock' : 'lock_open'"
-      @click:append="
+      :append-inner-icon="value.persistentPlaceholder ? 'lock' : 'lock_open'"
+      @click:append-inner="
         value.persistentPlaceholder = !value.persistentPlaceholder;
         $emit('change', value);
         $forceUpdate();
@@ -52,7 +52,7 @@
     >
     </v-text-field>
 
-    <v-subheader></v-subheader>
+    <v-list-subheader></v-list-subheader>
 
     <v-btn
       @click="

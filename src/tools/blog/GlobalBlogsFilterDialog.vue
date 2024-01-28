@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -46,7 +46,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Set how to sort blogs to show.</v-subheader>
+              <v-list-subheader>Set how to sort blogs to show.</v-list-subheader>
 
               <v-row class="my-2">
                 <v-btn-toggle
@@ -95,7 +95,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Filter by tags and search.</v-subheader>
+              <v-list-subheader>Filter by tags and search.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Tags ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
@@ -130,7 +130,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Set the limit of blogs.</v-subheader>
+              <v-list-subheader>Set the limit of blogs.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Offset ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
@@ -167,7 +167,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Customize blog card style.</v-subheader>
+              <v-list-subheader>Customize blog card style.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Flat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 

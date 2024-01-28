@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -49,7 +49,7 @@
           title="Color Selector"
           icon="palette"
         ></s-widget-header>
-        <v-subheader></v-subheader>
+        <v-list-subheader></v-list-subheader>
         <v-color-picker
           @click.stop
           v-model="color"

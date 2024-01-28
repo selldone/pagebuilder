@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -46,8 +46,8 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader
-                >The content, in text or HTML, you wish to display.</v-subheader
+              <v-list-subheader
+                >The content, in text or HTML, you wish to display.</v-list-subheader
               >
 
               <v-textarea
@@ -66,7 +66,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Customize text style.</v-subheader>
+              <v-list-subheader>Customize text style.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
@@ -102,7 +102,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-subheader>Customize text animation.</v-subheader>
+              <v-list-subheader>Customize text animation.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Duration ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 

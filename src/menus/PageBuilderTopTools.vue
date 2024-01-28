@@ -359,7 +359,7 @@
             caption="Import"
             color="#333"
           >
-            <v-icon small>fas fa-file-import</v-icon>
+            <v-icon small>fa:fas fa-file-import</v-icon>
           </v-btn>
         </template>
         <div class="text-start small pa-1">
@@ -383,7 +383,7 @@
             caption="Export"
             color="#333"
           >
-            <v-icon small>fas fa-file-export</v-icon>
+            <v-icon small>fa:fas fa-file-export</v-icon>
           </v-btn>
         </template>
         <div class="text-start small pa-1">
@@ -475,9 +475,9 @@
       v-model="show_import"
       dark
       :max-width="
-        $vuetify.breakpoint.xl
+        $vuetify.display.xl
           ? 560
-          : $vuetify.breakpoint.lgAndUp
+          : $vuetify.display.lgAndUp
           ? 420
           : undefined
       "
@@ -489,12 +489,12 @@
         <v-card-text>
           <s-widget-header icon="input" title="Import Design File">
           </s-widget-header>
-          <v-subheader>
+          <v-list-subheader>
             <div>
               You can import custom-designed pages in this section. Ensure that
               the file is in the <b>.landing</b> format.
             </div>
-          </v-subheader>
+          </v-list-subheader>
 
           <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬ Drop Zone ⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
@@ -541,7 +541,7 @@
                 md="3"
               >
                 <div class="border rounded-lg pa-3 min-h-100">
-                  <div class="display-1 text-uppercase">
+                  <div class="text-h4 text-uppercase">
                     {{ key }}
                   </div>
                   <div v-html="desc"></div>
@@ -550,7 +550,7 @@
 
               <v-col cols="12">
                 <div class="border rounded-lg pa-3 min-h-100">
-                  <div class="display-1 text-uppercase">
+                  <div class="text-h4 text-uppercase">
                     {{ "\{\{" }}<span class="blue--text">key</span>{{ "\}\}" }}
                   </div>
                   <div>

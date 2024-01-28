@@ -58,7 +58,7 @@
         >
           <uploader
             :aspect-ratio="1"
-            class="m-auto"
+            class="ma-auto"
             path="$sectionData.image"
             :augment="augment"
           />

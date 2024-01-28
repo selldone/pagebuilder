@@ -17,9 +17,9 @@
     <div
       class="grad-layer bg-tiny-checkers-dark mx-auto mb-3 position-relative"
     >
-      <v-subheader class="center-absolute">{{
+      <v-list-subheader class="center-absolute">{{
         $t("global.commons.preview")
-      }}</v-subheader>
+      }}</v-list-subheader>
       <div :style="final_bg_styles" class="grad-layer"></div>
     </div>
 
@@ -73,8 +73,8 @@
       <v-window-item :value="1" class="py-5">
         <s-widget-header title="Custom style" icon="style"></s-widget-header>
 
-        <v-subheader
-          >To create a more custom style, you can use this option.</v-subheader
+        <v-list-subheader
+          >To create a more custom style, you can use this option.</v-list-subheader
         >
 
         <v-row justify="center" no-gutters>
@@ -113,8 +113,8 @@
           <div v-if="!raw_style_mode">
             <s-widget-header title="Gradient" icon="gradient"></s-widget-header>
 
-            <v-subheader
-              >Select more than one color to create a gradient.</v-subheader
+            <v-list-subheader
+              >Select more than one color to create a gradient.</v-list-subheader
             >
 
             <gradient-builder
@@ -141,7 +141,7 @@
       >
         <s-widget-header title="Background image" icon="texture"></s-widget-header>
 
-        <v-subheader>Add an image as your background pattern.</v-subheader>
+        <v-list-subheader>Add an image as your background pattern.</v-list-subheader>
 
         <div class="p-1 text-center">
           <v-btn-toggle
@@ -227,7 +227,7 @@
                 <v-item v-slot="{ active, toggle }" :value="pos">
                   <v-card
                     :color="active ? 'blue' : ''"
-                    class="d-flex align-center justify-center m-auto"
+                    class="d-flex align-center justify-center ma-auto"
                     dark
                     @click="toggle"
                     :width="64"
@@ -247,13 +247,13 @@
       <v-window-item :value="3" v-if="hasBgVideo" class="py-5">
         <s-widget-header title="Background video" icon="movie"></s-widget-header>
 
-        <v-subheader style="min-height: unset" class="my-2"
+        <v-list-subheader style="min-height: unset" class="my-2"
           ><div>
             Add a video that automatically plays in the background.<br />
             <b>Important!</b> If the background does not update after uploading,
             please save the changes and refresh the page.
           </div>
-        </v-subheader>
+        </v-list-subheader>
 
         <s-video-uploader
           class="mt-2"

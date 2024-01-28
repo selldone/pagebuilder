@@ -30,7 +30,7 @@
 
             <span class="ms-2">
               {{
-                page.desktop ? page.desktop.count : 0 | numeralFormat("0.[0] a")
+                 numeralFormat(page.desktop ? page.desktop.count : 0 ,"0.[0] a")
               }}</span
             >
           </v-btn>
@@ -39,7 +39,7 @@
 
             <span class="ms-2">
               {{
-                page.tablet ? page.tablet.count : 0 | numeralFormat("0.[0] a")
+                  numeralFormat(page.tablet ? page.tablet.count : 0,"0.[0] a")
               }}</span
             >
           </v-btn>
@@ -47,7 +47,7 @@
             <v-icon>stay_primary_portrait</v-icon>
 
             <span class="ms-2">{{
-              page.mobile ? page.mobile.count : 0 | numeralFormat("0.[0] a")
+               numeralFormat(page.mobile ? page.mobile.count : 0 ,"0.[0] a")
             }}</span>
           </v-btn>
         </v-btn-toggle>

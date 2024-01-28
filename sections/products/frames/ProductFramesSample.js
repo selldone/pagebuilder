@@ -42,7 +42,7 @@ export default {
                         <h5 class="card-title single-line my-2">{product.title}</h5>
 
 
-                        <p class="card-text display-1">{product.final_price}</p>
+                        <p class="card-text text-h4">{product.final_price}</p>
 <rating class="mb-2" value="{product.rate}"></rating>
 
                     </div>

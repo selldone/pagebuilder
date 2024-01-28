@@ -20,7 +20,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -39,7 +39,7 @@
 
       <v-card-text>
         <s-widget-header title="Font & Typo" icon="format_quote"></s-widget-header>
-        <v-subheader></v-subheader>
+        <v-list-subheader></v-list-subheader>
       </v-card-text>
 
       <v-expansion-panels flat v-model="tab">
@@ -57,7 +57,7 @@
               icon="title"
               class="mt-5"
             ></s-widget-header>
-            <v-subheader>First, add fonts, then select it here.</v-subheader>
+            <v-list-subheader>First, add fonts, then select it here.</v-list-subheader>
 
             <v-select
               :items="style.fonts"
@@ -83,9 +83,9 @@
                 class="mt-5"
               ></s-widget-header>
 
-              <v-subheader
+              <v-list-subheader
                 >You can add new fonts from Google fonts. Just write the font
-                name in the following box.</v-subheader
+                name in the following box.</v-list-subheader
               >
 
               <div v-for="font in style.fonts" :key="font" class="row-font">
@@ -108,7 +108,7 @@
                 class="my-5"
                 @keydown.enter="addFont"
               >
-                <template v-slot:append-outer>
+                <template v-slot:append>
                   <v-btn
                     @click.stop="addFont()"
                     :disabled="!font_input"
@@ -147,10 +147,10 @@
               title="Default font size"
               icon="format_size"
             ></s-widget-header>
-            <v-subheader
+            <v-list-subheader
               >Add fonts, and change the base font size. This option is used to
               calibrate font size based on the custom font.
-            </v-subheader>
+            </v-list-subheader>
 
             <s-number-input
               :min="10"
@@ -168,7 +168,7 @@
               icon="format_size"
               class="mt-5"
             ></s-widget-header>
-            <v-subheader> </v-subheader>
+            <v-list-subheader> </v-list-subheader>
 
             <s-number-dimension-input
               v-model="style.h1_size"

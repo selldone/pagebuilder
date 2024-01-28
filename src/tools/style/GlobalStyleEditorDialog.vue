@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -115,8 +115,8 @@
                 title="Preferred size"
                 icon="fullscreen"
               ></s-widget-header>
-              <v-subheader
-                >The element will have this size by default.</v-subheader
+              <v-list-subheader
+                >The element will have this size by default.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -142,8 +142,8 @@
                 title="Minimum size"
                 icon="fullscreen_exit"
               ></s-widget-header>
-              <v-subheader
-                >The element is forced to have this minimum size.</v-subheader
+              <v-list-subheader
+                >The element is forced to have this minimum size.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -169,9 +169,9 @@
                 title="Maximum size"
                 icon="crop_free"
               ></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >The element size will be limited to these
-                constraints.</v-subheader
+                constraints.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -262,9 +262,9 @@
               ></style-preview>
 
               <s-widget-header title="Padding" icon="padding"></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >An element's padding area is the space between its content and
-                its border.</v-subheader
+                its border.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -356,10 +356,10 @@
               ></style-preview>
 
               <s-widget-header title="Margin" icon="margin"></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >In CSS, a margin is the space around an element's border, while
                 padding is the space between an element's border and the
-                element's content.</v-subheader
+                element's content.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -473,9 +473,9 @@
                 title="Border radius"
                 icon="rounded_corner"
               ></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >The CSS border is a shorthand property used to set the border
-                on an element.</v-subheader
+                on an element.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -566,10 +566,10 @@
                 title="Classes"
                 icon="integration_instructions"
               ></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >In CSS, a class represents a collection of elements with
                 similar or identical characteristics. All classes in Bootstrap 4
-                are supported.</v-subheader
+                are supported.</v-list-subheader
               >
 
               <div class="pa-1 border-between-vertical max-w-640 mx-auto">
@@ -944,10 +944,10 @@
                 title="Rotation"
                 icon="rotate_90_degrees_ccw"
               ></s-widget-header>
-              <v-subheader>
+              <v-list-subheader>
                 The rotation defines a transformation that rotates an element
                 around a fixed point on the 2D plane, without deforming
-                it.</v-subheader
+                it.</v-list-subheader
               >
 
               <v-row>
@@ -993,10 +993,10 @@
                 title="Translate"
                 icon="flip_to_back"
               ></s-widget-header>
-              <v-subheader>
+              <v-list-subheader>
                 The translate allows you to transfer an element from one place
                 to another along the X (horizontal) axis, the Y (vertical) axis,
-                and the Z (depth) axis.</v-subheader
+                and the Z (depth) axis.</v-list-subheader
               >
 
               <v-row>
@@ -1024,9 +1024,9 @@
               </v-row>
 
               <s-widget-header title="Scale" icon="transform"></s-widget-header>
-              <v-subheader>
+              <v-list-subheader>
                 The scale defines a transformation that resizes an element on
-                the 2D plane.</v-subheader
+                the 2D plane.</v-list-subheader
               >
 
               <v-row>
@@ -1077,10 +1077,10 @@
                 </v-col>
               </v-row>
               <s-widget-header title="Skew" icon="360"></s-widget-header>
-              <v-subheader
+              <v-list-subheader
                 >This transformation is a shear mapping that distorts each point
                 within an element by a certain angle in the horizontal and
-                vertical directions.</v-subheader
+                vertical directions.</v-list-subheader
               >
 
               <v-row>

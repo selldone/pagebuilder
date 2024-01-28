@@ -24,7 +24,7 @@
         >
           <v-card
             :color="active ? 'amber' : ''"
-            class="p-1 rounded-18px overflow-hidden m-1 position-relative d-flex align-center justify-content-center"
+            class="p-1 rounded-18px overflow-hidden m-1 position-relative d-flex align-center justify-center"
             flat
             @click="toggle"
             :elevation="active ? 10 : 0"

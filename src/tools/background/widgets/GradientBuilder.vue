@@ -40,7 +40,7 @@
       >
 
       <v-btn @click="generateGradient" icon title="Create random colors"
-        ><v-icon>fas fa-dice</v-icon></v-btn
+        ><v-icon>fa:fas fa-dice</v-icon></v-btn
       >
       <v-btn v-if="clearable" @click="$emit('input', [])" icon
         ><v-icon>delete</v-icon></v-btn

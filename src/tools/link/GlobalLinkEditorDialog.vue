@@ -19,9 +19,9 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
+      $vuetify.display.xl
         ? 560
-        : $vuetify.breakpoint.lgAndUp
+        : $vuetify.display.lgAndUp
         ? 420
         : 320
     "

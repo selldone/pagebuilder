@@ -165,9 +165,9 @@ export default {
     this.fetchPageData();
 
     if (this.enable_tracking) {
-      this.catch_data.type = this.$vuetify.breakpoint.smAndDown
+      this.catch_data.type = this.$vuetify.display.smAndDown
         ? "mobile"
-        : this.$vuetify.breakpoint.mdAndDown
+        : this.$vuetify.display.mdAndDown
         ? "tablet"
         : "desktop";
 
@@ -220,9 +220,9 @@ export default {
     initHeatmap() {
       if (!this.page) return;
 
-      let type = this.$vuetify.breakpoint.smAndDown
+      let type = this.$vuetify.display.smAndDown
         ? "mobile"
-        : this.$vuetify.breakpoint.mdAndDown
+        : this.$vuetify.display.mdAndDown
         ? "tablet"
         : "desktop";
       let action = this.action;

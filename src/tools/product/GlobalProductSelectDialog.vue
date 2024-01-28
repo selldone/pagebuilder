@@ -19,9 +19,9 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
+      $vuetify.display.xl
         ? 560
-        : $vuetify.breakpoint.lgAndUp
+        : $vuetify.display.lgAndUp
         ? 420
         : 320
     "
@@ -43,8 +43,8 @@
 
       <v-card-text class="text-start">
         <s-widget-header title="Product" icon="inventory"></s-widget-header>
-        <v-subheader
-          >Choose a single product to feature on the homepage.</v-subheader
+        <v-list-subheader
+          >Choose a single product to feature on the homepage.</v-list-subheader
         >
         <product-select-box
           v-model="product_info.id"

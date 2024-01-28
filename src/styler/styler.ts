@@ -12,19 +12,25 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Styler from "./SStyler.vue";
-import { getTypeFromTagName, getTypeFromSchema } from "../util";
-import vuetify from "@components/plugins/vuetify/vuetify";
+import { createApp, defineComponent, h } from 'vue';
+import Styler from './SStyler.vue';
+import { getTypeFromTagName, getTypeFromSchema } from '../util';
+import vuetify from '@components/plugins/vuetify/vuetify';
 
-function installStyler({ builder, Vue }) {
-  const StylerInstance = Vue.extend(Styler).extend({
+function installStyler({ builder }) {
+
+  // Create a Vue 3 compatible component instance
+  const StylerComponent = defineComponent({
+    extends: Styler,
     beforeCreate() {
       this.$builder = builder;
-    },
+    }
   });
 
+
+
   builder.styler = {
-    inserted(el, binding, vnode) {
+    mounted(el, binding, vnode) {
       /**
        * IMPORTANT!
        * For X component we set X_PARENT_BUILDER to access to live $builder!
@@ -100,7 +106,7 @@ function installStyler({ builder, Vue }) {
       if (binding.arg === "row" && !binding.value) return;
 
       // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
-
+/*
       section.stylers.push(
         new StylerInstance({
           router,
@@ -119,7 +125,29 @@ function installStyler({ builder, Vue }) {
             name: expression,
           },
         }).$mount(newNode)
-      );
+      );*/
+
+      // Create and mount the Styler component
+      const stylerInstance = createApp(StylerComponent, {
+        router: vnode.context.$router,
+        store: vnode.context.$store,
+        i18n: vnode.context.$i18n,
+        props: {
+          route: vnode.context.$route,
+          el,
+          section: section,
+          type: binding.arg ||
+              getTypeFromSchema(binding.expression, vnode.context.$section.schema) ||
+              getTypeFromTagName(el.tagName),
+          name: binding.expression
+        }
+      });
+
+      stylerInstance.mount(newNode);
+
+      section.stylers.push(stylerInstance)
+
+
     },
   };
 }

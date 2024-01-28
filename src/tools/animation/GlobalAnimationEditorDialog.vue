@@ -19,9 +19,9 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
+      $vuetify.display.xl
         ? 560
-        : $vuetify.breakpoint.lgAndUp
+        : $vuetify.display.lgAndUp
         ? 420
         : 320
     "
@@ -110,7 +110,7 @@
               <v-expansion-panel>
                 <v-expansion-panel-header
                   ><span
-                    ><v-icon class="me-1" small>fas fa-cogs</v-icon> Customize
+                    ><v-icon class="me-1" small>fa:fas fa-cogs</v-icon> Customize
                     animation
                   </span></v-expansion-panel-header
                 >

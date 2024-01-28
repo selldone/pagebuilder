@@ -28,9 +28,9 @@
       </template>
 
       <v-sheet color="#fff">
-        <v-subheader
+        <v-list-subheader
           >Opt for a 12-split layout in relative design, enabling flexible,
-          evenly divided sections for efficient space utilization.</v-subheader
+          evenly divided sections for efficient space utilization.</v-list-subheader
         >
 
         <v-btn

@@ -176,11 +176,13 @@
         </div>
       </swiper-slide>
 
-      <div class="swiper-pagination" slot="pagination"></div>
-      <template v-if="$sectionData.slide.navigation">
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </template>
+      <template v-slot:pagination>  <div class="swiper-pagination"></div></template>
+
+
+        <template v-if="$sectionData.slide.navigation" v-slot:button-prev> <div class="swiper-button-prev" ></div></template>
+        <template v-if="$sectionData.slide.navigation" v-slot:button-next>     <div class="swiper-button-next" ></div></template>
+
+
     </swiper>
 
     <!-- swiper2 Thumbs -->
@@ -331,13 +333,13 @@ export default {
         loopedSlides: this.$sectionData.slide.items.length, // looped slides should be the same
         spaceBetween: 10,
         centeredSlides: true,
-        slidesPerView: this.$vuetify.breakpoint.xl
+        slidesPerView: this.$vuetify.display.xl
           ? 5
-          : this.$vuetify.breakpoint.lg
+          : this.$vuetify.display.lg
           ? 4
-          : this.$vuetify.breakpoint.md
+          : this.$vuetify.display.md
           ? 3
-          : this.$vuetify.breakpoint.sm
+          : this.$vuetify.display.sm
           ? 2
           : 1,
         touchRatio: 0.2,
@@ -395,11 +397,11 @@ export default {
         this.$sectionData.slide.slidesPerView <= 1
       )
         return 1;
-      else if (this.$vuetify.breakpoint.lgAndUp)
+      else if (this.$vuetify.display.lgAndUp)
         return this.$sectionData.slide.slidesPerView;
-      else if (this.$vuetify.breakpoint.md)
+      else if (this.$vuetify.display.md)
         return Math.min(this.$sectionData.slide.slidesPerView, 3);
-      else if (this.$vuetify.breakpoint.sm)
+      else if (this.$vuetify.display.sm)
         return Math.min(this.$sectionData.slide.slidesPerView, 2);
       return 1;
     },

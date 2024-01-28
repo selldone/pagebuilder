@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Selldone® Business OS™
+ * Copyright (c) 2024. Selldone® Business OS™
  *
  * Author: M.Pajuhaan
  * Web: https://selldone.com
@@ -12,13 +12,18 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import SelldonePageBuilderCore from "./selldone-page-builder-core";
-import * as types from "./types";
+export default {
+    beforeMount(el, binding) {
+        // The value passed to our directive
+        const style = binding.value;
 
+        if (!style) return;
 
-SelldonePageBuilderCore.version = "__VERSION__";
-SelldonePageBuilderCore.types = types;
-
-
-
-export default SelldonePageBuilderCore;
+        // Animation play threshold:
+        if (style.threshold) {
+            // Set attribute to the element
+            el.setAttribute("data-threshold", style.threshold);
+        }
+    },
+    // You can also define other directive hooks such as updated, mounted, etc.
+};

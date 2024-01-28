@@ -192,7 +192,7 @@
           class="loader-to-bar"
         ></v-progress-linear>
         <v-card-title>
-          <p class="m-auto dialog-title text-start">
+          <p class="ma-auto dialog-title text-start">
             <v-icon color="#111" class="me-2">history</v-icon>
             {{ $t("page_builder.history.title") }}
           </p>
@@ -212,8 +212,9 @@
               </v-list-item-content>
             </v-list-item>
 
-            <template v-for="history in histories">
+
               <v-list-item
+                  v-for="history in histories"
                 :key="history.id"
                 ripple
                 @click="getHistory(history.id)"
@@ -249,7 +250,7 @@
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
-            </template>
+
           </v-list>
         </v-card-text>
       </v-card>

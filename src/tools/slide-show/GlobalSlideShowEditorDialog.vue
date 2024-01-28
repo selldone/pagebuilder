@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -59,7 +59,7 @@
           @click:add="addSlide"
           class="mt-5"
         ></s-widget-header>
-        <v-subheader>You can customize and make your filter here.</v-subheader>
+        <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
 
         <v-expansion-panels>
           <v-expansion-panel
@@ -132,7 +132,7 @@
           add-text
           class="mt-5"
         ></s-widget-header>
-        <v-subheader>You can customize and make your filter here.</v-subheader>
+        <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
 
         <v-expansion-panels>
           <v-expansion-panel>

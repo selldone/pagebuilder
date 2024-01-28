@@ -20,7 +20,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -42,7 +42,7 @@
           title="Page Master Style"
           icon="design_services"
         ></s-widget-header>
-        <v-subheader></v-subheader>
+        <v-list-subheader></v-list-subheader>
       </v-card-text>
 
       <v-expansion-panels flat v-model="tab">
@@ -59,7 +59,7 @@
               title="Background Color"
               icon="palette"
             ></s-widget-header>
-            <v-subheader>Page background color.</v-subheader>
+            <v-list-subheader>Page background color.</v-list-subheader>
 
             <s-color-selector
               v-model="style.bg_color"
@@ -77,7 +77,7 @@
               :title="$t('page_builder.setting.bg_style_input')"
               icon="wallpaper"
             ></s-widget-header>
-            <v-subheader></v-subheader>
+            <v-list-subheader></v-list-subheader>
             <background-image-editor
               :upload-url="upload_bg_url"
               :bg-image.sync="style.bg_image"
@@ -101,9 +101,9 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <s-widget-header title="Top menu" icon="linear_scale"></s-widget-header>
-            <v-subheader
+            <v-list-subheader
               >Customize the header menu on the pages and create fancy
-              looks.</v-subheader
+              looks.</v-list-subheader
             >
 
             <s-smart-select
@@ -185,9 +185,9 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <s-widget-header title="Colors" icon="palette"></s-widget-header>
-            <v-subheader
+            <v-list-subheader
               >Here, you have the option to personalize the color variables of
-              the page.</v-subheader
+              the page.</v-list-subheader
             >
 
             <!-- Class: is-samin  -->

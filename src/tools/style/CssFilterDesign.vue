@@ -47,9 +47,9 @@
       title="Filters collection"
       icon="filter_vintage"
     ></s-widget-header>
-    <v-subheader
+    <v-list-subheader
       >Select a filter from the collection. Using complex filters may slow down
-      your page experience.</v-subheader
+      your page experience.</v-list-subheader
     >
 
     <v-item-group v-model="filter_value">
@@ -95,13 +95,13 @@
     <!-- ████████████████████ Customize ████████████████████ -->
 
     <s-widget-header title="Tune" icon="tune"></s-widget-header>
-    <v-subheader>You can customize and make your filter here.</v-subheader>
+    <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
 
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header
           ><span
-            ><v-icon class="me-1" small>fas fa-cogs</v-icon> Filter values</span
+            ><v-icon class="me-1" small>fa:fas fa-cogs</v-icon> Filter values</span
           >
         </v-expansion-panel-header>
         <v-expansion-panel-content>

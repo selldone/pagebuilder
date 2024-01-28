@@ -22,14 +22,14 @@
         icon="radar"
       ></s-widget-header>
 
-      <v-subheader>You can set the page title and the description meta tag of this page.</v-subheader>
+      <v-list-subheader>You can set the page title and the description meta tag of this page.</v-list-subheader>
 
       <v-text-field
         v-model="page.title"
         :counter="48"
         :label="$t('page_builder.setting.title_input')"
       >
-        <template v-slot:append>
+        <template v-slot:append-inner>
           <score-indicator :value="$SEO.GetPageTitleScore(page.description)" class="mt-n1"></score-indicator>
         </template>
       </v-text-field>
@@ -41,7 +41,7 @@
         rows="3"
         auto-grow
       >
-        <template v-slot:append>
+        <template v-slot:append-inner>
           <score-indicator :value="$SEO.GetPageDescription(page.description)" class="mt-n1"></score-indicator>
         </template>
       </v-textarea>
@@ -57,10 +57,10 @@
     <div class="widget-box mb-5"   style="--background:#FFF">
       <s-widget-header
         title="SEO Preview"
-        icon="fa-brands fa-google"
+        icon="fa:fa-brands fa-google"
       ></s-widget-header>
 
-      <v-subheader></v-subheader>
+      <v-list-subheader></v-list-subheader>
 
       <google-search-preview
         :title="page.title"

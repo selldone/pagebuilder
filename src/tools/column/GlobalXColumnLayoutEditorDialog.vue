@@ -14,23 +14,22 @@
 
 <template>
   <v-navigation-drawer
-    stateless
-    right
+    location="right"
     v-if="column"
     v-model="show_edit_layout"
-    fixed
-    :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
-    "
-    hide-overlay
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :scrim="false"
     color="#1e1e1e"
-    dark
     class="x-page-builder-options-slider"
   >
     <v-card flat class="text-start">
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_edit_layout = false" x-large>
+          <v-btn
+            variant="text"
+            @click="show_edit_layout = false"
+            size="x-large"
+          >
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -43,19 +42,19 @@
           icon="auto_awesome_motion"
         ></s-widget-header>
 
-        <v-subheader>
+        <v-list-subheader>
           Choose your preferred column layout from the options provided in the
           list below.
-        </v-subheader>
+        </v-list-subheader>
 
         <v-slide-group class="py-5" show-arrows>
-          <v-slide-item v-for="item in LAYOUTS" :key="item">
+          <v-slide-group-item v-for="item in LAYOUTS" :key="item">
             <v-card
               class="ma-4"
               height="160"
               width="100"
               @click="selectLayout(item)"
-              outlined
+              variant="outlined"
               rounded="lg"
               color="#285c94"
               :style="column.layout === item ? 'border: solid 2px #fff;' : ''"
@@ -94,23 +93,23 @@
                 </div>
               </div>
             </v-card>
-          </v-slide-item>
+          </v-slide-group-item>
         </v-slide-group>
 
-        <v-subheader>
+        <v-list-subheader>
           You can customize the column style by selecting from the provided
           classes.
-        </v-subheader>
+        </v-list-subheader>
 
         <v-combobox
           chips
           multiple
           v-model="column.classes"
           :items="standard_classes"
-          small-chips
-          deletable-chips
+
+          closable-chips
           clearable
-          cache-items
+
           label="Classes"
           class="mx-3"
         >
@@ -121,10 +120,10 @@
           title="Call To Action"
           class="my-5"
         >
-          <v-subheader>
+          <v-list-subheader>
             You can place a button at the edge of the view and assign a URL to
             it.
-          </v-subheader>
+          </v-list-subheader>
         </s-widget-header>
         <s-smart-toggle
           true-title="Has Button"
@@ -224,7 +223,7 @@ export default {
         this.section = section;
         this.columnPath = gridPath.substring(0, gridPath.lastIndexOf(".")); // Because it shows on grid styler and we have a .grid in the path that we should back to high level object.
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -253,7 +252,7 @@ export default {
       this.show_edit_layout = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalXColumnLayoutEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 

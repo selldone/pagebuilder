@@ -15,9 +15,7 @@
 <template>
   <v-card
     class="rounded-2rem widget position-relative border overflow-hidden"
-    @click.native="
-      need_become_premium ? showNeedSubscribePremium() : $emit('click')
-    "
+    @click="need_become_premium ? showNeedSubscribePremium() : $emit('click')"
     :disabled="!!loading"
     :class="{
       'widget-hover pp': !show_deploy_button /*We are in teh shop!*/,
@@ -30,19 +28,24 @@
       :src="getShopImagePath(template.image)"
       aspect-ratio="1"
       class="rounded-2rem"
+      cover
     >
       <div class="ma-2 absolute-bottom-end">
         <v-chip
           v-if="template.premium"
           class="ma-1"
-          small
+          size="small"
           color="#673AB7"
-          dark
           title="This template is accessible exclusively for premium users who have subscribed to premium content."
-          ><v-icon small left>auto_awesome</v-icon> premium</v-chip
+          ><v-icon size="small" start>auto_awesome</v-icon> premium</v-chip
         >
-        <v-chip v-if="template.hot" class="ma-1" small color="#D32F2F" dark
-          ><v-icon small left>local_fire_department</v-icon> hot</v-chip
+        <v-chip
+          v-if="template.hot"
+          class="ma-1"
+          size="small"
+          color="#D32F2F"
+
+          ><v-icon size="small" start>local_fire_department</v-icon> hot</v-chip
         >
       </div>
     </v-img>
@@ -54,12 +57,12 @@
       <div class="widget-buttons">
         <v-btn
           v-if="template.preview"
-          outlined
+          variant="outlined"
           :href="template.preview"
           target="_blank"
           @click.stop
-          x-large
-          >Preview <v-icon class="ms-1" small>open_in_new</v-icon></v-btn
+          size="x-large"
+          >Preview <v-icon class="ms-1" size="small">open_in_new</v-icon></v-btn
         >
 
         <v-btn
@@ -67,23 +70,23 @@
             show_deploy_button &&
             !need_become_premium /*We are in the templates page of selldone*/
           "
-          depressed
+          variant="flat"
           color="success"
-          dark
+
           :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
           target="_blank"
-          x-large
+          size="x-large"
         >
-          <v-icon class="me-1" small>upload_file</v-icon> Deploy Now
+          <v-icon class="me-1" size="small">upload_file</v-icon> Deploy Now
         </v-btn>
 
         <v-btn
           v-if="show_deploy_button && need_become_premium"
           @click="showNeedSubscribePremium()"
-          depressed
-          x-large
+          variant="flat"
+          size="x-large"
           color="primary"
-          dark
+
         >
           <v-icon class="me-1">auto_awesome</v-icon>
           Become Premium
@@ -129,7 +132,7 @@ export default {
 
   updated() {},
 
-  beforeDestroy() {},
+  beforeUnmount() {},
   methods: {},
 };
 </script>

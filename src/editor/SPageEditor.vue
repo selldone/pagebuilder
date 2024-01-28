@@ -279,14 +279,14 @@
               hide-details
               flat
               filled
-              :prefix="!isPopup && $vuetify.breakpoint.smAndUp ? base_url : ''"
+              :prefix="!isPopup && $vuetify.display.smAndUp ? base_url : ''"
               v-model="page.name"
-              :dense="$vuetify.breakpoint.smAndDown"
+              :dense="$vuetify.display.smAndDown"
               :placeholder="isPopup ? 'Popup' : 'Enter page address*'"
               :rules="!isPopup ? [GlobalRules.required()] : undefined"
               :prepend-inner-icon="isPopup ? 'notifications_none' : undefined"
             >
-              <template v-if="!isPopup" v-slot:append>
+              <template v-if="!isPopup" v-slot:append-inner>
                 <v-btn
                   icon
                   :href="base_url + page.name"
@@ -305,7 +305,7 @@
                   v-on="on"
                   icon
                   @click="toggleListVisibility"
-                  class="ml-1"
+                  class="ms-1"
                 >
                   <v-icon>{{
                     scale_down ? "fullscreen_exit" : "fullscreen"
@@ -637,9 +637,9 @@
                       )?.length > 0
                     "
                     :content="
-                      page?.notes?.filter(
+                        numeralFormat(page?.notes?.filter(
                         (n) => n.element_id === section.data?.id
-                      )?.length | numeralFormat('0a')
+                      )?.length,'0a')
                     "
                     color="#000"
                   >
@@ -667,7 +667,7 @@
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                 <notes-digest-view
-                  v-if="$vuetify.breakpoint.lgAndUp && has_note"
+                  v-if="$vuetify.display.lgAndUp && has_note"
                   :notes="
                     page?.notes?.filter(
                       (n) => n.element_id === section.data?.id
@@ -2117,7 +2117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .sortable-ghost {
+::v-deep(.sortable-ghost) {
   .fmenu-elementImage {
     width: 100%;
     height: auto;
@@ -2441,7 +2441,7 @@ label {
       }*/
   }
 }
-::v-deep .block-pointer-event {
+::v-deep(.block-pointer-event) {
   div {
     pointer-events: none;
     animation: none !important;
@@ -2747,12 +2747,12 @@ label {
         .image-container {
           cursor: initial;
 
-          .v-image {
+          .v-img {
             // v-image (Old i used this)
             filter: none !important;
             pointer-events: var(--ban-pointer-event) !important;
 
-            .v-image__image {
+            .v-img__image {
               background-color: var(--solid-bg-color) !important;
               background-image: repeating-linear-gradient(
                 -45deg,
@@ -2764,7 +2764,7 @@ label {
               background-size: cover;
             }
           }
-          > :not(.v-image, img):not(header):not(.-in-animation) {
+          > :not(.v-img, img):not(header):not(.-in-animation) {
             display: none;
           }
 

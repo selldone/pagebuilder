@@ -81,7 +81,7 @@ const data = new Map([
 
   [
     types.Html,
-    "<h1 class='display-3'>\n<b>Hello world.</b>\n</h1>\n<h2>We are Selldoners.</h2>\n<br>\n<br>\n<br>\n<br>\n<p> The #1 operating system for fast-growing companies </p>\n<br>\n<br>\n\n\n\n",
+    "<h1 class='text-h2'>\n<b>Hello world.</b>\n</h1>\n<h2>We are Selldoners.</h2>\n<br>\n<br>\n<br>\n<br>\n<p> The #1 operating system for fast-growing companies </p>\n<br>\n<br>\n\n\n\n",
   ],
 
   [

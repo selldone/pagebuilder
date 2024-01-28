@@ -22,9 +22,9 @@
         icon="tune"
       ></s-widget-header>
 
-      <v-subheader
+      <v-list-subheader
         >Adjusting the page URL and modifying the publication status of the
-        page.</v-subheader
+        page.</v-list-subheader
       >
 
       <v-text-field
@@ -61,16 +61,16 @@
       <s-widget-header title="Designer" icon="architecture"></s-widget-header>
 
       <!-- ============== colors ============== -->
-      <v-subheader
+      <v-list-subheader
         >Assign color labels to quickly identify pages, and you can also utilize
-        these color labels for page categorization.</v-subheader
+        these color labels for page categorization.</v-list-subheader
       >
 
       <v-btn
         v-for="item in colors"
         :key="item"
         icon
-        class="mr-1 color-button-ball"
+        class="me-1 color-button-ball"
         :class="{ active: item === color }"
         @click="$emit('update:color', item)"
       >
@@ -78,9 +78,9 @@
       </v-btn>
 
       <!-- ============== Note ============== -->
-      <v-subheader
+      <v-list-subheader
         >Here, you can add a note that will be visible only to
-        administrators.</v-subheader
+        administrators.</v-list-subheader
       >
 
       <v-textarea
@@ -102,26 +102,26 @@
         :to="{ name: 'ClustersManagement_List' }"
       ></s-widget-header>
 
-      <v-subheader>
+      <v-list-subheader>
         By linking this page to a cluster, you can effortlessly locate and
         manage it.
-      </v-subheader>
-      <s-cluster-select
+      </v-list-subheader>
+      <b-cluster-input
         :value="clusterId"
         @input="(val) => $emit('update:clusterId', val)"
         :return-object="false"
         clearable
         no-home
         icon="workspaces_filled"
-      ></s-cluster-select>
+      ></b-cluster-input>
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
     </div>
 
     <div class="widget-box mb-5">
       <s-widget-header title="Image" icon="image"></s-widget-header>
-      <v-subheader
+      <v-list-subheader
         >Upload an image for the page. This image will serve as the cover for
-        SEO purposes and will also be used in the page listings.</v-subheader
+        SEO purposes and will also be used in the page listings.</v-list-subheader
       >
 
       <!-- ============== Image ============== -->
@@ -142,7 +142,7 @@
     <div class="widget-box mb-5" style="border-top: solid medium red">
       <s-widget-header title="Delete page" icon="error_outline"></s-widget-header>
 
-      <v-subheader>
+      <v-list-subheader>
         <div>
           Deleting a page is a permanent action, so please be absolutely sure
           before proceeding. All <b>images</b> and <b>videos</b>
@@ -150,7 +150,7 @@
           to create a duplicate of this page, remember to re-upload any images
           or videos to the new page.
         </div>
-      </v-subheader>
+      </v-list-subheader>
 
       <s-smart-check-verify-action
         color="red"
@@ -179,12 +179,12 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import SSmartCheckVerifyAction from "@components/smart/SSmartCheckVerifyAction.vue";
-import SClusterSelect from "@components/cluster/SClusterSelect.vue";
+import BClusterInput from "@components/backoffice/cluster/BClusterInput.vue";
 
 export default {
   name: "SettingCustomPage",
   components: {
-    SClusterSelect,
+    BClusterInput,
     SSmartCheckVerifyAction,
     SSmartSwitch,
     SImageUploader,

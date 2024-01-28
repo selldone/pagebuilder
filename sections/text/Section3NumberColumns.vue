@@ -37,7 +37,7 @@
           :path="`$sectionData.columns[${index}]`"
           initial-column-layout="x-layout-content-title"
           clonable
-          content-class="display-4"
+          content-class="text-h1"
           :augment="augment"
         >
         </x-column-image-text>

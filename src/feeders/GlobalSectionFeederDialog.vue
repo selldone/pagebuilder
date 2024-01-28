@@ -35,10 +35,10 @@
             title="Background"
             icon="wallpaper"
           ></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >Alter the background of this section by choosing from a variety of
             options, including patterns, gradients, images, and videos to serve
-            as the backdrop.</v-subheader
+            as the backdrop.</v-list-subheader
           >
 
           <v-sheet
@@ -75,9 +75,9 @@
             title="Title & Subtitle"
             icon="sort"
           ></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >You can modify the primary section heading and subheading in this
-            area.</v-subheader
+            area.</v-list-subheader
           >
           <v-textarea
             v-if="schema.title"
@@ -117,9 +117,9 @@
             add-caption="Add Button"
             @click:add="addButton"
           ></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >In this section, you can configure the call-to-action
-            elements.</v-subheader
+            elements.</v-list-subheader
           >
 
           <div class="border-between-vertical">
@@ -159,8 +159,8 @@
         <!-- ████████████████████ Search ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.search">
           <s-widget-header title="Search" icon="search"></s-widget-header>
-          <v-subheader
-            >Modify the appearance of the search box here.</v-subheader
+          <v-list-subheader
+            >Modify the appearance of the search box here.</v-list-subheader
           >
 
           <s-storefront-search-box
@@ -214,9 +214,9 @@
           v-if="schema.product_info && section_data.product_info"
         >
           <s-widget-header title="Product" icon="inventory"></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >The chosen product information will be displayed in the product
-            section.</v-subheader
+            section.</v-list-subheader
           >
 
           <product-select-box
@@ -245,9 +245,9 @@
             title="Products & Categories"
             icon="filter_alt"
           ></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >The chosen product information will be displayed in the product
-            section.</v-subheader
+            section.</v-list-subheader
           >
 
           <s-page-products-filter
@@ -262,10 +262,10 @@
         <!-- ████████████████████ Row ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.row">
           <s-widget-header title="Row" icon="view_week"></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >Organize columns within a row, allowing for both vertical and
             horizontal alignment adjustments to be made for each
-            column.</v-subheader
+            column.</v-list-subheader
           >
 
           <feeder-align v-model="section_data.row.align"></feeder-align>
@@ -323,9 +323,9 @@
             title="Newsletter"
             icon="newspaper"
           ></s-widget-header>
-          <v-subheader
+          <v-list-subheader
             >You can modify the newsletter email input form in this
-            location.</v-subheader
+            location.</v-list-subheader
           >
 
           <feeder-newsletter v-model="section_data.newsletter">

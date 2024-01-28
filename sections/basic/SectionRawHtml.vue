@@ -69,12 +69,12 @@
               title="Your Custom Code"
               icon="code"
             ></s-widget-header>
-            <v-subheader
+            <v-list-subheader
               >Here, you can either write raw HTML code or paste your code.
               However, please be aware that pasting code containing 'script'
               tags may potentially lead to security issues, particularly within
               your editor. For this reason, we strongly advise only pasting code
-              from sources you trust.</v-subheader
+              from sources you trust.</v-list-subheader
             >
 
             <prism-editor
@@ -92,11 +92,11 @@
 
           <div class="widget-box -large mb-5">
             <s-widget-header title="Scripts" icon="code"></s-widget-header>
-            <v-subheader
+            <v-list-subheader
               >If your code includes scripts, they will be identified and
               displayed here for your review. These scripts will be
               automatically inserted into your site's header and will load
-              automatically on your custom page.</v-subheader
+              automatically on your custom page.</v-list-subheader
             >
 
             <s-progress-loading v-if="busy_scripts"></s-progress-loading>

@@ -21,7 +21,7 @@
         :title="$t('global.commons.sort')"
         icon="sort"
       ></s-widget-header>
-      <v-subheader> {{ $t("styler.products.sort_options") }} </v-subheader>
+      <v-list-subheader> {{ $t("styler.products.sort_options") }} </v-list-subheader>
 
       <s-products-sort-view
         v-model="product_sort"
@@ -48,7 +48,7 @@
         icon="dashboard_customize"
       ></s-widget-header>
 
-      <v-subheader>{{ $t("styler.products.item_types") }}</v-subheader>
+      <v-list-subheader>{{ $t("styler.products.item_types") }}</v-list-subheader>
 
       <v-btn-toggle
         v-model="selected_mode"
@@ -108,7 +108,7 @@
         icon="folder_open"
       ></s-widget-header>
 
-      <v-subheader>{{ $t("styler.products.select_categories") }}</v-subheader>
+      <v-list-subheader>{{ $t("styler.products.select_categories") }}</v-list-subheader>
 
       <s-smart-switch
         v-model="surrounded"
@@ -213,7 +213,7 @@
         </li>
       </ul>
 
-      <category-select
+      <b-shop-category-input
         v-if="hasCategoriesFilter"
         v-model="categories_value"
         chips
@@ -224,7 +224,7 @@
         clearable
         no-home
       >
-      </category-select>
+      </b-shop-category-input>
     </div>
 
     <!-- ████████████████████ Tags ████████████████████ -->
@@ -235,12 +235,12 @@
     >
       <s-widget-header title="Tags" icon="label"></s-widget-header>
 
-      <v-subheader
+      <v-list-subheader
         ><div>
           Filter by product tags. You can set tags in the
           <b>Product > Edit > Survey & Features > Tags</b>.
         </div>
-      </v-subheader>
+      </v-list-subheader>
       <v-combobox
         v-model="tags"
         multiple
@@ -292,10 +292,10 @@
     >
       <s-widget-header title="Vendor" icon="storefront"></s-widget-header>
 
-      <v-subheader
+      <v-list-subheader
         >Show products only for a selected vendor. You can use this option to
         create dedicated landing pages for your vendors.
-      </v-subheader>
+      </v-list-subheader>
       <ul class="text-start mb-5">
         <li>
           <b>
@@ -362,7 +362,7 @@
 import SProductsSortView from "@components/product/sort/SProductsSortView.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
-import CategorySelect from "@components/backoffice/category/CategorySelect.vue";
+import BShopCategoryInput from "@components/backoffice/shop/category/input/BShopCategoryInput.vue";
 import VendorInputField from "@components/ui/input/vendor/VendorInputField.vue";
 import { BusinessModel } from "@core/enums/shop/BusinessModel";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
@@ -372,7 +372,7 @@ export default {
   components: {
     SSmartSwitch,
     VendorInputField,
-    CategorySelect,
+    BShopCategoryInput,
     SNumberInput,
     SProductsSortView,
   },

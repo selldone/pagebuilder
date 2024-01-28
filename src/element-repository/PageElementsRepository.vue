@@ -14,10 +14,10 @@
 
 <template>
   <div
-    v-if="$vuetify.breakpoint.mdAndUp"
+    v-if="$vuetify.display.mdAndUp"
     class="r-con c-container -force-rounded p-2 fadeIn"
     :class="{ collapse: collapse }"
-    v-show="(scaleDownMode || $vuetify.breakpoint.xl) && show"
+    v-show="(scaleDownMode || $vuetify.display.xl) && show"
   >
     <v-expand-transition>
       <div v-if="!collapse" class="text-center white--text">
@@ -75,8 +75,8 @@
           <div
             class="py-4"
             v-intersect="
-              (entries) => {
-                if (entries[0].isIntersecting) {
+              (isIntersecting, entries, observer) => {
+                if (isIntersecting) {
                   loadMore();
                 }
               }
@@ -118,10 +118,10 @@
         <v-card-text>
           <div class="widget-box mb-5">
             <s-widget-header title="Configuration" icon="tune"></s-widget-header>
-            <v-subheader>
+            <v-list-subheader>
               You can save custom-designed sections for later use in your page
               designs. These saved sections are accessible to all admins in this
-              shop.</v-subheader
+              shop.</v-list-subheader
             >
 
             <v-text-field
@@ -142,7 +142,7 @@
 
           <div v-if="selected_element" class="widget-box mb-5">
             <s-widget-header title="Image" icon="image"></s-widget-header>
-            <v-subheader>Public image in the list.</v-subheader>
+            <v-list-subheader>Public image in the list.</v-list-subheader>
 
             <s-image-uploader
               class="my-2 mx-auto fadeIn"
@@ -163,9 +163,9 @@
 
           <div class="widget-box mb-5">
             <s-widget-header title="Code" icon="data_object"></s-widget-header>
-            <v-subheader>
+            <v-list-subheader>
               You can copy and past the element code form left side of sections
-              in the page builder.</v-subheader
+              in the page builder.</v-list-subheader
             >
             <v-textarea
               v-model="section"

@@ -12,11 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Vue from "vue";
+import Vue, {App} from "vue";
 import SelldonePageBuilderCore from "./src";
 
 import "./sections/styles/_demo.styl";
-//import App from "./PageBuilder.vue";
 import Uploader from "./sections/components/Uploader.vue";
 import SectionHeroHorizontal from "./sections/hero/SectionHeroHorizontal.vue";
 import SectionHeroVertical from "./sections/hero/SectionHeroVertical.vue";
@@ -132,47 +131,51 @@ SelldonePageBuilderCore.component(
 
 SelldonePageBuilderCore.component(SectionBlogsList.name, SectionBlogsList);
 
-// install the builder
-Vue.use(SelldonePageBuilderCore, {
-  // main css file
-  assets: {
-    // css: "css/style.css"
-  },
-  // builder default themes
-  themes: [
-    {
-      name: "Branding",
-      sections: [
-        SectionHeroHorizontal,
-        Section2TextColumns,
-        Section3NumberColumns,
-        Section3Images,
-      ],
-      image: require("./assets/images/themes/branding.jpg"),
-    },
-    {
-      name: "Campaign",
-      sections: [
-        SectionHeroVertical,
-        Section3TextColumns,
-        Section3Images,
-        Section3ImagesText,
-      ],
-      image: require("./assets/images/themes/campaign.jpg"),
-    },
-    {
-      name: "Products",
-      sections: [
-        SectionHeroVertical,
-        SectionProductCategoryList,
-        Section3TextColumns,
-        Section3ImagesText,
-        SectionGalleryExpanding,
-        Section2TextColumns,
-      ],
-      image: require("./assets/images/themes/products.jpg"),
-    },
-  ],
-});
 
-export default SelldonePageBuilderCore;
+export function SetupPageBuilder(app:App) {
+  // install the builder
+  app.use(SelldonePageBuilderCore, {
+    // main css file
+    assets: {
+      // css: "css/style.css"
+    },
+    // builder default themes
+    themes: [
+      {
+        name: "Branding",
+        sections: [
+          SectionHeroHorizontal,
+          Section2TextColumns,
+          Section3NumberColumns,
+          Section3Images,
+        ],
+        image: require("./assets/images/themes/branding.jpg"),
+      },
+      {
+        name: "Campaign",
+        sections: [
+          SectionHeroVertical,
+          Section3TextColumns,
+          Section3Images,
+          Section3ImagesText,
+        ],
+        image: require("./assets/images/themes/campaign.jpg"),
+      },
+      {
+        name: "Products",
+        sections: [
+          SectionHeroVertical,
+          SectionProductCategoryList,
+          Section3TextColumns,
+          Section3ImagesText,
+          SectionGalleryExpanding,
+          Section2TextColumns,
+        ],
+        image: require("./assets/images/themes/products.jpg"),
+      },
+    ],
+  });
+}
+
+
+

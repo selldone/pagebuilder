@@ -16,7 +16,7 @@
   <v-card
     v-if="blur"
     min-height="60vh"
-    class="x--page-builder-templates d-flex align-center justify-center pa-3 display-3 font-weight-thin text-muted"
+    class="x--page-builder-templates d-flex align-center justify-center pa-3 text-h2 font-weight-thin text-muted"
     style="--background: #fff"
   >
     Loading Template...
@@ -29,7 +29,7 @@
     </v-app-bar>
 
     <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10">
-      <h1 class="display-2 font-weight-bold mb-2">
+      <h1 class="text-h3 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
             src="@components/assets/selldone-logo/selldone-gradient-purple.svg"
@@ -39,7 +39,7 @@
 
         {{ $t("page_builder.design.themes.title") }}
       </h1>
-      <p class="display-1">
+      <p class="text-h4">
         {{ $t("page_builder.design.themes.message") }}
       </p>
     </div>
@@ -50,7 +50,7 @@
       <v-navigation-drawer
         v-model="drawer"
         absolute
-        :temporary="$vuetify.breakpoint.mdAndDown"
+        :temporary="$vuetify.display.mdAndDown"
         class="drawer"
       >
         <v-list nav dense>
@@ -60,14 +60,14 @@
             :key="item.code"
             @click="
               selected_category = item.code;
-              drawer = !$vuetify.breakpoint.mdAndDown;
+              drawer = !$vuetify.display.mdAndDown;
             "
           >
             <v-list-item-icon>
               <v-icon color="amber">{{
                 item.code === selected_category
-                  ? "fas fa-folder-open"
-                  : "fas fa-folder"
+                  ? "fa:fas fa-folder-open"
+                  : "fa:fas fa-folder"
               }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
@@ -77,20 +77,20 @@
 
       <v-card-text
         :class="{
-          'drawer-open-margin': !$vuetify.breakpoint.mdAndDown && drawer,
+          'drawer-open-margin': !$vuetify.display.mdAndDown && drawer,
         }"
         class="transition-ease-in-out mt-2 pb-16"
       >
         <div>
           <v-text-field
-            v-model="search"
-            single-line
-            :placeholder="$t('global.commons.search')"
-            prepend-inner-icon="search"
-            class="max-width-field"
-            clearable
-            solo
-            flat
+              prepend-inner-icon="search"
+              :label="$t('global.commons.search')"
+              v-model="search"
+              clearable
+              variant="plain" single-line
+              hide-details
+              class="max-width-field"
+
           ></v-text-field>
         </div>
         <template v-if="themes && selected_category === 'raw'">
@@ -181,7 +181,7 @@ export default {
   },
   data() {
     return {
-      drawer: this.$vuetify.breakpoint.smAndUp,
+      drawer: this.$vuetify.display.smAndUp,
       selected_category: "raw",
 
       search: null,

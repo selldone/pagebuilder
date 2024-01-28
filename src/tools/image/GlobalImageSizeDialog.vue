@@ -19,7 +19,7 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl ? 560 : $vuetify.breakpoint.lgAndUp ? 420 : 320
+      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
     "
     stateless
     hide-overlay
@@ -45,7 +45,7 @@
           title="Image Size"
           icon="photo_size_select_large"
         ></s-widget-header>
-        <v-subheader></v-subheader>
+        <v-list-subheader></v-list-subheader>
 
         <div class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3">
           <v-img

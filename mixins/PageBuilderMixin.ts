@@ -12,13 +12,13 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Vue from "vue";
+import Vue, {defineComponent} from "vue";
 
 /**
  * Mixin to provide inline editing capabilities.
  * @mixin PageBuilderMixin
  */
-export const PageBuilderMixin = Vue.extend({
+export const PageBuilderMixin = defineComponent({
   data() {
     return {};
   },

@@ -19,9 +19,9 @@
     right
     fixed
     :width="
-      $vuetify.breakpoint.xl
+      $vuetify.display.xl
         ? 560
-        : $vuetify.breakpoint.lgAndUp
+        : $vuetify.display.lgAndUp
         ? 420
         : 320
     "
@@ -44,7 +44,7 @@
           :title="$t('styler.products.title')"
           icon="filter_alt"
         ></s-widget-header>
-        <v-subheader></v-subheader>
+        <v-list-subheader></v-list-subheader>
 
         <v-container>
           <s-page-products-filter

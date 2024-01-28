@@ -25,9 +25,9 @@
       v-model="value.input"
     ></feeder-input>
 
-    <v-subheader>
+    <v-list-subheader>
       This message will be shown after user successfully submit their email.
-    </v-subheader>
+    </v-list-subheader>
     <v-text-field
       v-model="value.success_dialog.title"
       label="Dialog success title"
@@ -41,7 +41,7 @@
       append-icon="check_circle_outline"
     ></v-text-field>
 
-    <v-subheader> This message will be shown when email is empty. </v-subheader>
+    <v-list-subheader> This message will be shown when email is empty. </v-list-subheader>
     <v-text-field
       v-model="value.error_dialog.title"
       label="Dialog error title"
