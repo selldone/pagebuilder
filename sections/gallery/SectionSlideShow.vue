@@ -241,6 +241,7 @@
 import * as types from "../../src/types";
 import CustomButton from "@app-page-builder/sections/components/CustomButton";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import {Swiper, SwiperSlide} from "swiper/vue";
 
 
 
@@ -249,6 +250,7 @@ export default {
   components: {
     VideoBackground,
     CustomButton,
+    Swiper, SwiperSlide
   },
   cover: require("../../assets/images/covers/slideshow.svg"),
 

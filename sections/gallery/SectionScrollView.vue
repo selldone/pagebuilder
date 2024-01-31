@@ -466,6 +466,7 @@ import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput";
 import CustomButton from "@app-page-builder/sections/components/CustomButton";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import {Swiper, SwiperSlide} from "swiper/vue";
 
 const EFFECTS = [
   { title: "Slide", value: "slide" },
@@ -491,6 +492,7 @@ export default {
     CustomButton,
     SNumberDimensionInput,
     SNumberInput,
+    Swiper, SwiperSlide
   },
   cover: require("../../assets/images/covers/scroll-view.svg"),
 

@@ -631,7 +631,7 @@
                   <v-badge
                     v-if="has_note"
                     overlap
-                    :value="
+                    :model-value="
                       page?.notes?.filter(
                         (n) => n.element_id === section.data?.id
                       )?.length > 0
