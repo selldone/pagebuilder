@@ -220,8 +220,8 @@
           >
 
           <product-select-box
-            :value="section_data.product_info.id"
-            @input="
+            :model-value="section_data.product_info.id"
+            @update:model-value="
               (val) => {
                 section_data.product_info = Object.assign(
                   {},
