@@ -27,15 +27,15 @@
       <v-toolbar-items>
         <v-btn
           :color="tab === 1 ? 'amber' : undefined"
-          text
+          variant="text"
           @click.stop="tab = 1"
           ><v-icon class="me-1">format_color_fill</v-icon> Pattern
 
           <v-fab-transition>
             <v-icon
-              right
+              end
               v-if="bgGradient?.length || bgCustom"
-              small
+              size="small"
               color="#fff"
               >check_circle</v-icon
             >
@@ -43,11 +43,11 @@
         </v-btn>
         <v-btn
           :color="tab === 2 ? 'amber' : undefined"
-          text
+          variant="text"
           @click.stop="tab = 2"
           ><v-icon class="me-1">image</v-icon> Image
           <v-fab-transition>
-            <v-icon right v-if="bgImage" small color="#fff"
+            <v-icon end v-if="bgImage" size="small" color="#fff"
               >check_circle</v-icon
             >
           </v-fab-transition>
@@ -55,12 +55,12 @@
         <v-btn
           v-if="hasBgVideo"
           :color="tab === 3 ? 'amber' : undefined"
-          text
+          variant="text"
           @click.stop="tab = 3"
           ><v-icon class="me-1">smart_display</v-icon> Video
 
           <v-fab-transition>
-            <v-icon right v-if="bgVideo" small color="#fff"
+            <v-icon end v-if="bgVideo" size="small" color="#fff"
               >check_circle</v-icon
             >
           </v-fab-transition>
@@ -74,14 +74,15 @@
         <s-widget-header title="Custom style" icon="style"></s-widget-header>
 
         <v-list-subheader
-          >To create a more custom style, you can use this option.</v-list-subheader
+          >To create a more custom style, you can use this
+          option.</v-list-subheader
         >
 
         <v-row justify="center" no-gutters>
           <v-btn
             v-for="item in BgImageStyles"
             :key="item"
-            icon
+            icon variant="text"
             @click="
               $emit('update:bgCustom', item);
               onChange();
@@ -92,15 +93,15 @@
           </v-btn>
         </v-row>
         <v-text-field
-          solo
-          dense
+          variant="solo"
+          density="compact"
           flat
           label="Custom bg image style e.g. background-image: ..."
           clearable
           class="english-field mt-4"
           prepend-inner-icon="code"
-          :value="bgCustom"
-          @input="
+          :model-value="bgCustom"
+          @update:model-value="
             (val) => {
               $emit('update:bgCustom', val);
               onChange();
@@ -114,7 +115,8 @@
             <s-widget-header title="Gradient" icon="gradient"></s-widget-header>
 
             <v-list-subheader
-              >Select more than one color to create a gradient.</v-list-subheader
+              >Select more than one color to create a
+              gradient.</v-list-subheader
             >
 
             <gradient-builder
@@ -139,23 +141,28 @@
         :class="{ disabled: raw_style_mode }"
         class="py-5"
       >
-        <s-widget-header title="Background image" icon="texture"></s-widget-header>
+        <s-widget-header
+          title="Background image"
+          icon="texture"
+        ></s-widget-header>
 
-        <v-list-subheader>Add an image as your background pattern.</v-list-subheader>
+        <v-list-subheader
+          >Add an image as your background pattern.</v-list-subheader
+        >
 
         <div class="p-1 text-center">
           <v-btn-toggle
-            :value="bgImageSize"
+            :model-value="bgImageSize"
             rounded
-            active-class="blue-flat"
+            selected-class="blue-flat"
             class="mx-auto"
-            dense
+            density="compact"
           >
             <v-btn
               v-for="item in BgImageSizes"
               :key="item"
               :value="item"
-              small
+              size="small"
               @click="
                 (val) => {
                   $emit('update:bgImageSize', item);
@@ -165,7 +172,7 @@
             >
               {{ item }}
             </v-btn>
-            <v-btn @click="show_custom_size = true" small
+            <v-btn @click="show_custom_size = true" size="small"
               >Custom: {{ bgImageSize ? bgImageSize : "auto" }}</v-btn
             >
           </v-btn-toggle>
@@ -173,17 +180,17 @@
 
         <div class="p-1 text-center">
           <v-btn-toggle
-            :value="BgImageRepeat"
+            :model-value="BgImageRepeat"
             rounded
-            active-class="blue-flat"
+            selected-class="blue-flat"
             class="mx-auto"
-            dense
+            density="compact"
           >
             <v-btn
               v-for="item in BgImageRepeats"
               :key="item"
               :value="item"
-              small
+              size="small"
               @click="
                 (val) => {
                   $emit('update:BgImageRepeat', item);
@@ -211,9 +218,9 @@
         </s-image-uploader>
 
         <v-item-group
-          :value="bgPosition"
+          :model-value="bgPosition"
           mandatory
-          @change="
+          @update:model-value="
             (val) => {
               $emit('update:bgPosition', val);
               onChange();
@@ -245,7 +252,10 @@
       <!-- ████████████████████ Background video ████████████████████ -->
 
       <v-window-item :value="3" v-if="hasBgVideo" class="py-5">
-        <s-widget-header title="Background video" icon="movie"></s-widget-header>
+        <s-widget-header
+          title="Background video"
+          icon="movie"
+        ></s-widget-header>
 
         <v-list-subheader style="min-height: unset" class="my-2"
           ><div>
@@ -293,12 +303,16 @@
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
-            <v-btn text @click="show_custom_size = false" x-large>
+            <v-btn
+              variant="text"
+              @click="show_custom_size = false"
+              size="x-large"
+            >
               <v-icon class="me-1">close</v-icon>
               {{ $t("global.actions.close") }}</v-btn
             >
 
-            <v-btn text @click="setBgSize()" x-large>
+            <v-btn variant="text" @click="setBgSize()" size="x-large">
               <v-icon class="me-1">check</v-icon>
               <b>{{ $t("global.actions.set") }}</b>
             </v-btn>
@@ -323,7 +337,7 @@ export default {
 
     SNumberDimensionInput,
     GradientBuilder,
-   SImageUploader,
+    SImageUploader,
   },
 
   props: {
@@ -428,7 +442,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
         this.BgImageRepeat,
         this.BgColor,
         null,
-        this.bgPosition
+        this.bgPosition,
       );
     },
 

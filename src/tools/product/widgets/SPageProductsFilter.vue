@@ -312,12 +312,12 @@
           Products that have this vendor in its vendors list will be shown.
         </li>
       </ul>
-      <vendor-input-field
+      <b-vendor-input
         v-model="vendor_id"
         :shop="shop"
         label="Vendor"
         placeholder="Filter by vendor..."
-      ></vendor-input-field>
+      ></b-vendor-input>
     </div>
 
     <!-- ████████████████████ Count ████████████████████ -->
@@ -363,7 +363,7 @@ import SProductsSortView from "@components/product/sort/SProductsSortView.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import BShopCategoryInput from "@components/backoffice/shop/category/input/BShopCategoryInput.vue";
-import VendorInputField from "@components/ui/input/vendor/VendorInputField.vue";
+import BVendorInput from "@components/backoffice/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@core/enums/shop/BusinessModel";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 
@@ -371,7 +371,7 @@ export default {
   name: "SPageProductsFilter",
   components: {
     SSmartSwitch,
-    VendorInputField,
+    BVendorInput,
     BShopCategoryInput,
     SNumberInput,
     SProductsSortView,
