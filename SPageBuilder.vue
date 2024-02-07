@@ -55,7 +55,7 @@
           <v-spacer></v-spacer>
           <ai-model-select
             v-model="ai_model"
-            outlined
+            variant="outlined"
             class="max-w-300"
             label="label"
             hide-details
