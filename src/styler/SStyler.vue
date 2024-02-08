@@ -1345,7 +1345,7 @@ export default {
 
     // Get element ID:
     this.element_id = this.el.id;
-
+/*
     if (!this.$vuetify.theme) this.$vuetify.theme = {};
     if (!this.$vuetify.icons) this.$vuetify.icons = {};
     if (!this.$vuetify.lang) {
@@ -1354,7 +1354,7 @@ export default {
           return "";
         },
       };
-    }
+    }*/
   },
   mounted() {
     if (!this.$builder.isEditing) return;
