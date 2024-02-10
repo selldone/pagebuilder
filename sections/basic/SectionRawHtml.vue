@@ -25,7 +25,7 @@
       v-if="$builder.isEditing && !$builder.isHideExtra"
       class="text-center widget-buttons"
     >
-      <v-btn @click="dialog = !dialog" dark color="#225082" x-large>
+      <v-btn @click="dialog = !dialog" dark color="#225082" size="x-large">
         <v-icon class="me-1">code</v-icon>
         <span class="mx-1">Add Custom Code Here</span>
 
@@ -59,10 +59,10 @@
       scrollable
     >
       <v-card>
-        <v-card-title
-          ><v-icon class="me-1" color="#111">integration_instructions</v-icon
-          >Html Code Editor</v-card-title
-        >
+        <v-card-title>
+          <v-icon class="me-1" color="#111">integration_instructions </v-icon>
+          Html Code Editor
+        </v-card-title>
         <v-card-text>
           <div class="widget-box -large mb-5">
             <s-widget-header
@@ -74,8 +74,8 @@
               However, please be aware that pasting code containing 'script'
               tags may potentially lead to security issues, particularly within
               your editor. For this reason, we strongly advise only pasting code
-              from sources you trust.</v-list-subheader
-            >
+              from sources you trust.
+            </v-list-subheader>
 
             <prism-editor
               v-model="$sectionData.html"
@@ -96,35 +96,36 @@
               >If your code includes scripts, they will be identified and
               displayed here for your review. These scripts will be
               automatically inserted into your site's header and will load
-              automatically on your custom page.</v-list-subheader
-            >
+              automatically on your custom page.
+            </v-list-subheader>
 
             <s-progress-loading v-if="busy_scripts"></s-progress-loading>
             <v-list class="border-between-vertical bg-transparent">
               <v-list-item v-for="item in scripts_list" :key="item.url">
-                <v-list-item-avatar rounded>
-                  <v-img
-                    :src="
-                      item.provider_icon ? item.provider_icon : item.icon_url
-                    "
-                  ></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <b class="me-1">{{ item.provider_name }} | </b>
-                    {{ item.title }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ item.description }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                <template v-slot:prepend>
+                  <v-avatar rounded>
+                    <v-img
+                      :src="
+                        item.provider_icon ? item.provider_icon : item.icon_url
+                      "
+                    ></v-img>
+                  </v-avatar>
+                </template>
+
+                <v-list-item-title>
+                  <b class="me-1">{{ item.provider_name }} | </b>
+                  {{ item.title }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ item.description }}
+                </v-list-item-subtitle>
               </v-list-item>
             </v-list>
           </div>
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
-            <v-btn x-large @click="dialog = false" text>
+            <v-btn size="x-large" @click="dialog = false" variant="text">
               <v-icon class="me-1">close</v-icon>
               {{ $t("global.actions.close") }}
             </v-btn>
@@ -251,14 +252,14 @@ export default {
               // Process the data as needed
             } else {
               console.error(
-                `Request failed with status code ${response.status}`
+                `Request failed with status code ${response.status}`,
               );
             }
           } catch (err) {
             console.error(`Failed to fetch data from ${domain}:`, err);
             return null;
           }
-        })
+        }),
       );
 
       // Filter out any failed requests
