@@ -106,10 +106,8 @@
           multiple
           v-model="column.classes"
           :items="standard_classes"
-
           closable-chips
           clearable
-
           label="Classes"
           class="mx-3"
         >

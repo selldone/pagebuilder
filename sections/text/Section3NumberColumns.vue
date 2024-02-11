@@ -18,14 +18,15 @@
       <h2
         v-styler="$sectionData.header"
         class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.header?.applyAugment(augment,$builder.isEditing)"
+        v-html="$sectionData.header?.applyAugment(augment, $builder.isEditing)"
       ></h2>
 
       <x-row
         :object="$sectionData"
         path="$sectionData"
         has-arrangement
-        add-column has-wrap
+        add-column
+        has-wrap
         :initial-new-column="ItemType"
         ><!-- Only addable can remove col-->
 
@@ -57,11 +58,10 @@ export default {
 
   group: "Text",
   label: "Three numbers",
-    help: {
-        title:
-            "Use this section to show big numbers or highlight some values in your business.",
-
-    },
+  help: {
+    title:
+      "Use this section to show big numbers or highlight some values in your business.",
+  },
   $schema: {
     classes: types.ClassList,
 
@@ -114,9 +114,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
   data: () => ({
     ItemType: {

@@ -16,24 +16,22 @@
   <v-navigation-drawer
     v-model="dialog_resize"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="toggleSizeMode()" x-large>
+          <v-btn variant="text" @click="toggleSizeMode()" size="x-large">
             <v-icon class="me-1">refresh</v-icon>Default</v-btn
           >
 
-          <v-btn text @click="dialog_resize = false" x-large>
+          <v-btn variant="text" @click="dialog_resize = false" size="x-large">
             <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}</v-btn
           >
@@ -217,7 +215,7 @@ export default {
         this.src = src; // Used in Preview
         this.setting = setting; // Used in Preview
         this.showProductsDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -246,7 +244,7 @@ export default {
       this.dialog_resize = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalImageSizeDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 

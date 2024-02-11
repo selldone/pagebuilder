@@ -12,10 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export default  [
-    { val: "start", icon: "align_vertical_top", title: "Start" },
-    { val: "center", icon: "align_vertical_center", title: "Center" },
-    { val: "end", icon: "align_vertical_bottom", title: "End" },
-    { val: "baseline ", icon: "vertical_align_center", title: "Baseline" },
-    { val: "stretch", icon: "format_line_spacing", title: "Stretch" },
+export default [
+  { val: "start", icon: "align_vertical_top", title: "Start" },
+  { val: "center", icon: "align_vertical_center", title: "Center" },
+  { val: "end", icon: "align_vertical_bottom", title: "End" },
+  { val: "baseline ", icon: "vertical_align_center", title: "Baseline" },
+  { val: "stretch", icon: "format_line_spacing", title: "Stretch" },
 ];

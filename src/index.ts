@@ -15,10 +15,7 @@
 import SelldonePageBuilderCore from "./selldone-page-builder-core";
 import * as types from "./types";
 
-
 SelldonePageBuilderCore.version = "__VERSION__";
 SelldonePageBuilderCore.types = types;
-
-
 
 export default SelldonePageBuilderCore;

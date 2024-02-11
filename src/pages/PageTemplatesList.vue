@@ -53,7 +53,7 @@
         :temporary="$vuetify.display.mdAndDown"
         class="drawer"
       >
-        <v-list nav dense>
+        <v-list nav density="compact">
           <v-list-item
             link
             v-for="item in categories"
@@ -83,14 +83,14 @@
       >
         <div>
           <v-text-field
-              prepend-inner-icon="search"
-              :label="$t('global.commons.search')"
-              v-model="search"
-              clearable
-              variant="plain" single-line
-              hide-details
-              class="max-width-field"
-
+            prepend-inner-icon="search"
+            :label="$t('global.commons.search')"
+            v-model="search"
+            clearable
+            variant="plain"
+            single-line
+            hide-details
+            class="max-width-field"
           ></v-text-field>
         </div>
         <template v-if="themes && selected_category === 'raw'">
@@ -114,7 +114,10 @@
                 @click="selectRawTheme(theme)"
               >
                 <v-img :src="theme.image" aspect-ratio="1" class="rounded-2rem">
-                  <v-chip class="ma-3 absolute-bottom-end" small color="amber"
+                  <v-chip
+                    class="ma-3 absolute-bottom-end"
+                    size="small"
+                    color="amber"
                     >raw</v-chip
                   >
                 </v-img>
@@ -138,9 +141,9 @@
               <v-pagination
                 v-model="page"
                 :disabled="busy_fetch"
-                circle
+                rounded
                 :length="page_count"
-                @input="fetchTemplates()"
+                @update:model-value="fetchTemplates()"
               />
             </v-col>
 
@@ -254,7 +257,7 @@ export default {
 
   updated() {},
 
-  beforeDestroy() {},
+  beforeUnmount() {},
   methods: {
     fetchTemplates() {
       if (this.selected_category === "raw" && !this.search) {

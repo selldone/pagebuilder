@@ -103,13 +103,12 @@ export default {
         //console.log("watch", value);
         //console.log("force_package", this.$sectionData.products_list);
 
-        this.force_package =  ApplyAugmentToObject(
+        this.force_package = ApplyAugmentToObject(
           value,
           this.augment,
-          this.$builder.isEditing
+          this.$builder.isEditing,
         );
         this.mode_view = value.mode_view;
-
       }
     },
   },
@@ -125,9 +124,8 @@ export default {
     this.force_package = ApplyAugmentToObject(
       this.force_package,
       this.augment,
-      this.$builder.isEditing
+      this.$builder.isEditing,
     );
-
   },
 
   mounted() {},

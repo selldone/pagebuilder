@@ -127,7 +127,6 @@ export default {
     title:
       "Utilize this section to display a search box on your page. This search box allows customers to conveniently search through products and categories.",
     video: "/app/videos/page-builder/Search.m4v",
-
   },
 
   $schema: {

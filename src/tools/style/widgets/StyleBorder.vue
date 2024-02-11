@@ -24,14 +24,12 @@
     ></s-number-dimension-input>
     <v-select
       :items="items"
-      dense
+      density="compact"
       label="Type"
       v-model="type"
-      @change="updateOut"
+      @update:model-value="updateOut"
       class="px-2"
-      filled
-      shaped
-      solo
+      variant="solo-filled"
       flat
       hide-details
     ></v-select>

@@ -16,17 +16,11 @@
   <v-navigation-drawer
     v-model="show_dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl
-        ? 560
-        : $vuetify.display.lgAndUp
-        ? 420
-        : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -34,7 +28,7 @@
       <!-- ████████████████████ Actions ████████████████████ -->
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_dialog = false" x-large>
+          <v-btn variant="text" @click="show_dialog = false" size="x-large">
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -44,50 +38,70 @@
       <v-expansion-panels flat v-model="selected_tab">
         <!-- ████████████████████ Animations ████████████████████ -->
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1" dark>animation</v-icon> Animations
 
               <v-icon
-                right
+                end
                 v-if="selected_animation?.length"
-                x-small
+                size="x-small"
                 color="green"
                 >lens</v-icon
               >
 
-              <v-chip v-if="selected_animation" label x-small class="mx-1">{{
-                getName(selected_animation)
-              }}</v-chip>
+              <v-chip
+                v-if="selected_animation"
+                label
+                size="x-small"
+                class="mx-1"
+                >{{ getName(selected_animation) }}</v-chip
+              >
 
-              <v-chip v-if="animationDuration" label x-small class="mx-1"
-                ><v-icon left x-small>timer</v-icon>
+              <v-chip v-if="animationDuration" label size="x-small" class="mx-1"
+                ><v-icon start size="x-small">timer</v-icon>
                 {{ getName(animationDuration) }}</v-chip
               >
-              <v-chip v-if="animationDelay" label x-small class="mx-1"
-                ><v-icon left x-small>hourglass_empty</v-icon>
+              <v-chip v-if="animationDelay" label size="x-small" class="mx-1"
+                ><v-icon start size="x-small">hourglass_empty</v-icon>
                 {{ getName(animationDelay) }}</v-chip
               >
-              <v-chip v-if="animationIterationCount" label x-small class="mx-1"
-                ><v-icon left x-small>loop</v-icon>
+              <v-chip
+                v-if="animationIterationCount"
+                label
+                size="x-small"
+                class="mx-1"
+                ><v-icon start size="x-small">loop</v-icon>
                 {{ getName(animationIterationCount) }}</v-chip
               >
-              <v-chip v-if="animationDirection" label x-small class="mx-1"
-                ><v-icon left x-small>multiple_stop</v-icon>
+              <v-chip
+                v-if="animationDirection"
+                label
+                size="x-small"
+                class="mx-1"
+                ><v-icon start size="x-small">multiple_stop</v-icon>
                 {{ getName(animationDirection) }}</v-chip
               >
-              <v-chip v-if="animationTimingFunction" label x-small class="mx-1"
-                ><v-icon left x-small>ssid_chart</v-icon>
+              <v-chip
+                v-if="animationTimingFunction"
+                label
+                size="x-small"
+                class="mx-1"
+                ><v-icon start size="x-small">ssid_chart</v-icon>
                 {{ getName(animationTimingFunction) }}</v-chip
               >
-              <v-chip v-if="threshold!==null" label x-small class="mx-1" title="Animation start threshold."
-              ><v-icon left x-small>network_ping</v-icon>
+              <v-chip
+                v-if="threshold !== null"
+                label
+                size="x-small"
+                class="mx-1"
+                title="Animation start threshold."
+                ><v-icon start size="x-small">network_ping</v-icon>
                 {{ threshold }}</v-chip
               >
-
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <v-card class="pa-16 mb-4">
               <v-card
                 class="mx-auto"
@@ -108,19 +122,19 @@
 
             <v-expansion-panels class="mb-5">
               <v-expansion-panel>
-                <v-expansion-panel-header
+                <v-expansion-panel-title
                   ><span
-                    ><v-icon class="me-1" small>fa:fas fa-cogs</v-icon> Customize
-                    animation
-                  </span></v-expansion-panel-header
+                    ><v-icon class="me-1" size="small">fa:fas fa-cogs</v-icon>
+                    Customize animation
+                  </span></v-expansion-panel-title
                 >
-                <v-expansion-panel-content>
+                <v-expansion-panel-text>
                   <v-row dense>
                     <v-col cols="12" sm="6">
                       <v-text-field
                         v-model="animationDuration"
                         label="Duration"
-                        dense
+                        density="compact"
                         messages="Ex. 400ms"
                         clearable
                         append-icon="timer"
@@ -130,7 +144,7 @@
                       <v-text-field
                         v-model="animationDelay"
                         label="Delay"
-                        dense
+                        density="compact"
                         messages="Ex. 2s"
                         clearable
                         append-icon="hourglass_empty"
@@ -181,37 +195,38 @@
                       ></v-select>
                     </v-col>
 
-                    <v-col cols="12" >
-                      <v-slider v-model="threshold"
-                                :step="0.1"
-                                :min="0"
-                                :max="1"
-                                append-icon="network_ping"
-
-                                label="Threshold" messages="The animation start threshold can range from 0 to 1. A threshold of 0 signifies that the animation will commence as soon as the element becomes visible. Conversely, a threshold of 0.5 indicates that the animation will start when 50% of the element comes into the user's view. Default is 0.3."></v-slider>
+                    <v-col cols="12">
+                      <v-slider
+                        v-model="threshold"
+                        :step="0.1"
+                        :min="0"
+                        :max="1"
+                        append-icon="network_ping"
+                        label="Threshold"
+                        messages="The animation start threshold can range from 0 to 1. A threshold of 0 signifies that the animation will commence as soon as the element becomes visible. Conversely, a threshold of 0.5 indicates that the animation will start when 50% of the element comes into the user's view. Default is 0.3."
+                      ></v-slider>
                     </v-col>
-
                   </v-row>
-                </v-expansion-panel-content>
+                </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
 
             <animation-class-selector
               v-model="selected_animation"
             ></animation-class-selector>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Hover ████████████████████ -->
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1" dark>mouse</v-icon> Hover
 
               <v-icon
-                right
+                end
                 v-if="selected_hover_classes?.length"
-                x-small
+                size="x-small"
                 color="green"
                 >lens</v-icon
               >
@@ -220,13 +235,13 @@
                 v-for="it in selected_hover_classes"
                 :key="it"
                 label
-                x-small
+                size="x-small"
                 class="mx-1"
                 >{{ getName(it) }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <v-card
               class="pa-16 mb-4 bg-tiny-checkers"
               style="background-color: #ddd"
@@ -239,10 +254,10 @@
                 :class="selected_hover_classes"
               >
                 <div class="bg-aqua-splash" style="height: 24px">
-                  <v-icon small class="m-1">lens</v-icon>
-                  <v-icon small class="m-1">lens</v-icon>
+                  <v-icon size="small" class="m-1">lens</v-icon>
+                  <v-icon size="small" class="m-1">lens</v-icon>
                 </div>
-                <v-icon class="m-3 bg-sunny-morning text-gradient" large
+                <v-icon class="m-3 bg-sunny-morning text-gradient" size="large"
                   >lens</v-icon
                 >
               </v-card>
@@ -252,7 +267,7 @@
               v-model="selected_hover_classes"
               multiple
             ></hover-class-selector>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
@@ -299,7 +314,7 @@ export default {
     animationIterationCount: null,
     animationDirection: null,
     animationTimingFunction: null,
-    threshold:0.5,
+    threshold: 0.5,
 
     //--------------------------
     selected_hover_classes: [],
@@ -366,7 +381,7 @@ export default {
         this.options = options;
 
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -395,7 +410,7 @@ export default {
       this.show_dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalAnimationEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
@@ -425,14 +440,12 @@ export default {
       this.animationTimingFunction =
         this.el_style.style.animationTimingFunction;
 
-
       let _style = this.section.get(this.stylePath);
-      if(_style && (typeof _style.threshold === 'number') ){
-        this.threshold=_style.threshold
-      }else{
-        this.threshold=null
+      if (_style && typeof _style.threshold === "number") {
+        this.threshold = _style.threshold;
+      } else {
+        this.threshold = null;
       }
-
 
       // console.log("boxShadow ", this.el_style.style.boxShadow);
 
@@ -461,9 +474,8 @@ export default {
       this.el_style.style.animationTimingFunction =
         this.animationTimingFunction;
 
-
-      if(this.threshold)
-      this.el_style.setAttribute('data-threshold',this.threshold)
+      if (this.threshold)
+        this.el_style.setAttribute("data-threshold", this.threshold);
 
       // Update only animation properties:
       let style = this.section.get(this.stylePath);
@@ -475,10 +487,8 @@ export default {
       style.animationDirection = this.animationDirection;
       style.animationTimingFunction = this.animationTimingFunction;
 
-
       //  console.log("Style After ->", style);
-      style.threshold=this.threshold
-
+      style.threshold = this.threshold;
 
       this.section.set(`${this.stylePath}`, style); // Save data in section!
 
@@ -490,7 +500,7 @@ export default {
       const deletes = classes.filter(
         (val) =>
           this.animationClasses.includes(val) ||
-          this.hoversClasses.includes(val)
+          this.hoversClasses.includes(val),
       ); // Delete all animation classes!
 
       //console.log(" Set classes", "deletes", deletes, "adds", this.selected_animation, this.selected_hover_classes);
@@ -512,7 +522,7 @@ export default {
             (!this.animationClasses.includes(it) ||
               it === this.selected_animation) &&
             (!this.hoversClasses.includes(it) ||
-              this.selected_hover_classes.includes(it))
+              this.selected_hover_classes.includes(it)),
         )
         .unique();
 

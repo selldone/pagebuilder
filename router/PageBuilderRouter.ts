@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 //――――――――――――――――――――――――― Page Builder ―――――――――――――――――――――――――
 import PageBuilder from "../SPageBuilder.vue";

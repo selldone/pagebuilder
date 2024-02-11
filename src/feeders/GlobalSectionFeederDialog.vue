@@ -14,8 +14,8 @@
 
 <template>
   <v-dialog
-    :value="value"
-    @input="(val) => $emit('input', val)"
+    :model-value="value"
+    @update:model-value="(val) => $emit('input', val)"
     fullscreen
     scrollable
     transition="dialog-bottom-transition"
@@ -24,7 +24,7 @@
       <v-card-title
         ><v-icon class="me-1" color="#333">donut_large</v-icon> Feeder
         <v-spacer></v-spacer>
-        <v-chip title="Section Code" label x-small color="#fafafa">{{
+        <v-chip title="Section Code" label size="x-small" color="#fafafa">{{
           section.name
         }}</v-chip>
       </v-card-title>
@@ -47,7 +47,7 @@
               ShowGlobalBackgroundEditorDialog(
                 sectionElement,
                 section,
-                '$sectionData.background'
+                '$sectionData.background',
               )
             "
             class="rounded-lg min-h-100 d-flex align-center justify-center pa-2"
@@ -225,7 +225,7 @@
               (val) => {
                 section_data.product_info = Object.assign(
                   {},
-                  section_data.product_info
+                  section_data.product_info,
                 );
                 section_data.product_info.id = val; /*Force update product!*/
               }
@@ -283,7 +283,7 @@
         <!-- ████████████████████ Column ████████████████████ -->
         <feeder-column
           v-if="schema.columns?.length"
-          :column.sync="section_data"
+          v-model:column="section_data"
           has-grid
           has-title
           has-content
@@ -292,17 +292,17 @@
         ></feeder-column>
         <feeder-column
           v-if="schema.columnA?.columns?.length"
-          :column.sync="section_data.columnA"
+          v-model:column="section_data.columnA"
           label="Column A"
         ></feeder-column>
         <feeder-column
           v-if="schema.columnB?.columns?.length"
-          :column.sync="section_data.columnB"
+          v-model:column="section_data.columnB"
           label="Column B"
         ></feeder-column>
         <feeder-column
           v-if="schema.columnC?.columns?.length"
-          :column.sync="section_data.columnC"
+          v-model:column="section_data.columnC"
           label="Column C"
         ></feeder-column>
 
@@ -335,7 +335,12 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn depressed color="primary" @click="onAccept" x-large>
+          <v-btn
+            variant="flat"
+            color="primary"
+            @click="onAccept"
+            size="x-large"
+          >
             <v-icon class="me-1">check</v-icon>
             {{ $t("global.actions.confirm") }}</v-btn
           >
@@ -409,7 +414,7 @@ export default {
     this.assignValues();
   },
   mounted() {},
-  beforeDestroy() {},
+  beforeUnmount() {},
 
   methods: {
     assignValues() {
@@ -437,7 +442,7 @@ export default {
         background.bg_repeat,
         background.bg_color,
         background.dark,
-        background.bg_position
+        background.bg_position,
       );
     },
 

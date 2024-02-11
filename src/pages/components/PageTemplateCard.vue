@@ -39,12 +39,7 @@
           title="This template is accessible exclusively for premium users who have subscribed to premium content."
           ><v-icon size="small" start>auto_awesome</v-icon> premium</v-chip
         >
-        <v-chip
-          v-if="template.hot"
-          class="ma-1"
-          size="small"
-          color="#D32F2F"
-
+        <v-chip v-if="template.hot" class="ma-1" size="small" color="#D32F2F"
           ><v-icon size="small" start>local_fire_department</v-icon> hot</v-chip
         >
       </div>
@@ -72,7 +67,6 @@
           "
           variant="flat"
           color="success"
-
           :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
           target="_blank"
           size="x-large"
@@ -86,7 +80,6 @@
           variant="flat"
           size="x-large"
           color="primary"
-
         >
           <v-icon class="me-1">auto_awesome</v-icon>
           Become Premium

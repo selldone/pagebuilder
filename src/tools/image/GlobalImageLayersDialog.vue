@@ -16,13 +16,11 @@
   <v-navigation-drawer
     v-model="dialog_layers"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -31,12 +29,12 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="resetLayers()" x-large>
+          <v-btn variant="text" @click="resetLayers()" size="x-large">
             <v-icon class="me-1">refresh</v-icon>
             Reset</v-btn
           >
 
-          <v-btn text @click="dialog_layers = false" x-large
+          <v-btn variant="text" @click="dialog_layers = false" size="x-large"
             ><v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -47,66 +45,66 @@
         <v-expansion-panels flat v-model="layers_tab">
           <!-- ████████████████████ Background ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <v-icon class="me-1" dark>wallpaper</v-icon> Background
 
                 <v-icon
-                  right
+                  end
                   v-if="bg && Object.keys(bg).length"
-                  x-small
+                  size="x-small"
                   color="green"
                   >lens</v-icon
                 >
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <background-image-editor
                 v-if="layers_tab === 0"
                 key="0"
                 :upload-url="upload_bg_url"
-                :bg-image.sync="bg.bg_image"
-                :bgGradient.sync="bg.bg_gradient"
-                :bgImageSize.sync="bg.bg_size"
-                :bgCustom.sync="bg.bg_custom"
-                :BgImageRepeat.sync="bg.bg_repeat"
+                v-model:bg-image="bg.bg_image"
+                v-model:bgGradient="bg.bg_gradient"
+                v-model:bgImageSize="bg.bg_size"
+                v-model:bgCustom="bg.bg_custom"
+                v-model:BgImageRepeat="bg.bg_repeat"
                 @change="$forceUpdate()"
                 dark
               >
               </background-image-editor>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Foreground ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <v-icon class="me-1" dark>broken_image</v-icon> Foreground
 
                 <v-icon
-                  right
+                  end
                   v-if="fg && Object.keys(fg).length"
-                  x-small
+                  size="x-small"
                   color="green"
                   >lens</v-icon
                 >
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <background-image-editor
                 v-if="layers_tab === 1"
                 key="1"
                 :upload-url="upload_bg_url"
-                :bg-image.sync="fg.bg_image"
-                :bgGradient.sync="fg.bg_gradient"
-                :bgImageSize.sync="fg.bg_size"
-                :bgCustom.sync="fg.bg_custom"
-                :BgImageRepeat.sync="fg.bg_repeat"
+                v-model:bg-image="fg.bg_image"
+                v-model:bgGradient="fg.bg_gradient"
+                v-model:bgImageSize="fg.bg_size"
+                v-model:bgCustom="fg.bg_custom"
+                v-model:BgImageRepeat="fg.bg_repeat"
                 @change="$forceUpdate()"
                 dark
               >
               </background-image-editor>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </template>
@@ -166,7 +164,7 @@ export default {
         this.bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
         bg.bg_size,
         bg.bg_repeat,
-        bg.bg_color
+        bg.bg_color,
       );
     },
     fg_cal_prev() {
@@ -178,7 +176,7 @@ export default {
         this.fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
         fg.bg_size,
         fg.bg_repeat,
-        fg.bg_color
+        fg.bg_color,
       );
     },
   },
@@ -213,7 +211,7 @@ export default {
         this.src = src; // Used in Preview
         this.setting = setting; // Used in Preview
         this.showProductsDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -242,7 +240,7 @@ export default {
       this.dialog_layers = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalImageLayersDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

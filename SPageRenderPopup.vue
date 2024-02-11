@@ -74,7 +74,7 @@ export default {
         this.style.bg_image ? this.getShopImagePath(this.style.bg_image) : null,
         this.style.bg_size,
         this.style.bg_repeat,
-        this.style.bg_color
+        this.style.bg_color,
       );
     },
   },

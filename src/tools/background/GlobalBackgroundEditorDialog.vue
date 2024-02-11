@@ -16,20 +16,18 @@
   <v-navigation-drawer
     v-model="show_edit_style"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_edit_style = false" x-large>
+          <v-btn variant="text" @click="show_edit_style = false" size="x-large">
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -45,15 +43,15 @@
         <background-image-editor
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
-          :bg-image.sync="bg_image"
-          :bgGradient.sync="bg_gradient"
-          :bgImageSize.sync="bg_size"
-          :bgCustom.sync="bg_custom"
-          :BgImageRepeat.sync="bg_repeat"
+          v-model:bg-image="bg_image"
+          v-model:bgGradient="bg_gradient"
+          v-model:bgImageSize="bg_size"
+          v-model:bgCustom="bg_custom"
+          v-model:BgImageRepeat="bg_repeat"
           :BgColor="bg_color"
-          :bgPosition.sync="bg_position"
+          v-model:bgPosition="bg_position"
           dark
-          :bgVideo.sync="bg_video"
+          v-model:bgVideo="bg_video"
           has-bg-video
           class="mt-8"
         >
@@ -153,7 +151,7 @@ export default {
         this.section = section;
         this.backgroundPath = backgroundPath;
         this.showSizeDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -182,7 +180,7 @@ export default {
       this.show_edit_style = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalBackgroundEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
@@ -237,7 +235,7 @@ export default {
         background.bg_repeat,
         background.bg_color,
         background.dark,
-        background.bg_position
+        background.bg_position,
       );
 
       //  console.log('+++style+++',style)

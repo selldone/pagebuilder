@@ -16,20 +16,18 @@
   <v-navigation-drawer
     v-model="dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card flat class="text-start">
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="dialog = false" x-large>
+          <v-btn variant="text" @click="dialog = false" size="x-large">
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -40,19 +38,21 @@
         <v-expansion-panels flat v-model="tab">
           <!-- ████████████████████ Sort ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">sort</v-icon> Sort</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-list-subheader>Set how to sort blogs to show.</v-list-subheader>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-list-subheader
+                >Set how to sort blogs to show.</v-list-subheader
+              >
 
               <v-row class="my-2">
                 <v-btn-toggle
                   mandatory
                   v-model="blogs_filter.sortBy"
-                  active-class="blue-flat"
+                  selected-class="blue-flat"
                   class="overflow-auto px-0 my-2"
                   dark
                 >
@@ -62,7 +62,7 @@
                     :value="val.value"
                     class="tnt"
                   >
-                    <v-icon v-if="val.icon" small class="me-1">{{
+                    <v-icon v-if="val.icon" size="small" class="me-1">{{
                       val.icon
                     }}</v-icon>
                     {{ $t(val.label) }}
@@ -72,7 +72,7 @@
                 <v-btn-toggle
                   mandatory
                   v-model="blogs_filter.sortDesc"
-                  active-class="blue-flat"
+                  selected-class="blue-flat"
                   class="my-2"
                   dark
                 >
@@ -84,17 +84,17 @@
                   </v-btn>
                 </v-btn-toggle>
               </v-row>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Filter ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">filter_alt</v-icon> Filter</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader>Filter by tags and search.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Tags ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -119,17 +119,17 @@
                 show-buttons
                 messages="Show result contains these words in their title or description."
               ></v-text-field>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Limit ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">margin</v-icon> Limit</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader>Set the limit of blogs.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Offset ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -156,17 +156,17 @@
                 clearable
                 messages="Max items count"
               ></s-number-input>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Appearance ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">brush</v-icon> Appearance</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader>Customize blog card style.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Flat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -208,7 +208,7 @@
                 @change="$forceUpdate()"
                 nullable
               ></s-color-selector>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
@@ -287,7 +287,7 @@ export default {
         this.section = section;
         this.blogsPath = blogsPath;
         this.showProductsDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -316,7 +316,7 @@ export default {
       this.dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalBlogsFilterDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

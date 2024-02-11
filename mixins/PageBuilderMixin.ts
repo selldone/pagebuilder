@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Vue, {defineComponent} from "vue";
+import Vue, { defineComponent } from "vue";
 
 /**
  * Mixin to provide inline editing capabilities.
@@ -31,18 +31,18 @@ export const PageBuilderMixin = defineComponent({
         if (this.$route.params.popup_id) {
           return window.API.POST_UPLOAD_POPUP_IMAGE(
             this.$route.params.shop_id,
-            this.$route.params.popup_id
+            this.$route.params.popup_id,
           );
         }
         // Shop landing pages & Menus:
         return window.API.POST_UPLOAD_PAGE_IMAGE(
           this.$route.params.shop_id,
-          this.$route.params.page_id ? this.$route.params.page_id : "default" // Save in default (For menus / notifications custom page design)
+          this.$route.params.page_id ? this.$route.params.page_id : "default", // Save in default (For menus / notifications custom page design)
         );
       } else {
         // Admin selldone landing builder
         return window.ADMIN_API.POST_UPLOAD_PAGE_IMAGE(
-          this.$route.params.page_id
+          this.$route.params.page_id,
         );
       }
     },
@@ -56,12 +56,12 @@ export const PageBuilderMixin = defineComponent({
         // Shop landing pages & Menus:
         return window.API.POST_UPLOAD_PAGE_VIDEO(
           this.$route.params.shop_id,
-          this.$route.params.page_id ? this.$route.params.page_id : "default" // Save in default (For menus / notifications custom page design)
+          this.$route.params.page_id ? this.$route.params.page_id : "default", // Save in default (For menus / notifications custom page design)
         );
       } else {
         // Admin selldone landing builder
         return window.ADMIN_API.POST_UPLOAD_PAGE_VIDEO(
-          this.$route.params.page_id
+          this.$route.params.page_id,
         );
       }
     },

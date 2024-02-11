@@ -16,13 +16,11 @@
   <v-navigation-drawer
     v-model="dialog_frame"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -31,7 +29,7 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text x-large @click="dialog_frame = false">
+          <v-btn variant="text" size="x-large" @click="dialog_frame = false">
             <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -41,12 +39,12 @@
         <!-- ████████████████████ Product ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1" dark>inventory</v-icon> Product Frame
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header title="Element Class"></s-widget-header>
 
             <small>
@@ -62,9 +60,9 @@
               v-model="frame_product.classes"
               :items="standard_classes"
               small-chips
-              deletable-chips
+              closable-chips
               clearable
-              outlined
+              variant="outlined"
               cache-items
               label="Element Classes"
               @change="onFrameCodeChange"
@@ -83,14 +81,14 @@
               <v-select
                 :items="Object.keys(ProductFramesSample)"
                 v-model="val_sample_product"
-                @change="
+                @update:model-value="
                   (val) => {
                     frame_product.code = ProductFramesSample[val];
                     onFrameCodeChange();
                   }
                 "
                 class="max-w-200"
-                outlined
+                variant="outlined"
                 label="Samples"
                 prepend-inner-icon="inventory"
               >
@@ -107,12 +105,12 @@
               v-model="frame_product.code"
               label="Frame code"
               auto-grow
-              outlined
+              variant="outlined"
               @change="val_sample_product = null"
               @blur="onFrameCodeChange"
             ></v-textarea>
 
-            <v-simple-table dense class="my-5 max-w-640 mx-auto small">
+            <v-table dense class="my-5 max-w-640 mx-auto small">
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -127,17 +125,17 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
-          </v-expansion-panel-content>
+            </v-table>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Category ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div><v-icon class="me-1" dark>folder</v-icon> Category Frame</div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header title="Element Class"></s-widget-header>
             <small>
               You can allocate classes to the root element of each product. By
@@ -153,8 +151,8 @@
               v-model="frame_category.classes"
               :items="standard_classes"
               small-chips
-              deletable-chips
-              outlined
+              closable-chips
+              variant="outlined"
               clearable
               cache-items
               label="Element Classes"
@@ -173,14 +171,14 @@
               <v-select
                 :items="Object.keys(CategoryFramesSample)"
                 v-model="val_sample_category"
-                @change="
+                @update:model-value="
                   (val) => {
                     frame_category.code = CategoryFramesSample[val];
                     onFrameCodeChange();
                   }
                 "
                 class="max-w-200"
-                outlined
+                variant="outlined"
                 label="Samples"
                 prepend-inner-icon="folder"
               >
@@ -196,13 +194,13 @@
             <v-textarea
               v-model="frame_category.code"
               label="Frame code"
-              outlined
+              variant="outlined"
               auto-grow
               @change="val_sample_category = null"
               @blur="onFrameCodeChange"
             ></v-textarea>
 
-            <v-simple-table dense class="my-5 max-w-640 mx-auto">
+            <v-table dense class="my-5 max-w-640 mx-auto">
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -217,8 +215,8 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
-          </v-expansion-panel-content>
+            </v-table>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
@@ -316,7 +314,7 @@ export default {
         this.el = el;
         this.section = section;
         this.showProductsDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -345,7 +343,7 @@ export default {
       this.dialog_frame = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalProductsFrameDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 

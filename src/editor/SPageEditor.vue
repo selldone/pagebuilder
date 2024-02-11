@@ -162,12 +162,11 @@
           >
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Normal ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip color="#111" top max-width="420">
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip color="#111" location="top" max-width="420">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  small
+                  v-bind="props"
+                  size="small"
                   icon
                   class="sub-caption -hover m-0 b-16px"
                   caption="Design"
@@ -178,7 +177,7 @@
                   "
                 >
                   <v-icon
-                    small
+                    size="small"
                     :color="
                       !$builder.isAnimation && !$builder.isTracking
                         ? 'green'
@@ -192,8 +191,10 @@
               <div class="text-start small pa-1">
                 <b class="d-block">Normal View</b>
                 <div>
-                  <v-icon dark small class="me-1">design_services</v-icon> You
-                  can access all the elements and editing tools required to
+                  <v-icon dark size="small" class="me-1"
+                    >design_services</v-icon
+                  >
+                  You can access all the elements and editing tools required to
                   modify the content and layout of the landing page.
                 </div>
               </div>
@@ -201,12 +202,11 @@
 
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Animation ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip color="#111" top max-width="420">
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip color="#111" location="top" max-width="420">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  small
+                  v-bind="props"
+                  size="small"
                   icon
                   class="sub-caption -hover m-0 b-16px"
                   caption="Animation"
@@ -217,7 +217,7 @@
                   "
                 >
                   <v-icon
-                    small
+                    size="small"
                     :color="$builder.isAnimation ? 'blue' : undefined"
                     class="hover-scale-small"
                     >lens</v-icon
@@ -227,7 +227,7 @@
               <div class="text-start small pa-1">
                 <b class="d-block">Animation View</b>
                 <div>
-                  <v-icon dark small class="me-1">animation</v-icon> To
+                  <v-icon dark size="small" class="me-1">animation</v-icon> To
                   configure animation and user interactions such as mouse hover
                   transitions, you can check out the blueprint and the
                   minimalist view of the page.
@@ -237,12 +237,11 @@
 
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Tracking ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip color="#111" top max-width="420">
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip color="#111" location="top" max-width="420">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  small
+                  v-bind="props"
+                  size="small"
                   icon
                   class="sub-caption -hover m-0 b-16px"
                   caption="Tracking"
@@ -253,7 +252,7 @@
                   "
                 >
                   <v-icon
-                    small
+                    size="small"
                     :color="$builder.isTracking ? 'red' : undefined"
                     class="hover-scale-small"
                     >lens</v-icon
@@ -263,10 +262,10 @@
               <div class="text-start small pa-1">
                 <b class="d-block">Tracking View</b>
                 <div>
-                  <v-icon dark small class="me-1">highlight_alt</v-icon> This
-                  view mode presents a simplified display of the page, allowing
-                  the allocation of tracking IDs to actions (buttons) that can
-                  be utilized in Google Tag Manager and other tracking
+                  <v-icon dark size="small" class="me-1">highlight_alt</v-icon>
+                  This view mode presents a simplified display of the page,
+                  allowing the allocation of tracking IDs to actions (buttons)
+                  that can be utilized in Google Tag Manager and other tracking
                   applications.
                 </div>
               </div>
@@ -278,10 +277,10 @@
               rounded
               hide-details
               flat
-              filled
+              variant="filled"
               :prefix="!isPopup && $vuetify.display.smAndUp ? base_url : ''"
               v-model="page.name"
-              :dense="$vuetify.display.smAndDown"
+              :density="$vuetify.display.smAndDown && 'compact'"
               :placeholder="isPopup ? 'Popup' : 'Enter page address*'"
               :rules="!isPopup ? [GlobalRules.required()] : undefined"
               :prepend-inner-icon="isPopup ? 'notifications_none' : undefined"
@@ -298,11 +297,10 @@
               </template>
             </v-text-field>
 
-            <v-tooltip color="#111" top max-width="420">
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip color="#111" location="top" max-width="420">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
+                  v-bind="props"
                   icon
                   @click="toggleListVisibility"
                   class="ms-1"
@@ -315,13 +313,15 @@
               <div class="text-start small pa-1">
                 <b class="d-block">View Mode</b>
                 <div>
-                  <v-icon dark small class="me-1">center_focus_weak</v-icon>
+                  <v-icon dark size="small" class="me-1"
+                    >center_focus_weak</v-icon
+                  >
                   Make fullscreen/compact view mode.
                 </div>
                 <div>
                   Or press
-                  <span class="amber--text"
-                    ><v-icon small class="mx-1" color="amber"
+                  <span class="text-amber"
+                    ><v-icon size="small" class="mx-1" color="amber"
                       >swap_horiz</v-icon
                     >
                     Tab</span
@@ -335,7 +335,7 @@
             v-if="delay_load > 0 && delay_load < 999"
             striped
             color="success"
-            :value="(100 * delay_load) / sections_length"
+            :model-value="(100 * delay_load) / sections_length"
           ></v-progress-linear>
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -465,14 +465,13 @@
                 >
                   <!-- ▃▃▃▃▃▃▃▃▃▃ Copy ▃▃▃▃▃▃▃▃▃▃ -->
 
-                  <v-tooltip color="#111" top max-width="420">
-                    <template v-slot:activator="{ on, attrs }">
+                  <v-tooltip color="#111" location="top" max-width="420">
+                    <template v-slot:activator="{ props }">
                       <v-btn
-                        v-bind="attrs"
-                        v-on="on"
+                        v-bind="props"
                         icon
                         color="#000"
-                        large
+                        size="large"
                         class="hover-scale -fast"
                         @mouseenter="copy_hover = section.id"
                         @mouseleave="copy_hover = null"
@@ -496,7 +495,7 @@
                     icon
                     title="Delete section"
                     color="red"
-                    large
+                    size="large"
                     class="hover-scale -fast"
                     @mouseenter="delete_hover = section.id"
                     @mouseleave="delete_hover = null"
@@ -513,17 +512,16 @@
                       $route.params.shop_id /*Only in shop admin dashboard!*/
                     "
                     color="#111"
-                    top
+                    location="top"
                     max-width="420"
                   >
-                    <template v-slot:activator="{ on, attrs }">
+                    <template v-slot:activator="{ props }">
                       <v-btn
-                        v-bind="attrs"
-                        v-on="on"
+                        v-bind="props"
                         icon
                         color="#000"
                         class="hover-scale -fast"
-                        large
+                        size="large"
                         @click="saveSectionToRepository(section)"
                       >
                         <v-icon>add</v-icon></v-btn
@@ -540,15 +538,14 @@
 
                   <!-- ▃▃▃▃▃▃▃▃▃▃ Past ▃▃▃▃▃▃▃▃▃▃ -->
 
-                  <v-tooltip color="#111" top max-width="420">
-                    <template v-slot:activator="{ on, attrs }">
+                  <v-tooltip color="#111" location="top" max-width="420">
+                    <template v-slot:activator="{ props }">
                       <v-btn
-                        v-bind="attrs"
-                        v-on="on"
+                        v-bind="props"
                         icon
                         color="#000"
                         class="hover-scale -fast"
-                        large
+                        size="large"
                         @mouseenter="past_hover = index"
                         @mouseleave="past_hover = null"
                         @click="pastSection(index + 1)"
@@ -559,8 +556,8 @@
                     <div class="text-start small pa-1">
                       <b class="d-block">Ctrl + V Now!</b>
                       <div v-if="copy_section" class="py-1">
-                        <v-icon color="success" x-small>circle</v-icon> Copy
-                        available
+                        <v-icon color="success" size="x-small">circle</v-icon>
+                        Copy available
                       </div>
 
                       <div>
@@ -607,7 +604,7 @@
                     caption="Feed"
                     icon
                     dark
-                    x-large
+                    size="x-large"
                     :class="{ disabled: !section.data || !section.schema }"
                     @click="showFeeder(section)"
                     title="Simple edit section contents."
@@ -633,13 +630,16 @@
                     overlap
                     :model-value="
                       page?.notes?.filter(
-                        (n) => n.element_id === section.data?.id
+                        (n) => n.element_id === section.data?.id,
                       )?.length > 0
                     "
                     :content="
-                        numeralFormat(page?.notes?.filter(
-                        (n) => n.element_id === section.data?.id
-                      )?.length,'0a')
+                      numeralFormat(
+                        page?.notes?.filter(
+                          (n) => n.element_id === section.data?.id,
+                        )?.length,
+                        '0a',
+                      )
                     "
                     color="#000"
                   >
@@ -648,10 +648,10 @@
                       caption="Message"
                       icon
                       dark
-                      x-large
+                      size="x-large"
                       :color="
                         page?.notes?.filter(
-                          (n) => n.element_id === section.data?.id
+                          (n) => n.element_id === section.data?.id,
                         )?.length
                           ? 'amber'
                           : '#fff'
@@ -670,7 +670,7 @@
                   v-if="$vuetify.display.lgAndUp && has_note"
                   :notes="
                     page?.notes?.filter(
-                      (n) => n.element_id === section.data?.id
+                      (n) => n.element_id === section.data?.id,
                     )
                   "
                   :shop="shop"
@@ -709,11 +709,11 @@
             <v-expansion-panel
               :style="{ background: expanded === 0 ? '#111' : '#0152d0' }"
             >
-              <v-expansion-panel-header>
-                <v-icon small class="me-1">view_day</v-icon>
+              <v-expansion-panel-title>
+                <v-icon size="small" class="me-1">view_day</v-icon>
                 <div class="flex-grow-1">Sections</div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text>
                 <div class="border-between-vertical">
                   <div
                     v-for="(group, name) in groups"
@@ -742,7 +742,7 @@
                     </v-row>
                   </div>
                 </div>
-              </v-expansion-panel-content>
+              </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
         </div>
@@ -759,7 +759,7 @@
       max-width="420"
       nudge-width="300"
       content-class="pen"
-      right
+      location="right"
     >
       <v-sheet color="#000" dark>
         <v-responsive
@@ -1163,7 +1163,7 @@ export default {
         this.pastSection(
           this.past_hover === null
             ? this.$builder.sections.length + 1
-            : this.past_hover + 1
+            : this.past_hover + 1,
         );
         event.preventDefault();
       }
@@ -1306,7 +1306,7 @@ export default {
               });
             });
           },
-          go_to_scale_down ? 0 : 350
+          go_to_scale_down ? 0 : 350,
         ); // In scale up mode we need to wait to all view being scaled and scroll be available!
 
         this.toggleListVisibility();
@@ -1380,7 +1380,7 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.onbeforeunload = undefined;
 
     // console.log("Unregister hot key.", this.key_listener_keydown);
@@ -1450,7 +1450,7 @@ export default {
             : null,
           this.pageStyle.bg_size,
           this.pageStyle.bg_repeat,
-          this.pageStyle.bg_color
+          this.pageStyle.bg_color,
         );
 
       //console.log('Calculate page style!', this.CUSTOM_PAGE_STYLE);
@@ -1463,7 +1463,7 @@ export default {
         this.local_history,
         this.$builder.sections,
         this.history_index,
-        () => (this.history_index = 0)
+        () => (this.history_index = 0),
       );
     },
 
@@ -1474,7 +1474,7 @@ export default {
       local_history,
       sections,
       current_index,
-      callback
+      callback,
     ) {
       // Keep only data, id , name
       const filtered = sections.map(function (i) {
@@ -1503,8 +1503,7 @@ export default {
         console.log("---NEW HISTORY---", local_history.length, local_history);
 
       if (callback) callback();
-    },
-    2000),
+    }, 2000),
 
     //――――――――――――――――――――――  History > Undo ――――――――――――――――――――
 
@@ -1514,7 +1513,7 @@ export default {
           "goUndo",
           this.has_undo,
           this.history_index,
-          this.local_history.length
+          this.local_history.length,
         );
       if (this.has_undo) {
         this.history_index++;
@@ -1527,7 +1526,7 @@ export default {
           undefined,
           undefined,
           undefined,
-          500
+          500,
         );
       } else {
         this.showWarningAlert("Undo", "No history available.", 500);
@@ -1547,7 +1546,7 @@ export default {
           undefined,
           undefined,
           undefined,
-          500
+          500,
         );
       } else {
         this.showWarningAlert("Redo", "In the last state.", 500);
@@ -1576,7 +1575,7 @@ export default {
       let index = 0;
       raw_sections.forEach((raw) => {
         const found = exists.find(
-          (it) => it.id === raw.id && it.name === raw.name
+          (it) => it.id === raw.id && it.name === raw.name,
         );
         if (found) {
           found.data = raw.data;
@@ -1669,7 +1668,7 @@ export default {
       $div
         .find("*")
         .not(
-          "a,i,ul,li,img,br,p,div,section,button,b,h1,h2,h3,h4,h5,h6,font,figure,figcaption,svg"
+          "a,i,ul,li,img,br,p,div,section,button,b,h1,h2,h3,h4,h5,h6,font,figure,figcaption,svg",
         )
         .each(function () {
           if ($(this).closest("svg").length > 0) return; //prevent remove inside svg!
@@ -1915,7 +1914,7 @@ export default {
       this.copyToClipboard(
         this.copy_section,
         "Copy Section Data & Structure",
-        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`
+        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
       );
     },
     saveSectionToRepository(section) {
@@ -1934,7 +1933,7 @@ export default {
       if (!this.copy_section) {
         this.showWarningAlert(
           "First copy a section!",
-          "Data on clipboard not found!"
+          "Data on clipboard not found!",
         );
 
         return;
@@ -1966,7 +1965,7 @@ export default {
       } catch (e) {
         this.showErrorAlert(
           null,
-          "We can not remove this section! Maybe fix it by refreshing the page."
+          "We can not remove this section! Maybe fix it by refreshing the page.",
         );
       }
     },
@@ -2038,7 +2037,7 @@ export default {
             this.$builder.style.fonts.push(font);
             this.showSuccessAlert(
               "Font : " + font,
-              "Font has been added successfully."
+              "Font has been added successfully.",
             );
           }
         });
@@ -2093,15 +2092,15 @@ export default {
         this.page.notes,
         section.data.id,
         this.shop_page?.id,
-        this.shop_popup?.id
+        this.shop_popup?.id,
       );
     },
     autoShowNote() {
       if (this.$route.query.element_id) {
         this.showWriteNote(
           this.$builder.sections.find(
-            (s) => s.data.id === this.$route.query.element_id
-          )
+            (s) => s.data.id === this.$route.query.element_id,
+          ),
         ); // Auto open note dialog if element_id be in query (used in notifications link)
       }
     },

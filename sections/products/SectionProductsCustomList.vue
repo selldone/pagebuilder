@@ -139,7 +139,7 @@ export default {
       this.forcePackage.tags = this.forcePackage.tags.map((x) =>
         this.isString(x)
           ? x.applyAugment(this.augment, this.$builder.isEditing)
-          : x
+          : x,
       );
     }
   },
@@ -155,25 +155,25 @@ export default {
       // Replace all occurrences of '{product.icon}' with the dynamic value
       code = code.replace(
         /{product\.icon}/g,
-        this.getShopImagePath(product.icon)
+        this.getShopImagePath(product.icon),
       );
       code = code.replace(
         /{product\.price}/g,
-        this.getFormatPriceCurrency(product.price, product.currency)
+        this.getFormatPriceCurrency(product.price, product.currency),
       );
 
       code = code.replace(
         /{product\.final_price}/g,
-        this.getFormatPriceCurrency(product.final_price, product.currency)
+        this.getFormatPriceCurrency(product.final_price, product.currency),
       );
       code = code.replace(
         /{product\.discount}/g,
-        this.getFormatPriceCurrency(product.discount, product.currency)
+        this.getFormatPriceCurrency(product.discount, product.currency),
       );
 
       code = code.replace(
         /{url}/g,
-        this.getProductLink(this.getShop(), product.id)
+        this.getProductLink(this.getShop(), product.id),
       );
 
       function generateDynamicRegex(key) {
@@ -182,7 +182,7 @@ export default {
 
       Object.keys(product)
         .filter(
-          (key) => !["icon", "price", "discount", "final_price"].includes(key)
+          (key) => !["icon", "price", "discount", "final_price"].includes(key),
         )
         .forEach((key) => {
           const val = product[key];
@@ -202,12 +202,12 @@ export default {
       // Replace all occurrences of '{category.icon}' with the dynamic value
       code = code.replace(
         /{category\.icon}/g,
-        this.getShopImagePath(category.icon)
+        this.getShopImagePath(category.icon),
       );
 
       code = code.replace(
         /{url}/g,
-        this.getCategoryLink(this.getShop(), category.name)
+        this.getCategoryLink(this.getShop(), category.name),
       );
 
       function generateDynamicRegex(key) {
@@ -247,7 +247,7 @@ export default {
         component_name,
         component,
         attributes,
-        ignoreCallback = () => false
+        ignoreCallback = () => false,
       ) {
         $(t.$el)
           .find(component_name) // Find code editors:
@@ -293,7 +293,7 @@ export default {
                 attr_value = default_attr_value(
                   categoryId,
                   productId,
-                  attr_value
+                  attr_value,
                 );
               }
 
@@ -319,7 +319,7 @@ export default {
               const __current_class = element_code.className;
               element_code.setAttribute(
                 "class",
-                (__current_class ? __current_class : "") + " " + _class
+                (__current_class ? __current_class : "") + " " + _class,
               );
               element_code.setAttribute("style", _style);
             });
@@ -348,7 +348,7 @@ export default {
           },
         },
         (categoryId, productId) =>
-          !this.products?.find((p) => p.id === parseInt(productId))?.variants
+          !this.products?.find((p) => p.id === parseInt(productId))?.variants,
       );
       // Count down view:
       autoReplaceComponents(
@@ -358,7 +358,7 @@ export default {
           end: (categoryId, productId, val) => val && val.convertToLocalDate(),
         },
         (categoryId, productId) =>
-          !this.products?.find((p) => p.id === parseInt(productId))?.dis_start
+          !this.products?.find((p) => p.id === parseInt(productId))?.dis_start,
       );
     },
   },

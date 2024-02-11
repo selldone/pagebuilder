@@ -101,7 +101,7 @@ export default {
   created() {
     KEEPER[this.id] = this;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     delete KEEPER[this.id];
   },
   mounted() {
@@ -120,7 +120,10 @@ export default {
       }
 
       // For official page:
-      return window.API.UPLOAD_ARTICLE_IMAGE(ArticleTypes.SelldoneBlog.code, null);
+      return window.API.UPLOAD_ARTICLE_IMAGE(
+        ArticleTypes.SelldoneBlog.code,
+        null,
+      );
     },
   },
 };

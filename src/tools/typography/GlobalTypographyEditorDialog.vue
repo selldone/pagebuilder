@@ -17,20 +17,21 @@
     v-if="style"
     v-model="dialog_master_style"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn x-large @click="dialog_master_style = false" text
+          <v-btn
+            size="x-large"
+            @click="dialog_master_style = false"
+            variant="text"
             ><v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
@@ -38,7 +39,10 @@
       </v-card-actions>
 
       <v-card-text>
-        <s-widget-header title="Font & Typo" icon="format_quote"></s-widget-header>
+        <s-widget-header
+          title="Font & Typo"
+          icon="format_quote"
+        ></s-widget-header>
         <v-list-subheader></v-list-subheader>
       </v-card-text>
 
@@ -46,18 +50,20 @@
         <!-- ████████████████████ Font ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <div><v-icon class="me-1">font_download</v-icon> Page Fonts</div>
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header
               title="Page default font"
               icon="title"
               class="mt-5"
             ></s-widget-header>
-            <v-list-subheader>First, add fonts, then select it here.</v-list-subheader>
+            <v-list-subheader
+              >First, add fonts, then select it here.</v-list-subheader
+            >
 
             <v-select
               :items="style.fonts"
@@ -90,7 +96,7 @@
 
               <div v-for="font in style.fonts" :key="font" class="row-font">
                 <b :style="{ fontFamily: font }"
-                  ><v-icon small class="me-1">font_download</v-icon>
+                  ><v-icon size="small" class="me-1">font_download</v-icon>
                   {{ font }}</b
                 >
                 <v-btn icon @click="deleteFont(font)">
@@ -101,7 +107,7 @@
               <v-combobox
                 :items="filtered_fonts"
                 v-model="font_input"
-                :search-input.sync="font_input"
+                v-model:search-input="font_input"
                 label="Font name"
                 placeholder="Type font name Ex.Akzidenz Grotesk and pres Enter..."
                 persistent-placeholder
@@ -120,29 +126,29 @@
               <div class="text-end">
                 <v-btn
                   link
-                  small
-                  text
+                  size="small"
+                  variant="text"
                   color="amber"
                   class="tnt"
                   href="https://fonts.google.com/"
                   target="_blank"
                   >View Google Fonts
-                  <v-icon small class="ms-1">open_in_new</v-icon>
+                  <v-icon size="small" class="ms-1">open_in_new</v-icon>
                 </v-btn>
               </div>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Size ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <div><v-icon class="me-1">format_shapes</v-icon> Typo Size</div>
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header
               title="Default font size"
               icon="format_size"
@@ -242,7 +248,7 @@
 
               <p>Paragraph</p>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Top Menu ████████████████████ -->
@@ -270,7 +276,6 @@ export default {
   components: {
     SNumberDimensionInput,
 
-
     SNumberInput,
   },
 
@@ -297,7 +302,8 @@ export default {
 
     filtered_fonts() {
       return FONTS.filter(
-        (i) => !this.style || !this.style.fonts || !this.style.fonts.includes(i)
+        (i) =>
+          !this.style || !this.style.fonts || !this.style.fonts.includes(i),
       );
     },
   },
@@ -314,7 +320,7 @@ export default {
 
         this.dialog_master_style = true;
         this.tab = ["fonts", "size"].indexOf(tab);
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -343,7 +349,7 @@ export default {
       this.dialog_master_style = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalTypographyEditorDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

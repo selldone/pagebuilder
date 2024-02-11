@@ -16,24 +16,22 @@
   <v-navigation-drawer
     v-model="dialog_product_filter"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl
-        ? 560
-        : $vuetify.display.lgAndUp
-        ? 420
-        : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text x-large @click="dialog_product_filter = false">
+          <v-btn
+            variant="text"
+            size="x-large"
+            @click="dialog_product_filter = false"
+          >
             <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -90,7 +88,7 @@ export default {
 
   computed: {},
   watch: {
-      product_filter_view_data: {
+    product_filter_view_data: {
       handler() {
         this.onAcceptProductFilterChange();
       },
@@ -103,13 +101,13 @@ export default {
       "show:GlobalProductsCategoriesSelectDialog",
 
       ({ el, section, productsPath }) => {
-          this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
+        this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
-          this.el = el;
+        this.el = el;
         this.section = section;
         this.productsPath = productsPath;
         this.showProductsDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -138,12 +136,12 @@ export default {
       this.dialog_product_filter = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalProductsCategoriesSelectDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
-      //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
-      document.removeEventListener("keydown", this.key_listener_keydown, true);
+    //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
+    document.removeEventListener("keydown", this.key_listener_keydown, true);
   },
 
   methods: {
@@ -156,7 +154,7 @@ export default {
         // Make it clone:
         this.product_filter_view_data = Object.assign(
           {},
-          this.product_filter_view_data
+          this.product_filter_view_data,
         );
       }
 
@@ -169,7 +167,7 @@ export default {
 
     //----------------------------------------------------------------------------
     onAcceptProductFilterChange() {
-        if(!this.dialog_product_filter)return;
+      if (!this.dialog_product_filter) return;
       this.section?.set(this.productsPath, this.product_filter_view_data); // Save data in section!
 
       /// this.dialog_product_filter = false;

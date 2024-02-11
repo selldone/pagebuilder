@@ -28,14 +28,14 @@
       >
 
       <v-text-field
-        :value="name"
-        @input="(val) => $emit('update:name', val)"
+        :model-value="name"
+        @update:model-value="(val) => $emit('update:name', val)"
         :counter="32"
         :label="$t('page_builder.setting.name_input')"
       />
 
       <p dir="ltr">
-        <v-icon small class="me-1">link</v-icon>
+        <v-icon size="small" class="me-1">link</v-icon>
         <span style="color: #777">domain.com/pages/</span
         ><span style="color: #0288d1" class="font-weight-black">{{
           encodeURIComponent(name)
@@ -84,8 +84,8 @@
       >
 
       <v-textarea
-        :value="note"
-        @input="(val) => $emit('update:note', val)"
+        :model-value="note"
+        @update:model-value="(val) => $emit('update:note', val)"
         :color="SaminColorLight"
         :counter="128"
         :label="$t('page_builder.setting.designer_note')"
@@ -121,7 +121,8 @@
       <s-widget-header title="Image" icon="image"></s-widget-header>
       <v-list-subheader
         >Upload an image for the page. This image will serve as the cover for
-        SEO purposes and will also be used in the page listings.</v-list-subheader
+        SEO purposes and will also be used in the page
+        listings.</v-list-subheader
       >
 
       <!-- ============== Image ============== -->
@@ -140,7 +141,10 @@
 
     <!-- ---------------------- Delete ---------------------- -->
     <div class="widget-box mb-5" style="border-top: solid medium red">
-      <s-widget-header title="Delete page" icon="error_outline"></s-widget-header>
+      <s-widget-header
+        title="Delete page"
+        icon="error_outline"
+      ></s-widget-header>
 
       <v-list-subheader>
         <div>
@@ -160,13 +164,13 @@
       <div class="widget-buttons">
         <v-btn
           color="red"
-          text
+          variant="text"
           @click="deletePage()"
           :loading="busy_delete"
-          x-large
+          size="x-large"
           :class="{ disabled: !verify_delete }"
         >
-          <v-icon small class="me-1">delete</v-icon>
+          <v-icon size="small" class="me-1">delete</v-icon>
           Delete This Page
         </v-btn>
       </div>
@@ -224,7 +228,7 @@ export default {
       if (this.shop)
         return window.API.POST_UPLOAD_PAGE_COVER_IMAGE(
           this.$route.params.shop_id,
-          this.page.id
+          this.page.id,
         );
       // Official Samin!
       else
@@ -248,7 +252,7 @@ export default {
           if (this.shop)
             url = window.API.DELETE_PAGE(
               this.$route.params.shop_id,
-              this.page.id
+              this.page.id,
             );
           else if (this.isOfficialPage)
             url = window.ADMIN_API.DELETE_PAGE(this.page.id);
@@ -267,8 +271,8 @@ export default {
                   name: this.shop
                     ? "PagesManagement_CustomPages"
                     : this.isOfficialPage
-                    ? "AdminPage_Content_Pages"
-                    : null,
+                      ? "AdminPage_Content_Pages"
+                      : null,
                 });
               }
             })
@@ -278,7 +282,7 @@ export default {
             .finally(() => {
               this.busy_delete = false;
             });
-        }
+        },
       );
     },
   },

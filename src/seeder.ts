@@ -108,7 +108,12 @@ const data = new Map([
 
   [
     types.Row,
-    () => ({ align: "stretch", justify: "space-around", fluid: false,no_wrap:false }),
+    () => ({
+      align: "stretch",
+      justify: "space-around",
+      fluid: false,
+      no_wrap: false,
+    }),
   ],
   [
     types.Container,
@@ -128,7 +133,7 @@ const data = new Map([
       sortBy: "created_at",
       sortDesc: true,
       search: null,
-      style:{flat:false,rect:false,dark:false, color: null}
+      style: { flat: false, rect: false, dark: false, color: null },
     }),
   ],
 
@@ -164,14 +169,14 @@ const data = new Map([
       solo: true,
       outlined: false,
       dark: false,
-      backgroundColor: '#FFF',
+      backgroundColor: "#FFF",
       filled: false,
       rounded: false,
 
-      label:null,
-      messages:null,
-      hint:null,
-      persistentPlaceholder:false,
+      label: null,
+      messages: null,
+      hint: null,
+      persistentPlaceholder: false,
     }),
   ],
 
@@ -197,11 +202,13 @@ const data = new Map([
 
   [
     types.TextLoop,
-    () => ({html:'Write some text here...',height:'24px',duration:'10s',color:null}
-    ),
+    () => ({
+      html: "Write some text here...",
+      height: "24px",
+      duration: "10s",
+      color: null,
+    }),
   ],
-
-
 ]);
 
 export class Seeder {

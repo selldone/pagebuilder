@@ -14,10 +14,10 @@
 
 <template>
   <v-btn-toggle
-    :value="value"
-    @change="(val) => $emit('input', val)"
+    :model-value="value"
+    @update:model-value="(val) => $emit('input', val)"
     class="m-3"
-    active-class="blue-flat"
+    selected-class="blue-flat"
   >
     <v-btn
       v-for="it in ALIGN"

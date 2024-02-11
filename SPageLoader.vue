@@ -52,8 +52,8 @@
         v-model="action"
         class="m-1 widget-toggle"
         mandatory
-        dense
-        active-class="blue-flat"
+        density="compact"
+        selected-class="blue-flat"
         borderless
       >
         <v-btn value="move">
@@ -73,7 +73,7 @@
       </v-btn-toggle>
 
       <div class="mt-2 widget-buttons">
-        <v-btn :href="window.location.href" target="_blank" text
+        <v-btn :href="window.location.href" target="_blank" variant="text"
           ><v-icon class="me-1">open_in_new</v-icon> Open full page
         </v-btn>
       </div>
@@ -168,8 +168,8 @@ export default {
       this.catch_data.type = this.$vuetify.display.smAndDown
         ? "mobile"
         : this.$vuetify.display.mdAndDown
-        ? "tablet"
-        : "desktop";
+          ? "tablet"
+          : "desktop";
 
       this.handleDebouncedScroll = debounce(this.handleScroll, 100);
       window.addEventListener("scroll", this.handleDebouncedScroll);
@@ -181,7 +181,7 @@ export default {
     this.handleDebouncedMouseMove = debounce(this.onMouseMove, 30);
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.enable_tracking) {
       if (this.interval) clearInterval(this.interval);
 
@@ -206,7 +206,7 @@ export default {
         () => {},
         false,
         0,
-        0
+        0,
       );
     },
 
@@ -223,8 +223,8 @@ export default {
       let type = this.$vuetify.display.smAndDown
         ? "mobile"
         : this.$vuetify.display.mdAndDown
-        ? "tablet"
-        : "desktop";
+          ? "tablet"
+          : "desktop";
       let action = this.action;
 
       if (!this.page[type] || !this.page[type][action]) {
@@ -347,7 +347,7 @@ export default {
         if (this.$route.name === "CustomHomePage") {
           url = window.XAPI.GET_CUSTOM_HOME_PAGE(
             this.shop_name,
-            window.$storefront.home
+            window.$storefront.home,
           );
         }
         // Render of selldone dashboard:
@@ -355,13 +355,15 @@ export default {
           //  Page Builder ▶ Render for User behavior
           url = window.API.GET_PAGE_DATA(
             this.$route.params.shop_id,
-            this.$route.params.page_id
+            this.$route.params.page_id,
           );
-        } else if (this.$route.name === window.$storefront?.routes.INCLUDE_PAGE_RENDER) {
+        } else if (
+          this.$route.name === window.$storefront?.routes.INCLUDE_PAGE_RENDER
+        ) {
           if (!this.shop_name) return;
           url = window.XAPI.GET_INCLUDE_PAGE_DATA(
             this.shop_name,
-            this.$route.params.include_id
+            this.$route.params.include_id,
           );
         }
 
@@ -370,7 +372,7 @@ export default {
           url = this.shop_name
             ? window.XAPI.GET_PAGE_DATA(
                 this.shop_name,
-                this.$route.params.page_name
+                this.$route.params.page_name,
               )
             : window.GAPI.GET_PAGE_DATA(this.$route.params.page_name);
         }

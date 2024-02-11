@@ -18,7 +18,7 @@
       <h2
         v-styler="$sectionData.title"
         class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.title?.applyAugment(augment,$builder.isEditing)"
+        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
       <uploader
@@ -57,13 +57,14 @@ import * as types from "../../src/types";
 
 export default {
   name: "Social2",
-  components: {  },
+  components: {},
   cover: require("../../assets/images/covers/social-2.svg"),
   group: "Image & Text",
   label: "Text, Image, Text",
-    help: {
-        title: "This section displays a large image accompanied by a title and description overlaying it.",
-    },
+  help: {
+    title:
+      "This section displays a large image accompanied by a title and description overlaying it.",
+  },
   $schema: {
     classes: types.ClassList,
     row: types.Row,
@@ -93,9 +94,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({

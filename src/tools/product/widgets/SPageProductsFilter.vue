@@ -21,14 +21,16 @@
         :title="$t('global.commons.sort')"
         icon="sort"
       ></s-widget-header>
-      <v-list-subheader> {{ $t("styler.products.sort_options") }} </v-list-subheader>
+      <v-list-subheader>
+        {{ $t("styler.products.sort_options") }}
+      </v-list-subheader>
 
       <s-products-sort-view
         v-model="product_sort"
         class="mx-2 overflow-auto"
-        :only-available.sync="only_available"
+        v-model:only-available="only_available"
         has-view-mode
-        :viewMode.sync="mode_view"
+        v-model:viewMode="mode_view"
         two-line
         active-class="blue-flat"
       />
@@ -48,7 +50,9 @@
         icon="dashboard_customize"
       ></s-widget-header>
 
-      <v-list-subheader>{{ $t("styler.products.item_types") }}</v-list-subheader>
+      <v-list-subheader>{{
+        $t("styler.products.item_types")
+      }}</v-list-subheader>
 
       <v-btn-toggle
         v-model="selected_mode"
@@ -56,7 +60,7 @@
         rounded
         borderless
         class="widget-toggle"
-        active-class="blue-flat"
+        selected-class="blue-flat"
       >
         <v-btn
           value="all"
@@ -108,7 +112,9 @@
         icon="folder_open"
       ></s-widget-header>
 
-      <v-list-subheader>{{ $t("styler.products.select_categories") }}</v-list-subheader>
+      <v-list-subheader>{{
+        $t("styler.products.select_categories")
+      }}</v-list-subheader>
 
       <s-smart-switch
         v-model="surrounded"
@@ -124,13 +130,13 @@
       <ul v-if="surrounded" class="text-start mb-5">
         <li>
           <b>
-            <v-icon class="me-1" small>all_inclusive</v-icon>
+            <v-icon class="me-1" size="small">all_inclusive</v-icon>
             {{ $t("global.commons.all") }}:
           </b>
           Only selected categories and the products inside them will be shown.
           <v-icon
             class="mx-1 zoomIn"
-            small
+            size="small"
             color="green"
             v-if="!products_only && !categories_only"
             >check_circle</v-icon
@@ -138,13 +144,13 @@
         </li>
         <li>
           <b>
-            <v-icon class="me-1" small>inventory</v-icon>
+            <v-icon class="me-1" size="small">inventory</v-icon>
             {{ $t("styler.products.product_only") }}:
           </b>
           Only products in selected categories will be shown.
           <v-icon
             class="mx-1 zoomIn"
-            small
+            size="small"
             color="green"
             v-if="products_only && !categories_only"
             >check_circle</v-icon
@@ -153,13 +159,13 @@
 
         <li>
           <b>
-            <v-icon class="me-1" small>folder</v-icon>
+            <v-icon class="me-1" size="small">folder</v-icon>
             {{ $t("styler.products.category_only") }}:
           </b>
           Only selected categories will be shown.
           <v-icon
             class="mx-1"
-            small
+            size="small"
             color="green zoomIn"
             v-if="!products_only && categories_only"
             >check_circle</v-icon
@@ -170,13 +176,13 @@
       <ul v-else class="text-start mb-5">
         <li>
           <b>
-            <v-icon class="me-1" small>all_inclusive</v-icon>
+            <v-icon class="me-1" size="small">all_inclusive</v-icon>
             {{ $t("global.commons.all") }}:
           </b>
           Only products and sub categories in the selected categories will be
           shown.<v-icon
             class="mx-1 zoomIn"
-            small
+            size="small"
             color="green"
             v-if="!products_only && !categories_only"
             >check_circle</v-icon
@@ -184,13 +190,13 @@
         </li>
         <li>
           <b>
-            <v-icon class="me-1" small>inventory</v-icon>
+            <v-icon class="me-1" size="small">inventory</v-icon>
             {{ $t("styler.products.product_only") }}:
           </b>
           Only products in the selected categories will be shown.
           <v-icon
             class="mx-1 zoomIn"
-            small
+            size="small"
             color="green"
             v-if="products_only && !categories_only"
             >check_circle</v-icon
@@ -199,13 +205,13 @@
 
         <li>
           <b>
-            <v-icon class="me-1" small>folder</v-icon>
+            <v-icon class="me-1" size="small">folder</v-icon>
             {{ $t("styler.products.category_only") }}:
           </b>
           Only sub categories in the selected categories will be shown.
           <v-icon
             class="mx-1 zoomIn"
-            small
+            size="small"
             color="green"
             v-if="!products_only && categories_only"
             >check_circle</v-icon
@@ -244,7 +250,7 @@
       <v-combobox
         v-model="tags"
         multiple
-        deletable-chips
+        closable-chips
         clearable
         chips
         placeholder="Write tag and press enter. ex. new collection"
@@ -252,27 +258,25 @@
         label="Tags list"
         hint="You can set dynamic values { { key } } here. This value will be replace by augmentation data in product,category or other pages."
       >
-        <template
-          v-slot:selection="{ item, attrs, selected, disabled, parent }"
-        >
+        <template v-slot:chip="{ item, attrs, selected, disabled, parent }">
           <v-chip
             :key="JSON.stringify(item)"
             v-bind="attrs"
-            :input-value="selected"
+            :model-value="selected"
             :disabled="disabled"
             @click:close="parent.selectItem(item)"
-            close
+            closable
           >
             <v-avatar
-              class="white--text"
+              class="text-white"
               :color="
                 isDynamicValue(item)
                   ? '#FFF'
                   : item
-                  ? item.toColor(true)
-                  : '#333'
+                    ? item.toColor(true)
+                    : '#333'
               "
-              left
+              start
               >{{
                 isDynamicValue(item) ? "🪄" : item?.slice(0, 1).toUpperCase()
               }}</v-avatar
@@ -299,14 +303,14 @@
       <ul class="text-start mb-5">
         <li>
           <b>
-            <v-icon class="me-1" small>looks_one</v-icon>
+            <v-icon class="me-1" size="small">looks_one</v-icon>
             Owned products:
           </b>
           Products created by the vendor will be displayed.
         </li>
         <li>
           <b>
-            <v-icon class="me-1" small>looks_two</v-icon>
+            <v-icon class="me-1" size="small">looks_two</v-icon>
             Related products:
           </b>
           Products that have this vendor in its vendors list will be shown.
@@ -511,12 +515,12 @@ export default {
       this.selected_mode = filter_bundle.products_only
         ? "product"
         : filter_bundle.categories_only
-        ? "category"
-        : "all";
+          ? "category"
+          : "all";
 
       this.mode_view = filter_bundle.mode_view
         ? Object.values(ModeView).find(
-            (m) => m.code === filter_bundle.mode_view
+            (m) => m.code === filter_bundle.mode_view,
           )
         : ModeView.NORMAL;
 

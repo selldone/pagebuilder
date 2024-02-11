@@ -87,7 +87,7 @@ export default {
         this.style.bg_image ? this.getShopImagePath(this.style.bg_image) : null,
         this.style.bg_size,
         this.style.bg_repeat,
-        this.style.bg_color
+        this.style.bg_color,
       );
     },
   },
@@ -165,7 +165,7 @@ export default {
           },
           {
             threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], // Set the threshold to 0.5
-          }
+          },
         );
 
         $(target)

@@ -16,20 +16,18 @@
   <v-navigation-drawer
     v-model="dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card flat class="text-start">
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="dialog = false" x-large>
+          <v-btn variant="text" @click="dialog = false" size="x-large">
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -40,14 +38,15 @@
         <v-expansion-panels flat v-model="tab">
           <!-- ████████████████████ Sort ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">article</v-icon> Text / Html</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader
-                >The content, in text or HTML, you wish to display.</v-list-subheader
+                >The content, in text or HTML, you wish to
+                display.</v-list-subheader
               >
 
               <v-textarea
@@ -55,17 +54,17 @@
                 placeholder="Write a text or html code here..."
               >
               </v-textarea>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Appearance ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">brush</v-icon> Appearance</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader>Customize text style.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -91,17 +90,17 @@
                 v-model="text_loop.height"
                 label="Height"
               ></s-number-dimension-input>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ████████████████████ Appearance ████████████████████ -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               <div>
                 <div><v-icon class="me-1">animation</v-icon> Animation</div>
               </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <v-list-subheader>Customize text animation.</v-list-subheader>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Duration ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -120,7 +119,7 @@
                 v-model="text_loop.reverse"
                 true-title="Reverse animation"
               ></s-smart-toggle>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
@@ -183,7 +182,7 @@ export default {
         this.section = section;
         this.path = path;
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -212,7 +211,7 @@ export default {
       this.dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalTextLoopDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

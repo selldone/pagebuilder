@@ -12,22 +12,19 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import { createApp, defineComponent, h } from 'vue';
-import Styler from './SStyler.vue';
-import { getTypeFromTagName, getTypeFromSchema } from '../util';
-import vuetify from '@components/plugins/vuetify/vuetify';
+import { createApp, defineComponent, h } from "vue";
+import Styler from "./SStyler.vue";
+import { getTypeFromTagName, getTypeFromSchema } from "../util";
+import vuetify from "@components/plugins/vuetify/vuetify";
 
 function installStyler({ builder }) {
-
   // Create a Vue 3 compatible component instance
   const StylerComponent = defineComponent({
     extends: Styler,
     beforeCreate() {
       this.$builder = builder;
-    }
+    },
   });
-
-
 
   builder.styler = {
     mounted(el, binding, vnode) {
@@ -106,7 +103,7 @@ function installStyler({ builder }) {
       if (binding.arg === "row" && !binding.value) return;
 
       // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
-/*
+      /*
       section.stylers.push(
         new StylerInstance({
           router,
@@ -136,18 +133,20 @@ function installStyler({ builder }) {
           route: vnode.context.$route,
           el,
           section: section,
-          type: binding.arg ||
-              getTypeFromSchema(binding.expression, vnode.context.$section.schema) ||
-              getTypeFromTagName(el.tagName),
-          name: binding.expression
-        }
+          type:
+            binding.arg ||
+            getTypeFromSchema(
+              binding.expression,
+              vnode.context.$section.schema,
+            ) ||
+            getTypeFromTagName(el.tagName),
+          name: binding.expression,
+        },
       });
 
       stylerInstance.mount(newNode);
 
-      section.stylers.push(stylerInstance)
-
-
+      section.stylers.push(stylerInstance);
     },
   };
 }

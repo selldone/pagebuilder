@@ -34,8 +34,7 @@ export default {
                 </div>
 </div>`,
 
-
-  Curvy_Card:`<div  style="width: 18rem; min-height: 100%;" class="d-flex flex-column">
+  Curvy_Card: `<div  style="width: 18rem; min-height: 100%;" class="d-flex flex-column">
 <div class="card  border-0 ma-2 pa-3 flex-grow-1" style="background-color: #fafafa;min-height: 100%;border-radius: 12px;">
                     <img src="{product.icon}" class="card-img-top" alt="{product.title}" style="aspect-ratio: 1;object-fit: cover;box-shadow: 0px 10px 50px 5px rgba(113, 112, 112, 0.24); border-radius: 12px; margin-bottom: 16px;">
                     <div class="card-body mt-2 pb-3">  
@@ -54,18 +53,5 @@ export default {
 <a href="{url}" class="btn btn-primary" target="_blank" style="padding: 12px 16px;background: #222;color: #fff;border-radius: 12px;">Buy Now</a>
 
                 </div>
-</div>`
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+</div>`,
+};

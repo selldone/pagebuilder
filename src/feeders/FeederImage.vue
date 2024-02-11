@@ -39,11 +39,9 @@
 </template>
 
 <script>
-
 export default {
   name: "FeederImage",
-  components: {
-  },
+  components: {},
   props: {
     value: {},
   },

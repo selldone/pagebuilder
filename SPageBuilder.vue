@@ -106,13 +106,13 @@
             v-if="false"
             @click="autoGenerate"
             :loading="auto_generate_busy"
-            outlined
-            x-large
+            variant="outlined"
+            size="x-large"
           >
             Auto Generate Page
           </v-btn>
 
-          <v-btn @click="show_prompt = false" color="primary" x-large>
+          <v-btn @click="show_prompt = false" color="primary" size="x-large">
             <v-icon class="me-1">check</v-icon> {{ $t("global.actions.done") }}
           </v-btn>
         </div>
@@ -155,11 +155,11 @@
       v-if="page"
       :shop="shop"
       :page="page"
-      :name.sync="page.name"
-      :color.sync="page.color"
-      :note.sync="page.note"
-      :cluster-id.sync="page.cluster_id"
-      :direction.sync="page.direction"
+      v-model:name="page.name"
+      v-model:color="page.color"
+      v-model:note="page.note"
+      v-model:cluster-id="page.cluster_id"
+      v-model:direction="page.direction"
       :is-official-page="isOfficialPage"
     ></setting-custom-page>
 
@@ -185,7 +185,7 @@
       scrollable
       content-class="rounded-t-xl"
     >
-      <v-card class="position-relative rounded-t-xl" tile>
+      <v-card class="position-relative rounded-t-xl" rounded="0">
         <v-progress-linear
           v-if="busy_fetch"
           indeterminate
@@ -199,58 +199,52 @@
         </v-card-title>
 
         <v-card-text>
-          <v-list dense class="text-start v-line-list">
-            <v-list-item ripple @click="fetchPageData()" two-line>
+          <v-list density="compact" class="text-start v-line-list">
+            <v-list-item ripple @click="fetchPageData()" lines="two">
               <v-list-item-icon>
                 <v-icon>settings_backup_restore</v-icon>
               </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title> Restore last saved page </v-list-item-title>
-                <v-list-item-subtitle>{{
-                  getFromNowString(page.updated_at)
-                }}</v-list-item-subtitle>
-              </v-list-item-content>
+
+              <v-list-item-title> Restore last saved page </v-list-item-title>
+              <v-list-item-subtitle>{{
+                getFromNowString(page.updated_at)
+              }}</v-list-item-subtitle>
             </v-list-item>
 
+            <v-list-item
+              v-for="history in histories"
+              :key="history.id"
+              ripple
+              @click="getHistory(history.id)"
+              lines="two"
+            >
+              <v-list-item-icon>
+                <v-icon
+                  :color="current_history_id === history.id ? 'green' : '#333'"
+                  >{{
+                    current_history_id === history.id
+                      ? "adjust"
+                      : "panorama_fish_eye"
+                  }}</v-icon
+                >
+              </v-list-item-icon>
 
-              <v-list-item
-                  v-for="history in histories"
-                :key="history.id"
-                ripple
-                @click="getHistory(history.id)"
-                two-line
-              >
-                <v-list-item-icon>
-                  <v-icon
-                    :color="
-                      current_history_id === history.id ? 'green' : '#333'
-                    "
-                    >{{
-                      current_history_id === history.id
-                        ? "adjust"
-                        : "panorama_fish_eye"
-                    }}</v-icon
-                  >
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ getLocalTimeString(history.created_at) }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    getFromNowString(history.created_at)
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
+              <v-list-item-title>
+                {{ getLocalTimeString(history.created_at) }}
+              </v-list-item-title>
+              <v-list-item-subtitle>{{
+                getFromNowString(history.created_at)
+              }}</v-list-item-subtitle>
 
-                <v-list-item-action>
-                  <v-btn icon @click="togglePersistent(history)" @click.stop>
-                    <v-icon v-if="history.persistent" color="yellow darken-2">
-                      star
-                    </v-icon>
-                    <v-icon v-else color="grey lighten-1"> star_border </v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-
+              <v-list-item-action>
+                <v-btn icon @click="togglePersistent(history)" @click.stop>
+                  <v-icon v-if="history.persistent" color="yellow-darken-2">
+                    star
+                  </v-icon>
+                  <v-icon v-else color="grey-lighten-1"> star_border </v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
         </v-card-text>
       </v-card>
@@ -412,10 +406,10 @@ export default {
         //console.log('*******here*******','style',this.style)
         this.$forceUpdate();
         this.$refs.vueBuilder.PageStyleCalc(); // Force recalculate style! do not trigger on watch 'pageStyle'!
-      }
+      },
     );
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("trigger:RefreshGlobalPageBuilder");
   },
   methods: {
@@ -437,7 +431,7 @@ export default {
         url = window.API.GET_PAGE_HISTORY(
           this.$route.params.shop_id,
           this.page_id,
-          history_id
+          history_id,
         );
       else if (this.isOfficialPage)
         url = window.ADMIN_API.GET_PAGE_HISTORY(this.page_id, history_id);
@@ -454,7 +448,7 @@ export default {
 
             this.showSuccessAlert(
               "Fetch completed",
-              "Page successfully loaded from history." //صفحه ذخیره شده از تاریخچه لود شد.
+              "Page successfully loaded from history.", //صفحه ذخیره شده از تاریخچه لود شد.
             );
           }
         })
@@ -471,12 +465,12 @@ export default {
         url = window.API.PUT_SET_HISTORY_PERSISTENT(
           this.$route.params.shop_id,
           this.page_id,
-          history.id
+          history.id,
         );
       else if (this.isOfficialPage)
         url = window.ADMIN_API.PUT_SET_HISTORY_PERSISTENT(
           this.page_id,
-          history.id
+          history.id,
         );
       else return;
 
@@ -532,7 +526,7 @@ export default {
         if (this.shop)
           url = window.API.PUT_EDIT_PAGE(
             this.$route.params.shop_id,
-            this.page.id
+            this.page.id,
           );
         else if (this.isOfficialPage)
           url = window.ADMIN_API.PUT_EDIT_PAGE(this.page.id);
@@ -568,7 +562,7 @@ export default {
                 this.histories.unshift(data.history);
               this.showSuccessAlert(
                 null,
-                "Page has been updated successfully."
+                "Page has been updated successfully.",
               );
 
               /*
@@ -653,7 +647,7 @@ export default {
       if (this.shop)
         url = window.API.GET_PAGE_DATA(
           this.$route.params.shop_id,
-          this.page_id
+          this.page_id,
         );
       else if (this.isOfficialPage)
         url = window.ADMIN_API.GET_PAGE_DATA(this.page_id);
@@ -710,7 +704,7 @@ export default {
         this.show_prompt = true;
         this.showWarningAlert(
           "Enter Prompt Please",
-          "Kindly set a prompt for the page before proceeding."
+          "Kindly set a prompt for the page before proceeding.",
         );
         return;
       }
@@ -721,11 +715,11 @@ export default {
       if (this.shop)
         url = window.API.POST_AI_PAGE_BUILDER_AUTO_GENERATE(
           this.shop.id,
-          this.page.id
+          this.page.id,
         );
       else if (this.isOfficialPage)
         url = window.ADMIN_API.POST_ADMIN_AI_PAGE_BUILDER_AUTO_GENERATE(
-          this.page.id
+          this.page.id,
         );
       else return;
 
@@ -742,7 +736,7 @@ export default {
 
             this.showSuccessAlert(
               "Build completed",
-              "Page successfully auto created and loaded."
+              "Page successfully auto created and loaded.",
             );
           }
         })
@@ -760,7 +754,7 @@ export default {
         this.show_prompt = true;
         this.showWarningAlert(
           "Enter Prompt",
-          "Kindly set a prompt for the page before proceeding."
+          "Kindly set a prompt for the page before proceeding.",
         );
         return;
       }
@@ -771,12 +765,12 @@ export default {
       if (this.shop)
         url = window.API.POST_AI_PAGE_BUILDER_SECTION_CONTENT_GENERATE(
           this.$route.params.shop_id,
-          this.page?.id
+          this.page?.id,
         );
       else if (this.isOfficialPage)
         url =
           window.ADMIN_API.POST_ADMIN_AI_PAGE_BUILDER_SECTION_CONTENT_GENERATE(
-            this.page?.id
+            this.page?.id,
           );
       else return;
 

@@ -20,21 +20,31 @@
     :href="editing ? ' ' : btnData.href"
     v-html="btnData.content?.applyAugment(augment, editing)"
     :color="btnData.glow ? undefined : btnData.color"
-    :dark="btnData.dark"
     :icon="btnData.icon"
-    :depressed="btnData.depressed"
-    :outlined="btnData.outlined"
-    :text="btnData.text"
-    :fab="btnData.fab"
-    :tile="btnData.tile"
-    :x-small="btnData.xSmall"
-    :small="btnData.small"
-    :large="btnData.large"
-    :x-large="btnData.xLarge"
+    :variant="
+      btnData.depressed
+        ? 'flat'
+        : btnData.outlined
+          ? 'outlined'
+          : btnData.text
+            ? 'text'
+            : btnData.fab
+              ? 'elevated'
+              : undefined
+    "
+    :size="
+      btnData.xLarge
+        ? 'x-large'
+        : btnData.large
+          ? 'large'
+          : btnData.small
+            ? 'small'
+            : btnData.xSmall
+              ? 'x-small'
+              : undefined
+    "
     :ripple="btnData.ripple"
-    :rounded="btnData.rounded"
-    :link="!!btnData.href"
-    retain-focus-on-click
+    :rounded="btnData.tile ? 0 : btnData.rounded"
     @click.stop="$emit('click')"
     :id="btnData.id"
     :loading="loading"

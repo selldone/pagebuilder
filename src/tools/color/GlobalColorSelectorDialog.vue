@@ -16,13 +16,11 @@
   <v-navigation-drawer
     v-model="dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -31,12 +29,12 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn @click="setColor(null)" text x-large
+          <v-btn @click="setColor(null)" variant="text" size="x-large"
             ><v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.clear") }}</v-btn
           >
 
-          <v-btn text x-large @click="dialog = false">
+          <v-btn variant="text" size="x-large" @click="dialog = false">
             <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -112,7 +110,7 @@ export default {
         this.callback = callback;
         this.alpha = alpha;
         this.showColorDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -141,7 +139,7 @@ export default {
       this.dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalColorSelectorDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
@@ -172,7 +170,7 @@ export default {
             if (color.length === 4) {
               color = color.replaceAll(
                 "#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])",
-                "#$1$1$2$2$3$3"
+                "#$1$1$2$2$3$3",
               );
             } else if (color.length === 7) {
               color = color + "ff";

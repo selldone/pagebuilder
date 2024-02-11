@@ -33,7 +33,7 @@
             v-html="
               $sectionData.columns[0].title?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             class="mb-2 fadeIn delay_100"
@@ -44,7 +44,7 @@
             v-html="
               $sectionData.columns[0].content?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             class="mb-4 fadeIn delay_300"
@@ -57,7 +57,7 @@
                 v-html="
                   $sectionData.newsletter.success_msg?.applyAugment(
                     augment,
-                    $builder.isEditing
+                    $builder.isEditing,
                   )
                 "
                 class="my-4"
@@ -67,15 +67,18 @@
               <v-text-field
                 v-styler:input="$sectionData.newsletter.input"
                 v-model="email"
-                :solo="$sectionData.newsletter.input.solo"
-                :flat="$sectionData.newsletter.input.flat"
-                :outlined="$sectionData.newsletter.input.outlined"
-                :dark="$sectionData.newsletter.input.dark"
-                :background-color="
-                  $sectionData.newsletter.input.backgroundColor
+                :variant="
+                  $sectionData.newsletter.input.solo
+                    ? 'solo'
+                    : $sectionData.newsletter.input.outlined
+                      ? 'outlined'
+                      : $sectionData.newsletter.input.filled
+                        ? 'filled'
+                        : undefined
                 "
+                :flat="$sectionData.newsletter.input.flat"
+                :bg-color="$sectionData.newsletter.input.backgroundColor"
                 :color="$sectionData.newsletter.input.color"
-                :filled="$sectionData.newsletter.input.filled"
                 :rounded="$sectionData.newsletter.input.rounded"
                 :placeholder="$sectionData.newsletter.input.placeholder"
                 class="max-w-400 mx-auto"
@@ -117,10 +120,14 @@
             v-if="$builder.isEditing && !$builder.isHideExtra"
             class="inline-editor-sheet absolute-top-end op-0-3 op1h"
           >
-            <v-btn outlined dark @click.stop="toggleMode()" class="tnt ma-1"
-              ><v-icon left>flip_camera_android</v-icon>
-              {{ success ? "Show form" : "Show success" }}</v-btn
+            <v-btn
+              variant="outlined"
+              @click.stop="toggleMode()"
+              class="tnt ma-1"
             >
+              <v-icon start>flip_camera_android</v-icon>
+              {{ success ? "Show form" : "Show success" }}
+            </v-btn>
           </div>
         </x-column>
       </x-row>
@@ -212,7 +219,7 @@ export default {
             : "Email is empty!",
           this.$sectionData.newsletter?.error_dialog?.message
             ? this.$sectionData.newsletter.error_dialog.message
-            : "Please enter your email address."
+            : "Please enter your email address.",
         );
       }
       this.busy = true;
@@ -234,7 +241,7 @@ export default {
               : "Thanks",
             this.$sectionData.newsletter?.success_dialog?.message
               ? this.$sectionData.newsletter.success_dialog.message
-              : "Thank you, we have received your email address for our newsletter."
+              : "Thank you, we have received your email address for our newsletter.",
           );
         })
         .catch((error) => {

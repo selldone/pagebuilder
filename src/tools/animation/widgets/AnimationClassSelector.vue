@@ -13,7 +13,10 @@
   -->
 
 <template>
-  <v-item-group :value="value" @change="(val) => $emit('input', val)">
+  <v-item-group
+    :model-value="value"
+    @update:model-value="(val) => $emit('input', val)"
+  >
     <v-container>
       <v-row justify="center" class="pb-10">
         <v-item

@@ -82,7 +82,8 @@
           <v-btn
             v-for="item in BgImageStyles"
             :key="item"
-            icon variant="text"
+            icon
+            variant="text"
             @click="
               $emit('update:bgCustom', item);
               onChange();

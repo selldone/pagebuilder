@@ -16,13 +16,11 @@
   <v-navigation-drawer
     v-model="dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -31,7 +29,7 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text x-large @click="dialog = false">
+          <v-btn variant="text" size="x-large" @click="dialog = false">
             <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -96,7 +94,7 @@ export default {
         this.section = section;
         this.inputPath = inputPath;
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -125,7 +123,7 @@ export default {
       this.dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalInputEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 

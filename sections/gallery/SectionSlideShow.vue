@@ -20,8 +20,12 @@
     v-styler:slide="$sectionData.slide"
     has-thumbnail="true"
   >
-
-    <swiper v-if="showSlider" ref="swiperTop" :options="swiperTop"      @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex">
+    <swiper
+      v-if="showSlider"
+      ref="swiperTop"
+      :options="swiperTop"
+      @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex"
+    >
       <swiper-slide
         v-for="(slide, index) in $sectionData.slide.items"
         :key="index"
@@ -33,7 +37,7 @@
           v-if="$sectionData.slide.items[index].container?.background?.bg_video"
           :video="
             getVideoUrl(
-              $sectionData.slide.items[index].container?.background?.bg_video
+              $sectionData.slide.items[index].container?.background?.bg_video,
             )
           "
         >
@@ -43,10 +47,7 @@
           class="position-relative h-100"
           :index="index"
           :style="[backgroundStyle($sectionData.slide.items[index].background)]"
-
-          :class="[
-            realIndex === index ? $sectionData.slide.active : null,
-          ]"
+          :class="[realIndex === index ? $sectionData.slide.active : null]"
         >
           <!-- ----------------- Image Layer ----------------- -->
 
@@ -78,7 +79,7 @@
               $builder.onClickClone(
                 $event,
                 $sectionData.slide.items[index].container,
-                ['classes', 'style']
+                ['classes', 'style'],
               );
               $forceUpdate();
             "
@@ -105,7 +106,7 @@
                   v-html="
                     $sectionData.slide.items[index].title?.applyAugment(
                       augment,
-                      $builder.isEditing
+                      $builder.isEditing,
                     )
                   "
                   :index="index"
@@ -115,7 +116,7 @@
                   v-html="
                     $sectionData.slide.items[index].subtitle?.applyAugment(
                       augment,
-                      $builder.isEditing
+                      $builder.isEditing,
                     )
                   "
                   :index="index"
@@ -140,11 +141,11 @@
                   <v-btn
                     key="add"
                     v-if="!$sectionData.slide.items[index].button"
-                    depressed
+                    variant="flat"
                     color="success"
                     @click.stop="
                       $sectionData.slide.items[index].button = getInstance(
-                        types.Button
+                        types.Button,
                       );
                       $forceUpdate();
                     "
@@ -155,7 +156,7 @@
                   <v-btn
                     key="del"
                     v-else
-                    depressed
+                    variant="flat"
                     color="red"
                     dark
                     class="z2"
@@ -171,18 +172,19 @@
               </div>
             </v-row>
           </div>
-
-
         </div>
       </swiper-slide>
 
-      <template v-slot:pagination>  <div class="swiper-pagination"></div></template>
+      <template v-slot:pagination>
+        <div class="swiper-pagination"></div
+      ></template>
 
-
-        <template v-if="$sectionData.slide.navigation" v-slot:button-prev> <div class="swiper-button-prev" ></div></template>
-        <template v-if="$sectionData.slide.navigation" v-slot:button-next>     <div class="swiper-button-next" ></div></template>
-
-
+      <template v-if="$sectionData.slide.navigation" v-slot:button-prev>
+        <div class="swiper-button-prev"></div
+      ></template>
+      <template v-if="$sectionData.slide.navigation" v-slot:button-next>
+        <div class="swiper-button-next"></div
+      ></template>
     </swiper>
 
     <!-- swiper2 Thumbs -->
@@ -206,17 +208,15 @@
               'thumb-margin': true,
               'thumb-hover': true,
             },
-             realIndex === index ? $sectionData.slide.thumbs_active : null,
+            realIndex === index ? $sectionData.slide.thumbs_active : null,
           ]"
-
-
         >
           <h3
             v-styler="$sectionData.slide.items[index].thumb_title"
             v-html="
               $sectionData.slide.items[index].thumb_title?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             :index="index"
@@ -226,7 +226,7 @@
             v-html="
               $sectionData.slide.items[index].thumb_subtitle?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             :index="index"
@@ -241,16 +241,15 @@
 import * as types from "../../src/types";
 import CustomButton from "@app-page-builder/sections/components/CustomButton";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
-import {Swiper, SwiperSlide} from "swiper/vue";
-
-
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 export default {
   name: "SectionSlideShow",
   components: {
     VideoBackground,
     CustomButton,
-    Swiper, SwiperSlide
+    Swiper,
+    SwiperSlide,
   },
   cover: require("../../assets/images/covers/slideshow.svg"),
 
@@ -282,13 +281,12 @@ export default {
       vertical: false,
       slidesPerView: 1,
       spaceBetween: 0,
-      active:null, // Center slide custom class
+      active: null, // Center slide custom class
 
       thumbs: false,
       thumbs_type: "thumb-outline",
       thumbs_round: true,
-      thumbs_active:null, // Center slide custom class
-
+      thumbs_active: null, // Center slide custom class
     },
   },
   props: {
@@ -304,7 +302,6 @@ export default {
   data: () => ({
     realIndex: 0,
 
-
     dialog: false,
     showSlider: true,
 
@@ -318,7 +315,9 @@ export default {
   created() {
     this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
-    this.$section.__goToSlide = (index)=>{  this.$refs.swiperTop?.$swiper?.slideTo(index)};
+    this.$section.__goToSlide = (index) => {
+      this.$refs.swiperTop?.$swiper?.slideTo(index);
+    };
     this.init();
   },
 
@@ -338,12 +337,12 @@ export default {
         slidesPerView: this.$vuetify.display.xl
           ? 5
           : this.$vuetify.display.lg
-          ? 4
-          : this.$vuetify.display.md
-          ? 3
-          : this.$vuetify.display.sm
-          ? 2
-          : 1,
+            ? 4
+            : this.$vuetify.display.md
+              ? 3
+              : this.$vuetify.display.sm
+                ? 2
+                : 1,
         touchRatio: 0.2,
         slideToClickedSlide: true,
       };
@@ -409,13 +408,12 @@ export default {
     },
 
     refresh() {
-
       // Reset controllers:
       const swiperTop = this.$refs.swiperTop?.$swiper;
       const swiperThumbs = this.$refs.swiperThumbs?.$swiper;
-      if(swiperTop?.controller?.control) swiperTop.controller.control = null;
-      if(swiperThumbs?.controller?.control) swiperThumbs.controller.control = null;
-
+      if (swiperTop?.controller?.control) swiperTop.controller.control = null;
+      if (swiperThumbs?.controller?.control)
+        swiperThumbs.controller.control = null;
 
       this.$forceUpdate();
       this.$nextTick(() => {
@@ -428,7 +426,7 @@ export default {
           this.$nextTick(() => {
             this.showSlider = true;
 
-            if (this.$sectionData.slide.thumbs){
+            if (this.$sectionData.slide.thumbs) {
               this.$nextTick(() => {
                 const swiperTop = this.$refs.swiperTop.$swiper;
                 const swiperThumbs = this.$refs.swiperThumbs.$swiper;
@@ -440,9 +438,7 @@ export default {
                   this.$refs.swiperTop.$swiper.slideToLoop(current_slide, 0);
                 });
               });
-            }
-
-            else {
+            } else {
               this.$nextTick(() => {
                 // Go current index:
                 this.$nextTick(() => {
@@ -456,8 +452,6 @@ export default {
         });
       });
     },
-
-
   },
 };
 </script>
@@ -514,7 +508,8 @@ export default {
   background-color: rgb(255, 255, 255);
   border-color: rgb(255, 255, 255);
   color: #222;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }

@@ -65,7 +65,7 @@
       tile
       min-width="36"
       :color="value.flat ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       Flat
     </v-btn>
@@ -81,7 +81,7 @@
       tile
       min-width="36"
       :color="value.rounded ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       <v-icon>{{ value.rounded ? "rounded_corner" : "crop_din" }}</v-icon>
     </v-btn>
@@ -97,7 +97,7 @@
       tile
       min-width="36"
       :color="value.solo ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       Solo
     </v-btn>
@@ -113,7 +113,7 @@
       tile
       min-width="36"
       :color="value.outlined ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       Outlined
     </v-btn>
@@ -129,7 +129,7 @@
       tile
       min-width="36"
       :color="value.dark ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       Dark
     </v-btn>
@@ -145,7 +145,7 @@
       tile
       min-width="36"
       :color="value.filled ? 'primary' : undefined"
-      depressed
+      variant="flat"
     >
       Filled
     </v-btn>

@@ -18,7 +18,7 @@
       <h2
         v-styler="$sectionData.header"
         class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.header?.applyAugment(augment,$builder.isEditing)"
+        v-html="$sectionData.header?.applyAugment(augment, $builder.isEditing)"
       ></h2>
 
       <x-row

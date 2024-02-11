@@ -22,7 +22,7 @@
           class="rounded-group m-1 c-widget"
           rounded
           mandatory
-          active-class="blue-flat"
+          selected-class="blue-flat"
           borderless
         >
           <v-btn value="desktop">
@@ -30,7 +30,7 @@
 
             <span class="ms-2">
               {{
-                 numeralFormat(page.desktop ? page.desktop.count : 0 ,"0.[0] a")
+                numeralFormat(page.desktop ? page.desktop.count : 0, "0.[0] a")
               }}</span
             >
           </v-btn>
@@ -39,7 +39,7 @@
 
             <span class="ms-2">
               {{
-                  numeralFormat(page.tablet ? page.tablet.count : 0,"0.[0] a")
+                numeralFormat(page.tablet ? page.tablet.count : 0, "0.[0] a")
               }}</span
             >
           </v-btn>
@@ -47,7 +47,7 @@
             <v-icon>stay_primary_portrait</v-icon>
 
             <span class="ms-2">{{
-               numeralFormat(page.mobile ? page.mobile.count : 0 ,"0.[0] a")
+              numeralFormat(page.mobile ? page.mobile.count : 0, "0.[0] a")
             }}</span>
           </v-btn>
         </v-btn-toggle>
@@ -80,7 +80,6 @@
 </template>
 
 <script>
-
 export default {
   name: "PageBuilderUsersBehavior",
 

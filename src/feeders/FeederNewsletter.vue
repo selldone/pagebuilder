@@ -21,9 +21,7 @@
       append-icon="mail_outline"
     ></v-text-field>
 
-    <feeder-input
-      v-model="value.input"
-    ></feeder-input>
+    <feeder-input v-model="value.input"></feeder-input>
 
     <v-list-subheader>
       This message will be shown after user successfully submit their email.
@@ -41,7 +39,9 @@
       append-icon="check_circle_outline"
     ></v-text-field>
 
-    <v-list-subheader> This message will be shown when email is empty. </v-list-subheader>
+    <v-list-subheader>
+      This message will be shown when email is empty.
+    </v-list-subheader>
     <v-text-field
       v-model="value.error_dialog.title"
       label="Dialog error title"
@@ -63,7 +63,7 @@ import FeederInput from "@app-page-builder/src/feeders/FeederInput.vue";
 
 export default {
   name: "FeederNewsletter",
-  components: {FeederInput},
+  components: { FeederInput },
   props: {
     value: {},
   },

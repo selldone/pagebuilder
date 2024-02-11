@@ -14,14 +14,13 @@
 
 <template>
   <div class="pa-1 text-center min-width-75 d-flex flex-column align-center">
-    <v-menu top offset-y rounded="lg">
-      <template v-slot:activator="{ on, attrs }">
+    <v-menu location="top" offset-y rounded="lg">
+      <template v-slot:activator="{ props }">
         <v-btn
           :color="value ? 'primary' : undefined"
-          :depressed="!value"
+          :variant="!value && 'flat'"
           :dark="!!value"
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         >
           {{ value ? value : "❌" }}
         </v-btn>
@@ -30,14 +29,15 @@
       <v-sheet color="#fff">
         <v-list-subheader
           >Opt for a 12-split layout in relative design, enabling flexible,
-          evenly divided sections for efficient space utilization.</v-list-subheader
+          evenly divided sections for efficient space
+          utilization.</v-list-subheader
         >
 
         <v-btn
           @click="$emit('input', null)"
           key="-"
-          depressed
-          small
+          variant="flat"
+          size="small"
           class="ma-1"
           min-width="36"
           title="Inherit from smaller screen size."
@@ -45,10 +45,10 @@
           ❌
         </v-btn>
         <v-btn
-          depressed
+          variant="flat"
           v-for="index in 12"
           :key="index"
-          small
+          size="small"
           class="ma-1"
           @click="$emit('input', index)"
           min-width="36"
@@ -58,7 +58,7 @@
       </v-sheet>
     </v-menu>
     <small class="mt-2"
-      ><v-icon small>{{ icon }}</v-icon> {{ label }}</small
+      ><v-icon size="small">{{ icon }}</v-icon> {{ label }}</small
     >
   </div>
 </template>

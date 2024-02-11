@@ -16,24 +16,23 @@
   <v-navigation-drawer
     v-model="show_dialog"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl
-        ? 560
-        : $vuetify.display.lgAndUp
-        ? 420
-        : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card v-if="show_dialog" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_dialog=false" color="primary" x-large>
+          <v-btn
+            variant="text"
+            @click="show_dialog = false"
+            color="primary"
+            size="x-large"
+          >
             <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}</v-btn
           >
@@ -45,10 +44,14 @@
           :title="$t('global.commons.link')"
           icon="add_link"
         ></s-widget-header>
-        <small  style="height: unset" class="my-2">When using absolute links, always include "https://" to ensure the correct path is accessed. If "https://" is omitted, the link will be treated as a relative path and appended to the current URL.</small>
+        <small style="height: unset" class="my-2"
+          >When using absolute links, always include "https://" to ensure the
+          correct path is accessed. If "https://" is omitted, the link will be
+          treated as a relative path and appended to the current URL.</small
+        >
 
         <v-text-field
-          outlined
+          variant="outlined"
           :label="$t('global.commons.url')"
           v-model="link"
           class="english-field my-3"
@@ -68,7 +71,7 @@ import _ from "lodash-es";
 
 export default {
   name: "GlobalLinkEditorDialog",
-  components: {  },
+  components: {},
 
   props: {},
   data: () => ({
@@ -92,7 +95,7 @@ export default {
       if (!val)
         // Reset after close!
         _.delay(() => {
-          this.resetToDefault();      // 🞇 Reset to default
+          this.resetToDefault(); // 🞇 Reset to default
         }, 300);
     },
   },
@@ -110,7 +113,7 @@ export default {
         this.urlPath = urlPath;
 
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -139,7 +142,7 @@ export default {
       this.show_dialog = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalLinkEditorDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

@@ -20,7 +20,7 @@
       dark
       color="#225082"
       v-if="$builder.isEditing && !$builder.isHideExtra"
-      class=" inline-editor-sheet"
+      class="inline-editor-sheet"
       @click.stop
     >
       <v-toolbar
@@ -34,19 +34,19 @@
           <v-btn
             @click.stop="removeLastSlide"
             color="#2196F3"
-            depressed
+            variant="flat"
             class="rounded-lg tnt me-2"
           >
-            <v-icon left>backspace</v-icon> Remove Last Slide
+            <v-icon start>backspace</v-icon> Remove Last Slide
           </v-btn>
           <v-btn
             @click.stop="addNewSlide"
             dark
             color="#2196F3"
-            depressed
+            variant="flat"
             class="rounded-lg tnt me-2"
           >
-            <v-icon left>queue</v-icon> Add New Slide
+            <v-icon start>queue</v-icon> Add New Slide
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -55,12 +55,19 @@
     <h2
       v-styler="$sectionData.title"
       class="mb-5"
-      v-html="$sectionData.title?.applyAugment(augment,$builder.isEditing)"
+      v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
     />
-    <p v-styler="$sectionData.content" v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)" />
+    <p
+      v-styler="$sectionData.content"
+      v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
+    />
 
     <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-    <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
+    <x-buttons
+      :object="$sectionData"
+      path="$sectionData"
+      :augment="augment"
+    ></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
     <div class="container-gallery addable">
@@ -86,7 +93,12 @@
         <p
           v-if="$builder.isEditing || $sectionData.columns[index].title"
           v-styler="$sectionData.columns[index].title"
-          v-html="$sectionData.columns[index].title?.applyAugment(augment,$builder.isEditing)"
+          v-html="
+            $sectionData.columns[index].title?.applyAugment(
+              augment,
+              $builder.isEditing,
+            )
+          "
           :index="index"
         />
       </div>
@@ -104,9 +116,10 @@ export default {
   group: "Gallery",
   label: "Expandable Gallery",
 
-    help: {
-        title: "This section presents an image gallery featuring horizontally expandable slides.",
-    },
+  help: {
+    title:
+      "This section presents an image gallery featuring horizontally expandable slides.",
+  },
 
   $schema: {
     classes: types.ClassList,
@@ -145,9 +158,9 @@ export default {
       required: true,
     },
 
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
   data: () => ({
     ItemType: {
@@ -166,7 +179,7 @@ export default {
         "Yes, Delete now",
         () => {
           this.$sectionData.columns.pop();
-        }
+        },
       );
     },
     addNewSlide() {

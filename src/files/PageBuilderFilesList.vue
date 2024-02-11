@@ -35,7 +35,7 @@
             <v-spacer></v-spacer>
             <div class="pa-1 d-flex align-center">
               <b class="small mx-2" v-if="file.size">{{
-                  numeralFormat(file.size,"0 b")
+                numeralFormat(file.size, "0 b")
               }}</b>
               <v-spacer></v-spacer>
               <v-btn
@@ -65,7 +65,7 @@
 
             <div class="pa-1 d-flex align-center">
               <b class="small mx-2" v-if="file.size">{{
-                numeralFormat( file.size ,"0 b")
+                numeralFormat(file.size, "0 b")
               }}</b>
               <v-spacer></v-spacer>
               <v-btn
@@ -84,8 +84,8 @@
           v-if="!busy && !images?.length && !videos?.length"
           class="pa-6 text-h4 font-weight-light op-0-4 usn min-height-40vh d-flex align-center justify-center"
         >
-          <v-icon x-large class="ma-2">folder_open</v-icon> No asset uploaded
-          yet.
+          <v-icon size="x-large" class="ma-2">folder_open</v-icon> No asset
+          uploaded yet.
         </v-col>
       </v-row>
     </v-container>

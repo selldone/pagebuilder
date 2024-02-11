@@ -370,7 +370,7 @@
             v-html="
               $sectionData.slide.items[index].title?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             :index="index"
@@ -380,7 +380,7 @@
             v-html="
               $sectionData.slide.items[index].subtitle?.applyAugment(
                 augment,
-                $builder.isEditing
+                $builder.isEditing,
               )
             "
             :index="index"
@@ -410,26 +410,26 @@
                 v-if="!$sectionData.slide.items[index].button"
                 @click.stop="
                   $sectionData.slide.items[index].button = getInstance(
-                    types.Button
+                    types.Button,
                   );
                   $forceUpdate();
                 "
-                outlined
+                variant="outlined"
                 class="ma-1"
                 title="Add action button."
-                ><v-icon color="success" left>add</v-icon> Add Action</v-btn
+                ><v-icon color="success" start>add</v-icon> Add Action</v-btn
               >
               <v-btn
                 key="del"
                 v-else
-                outlined
+                variant="outlined"
                 class="ma-1"
                 title="Delete button."
                 @click.stop="
                   $sectionData.slide.items[index].button = null;
                   $forceUpdate();
                 "
-                ><v-icon color="red" left>close</v-icon> Remove Action</v-btn
+                ><v-icon color="red" start>close</v-icon> Remove Action</v-btn
               >
             </v-slide-x-reverse-transition>
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ End Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -440,21 +440,23 @@
               class="tnt ma-1"
               style="z-index: 100"
               @click.stop="removeSlide(index)"
-              outlined
-              ><v-icon left color="red">close</v-icon> Delete Slide</v-btn
+              variant="outlined"
+              ><v-icon start color="red">close</v-icon> Delete Slide</v-btn
             >
           </v-sheet>
         </div>
       </swiper-slide>
 
+      <template v-slot:pagination
+        ><div class="swiper-pagination"></div
+      ></template>
 
-      <template v-slot:pagination><div class="swiper-pagination" ></div></template>
-
-
-
-        <template v-if="$sectionData.slide.navigation" v-slot:button-prev><div class="swiper-button-prev" ></div></template>
-        <template v-if="$sectionData.slide.navigation" v-slot:button-next> <div class="swiper-button-next" ></div></template>
-
+      <template v-if="$sectionData.slide.navigation" v-slot:button-prev
+        ><div class="swiper-button-prev"></div
+      ></template>
+      <template v-if="$sectionData.slide.navigation" v-slot:button-next>
+        <div class="swiper-button-next"></div
+      ></template>
     </swiper>
   </x-section>
 </template>
@@ -466,7 +468,7 @@ import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput";
 import CustomButton from "@app-page-builder/sections/components/CustomButton";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
-import {Swiper, SwiperSlide} from "swiper/vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 const EFFECTS = [
   { title: "Slide", value: "slide" },
@@ -492,7 +494,8 @@ export default {
     CustomButton,
     SNumberDimensionInput,
     SNumberInput,
-    Swiper, SwiperSlide
+    Swiper,
+    SwiperSlide,
   },
   cover: require("../../assets/images/covers/scroll-view.svg"),
 
@@ -652,7 +655,7 @@ export default {
       this.$refs.swiperTop.$swiper.update();
       this.$nextTick(() => {
         this.$refs.swiperTop.$swiper.slideTo(
-          this.$sectionData.slide.items.length - 1
+          this.$sectionData.slide.items.length - 1,
         );
       });
     },
@@ -679,10 +682,10 @@ export default {
         this.$sectionData.slide.pagination === "bullets"
           ? "fraction"
           : this.$sectionData.slide.pagination === "fraction"
-          ? "progressbar"
-          : this.$sectionData.slide.pagination === "progressbar"
-          ? "custom"
-          : "bullets";
+            ? "progressbar"
+            : this.$sectionData.slide.pagination === "progressbar"
+              ? "custom"
+              : "bullets";
 
       this.refresh();
     },

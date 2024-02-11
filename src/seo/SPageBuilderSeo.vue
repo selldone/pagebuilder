@@ -22,7 +22,10 @@
         icon="radar"
       ></s-widget-header>
 
-      <v-list-subheader>You can set the page title and the description meta tag of this page.</v-list-subheader>
+      <v-list-subheader
+        >You can set the page title and the description meta tag of this
+        page.</v-list-subheader
+      >
 
       <v-text-field
         v-model="page.title"
@@ -30,7 +33,10 @@
         :label="$t('page_builder.setting.title_input')"
       >
         <template v-slot:append-inner>
-          <score-indicator :value="$SEO.GetPageTitleScore(page.description)" class="mt-n1"></score-indicator>
+          <score-indicator
+            :value="$SEO.GetPageTitleScore(page.description)"
+            class="mt-n1"
+          ></score-indicator>
         </template>
       </v-text-field>
 
@@ -42,7 +48,10 @@
         auto-grow
       >
         <template v-slot:append-inner>
-          <score-indicator :value="$SEO.GetPageDescription(page.description)" class="mt-n1"></score-indicator>
+          <score-indicator
+            :value="$SEO.GetPageDescription(page.description)"
+            class="mt-n1"
+          ></score-indicator>
         </template>
       </v-textarea>
 
@@ -54,7 +63,7 @@
 
     <!-- ============== SEO ============== -->
 
-    <div class="widget-box mb-5"   style="--background:#FFF">
+    <div class="widget-box mb-5" style="--background: #fff">
       <s-widget-header
         title="SEO Preview"
         icon="fa:fa-brands fa-google"
@@ -76,7 +85,7 @@ import GoogleSearchPreview from "@app-backoffice/components/seo/GoogleSearchPrev
 import ScoreIndicator from "@components/ui/progress/score-indicator/ScoreIndicator.vue";
 export default {
   name: "SPageBuilderSeo",
-  components: {ScoreIndicator, GoogleSearchPreview },
+  components: { ScoreIndicator, GoogleSearchPreview },
   props: {
     page: {},
   },

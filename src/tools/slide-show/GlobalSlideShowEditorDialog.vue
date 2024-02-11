@@ -16,20 +16,18 @@
   <v-navigation-drawer
     v-model="show_edit_slide"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_edit_slide = false" x-large>
+          <v-btn variant="text" @click="show_edit_slide = false" size="x-large">
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -59,7 +57,9 @@
           @click:add="addSlide"
           class="mt-5"
         ></s-widget-header>
-        <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
+        <v-list-subheader
+          >You can customize and make your filter here.</v-list-subheader
+        >
 
         <v-expansion-panels>
           <v-expansion-panel
@@ -67,12 +67,12 @@
             :key="i"
             @click="goToSlide(i)"
           >
-            <v-expansion-panel-header class="text-start"
+            <v-expansion-panel-title class="text-start"
               ><div class="flex-grow-0">
                 <v-avatar v-if="item.image?.src" size="16" rounded class="me-1"
                   ><v-img :src="getShopImagePath(item.image.src)"></v-img
                 ></v-avatar>
-                <v-icon v-else class="me-1" small>view_headline</v-icon>
+                <v-icon v-else class="me-1" size="small">view_headline</v-icon>
                 Slide {{ i + 1 }}
               </div>
               <div
@@ -84,8 +84,8 @@
               <v-btn icon @click.stop="removeSlide(i)" class="flex-grow-0"
                 ><v-icon>delete</v-icon></v-btn
               >
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <s-image-uploader
                 v-if="item.image"
                 :image="getShopImagePath(item.image.src)"
@@ -117,7 +117,7 @@
                 >
                 </v-text-field>
               </template>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
 
@@ -132,17 +132,19 @@
           add-text
           class="mt-5"
         ></s-widget-header>
-        <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
+        <v-list-subheader
+          >You can customize and make your filter here.</v-list-subheader
+        >
 
         <v-expansion-panels>
           <v-expansion-panel>
-            <v-expansion-panel-header
+            <v-expansion-panel-title
               ><span
-                ><v-icon class="me-1" small>pan_tool_alt</v-icon>
+                ><v-icon class="me-1" size="small">pan_tool_alt</v-icon>
                 Behaviour</span
               >
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <!-- ▃▃▃▃▃▃▃▃▃▃ Loop ▃▃▃▃▃▃▃▃▃▃ -->
 
               <s-smart-toggle
@@ -216,16 +218,19 @@
                 false-gray
               >
               </s-smart-toggle>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ▃▃▃▃▃▃▃▃▃▃ Size ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-expansion-panel>
-            <v-expansion-panel-header
-              ><span><v-icon class="me-1" small>straighten</v-icon> Size</span>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-title
+              ><span
+                ><v-icon class="me-1" size="small">straighten</v-icon>
+                Size</span
+              >
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <s-number-input
                 v-model="slide.slidesPerView"
                 @blur="refresh()"
@@ -243,19 +248,19 @@
                 @blur="refresh()"
                 label="Height"
               ></s-number-dimension-input>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ▃▃▃▃▃▃▃▃▃▃ Animation ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-expansion-panel>
-            <v-expansion-panel-header
+            <v-expansion-panel-title
               ><span
-                ><v-icon class="me-1" small>animation</v-icon>
+                ><v-icon class="me-1" size="small">animation</v-icon>
                 Animations
               </span>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <!-- ▃▃▃▃▃▃▃▃▃▃ Direction ▃▃▃▃▃▃▃▃▃▃ -->
 
               <s-smart-toggle
@@ -315,23 +320,27 @@
                 class="my-3"
               >
               </s-smart-select>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
 
           <!-- ▃▃▃▃▃▃▃▃▃▃ Thumbnail ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-expansion-panel v-if="el?.hasAttribute('has-thumbnail')">
-            <v-expansion-panel-header
+            <v-expansion-panel-title
               ><span
-                ><v-icon class="me-1" small>calendar_view_month</v-icon>
+                ><v-icon class="me-1" size="small">calendar_view_month</v-icon>
                 Thumbnail
 
-                <v-icon v-if="slide.thumbs" color="green" class="mx-1" small
+                <v-icon
+                  v-if="slide.thumbs"
+                  color="green"
+                  class="mx-1"
+                  size="small"
                   >check_circle</v-icon
                 >
               </span>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               <s-smart-toggle
                 v-model="slide.thumbs"
                 @change="refresh()"
@@ -388,7 +397,7 @@
                   </s-smart-select>
                 </div>
               </v-expand-transition>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card-text>
@@ -501,7 +510,7 @@ export default {
         this.section = section;
         this.slidePath = slidePath;
         this.showDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -530,7 +539,7 @@ export default {
       this.show_edit_slide = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalSlideShowEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
@@ -581,10 +590,10 @@ export default {
         this.slide.pagination === "bullets"
           ? "fraction"
           : this.slide.pagination === "fraction"
-          ? "progressbar"
-          : this.slide.pagination === "progressbar"
-          ? "custom"
-          : "bullets";
+            ? "progressbar"
+            : this.slide.pagination === "progressbar"
+              ? "custom"
+              : "bullets";
 
       this.refresh();
     },

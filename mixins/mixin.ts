@@ -89,7 +89,7 @@ function installMixin({ builder }) {
       Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
         (el) => {
           el.contentEditable = this.$builder.isEditing;
-        }
+        },
       );
     },
 
@@ -139,7 +139,7 @@ function installMixin({ builder }) {
           background.bg_repeat,
           background.bg_color,
           background.dark,
-          background.bg_position
+          background.bg_position,
         );
       },
 
@@ -148,7 +148,7 @@ function installMixin({ builder }) {
         if (!arr || !Array.isArray(arr)) {
           this.showErrorAlert(
             "Updated cation",
-            "This feature available on updated sections! Please add new section by drag and drop!"
+            "This feature available on updated sections! Please add new section by drag and drop!",
           );
           return;
         }

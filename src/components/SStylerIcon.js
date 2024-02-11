@@ -86,7 +86,7 @@ export default {
           viewBox: "0 0 24 24",
         },
       },
-      [path]
+      [path],
     );
   },
 };

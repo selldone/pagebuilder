@@ -35,7 +35,8 @@ export class StylerHelper {
                 style.threshold * 100
               }%</b></small>`
             : "")
-        : "") + (_hovers ? `<small class="me-2" title="Hover">🟡 ${_hovers}</small>` : "")
+        : "") +
+      (_hovers ? `<small class="me-2" title="Hover">🟡 ${_hovers}</small>` : "")
     );
   }
 }

@@ -16,7 +16,7 @@ export class HighlightEditingElements {
   static ELEMENT_FOCUS_EDITING_CLASS = "element-focus-editing";
   static RemoveAllElementFocusEditing() {
     const elements = document.querySelectorAll(
-      "." + this.ELEMENT_FOCUS_EDITING_CLASS
+      "." + this.ELEMENT_FOCUS_EDITING_CLASS,
     );
 
     elements.forEach((element) => {
@@ -53,7 +53,7 @@ export class HighlightEditingElements {
   static IsChildOfHighlightActiveEditing(element) {
     return this.HasClassOrParentHasClass(
       element,
-      this.ELEMENT_FOCUS_EDITING_CLASS
+      this.ELEMENT_FOCUS_EDITING_CLASS,
     );
   }
   static HasClassOrParentHasClass(element, className) {

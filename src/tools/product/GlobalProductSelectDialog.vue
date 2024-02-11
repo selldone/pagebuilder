@@ -15,37 +15,33 @@
 <template>
   <v-navigation-drawer
     v-model="dialog_product_select"
-    dark
-    right
-    fixed
-    :width="
-      $vuetify.display.xl
-        ? 560
-        : $vuetify.display.lgAndUp
-        ? 420
-        : 320
-    "
-    stateless
-    hide-overlay
+    theme="dark"
+    location="right"
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card v-if="dialog_pre" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn depressed @click="dialog_product_select = false" text x-large>
+          <v-btn
+            @click="dialog_product_select = false"
+            variant="text"
+            size="x-large"
+          >
             <v-icon class="me-1">close</v-icon>
 
-            {{ $t("global.actions.close") }}</v-btn
-          >
+            {{ $t("global.actions.close") }}
+          </v-btn>
         </div>
       </v-card-actions>
 
       <v-card-text class="text-start">
         <s-widget-header title="Product" icon="inventory"></s-widget-header>
         <v-list-subheader
-          >Choose a single product to feature on the homepage.</v-list-subheader
-        >
+          >Choose a single product to feature on the homepage.
+        </v-list-subheader>
         <product-select-box
           v-model="product_info.id"
           :shop="getShop()"
@@ -61,6 +57,7 @@
 <script>
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+
 export default {
   name: "GlobalProductSelectDialog",
   components: {
@@ -105,7 +102,7 @@ export default {
         this.section = section;
         this.productPath = productPath;
         this.showProductDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -134,7 +131,7 @@ export default {
       this.dialog_product_select = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalProductSelectDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
@@ -164,7 +161,7 @@ export default {
       if (!this.dialog_product_select || this.LOCK) return;
       this.section?.set(
         this.productPath,
-        this.product_info ? Object.assign({}, this.product_info) : null
+        this.product_info ? Object.assign({}, this.product_info) : null,
       ); // Save data in section and force update!
 
       //  this.dialog_product_select = false;

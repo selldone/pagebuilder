@@ -126,18 +126,18 @@ export default {
       if (index > 0) {
         let temp = this.value[index];
         //this.$set(this.value, index, this.value[index - 1]);
-        this.value[index]=this.value[index - 1]
+        this.value[index] = this.value[index - 1];
         ///this.$set(this.value, index - 1, temp);
-        this.value[index - 1]=temp
+        this.value[index - 1] = temp;
       }
     },
     down(index) {
       if (index < this.value.length - 1) {
         let temp = this.value[index];
         //this.$set(this.value, index, this.value[index + 1]);
-        this.value[index ]=this.value[index + 1]
+        this.value[index] = this.value[index + 1];
         //this.$set(this.value, index + 1, temp);
-        this.value[index + 1]=temp
+        this.value[index + 1] = temp;
       }
     },
 

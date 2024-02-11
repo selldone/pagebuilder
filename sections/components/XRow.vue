@@ -65,7 +65,9 @@ export default {
 
     addColumn: {
       // set initial column : this.$section.__initialNewColumn
-      type: Boolean, default: false },
+      type: Boolean,
+      default: false,
+    },
     hasArrangement: { type: Boolean, default: false },
 
     hasWrap: { type: Boolean, default: false },

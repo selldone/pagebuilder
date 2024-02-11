@@ -14,8 +14,8 @@
 
 <template>
   <v-item-group
-    :value="value"
-    @change="(val) => $emit('input', val)"
+    :model-value="value"
+    @update:model-value="(val) => $emit('input', val)"
     :multiple="multiple"
   >
     <v-container>

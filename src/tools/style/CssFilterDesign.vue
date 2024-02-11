@@ -95,16 +95,19 @@
     <!-- ████████████████████ Customize ████████████████████ -->
 
     <s-widget-header title="Tune" icon="tune"></s-widget-header>
-    <v-list-subheader>You can customize and make your filter here.</v-list-subheader>
+    <v-list-subheader
+      >You can customize and make your filter here.</v-list-subheader
+    >
 
     <v-expansion-panels>
       <v-expansion-panel>
-        <v-expansion-panel-header
+        <v-expansion-panel-title
           ><span
-            ><v-icon class="me-1" small>fa:fas fa-cogs</v-icon> Filter values</span
+            ><v-icon class="me-1" size="small">fa:fas fa-cogs</v-icon> Filter
+            values</span
           >
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
           <v-slider
             v-for="key in editable_values"
             :key="key"
@@ -117,7 +120,7 @@
             thumb-color="#1976D2"
           >
           </v-slider>
-        </v-expansion-panel-content>
+        </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
@@ -172,7 +175,7 @@ export default {
           "blur",
           "contrast",
           "grayscale",
-        ].includes(it)
+        ].includes(it),
       );
     },
   },

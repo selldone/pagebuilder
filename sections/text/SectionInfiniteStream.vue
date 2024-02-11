@@ -38,7 +38,7 @@
       "
       auto-width
       :reverse="!!$sectionData.text_loop?.reverse"
-      style="min-width: 100%;"
+      style="min-width: 100%"
     >
       <div
         v-html="$sectionData.text_loop?.html"
@@ -60,7 +60,8 @@ export default {
   group: "Text",
   label: "Infinite Marquee",
   help: {
-    title: "Add an infinite scrolling text or HTML, also known as a marquee view.",
+    title:
+      "Add an infinite scrolling text or HTML, also known as a marquee view.",
   },
   $schema: {
     classes: types.ClassList,

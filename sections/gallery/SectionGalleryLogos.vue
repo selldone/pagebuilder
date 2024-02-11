@@ -23,16 +23,32 @@
           <h2
             v-styler="$sectionData.title"
             class="mb-3"
-            v-html="$sectionData.title?.applyAugment(augment,$builder.isEditing)"
+            v-html="
+              $sectionData.title?.applyAugment(augment, $builder.isEditing)
+            "
           />
-          <p v-styler="$sectionData.content" v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)" />
+          <p
+            v-styler="$sectionData.content"
+            v-html="
+              $sectionData.content?.applyAugment(augment, $builder.isEditing)
+            "
+          />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :object="$sectionData" path="$sectionData" :augment="augment"></x-buttons>
+          <x-buttons
+            :object="$sectionData"
+            path="$sectionData"
+            :augment="augment"
+          ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </v-col>
         <v-col cols="12" sm="6" md="8">
-          <x-row :object="$sectionData" path="$sectionData" add-column :initial-new-column="ItemType" has-arrangement
+          <x-row
+            :object="$sectionData"
+            path="$sectionData"
+            add-column
+            :initial-new-column="ItemType"
+            has-arrangement
             ><!-- Only addable can remove col-->
 
             <x-column
@@ -50,7 +66,7 @@
             </x-column>
 
             <!-- ADD COLUMN -->
-          <!--  <v-col
+            <!--  <v-col
               v-if="SHOW_EDIT_TOOLS"
               key="add"
               class="add-col"
@@ -74,9 +90,10 @@ export default {
   cover: require("../../assets/images/covers/gallery-2.svg"),
   group: "Gallery",
   label: "Brands gallery",
-    help: {
-        title: "In this section, display numerous compact visuals, such as brand logos.",
-    },
+  help: {
+    title:
+      "In this section, display numerous compact visuals, such as brand logos.",
+  },
   $schema: {
     classes: types.ClassList,
     row: types.Row,
@@ -136,9 +153,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({

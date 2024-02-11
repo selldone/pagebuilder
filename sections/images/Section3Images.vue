@@ -17,25 +17,30 @@
     <x-container :object="$sectionData">
       <h3
         v-styler="$sectionData.title"
-        v-html="$sectionData.title?.applyAugment(augment,$builder.isEditing)"
+        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
         class="mb-5 fadeIn delay_100"
       />
 
       <p
         v-styler="$sectionData.content"
-        v-html="$sectionData.content?.applyAugment(augment,$builder.isEditing)"
+        v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
         class="fadeIn delay_300"
       />
 
       <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-      <x-buttons :object="$sectionData" path="$sectionData"  :augment="augment"></x-buttons>
+      <x-buttons
+        :object="$sectionData"
+        path="$sectionData"
+        :augment="augment"
+      ></x-buttons>
       <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
       <x-row
         :object="$sectionData"
         path="$sectionData"
         has-arrangement
-        add-column has-wrap
+        add-column
+        has-wrap
         :initial-new-column="ItemType"
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
@@ -64,9 +69,10 @@ export default {
   group: "Image & Text",
   label: "Text, 3x Large images",
 
-    help: {
-        title: "This section is handy for displaying a collection of images accompanied by titles and brief descriptions.",
-    },
+  help: {
+    title:
+      "This section is handy for displaying a collection of images accompanied by titles and brief descriptions.",
+  },
 
   $schema: {
     classes: types.ClassList,
@@ -136,9 +142,9 @@ export default {
       type: Number,
       required: true,
     },
-    augment:{
+    augment: {
       // Extra information to show to dynamic show in page content
-    }
+    },
   },
 
   data: () => ({

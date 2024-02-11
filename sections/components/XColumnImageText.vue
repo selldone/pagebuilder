@@ -32,7 +32,7 @@
         <uploader
           v-if="
             !['x-layout-title-content', 'x-layout-content-title'].includes(
-              layout_class
+              layout_class,
             )
           "
           :path="`${path}.image`"

@@ -56,7 +56,9 @@ export default {
     },
     hasCustomLayout: {
       // Used in v-styler
-      default: false, type: Boolean },
+      default: false,
+      type: Boolean,
+    },
   },
   created() {},
 

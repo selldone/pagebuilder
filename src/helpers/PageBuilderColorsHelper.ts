@@ -121,14 +121,14 @@ export class PageBuilderColorsHelper {
     return this.ConvertToSixCharHex(
       style[`plate_light_` + index]
         ? style[`plate_light_` + index]
-        : this[`PLATE_LIGHT_` + index]
+        : this[`PLATE_LIGHT_` + index],
     );
   }
   static GetColorDark(style, index) {
     return this.ConvertToSixCharHex(
       style[`plate_dark_` + index]
         ? style[`plate_dark_` + index]
-        : this[`PLATE_DARK_` + index]
+        : this[`PLATE_DARK_` + index],
     );
   }
 

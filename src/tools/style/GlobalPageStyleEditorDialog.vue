@@ -17,20 +17,21 @@
     v-if="style"
     v-model="dialog_master_style"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn x-large @click="dialog_master_style = false" text
+          <v-btn
+            size="x-large"
+            @click="dialog_master_style = false"
+            variant="text"
             ><v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
@@ -49,12 +50,12 @@
         <!-- ████████████████████ Page Background ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <div><v-icon class="me-1">wallpaper</v-icon> Page Background</div>
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header
               title="Background Color"
               icon="palette"
@@ -80,27 +81,30 @@
             <v-list-subheader></v-list-subheader>
             <background-image-editor
               :upload-url="upload_bg_url"
-              :bg-image.sync="style.bg_image"
-              :bgGradient.sync="style.bg_gradient"
-              :bgImageSize.sync="style.bg_size"
-              :bgCustom.sync="style.bg_custom"
-              :BgImageRepeat.sync="style.bg_repeat"
+              v-model:bg-image="style.bg_image"
+              v-model:bgGradient="style.bg_gradient"
+              v-model:bgImageSize="style.bg_size"
+              v-model:bgCustom="style.bg_custom"
+              v-model:BgImageRepeat="style.bg_repeat"
               @change="$forceUpdate()"
             >
             </background-image-editor>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Top Menu ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <div><v-icon class="me-1">drag_handle</v-icon> Top Menu</div>
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <s-widget-header title="Top menu" icon="linear_scale"></s-widget-header>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <s-widget-header
+              title="Top menu"
+              icon="linear_scale"
+            ></s-widget-header>
             <v-list-subheader
               >Customize the header menu on the pages and create fancy
               looks.</v-list-subheader
@@ -172,18 +176,18 @@
               class="my-3"
               dark
             ></s-smart-switch>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Colors Plate ████████████████████ -->
 
         <v-expansion-panel>
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <div><v-icon class="me-1">palette</v-icon> Colors Plate</div>
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <s-widget-header title="Colors" icon="palette"></s-widget-header>
             <v-list-subheader
               >Here, you have the option to personalize the color variables of
@@ -406,7 +410,7 @@
               dark
             ></s-color-selector>
             <hr />
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
@@ -454,7 +458,8 @@ export default {
 
     filtered_fonts() {
       return FONTS.filter(
-        (i) => !this.style || !this.style.fonts || !this.style.fonts.includes(i)
+        (i) =>
+          !this.style || !this.style.fonts || !this.style.fonts.includes(i),
       );
     },
   },
@@ -511,7 +516,7 @@ export default {
 
         if (!style.plate_light_11) style.plate_light_11 = "#455a64";
         if (!style.plate_dark_11) style.plate_dark_11 = "#374d57";
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -540,7 +545,7 @@ export default {
       this.dialog_master_style = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalPageStyleEditorDialog");
 
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);

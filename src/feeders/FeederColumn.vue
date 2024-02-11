@@ -46,7 +46,7 @@
 
         <feeder-grid-input
           v-if="hasGrid(_column)"
-          :grid.sync="_column.grid"
+          v-model:grid="_column.grid"
         ></feeder-grid-input>
 
         <!-- ████████████████████ Image ████████████████████ -->
@@ -87,7 +87,7 @@ export default {
       return (
         _column.image !== undefined &&
         !["x-layout-title-content", "x-layout-content-title"].includes(
-          _column?.layout
+          _column?.layout,
         )
       );
     },

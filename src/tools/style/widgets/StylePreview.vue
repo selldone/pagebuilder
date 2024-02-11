@@ -26,7 +26,7 @@
     <div
       class="pre-margin pointer-pointer"
       @click.stop="$emit('click:area', 'margin')"
-      :style="{borderRadius: value.borderRadius}"
+      :style="{ borderRadius: value.borderRadius }"
     >
       Margin
 
@@ -45,7 +45,7 @@
         <div
           class="pre-content pointer-pointer"
           @click.stop="$emit('click:area', 'size')"
-          :style="{borderRadius: value.borderRadius}"
+          :style="{ borderRadius: value.borderRadius }"
         >
           <p class="m-0 text-center">Content</p>
         </div>
@@ -85,7 +85,6 @@ export default {
 
 <style scoped lang="scss">
 .pre-parent {
-
   padding: 8px;
 
   position: relative;
@@ -100,41 +99,39 @@ export default {
   &.-margin {
     .pre-margin {
       background: #ac460f
-      repeating-linear-gradient(
-                      45deg,
-                      #ac460f,
-                      #ac460f 5px,
-                      #bb5720 5px,
-                      #bb5720 10px
-      );
-
+        repeating-linear-gradient(
+          45deg,
+          #ac460f,
+          #ac460f 5px,
+          #bb5720 5px,
+          #bb5720 10px
+        );
     }
   }
 
   &.-padding {
     .pre-layer {
       background: #32b1ec
-      repeating-linear-gradient(
-                      45deg,
-                      #32b1ec,
-                      #32b1ec 5px,
-                      #4ebaec 5px,
-                      #4ebaec 10px
-      );
+        repeating-linear-gradient(
+          45deg,
+          #32b1ec,
+          #32b1ec 5px,
+          #4ebaec 5px,
+          #4ebaec 10px
+        );
     }
   }
 
   &.-size {
     .pre-content {
-      background: #C2185B
-      repeating-linear-gradient(
-                      45deg,
-                      #C2185B,
-                      #C2185B 5px,
-                      #cb2969 5px,
-                      #cb2969 10px
-      );
-
+      background: #c2185b
+        repeating-linear-gradient(
+          45deg,
+          #c2185b,
+          #c2185b 5px,
+          #cb2969 5px,
+          #cb2969 10px
+        );
     }
   }
 

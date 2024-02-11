@@ -20,7 +20,7 @@
     v-show="(scaleDownMode || $vuetify.display.xl) && show"
   >
     <v-expand-transition>
-      <div v-if="!collapse" class="text-center white--text">
+      <div v-if="!collapse" class="text-center text-white">
         Drag & Drop <small class="d-block">Pre-built sections</small>
       </div>
     </v-expand-transition>
@@ -32,11 +32,11 @@
         v-model="search"
         placeholder="Search..."
         class="flex-grow-0"
-        solo
+        variant="solo"
         flat
         hide-details
-        :append-outer-icon="collapse ? 'expand_more' : 'expand_less'"
-        @click:append-outer.stop="collapse = !collapse"
+        :append-icon="collapse ? 'expand_more' : 'expand_less'"
+        @click:append.stop="collapse = !collapse"
       ></v-text-field>
 
       <v-fade-transition leave-absolute>
@@ -59,11 +59,11 @@
                 <v-btn
                   v-if="item.shop_id"
                   fab
-                  small
+                  size="small"
                   @click.stop="showEdit(item)"
                   title="Edit element"
                   class="absolute-top-end"
-                  ><v-icon small>edit</v-icon></v-btn
+                  ><v-icon size="small">edit</v-icon></v-btn
                 >
               </v-img>
               <div class="label single-line">
@@ -108,16 +108,19 @@
           <v-spacer></v-spacer>
           <v-btn
             color="red"
-            text
+            variant="text"
             :loading="busy_delete"
             @click="deleteSection(selected_element)"
-            ><v-icon class="me-1" small>delete</v-icon>
+            ><v-icon class="me-1" size="small">delete</v-icon>
             {{ $t("global.actions.delete") }}</v-btn
           >
         </v-card-title>
         <v-card-text>
           <div class="widget-box mb-5">
-            <s-widget-header title="Configuration" icon="tune"></s-widget-header>
+            <s-widget-header
+              title="Configuration"
+              icon="tune"
+            ></s-widget-header>
             <v-list-subheader>
               You can save custom-designed sections for later use in your page
               designs. These saved sections are accessible to all admins in this
@@ -133,7 +136,7 @@
             <v-combobox
               multiple
               chips
-              deletable-chips
+              closable-chips
               v-model="tags"
               label="Tags"
               messages="Used for search and categorize elements."
@@ -150,7 +153,7 @@
               :server="
                 window.API.POST_PAGE_ELEMENT_UPLOAD_IMAGE(
                   shop_id,
-                  selected_element.id
+                  selected_element.id,
                 )
               "
               :image="getShopImagePath(selected_element.image)"
@@ -180,7 +183,7 @@
                 class="row-font text-start"
               >
                 <b :style="{ fontFamily: font }"
-                  ><v-icon small class="me-1">font_download</v-icon>
+                  ><v-icon size="small" class="me-1">font_download</v-icon>
                   {{ font }}</b
                 >
               </div>
@@ -189,14 +192,14 @@
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
-            <v-btn text x-large @click="dialog = false">
+            <v-btn variant="text" size="x-large" @click="dialog = false">
               <v-icon class="me-1">close</v-icon>
               {{ $t("global.actions.close") }}
             </v-btn>
 
             <v-btn
-              depressed
-              x-large
+              variant="flat"
+              size="x-large"
               @click="selected_element ? editElement() : addElement()"
               :loading="busy_save"
               color="primary"
@@ -312,10 +315,10 @@ export default {
         this.onBlur(); // Find fonts
 
         this.dialog = true;
-      }
+      },
     );
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:PageElementsRepository:Add-My-Section");
   },
 
@@ -419,14 +422,14 @@ export default {
         .put(
           window.API.PUT_PAGE_ELEMENT_EDIT(
             this.shop_id,
-            this.selected_element.id
+            this.selected_element.id,
           ),
           {
             title: this.title,
             section: this.section,
             tags: this.tags,
             published: true,
-          }
+          },
         )
         .then(({ data }) => {
           if (data.error) {
@@ -470,7 +473,7 @@ export default {
             .finally(() => {
               this.busy_delete = false;
             });
-        }
+        },
       );
     },
   },

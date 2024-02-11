@@ -16,13 +16,11 @@
   <v-navigation-drawer
     v-model="show_dialog_size"
     dark
-    right
+    location="right"
     fixed
-    :width="
-      $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
+    :width="$vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
     stateless
-    hide-overlay
+    :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
@@ -31,7 +29,11 @@
 
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn text @click="show_dialog_size = false" x-large>
+          <v-btn
+            variant="text"
+            @click="show_dialog_size = false"
+            size="x-large"
+          >
             <v-icon class="me-1">close</v-icon
             >{{ $t("global.actions.close") }}</v-btn
           >
@@ -42,67 +44,68 @@
         <!-- ████████████████████ Size ████████████████████ -->
 
         <v-expansion-panel v-if="has_size">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">fit_screen</v-icon> Size
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_width && in_width !== 'unset'"
                 class="mx-1"
                 title="Width"
                 label
-                ><v-icon x-small left>fullscreen</v-icon> {{ in_width }}</v-chip
+                ><v-icon size="x-small" start>fullscreen</v-icon>
+                {{ in_width }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_minWidth && in_minWidth !== 'unset'"
                 class="mx-1"
                 title="Min Width"
                 label
-                ><v-icon x-small left>fullscreen_exit</v-icon>
+                ><v-icon size="x-small" start>fullscreen_exit</v-icon>
                 {{ in_minWidth }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_maxWidth && in_maxWidth !== 'unset'"
                 class="mx-1"
                 title="Max Width"
                 label
-                ><v-icon x-small left>crop_free</v-icon>
+                ><v-icon size="x-small" start>crop_free</v-icon>
                 {{ in_maxWidth }}</v-chip
               >
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_height && in_height !== 'unset'"
                 class="mx-1"
                 title="Height"
                 label
-                ><v-icon x-small left>fullscreen</v-icon>
+                ><v-icon size="x-small" start>fullscreen</v-icon>
                 {{ in_height }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_minHeight && in_minHeight !== 'unset'"
                 class="mx-1"
                 title="Min Height"
                 label
-                ><v-icon x-small left>fullscreen_exit</v-icon>
+                ><v-icon size="x-small" start>fullscreen_exit</v-icon>
                 {{ in_minHeight }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_maxHeight && in_maxHeight !== 'unset'"
                 class="mx-1"
                 title="Max Height"
                 label
-                ><v-icon x-small left>crop_free</v-icon>
+                ><v-icon size="x-small" start>crop_free</v-icon>
                 {{ in_maxHeight }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="size">
               <style-preview
                 :value="in_style"
@@ -143,7 +146,8 @@
                 icon="fullscreen_exit"
               ></s-widget-header>
               <v-list-subheader
-                >The element is forced to have this minimum size.</v-list-subheader
+                >The element is forced to have this minimum
+                size.</v-list-subheader
               >
 
               <v-row class="max-w-640 mx-auto">
@@ -208,18 +212,18 @@
                 </ul>
               </div>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Padding ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('padding')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">padding</v-icon> Padding
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_paddingLeft && in_paddingLeft !== 'unset'"
                 class="mx-1"
                 title="Padding Left"
@@ -227,7 +231,7 @@
                 >Left: {{ in_paddingLeft }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_paddingRight && in_paddingRight !== 'unset'"
                 class="mx-1"
                 title="Padding Right"
@@ -235,7 +239,7 @@
                 >Right: {{ in_paddingRight }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_paddingTop && in_paddingTop !== 'unset'"
                 class="mx-1"
                 title="Padding top"
@@ -243,7 +247,7 @@
                 >top: {{ in_paddingTop }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_paddingBottom && in_paddingBottom !== 'unset'"
                 class="mx-1"
                 title="Padding Bottom"
@@ -251,8 +255,8 @@
                 >Bottom: {{ in_paddingBottom }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="padding">
               <style-preview
                 :value="in_style"
@@ -302,18 +306,18 @@
                 </v-col>
               </v-row>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Margin ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('margin')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">margin</v-icon> Margin
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_marginLeft && in_marginLeft !== 'unset'"
                 class="mx-1"
                 title="Margin Left"
@@ -321,7 +325,7 @@
                 >Left: {{ in_marginLeft }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_marginRight && in_marginRight !== 'unset'"
                 class="mx-1"
                 title="Margin Right"
@@ -329,7 +333,7 @@
                 >Right: {{ in_marginRight }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_marginTop && in_marginTop !== 'unset'"
                 class="mx-1"
                 title="Margin top"
@@ -337,7 +341,7 @@
                 >top: {{ in_marginTop }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_marginBottom && in_marginBottom !== 'unset'"
                 class="mx-1"
                 title="Margin Bottom"
@@ -345,8 +349,8 @@
                 >Bottom: {{ in_marginBottom }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="margin">
               <style-preview
                 :value="in_style"
@@ -398,69 +402,69 @@
                 </v-col>
               </v-row>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Border ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('border')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">rounded_corner</v-icon> Border
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_borderLeft.trim() && !in_borderLeft.includes('unset')"
                 class="mx-1"
                 title="Border Left"
                 label
-                ><v-icon x-small left>border_left</v-icon>
+                ><v-icon size="x-small" start>border_left</v-icon>
                 {{ getName(in_borderLeft) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   in_borderRight.trim() && !in_borderRight.includes('unset')
                 "
                 class="mx-1"
                 title="Border Right"
                 label
-                ><v-icon x-small left>border_right</v-icon>
+                ><v-icon size="x-small" start>border_right</v-icon>
                 {{ getName(in_borderRight) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_borderTop.trim() && !in_borderTop.includes('unset')"
                 class="mx-1"
                 title="Border Top"
                 label
-                ><v-icon x-small left>border_top</v-icon>
+                ><v-icon size="x-small" start>border_top</v-icon>
                 {{ getName(in_borderTop) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   in_borderBottom.trim() && !in_borderBottom.includes('unset')
                 "
                 class="mx-1"
                 title="Border Bottom"
                 label
-                ><v-icon x-small left>border_bottom</v-icon>
+                ><v-icon size="x-small" start>border_bottom</v-icon>
                 {{ getName(in_borderBottom) }}</v-chip
               >
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="in_borderRadius && in_borderRadius !== 'unset'"
                 class="mx-1"
                 title="Border Left"
                 label
-                ><v-icon x-small left>rounded_corner</v-icon>
+                ><v-icon size="x-small" start>rounded_corner</v-icon>
                 {{ getName(in_borderRadius) }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="border">
               <style-preview
                 :value="in_style"
@@ -531,18 +535,18 @@
                 </div>
               </v-expand-transition>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Class ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('classes')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">turned_in</v-icon> Class
 
               <v-chip
-                x-small
+                size="x-small"
                 v-for="(it, i) in in_classes"
                 :key="i"
                 class="mx-1"
@@ -550,8 +554,8 @@
                 >{{ getName(it) }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="classes" class="min-height-40vh">
               <div
                 class="class-prev-con bg-tiny-checkers-dark pa-3"
@@ -606,30 +610,35 @@
                 v-model="in_classes"
                 :items="standard_classes"
                 small-chips
-                deletable-chips
+                closable-chips
                 clearable
                 cache-items
                 class="max-w-640 mx-auto"
               >
               </v-combobox>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Shadow ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('margin')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">wb_shade</v-icon> Shadow
 
-              <v-chip x-small v-if="shadow" class="mx-1" title="Shadow" label
-                ><v-icon x-small left>layers</v-icon>
+              <v-chip
+                size="x-small"
+                v-if="shadow"
+                class="mx-1"
+                title="Shadow"
+                label
+                ><v-icon size="x-small" start>layers</v-icon>
                 {{ isObject(shadow) ? "Custom Shadow" : "Has Shadow" }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="shadow" class="d-flex flex-column">
               <v-expand-transition>
                 <div v-if="shadow && in_shadow_edit" class="pb-2">
@@ -753,7 +762,9 @@
                                 v-if="active"
                                 class="flex-grow-1 text-center"
                               >
-                                <v-icon large color="success">check</v-icon>
+                                <v-icon size="large" color="success"
+                                  >check</v-icon
+                                >
                               </div>
                             </v-scroll-y-transition>
                           </v-card>
@@ -777,22 +788,28 @@
                 >
               </div>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Filter ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('filter')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">movie_filter</v-icon> Filter
 
-              <v-chip x-small v-if="filter" class="mx-1" title="Filter" label
-                ><v-icon x-small left>photo_filter</v-icon> Has Filter</v-chip
+              <v-chip
+                size="x-small"
+                v-if="filter"
+                class="mx-1"
+                title="Filter"
+                label
+                ><v-icon size="x-small" start>photo_filter</v-icon> Has
+                Filter</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="filter">
               <css-filter-design
                 v-model="filter"
@@ -804,18 +821,18 @@
                 "
               ></css-filter-design>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
 
         <!-- ████████████████████ Transform ████████████████████ -->
 
         <v-expansion-panel v-if="available_tabs.includes('transform')">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             <div>
               <v-icon class="me-1">transform</v-icon> Transform
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="transform && transform.rotate"
                 class="mx-1"
                 title="Rotate"
@@ -823,7 +840,7 @@
                 >R {{ transform.rotate }}°</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="transform && transform.rotateX"
                 class="mx-1"
                 title="Rotate X"
@@ -831,7 +848,7 @@
                 >Rx {{ transform.rotateX }}°</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="transform && transform.rotateY"
                 class="mx-1"
                 title="Rotate Y"
@@ -839,7 +856,7 @@
                 >Ry {{ transform.rotateY }}°</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="transform && transform.rotateZ"
                 class="mx-1"
                 title="Rotate Z"
@@ -848,7 +865,7 @@
               >
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform &&
                   transform.translateX &&
@@ -860,7 +877,7 @@
                 >Tx {{ getName(transform.translateX) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform &&
                   transform.translateY &&
@@ -872,7 +889,7 @@
                 >Ty {{ getName(transform.translateY) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform &&
                   transform.translateZ &&
@@ -885,7 +902,7 @@
               >
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform && transform.scaleX && transform.scaleX !== 'unset'
                 "
@@ -895,7 +912,7 @@
                 >Sx {{ getName(transform.scaleX) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform && transform.scaleY && transform.scaleY !== 'unset'
                 "
@@ -906,7 +923,7 @@
               >
 
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform && transform.skewX && transform.skewX !== 'unset'
                 "
@@ -916,7 +933,7 @@
                 >Kx {{ getName(transform.skewX) }}</v-chip
               >
               <v-chip
-                x-small
+                size="x-small"
                 v-if="
                   transform && transform.skewY && transform.skewY !== 'unset'
                 "
@@ -926,8 +943,8 @@
                 >Ky {{ getName(transform.skewY) }}</v-chip
               >
             </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <div key="transform">
               <div class="shad-con bg-tiny-checkers mb-3">
                 <div
@@ -1105,7 +1122,7 @@
                 </v-col>
               </v-row>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
@@ -1410,7 +1427,7 @@ export default {
         this.options = options;
 
         this.showSizeDialog();
-      }
+      },
     );
 
     //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
@@ -1439,7 +1456,7 @@ export default {
       this.show_dialog_size = false;
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off("show:GlobalStyleEditorDialog");
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
 
@@ -1682,10 +1699,10 @@ export default {
       // console.log(' Set classes', 'cur_classes',cur_classes)
 
       const deletes = cur_classes.filter(
-        (element) => !this.in_classes.includes(element)
+        (element) => !this.in_classes.includes(element),
       );
       const adds = this.in_classes.filter(
-        (element) => !cur_classes.includes(element)
+        (element) => !cur_classes.includes(element),
       );
 
       //  console.log(' Set classes', 'deletes',deletes,'adds',adds)

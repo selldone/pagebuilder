@@ -246,7 +246,7 @@
         <li
           v-if="
             el.getAttribute(
-              'custom-layout'
+              'custom-layout',
             ) /*Only show if this attribute exist!*/
           "
         >
@@ -500,7 +500,7 @@
           rounded
           dark
           borderless
-          active-class="success"
+          selected-class="success"
         >
           <v-btn
             v-for="it in ALIGN"
@@ -521,7 +521,7 @@
           rounded
           dark
           borderless
-          active-class="blue-flat"
+          selected-class="blue-flat"
         >
           <v-btn
             v-for="it in JUSTIFY"
@@ -560,7 +560,7 @@
               showColorDialog(
                 custom_color_value,
                 setCustomColorerBgSection,
-                true
+                true,
               )
             "
           >
@@ -640,19 +640,19 @@
         <div class="input-group is-rounded has-itemAfter is-primary">
           <v-text-field
             single-line
-            solo
+            variant="solo"
             flat
             rounded
             dark
-            dense
+            density="compact"
             v-model="url"
             class="english-field mx-2"
             placeholder="https://..."
             messages="● External: https://domain.. ● Internal: /shop"
             @blur="addLink"
             @keydown.enter="addLink"
-            :append-outer-icon="url ? 'link' : 'link_off'"
-            @click:append-outer="addLink"
+            :append-icon="url ? 'link' : 'link_off'"
+            @click:append="addLink"
           />
         </div>
       </li>
@@ -663,17 +663,17 @@
           v-model="btnShapeValue"
           rounded
           multiple
-          dense
-          active-class="blue-flat"
+          density="compact"
+          selected-class="blue-flat"
           dark
           class="mx-1 my-2"
-          @change="setButtonShapeValue()"
+          @update:model-value="setButtonShapeValue()"
         >
           <v-btn
             v-for="shape in BtnShapes"
             :key="shape.val"
             :value="shape.val"
-            small
+            size="small"
             class="dens-btn sub-caption -hover b-16px"
             :caption="shape.title"
           >
@@ -688,8 +688,8 @@
           v-model="btnSizeValue"
           rounded
           mandatory
-          dense
-          active-class="blue-flat"
+          density="compact"
+          selected-class="blue-flat"
           dark
           class="mx-1 my-2"
         >
@@ -697,7 +697,7 @@
             v-for="(size, index) in BtnSizes"
             :key="size.val"
             :value="size.val"
-            small
+            size="small"
             class="dens-btn sub-caption -hover b-16px"
             @click="setButtonSizeValue(size.val)"
             :caption="size.title"
@@ -783,7 +783,7 @@
         <v-select
           :items="fonts"
           v-model="text_font"
-          solo
+          variant="solo"
           rounded
           dark
           clearable
@@ -791,7 +791,7 @@
           append-icon="arrow_drop_down"
           class="mx-2"
           dense
-          @change="setFont"
+          @update:model-value="setFont"
           messages=" "
         >
           <template v-slot:item="{ item }">
@@ -802,7 +802,8 @@
           </template>
           <template v-slot:message>
             <div class="mt-1">
-              ● Add font in <b><v-icon small>format_paint</v-icon> Style</b>.
+              ● Add font in
+              <b><v-icon size="small">format_paint</v-icon> Style</b>.
             </div>
           </template>
         </v-select>
@@ -878,19 +879,19 @@
           v-model="gridValue"
           rounded
           mandatory
-          dense
-          active-class="blue-flat"
+          density="compact"
+          selected-class="blue-flat"
           dark
           class="mx-1 my-2"
         >
-          <v-btn :value="null" small class="dens-btn">
-            <v-icon small>close</v-icon>
+          <v-btn :value="null" size="small" class="dens-btn">
+            <v-icon size="small">close</v-icon>
           </v-btn>
           <v-btn
             v-for="col in 12"
             :key="col"
             :value="col"
-            small
+            size="small"
             class="dens-btn"
             @click="setGridValue(col)"
           >
@@ -937,8 +938,8 @@
       </li>
 
       <v-text-field
-        solo
-        dense
+        variant="solo"
+        density="compact"
         label="ID"
         v-if="element_id"
         v-model="element_id"
@@ -950,7 +951,7 @@
         flat
         clear-icon="location_disabled"
         rounded
-        background-color="#111"
+        bg-color="#111"
         class="zoomInRight"
       ></v-text-field>
     </ul>
@@ -1217,14 +1218,14 @@ export default {
           this.name + ".row" /*Always pass object (in XRow )*/,
           (row) => {
             row["align"] = this.row_align;
-          }
+          },
         );
       } else if (this.type === "buttons-row") {
         this.section.set(
           this.name /*Always pass object.btn_row (XButtons)*/,
           (row) => {
             row["align"] = this.row_align;
-          }
+          },
         );
       }
     },
@@ -1235,14 +1236,14 @@ export default {
           this.name + ".row" /*Always pass object (in XRow)*/,
           (row) => {
             row["justify"] = this.row_justify;
-          }
+          },
         );
       } else if (this.type === "buttons-row") {
         this.section.set(
           this.name /*Always pass object.btn_row (in XButtons)*/,
           (row) => {
             row["justify"] = this.row_justify;
-          }
+          },
         );
       }
     },
@@ -1251,11 +1252,11 @@ export default {
         this.type === "row"
           ? this.name + ".row" /*Always pass object (in XRow)*/
           : this.type === "container"
-          ? this.name /*in XContainer we set fluid in the container object.*/
-          : null,
+            ? this.name /*in XContainer we set fluid in the container object.*/
+            : null,
         (row) => {
           row["fluid"] = this.container_fluid;
-        }
+        },
       );
       // Fix remove .is-editable at change element classes
       this.isEditableFix();
@@ -1339,13 +1340,13 @@ export default {
     if (this.type === "section") {
       this.dark_mode = this.section.get(`$sectionData.background.dark`);
       this.custom_color_value = this.section.get(
-        `$sectionData.background.bg_color`
+        `$sectionData.background.bg_color`,
       );
     }
 
     // Get element ID:
     this.element_id = this.el.id;
-/*
+    /*
     if (!this.$vuetify.theme) this.$vuetify.theme = {};
     if (!this.$vuetify.icons) this.$vuetify.icons = {};
     if (!this.$vuetify.lang) {
@@ -1396,10 +1397,10 @@ export default {
         if (show) {
           this.other_styler_open = type; //TODO: We can limit showing stylers here!
         }
-      }
+      },
     );
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_STYLER_OPEN);
 
     // console.log("...beforeDestroy...",this.$builder.isEditing,this.$refs.styler,this.el);
@@ -1520,7 +1521,7 @@ export default {
       this.ShowGlobalProductsCategoriesSelectDialog(
         this.el,
         this.section,
-        this.name
+        this.name,
       );
     },
 
@@ -1555,7 +1556,7 @@ export default {
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
           this.section,
-          `$sectionData.background`
+          `$sectionData.background`,
         );
       } else if (this.type === "grid" /* this.name.includes('[')*/) {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
@@ -1563,7 +1564,7 @@ export default {
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
           this.section,
-          `${column_path}.background`
+          `${column_path}.background`,
         );
       } /* if (this.type === "container")*/ else {
         const path = this.name;
@@ -1571,7 +1572,7 @@ export default {
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
           this.section,
-          `${path}.background`
+          `${path}.background`,
         );
       }
     },
@@ -1777,7 +1778,7 @@ export default {
     setElementClass(
       prefix_class_name,
       class_name,
-      remove_from_all_children = false
+      remove_from_all_children = false,
     ) {
       // console.log("setElementClass",  this.el);
 
@@ -1966,16 +1967,17 @@ export default {
           this.$props.type === "section"
             ? "left-start"
             : this.$props.type === "row" && this.hasAttribute("has-add")
-            ? "left-center" // Prevent over lapping rows
-            : this.$props.type === "buttons-row"
-            ? "left-center"
-            : this.$props.type === "row"
-            ? "right-end"
-            : this.$props.type === "container"
-            ? "right-center"
-            : this.$props.type === "grid" || this.$props.type === "row-grid"
-            ? "bottom"
-            : "top";
+              ? "left-center" // Prevent over lapping rows
+              : this.$props.type === "buttons-row"
+                ? "left-center"
+                : this.$props.type === "row"
+                  ? "right-end"
+                  : this.$props.type === "container"
+                    ? "right-center"
+                    : this.$props.type === "grid" ||
+                        this.$props.type === "row-grid"
+                      ? "bottom"
+                      : "top";
 
         this.popper = new Popper(this.el, this.$refs.styler, {
           placement: position,
@@ -2001,7 +2003,7 @@ export default {
           return false;
         }
         let paste = (event.clipboardData || window.clipboardData).getData(
-          "text"
+          "text",
         );
         if (IsValidJsonSectionString(paste)) return;
       } catch (e) {}
@@ -2083,7 +2085,7 @@ export default {
           this.el,
           this.section,
           `$sectionData.style`,
-          `$sectionData.classes`
+          `$sectionData.classes`,
         );
       } else if (this.type === "grid" /*this.name.includes('[')*/) {
         // Class and style is in the same level of grid!!! not it's child!
@@ -2094,7 +2096,7 @@ export default {
           this.el,
           this.section,
           `${column_path}.style`,
-          `${column_path}.classes`
+          `${column_path}.classes`,
         );
       } /* if (this.type === "container")*/ else {
         const path = this.name;
@@ -2104,7 +2106,7 @@ export default {
           this.el,
           this.section,
           `${path}.style`,
-          `${path}.classes`
+          `${path}.classes`,
 
           //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
         );
@@ -2119,7 +2121,7 @@ export default {
           this.el,
           this.section,
           `$sectionData.style`,
-          `$sectionData.classes`
+          `$sectionData.classes`,
         );
       } else if (this.type === "grid") {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
@@ -2129,7 +2131,7 @@ export default {
           this.el,
           this.section,
           `${column_path}.style`,
-          `${column_path}.classes`
+          `${column_path}.classes`,
         );
       }
     },
@@ -2167,7 +2169,7 @@ export default {
             this.execute("forecolor", val);
           });
         },
-        false
+        false,
       );
 
       event.preventDefault();
@@ -2246,7 +2248,7 @@ export default {
       this.ShowGlobalXColumnLayoutEditorDialog(
         this.el,
         this.section,
-        this.name
+        this.name,
       );
     },
 

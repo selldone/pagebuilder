@@ -54,9 +54,7 @@
         animationTimingFunction: styles?.animationTimingFunction,
       },
     ]"
-
     v-init-data-attribute="styles"
-
     clonable="true"
     @click="
       $builder.onClickClone($event, $section.get(path), [
@@ -104,7 +102,7 @@
 
     <div
       v-if="is_dynamic_value && $builder.isEditing"
-      class="absolute-bottom-start pa-2 ma-2 bg-white rounded-lg text-start black--text"
+      class="absolute-bottom-start pa-2 ma-2 bg-white rounded-lg text-start text-black"
     >
       <b class="d-block"
         ><v-icon color="#111" class="me-1">whatshot</v-icon>
@@ -126,8 +124,8 @@
         is_dynamic_value && $builder.isEditing
           ? require('./assets/dynamic-image-placeholder.png')
           : blobUrl
-          ? blobUrl
-          : getShopImagePath(src)
+            ? blobUrl
+            : getShopImagePath(src)
       "
       :style="[
         bg_cal,
@@ -183,7 +181,7 @@
         v-if="is_input && src && !dragOverHolder"
         icon
         class="no-render button-delete"
-        depressed
+        variant="flat"
         dark
         color="red"
         @click="deleteImage()"
@@ -216,17 +214,29 @@
               title="Contain / Cover"
               tile
               icon
-              small
+              size="small"
               ><v-icon>{{
                 setting.contain ? "fullscreen_exit" : "fullscreen"
               }}</v-icon></v-btn
             >
 
-            <v-btn @click.stop="showResize()" title="Resize Image" tile icon small>
+            <v-btn
+              @click.stop="showResize()"
+              title="Resize Image"
+              tile
+              icon
+              size="small"
+            >
               <v-icon> photo_size_select_large</v-icon>
             </v-btn>
 
-            <v-btn @click.stop="showLayers()" title="Image Layers" tile icon small>
+            <v-btn
+              @click.stop="showLayers()"
+              title="Image Layers"
+              tile
+              icon
+              size="small"
+            >
               <v-icon> layers</v-icon>
             </v-btn>
 
@@ -235,26 +245,25 @@
               :title="$t('styler.size_class')"
               tile
               icon
-              small
+              size="small"
             >
               <v-icon> architecture</v-icon>
             </v-btn>
 
             <v-menu offset-y>
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
+                  v-bind="props"
                   :title="selected_aspect.title"
                   tile
                   icon
-                  small
+                  size="small"
                 >
                   <v-icon> {{ selected_aspect.icon }}</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   v-for="(item, index) in aspects"
                   :key="index"
@@ -293,20 +302,19 @@
             </v-menu>
 
             <v-menu v-if="!noFloat" offset-y>
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
-                  v-on="on"
+                  v-bind="props"
                   title="Float Position"
                   tile
                   icon
-                  small
+                  size="small"
                 >
                   <v-icon> {{ selected_float.icon }}</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   v-for="(item, index) in floats"
                   :key="index"
@@ -328,7 +336,13 @@
               </v-list>
             </v-menu>
 
-            <v-btn @click.stop="showLink()" title="Add Link" tile icon small>
+            <v-btn
+              @click.stop="showLink()"
+              title="Add Link"
+              tile
+              icon
+              size="small"
+            >
               <v-icon>add_link</v-icon>
             </v-btn>
           </template>
@@ -338,7 +352,7 @@
             title="Restore previous image"
             tile
             icon
-            small
+            size="small"
             ><v-icon>settings_backup_restore</v-icon></v-btn
           >
         </v-toolbar-items>
@@ -371,8 +385,8 @@
 <script>
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import { ClassesHelper } from "@core/helper/style/Classes";
-import {StylerHelper} from "@app-page-builder/src/helpers/StylerHelper";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
+import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
   { val: 1, title: "Square", icon: "crop_square" },
@@ -393,7 +407,7 @@ const HOVER_CLASSES = ClassesHelper.HoversClasses();
 
 export default {
   name: "Uploader",
-  mixins:[PageBuilderMixin],
+  mixins: [PageBuilderMixin],
 
   components: {},
   inject: ["$builder", "$section"],
@@ -446,9 +460,9 @@ export default {
       // Extra information to show to dynamic show in page content
     },
 
-    fileKey:{
-      default:'photo'
-    }
+    fileKey: {
+      default: "photo",
+    },
   },
 
   data: () => ({
@@ -544,7 +558,7 @@ export default {
         bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
         bg.bg_size,
         bg.bg_repeat,
-        bg.bg_color
+        bg.bg_color,
       );
     },
     fg_cal() {
@@ -556,7 +570,7 @@ export default {
         fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
         fg.bg_size,
         fg.bg_repeat,
-        fg.bg_color
+        fg.bg_color,
       );
     },
 
@@ -651,7 +665,7 @@ export default {
         this.$section,
         this.path + ".style",
         this.path + ".classes",
-        { noSize: true, prev_image: this.image.src } // Not show size ! conflict with image size!
+        { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
     },
 
@@ -665,7 +679,7 @@ export default {
         this.setting,
         () => {
           this.forceUpdate();
-        }
+        },
       );
     },
 
@@ -681,7 +695,7 @@ export default {
           this.$nextTick(() => {
             this.forceUpdate();
           });
-        }
+        },
       );
     },
 
@@ -762,11 +776,11 @@ export default {
         this.$section,
         this.path + ".style",
         this.path + ".classes",
-        { noSize: true, prev_image: this.image.src } // Not show size ! conflict with image size!
+        { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
     },
-    getAnimationClassesDetail(){
-      return StylerHelper.GetAnimationClassesDetail(this.classes, this.styles)
+    getAnimationClassesDetail() {
+      return StylerHelper.GetAnimationClassesDetail(this.classes, this.styles);
     },
 
     //----------------------------------------------------------------------------
@@ -775,7 +789,7 @@ export default {
       this.ShowGlobalLinkEditorDialog(
         this.$el,
         this.$section,
-        this.path + ".link"
+        this.path + ".link",
       );
     },
 
