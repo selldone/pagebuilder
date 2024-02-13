@@ -32,7 +32,7 @@
             size="x-large"
             @click="dialog_product_filter = false"
           >
-            <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
+            <v-icon start>close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
       </v-card-actions>

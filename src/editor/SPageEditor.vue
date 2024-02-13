@@ -666,7 +666,7 @@
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                <notes-digest-view
+                <p-note-digest
                   v-if="$vuetify.display.lgAndUp && has_note"
                   :notes="
                     page?.notes?.filter(
@@ -681,7 +681,7 @@
                   :style="{ width: '400px', right: '-600px' }"
                   hover-able
                   :limit="2"
-                ></notes-digest-view>
+                ></p-note-digest>
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
               </div>
             </div>
@@ -874,18 +874,20 @@ import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilder
 import { VideoHelper } from "@core/helper/video/VideoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import GlobalTextLoopDialog from "@app-page-builder/src/tools/text/GlobalTextLoopDialog.vue";
-import NotesDigestView from "@components/backoffice/note/NotesDigestView.vue";
+import PNoteDigest from "@app-page-builder/components/note/digest/PNoteDigest.vue";
 import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
+import {PageBuilderNoteMixin} from "@app-page-builder/mixins/page-builder-note-mixin";
 
 const DEBUG = false;
 export default {
   name: "SPageEditor",
+  mixins:[PageBuilderNoteMixin],
   components: {
     PageTemplatesList,
-    NotesDigestView,
+    PNoteDigest,
     GlobalTextLoopDialog,
     GlobalTypographyEditorDialog,
     GlobalXColumnLayoutEditorDialog,

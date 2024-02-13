@@ -32,7 +32,7 @@
             size="x-large"
             @click="dialog_master_style = false"
             variant="text"
-            ><v-icon class="me-1">close</v-icon>
+            ><v-icon start>close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -107,7 +107,7 @@
               <v-combobox
                 :items="filtered_fonts"
                 v-model="font_input"
-                v-model:search-input="font_input"
+                v-model:search="font_input"
                 label="Font name"
                 placeholder="Type font name Ex.Akzidenz Grotesk and pres Enter..."
                 persistent-placeholder

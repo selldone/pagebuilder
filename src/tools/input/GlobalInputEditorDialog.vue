@@ -30,7 +30,7 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" size="x-large" @click="dialog = false">
-            <v-icon class="me-1">close</v-icon> {{ $t("global.actions.close") }}
+            <v-icon start>close</v-icon> {{ $t("global.actions.close") }}
           </v-btn>
         </div>
       </v-card-actions>

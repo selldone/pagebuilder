@@ -33,7 +33,7 @@
             color="primary"
             size="x-large"
           >
-            <v-icon class="me-1">close</v-icon>
+            <v-icon start>close</v-icon>
             {{ $t("global.actions.close") }}</v-btn
           >
         </div>

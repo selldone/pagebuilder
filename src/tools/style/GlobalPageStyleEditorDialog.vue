@@ -32,7 +32,7 @@
             size="x-large"
             @click="dialog_master_style = false"
             variant="text"
-            ><v-icon class="me-1">close</v-icon>
+            ><v-icon start>close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
