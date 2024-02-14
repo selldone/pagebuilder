@@ -99,7 +99,7 @@
         add-text
         add-caption="Management"
         add-icon="settings"
-        :to="{ name: 'ClustersManagement_List' }"
+        :to="{ name: 'BPageShopClassificationClusters' }"
       ></s-widget-header>
 
       <v-list-subheader>
@@ -269,7 +269,7 @@ export default {
                 this.showSuccessAlert(null, "Page has been deleted!");
                 this.$router.push({
                   name: this.shop
-                    ? "PagesManagement_CustomPages"
+                    ? "BPageShopPagesLandings"
                     : this.isOfficialPage
                       ? "AdminPage_Content_Pages"
                       : null,
