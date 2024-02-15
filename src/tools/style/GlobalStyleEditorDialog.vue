@@ -1144,6 +1144,7 @@ import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 const STYLE_TABS = [
   "size",
@@ -1158,6 +1159,7 @@ const STYLE_TABS = [
 
 export default {
   name: "GlobalStyleEditorDialog",
+  mixins:[PageEventBusMixin],
   components: {
     SSmartSwitch,
     SSmartToggle,
@@ -1305,7 +1307,7 @@ export default {
 
     //------------- Options ----------
     has_size() {
-      return !this.options || !this.options.noSize;
+      return !this.options || !this.extends.noSize;
     },
   },
 

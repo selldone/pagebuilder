@@ -268,10 +268,12 @@ import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInpu
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalTypographyEditorDialog",
-  mixins: [PageBuilderMixin],
+  mixins: [PageBuilderMixin,PageEventBusMixin],
+
 
   components: {
     SNumberDimensionInput,

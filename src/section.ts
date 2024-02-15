@@ -14,7 +14,8 @@
 
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
-import { Seeder } from "./seeder";
+import {Seeder} from "./seeder";
+import {App} from "@vue/runtime-core";
 
 const SECTION_OPTIONS = {
   name: null,
@@ -24,8 +25,17 @@ const SECTION_OPTIONS = {
 let counter = 0;
 
 export class Section {
-  constructor(options) {
+  public id: number;
+  public name: string;
+  public schema: any;
+  public data: any;
+  public stylers: { instance: App; container: Element }[];
+
+  constructor(options: any = {}) {
+    LOG("⚽ Section > Constructor", options, this);
+
     this.id = counter++;
+    // this.id=options.data?.id
     options = Object.assign({}, SECTION_OPTIONS, options);
     this.name = options.name;
     this.schema = options.schema;
@@ -33,17 +43,15 @@ export class Section {
     this.stylers = [];
   }
 
-  set(name, value) {
+  set(name: string, value: any) {
+    LOG("⚽ Section > Set", "name", name, "value", value);
+
     const path = toPath(name);
     const prop = path.pop();
 
     path.shift();
     const obj = path.length === 0 ? this.data : getPath(this.data, path);
-    /*
-       console.log("name : "+name)
-      console.log("value : "+value)
 
-      console.log(obj)*/
     if (!obj) return; // Fix. on delete item (buttons or cols this value is undefined!)
 
     if (typeof value === "function") {
@@ -54,7 +62,7 @@ export class Section {
     obj[prop] = value;
   }
 
-  get(name) {
+  get(name: string) {
     const path = toPath(name);
     const prop = path.pop();
     path.shift();
@@ -66,6 +74,13 @@ export class Section {
   }
 
   destroy() {
-    this.stylers.forEach((styler) => styler.$destroy());
+    this.stylers.forEach(({ instance, container }) => {
+      instance.unmount();
+      container.remove();
+    });
   }
+}
+
+function LOG(...text: any) {
+  // console.log('🪷 Section.ts',...text)
 }

@@ -104,8 +104,8 @@
       v-if="is_dynamic_value && $builder.isEditing"
       class="absolute-bottom-start pa-2 ma-2 bg-white rounded-lg text-start text-black"
     >
-      <b class="d-block"
-        ><v-icon color="#111" class="me-1">whatshot</v-icon>
+      <b class="d-block">
+        <v-icon color="#111" class="me-1">whatshot</v-icon>
         {{ src?.findAllDynamicAugmentKeys().join(" - ") }}</b
       >
       <small
@@ -212,18 +212,17 @@
                 forceUpdate();
               "
               title="Contain / Cover"
-              tile
               icon
               size="small"
-              ><v-icon>{{
-                setting.contain ? "fullscreen_exit" : "fullscreen"
-              }}</v-icon></v-btn
             >
+              <v-icon
+                >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
+              </v-icon>
+            </v-btn>
 
             <v-btn
               @click.stop="showResize()"
               title="Resize Image"
-              tile
               icon
               size="small"
             >
@@ -233,7 +232,6 @@
             <v-btn
               @click.stop="showLayers()"
               title="Image Layers"
-              tile
               icon
               size="small"
             >
@@ -243,19 +241,17 @@
             <v-btn
               @click.stop="showMasterDesignDialog()"
               :title="$t('styler.size_class')"
-              tile
               icon
               size="small"
             >
               <v-icon> architecture</v-icon>
             </v-btn>
 
-            <v-menu offset-y>
+            <v-menu>
               <template v-slot:activator="{ props }">
                 <v-btn
                   v-bind="props"
                   :title="selected_aspect.title"
-                  tile
                   icon
                   size="small"
                 >
@@ -271,15 +267,13 @@
                     setting.aspect = item.val;
                     forceUpdate();
                   "
+                  prepend-icon="item.icon"
                 >
-                  <v-list-item-icon
-                    ><v-icon> {{ item.icon }}</v-icon></v-list-item-icon
-                  >
                   <v-list-item-title> {{ item.title }}</v-list-item-title>
                   <v-list-item-action>
                     <v-icon color="green" v-if="setting.aspect === item.val"
-                      >check</v-icon
-                    >
+                      >check
+                    </v-icon>
                   </v-list-item-action>
                 </v-list-item>
 
@@ -289,10 +283,8 @@
                     setting.round = !setting.round;
                     forceUpdate();
                   "
+                  prepend-icon="panorama_fish_eye"
                 >
-                  <v-list-item-icon
-                    ><v-icon>panorama_fish_eye</v-icon></v-list-item-icon
-                  >
                   <v-list-item-title> Circle</v-list-item-title>
                   <v-list-item-action>
                     <v-icon color="green" v-if="setting.round">check</v-icon>
@@ -301,15 +293,9 @@
               </v-list>
             </v-menu>
 
-            <v-menu v-if="!noFloat" offset-y>
+            <v-menu v-if="!noFloat">
               <template v-slot:activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  title="Float Position"
-                  tile
-                  icon
-                  size="small"
-                >
+                <v-btn v-bind="props" title="Float Position" icon size="small">
                   <v-icon> {{ selected_float.icon }}</v-icon>
                 </v-btn>
               </template>
@@ -322,27 +308,19 @@
                     setting.float = item.val;
                     forceUpdate();
                   "
+                  :prepend-icon="item.icon"
                 >
-                  <v-list-item-icon
-                    ><v-icon> {{ item.icon }}</v-icon></v-list-item-icon
-                  >
                   <v-list-item-title> {{ item.title }}</v-list-item-title>
                   <v-list-item-action>
                     <v-icon color="green" v-if="setting.float === item.val"
-                      >check</v-icon
-                    >
+                      >check
+                    </v-icon>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
             </v-menu>
 
-            <v-btn
-              @click.stop="showLink()"
-              title="Add Link"
-              tile
-              icon
-              size="small"
-            >
+            <v-btn @click.stop="showLink()" title="Add Link" icon size="small">
               <v-icon>add_link</v-icon>
             </v-btn>
           </template>
@@ -350,11 +328,11 @@
             v-else
             @click.stop="restoreImage()"
             title="Restore previous image"
-            tile
             icon
             size="small"
-            ><v-icon>settings_backup_restore</v-icon></v-btn
           >
+            <v-icon>settings_backup_restore</v-icon>
+          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-toolbar
@@ -366,13 +344,9 @@
       >
         <span v-html="getAnimationClassesDetail()"></span>
 
-        <v-btn
-          @click.stop="showAnimationEdit()"
-          title="Image Animation"
-          tile
-          icon
-          ><v-icon>movie_filter</v-icon></v-btn
-        >
+        <v-btn @click.stop="showAnimationEdit()" title="Image Animation" icon variant="text">
+          <v-icon>movie_filter</v-icon>
+        </v-btn>
       </v-toolbar>
 
       <div v-if="busy_upload" class="loader-container">
@@ -387,6 +361,7 @@ import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import { ClassesHelper } from "@core/helper/style/Classes";
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
   { val: 1, title: "Square", icon: "crop_square" },
@@ -748,7 +723,7 @@ export default {
             this.showSuccessAlert(null, `Image uploaded successfully.`);
 
             /* let imageURL = response.data.files.url;
-            this.image.src = imageURL;*/
+              this.image.src = imageURL;*/
             const imageURL = response.data.files.path;
             this.image.src = imageURL;
             /////    this.$section.set(this.path, imageURL);
@@ -828,9 +803,11 @@ export default {
       #dbdbdb 10px,
       #dbdbdb 20px
     );
+
     .image-mark {
       opacity: 1;
     }
+
     .button-delete {
       opacity: 1;
     }
@@ -850,6 +827,7 @@ export default {
       #dbdbdb 10px,
       #dbdbdb 20px
     );
+
     &:hover {
       opacity: 1;
     }
@@ -859,6 +837,7 @@ export default {
     }
   }
 }
+
 .image-mark {
   transition: opacity 0.5s;
 
@@ -881,6 +860,7 @@ export default {
   z-index: 100;
   cursor: pointer;
 }
+
 .drag-over {
   transition: all 0.2s ease-in-out;
   border-radius: 12px;
@@ -898,6 +878,7 @@ export default {
 
     }*/
 }
+
 .uploader:hover {
   box-shadow: 0 0 0 4px #0288d1;
 }
@@ -948,6 +929,7 @@ export default {
       opacity: 1;
     }
   }
+
   &.min-h {
     min-height: 200px;
   }
@@ -959,9 +941,11 @@ export default {
   animation-direction: inherit;
   animation-timing-function: inherit;
 }
+
 .margin-default-auto {
   margin: auto;
 }
+
 .-foreground {
   position: absolute;
   left: 0;

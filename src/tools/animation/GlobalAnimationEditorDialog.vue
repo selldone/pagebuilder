@@ -280,9 +280,12 @@ import AnimationClassSelector from "./widgets/AnimationClassSelector.vue";
 import HoverClassSelector from "./widgets/HoverClassSelector.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalAnimationEditorDialog",
+  mixins: [PageEventBusMixin],
+
   components: {
     HoverClassSelector,
     AnimationClassSelector,

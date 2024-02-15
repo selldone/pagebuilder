@@ -40,7 +40,7 @@
 
 <script>
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import {PageBuilderNoteMixin} from "@app-page-builder/mixins/page-builder-note-mixin";
+import {PageBuilderNoteMixin} from "@app-page-builder/mixins/PageBuilderNoteMixin";
 
 export default {
   name: "PNoteDigest",

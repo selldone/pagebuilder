@@ -420,6 +420,7 @@ import { StripTags } from "@core/helper/html/HtmlHelper";
 import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 const THUMBS_TYPES = [
   { title: "None", class: "" },
@@ -449,7 +450,8 @@ const ACTIVE_CENTER = [
 
 export default {
   name: "GlobalSlideShowEditorDialog",
-  mixins: [PageBuilderMixin],
+
+  mixins: [PageBuilderMixin,PageEventBusMixin],
 
   components: {
     SImageUploader,

@@ -12,17 +12,61 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import Vue, { defineComponent } from "vue";
+import {defineComponent, inject} from "vue";
+import _ from "lodash-es";
+import {findAllFontsInSection} from "@app-page-builder/src/util";
+import {FontLoader} from "@core/helper/font/FontLoader.js";
 
+const DEBUG=true;
 /**
  * Mixin to provide inline editing capabilities.
  * @mixin PageBuilderMixin
  */
 export const PageBuilderMixin = defineComponent({
   data() {
-    return {};
+    return {
+      builder:this.$builder
+          ? this
+              .$builder /*In main page editor we have no access to provider, so we set $builder in data.*/
+          : inject("$builder")
+
+    };
   },
+  created() {},
   methods: {
+
+    //――――――――――――――――――――――  Load Fonts ――――――――――――――――――――
+
+    autoLoadSectionFonts(json: any) {
+      const builder = this.builder;
+      try {
+        this.fonts = findAllFontsInSection(json);
+
+        if (DEBUG) console.log("Fonts ---->", this.fonts);
+
+        if (!builder.style) builder.style = {};
+
+        if (!builder.style.fonts || !Array.isArray(builder.style.fonts))
+          builder.style.fonts = [];
+        this.fonts.forEach((font:string) => {
+          if (!builder.style.fonts.includes(font)) {
+            builder.style.fonts.push(font);
+            this.showSuccessAlert(
+              "Font : " + font,
+              "Font has been added successfully.",
+            );
+          }
+        });
+
+        // Load fonts:
+        FontLoader.LoadFonts(this.fonts);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
+
+
     //―――――――――――――――――――――― Upload Url For Page Builder ――――――――――――――――――――
 
     getPageBuilderUploadUrlImage() {

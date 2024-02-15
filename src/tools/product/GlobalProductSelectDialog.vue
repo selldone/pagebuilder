@@ -57,9 +57,12 @@
 <script>
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalProductSelectDialog",
+  mixins: [PageEventBusMixin],
+
   components: {
     ProductSelectBox,
   },

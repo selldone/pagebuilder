@@ -222,8 +222,11 @@ import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 export default {
   name: "GlobalBlogsFilterDialog",
+  mixins: [PageEventBusMixin],
+
   components: {
     SColorSelector,
     SSmartToggle,

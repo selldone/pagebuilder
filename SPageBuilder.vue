@@ -113,7 +113,8 @@
           </v-btn>
 
           <v-btn @click="show_prompt = false" color="primary" size="x-large">
-            <v-icon class="me-1">check</v-icon> {{ $t("global.actions.done") }}
+            <v-icon class="me-1">check</v-icon>
+            {{ $t("global.actions.done") }}
           </v-btn>
         </div>
       </div>
@@ -200,15 +201,16 @@
 
         <v-card-text>
           <v-list density="compact" class="text-start v-line-list">
-            <v-list-item ripple @click="fetchPageData()" lines="two">
-              <v-list-item-icon>
-                <v-icon>settings_backup_restore</v-icon>
-              </v-list-item-icon>
-
-              <v-list-item-title> Restore last saved page </v-list-item-title>
-              <v-list-item-subtitle>{{
-                getFromNowString(page.updated_at)
-              }}</v-list-item-subtitle>
+            <v-list-item
+              ripple
+              @click="fetchPageData()"
+              lines="two"
+              prepend-icon="settings_backup_restore"
+            >
+              <v-list-item-title> Restore last saved page</v-list-item-title>
+              <v-list-item-subtitle
+                >{{ getFromNowString(page.updated_at) }}
+              </v-list-item-subtitle>
             </v-list-item>
 
             <v-list-item
@@ -218,30 +220,30 @@
               @click="getHistory(history.id)"
               lines="two"
             >
-              <v-list-item-icon>
+              <template v-slot:prepend>
                 <v-icon
                   :color="current_history_id === history.id ? 'green' : '#333'"
                   >{{
                     current_history_id === history.id
                       ? "adjust"
                       : "panorama_fish_eye"
-                  }}</v-icon
-                >
-              </v-list-item-icon>
+                  }}
+                </v-icon>
+              </template>
 
               <v-list-item-title>
                 {{ getLocalTimeString(history.created_at) }}
               </v-list-item-title>
-              <v-list-item-subtitle>{{
-                getFromNowString(history.created_at)
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle
+                >{{ getFromNowString(history.created_at) }}
+              </v-list-item-subtitle>
 
               <v-list-item-action>
-                <v-btn icon @click="togglePersistent(history)" @click.stop>
+                <v-btn icon @click="togglePersistent(history)" @click.stop variant="text">
                   <v-icon v-if="history.persistent" color="yellow-darken-2">
                     star
                   </v-icon>
-                  <v-icon v-else color="grey-lighten-1"> star_border </v-icon>
+                  <v-icon v-else color="grey-lighten-1"> star_border</v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
@@ -264,10 +266,12 @@ import PageBuilderFilesList from "@app-page-builder/src/files/PageBuilderFilesLi
 import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
 import SSmartSuggestion from "@components/smart/suggestions/SSmartSuggestion.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "SPageBuilder",
-  mixins: [PageBuilderMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin],
+
   components: {
     SSmartSuggestion,
     AiModelSelect,
@@ -403,7 +407,6 @@ export default {
       "trigger:RefreshGlobalPageBuilder",
 
       ({}) => {
-        //console.log('*******here*******','style',this.style)
         this.$forceUpdate();
         this.$refs.vueBuilder.PageStyleCalc(); // Force recalculate style! do not trigger on watch 'pageStyle'!
       },
@@ -566,10 +569,10 @@ export default {
               );
 
               /*
-           IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-            this.page = data.page;
-           this.loadPageData();
-            */
+             IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+              this.page = data.page;
+             this.loadPageData();
+              */
             }
           })
           .catch((error) => {
@@ -613,22 +616,22 @@ export default {
               this.showErrorAlert(null, data.error_msg);
             } else {
               this.showSuccessAlert(null, "Page has been saved successfully.");
-              //t.$route.params.page_id=data.page.id;//({name:'ShopPageBuilderPage',params:{shop_id:this.$route.params.shop_id,page_id:data.page.id}})
+              //t.$route.params.page_id=data.page.id;//({name:'BPageLandingEditor',params:{shop_id:this.$route.params.shop_id,page_id:data.page.id}})
 
               this.$emit("create", data.page);
               /* Old way!
-              this.$route.params.page_id = data.page.id;
-*/
+                this.$route.params.page_id = data.page.id;
+  */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-              IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-
-              this.loadPageData();
-               */
+                IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+  
+                this.loadPageData();
+                 */
             }
           })
           .catch((error) => {

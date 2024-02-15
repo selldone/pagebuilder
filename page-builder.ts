@@ -57,11 +57,12 @@ declare global {
   }
 }
 // add the uploader to the list of sub-shops.
-SelldonePageBuilderCore.mix({
+/****SelldonePageBuilderCore.mix({
   components: {
     Uploader,
   },
-});
+});*/
+
 
 // register shops.
 SelldonePageBuilderCore.component(
@@ -132,6 +133,8 @@ SelldonePageBuilderCore.component(
 SelldonePageBuilderCore.component(SectionBlogsList.name, SectionBlogsList);
 
 export function SetupPageBuilder(app: App) {
+
+  console.log('⚽ 1. Setup Page builder')
   // install the builder
   app.use(SelldonePageBuilderCore, {
     // main css file

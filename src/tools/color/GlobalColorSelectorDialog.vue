@@ -64,9 +64,12 @@
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalColorSelectorDialog",
+  mixins: [PageEventBusMixin],
+
   components: {},
 
   props: {},

@@ -145,6 +145,7 @@ import { ClassesHelper } from "@core/helper/style/Classes";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import { Seeder } from "@app-page-builder/src/seeder";
 import * as Types from "@app-page-builder/src/types";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 const LAYOUTS = [
   "x-layout-normal", // Column | Image + Title + Content
@@ -162,6 +163,8 @@ const LAYOUTS = [
 
 export default {
   name: "GlobalXColumnLayoutEditorDialog",
+  mixins: [PageEventBusMixin],
+
   components: { SSmartToggle },
 
   props: {},

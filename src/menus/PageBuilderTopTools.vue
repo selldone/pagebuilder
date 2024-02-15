@@ -13,75 +13,73 @@
   -->
 
 <template>
-  <v-toolbar flat color="#fff" class="neg-margin stick-menu border-bottom">
-    <!--
-        <p><v-icon color="blue">info</v-icon> Before save, make sure all content and elements loaded! Scroll to the end of the page.</p>
-        -->
+  <v-toolbar flat color="#fff" class="stick-menu border-bottom">
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
     <v-toolbar-items>
       <v-btn
         variant="flat"
         :color="saveColor"
-        dark
         @click="$emit('click:save')"
         :loading="busySave"
-        :title="$t('global.commons.save_changes')"
-        ><v-icon>{{ saveIcon }}</v-icon></v-btn
+        stacked
       >
+        <v-icon>{{ saveIcon }}</v-icon>
+        <span class="small mt-1 tnt">{{
+          $t("global.commons.save_changes")
+        }}</span>
+      </v-btn>
 
       <template v-if="inDesignTab">
         <!-- ▃▃▃▃▃▃▃▃▃▃ History ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip
+        <v-btn
           v-if="history"
-          location="bottom"
-          color="#111"
-          max-width="420"
+          icon
+          @click.stop="$emit('click:history')"
+          color="#333"
+          stacked
         >
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon
-              @click.stop="$emit('click:history')"
-              color="#333"
-              class="sub-caption b4px"
-              :caption="$t('page_builder.design.tools.history')"
-            >
-              <v-icon>history</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-start small pa-1">
+          <v-icon>history</v-icon>
+          <span class="small mt-1 tnt">{{
+            $t("page_builder.design.tools.history")
+          }}</span>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-2 bg-black"
+            max-width="420"
+          >
             <b class="d-block">
               {{ $t("page_builder.design.tools.history") }}
             </b>
             Access the list of saved history checkpoints for this page. Easily
             restore a previous version with just a single click.
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </v-btn>
 
         <v-btn
           icon
           :title="$t('global.commons.undo')"
           color="#333"
           @click.stop="pageBuilder.goUndo()"
-          class="sub-caption b4px"
-          :caption="$t('global.commons.undo')"
-          :disabled="!has_undo"
+          :disabled="!pageBuilder.hasUndo"
+          stacked
         >
           <v-icon>undo</v-icon>
+          <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
         </v-btn>
 
         <v-btn
           icon
-          :title="$t('global.commons.redo')"
           color="#333"
           @click.stop="pageBuilder.goRedo()"
-          class="sub-caption b4px"
-          :caption="$t('global.commons.redo')"
-          :disabled="!has_redo"
+          :disabled="!pageBuilder.hasRedo"
+          stacked
         >
           <v-icon>redo</v-icon>
+          <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
         </v-btn>
 
         <v-divider vertical class="m-0"></v-divider>
@@ -89,23 +87,23 @@
         <div class="down-bar-btn" :class="{ '-active': pageBuilder.listShown }">
           <!-- ▃▃▃▃▃▃▃▃▃▃ Tools ▃▃▃▃▃▃▃▃▃▃ -->
 
-          <v-tooltip location="bottom" color="#111" max-width="420">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                icon
-                tile
-                :title="$t('page_builder.design.tools.tools')"
-                :color="pageBuilder.listShown ? '#0b77bf' : '#333'"
-                :dark="pageBuilder.listShown"
-                @click.stop="pageBuilder.newSection"
-                class="sub-caption b4px"
-                :caption="$t('page_builder.design.tools.tools')"
-              >
-                <v-icon>construction</v-icon>
-              </v-btn>
-            </template>
-            <div class="text-start small pa-1">
+          <v-btn
+            :color="pageBuilder.listShown ? '#0b77bf' : '#333'"
+            @click.stop="pageBuilder.newSection"
+            stacked
+          >
+            <v-icon>construction</v-icon>
+
+            <span class="small mt-1 tnt">{{
+              $t("page_builder.design.tools.tools")
+            }}</span>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+              content-class="text-start small pa-3 bg-black"
+              max-width="420"
+            >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.tools") }}
               </b>
@@ -114,12 +112,13 @@
               page.
 
               <div>
-                <v-icon size="x-small" color="amber">circle</v-icon> Hotkey:
-                <v-icon size="small" dark class="mx-1">sync_alt</v-icon
-                ><b>TAB</b>
+                <v-icon size="x-small" color="amber">circle</v-icon>
+                Hotkey:
+                <v-icon size="small" dark class="mx-1">sync_alt</v-icon>
+                <b>TAB</b>
               </div>
-            </div>
-          </v-tooltip>
+            </v-tooltip>
+          </v-btn>
         </div>
 
         <div
@@ -128,29 +127,29 @@
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Sort ▃▃▃▃▃▃▃▃▃▃ -->
 
-          <v-tooltip location="bottom" color="#111" max-width="420">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                icon
-                tile
-                :color="pageBuilder.$builder.isSorting ? '#0b77bf' : '#333'"
-                :dark="pageBuilder.$builder.isSorting"
-                @click.stop="pageBuilder.toggleSort"
-                class="sub-caption b4px"
-                :caption="$t('page_builder.design.tools.rearrange')"
-              >
-                <v-icon>open_with</v-icon>
-              </v-btn>
-            </template>
-            <div class="text-start small pa-1">
+          <v-btn
+            :color="pageBuilder.$builder.isSorting ? '#0b77bf' : '#333'"
+            @click.stop="pageBuilder.toggleSort"
+            stacked
+          >
+            <v-icon>open_with</v-icon>
+            <div class="small mt-1 tnt">
+              {{ $t("page_builder.design.tools.rearrange") }}
+            </div>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+              content-class="text-start small pa-3 bg-black"
+              max-width="420"
+            >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.rearrange") }}
               </b>
               When you activate this feature, it will allow you to effortlessly
               rearrange and reorganize sections by dragging them.
-            </div>
-          </v-tooltip>
+            </v-tooltip>
+          </v-btn>
         </div>
 
         <div
@@ -159,26 +158,25 @@
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Edit/View Mode ▃▃▃▃▃▃▃▃▃▃ -->
 
-          <v-tooltip location="bottom" color="#111" max-width="420">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                icon
-                tile
-                :color="
-                  pageBuilder.$builder.toggleHideExtra ? '#0b77bf' : '#333'
-                "
-                :dark="pageBuilder.$builder.toggleHideExtra"
-                @click.stop="pageBuilder.toggleHideExtra()"
-                class="sub-caption b4px"
-                :caption="!pageBuilder.$builder.isHideExtra ? 'Edit' : 'View'"
-              >
-                <v-icon>{{
-                  !pageBuilder.$builder.isHideExtra ? "edit" : "visibility"
-                }}</v-icon>
-              </v-btn>
-            </template>
-            <div class="text-start small pa-1">
+          <v-btn
+            :color="pageBuilder.$builder.toggleHideExtra ? '#0b77bf' : '#333'"
+            @click.stop="pageBuilder.toggleHideExtra()"
+            stacked
+          >
+            <v-icon
+              >{{ !pageBuilder.$builder.isHideExtra ? "edit" : "visibility" }}
+            </v-icon>
+
+            <div class="small mt-1 tnt">
+              {{ !pageBuilder.$builder.isHideExtra ? "Edit" : "View" }}
+            </div>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+              content-class="text-start small pa-3 bg-black"
+              max-width="420"
+            >
               <b class="d-block"> Edit / View Mode </b>
               <div class="my-1">
                 <v-icon size="small" dark>edit</v-icon>
@@ -189,101 +187,107 @@
                 <b class="mx-1">View Mode:</b> View what users see by hiding
                 extra edit tools and empty texts.
               </div>
-            </div>
-          </v-tooltip>
+            </v-tooltip>
+          </v-btn>
         </div>
 
         <v-divider vertical class="m-0"></v-divider>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Page Style ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip location="bottom" color="#111" max-width="420">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon
-              :title="$t('page_builder.design.tools.style')"
-              :color="landing_show_page_style ? 'primary' : '#333'"
-              @click.stop="
-                ShowGlobalPageStyleEditorDialog(style, !landing_show_page_style)
-              "
-              class="sub-caption b4px"
-              :caption="$t('page_builder.design.tools.style')"
-            >
-              <v-icon>format_paint</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-start small pa-1">
+        <v-btn
+          icon
+          :title="$t('page_builder.design.tools.style')"
+          :color="landing_show_page_style ? 'primary' : '#333'"
+          @click.stop="
+            ShowGlobalPageStyleEditorDialog(style, !landing_show_page_style)
+          "
+          stacked
+        >
+          <v-icon>format_paint</v-icon>
+          <div class="small mt-1 tnt">
+            {{ $t("page_builder.design.tools.style") }}
+          </div>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-3 bg-black"
+            max-width="420"
+          >
             <b class="d-block"> Page Style </b>
             Personalize the primary page's appearance, such as background and
             top menu here.
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Typography ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip location="bottom" color="#111" max-width="420">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon
-              :title="$t('page_builder.design.tools.typography')"
-              @click.stop="ShowGlobalTypographyEditorDialog(style)"
-              class="sub-caption b4px"
-              :caption="
-                $t('page_builder.design.tools.typography')?.substring(0, 4)
-              "
-              :color="'#333'"
-            >
-              <v-icon>text_fields</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-start small pa-1">
+        <v-btn
+          icon
+          :title="$t('page_builder.design.tools.typography')"
+          @click.stop="ShowGlobalTypographyEditorDialog(style)"
+          :color="'#333'"
+          stacked
+        >
+          <v-icon>text_fields</v-icon>
+          <div class="small mt-1 tnt">
+            {{ $t("page_builder.design.tools.typography")?.substring(0, 4) }}
+          </div>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-3 bg-black"
+            max-width="420"
+          >
             <b class="d-block"> Typography </b>
             Configure the typography, fonts, and size of elements on the page.
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip location="bottom" color="#111" max-width="420">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon
-              :color="landing_show_elements_repository ? 'primary' : '#333'"
-              @click.stop="toggleLandingShowElementsRepository()"
-              class="sub-caption b4px"
-              caption="Repository"
-            >
-              <v-icon>widgets</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-start small pa-1">
+        <v-btn
+          icon
+          :color="landing_show_elements_repository ? 'primary' : '#333'"
+          @click.stop="toggleLandingShowElementsRepository()"
+          stacked
+        >
+          <v-icon>widgets</v-icon>
+          <div class="small mt-1 tnt">Repository</div>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-3 bg-black"
+            max-width="420"
+          >
             <b class="d-block"> Prebuilt Sections </b>
             Enable or disable the display of pre-constructed and designed
             sections. These sections are created using standard sections
             available in the left menu, demonstrating the versatility of this
             page builder.
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip location="bottom" color="#111" max-width="420">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              icon
-              @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
-              class="sub-caption b4px"
-              caption="Clone"
-              :color="pageBuilder.$builder.cloneStyle ? 'primary' : '#333'"
-            >
-              <v-icon>colorize</v-icon>
-            </v-btn>
-          </template>
-          <div class="text-start small pa-1">
+        <v-btn
+          icon
+          @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
+          :color="pageBuilder.$builder.cloneStyle ? 'primary' : '#333'"
+          stacked
+        >
+          <v-icon>colorize</v-icon>
+          <div class="small mt-1 tnt">Clone</div>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-3 bg-black"
+            max-width="420"
+          >
             <b class="d-block"> Clone Style </b>
             Using this tool, you can duplicate styles such as fonts,
             backgrounds, margins, and borders. To do this, follow these steps:
@@ -291,41 +295,42 @@
             <ol class="my-1">
               <li>
                 <v-icon size="small" dark
-                  >near_me arrow_right_alt colorize</v-icon
-                >
+                  >near_me arrow_right_alt colorize
+                </v-icon>
                 Enable the tool and hover your mouse over text, columns, or
                 images; the cursor will resemble a pipette.
               </li>
               <li>Click on the target element to copy its style.</li>
               <li>
                 <v-icon size="small" dark
-                  >colorize arrow_right_alt format_color_fill</v-icon
-                >
+                  >colorize arrow_right_alt format_color_fill
+                </v-icon>
                 The cursor will revert to a palette; click on the destination
                 element to apply the copied style.
               </li>
             </ol>
             <div>
-              <v-icon size="x-small" color="amber">circle</v-icon> Hotkey:
-              <v-icon size="small" dark class="mx-1">sync_alt</v-icon
-              ><b>⌘Ctrl + E</b>
+              <v-icon size="x-small" color="amber">circle</v-icon>
+              Hotkey:
+              <v-icon size="small" dark class="mx-1">sync_alt</v-icon>
+              <b>⌘Ctrl + E</b>
             </div>
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-tooltip
+        <ai-button
           v-if="hasAiButton"
-          location="bottom"
-          color="#111"
-          max-width="420"
+          @click="$emit('click:prompt')"
+          :tooltip="null"
         >
-          <template v-slot:activator="{ props }">
-            <ai-button v-bind="props" @click="$emit('click:prompt')">
-            </ai-button>
-          </template>
-          <div class="text-start small pa-1">
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="text-start small pa-3 bg-black"
+            max-width="420"
+          >
             <b class="d-block"> AI Assistance </b>
             Utilize this tool to configure prompts, AI models, and plugins,
             enabling the automatic generation of text, images, and sections with
@@ -347,56 +352,51 @@
                 />left side of the section.
               </li>
             </ol>
-          </div>
-        </v-tooltip>
+          </v-tooltip>
+        </ai-button>
       </template>
       <v-divider vertical class="m-0"></v-divider>
 
       <!-- ▃▃▃▃▃▃▃▃▃▃ Import ▃▃▃▃▃▃▃▃▃▃ -->
 
-      <v-tooltip location="bottom" color="#111" max-width="420">
-        <template v-slot:activator="{ props }">
-          <v-btn
-            v-bind="props"
-            icon
-            @click="show_import = true"
-            class="sub-caption b4px"
-            caption="Import"
-            color="#333"
-          >
-            <v-icon size="small">fa:fas fa-file-import</v-icon>
-          </v-btn>
-        </template>
-        <div class="text-start small pa-1">
+      <v-btn icon @click="show_import = true" color="#333" stacked>
+        <v-icon size="small">fa:fas fa-file-import</v-icon>
+
+        <div class="small mt-1 tnt">Import</div>
+
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+          content-class="text-start small pa-3 bg-black"
+          max-width="420"
+        >
           <b class="d-block"> Import Landing Page </b>
           <v-icon size="small" dark>folder</v-icon>
           <b class="mx-1">Load: </b> You can import a .landing file, which will
           replace all existing sections with the newly added ones.
-        </div>
-      </v-tooltip>
+        </v-tooltip>
+      </v-btn>
 
       <!-- ▃▃▃▃▃▃▃▃▃▃ Export ▃▃▃▃▃▃▃▃▃▃ -->
 
-      <v-tooltip location="bottom" color="#111" max-width="420">
-        <template v-slot:activator="{ props }">
-          <v-btn
-            v-bind="props"
-            icon
-            @click="exportFile()"
-            class="sub-caption b4px"
-            caption="Export"
-            color="#333"
-          >
-            <v-icon size="small">fa:fas fa-file-export</v-icon>
-          </v-btn>
-        </template>
-        <div class="text-start small pa-1">
+      <v-btn icon @click="exportFile()" color="#333" stacked>
+        <v-icon size="small">fa:fas fa-file-export</v-icon>
+
+        <div class="small mt-1 tnt">Export</div>
+
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+          content-class="text-start small pa-3 bg-black"
+          max-width="420"
+        >
           <b class="d-block"> Export Landing Page </b>
-          <v-icon size="small" dark>save</v-icon> <b class="mx-1">Save: </b> You
-          have the option to export this page as a .landing file, which can be
-          imported into other shops or repurposed for creating additional pages.
-        </div>
-      </v-tooltip>
+          <v-icon size="small" dark>save</v-icon>
+          <b class="mx-1">Save: </b> You have the option to export this page as
+          a .landing file, which can be imported into other shops or repurposed
+          for creating additional pages.
+        </v-tooltip>
+      </v-btn>
     </v-toolbar-items>
 
     <v-spacer></v-spacer>
@@ -405,31 +405,31 @@
     <v-toolbar-items v-if="inDesignTab">
       <!-- ▃▃▃▃▃▃▃▃▃▃ LTR / RTL ▃▃▃▃▃▃▃▃▃▃ -->
 
-      <v-tooltip location="bottom" color="#111" max-width="420">
-        <template v-slot:activator="{ props }">
-          <v-btn
-            v-bind="props"
-            icon
-            @click="
-              page.direction =
-                page.direction === 'rtl'
-                  ? 'ltr'
-                  : page.direction === 'auto'
-                    ? 'rtl'
-                    : 'auto'
-            "
-          >
-            <v-icon v-if="page.direction !== 'auto'" color="#111">
-              {{
-                page.direction === "rtl"
-                  ? "format_textdirection_r_to_l"
-                  : "format_textdirection_l_to_r"
-              }}
-            </v-icon>
-            <span v-else> Auto </span>
-          </v-btn>
-        </template>
-        <div class="text-start small pa-1">
+      <v-btn
+        icon
+        @click="
+          page.direction =
+            page.direction === 'rtl'
+              ? 'ltr'
+              : page.direction === 'auto'
+                ? 'rtl'
+                : 'auto'
+        "
+      >
+        <v-icon v-if="page.direction !== 'auto'" color="#111">
+          {{
+            page.direction === "rtl"
+              ? "format_textdirection_r_to_l"
+              : "format_textdirection_l_to_r"
+          }}
+        </v-icon>
+        <span v-else> Auto </span>
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+          content-class="text-start small pa-3 bg-black"
+          max-width="420"
+        >
           <b class="d-block"> LTR / RTL </b>
           <div class="my-1">
             <v-icon size="small" dark>format_textdirection_r_to_l</v-icon>
@@ -446,30 +446,31 @@
             <b class="me-1">Auto:</b> The page direction set automatically based
             on content.
           </div>
-        </div>
-      </v-tooltip>
+        </v-tooltip>
+      </v-btn>
 
-      <v-tooltip location="bottom" color="#000">
-        <template v-slot:activator="{ props }">
-          <v-btn
-            color="#111"
-            variant="text"
-            v-bind="props"
-            @click="show_hotkeys = true"
-          >
-            <v-icon size="small" start>info</v-icon> Hot Keys
-          </v-btn>
-        </template>
-        <p
-          class="info-item"
-          v-for="short_key in Object.keys(ShortKeys).limit(5)"
-          :key="short_key"
+      <v-btn color="#111" variant="text" @click="show_hotkeys = true" stacked>
+        <v-icon start>keyboard_alt</v-icon>
+
+        <div class="small mt-1 tnt">Hot Keys</div>
+
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+          content-class="text-start small pa-3 bg-black"
+          max-width="420"
         >
-          <b>{{ short_key }}</b
-          >: <span v-html="ShortKeys[short_key]"></span>
-        </p>
-        <div class="my-2">Click to view all...</div>
-      </v-tooltip>
+          <p
+            class="info-item"
+            v-for="short_key in Object.keys(ShortKeys).limit(5)"
+            :key="short_key"
+          >
+            <b>{{ short_key }}</b
+            >: <span v-html="ShortKeys[short_key]"></span>
+          </p>
+          <div class="my-2">Click to view all...</div>
+        </v-tooltip>
+      </v-btn>
     </v-toolbar-items>
 
     <!-- ████████████████████ Dialog > Import file ████████████████████ -->
@@ -508,9 +509,9 @@
         <v-card-actions>
           <div class="widget-buttons">
             <v-btn variant="text" size="x-large" @click="show_import = false">
-              <v-icon class="me-1">close</v-icon
-              >{{ $t("global.actions.close") }}</v-btn
-            >
+              <v-icon class="me-1">close</v-icon>
+              {{ $t("global.actions.close") }}
+            </v-btn>
           </div>
         </v-card-actions>
       </v-card>
@@ -526,8 +527,8 @@
       <v-card>
         <v-card-title>
           <v-icon class="me-1">keyboard</v-icon>
-          Hotkeys</v-card-title
-        >
+          Hotkeys
+        </v-card-title>
         <v-card-text class="text-start">
           <v-container>
             <v-row>
@@ -567,9 +568,9 @@
         <v-card-actions>
           <div class="widget-buttons">
             <v-btn variant="text" size="x-large" @click="show_hotkeys = false">
-              <v-icon class="me-1">close</v-icon
-              >{{ $t("global.actions.close") }}</v-btn
-            >
+              <v-icon class="me-1">close</v-icon>
+              {{ $t("global.actions.close") }}
+            </v-btn>
           </div>
         </v-card-actions>
       </v-card>
@@ -601,6 +602,7 @@ const ShortKeys = {
 
 export default {
   name: "PageBuilderTopTools",
+
   components: { AiButton, SDropZone },
   props: {
     shop: {
@@ -655,16 +657,6 @@ export default {
     },
     landing_show_elements_repository() {
       return this.$store.getters.getLandingShowElementsRepository;
-    },
-
-    has_undo() {
-      return (
-        this.pageBuilder.history_index + 1 <
-        this.pageBuilder.local_history.length
-      );
-    },
-    has_redo() {
-      return this.pageBuilder.history_index - 1 >= 0;
     },
   },
 
@@ -772,20 +764,24 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.neg-margin {
-  .v-toolbar__content {
-    margin: 0 -17px;
-  }
-}
+<style lang="scss" scoped>
 .stick-menu {
   top: 0;
   z-index: 200;
   position: sticky;
+
+  ::v-deep(.v-toolbar-items) {
+    .v-btn {
+      padding: 4px !important;
+      width: auto;
+      min-width: 48px !important;
+    }
+  }
 }
 
 .down-bar-btn {
   position: relative;
+
   &:after {
     content: " ";
     background: #eee;
@@ -801,6 +797,7 @@ export default {
       background: #0b77bf;
     }
   }
+
   button {
     min-height: 100% !important;
   }
@@ -812,6 +809,7 @@ export default {
   text-align: left;
   direction: ltr;
   color: #fff;
+
   b {
     text-transform: uppercase;
     padding-right: 4px;

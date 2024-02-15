@@ -69,9 +69,11 @@ import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 export default {
   name: "GlobalBackgroundEditorDialog",
-  mixins: [PageBuilderMixin],
+
+  mixins: [PageBuilderMixin,PageEventBusMixin],
 
   components: {
     SColorSelector,

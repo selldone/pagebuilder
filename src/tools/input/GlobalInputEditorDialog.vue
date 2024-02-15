@@ -51,9 +51,12 @@
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import FeederInput from "@app-page-builder/src/feeders/FeederInput.vue";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalInputEditorDialog",
+  mixins: [PageEventBusMixin],
+
   components: { FeederInput },
 
   props: {},

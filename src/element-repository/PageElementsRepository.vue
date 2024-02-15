@@ -221,9 +221,12 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { findAllFontsInSection } from "@app-page-builder/src/util";
 import { FontLoader } from "@core/helper/font/FontLoader";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "PageElementsRepository",
+  mixins: [PageEventBusMixin],
+
   components: { SImageUploader },
 
   props: {

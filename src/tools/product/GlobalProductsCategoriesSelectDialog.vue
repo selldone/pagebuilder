@@ -63,8 +63,11 @@
 <script>
 import SPageProductsFilter from "@app-page-builder/src/tools/product/widgets/SPageProductsFilter.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 export default {
   name: "GlobalProductsCategoriesSelectDialog",
+  mixins: [PageEventBusMixin],
+
   components: {
     SPageProductsFilter,
   },

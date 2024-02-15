@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Selldone® Business OS™
+ * Copyright (c) 2024. Selldone® Business OS™
  *
  * Author: M.Pajuhaan
  * Web: https://selldone.com
@@ -12,15 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-@import variables
-@import colors
-
-.s--styler-icon
-  display: block
-  width: 20px
-  height: 20px
-  fill:  #fff;
-  color:  #fff;
-$floatHover
-  cursor: pointer
-  box-shadow: 0 14px 28px alpha($black, 0.125), 0 10px 10px alpha($black, 0.1)
+export namespace Page {
+  export interface IData {
+    style: any;
+    title: string;
+    sections: { name: string; schema: any; data: any }[];
+  }
+}

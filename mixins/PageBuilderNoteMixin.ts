@@ -14,8 +14,10 @@
 
 import {defineComponent} from "vue";
 import type {Note} from "@core/models/shop/note/note.model";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export const PageBuilderNoteMixin = defineComponent({
+  mixins: [PageEventBusMixin],
   data() {
     return {
       EVENT_NAME_SHOW_NOTES_DIALOG: "showGlobalShopNoteDialog",

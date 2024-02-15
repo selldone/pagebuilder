@@ -118,9 +118,11 @@ import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 export default {
   name: "GlobalImageLayersDialog",
-  mixins: [PageBuilderMixin],
+
+  mixins: [PageBuilderMixin,PageEventBusMixin],
 
   components: {
     BackgroundImageEditor,

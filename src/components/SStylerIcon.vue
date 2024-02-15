@@ -1,17 +1,10 @@
-/*
- * Copyright (c) 2023. Selldone® Business OS™
- *
- * Author: M.Pajuhaan
- * Web: https://selldone.com
- * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- *
- * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
- * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
- * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
- * Our journey is not just about reaching a destination, but about creating a masterpiece.
- * Tread carefully, for you're treading on dreams.
- */
+<template>
+  <svg class="s--styler-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path :d="iconPath" />
+  </svg>
+</template>
 
+<script>
 const icons = {
   plus: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",
   tic: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z",
@@ -54,39 +47,23 @@ const icons = {
 };
 
 export default {
-  functional: true,
   props: {
     name: {
       type: String,
       required: true,
       validator: (val) => {
-        if (!(val in icons) && process.env.NODE_ENV !== "production") {
+        if (!(val in icons)) {
           console.warn(`Invalid icon name "${val}"`);
           return false;
         }
-
         return true;
       },
     },
   },
-  render(h, { props }) {
-    const path = h("path", {
-      attrs: {
-        d: icons[props.name],
-      },
-    });
-
-    return h(
-      "svg",
-      {
-        attrs: {
-          version: "1.1",
-          xmlns: "http://www.w3.org/2000/svg",
-          class: "vuse-icon",
-          viewBox: "0 0 24 24",
-        },
-      },
-      [path],
-    );
+  computed: {
+    iconPath() {
+      return icons[this.name];
+    },
   },
 };
+</script>

@@ -229,9 +229,12 @@ import { ClassesHelper } from "@core/helper/style/Classes";
 import ProductFramesSample from "@app-page-builder/sections/products/frames/ProductFramesSample";
 import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalProductsFrameDialog",
+  mixins: [PageEventBusMixin],
+
   components: {},
 
   props: {},

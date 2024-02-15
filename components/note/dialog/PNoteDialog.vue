@@ -91,11 +91,12 @@
 import SDenseImagesCirclesUsers from "@components/user/dense-circles/SDenseImagesCirclesUsers.vue";
 import SMentionableInput from "@components/ui/text/SMentionableInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import { PageBuilderNoteMixin } from "@app-page-builder/mixins/page-builder-note-mixin";
+import { PageBuilderNoteMixin } from "@app-page-builder/mixins/PageBuilderNoteMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "PNoteDialog",
-  mixins: [PageBuilderNoteMixin],
+  mixins: [PageBuilderNoteMixin,PageEventBusMixin],
   components: { PNoteBox, SMentionableInput, SDenseImagesCirclesUsers },
 
   props: {

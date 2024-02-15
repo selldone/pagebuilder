@@ -150,8 +150,12 @@ export default {
 
   computed: {},
   watch: {},
+  beforeCreate() {
 
+  },
   created() {
+
+
     // 🛠️Fix bad data structures:
     if (!this.$sectionData.columns || this.$sectionData.columns.length < 2) {
       this.$sectionData.columns = [

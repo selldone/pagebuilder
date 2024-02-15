@@ -18,6 +18,7 @@ import * as types from "./types";
 export function isObject(obj) {
   return obj && typeof obj === "object" && obj !== null && !Array.isArray(obj);
 }
+
 function isString(value) {
   if (!value) return true;
   return typeof value === "string" || value instanceof String;
@@ -139,7 +140,10 @@ export function cleanDOM(artboard) {
 //----------------------------------------------
 // Remove empty <br> :
 
-export function iterateOverSectionData(data, callback) {
+export function iterateOverSectionData(
+  data: { [key: string]: any },
+  callback,
+): any {
   if (!data) return null;
 
   if (Array.isArray(data)) {
@@ -161,7 +165,7 @@ export function iterateOverSectionData(data, callback) {
  * @param data
  * @returns {*|{}}
  */
-export function removeBRFromSectionData(data) {
+export function removeBRFromSectionData(data: { [key: string]: any }) {
   // console.log('removeBR',data)
 
   return iterateOverSectionData(data, (text) => {
@@ -178,7 +182,7 @@ export function removeBRFromSectionData(data) {
  * @param data
  * @returns {*[]}
  */
-export function findAllFontsInSection(data) {
+export function findAllFontsInSection(data: { [key: string]: any }) {
   // console.log('removeBR',data)
   const fonts = [];
 

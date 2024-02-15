@@ -29,7 +29,7 @@ const router = createRouter({
 
     {
       path: "/:shop_id/:page_id",
-      name: "ShopPageBuilderPage",
+      name: "BPageLandingEditor",
       component: PageBuilder,
     },
 

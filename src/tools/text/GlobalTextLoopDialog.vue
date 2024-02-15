@@ -133,8 +133,11 @@ import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInpu
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 export default {
   name: "GlobalTextLoopDialog",
+  mixins:[PageEventBusMixin],
+
   components: {
     SSmartToggle,
     SColorSelector,

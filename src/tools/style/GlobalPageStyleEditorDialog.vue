@@ -426,10 +426,11 @@ import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 export default {
   name: "GlobalPageStyleEditorDialog",
-  mixins: [PageBuilderMixin],
+  mixins: [PageBuilderMixin,PageEventBusMixin],
 
   components: {
     SSmartSelect,

@@ -960,7 +960,7 @@
 
 <script>
 import Popper from "popper.js";
-import SStylerIcon from "../components/SStylerIcon";
+import SStylerIcon from "../components/SStylerIcon.vue";
 import { isParentTo } from "../util";
 import * as types from "@app-page-builder/src/types";
 import { Seeder } from "@app-page-builder/src/seeder";
@@ -970,6 +970,7 @@ import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 
 const COLORS = [
   "samin",
@@ -1051,8 +1052,9 @@ const TextGradients = [
 ];
 
 export default {
-  name: "Styler",
-  mixins: [PageBuilderMixin],
+  name: "SStyler",
+
+  mixins: [PageBuilderMixin,PageEventBusMixin],
 
   components: {
     SStylerIcon,

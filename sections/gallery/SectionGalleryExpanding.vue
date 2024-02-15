@@ -108,9 +108,12 @@
 
 <script>
 import * as types from "../../src/types";
+import {LandingHistoryMixin} from "@app-page-builder/mixins/LandingHistoryMixin";
 
 export default {
   name: "Gallery1",
+  mixins:[LandingHistoryMixin],
+
   components: {},
   cover: require("../../assets/images/covers/gallery-1.svg"),
   group: "Gallery",
