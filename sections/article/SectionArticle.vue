@@ -73,7 +73,7 @@ export default {
 
     onPreSave: (section) => {
       if (!section) return; // Trigger when adding the section! and section is null!
-      const that = KEEPER && KEEPER[section.id];
+      const that = KEEPER && KEEPER[section.uid];
       // console.log('SectionArticle > onPreSave',section,that)
 
       if (!that || !that.$refs.editorContainer) return; // Not render yet!

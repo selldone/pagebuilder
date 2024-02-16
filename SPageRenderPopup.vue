@@ -31,8 +31,8 @@
     <component
       :is="section.name"
       v-for="section in $builder.sections"
-      :id="section.id"
-      :key="section.id"
+      :id="section.uid"
+      :key="section.uid"
       :style="section.get('$sectionData.style')"
     /><!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
   </div>

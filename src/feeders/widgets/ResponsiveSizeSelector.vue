@@ -14,27 +14,25 @@
 
 <template>
   <div class="pa-1 text-center min-width-75 d-flex flex-column align-center">
-    <v-menu location="top" offset-y rounded="lg">
+    <v-menu location="top">
       <template v-slot:activator="{ props }">
         <v-btn
-          :color="value ? 'primary' : undefined"
-          :variant="!value && 'flat'"
-          :dark="!!value"
+          :color="modelValue ? 'primary' : undefined"
+          :variant="!modelValue ? 'flat' : 'outlined'"
           v-bind="props"
         >
-          {{ value ? value : "❌" }}
+          {{ modelValue ? modelValue : "❌" }}
         </v-btn>
       </template>
 
-      <v-sheet color="#fff">
+      <v-sheet color="#fff" rounded="lg">
         <v-list-subheader
           >Opt for a 12-split layout in relative design, enabling flexible,
-          evenly divided sections for efficient space
-          utilization.</v-list-subheader
-        >
+          evenly divided sections for efficient space utilization.
+        </v-list-subheader>
 
         <v-btn
-          @click="$emit('input', null)"
+          @click="$emit('update:modelValue', null)"
           key="-"
           variant="flat"
           size="small"
@@ -50,15 +48,16 @@
           :key="index"
           size="small"
           class="ma-1"
-          @click="$emit('input', index)"
+          @click="$emit('update:modelValue', index)"
           min-width="36"
         >
           {{ index }}
         </v-btn>
       </v-sheet>
     </v-menu>
-    <small class="mt-2"
-      ><v-icon size="small">{{ icon }}</v-icon> {{ label }}</small
+    <small class="mt-2">
+      <v-icon size="small">{{ icon }}</v-icon>
+      {{ label }}</small
     >
   </div>
 </template>
@@ -66,8 +65,9 @@
 <script>
 export default {
   name: "ResponsiveSizeSelector",
+  emits: ["update:modelValue"],
   props: {
-    value: {},
+    modelValue: {},
     label: { required: true },
     icon: {},
   },

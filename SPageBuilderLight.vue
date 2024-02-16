@@ -17,8 +17,8 @@
     <!-- --------------------------------- Top Tools --------------------------------- -->
 
     <page-builder-top-tools
-      v-if="value && inEditMode"
-      :page="value"
+      v-if="modelValue && inEditMode"
+      :page="modelValue"
       :pageBuilder="$refs.vueBuilder"
       :busySave="busySave"
       :inDesignTab="true"
@@ -33,8 +33,8 @@
     <SPageEditor
       class="designer-container"
       ref="vueBuilder"
-      :dir="value ? value.direction : 'auto'"
-      :page="value"
+      :dir="modelValue ? modelValue.direction : 'auto'"
+      :page="modelValue"
       @saved="onSave"
       @scale="(val) => (scale = val)"
       @changeMode="(val) => (inEditMode = val)"
@@ -53,9 +53,10 @@ import PageBuilderTopTools from "./src/menus/PageBuilderTopTools.vue";
 export default {
   name: "SPageBuilderLight",
   components: { PageBuilderTopTools },
+  emits: ["update:modelValue", "onSave"],
   props: {
     shop: { require: true, type: Object },
-    value: {},
+    modelValue: {},
     isMenu: {
       type: Boolean,
       default: false,
@@ -79,7 +80,7 @@ export default {
 
   computed: {
     style() {
-      return this.value && this.value.content && this.value.content.style;
+      return this.modelValue && this.modelValue.content && this.modelValue.content.style;
     },
 
     show_intro() {
@@ -88,20 +89,20 @@ export default {
   },
 
   watch: {
-    value() {
+    modelValue() {
       // IMPORTANT: EACH PAGE NEED RECREATE ALL OF THIS COMPONENT!
-      this.$refs.vueBuilder.setPage(this.value.content);
+      this.$refs.vueBuilder.setPage(this.modelValue.content);
     },
   },
 
   mounted() {
-    if (!this.value || !this.value.content || !this.value.content.sections) {
-      this.$emit("input", {
+    if (!this.modelValue || !this.modelValue.content || !this.modelValue.content.sections) {
+      this.$emit("update:modelValue", {
         direction: "auto",
         content: { sections: [], style: { font_size: 16 } },
       }); // Create blank page!
     } else {
-      this.$refs.vueBuilder.setPage(this.value.content);
+      this.$refs.vueBuilder.setPage(this.modelValue.content);
     }
   },
 
@@ -111,9 +112,9 @@ export default {
 
       content.style = this.style;
 
-      this.value.content = content;
+      this.modelValue.content = content;
 
-      this.$emit("input", this.value); // Not needed! value updated directly!
+      this.$emit("update:modelValue", this.modelValue); // Not needed! modelValue updated directly!
 
       this.save(content);
     },
@@ -121,15 +122,15 @@ export default {
     onSetPageBySelectTemplate(page) {
       console.log("📐 Auto save page.", page);
 
-      this.value.content = page.content;
-      this.value.image = page.image;
+      this.modelValue.content = page.content;
+      this.modelValue.image = page.image;
 
-      this.$emit("input", this.value); // Not needed! value updated directly!
+      this.$emit("update:modelValue", this.modelValue); // Not needed! modelValue updated directly!
 
       this.save(page.content, page.image);
     },
     save(content, image = null) {
-      if (!this.value.content.style) this.value.content.style = {}; // Important: Fix style in content!
+      if (!this.modelValue.content.style) this.modelValue.content.style = {}; // Important: Fix style in content!
 
       this.$emit("onSave", { content, image });
     },

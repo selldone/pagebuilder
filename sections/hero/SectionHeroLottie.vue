@@ -61,7 +61,7 @@
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
         >
-          <uploader
+          <x-uploader
             no-preview
             :aspect-ratio="1"
             class="header-image hero-image"
@@ -85,7 +85,7 @@
                 class="-in-animation"
               />
             </template>
-          </uploader>
+          </x-uploader>
         </x-column>
       </x-row>
     </x-container>

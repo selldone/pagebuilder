@@ -352,7 +352,7 @@
 
           <!-- ----------------- Image Layer ----------------- -->
 
-          <uploader
+          <x-uploader
             :path="`$sectionData.slide.items[${index}].image`"
             :class="{ pen: !$section.lock }"
             :initialSize="{

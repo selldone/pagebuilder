@@ -78,7 +78,7 @@
         class="box"
         :class="{ 'run-mode': /*!$builder.isEditing*/ true }"
       >
-        <uploader
+        <x-uploader
           cover
           class="gallery-image-item"
           :path="`$sectionData.columns[${index}].image`"
@@ -88,7 +88,7 @@
           }"
           :augment="augment"
         >
-        </uploader>
+        </x-uploader>
 
         <p
           v-if="$builder.isEditing || $sectionData.columns[index].title"

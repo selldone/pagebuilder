@@ -376,7 +376,7 @@
             >
               <div
                 v-for="(section, index) in $builder.sections"
-                :key="section.id"
+                :key="section.uid"
                 class="position-relative d-flex flex-column target-drop"
                 :class="{
                   'cursor-pipette':
@@ -425,7 +425,7 @@
                 <component
                   v-if="delay_load > index"
                   :is="section.name"
-                  :id="section.id"
+                  :id="section.uid"
                   :class="{
                     'move-courser block-pointer-event': $builder.isSorting,
 
@@ -433,13 +433,23 @@
                     pen: drop_section,
                   }"
                   :style="section.get('$sectionData.style')"
-                  :ref="'SECTION_' + section.id"
+                  :ref="'SECTION_' + section.uid"
                 />
                 <div v-else style="height: 400px"></div>
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
-                <s-landing-section-side-actions-bar v-if="listShown && inEditMode" :section="section" :section-index="index" v-model:past-hover-index="past_hover_index"></s-landing-section-side-actions-bar>
+                <s-landing-section-side-actions-bar v-if="listShown && inEditMode" :section="section" :section-index="index"
+                                                    v-model:past-hover-index="past_hover_index"
+
+                @click:copy="copySection(section)"
+                                                    @click:delete="deleteSection(section)"
+                                                    @click:save="saveSectionToRepository(section)"
+                                                    @click:past="pastSection(index + 1)"
+                                                    :copySection="copy_section"
+
+
+                ></s-landing-section-side-actions-bar>
 
 
                 <v-expand-transition>
@@ -473,15 +483,16 @@
                   dir="ltr"
                 >
                   <v-btn
-                    class="x-feeder-btn hover-scale force-top    ml-6"
+                    class="x-feeder-btn hover-scale-small force-top    ml-6"
                     icon
-                    variant="text"
+                    color="#000"
+                    variant="flat"
                     size="x-large"
                     :class="{ disabled: !section.data || !section.schema }"
                     @click="showFeeder(section)"
                   >
-                    <v-icon>donut_large</v-icon>
-                    <v-tooltip activator="parent" location="bottom">
+                    <v-icon  size="36">donut_large</v-icon>
+                    <v-tooltip activator="parent" location="bottom" content-class="bg-black">
                       <b>Feed</b><br>
                       Simple edit section contents.</v-tooltip>
 
@@ -489,7 +500,7 @@
 
                   <ai-button
                     v-if="aiAutoFillFunction"
-                    class="x-feeder-btn hover-scale force-top    ml-6"
+                    class="x-feeder-btn hover-scale-small force-top    ml-6"
                     icon
                     x-large
                     @click="autoComplete(section)"
@@ -502,14 +513,14 @@
                   <v-badge
                     v-if="has_note"
                     :model-value="
-                      page?.notes?.filter(
-                        (n) => n.element_id === section.data?.id,
+                      notes?.filter(
+                        (n) => n.element_id === section.uid,
                       )?.length > 0
                     "
                     :content="
                       numeralFormat(
-                        page?.notes?.filter(
-                          (n) => n.element_id === section.data?.id,
+                        notes?.filter(
+                          (n) => n.element_id === section.uid,
                         )?.length,
                         '0a',
                       )
@@ -517,22 +528,22 @@
                     color="#000"
                   >
                     <v-btn
-                      class="x-feeder-btn hover-scale force-top"
+                      class="x-feeder-btn hover-scale-small force-top"
                       icon
-                      variant="text"
+                      variant="flat"
                       size="x-large"
                       :color="
-                        page?.notes?.filter(
-                          (n) => n.element_id === section.data?.id,
+                        notes?.filter(
+                          (n) => n.element_id === section.uid,
                         )?.length
                           ? 'amber'
-                          : '#fff'
+                          : '#000'
                       "
                       @click="showWriteNote(section)"
                     >
-                      <v-icon>sticky_note_2</v-icon>
-                      <v-tooltip activator="parent" location="bottom">
-                        <b>Message</b><br>
+                      <v-icon size="36">sticky_note_2</v-icon>
+                      <v-tooltip activator="parent" location="bottom" content-class="bg-black">
+                        <b>Message</b> ({{notes?.filter((n) => n.element_id === section.uid,)?.length}})<br>
 
                         Write a reminder note or message to your agency.</v-tooltip>
 
@@ -545,10 +556,11 @@
                 <p-note-digest
                   v-if="$vuetify.display.lgAndUp && has_note"
                   :notes="
-                    page?.notes?.filter(
-                      (n) => n.element_id === section.data?.id,
+                    notes?.filter(
+                      (n) => n.element_id === section.uid,
                     )
                   "
+                  @delete="(id)=>DeleteItemByID(page.notes, id)"
                   :shop="shop"
                   :page="shop_page"
                   :popup="shop_popup"
@@ -573,14 +585,14 @@
 
     <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
 
-    <GlobalPageStyleEditorDialog></GlobalPageStyleEditorDialog>
+    <SLandingToolsStylePage></SLandingToolsStylePage>
     <GlobalTypographyEditorDialog
       @change="$forceUpdate()"
     ></GlobalTypographyEditorDialog>
 
     <!-- ――――――――――――――――――――――  Dialog Master Style ―――――――――――――――――――― -->
 
-    <global-style-editor-dialog></global-style-editor-dialog>
+    <s-landing-tools-style-element></s-landing-tools-style-element>
     <global-background-editor-dialog></global-background-editor-dialog>
     <global-product-select-dialog></global-product-select-dialog>
     <global-products-categories-select-dialog></global-products-categories-select-dialog>
@@ -622,33 +634,33 @@
 
 <script>
 import Sortable from "sortablejs";
-import SStylerIcon from "../components/SStylerIcon.vue";
+import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import GlobalPageStyleEditorDialog from "../tools/style/GlobalPageStyleEditorDialog.vue";
-import GlobalBackgroundEditorDialog from "../tools/background/GlobalBackgroundEditorDialog.vue";
-import GlobalStyleEditorDialog from "../tools/style/GlobalStyleEditorDialog.vue";
-import GlobalProductSelectDialog from "../tools/product/GlobalProductSelectDialog.vue";
-import GlobalProductsCategoriesSelectDialog from "../tools/product/GlobalProductsCategoriesSelectDialog.vue";
-import GlobalAnimationEditorDialog from "../tools/animation/GlobalAnimationEditorDialog.vue";
-import GlobalColorSelectorDialog from "../tools/color/GlobalColorSelectorDialog.vue";
-import GlobalImageSizeDialog from "../tools/image/GlobalImageSizeDialog.vue";
-import GlobalImageLayersDialog from "../tools/image/GlobalImageLayersDialog.vue";
-import GlobalBlogsFilterDialog from "../tools/blog/GlobalBlogsFilterDialog.vue";
-import GlobalLinkEditorDialog from "../tools/link/GlobalLinkEditorDialog.vue";
+import SLandingToolsStylePage from "../../components/tools/style/page/SLandingToolsStylePage.vue";
+import GlobalBackgroundEditorDialog from "../../components/tools/background/GlobalBackgroundEditorDialog.vue";
+import SLandingToolsStyleElement from "../../components/tools/style/element/SLandingToolsStyleElement.vue";
+import GlobalProductSelectDialog from "@app-page-builder/components/tools/product/GlobalProductSelectDialog.vue";
+import GlobalProductsCategoriesSelectDialog from "@app-page-builder/components/tools/product/GlobalProductsCategoriesSelectDialog.vue";
+import GlobalAnimationEditorDialog from "@app-page-builder/components/tools/animation/GlobalAnimationEditorDialog.vue";
+import GlobalColorSelectorDialog from "@app-page-builder/components/tools/color/GlobalColorSelectorDialog.vue";
+import GlobalImageSizeDialog from "@app-page-builder/components/tools/image/GlobalImageSizeDialog.vue";
+import GlobalImageLayersDialog from "@app-page-builder/components/tools/image/GlobalImageLayersDialog.vue";
+import GlobalBlogsFilterDialog from "@app-page-builder/components/tools/blog/GlobalBlogsFilterDialog.vue";
+import GlobalLinkEditorDialog from "@app-page-builder/components/tools/link/GlobalLinkEditorDialog.vue";
 import { findAllFontsInSection } from "@app-page-builder/src/util";
 import { FontLoader } from "@core/helper/font/FontLoader";
 import PageElementsRepository from "@app-page-builder/src/element-repository/PageElementsRepository.vue";
 import GlobalSectionFeederDialog from "@app-page-builder/src/feeders/GlobalSectionFeederDialog.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
-import GlobalProductsFrameDialog from "@app-page-builder/src/tools/product/GlobalProductsFrameDialog.vue";
-import GlobalInputEditorDialog from "@app-page-builder/src/tools/input/GlobalInputEditorDialog.vue";
-import GlobalSlideShowEditorDialog from "@app-page-builder/src/tools/slide-show/GlobalSlideShowEditorDialog.vue";
-import GlobalXColumnLayoutEditorDialog from "@app-page-builder/src/tools/column/GlobalXColumnLayoutEditorDialog.vue";
-import GlobalTypographyEditorDialog from "@app-page-builder/src/tools/typography/GlobalTypographyEditorDialog.vue";
+import GlobalProductsFrameDialog from "@app-page-builder/components/tools/product/GlobalProductsFrameDialog.vue";
+import GlobalInputEditorDialog from "@app-page-builder/components/tools/input/GlobalInputEditorDialog.vue";
+import GlobalSlideShowEditorDialog from "@app-page-builder/components/tools/slide-show/GlobalSlideShowEditorDialog.vue";
+import GlobalXColumnLayoutEditorDialog from "@app-page-builder/components/tools/column/GlobalXColumnLayoutEditorDialog.vue";
+import GlobalTypographyEditorDialog from "@app-page-builder/components/tools/typography/GlobalTypographyEditorDialog.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
-import GlobalTextLoopDialog from "@app-page-builder/src/tools/text/GlobalTextLoopDialog.vue";
+import GlobalTextLoopDialog from "@app-page-builder/components/tools/text/GlobalTextLoopDialog.vue";
 import PNoteDigest from "@app-page-builder/components/note/digest/PNoteDigest.vue";
 import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
@@ -688,9 +700,9 @@ export default defineComponent({
     GlobalAnimationEditorDialog,
     GlobalProductsCategoriesSelectDialog,
     GlobalProductSelectDialog,
-    GlobalStyleEditorDialog,
+    SLandingToolsStyleElement,
     GlobalBackgroundEditorDialog,
-    GlobalPageStyleEditorDialog,
+    SLandingToolsStylePage,
 
     SStylerIcon,
   },
@@ -799,6 +811,7 @@ export default defineComponent({
       //-------------------
 
       past_hover_index: null,
+      onPast: null,
 
     };
   },
@@ -836,6 +849,10 @@ export default defineComponent({
     sections_length() {
       return this.$builder.sections && this.$builder.sections.length;
     },
+
+    notes(){
+      return this.page?.notes
+    }
   },
 
   watch: {
@@ -1087,6 +1104,9 @@ export default defineComponent({
     window.onbeforeunload = function () {
       return "Are you sure to <b>close page design</b>?";
     };
+
+
+    this.registerPastListener()
   },
 
   updated() {
@@ -1111,8 +1131,117 @@ export default defineComponent({
     window.clearInterval(this.interval);
 
     //console.log("...beforeDestroy...",this.$builder);
+
+
+    //―――――――――――――――――――――― Past >Unregister ――――――――――――――――――――
+    document.removeEventListener("paste", this.onPast, true);
   },
+
+
+
   methods: {
+
+    //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
+    registerPastListener(){
+      // Add global past:
+      this.onPast = (event) => {
+        if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+
+        let paste = (event.clipboardData || window.clipboardData).getData("text");
+
+
+        function IsValidJsonSectionString(str) {
+          try {
+            let json = JSON.parse(str);
+            return json.name && json.data && Object.keys(json.data).length > 0;
+          } catch (e) {}
+          return false;
+        }
+
+        // Try parse as section:
+        if (paste && IsValidJsonSectionString(paste)) {
+          this.copy_section = paste;
+
+          this.pastSection(
+              this.past_hover_index === null
+                  ? this.$builder.sections.length + 1
+                  : this.past_hover_index + 1,
+          );
+          event.preventDefault();
+        }
+      };
+      document.addEventListener("paste", this.onPast, true);
+    },
+
+    //――――――――――――――――――――――  Copy Section ――――――――――――――――――――
+
+    copySection(section) {
+      this.copy_section = JSON.stringify({
+        name: section.name,
+        data: section.data,
+      });
+      this.copyToClipboard(
+          this.copy_section,
+          "Copy Section Data & Structure",
+          `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
+      );
+    },
+    saveSectionToRepository(section) {
+      const _section = JSON.stringify({
+        name: section.name,
+        data: section.data,
+      });
+      this.EventBus.$emit("show:PageElementsRepository:Add-My-Section", {
+        section: _section,
+      });
+    },
+
+    //――――――――――――――――――――――  Past Section ――――――――――――――――――――
+
+    pastSection(index) {
+      if (!this.copy_section) {
+        this.showWarningAlert(
+            "First copy a section!",
+            "Data on clipboard not found!",
+        );
+
+        return;
+      }
+
+      try {
+        let section = JSON.parse(this.copy_section);
+        if (section.name && section.data) {
+          this.builder.add(section, index, false,true);
+          this.onSaveHistory();
+          this.autoLoadSectionFonts(section);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
+    },
+
+    //――――――――――――――――――――――  Delete Section ――――――――――――――――――――
+
+    deleteSection(section) {
+      try {
+        this.builder.remove(section);
+        this.onSaveHistory();
+      } catch (e) {
+        console.error(e)
+        this.showErrorAlert(
+            null,
+            "We can not remove this section! Maybe fix it by refreshing the page.",
+        );
+      }
+    },
+
+
+
+
+
     inActiveEditingMode() {
       // Are we the other tab?
       if (!this.isElementVisible(this.$el)) {
@@ -1183,7 +1312,7 @@ export default defineComponent({
       }
     },
     getJson() {
-      const page = this.$builder.export("json");
+      const page = this.$builder.export();
       this.checkHealth(page);
 
       // 🌼 Fix real time font adding issue:
@@ -1306,7 +1435,7 @@ export default defineComponent({
     addSection(section, position) {
       //console.log("addSection", section, "position", position);
 
-      this.$builder.add(section, position, true);
+      this.$builder.add(section, position, true,true);
 
       // Fix BUG direction change by vuetify!
       this.$nextTick(() => {
@@ -1481,7 +1610,7 @@ export default defineComponent({
           if (json && json.name && json.data) {
             event.preventDefault();
             // console.log("added!");
-            this.$builder.add(json, index + 1, false);
+            this.$builder.add(json, index + 1, false,true);
             this.autoLoadSectionFonts(json);
           }
         } catch (e) {}
@@ -1521,7 +1650,7 @@ export default defineComponent({
 
     showFeeder(section) {
       this.selected_section = section;
-      this.selected_component = this.$refs[`SECTION_${section.id}`][0]; // v-for return refs in array!
+      this.selected_component = this.$refs[`SECTION_${section.uid}`][0]; // v-for return refs in array!
       this.dialog_feeder = true;
     },
 
@@ -1551,7 +1680,7 @@ export default defineComponent({
 
       this.showGlobalShopNoteDialog(
           this.page.notes,
-          section.data.id,
+          section.uid,
           this.shop_page?.id,
           this.shop_popup?.id,
       );
@@ -1560,7 +1689,7 @@ export default defineComponent({
       if (this.$route.query.element_id) {
         this.showWriteNote(
             this.$builder.sections.find(
-                (s) => s.data.id === this.$route.query.element_id,
+                (s) => s.id === this.$route.query.element_id,
             ),
         ); // Auto open note dialog if element_id be in query (used in notifications link)
       }
@@ -2471,7 +2600,7 @@ label {
   align-items: center;
 
   position: absolute;
-  left: -335px;
+  left: -360px;
   top: 100px;
   flex-direction: row-reverse;
 
@@ -2499,6 +2628,9 @@ label {
     border-radius: 50%;
     position: relative;
     z-index: 1;
+    .v-icon {
+      transition: all 0.3s;
+    }
     &:hover {
       .v-icon {
         transform: rotate(120deg);

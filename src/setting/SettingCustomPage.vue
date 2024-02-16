@@ -107,8 +107,8 @@
         manage it.
       </v-list-subheader>
       <b-cluster-input
-        :value="clusterId"
-        @input="(val) => $emit('update:clusterId', val)"
+        :model-value="clusterId"
+        @update:modelValue="(val) => $emit('update:clusterId', val)"
         :return-object="false"
         clearable
         no-home

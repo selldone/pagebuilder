@@ -362,7 +362,7 @@ import { Seeder } from "@app-page-builder/src/seeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
-import SPageProductsFilter from "@app-page-builder/src/tools/product/widgets/SPageProductsFilter.vue";
+import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import FeederNewsletter from "@app-page-builder/src/feeders/FeederNewsletter.vue";
 import FeederImage from "@app-page-builder/src/feeders/FeederImage.vue";
 import SBackofficeAugmentKeysFinder from "@components/backoffice/augment/SBackofficeAugmentKeysFinder.vue";

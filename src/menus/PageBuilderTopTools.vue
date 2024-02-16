@@ -13,7 +13,17 @@
   -->
 
 <template>
-  <v-toolbar flat color="#fff" class="stick-menu border-bottom">
+  <v-toolbar
+    v-bind="$attrs"
+    flat
+    color="#fff"
+    class="s--landing-menus-top-tools border-bottom"
+    v-intersect="
+      (isIntersecting) => {
+        visible_to_user = isIntersecting;
+      }
+    "
+  >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
     <v-toolbar-items>
@@ -23,11 +33,10 @@
         @click="$emit('click:save')"
         :loading="busySave"
         stacked
+        width="84"
       >
         <v-icon>{{ saveIcon }}</v-icon>
-        <span class="small mt-1 tnt">{{
-          $t("global.commons.save_changes")
-        }}</span>
+        <span class="small mt-1 tnt">{{ $t("global.actions.save") }}</span>
       </v-btn>
 
       <template v-if="inDesignTab">
@@ -472,116 +481,179 @@
         </v-tooltip>
       </v-btn>
     </v-toolbar-items>
-
-    <!-- ████████████████████ Dialog > Import file ████████████████████ -->
-    <v-dialog
-      v-model="show_import"
-      dark
-      :max-width="
-        $vuetify.display.xl ? 560 : $vuetify.display.lgAndUp ? 420 : undefined
-      "
-      :scrim="false"
-      color="#1e1e1e"
-    >
-      <v-card class="text-start" flat>
-        <v-card-title></v-card-title>
-        <v-card-text>
-          <s-widget-header icon="input" title="Import Design File">
-          </s-widget-header>
-          <v-list-subheader>
-            <div>
-              You can import custom-designed pages in this section. Ensure that
-              the file is in the <b>.landing</b> format.
-            </div>
-          </v-list-subheader>
-
-          <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬ Drop Zone ⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
-
-          <s-drop-zone
-            extension=".landing"
-            label="Select template file (.landing)"
-            @select:file="importFile"
-            class="min-height-40vh my-3"
-            hint="Drag and drop your landing page file here, or click on the input field at the top."
-            icon="design_services"
-          ></s-drop-zone>
-        </v-card-text>
-        <v-card-actions>
-          <div class="widget-buttons">
-            <v-btn variant="text" size="x-large" @click="show_import = false">
-              <v-icon class="me-1">close</v-icon>
-              {{ $t("global.actions.close") }}
-            </v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- ████████████████████ Dialog > Hot keys ████████████████████ -->
-    <v-dialog
-      v-model="show_hotkeys"
-      fullscreen
-      scrollable
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-card-title>
-          <v-icon class="me-1">keyboard</v-icon>
-          Hotkeys
-        </v-card-title>
-        <v-card-text class="text-start">
-          <v-container>
-            <v-row>
-              <v-col
-                v-for="(desc, key) in ShortKeys"
-                :key="key"
-                cols="6"
-                sm="4"
-                md="3"
-              >
-                <div class="border rounded-lg pa-3 min-h-100">
-                  <div class="text-h4 text-uppercase">
-                    {{ key }}
-                  </div>
-                  <div v-html="desc"></div>
-                </div>
-              </v-col>
-
-              <v-col cols="12">
-                <div class="border rounded-lg pa-3 min-h-100">
-                  <div class="text-h4 text-uppercase">
-                    {{ "\{\{" }}<span class="text-blue">key</span>{{ "\}\}" }}
-                  </div>
-                  <div>
-                    "You can load dynamic content on your page and replace it
-                    with <b>augment</b> values. Augment is used for custom
-                    dynamic pages such as <b>Products</b>, <b>Categories</b>,
-                    and <b>Include Items</b>. To set an image to load
-                    dynamically, click on <b>Feeder</b> and select
-                    <b>Dynamic Source</b> for that image.
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <div class="widget-buttons">
-            <v-btn variant="text" size="x-large" @click="show_hotkeys = false">
-              <v-icon class="me-1">close</v-icon>
-              {{ $t("global.actions.close") }}
-            </v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-toolbar>
+
+  <!-- ████████████████████ Dialog > Import file ████████████████████ -->
+  <v-dialog
+    v-model="show_import"
+    dark
+    :max-width="
+      $vuetify.display.xlAndUp
+        ? 560
+        : $vuetify.display.lgAndUp
+          ? 420
+          : undefined
+    "
+    :scrim="false"
+    color="#1e1e1e"
+  >
+    <v-card class="text-start" flat>
+      <v-card-title></v-card-title>
+      <v-card-text>
+        <s-widget-header icon="input" title="Import Design File">
+        </s-widget-header>
+        <v-list-subheader>
+          <div>
+            You can import custom-designed pages in this section. Ensure that
+            the file is in the <b>.landing</b> format.
+          </div>
+        </v-list-subheader>
+
+        <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬ Drop Zone ⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
+
+        <s-drop-zone
+          extension=".landing"
+          label="Select template file (.landing)"
+          @select:file="importFile"
+          class="min-height-40vh my-3"
+          hint="Drag and drop your landing page file here, or click on the input field at the top."
+          icon="design_services"
+        ></s-drop-zone>
+      </v-card-text>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn variant="text" size="x-large" @click="show_import = false">
+            <v-icon class="me-1">close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <!-- ████████████████████ Dialog > Hot keys ████████████████████ -->
+  <v-dialog
+    v-model="show_hotkeys"
+    fullscreen
+    scrollable
+    transition="dialog-bottom-transition"
+  >
+    <v-card class="text-start">
+      <v-card-title>
+        <v-icon class="me-1">keyboard</v-icon>
+        Hotkeys
+      </v-card-title>
+      <v-card-text class="text-start">
+        <v-container>
+          <v-row>
+            <v-col
+              v-for="(desc, key) in ShortKeys"
+              :key="key"
+              cols="6"
+              sm="4"
+              md="3"
+            >
+              <div class="border rounded-lg pa-3 min-h-100">
+                <div class="text-h4 text-uppercase">
+                  {{ key }}
+                </div>
+                <div v-html="desc"></div>
+              </div>
+            </v-col>
+
+            <v-col cols="12">
+              <div class="border rounded-lg pa-3 min-h-100">
+                <div class="text-h4 text-uppercase">
+                  {{ "\{\{" }}<span class="text-blue">key</span>{{ "\}\}" }}
+                </div>
+                <div>
+                  "You can load dynamic content on your page and replace it with
+                  <b>augment</b> values. Augment is used for custom dynamic
+                  pages such as <b>Products</b>, <b>Categories</b>, and
+                  <b>Include Items</b>. To set an image to load dynamically,
+                  click on <b>Feeder</b> and select <b>Dynamic Source</b> for
+                  that image.
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn variant="text" size="x-large" @click="show_hotkeys = false">
+            <v-icon class="me-1">close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <!-- ████████████████████ Floating Menu (minimized on top) ████████████████████ -->
+
+  <div
+    style="
+      position: fixed;
+      top: 8px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 100;
+    "
+  >
+    <v-scroll-y-reverse-transition>
+      <div v-if="!visible_to_user">
+        <v-btn-group color="#000" rounded="xl">
+          <!-- ▃▃▃▃▃▃▃▃▃▃ History ▃▃▃▃▃▃▃▃▃▃ -->
+
+          <v-btn v-if="history" @click.stop="$emit('click:history')" stacked>
+            <v-icon>history</v-icon>
+            <span class="small mt-1 tnt">{{
+              $t("page_builder.design.tools.history")
+            }}</span>
+          </v-btn>
+
+          <v-btn
+            :title="$t('global.commons.undo')"
+            @click.stop="pageBuilder.goUndo()"
+            :disabled="!pageBuilder.hasUndo"
+            stacked
+          >
+            <v-icon>undo</v-icon>
+            <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
+          </v-btn>
+
+          <v-btn
+            @click.stop="pageBuilder.goRedo()"
+            :disabled="!pageBuilder.hasRedo"
+            stacked
+          >
+            <v-icon>redo</v-icon>
+            <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
+          </v-btn>
+
+          <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
+
+          <v-btn
+            icon
+            @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
+            :color="pageBuilder.$builder.cloneStyle ? 'primary' : '#000'"
+            stacked
+          >
+            <v-icon>colorize</v-icon>
+            <div class="small mt-1 tnt">Clone</div>
+          </v-btn>
+        </v-btn-group>
+      </div>
+    </v-scroll-y-reverse-transition>
+  </div>
 </template>
 
 <script>
 import { SetupService } from "@core/server/SetupService";
 import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
+import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -604,6 +676,7 @@ export default {
   name: "PageBuilderTopTools",
 
   components: { AiButton, SDropZone },
+  mixins: [LandingHistoryMixin],
   props: {
     shop: {
       required: false,
@@ -665,6 +738,8 @@ export default {
     show_hotkeys: false,
 
     show_import: false,
+
+    visible_to_user: false,
   }),
 
   methods: {
@@ -765,7 +840,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.stick-menu {
+.s--landing-menus-top-tools {
   top: 0;
   z-index: 200;
   position: sticky;

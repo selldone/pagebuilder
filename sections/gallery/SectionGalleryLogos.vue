@@ -57,7 +57,7 @@
               :path="`$sectionData.columns[${index}]`"
               :object="col"
             >
-              <uploader
+              <x-uploader
                 :initialSize="null"
                 cover
                 :path="`$sectionData.columns[${index}].image`"

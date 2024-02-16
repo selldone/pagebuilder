@@ -21,7 +21,7 @@
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
-      <uploader
+      <x-uploader
         class="fadeIn delay_300"
         :path="`$sectionData.image`"
         rounded

@@ -34,10 +34,10 @@
       },
     ]"
   >
-    <div v-for="section in $builder.sections" :key="section.id">
+    <div v-for="section in $builder.sections" :key="section.uid">
       <component
         :is="section.name"
-        :id="section.id"
+        :id="section.uid"
         :style="section.get('$sectionData.style')"
         :augment="augment"
       />

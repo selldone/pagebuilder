@@ -51,7 +51,7 @@
         >
           <!-- ----------------- Image Layer ----------------- -->
 
-          <uploader
+          <x-uploader
             :path="`$sectionData.slide.items[${index}].image`"
             :class="{ pen: !$section.lock }"
             style="min-height: 100%; min-width: 100%; max-height: 100%"
@@ -334,7 +334,7 @@ export default {
         loopedSlides: this.$sectionData.slide.items.length, // looped slides should be the same
         spaceBetween: 10,
         centeredSlides: true,
-        slidesPerView: this.$vuetify.display.xl
+        slidesPerView: this.$vuetify.display.xlAndUp
           ? 5
           : this.$vuetify.display.lg
             ? 4

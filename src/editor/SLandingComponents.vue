@@ -15,25 +15,26 @@
 <template>
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-  <v-sheet
+  <div
     ref="menu"
-    class="float-menu no-inv rounded-xl thin-scroll"
+    class="float-menu no-inv thin-scroll"
     :class="{
       'is-visiable': isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': isDragged,
     }"
-    theme="dark"
+
   >
     <v-expansion-panels
       v-model="expanded"
-      dark
-      :style="{ maxWidth: expanded === 0 ? '260px' : '130px' }"
-      class="rounded-xl overflow-hidden"
+      theme="dark"
+      :style="{ maxWidth: expanded === 0 ? '260px' : '140px' }"
+      class="overflow-hidden rounded-18px"
+      style="transition: all 0.35s; --v-activated-opacity: 0"
     >
       <v-expansion-panel :bg-color="expanded === 0 ? '#111' : '#0152d0'">
-        <v-expansion-panel-title>
-          <v-icon size="small" class="me-1">view_day</v-icon>
+        <v-expansion-panel-title ripple>
+          <v-icon size="small" start>view_day</v-icon>
           <div class="flex-grow-1">Sections</div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -68,7 +69,7 @@
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
-  </v-sheet>
+  </div>
   <!-- Side help menu -->
   <v-menu
     v-if="hover_section?.help"
@@ -150,7 +151,7 @@ export default defineComponent({
   },
 
   mounted() {
-    const groups = this.$refs.menu.$el.querySelectorAll(".fmenu-body");
+    const groups = this.$refs.menu.querySelectorAll(".fmenu-body");
     const _self = this;
     groups.forEach((group) => {
       const sortable = Sortable.create(group, {
@@ -315,8 +316,5 @@ export default defineComponent({
     height: auto;
     background: #1976d2;
   }
-
 }
-
-
 </style>

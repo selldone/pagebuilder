@@ -12,14 +12,13 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import merge from "lodash-es/merge";
 import {Section} from "./section";
 import SPageEditor from "./editor/SPageEditor.vue";
 import SPageRender from "../SPageRender.vue";
 import SectionMixin from "../mixins/SectionMixin";
 import {isObject, removeBRFromSectionData} from "./util";
 import SPageRenderPopup from "../SPageRenderPopup.vue";
-import {App, ComponentPublicInstance, defineComponent, provide, reactive,} from "vue";
+import {App, defineComponent, provide, reactive} from "vue";
 import XColumnImageText from "@app-page-builder/sections/components/XColumnImageText.vue";
 import XRow from "@app-page-builder/sections/components/XRow.vue";
 import XColumn from "@app-page-builder/sections/components/XColumn.vue";
@@ -27,27 +26,71 @@ import XSection from "@app-page-builder/sections/components/XSection.vue";
 import XContainer from "@app-page-builder/sections/components/XContainer.vue";
 import XButtons from "@app-page-builder/sections/components/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/sections/components/XCustomProductsList.vue";
-import initDataAttributeDirective from "./directives/initDataAttributeDirective";
-import {Page} from "@app-page-builder/src/models/IData";
+import initDataAttributeDirective from "@app-page-builder/directives/initDataAttributeDirective";
 import XMixin from "@app-page-builder/mixins/XMixin";
-import StylerDirective from "@app-page-builder/src/styler/StylerDirective";
-import Uploader from "@app-page-builder/sections/components/Uploader.vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import {XUploader} from "@app-page-builder/sections/components/XUploader.vue";
+import {Page} from "@core/models/shop/page/page.model";
+import SectionHeroHorizontal from "@app-page-builder/sections/hero/SectionHeroHorizontal.vue";
+import SectionHeroVertical from "@app-page-builder/sections/hero/SectionHeroVertical.vue";
+import SectionHeroLottie from "@app-page-builder/sections/hero/SectionHeroLottie.vue";
+import Section2TextColumns from "@app-page-builder/sections/text/Section2TextColumns.vue";
+import Section3TextColumns from "@app-page-builder/sections/text/Section3TextColumns.vue";
+import Section3NumberColumns from "@app-page-builder/sections/text/Section3NumberColumns.vue";
+import SectionSingleImage from "@app-page-builder/sections/images/SectionSingleImage.vue";
+import Section3Images from "@app-page-builder/sections/images/Section3Images.vue";
+import Section3ImagesText from "@app-page-builder/sections/images/Section3ImagesText.vue";
+import SectionInfinitStream from "@app-page-builder/sections/text/SectionInfiniteStream.vue";
+import SectionGalleryExpanding from "@app-page-builder/sections/gallery/SectionGalleryExpanding.vue";
+import SectionGalleryLogos from "@app-page-builder/sections/gallery/SectionGalleryLogos.vue";
+import SectionProductCategoryList from "@app-page-builder/sections/products/SectionProductCategoryList.vue";
+import SectionProductView from "@app-page-builder/sections/products/SectionProductView.vue";
+import SectionProductsCustomList from "@app-page-builder/sections/products/SectionProductsCustomList.vue";
+import SectionArticle from "@app-page-builder/sections/article/SectionArticle.vue";
+import SectionRawHtml from "@app-page-builder/sections/basic/SectionRawHtml.vue";
+import SectionSlideShow from "@app-page-builder/sections/gallery/SectionSlideShow.vue";
+import SectionScrollView from "@app-page-builder/sections/gallery/SectionScrollView.vue";
+import Newsletter from "@app-page-builder/sections/forms/Newsletter.vue";
+import SectionTwoCol from "@app-page-builder/sections/images/SectionTwoCol.vue";
+import SectionThreeCol from "@app-page-builder/sections/images/SectionThreeCol.vue";
+import SectionImageTextCards from "@app-page-builder/sections/images/SectionImageTextCards.vue";
+import SectionBlogsList from "@app-page-builder/sections/blog/SectionBlogsList.vue";
+import SectionHeroSearch from "@app-page-builder/sections/hero/SectionHeroSearch.vue";
 
-const PLUGINS = [];
-let mixier = {};
-const BUILDER_OPTIONS = {
+export namespace Landing {
+  export interface IBuilderOptions {
+    title: string;
+    intro: boolean;
+    sections: Section[];
+    style: any;
+    columnsPrefix: {
+      mobile: string;
+      tablet: string;
+      desktop: string;
+      widescreen: string;
+      ultrawide: string;
+    };
+    themes: any[];
+  }
+}
+
+export const Components: Record<string, any> = {};
+
+/**
+ * Default options for the builder.
+ */
+const BUILDER_OPTIONS: Landing.IBuilderOptions = {
   title: "",
   intro: true,
   sections: [],
   style: {},
-  plugins: [],
   themes: [],
   columnsPrefix: {
-    mobile: "col-",
-    tablet: "col-sm-",
-    desktop: "col-md-",
-    widescreen: "col-lg-",
-    ultrawide: "col-xl-",
+    mobile: "v-col-",
+    tablet: "v-col-sm-",
+    desktop: "v-col-md-",
+    widescreen: "v-col-lg-",
+    ultrawide: "v-col-xl-",
   },
 };
 
@@ -55,7 +98,7 @@ const BUILDER_OPTIONS = {
 let _Vue: App | null = null;
 
 class SelldonePageBuilderCore {
-  static install(app: App, options = {}) {
+  static install(app: App, options: Partial<Landing.IBuilderOptions> = {}) {
     // already installed
     if (_Vue) {
       LOG("⚽ 2. Call Install", "Already installed!");
@@ -68,9 +111,12 @@ class SelldonePageBuilderCore {
      */
     app.directive("initDataAttribute", initDataAttributeDirective);
 
-    app.component(Uploader.name, Uploader);
+    app.component(XUploader.name, XUploader);
 
     _Vue = app;
+
+    initializeSections(app);
+    initializeXComponents(app);
 
     // II. Initialize builder:
     this.addMasterComponent(app, "SPageEditor", SPageEditor, options);
@@ -89,7 +135,7 @@ class SelldonePageBuilderCore {
     app: App,
     name: string,
     component: any,
-    options: any,
+    options: Partial<Landing.IBuilderOptions>,
   ) {
     {
       const core_instance = new SelldonePageBuilderCore(
@@ -129,7 +175,7 @@ class SelldonePageBuilderCore {
   public style: any;
   public columnsPrefix: any;
   public themes: any[];
-  public components: any;
+  public components: Record<string, any>;
   public cloneStyle: boolean;
   public cloneObject: any;
   public rootEl: any;
@@ -137,7 +183,7 @@ class SelldonePageBuilderCore {
   public history: string[] = [];
   public historyIndex: number = 0;
 
-  constructor(options) {
+  constructor(options: Landing.IBuilderOptions) {
     LOG("⚽ 3. Constructor > Create page builder instance", "options", options);
 
     this.isAnimation = false; // In animation editing mode
@@ -153,14 +199,11 @@ class SelldonePageBuilderCore {
     this.style = options.style;
     this.columnsPrefix = options.columnsPrefix;
     this.themes = options.themes;
-    this.components = {};
+    this.components = Components;
 
     //----------------- Clone Style ------------------
     this.cloneStyle = false;
     this.cloneObject = null;
-
-    this.installPlugins(_Vue!);
-    this.initEspecialComponents(_Vue!);
   }
 
   /**
@@ -169,21 +212,32 @@ class SelldonePageBuilderCore {
    * @param position
    * @param has_initialize  Call $init in schema (prevent change on past section or drop pre built sections)
    */
-  add(options, position, has_initialize = false) {
+  add(
+    options: Section.IOptions,
+    position: number,
+    has_initialize: boolean = false,
+    force_set_new_uid: boolean = false,
+  ) {
     if (!options.schema) {
-      options.schema = this.components[options.name].extends.$schema;
-      console.log("Auto assign schema.");
+      options.schema = this.components[options.name]?.extends?.$schema;
+      console.log("Auto assign schema.", options);
     }
 
-    const section = new Section(options);
+    if (!options.schema) {
+      console.error(
+        "Schema not found for section",
+        options,
+        "position",
+        position,
+      );
+      return;
+    }
+    const section = new Section(options, force_set_new_uid);
     //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
     if (has_initialize && options.schema?.$init) {
       options.schema?.$init(section.data);
     }
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-    // Force set new ID here even exists (in past mode)
-    section.data.id = "auto_" + Math.round(Math.random() * 99999999999);
 
     if (position !== undefined) {
       this.sections.splice(position, 0, section);
@@ -197,16 +251,16 @@ class SelldonePageBuilderCore {
    *
    * @param {String|Number} id
    */
-  find(id) {
-    return this.sections.find((s) => s.id === id);
+  find(id: string) {
+    return this.sections.find((s) => s.uid === id);
   }
 
   /**
    * Removes a section with the specified id.
    * @param {String|Number} id
    */
-  remove(section) {
-    const id = this.sections.findIndex((s) => s.id === section.id);
+  remove(section: Section) {
+    const id = this.sections.findIndex((s) => s.uid === section.uid);
     this.sections.splice(id, 1);
     section.destroy();
   }
@@ -216,7 +270,7 @@ class SelldonePageBuilderCore {
    * @param {String|Number} oldIndex
    * @param {String|Number} newIndex
    */
-  sort(oldIndex, newIndex) {
+  sort(oldIndex: number, newIndex: number) {
     const section = this.sections[oldIndex];
     this.sections.splice(oldIndex, 1);
     this.sections.splice(newIndex, 0, section);
@@ -258,7 +312,7 @@ class SelldonePageBuilderCore {
     this.cloneObject = null;
   }
 
-  onClickClone(e, object, keys) {
+  onClickClone(e: Event, object: Record<string, any>, keys: string[]) {
     //console.log("copy Style",this.cloneStyle,this.isEditing,this.cloneObject);
 
     if (!this.cloneStyle || !this.isEditing) return;
@@ -273,17 +327,17 @@ class SelldonePageBuilderCore {
     e.stopPropagation();
   }
 
-  onCloneCopy(object, keys) {
+  onCloneCopy(object: Record<string, any>, keys: string[]) {
     if (!this.cloneStyle) return;
 
     this.cloneObject = {};
 
-    keys.forEach((key) => {
+    keys.forEach((key: string) => {
       this.cloneObject[key] = object[key];
     });
   }
 
-  onClonePast(object, keys) {
+  onClonePast(object: Record<string, any>, keys: string[]) {
     if (!this.cloneObject) return;
 
     keys.forEach((key) => {
@@ -302,119 +356,10 @@ class SelldonePageBuilderCore {
   }
 
   /**
-   * Static helper for shops registration pre-installation.
-   *
-   * @param {String} name
-   * @param {Object} definition
-   */
-  static component(name, definition) {
-    // Just make a plugin that installs a component.
-    SelldonePageBuilderCore.use((ctx) => {
-      ctx.builder.component(name, definition);
-      //console.log('ctx',ctx)
-    });
-  }
-
-  /**
-   * Acts as a mixin for subcomponents.
-   * @param {Object} mixinObj
-   */
-  static mix(mixinObj) {
-    mixier = merge(mixier, mixinObj);
-  }
-
-  /**
-   * Adds a component section to the builder and arguments it with the styler.
-   * @param {*} name
-   * @param {*} definition
-   */
-  component(name, definition) {
-    // Resolve the component name automatically.
-    if (typeof name === "object") {
-      definition = name;
-      name = definition.name;
-    }
-
-    // Define the component using Vue 3's defineComponent
-    // If passed a plain object, wrap it with defineComponent
-    const componentDefinition =
-      typeof definition === "function"
-        ? definition
-        : defineComponent(definition);
-
-    // Extend the component with additional options
-    this.components[name] = defineComponent({
-      extends: componentDefinition,
-
-      directives: { styler: StylerDirective },
-      mixins: [SectionMixin], // Vue 3 still supports mixins
-      components: mixier.components,
-    });
-  }
-
-  /**
-   * Initialize especial components
-   */
-  initEspecialComponents(app: App) {
-    const components = [
-      XColumnImageText,
-      XRow,
-      XColumn,
-      XSection,
-      XContainer,
-      XButtons,
-      XCustomProductsList,
-    ];
-
-    components.forEach((_component) => {
-      const ExtendedComponent = defineComponent({
-        extends: _component,
-        directives: { styler: StylerDirective },
-        mixins: [XMixin], // Vue 3 still supports mixins
-        components: mixier.components,
-      });
-
-      app.component(_component.name, ExtendedComponent);
-    });
-  }
-
-  /**
-   * Installs added plugins.
-   */
-  installPlugins(app: App) {
-    PLUGINS.forEach((ctx) => {
-      ctx.plugin({ builder: this, Vue: _Vue }, ctx.options);
-    });
-    // reset to prevent duplications.
-    console.log(
-      "%c♻ Selldone plugins %c: Install ☀ ☄",
-      "color:#0288D1;font-weight: 800;",
-      "color:#333",
-    );
-    ///////// Remove for multi render / builder PLUGINS = [];
-  }
-
-  /**
-   * The plugin to be installed with the builder. The function receives the installation context which
-   * contains the builder instance and the Vue prototype.
-   *
-   * @param {Function} plugin
-   * @param {Object} options
-   */
-  static use(plugin, options = {}) {
-    if (typeof plugin !== "function") {
-      return console.warn("Plugins must be a function");
-    }
-
-    // append to the list of to-be installed plugins.
-    PLUGINS.push({ plugin, options });
-  }
-
-  /**
    * Load page content from a JSON object.
    * @param data
    */
-  set(data: Page.IData, from_theme: boolean = false) {
+  set(data: Page.IContent, from_theme: boolean = false) {
     LOG("⚽ Set -----> data", data);
 
     this.style = data.style;
@@ -429,60 +374,21 @@ class SelldonePageBuilderCore {
       this.sections = data.sections.map((section) => {
         const sectionData = {
           name: section.name,
-          schema: section.schema,
+          uid: section.uid,
           data: from_theme ? null : section.data,
+          schema: this.components[section.name].extends.$schema, // We do not save schema in page json data!
         };
-        // Add schema:
-        if (!sectionData.schema) {
-          sectionData.schema =
-            this.components[sectionData.name].extends.$schema;
-        }
-        // Set random ID for sections
-        if (sectionData.data && !sectionData.data.id) {
-          sectionData.data.id =
-            "auto_" + Math.round(Math.random() * 99999999999);
-        }
 
         return new Section(sectionData);
       });
     }
-  }
-
-  generate(data) {
-    const out = {};
-
-    out.title = data.title !== undefined ? data.title : this.title;
-    if (data.sections && Array.isArray(data.sections)) {
-      out.sections = data.sections.map((section) => {
-        const sectionData = {
-          name: section.name,
-          schema: section.schema,
-          data: section.data,
-        };
-        // Add schema:
-        if (!sectionData.schema) {
-          sectionData.schema =
-            this.components[sectionData.name].extends.$schema;
-        }
-
-        // Set random ID for sections
-        if (sectionData.data && !sectionData.data.id) {
-          sectionData.data.id =
-            "auto_" + Math.round(Math.random() * 99999999999);
-        }
-
-        return new Section(sectionData);
-      });
-    } else {
-      out.sections = [];
-    }
-    return out;
   }
 
   /**
+   * Exports the builder instance to a specified output.
    * Outputs a JSON representation of the builder that can be used for rendering with the renderer component.
    */
-  toJSON() {
+  export() {
     // Pre save function call: (prepare some stuff in components if needed)
     this.sections.forEach((item) => {
       if (item.schema.onPreSave) item.schema.onPreSave(item);
@@ -496,21 +402,88 @@ class SelldonePageBuilderCore {
     return {
       title: this.title,
       sections: this.sections.map((s) => ({
+        uid: s.uid, // New unique id saved in backend. Previous id was added to data.id
         name: s.name,
         data: s.data,
       })),
       style: this.style,
     };
   }
+}
 
-  /**
-   * Exports the builder instance to a specified output. default is json.
-   *
-   * @param {String} method
-   */
-  export(method = "json") {
-    return this.toJSON();
-  }
+/**
+ * Adds a component section to the builder and arguments it with the styler.
+ */
+function initializeSections(app: App) {
+  const components = [
+    SectionHeroHorizontal,
+    SectionHeroVertical,
+    SectionHeroLottie,
+    Section2TextColumns,
+    Section3TextColumns,
+    Section3NumberColumns,
+    SectionSingleImage,
+    Section3Images,
+    Section3ImagesText,
+    SectionInfinitStream,
+    SectionGalleryExpanding,
+    SectionGalleryLogos,
+    SectionProductCategoryList,
+    SectionProductView,
+    SectionProductsCustomList,
+    SectionArticle,
+    SectionRawHtml,
+    SectionSlideShow,
+    SectionScrollView,
+    Newsletter,
+    SectionTwoCol,
+    SectionThreeCol,
+    SectionImageTextCards,
+    SectionBlogsList,
+    SectionHeroSearch,
+  ];
+
+  components.forEach((_component) => {
+    const ExtendedComponent = defineComponent({
+      extends: _component,
+      directives: { styler: StylerDirective },
+      mixins: [SectionMixin],
+    });
+    Components[_component.name] = ExtendedComponent;
+    app.component(_component.name, ExtendedComponent);
+  });
+
+  // reset to prevent duplications.
+  console.log(
+    "%c♻ Selldone plugins %c: Install ☀ ☄",
+    "color:#0288D1;font-weight: 800;",
+    "color:#333",
+  );
+}
+
+/**
+ * Initialize especial components
+ */
+function initializeXComponents(app: App) {
+  const components = [
+    XColumnImageText,
+    XRow,
+    XColumn,
+    XSection,
+    XContainer,
+    XButtons,
+    XCustomProductsList,
+  ];
+
+  components.forEach((_component) => {
+    const ExtendedComponent = defineComponent({
+      extends: _component,
+      directives: { styler: StylerDirective },
+      mixins: [XMixin],
+    });
+
+    app.component(_component.name, ExtendedComponent);
+  });
 }
 
 export default SelldonePageBuilderCore;

@@ -19,7 +19,6 @@ import {defineComponent, inject, provide} from "vue";
 
 const SectionMixin = defineComponent({
 
-
   beforeCreate() {
     // Get builder from main page editor/viewer
     this.$builder = inject("$builder");
@@ -32,13 +31,16 @@ const SectionMixin = defineComponent({
 
     LOG(`ID: ${this.$props.id} `, "$section", this.$section ? "✅" : "❌");
   },
+
   updated() {
-    try{
-      Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach((el: any) => {
-        el.contentEditable = this.$builder.isEditing;
-      });
-    }catch (e){
-      console.error('updated | section',e,this);
+    try {
+      Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
+        (el: any) => {
+          el.contentEditable = this.$builder.isEditing;
+        },
+      );
+    } catch (e) {
+      console.error("updated | section", e, this);
     }
   },
 
@@ -112,8 +114,6 @@ const SectionMixin = defineComponent({
   },
 
   methods: {
-
-
     backgroundStyle(background) {
       if (!background) return null;
 
@@ -162,5 +162,5 @@ const SectionMixin = defineComponent({
 export default SectionMixin;
 
 function LOG(...text: any) {
- // console.log("🪷 SectionMixin", ...text);
+  // console.log("🪷 SectionMixin", ...text);
 }

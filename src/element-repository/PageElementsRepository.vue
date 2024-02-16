@@ -17,7 +17,7 @@
     v-if="$vuetify.display.mdAndUp"
     class="r-con c-container -force-rounded p-2 fadeIn"
     :class="{ collapse: collapse }"
-    v-show="(scaleDownMode || $vuetify.display.xl) && show"
+    v-show="(scaleDownMode || $vuetify.display.xlAndUp) && show"
   >
     <v-expand-transition>
       <div v-if="!collapse" class="text-center text-white">
@@ -55,16 +55,18 @@
                 :src="getShopImagePath(item.image)"
                 class="-img"
                 height="100%"
+                cover
               >
                 <v-btn
                   v-if="item.shop_id"
-                  fab
+                  variant="flat" icon
                   size="small"
                   @click.stop="showEdit(item)"
                   title="Edit element"
                   class="absolute-top-end"
-                  ><v-icon size="small">edit</v-icon></v-btn
                 >
+                  <v-icon size="small">edit</v-icon>
+                </v-btn>
               </v-img>
               <div class="label single-line">
                 {{ item.title }}
@@ -101,9 +103,9 @@
       content-class="rounded-t-xl"
     >
       <v-card rounded="t-xl">
-        <v-card-title
-          ><v-icon class="me-2" color="#111">add_box</v-icon> Add My Custom
-          Section
+        <v-card-title>
+          <v-icon class="me-2" color="#111">add_box</v-icon>
+          Add My Custom Section
 
           <v-spacer></v-spacer>
           <v-btn
@@ -111,9 +113,10 @@
             variant="text"
             :loading="busy_delete"
             @click="deleteSection(selected_element)"
-            ><v-icon class="me-1" size="small">delete</v-icon>
-            {{ $t("global.actions.delete") }}</v-btn
           >
+            <v-icon class="me-1" size="small">delete</v-icon>
+            {{ $t("global.actions.delete") }}
+          </v-btn>
         </v-card-title>
         <v-card-text>
           <div class="widget-box mb-5">
@@ -124,8 +127,8 @@
             <v-list-subheader>
               You can save custom-designed sections for later use in your page
               designs. These saved sections are accessible to all admins in this
-              shop.</v-list-subheader
-            >
+              shop.
+            </v-list-subheader>
 
             <v-text-field
               v-model="title"
@@ -168,8 +171,8 @@
             <s-widget-header title="Code" icon="data_object"></s-widget-header>
             <v-list-subheader>
               You can copy and past the element code form left side of sections
-              in the page builder.</v-list-subheader
-            >
+              in the page builder.
+            </v-list-subheader>
             <v-textarea
               v-model="section"
               messages="Copy section on page builder."
@@ -182,8 +185,8 @@
                 :key="font"
                 class="row-font text-start"
               >
-                <b :style="{ fontFamily: font }"
-                  ><v-icon size="small" class="me-1">font_download</v-icon>
+                <b :style="{ fontFamily: font }">
+                  <v-icon size="small" class="me-1">font_download</v-icon>
                   {{ font }}</b
                 >
               </div>
@@ -204,9 +207,9 @@
               :loading="busy_save"
               color="primary"
             >
-              <v-icon class="me-1">{{
-                selected_element ? "save" : "add"
-              }}</v-icon>
+              <v-icon class="me-1"
+                >{{ selected_element ? "save" : "add" }}
+              </v-icon>
               {{ selected_element ? "Update" : "Add new" }}
             </v-btn>
           </div>
@@ -525,6 +528,7 @@ export default {
     font-weight: 400;
     letter-spacing: 0.05em;
   }
+
   .r-card {
     position: relative;
     cursor: move;
@@ -542,7 +546,7 @@ export default {
     }
 
     .-img {
-      border-radius: 24px 8px 8px 8px;
+      border-radius: 8px 8px 8px 8px;
       flex-grow: 1;
     }
   }

@@ -14,9 +14,9 @@
 
 <template>
   <div v-if="notes?.length" class="d--notes-digest-view">
-    <v-list class="border-between-vertical" lines="two">
+    <v-list class="border-between-vertical overflow-visible" lines="two">
       <p-note-box
-        v-for="note in notes.sortByKey('id', false).limit(limit)"
+        v-for="note in limited_notes"
         :key="note.id"
         :class="{ 'hover-scale-small force-top bg-white border-0': hoverAble }"
         :note="note"
@@ -24,7 +24,7 @@
         class="fadeIn pp"
         in-shop-admin
         @click="show(note)"
-        @delete="DeleteItemByID(notes, note.id)"
+        @delete="$emit('delete', note.id)"
       >
       </p-note-box>
     </v-list>
@@ -40,14 +40,14 @@
 
 <script>
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import {PageBuilderNoteMixin} from "@app-page-builder/mixins/PageBuilderNoteMixin";
+import { PageBuilderNoteMixin } from "@app-page-builder/mixins/PageBuilderNoteMixin";
 
 export default {
   name: "PNoteDigest",
-  mixins:[PageBuilderNoteMixin],
+  mixins: [PageBuilderNoteMixin],
 
   components: { PNoteBox },
-
+  emits: ["delete"],
   props: {
     shop: {
       required: true,
@@ -70,7 +70,11 @@ export default {
   },
   data: () => ({}),
 
-  computed: {},
+  computed: {
+    limited_notes() {
+      return this.notes.sortByKey("id", false).limit(this.limit);
+    },
+  },
 
   watch: {},
   created() {},

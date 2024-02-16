@@ -60,7 +60,7 @@
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
         >
-          <uploader
+          <x-uploader
             :aspect-ratio="1"
             class="ma-auto"
             path="$sectionData.image"

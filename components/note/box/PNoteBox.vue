@@ -55,8 +55,16 @@
           :loading="delete_busy === note"
           color="red"
           icon
+          variant="text"
           title="Remove note."
-          @click="removeNote(note)"
+          @click.stop="
+            openDangerAlert(
+              'Remove Note',
+              'Are you sure to remove this note?',
+              'Yes, Remove Now',
+              () => removeNote(note),
+            )
+          "
         >
           <v-icon>close</v-icon>
         </v-btn>
@@ -76,6 +84,7 @@ import { CompileMarkdown } from "@core/helper/html/HtmlHelper";
 export default {
   name: "PNoteBox",
   components: {},
+  emits: ["delete"],
 
   props: {
     shop: {
@@ -119,14 +128,14 @@ export default {
       repos.forEach((obj) => {
         const list = Array.isArray(obj) ? obj : Object.values(obj);
         list.forEach((it) => {
-          if (it.code)
+          if (it.code) {
             out = out.replace(
               " " + it.code + " ",
               `<img width="16" height="16" src="${it.icon}" title="${this.$t(
-                it.name,
+                it.name || it.code,
               )}">`,
             );
-          else
+          } else
             out = out.replace(
               " " + it.name + " ",
               `<img width="16" height="16" src="${it.icon}" title="${this.$t(

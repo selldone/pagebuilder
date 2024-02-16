@@ -18,25 +18,25 @@
       v-model="grid.mobile"
       label="Mobile"
       icon="smartphone"
-      @input="update"
+      @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.tablet"
       label="Tablet"
       icon="tablet_mac"
-      @input="update"
+      @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.desktop"
       label="Desktop"
       icon="laptop"
-      @input="update"
+      @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.widescreen"
       label="Widescreen"
       icon="desktop_windows"
-      @input="update"
+      @update:modelValue="update"
     ></responsive-size-selector>
   </div>
 </template>

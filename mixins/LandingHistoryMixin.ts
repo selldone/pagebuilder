@@ -12,9 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {defineComponent, inject, watch} from "vue";
+import {defineComponent, inject} from "vue";
 import _ from "lodash-es";
 import SelldonePageBuilderCore from "@app-page-builder/src";
+import {Section} from "@app-page-builder/src/section";
 
 const DEBUG = true;
 
@@ -27,18 +28,16 @@ export const LandingHistoryMixin = defineComponent({
         : (inject("$builder") as SelldonePageBuilderCore),
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
 
   computed: {
     hasUndo() {
-     /* console.log(
-        "hasUndo",
-        this.builder.historyIndex,
-        this.builder.history.length,
-        this.builder.historyIndex + 1 < this.builder.history.length,
-      );*/
+      /* console.log(
+                     "hasUndo",
+                     this.builder.historyIndex,
+                     this.builder.history.length,
+                     this.builder.historyIndex + 1 < this.builder.history.length,
+                   );*/
       return this.builder.historyIndex + 1 < this.builder.history.length;
     },
     hasRedo() {
@@ -101,8 +100,8 @@ export const LandingHistoryMixin = defineComponent({
       ); // Keep only data, id , name
 
       // 1. Check section exist:
-      const exists = [];
-      raw_sections.forEach((raw) => {
+      const exists: Section[] = [];
+      raw_sections.forEach((raw: Section.ISection) => {
         // Keep real sections
         const found = this.builder.find(raw.id);
         if (found && found.name === raw.name) {
@@ -116,7 +115,7 @@ export const LandingHistoryMixin = defineComponent({
 
       // 3. Create new section:
       let index = 0;
-      raw_sections.forEach((raw) => {
+      raw_sections.forEach((raw: Section.ISection) => {
         const found = exists.find(
           (it) => it.id === raw.id && it.name === raw.name,
         );
@@ -125,7 +124,7 @@ export const LandingHistoryMixin = defineComponent({
           if (DEBUG) console.log("goUndo", "3 Update", found);
           this.builder.sections.push(found);
         } else {
-          this.builder.add(raw, index, false);
+          this.builder.add(raw, index, false,false);
           if (DEBUG) console.log("goUndo", "3 Add", raw);
         }
         index++;
@@ -158,28 +157,29 @@ export const LandingHistoryMixin = defineComponent({
      */
     saveLocalHistory: _.throttle(async function (
       local_history,
-      sections,
+      sections: Section[],
       current_index,
       callback,
     ) {
       // Keep only data, id , name
-      const filtered = sections.map(function (i) {
-        return { name: i.name, id: i.id, data: i.data };
+      const filtered = sections.map(function (i: Section) {
+        return { name: i.name, id: i.id, uid: i.uid, data: i.data };
       });
 
+      const clone = JSON.stringify(filtered).trim();
       if (
         local_history.length > current_index &&
-        JSON.stringify(filtered).trim() === local_history[current_index]
-      )
+        clone === local_history[current_index]
+      ) {
+        console.log("✖️ No changes in history");
         return;
+      }
 
       // Remove death zone:
       if (current_index > 0) {
         if (DEBUG) console.log("Clear death zone history", current_index);
         local_history.splice(0, current_index);
       }
-
-      const clone = JSON.stringify(filtered).trim();
 
       local_history.unshift(clone);
       if (local_history.length > 20) local_history.length = 20;

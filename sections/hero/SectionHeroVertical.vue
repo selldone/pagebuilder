@@ -59,7 +59,7 @@
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
         >
-          <uploader path="$sectionData.image" :augment="augment" />
+          <x-uploader path="$sectionData.image" :augment="augment" />
         </x-column>
       </x-row>
     </x-container>

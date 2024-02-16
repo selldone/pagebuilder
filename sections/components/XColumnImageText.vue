@@ -29,7 +29,7 @@
           v-html="object.title?.applyAugment(augment, $builder.isEditing)"
         />
 
-        <uploader
+        <x-uploader
           v-if="
             !['x-layout-title-content', 'x-layout-content-title'].includes(
               layout_class,

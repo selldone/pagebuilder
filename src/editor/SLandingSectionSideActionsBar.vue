@@ -16,8 +16,8 @@
   <div
     class="side-section"
     :class="{
-      '-copy': copy_hover === section.id,
-      '-delete': delete_hover === section.id,
+      '-copy': copy_hover,
+      '-delete': delete_hover,
       '-row': ['infinite-stream'].includes(section.name),
     }"
   >
@@ -25,15 +25,15 @@
 
     <v-btn
       icon
-      variant="tonal"
+      variant="text"
       color="#000"
       size="large"
-      class="hover-scale -fast force-top"
-      @mouseenter="copy_hover = section.id"
-      @mouseleave="copy_hover = null"
-      @click="copySection(section)"
+      class="hover-scale-small -fast force-top"
+      @mouseenter="copy_hover = true"
+      @mouseleave="copy_hover = false"
+      @click="$emit('click:copy', section)"
     >
-      <v-icon size="x-large">content_copy</v-icon>
+      <v-icon size="36">content_copy</v-icon>
 
       <v-tooltip
         activator="parent"
@@ -41,7 +41,7 @@
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block">Copy Section Now!</b>
+        <b class="d-block"><v-icon class="me-1">content_copy</v-icon> Copy Section Now!</b>
         <div>
           When you click here, this section structure and data will be copied,
           allowing you to paste it onto this page or any other pages.
@@ -53,57 +53,32 @@
 
     <v-btn
       icon
-      variant="tonal"
+      variant="text"
       title="Delete section"
       color="red"
       size="large"
-      class="hover-scale -fast force-top"
-      @mouseenter="delete_hover = section.id"
-      @mouseleave="delete_hover = null"
-      @click="deleteSection(section)"
+      class="hover-scale-small -fast force-top"
+      @mouseenter="delete_hover = true"
+      @mouseleave="delete_hover = false"
+      @click="$emit('click:delete', section)"
     >
-      <v-icon size="x-large">close</v-icon>
+      <v-icon size="36">close</v-icon>
     </v-btn>
 
     <v-spacer></v-spacer>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Save Section (Page's Element) ▃▃▃▃▃▃▃▃▃▃ -->
 
-      <v-btn
-        v-if="$route.params.shop_id /*Only in shop admin dashboard!*/"
-        icon
-        variant="tonal"
-        color="#000"
-        class="hover-scale -fast force-top mb-1"
-        size="large"
-        @click="saveSectionToRepository(section)"
-      >
-        <v-icon size="x-large">add</v-icon>
-
-        <v-tooltip
-          activator="parent"
-          location="right"
-          max-width="420"
-          content-class="bg-black pa-3 text-start small"
-        >
-          <b class="d-block">Save & Reuse This Section</b>
-          <div>Save this section to my repository for use on other pages.</div>
-        </v-tooltip>
-      </v-btn>
-
-    <!-- ▃▃▃▃▃▃▃▃▃▃ Past ▃▃▃▃▃▃▃▃▃▃ -->
-
     <v-btn
+      v-if="$route.params.shop_id /*Only in shop admin dashboard!*/"
       icon
-      variant="tonal"
+      variant="text"
       color="#000"
-      class="hover-scale -fast"
+      class="hover-scale-small -fast force-top mb-1"
       size="large"
-      @mouseenter="$emit('update:pastHoverIndex', sectionIndex)"
-      @mouseleave="$emit('update:pastHoverIndex', null)"
-      @click="pastSection(sectionIndex + 1)"
+      @click="$emit('click:save', section)"
     >
-      <v-icon size="x-large">content_paste</v-icon>
+      <v-icon size="36">save</v-icon>
 
       <v-tooltip
         activator="parent"
@@ -111,8 +86,33 @@
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block">Ctrl + V Now!</b>
-        <div v-if="copy_section" class="py-1">
+        <b class="d-block"><v-icon class="me-1">save</v-icon> Save & Reuse This Section</b>
+        <div>Save this section to my repository for use on other pages.</div>
+      </v-tooltip>
+    </v-btn>
+
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Past ▃▃▃▃▃▃▃▃▃▃ -->
+
+    <v-btn
+      icon
+      variant="text"
+      color="#000"
+      class="hover-scale-small -fast"
+      size="large"
+      @mouseenter="$emit('update:pastHoverIndex', sectionIndex)"
+      @mouseleave="$emit('update:pastHoverIndex', null)"
+      @click="$emit('click:past', section)"
+    >
+      <v-icon size="36">content_paste</v-icon>
+
+      <v-tooltip
+        activator="parent"
+        location="right"
+        max-width="420"
+        content-class="bg-black pa-3 text-start small"
+      >
+        <b class="d-block"><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
+        <div v-if="copySection" class="py-1">
           <v-icon color="success" size="x-small">circle</v-icon>
           Copy available
         </div>
@@ -128,13 +128,13 @@
 </template>
 
 <script>
-import {defineComponent, inject} from "vue";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
-import {LandingHistoryMixin} from "@app-page-builder/mixins/LandingHistoryMixin";
+import { defineComponent } from "vue";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
 
 export default defineComponent({
   name: "SLandingSectionSideActionsBar",
-  mixins:[PageBuilderMixin,LandingHistoryMixin],
+  mixins: [PageBuilderMixin, LandingHistoryMixin],
 
   emits: ["update:pastHoverIndex"],
   props: {
@@ -150,130 +150,19 @@ export default defineComponent({
       type: Number,
       default: null,
     },
+
+    copySection: {},
   },
   data() {
     return {
-      //------------------- Extra buttons side ---------------
-      copy_hover: null,
-      delete_hover: null,
-      copy_section: null,
-      onPast: null,
-
-      builder : inject("$builder")
-
+      copy_hover: false,
+      delete_hover: false,
     };
   },
 
-  created() {
+  created() {},
 
-
-    // Add global past:
-    this.onPast = (event) => {
-      if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
-
-      let paste = (event.clipboardData || window.clipboardData).getData("text");
-
-      // console.log('paste action initiated',paste)
-
-      function IsValidJsonSectionString(str) {
-        try {
-          let json = JSON.parse(str);
-          return json.name && json.data && Object.keys(json.data).length > 0;
-        } catch (e) {}
-        return false;
-      }
-
-      // Try parse as section:
-      if (paste && IsValidJsonSectionString(paste)) {
-        this.copy_section = paste;
-
-        this.pastSection(
-          this.pastHoverIndex === null
-            ? this.builder.sections.length + 1
-            : this.pastHoverIndex + 1,
-        );
-        event.preventDefault();
-      }
-    };
-    document.addEventListener("paste", this.onPast, true);
-
-
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("paste", this.onPast, true);
-  },
-
-  methods: {
-    //――――――――――――――――――――――  Copy Section ――――――――――――――――――――
-
-    copySection(section) {
-      this.copy_section = JSON.stringify({
-        name: section.name,
-        data: section.data,
-      });
-      this.copyToClipboard(
-        this.copy_section,
-        "Copy Section Data & Structure",
-        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
-      );
-    },
-    saveSectionToRepository(section) {
-      const _section = JSON.stringify({
-        name: section.name,
-        data: section.data,
-      });
-      this.EventBus.$emit("show:PageElementsRepository:Add-My-Section", {
-        section: _section,
-      });
-    },
-
-    //――――――――――――――――――――――  Past Section ――――――――――――――――――――
-
-    pastSection(index) {
-      if (!this.copy_section) {
-        this.showWarningAlert(
-          "First copy a section!",
-          "Data on clipboard not found!",
-        );
-
-        return;
-      }
-
-
-      try {
-        let section = JSON.parse(this.copy_section);
-        if (section.name && section.data) {
-          this.builder.add(section, index, false);
-          this.onSaveHistory();
-          this.autoLoadSectionFonts(section);
-          return;
-        }
-      } catch (e) {
-        console.error(e);
-      }
-
-      this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
-    },
-
-    //――――――――――――――――――――――  Delete Section ――――――――――――――――――――
-
-    deleteSection(section) {
-      try {
-        this.builder.remove(section);
-        this.onSaveHistory();
-      } catch (e) {
-        console.error(e)
-        this.showErrorAlert(
-            null,
-            "We can not remove this section! Maybe fix it by refreshing the page.",
-        );
-      }
-    },
-
-
-
-  },
+  methods: {},
 });
 </script>
 

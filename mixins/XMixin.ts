@@ -23,6 +23,8 @@ const XMixin = defineComponent({
   data: () => ({
     $builder: null as SelldonePageBuilderCore | null,
     $section: null as Section | null,
+    BACKGROUND_STYLE: null,
+    types: types,
   }),
   beforeCreate() {
     // Get builder from main page editor/viewer
@@ -37,37 +39,21 @@ const XMixin = defineComponent({
       "$section",
       this.$section ? "✅" : "❌",
     );
-
-    /*
-                                if(this.$parent.$sectionData)
-                                  this.$sectionData = this.$parent.$sectionData;
-                                if(this.$parent.$builder)
-                                  this.$builder = this.$parent.$builder;
-                                if(this.$parent.$section)
-                                  this.$section = this.$parent.$section;
-                                if(this.$parent.$builder)
-                                  this.$X_PARENT_BUILDER = this.$parent.$builder; // Keep parent builder for styler
-                            */
   },
   updated() {
     try {
       if (typeof this.$el.querySelectorAll === "function")
-      Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
-        (el: any) => {
-          el.contentEditable = this.$builder.isEditing;
-        },
-      );
+        Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
+          (el: any) => {
+            el.contentEditable = this.$builder.isEditing;
+          },
+        );
     } catch (e) {
       console.error("updated | x component", e, this);
     }
   },
 
   //------------------------------------------------- New Common -------------------------------------------------
-
-  data: () => ({
-    BACKGROUND_STYLE: null,
-    types: types,
-  }),
 
   computed: {
     $sectionData() {
