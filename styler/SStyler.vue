@@ -153,9 +153,9 @@
           @click="toggleNoWrap"
           title="Wrap / Nowrap"
         >
-          <v-icon dark size="20">{{
-            no_wrap ? "view_column" : "view_comfy"
-          }}</v-icon>
+          <v-icon dark size="20"
+            >{{ no_wrap ? "view_column" : "view_comfy" }}
+          </v-icon>
         </button>
       </li>
 
@@ -198,9 +198,9 @@
           @click="container_fluid = !container_fluid"
           title="Fluid container"
         >
-          <v-icon dark size="20">{{
-            container_fluid ? "swap_horiz" : "compare_arrows"
-          }}</v-icon>
+          <v-icon dark size="20"
+            >{{ container_fluid ? "swap_horiz" : "compare_arrows" }}
+          </v-icon>
         </button>
       </li>
 
@@ -255,7 +255,7 @@
             @click="showCustomProductFrame"
             title="Custom Code"
           >
-            <v-icon color="#fff" size="20"> code </v-icon>
+            <v-icon color="#fff" size="20"> code</v-icon>
           </button>
         </li>
         <li>
@@ -264,7 +264,7 @@
             @click="showQueryBuilderProducts"
             title="Products & Categories"
           >
-            <v-icon color="#fff" size="20"> filter_alt </v-icon>
+            <v-icon color="#fff" size="20"> filter_alt</v-icon>
           </button>
         </li>
       </template>
@@ -277,7 +277,7 @@
           @click="showEditSlides"
           title="Slides Setting"
         >
-          <v-icon color="#fff" size="20"> tune </v-icon>
+          <v-icon color="#fff" size="20"> tune</v-icon>
         </button>
       </li>
 
@@ -289,7 +289,7 @@
           @click="showQueryBuilderBlogs"
           title="Blogs"
         >
-          <v-icon color="#fff" size="20"> filter_alt </v-icon>
+          <v-icon color="#fff" size="20"> filter_alt</v-icon>
         </button>
       </li>
 
@@ -301,7 +301,7 @@
           @click="showQueryBuilderTextLoop"
           title="Text Loop"
         >
-          <v-icon color="#fff" size="20"> recycling </v-icon>
+          <v-icon color="#fff" size="20"> recycling</v-icon>
         </button>
       </li>
 
@@ -313,7 +313,7 @@
           @click="showSelectProduct"
           title="Select product"
         >
-          <v-icon color="#fff" size="20"> bento </v-icon>
+          <v-icon color="#fff" size="20"> bento</v-icon>
         </button>
       </li>
 
@@ -455,8 +455,8 @@
               color="#1BD4F2"
               class="bg-malibu-beach text-gradient"
               size="20"
-              >nights_stay</v-icon
-            >
+              >nights_stay
+            </v-icon>
             <v-icon
               key="2"
               v-else
@@ -464,8 +464,8 @@
               color="#FFC107"
               class="bg-sunny-morning text-gradient"
               size="20"
-              >wb_sunny</v-icon
-            >
+              >wb_sunny
+            </v-icon>
           </v-scroll-y-reverse-transition>
         </button>
       </li>
@@ -478,7 +478,7 @@
           @click="showInputEditor"
           title="Input Setting"
         >
-          <v-icon color="#fff" size="20"> input </v-icon>
+          <v-icon color="#fff" size="20"> input</v-icon>
         </button>
       </li>
     </ul>
@@ -498,20 +498,14 @@
           v-model="row_align"
           class="m-3 d-block"
           rounded
-          dark
-          borderless
+          theme="dark"
           selected-class="success"
         >
-          <v-btn
-            v-for="it in ALIGN"
-            :key="it.val"
-            :value="it.val"
-            :caption="it.title"
-            :title="it.title"
-            class="sub-caption -hover"
-            icon
-          >
+          <v-btn v-for="it in ALIGN" :key="it.val" :value="it.val" icon>
             <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
+            <v-tooltip v-if="it.title" activator="parent" location="bottom">{{
+              it.title
+            }}</v-tooltip>
           </v-btn>
         </v-btn-toggle>
 
@@ -519,20 +513,14 @@
           v-model="row_justify"
           class="m-3 d-block"
           rounded
-          dark
-          borderless
+          theme="dark"
           selected-class="blue-flat"
         >
-          <v-btn
-            v-for="it in JUSTIFY"
-            :key="it.val"
-            :value="it.val"
-            :caption="it.title"
-            :title="it.title"
-            class="sub-caption -hover"
-            icon
-          >
+          <v-btn v-for="it in JUSTIFY" :key="it.val" :value="it.val" icon>
             <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
+            <v-tooltip v-if="it.title" activator="parent" location="bottom">{{
+              it.title
+            }}</v-tooltip>
           </v-btn>
         </v-btn-toggle>
       </div>
@@ -629,8 +617,8 @@
               :color="text_color_display"
               size="20"
               class="hover-scale-small"
-              >circle</v-icon
-            >
+              >circle
+            </v-icon>
           </v-btn>
         </ul>
       </li>
@@ -751,8 +739,8 @@
               class="styler-button bordered-dark"
             >
               <v-icon dark class="text-gradient" :class="'bg-' + it"
-                >lens</v-icon
-              >
+                >lens
+              </v-icon>
             </v-btn>
           </li>
           <v-divider class="mx-2" vertical dark inset></v-divider>
@@ -769,9 +757,9 @@
               "
               :title="text_gradient_mode ? 'Foreground' : 'Background'"
             >
-              <v-icon dark size="20">{{
-                text_gradient_mode ? "texture" : "format_color_fill"
-              }}</v-icon>
+              <v-icon dark size="20"
+                >{{ text_gradient_mode ? "texture" : "format_color_fill" }}
+              </v-icon>
             </button>
           </li>
         </ul>
@@ -803,7 +791,10 @@
           <template v-slot:message>
             <div class="mt-1">
               ● Add font in
-              <b><v-icon size="small">format_paint</v-icon> Style</b>.
+              <b>
+                <v-icon size="small">format_paint</v-icon>
+                Style</b
+              >.
             </div>
           </template>
         </v-select>
@@ -864,9 +855,9 @@
                 }
               "
             >
-              <v-icon dark size="20">{{
-                uppercase ? "title" : "format_size"
-              }}</v-icon>
+              <v-icon dark size="20"
+                >{{ uppercase ? "title" : "format_size" }}
+              </v-icon>
             </button>
           </li>
         </ul>
@@ -971,7 +962,7 @@ import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuild
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import {LandingHistoryMixin} from "@app-page-builder/mixins/LandingToolsMixin";
+import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 
 const COLORS = [
   "samin",
@@ -1055,7 +1046,7 @@ const TextGradients = [
 export default {
   name: "SStyler",
 
-  mixins: [PageBuilderMixin,PageEventBusMixin,LandingHistoryMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin, LandingHistoryMixin],
 
   components: {
     SStylerIcon,
@@ -1072,6 +1063,9 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    bindingValue: {
+      // It's the value of v-styler:arg="value"
     },
     section: {
       type: Object,
@@ -1710,6 +1704,11 @@ export default {
     },
 
     addClass(className) {
+
+      if(Array.isArray(this.bindingValue.classes) && !this.bindingValue.classes.includes(className))
+      this.bindingValue.classes.push(className);
+
+      return;
       //console.log("addClass", className);
       this.section.set(this.name, (value) => {
         if (value && value.classes && Array.isArray(value.classes)) {
@@ -1736,13 +1735,28 @@ export default {
         });
       }
 
+      console.log("removeClass > value ",this.name,'className',className)
+      if(!Array.isArray(this.bindingValue.classes)) {
+        console.error("removeClass > value ",'classes',this.bindingValue.classes)
+        return;
+      }
+
+      // remove any item start with
+      this.bindingValue.classes = this.bindingValue.classes.filter((c) => {
+        return !c.startsWith(className);
+      });
+      return;
+
+
       this.section.set(this.name, (value) => {
         if (value && value.classes && Array.isArray(value.classes)) {
           value = value.classes;
         }
+        if(!Array.isArray(value)) return;
 
         let splices = [];
         let i = 0;
+
         value.forEach((item) => {
           // console.log("item ",item)
 
@@ -2005,6 +2019,7 @@ export default {
           } catch (e) {}
           return false;
         }
+
         let paste = (event.clipboardData || window.clipboardData).getData(
           "text",
         );
@@ -2260,11 +2275,11 @@ export default {
      */
     addNewButton() {
       // we have (object.btn_row) here and need (object.buttons)
-      const buttons_path =
-        this.name.substring(0, this.name.lastIndexOf(".")) + ".buttons";
+      console.log("this.name", this.bindingValue);
+      // const buttons_path = this.name.substring(0, this.name.lastIndexOf(".")) + ".buttons";
 
-      let buttons = this.section.get(buttons_path);
-      buttons.push(Seeder.seed(types.Button));
+     // let buttons = this.section.get(buttons_path);
+      this.bindingValue.buttons.push(Seeder.seed(types.Button));
     },
 
     /**
@@ -2287,8 +2302,8 @@ export default {
 //@import '~@baianat/base.framework/src/stylus/util/colors'
 @import "../src/stylus/colors.styl"
 
-$dark=#323c47;
-$white=#fff;
+$dark = #323c47;
+$white = #fff;
 .styler
   position: absolute
   top: 0
@@ -2304,6 +2319,7 @@ $white=#fff;
   flex-direction: column
   justify-content: center
   align-items: center
+
   &-list
     display: flex
     justify-content: center
@@ -2311,7 +2327,7 @@ $white=#fff;
     list-style: none
     margin: 0
     padding: 0 !important
-    color:#fff
+    color: #fff
 
   &-input
     background: $white
@@ -2326,6 +2342,7 @@ $white=#fff;
     -webkit-appearance: none
     -moz-appearance: textfield
     appearance: none
+
   &-button
     display: flex
     justify-content: center
@@ -2339,18 +2356,24 @@ $white=#fff;
     height: 42px
     border-radius: 42px
     margin: 0 5px 0 0
+
     &:hover
       background: darken($dark, 20%)
+
     &:first-child
       margin-left: 5px
+
     &.selected
       background: darken($dark, 40%)
+
   &-selector
     margin: 0 5px
+
   &.is-visible
     visibility: visible
     opacity: 1
     display flex
+
   .input-group
     margin: 5px
 
@@ -2362,7 +2385,8 @@ $white=#fff;
 .colorer
   @extend .styler-list
   height: 42px
-  li >input
+
+  li > input
     -webkit-appearance: none
     -moz-appearance: textfield
     appearance: none
@@ -2372,22 +2396,28 @@ $white=#fff;
     border: 4px solid darken($dark, 20%)
     margin: 0 5px
     outline: none
+
     &:checked
       border-color: lighten($dark, 20%)
+
     &:hover
       border-color: lighten($dark, 20%)
+
     &#colorRed
       background $red
 
     &#colorSamin
       background var(--plate-light-1)
+
     &#colorPink
       background var(--plate-light-2)
+
     &#colorBlack
       background var(--plate-light-3)
 
     &#colorGreen
       background var(--plate-light-4)
+
     &#colorBlue
       background var(--plate-light-5)
 
@@ -2399,22 +2429,19 @@ $white=#fff;
 
     &#colorTeal
       background var(--plate-light-8)
+
     &#colorCyan
-       background var(--plate-light-9)
+      background var(--plate-light-9)
+
     &#colorAmber
-       background var(--plate-light-10)
+      background var(--plate-light-10)
 
     &#colorBlue-grey
-       background var(--plate-light-11)
-
+      background var(--plate-light-11)
 
 
     &#colorTransparent
-      background linear-gradient(45 deg, white 50%, #444 50%);
-
-
-
-
+      background linear-gradient(45deg, white 50%, #444 50%);
 
 
 .is-hidden
@@ -2446,8 +2473,10 @@ input[type=number]::-webkit-outer-spin-button
 
     ul {
       max-width: 100%;
+
       li {
         max-width: 100%;
+
         > div {
           max-width: 100%;
           overflow: auto;
@@ -2475,27 +2504,33 @@ input[type=number]::-webkit-outer-spin-button
         background-color: #e64a19;
       }
     }
+
     &.-green {
       &:after {
         background-color: #8bc34a;
       }
     }
+
     &.-blue {
       &:after {
         background-color: #03a9f4;
       }
     }
+
     &.-amber {
       &:after {
         background-color: #ffa000;
       }
     }
   }
+
   //------------------ End Styler dot color ------------------
 }
+
 //------------------ Slop polygon ------------------
 .bg-style-normal {
 }
+
 @media only screen and (min-width: 900px) {
   .bg-style-diagonal-l-r-80 {
     //z-index: -1;
@@ -2561,12 +2596,14 @@ input[type=number]::-webkit-outer-spin-button
     }
   }
 }
+
 //-------------------------------------------------------
 
 //------------------ Responsive ------------------
 
 .page-builder {
 }
+
 //-------------------------------------------------------
 
 .is-editable:not(section):not(.button):not(.artboard):not(.v-btn) {
@@ -2575,6 +2612,7 @@ input[type=number]::-webkit-outer-spin-button
   border: dashed 1px #ddd;
   border-radius: 2px;
 }
+
 // Start fix border width in scale down mode
 .in-scale-down {
   .is-editable:not(section):not(.button):not(.artboard):not(.v-btn) {
@@ -2599,20 +2637,24 @@ input[type=number]::-webkit-outer-spin-button
   .class-prev {
     background: rgba(38, 38, 38, 0.87);
     flex-grow: 1;
+
     &.white--text {
       background: rgba(38, 38, 38, 0.87);
     }
+
     &.black--text {
       background: rgba(255, 255, 255, 0.87);
     }
   }
 }
+
 .bg-tools {
   background: #2f3133;
 }
 
 .bordered-dark {
   border: 4px solid #283039;
+
   &:hover {
     border: 4px solid #36414d;
   }

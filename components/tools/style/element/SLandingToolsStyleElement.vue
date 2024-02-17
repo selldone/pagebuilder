@@ -41,7 +41,7 @@
         </div>
       </v-card-actions>
 
-      <v-expansion-panels flat v-model="Selected_tab">
+      <v-expansion-panels v-model="Selected_tab">
         <!-- ████████████████████ Size ████████████████████ -->
 
         <v-expansion-panel v-if="has_size">

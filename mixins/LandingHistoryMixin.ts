@@ -17,7 +17,7 @@ import _ from "lodash-es";
 import SelldonePageBuilderCore from "@app-page-builder/src";
 import {Section} from "@app-page-builder/src/section";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export const LandingHistoryMixin = defineComponent({
   data() {

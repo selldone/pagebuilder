@@ -53,12 +53,12 @@
     </v-sheet>
 
     <h2
-      v-styler="$sectionData.title"
+      v-styler:text="$sectionData.title"
       class="mb-5"
       v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
     />
     <p
-      v-styler="$sectionData.content"
+      v-styler:text="$sectionData.content"
       v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
     />
 
@@ -92,7 +92,7 @@
 
         <p
           v-if="$builder.isEditing || $sectionData.columns[index].title"
-          v-styler="$sectionData.columns[index].title"
+          v-styler:text="$sectionData.columns[index].title"
           v-html="
             $sectionData.columns[index].title?.applyAugment(
               augment,

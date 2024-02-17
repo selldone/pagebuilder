@@ -12,20 +12,27 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {createApp, defineComponent, h} from "vue";
+import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, VNode,} from "vue";
 import SStyler from "./SStyler.vue";
 import {getTypeFromSchema, getTypeFromTagName} from "../src/util";
 import {installGlobalComponents} from "@components/components-mandetory";
+import {isString} from "lodash-es";
+import SelldonePageBuilderCore from "@app-page-builder/src";
+import {Section} from "@app-page-builder/src/section";
+import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
 
 const StylerDirective = {
-  mounted(el, binding, vnode) {
-    const instance = binding.instance;
+  mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+    const instance = binding.instance as ComponentInstance<{
+      $builder: SelldonePageBuilderCore;
+      $section: Section;
+    }>;
 
     // Get builder from main page editor/viewer
-    const builder = instance.$builder;
+    const builder: SelldonePageBuilderCore = instance.$builder;
 
     // Get section from parent section
-    const section = instance.$section;
+    const section: Section = instance.$section;
 
     LOG(
       "arg",
@@ -43,7 +50,7 @@ const StylerDirective = {
     if (!isEditing) return;
 
     const newNode = document.createElement("div");
-    const rootApp = instance.$root.$el;
+    const rootApp = instance.$root!.$el;
 
     rootApp.appendChild(newNode);
 
@@ -54,32 +61,20 @@ const StylerDirective = {
 
     let expression = binding.value;
 
-    const arg = binding.arg ? binding.arg : "text"; // Default is text
-
     // ━━━━━━━━━━━━━━━━━━ Dynamic Nested Path (Nested Components) ━━━━━━━━━━━━━━━━━━
     if (
-      (typeof binding.value === "string" ||
-        binding.value instanceof
-          String) /*When we feed raw path to v-styler like in nested X components!*/ &&
-      binding.expression?.includes("{path}") // e.g. v-styler="`${path}.title`"
+      isString(
+        binding.value,
+      ) /*When we feed raw path to v-styler like in nested X components!*/ &&
+      binding.value.includes("{path}") // e.g. v-styler="`${path}.title`"
     ) {
-      // We feed raw path to directive
-      expression = binding.value;
-
       // ━━━━━━━━━━━━━━━━━━ Replace index in Path (Loop) ━━━━━━━━━━━━━━━━━━
       expression = expression.replace("index", index);
     }
 
-    /*
-                          console.log(
-                            "binding = ",
-                            arg,
-                            "value",
-                            binding.value,
-                            "expression",
-                            expression
-                          );*/
-
+    if (!isString(expression)) {
+      console.log("expression -> ", binding);
+    }
     // ━━━━━━━━━━━━━━━━━━ Exceptions ━━━━━━━━━━━━━━━━━━
 
     /**
@@ -89,10 +84,24 @@ const StylerDirective = {
 
     // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
 
+    const argument =
+      binding.arg ||
+      getTypeFromSchema(expression, instance.$section.schema) ||
+      getTypeFromTagName(el.tagName);
+
     // Create and mount the Styler component
+    let stylerComponent = SStyler;
+    let props = {
+      name: expression,
+    };
+
+    if (argument === "buttons-row") {
+      stylerComponent = SStylerButtons;
+      console.log("btn-row styler");
+    }
 
     const StylerComponent = defineComponent({
-      extends: SStyler,
+      extends: stylerComponent as any,
       beforeCreate() {
         this.$builder = builder;
       },
@@ -105,11 +114,10 @@ const StylerDirective = {
           route: instance.$route,
           el,
           section: section,
-          type:
-            binding.arg ||
-            getTypeFromSchema(expression, instance.$section.schema) ||
-            getTypeFromTagName(el.tagName),
-          name: expression,
+          type: argument,
+          bindingValue: binding.value,
+          builder: builder,
+          ...props,
         }),
     });
     // Use Vuetify and i18n instances
@@ -123,12 +131,12 @@ const StylerDirective = {
     // Create a temporary element to mount the app
     app.mount(newNode);
 
-    section.stylers.push({ instance:app,container:newNode });
+    section.stylers.push({ instance: app, container: newNode });
   },
 };
 
 export default StylerDirective;
 
 function LOG(...text: any) {
- // console.log("🪷 StylerDirective", ...text);
+  // console.log("🪷 StylerDirective", ...text);
 }

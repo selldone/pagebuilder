@@ -25,11 +25,11 @@ const DEBUG=true;
 export const PageBuilderMixin = defineComponent({
   data() {
     return {
-      builder:this.$builder
+    /*  builder:this.$builder
           ? this
-              .$builder /*In main page editor we have no access to provider, so we set $builder in data.*/
+              .$builder
           : inject("$builder")
-
+*/
     };
   },
   created() {},

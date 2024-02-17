@@ -97,7 +97,7 @@
                   textAlign: $sectionData.button?.align,
                 }"
               >
-                <custom-button
+                <x-button
                   v-if="$sectionData.button"
                   v-styler:button="$sectionData.button"
                   no-link="true"
@@ -109,7 +109,7 @@
                   :loading="busy"
                   :augment="augment"
                 >
-                </custom-button>
+                </x-button>
               </div>
             </div>
           </v-expand-transition>
@@ -137,11 +137,11 @@
 
 <script>
 import * as types from "../../src/types";
-import CustomButton from "@app-page-builder/sections/components/CustomButton.vue";
+import XButton from "@app-page-builder/sections/components/XButton.vue";
 
 export default {
   name: "Newsletter",
-  components: { CustomButton },
+  components: { XButton },
   cover: require("../../assets/images/covers/newsletter.svg"),
   label: "Newsletter",
   help: {

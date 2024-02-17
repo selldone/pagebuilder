@@ -56,6 +56,9 @@ import SectionThreeCol from "@app-page-builder/sections/images/SectionThreeCol.v
 import SectionImageTextCards from "@app-page-builder/sections/images/SectionImageTextCards.vue";
 import SectionBlogsList from "@app-page-builder/sections/blog/SectionBlogsList.vue";
 import SectionHeroSearch from "@app-page-builder/sections/hero/SectionHeroSearch.vue";
+import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
+import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
+import XRating from "@app-page-builder/components/x/rating/XRating.vue";
 
 export namespace Landing {
   export interface IBuilderOptions {
@@ -484,6 +487,16 @@ function initializeXComponents(app: App) {
 
     app.component(_component.name, ExtendedComponent);
   });
+  const components_fix = [
+    XVariants,
+    XCountDown,
+    XRating
+
+  ];
+  components_fix.forEach((_component) => {
+    app.component(_component.name, _component);
+  });
+
 }
 
 export default SelldonePageBuilderCore;

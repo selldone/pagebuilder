@@ -21,14 +21,14 @@
       <x-row :object="$sectionData" path="$sectionData" has-arrangement>
         <v-col cols="12" sm="6" md="4">
           <h2
-            v-styler="$sectionData.title"
+            v-styler:text="$sectionData.title"
             class="mb-3"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
           />
           <p
-            v-styler="$sectionData.content"
+            v-styler:text="$sectionData.content"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "

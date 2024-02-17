@@ -366,7 +366,7 @@
           />
 
           <h2
-            v-styler="$sectionData.slide.items[index].title"
+            v-styler:text="$sectionData.slide.items[index].title"
             v-html="
               $sectionData.slide.items[index].title?.applyAugment(
                 augment,
@@ -376,7 +376,7 @@
             :index="index"
           />
           <p
-            v-styler="$sectionData.slide.items[index].subtitle"
+            v-styler:text="$sectionData.slide.items[index].subtitle"
             v-html="
               $sectionData.slide.items[index].subtitle?.applyAugment(
                 augment,
@@ -388,7 +388,7 @@
 
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
-          <custom-button
+          <x-button
             v-if="$sectionData.slide.items[index].button"
             v-styler:button="$sectionData.slide.items[index].button"
             :index="index"
@@ -397,7 +397,7 @@
             :editing="$builder.isEditing"
             :augment="augment"
           >
-          </custom-button>
+          </x-button>
 
           <v-sheet
             v-if="$builder.isEditing && !$builder.isHideExtra"
@@ -466,7 +466,7 @@ import * as types from "../../src/types";
 import { Seeder } from "@app-page-builder/src/seeder";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput";
-import CustomButton from "@app-page-builder/sections/components/CustomButton";
+import XButton from "@app-page-builder/sections/components/XButton.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
@@ -491,7 +491,7 @@ export default {
   name: "SectionScrollView",
   components: {
     VideoBackground,
-    CustomButton,
+    XButton,
     SNumberDimensionInput,
     SNumberInput,
     Swiper,

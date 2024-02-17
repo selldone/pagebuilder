@@ -15,9 +15,9 @@
 <template>
   <x-container :object="$sectionData">
     <x-row :object="$sectionData" path="$sectionData" has-arrangement has-wrap>
-      <slot name="folders" :folders="folders"> </slot>
+      <slot name="folders" :folders="folders"></slot>
 
-      <slot name="products" :products="products"> </slot>
+      <slot name="products" :products="products"></slot>
     </x-row>
   </x-container>
 </template>
@@ -25,7 +25,7 @@
 <script>
 export default {
   name: "XCustomProductsList",
-
+  emits: ["update"],
   props: {
     forcePackage: {},
   },

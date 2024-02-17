@@ -34,7 +34,7 @@
         </div>
       </v-card-actions>
 
-      <v-expansion-panels flat v-model="tab" class="mb-16">
+      <v-expansion-panels v-model="tab" class="mb-16">
         <!-- ████████████████████ Product ████████████████████ -->
 
         <v-expansion-panel>
@@ -51,20 +51,18 @@
               default, the template code duplicates within a row element. Each
               product is encapsulated within a 'span' element, and any classes
               assigned here will be applied to this 'span'. Responsive classes,
-              such as 'col-12', 'col-sm-6', and so on, can also be set here.
+              such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here.
             </small>
             <v-combobox
               chips
               multiple
               v-model="frame_product.classes"
               :items="standard_classes"
-              small-chips
               closable-chips
               clearable
               variant="outlined"
-              cache-items
               label="Element Classes"
-              @change="onFrameCodeChange"
+              @update:model-value="onFrameCodeChange"
               class="mt-2"
             >
             </v-combobox>
@@ -90,13 +88,10 @@
                 variant="outlined"
                 label="Samples"
                 prepend-inner-icon="inventory"
+
+                :item-title="item=>getName(item)"
+                :item-value="item=>item"
               >
-                <template v-slot:selection="{ item }">
-                  {{ getName(item) }}
-                </template>
-                <template v-slot:item="{ item }">
-                  {{ getName(item) }}
-                </template>
               </v-select>
             </div>
 
@@ -141,7 +136,7 @@
               default, the template code duplicates within a row element. Each
               product is encapsulated within a 'span' element, and any classes
               assigned here will be applied to this 'span'. Responsive classes,
-              such as 'col-12', 'col-sm-6', and so on, can also be set here.
+              such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here.
             </small>
 
             <v-combobox
@@ -149,13 +144,11 @@
               multiple
               v-model="frame_category.classes"
               :items="standard_classes"
-              small-chips
               closable-chips
               variant="outlined"
               clearable
-              cache-items
               label="Element Classes"
-              @change="onFrameCodeChange"
+              @update:model-value="onFrameCodeChange"
             >
             </v-combobox>
             <s-widget-header title="Category Frame Code"></s-widget-header>
@@ -229,6 +222,7 @@ import ProductFramesSample from "@app-page-builder/sections/products/frames/Prod
 import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import {HighlightEditingElements} from "@app-page-builder/src/helpers/HighlightEditingElements";
 
 export default {
   name: "GlobalProductsFrameDialog",
@@ -302,7 +296,15 @@ export default {
   }),
 
   computed: {},
-  watch: {},
+  watch: {
+
+    dialog_frame(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
+
+  },
   created() {},
   mounted() {
     this.EventBus.$on(
@@ -392,6 +394,9 @@ export default {
 
       // this.dialog_frame = false;
     },
+
+
+
   },
 };
 </script>

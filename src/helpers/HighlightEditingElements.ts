@@ -14,6 +14,7 @@
 
 export class HighlightEditingElements {
   static ELEMENT_FOCUS_EDITING_CLASS = "element-focus-editing";
+
   static RemoveAllElementFocusEditing() {
     const elements = document.querySelectorAll(
       "." + this.ELEMENT_FOCUS_EDITING_CLASS,
@@ -28,7 +29,8 @@ export class HighlightEditingElements {
       el.classList.remove("is-blur");
     });
   }
-  static Activate(element) {
+
+  static Activate(element: HTMLElement) {
     // Remove any existing 'is-blur' class from elements
     document.querySelectorAll(".is-blur").forEach((el) => {
       el.classList.remove("is-blur");
@@ -50,13 +52,17 @@ export class HighlightEditingElements {
     });
   }
 
-  static IsChildOfHighlightActiveEditing(element) {
+  static IsChildOfHighlightActiveEditing(element: HTMLElement) {
     return this.HasClassOrParentHasClass(
       element,
       this.ELEMENT_FOCUS_EDITING_CLASS,
     );
   }
-  static HasClassOrParentHasClass(element, className) {
+
+  static HasClassOrParentHasClass(
+    element: HTMLElement | null,
+    className: string,
+  ) {
     while (element) {
       if (element.classList && element.classList.contains(className)) {
         return true;

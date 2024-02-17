@@ -24,7 +24,7 @@
             layout_class === 'x-layout-middle' &&
             (object.title || SHOW_EDIT_TOOLS)
           "
-          v-styler="`${path}.title`"
+          v-styler:text="`${path}.title`"
           class="mb-3"
           v-html="object.title?.applyAugment(augment, $builder.isEditing)"
         />
@@ -49,14 +49,14 @@
               layout_class !== 'x-layout-middle' &&
               (object.title || SHOW_EDIT_TOOLS)
             "
-            v-styler="`${path}.title`"
+            v-styler:text="`${path}.title`"
             class="mb-3"
             v-html="object.title?.applyAugment(augment, $builder.isEditing)"
           />
 
           <p
             v-if="object.content || SHOW_EDIT_TOOLS"
-            v-styler="`${path}.content`"
+            v-styler:text="`${path}.content`"
             class="mt-2"
             v-html="object.content?.applyAugment(augment, $builder.isEditing)"
             :class="contentClass"
@@ -71,7 +71,7 @@
           textAlign: object.button?.align,
         }"
       >
-        <custom-button
+        <x-button
           v-if="object.button"
           v-styler:button="`${path}.button`"
           :btn-data="object.button"
@@ -80,14 +80,14 @@
           :editing="SHOW_EDIT_TOOLS"
           :augment="augment"
         >
-        </custom-button>
+        </x-button>
       </div>
     </x-column>
   </v-col>
 </template>
 
 <script>
-import CustomButton from "@app-page-builder/sections/components/CustomButton.vue";
+import XButton from "@app-page-builder/sections/components/XButton.vue";
 import { ClassesHelper } from "@core/helper/style/Classes";
 
 const LAYOUTS = [
@@ -105,7 +105,7 @@ const LAYOUTS = [
 ];
 export default {
   name: "XColumnImageText",
-  components: { CustomButton },
+  components: { XButton },
 
   props: {
     object: { required: true },

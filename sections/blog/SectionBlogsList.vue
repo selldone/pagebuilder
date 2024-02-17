@@ -26,12 +26,12 @@
     </video-background>
 
     <h2
-      v-styler="$sectionData.title"
+      v-styler:text="$sectionData.title"
       class="my-5 fadeIn"
       v-html="$sectionData.title"
     />
     <p
-      v-styler="$sectionData.text"
+      v-styler:text="$sectionData.text"
       class="my-5 fadeIn delay_300"
       v-html="$sectionData.text"
     />

@@ -18,7 +18,7 @@
   <v-row
     class="text-center addable"
     no-gutters
-    v-styler:buttons-row="object.btn_row"
+    v-styler:buttons-row="{target:object,key_row:'btn_row',key_buttons:'buttons'}"
     :align="object.btn_row ? object.btn_row.align : 'center'"
     :justify="object.btn_row ? object.btn_row.justify : 'space-around'"
   >
@@ -39,7 +39,7 @@
     </div>
     <!-- Only addable cna remove col-->
 
-    <custom-button
+    <x-button
       v-for="(col, index) in object.buttons"
       :key="index"
       :index="index"
@@ -49,18 +49,18 @@
       :editing="$builder.isEditing"
       :augment="augment"
     >
-    </custom-button>
+    </x-button>
   </v-row>
   <!-- End Buttons group -->
   <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 </template>
 
 <script>
-import CustomButton from "@app-page-builder/sections/components/CustomButton.vue";
+import XButton from "@app-page-builder/sections/components/XButton.vue";
 
 export default {
   name: "XButtons",
-  components: { CustomButton },
+  components: { XButton },
   props: {
     object: { required: true },
     path: { required: true /*Required for v-styler*/ },

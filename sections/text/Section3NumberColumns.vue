@@ -16,7 +16,7 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <h2
-        v-styler="$sectionData.header"
+        v-styler:text="$sectionData.header"
         class="mb-5 fadeIn delay_100"
         v-html="$sectionData.header?.applyAugment(augment, $builder.isEditing)"
       ></h2>

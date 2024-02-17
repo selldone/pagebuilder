@@ -19,15 +19,12 @@
     v-styler:products="$sectionData.products_list"
     custom-layout="true"
   >
-    <x-custom-products-list
-      :force-package="forcePackage"
-      @update="initComponents"
-    >
+    <x-custom-products-list :force-package="forcePackage">
       <template v-slot:folders="{ folders }">
-        <span
+        <component
           v-for="folder in folders"
           :key="'f' + folder.id"
-          v-html="getCategoryCode(folder)"
+          :is="gen(getCategoryCode(folder))"
           :class="[
             $sectionData.frame_category?.classes,
             {
@@ -38,14 +35,14 @@
           ]"
           :category-id="folder.id"
         >
-        </span>
+        </component>
       </template>
 
       <template v-slot:products="{ products }">
-        <span
+        <component
           v-for="product in products"
           :key="'p' + product.id"
-          v-html="getProductCode(product)"
+          :is="gen(getProductCode(product))"
           :class="[
             $sectionData.frame_product?.classes,
             {
@@ -56,7 +53,7 @@
           ]"
           :product-id="product.id"
         >
-        </span>
+        </component>
       </template>
     </x-custom-products-list>
   </x-section>
@@ -64,10 +61,11 @@
 
 <script>
 import * as types from "../../src/types";
-import Vue from "vue";
-import { VRating } from "vuetify/lib/components";
-import ProductVariantsView from "@components/product/variant/ProductVariantsView.vue";
-import SCountDown from "@components/ui/count-down/SCountDown.vue";
+
+import {
+  defineComponent,
+  getCurrentInstance,
+} from "vue/dist/vue.esm-bundler.js"; // This works! We need to compuile html to component! After replacing with VIte we can remove it! TODO: Check after Vite update!
 
 export default {
   name: "SectionProductsCustomList",
@@ -109,6 +107,7 @@ export default {
 
   data: () => ({
     forcePackage: null,
+    instance: null,
   }),
   computed: {},
   watch: {
@@ -121,13 +120,6 @@ export default {
     "$sectionData.frame_product"() {
       // Always update on custom frame dialog accept!
       console.log("✻ Initialize layouts.");
-
-      this.$nextTick(() => {
-        this.initComponents({
-          categories: this.categories,
-          products: this.products,
-        });
-      });
     },
   },
 
@@ -142,15 +134,58 @@ export default {
           : x,
       );
     }
+
+    this.instance = getCurrentInstance();
   },
 
   mounted() {},
 
   methods: {
+    gen(html) {
+      return defineComponent({
+        template: html,
+      });
+    },
+
     getProductCode(product) {
       if (!product) return "-";
       let code = this.$sectionData.frame_product?.code;
       if (!code) return "<div class='pa-5'>⚠ NO FRAME CODE!</div>";
+
+      function encodeToHtmlAttribute(obj) {
+        if (!obj) return null;
+        // Convert the object to a JSON string
+        let jsonString = JSON.stringify(obj);
+
+        // Replace the double-quoted keys with unquoted keys
+        jsonString = jsonString.replace(/"([^"]+)":/g, "$1:");
+
+        // Escape single quotes within string values
+        jsonString = jsonString.replace(
+          /:(\s*)"([^"]*)"/g,
+          function (match, p1, p2) {
+            // Escape single quotes inside the string values and wrap the value with single quotes
+            return ":" + p1 + "'" + p2.replace(/'/g, "\\'") + "'";
+          },
+        );
+
+        return jsonString;
+      }
+
+      // Replace smart tags with corresponding components:
+      // ━━━━━━━━━━━━━━━━ Variants ━━━━━━━━━━━━━━━━
+      code = code.replace(/<(\/?)variants/g, "<$1x-variants");
+      // Add replacement for <x-variants> tag
+      code = code.replace(/<x-variants(.*?)>/g, (match, existingAttrs) => {
+        // Replacement function to add new attributes while keeping existing ones
+        return `<x-variants ${existingAttrs} :small="true" :variants="${encodeToHtmlAttribute(product.variants)}">`;
+      });
+
+      // ━━━━━━━━━━━━━━━━ count down ━━━━━━━━━━━━━━━━
+      code = code.replace(/<(\/?)count-down/g, "<$1x-count-down");
+
+      // ━━━━━━━━━━━━━━━━ rating ━━━━━━━━━━━━━━━━
+      code = code.replace(/<(\/?)rating/g, "<$1x-rating");
 
       // Replace all occurrences of '{product.icon}' with the dynamic value
       code = code.replace(
@@ -188,8 +223,20 @@ export default {
           const val = product[key];
           if (this.isObject(val) || Array.isArray(val)) return;
 
-          code = code.replace(generateDynamicRegex(key), val);
+          code = code.replace(
+            generateDynamicRegex(key),
+            this.makeHtmlSafe(val),
+          );
         });
+
+      // Step 1: Remove attributes set to "null"
+      code = code.replace(/\s\w+="null"/g, "");
+
+      // Step 2: Transform attributes set to "true" or "false" into Vue binding syntax
+      // For "true"
+      code = code.replace(/(\s\w+)="true"/g, ':$1="true"');
+      // For "false"
+      code = code.replace(/(\s\w+)="false"/g, ':$1="false"');
 
       return code;
     },
@@ -220,146 +267,22 @@ export default {
           const val = category[key];
           if (this.isObject(val) || Array.isArray(val)) return;
 
-          code = code.replace(generateDynamicRegex(key), val);
+          code = code.replace(
+            generateDynamicRegex(key),
+            this.makeHtmlSafe(val),
+          );
         });
 
       return code;
     },
 
-    initComponents({ categories, products }) {
-      this.categories = categories;
-      this.products = products;
-
-      const vuetify = window.$global_vuetify;
-      const i18n = window.$i18n_global;
-      const store = window.$global_store;
-
-      const t = this;
-      //――――――――――――――――――――――― 💡 Mega Replacer ▶ Rating ―――――――――――――――――――――――
-      /**
-       *
-       * @param component_name
-       * @param component
-       * @param attributes    object {attribute : default value}
-       * @constructor
-       */
-      function autoReplaceComponents(
-        component_name,
-        component,
-        attributes,
-        ignoreCallback = () => false,
-      ) {
-        $(t.$el)
-          .find(component_name) // Find code editors:
-          .each(function () {
-            const productId = $(this)
-              .closest("[product-id]")
-              .attr("product-id");
-            const categoryId = $(this)
-              .closest("[product-id]")
-              .attr("category-id");
-
-            if (ignoreCallback(categoryId, productId)) return; // 🛑 If function return empty then object will not be created!
-
-            const _class = $(this).attr("class");
-            const _style = $(this).attr("style");
-
-            // console.log("categoryId: ", categoryId);
-            // console.log("productId: ", productId);
-
-            //console.log('has editable_body: ',editable)
-
-            let ComponentClass = Vue.extend(component);
-
-            const propsData = {};
-
-            Object.keys(attributes)?.forEach((attr) => {
-              let attr_value = $(this).attr(attr); // Load custom value by user
-              const default_attr_value = attributes[attr];
-
-              if (
-                [null, undefined, ""].includes(attr_value) &&
-                !t.isFunction(default_attr_value)
-              ) {
-                attr_value = default_attr_value; // Load default value
-              }
-              // Auto assign type:
-              if (t.isBoolean(default_attr_value)) {
-                attr_value = ["true", true].includes(attr_value);
-              }
-
-              // Function : we return founded product and category
-              if (t.isFunction(default_attr_value)) {
-                attr_value = default_attr_value(
-                  categoryId,
-                  productId,
-                  attr_value,
-                );
-              }
-
-              if (![null, undefined, ""].includes(attr_value)) {
-                propsData[attr] = attr_value;
-              }
-            });
-
-            let instance = new ComponentClass({
-              vuetify,
-              i18n,
-              store,
-              propsData: propsData,
-            });
-
-            let element_code = instance.$mount().$el;
-
-            $(this).replaceWith(element_code);
-
-            // Assign class and style:
-            t.$nextTick(function () {
-              if (!element_code.setAttribute) return; //Not normal element (ex. comment,...)
-              const __current_class = element_code.className;
-              element_code.setAttribute(
-                "class",
-                (__current_class ? __current_class : "") + " " + _class,
-              );
-              element_code.setAttribute("style", _style);
-            });
-          });
-      }
-
-      // Rating:
-      autoReplaceComponents("rating", VRating, {
-        dense: true,
-        readonly: true,
-        color: "amber",
-        value: (categoryId, productId, val) => {
-          return parseFloat(val);
-        },
-      });
-      // Variants view:
-      autoReplaceComponents(
-        "variants",
-        ProductVariantsView,
-        {
-          small: true,
-
-          variants: (categoryId, productId, val) => {
-            return this.products?.find((p) => p.id === parseInt(productId))
-              ?.variants;
-          },
-        },
-        (categoryId, productId) =>
-          !this.products?.find((p) => p.id === parseInt(productId))?.variants,
-      );
-      // Count down view:
-      autoReplaceComponents(
-        "count-down",
-        SCountDown,
-        {
-          end: (categoryId, productId, val) => val && val.convertToLocalDate(),
-        },
-        (categoryId, productId) =>
-          !this.products?.find((p) => p.id === parseInt(productId))?.dis_start,
-      );
+    makeHtmlSafe(unsafe) {
+      return ("" + unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     },
   },
 };

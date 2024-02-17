@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: "CustomButton",
+  name: "XButton",
   props: {
     btnData: {},
     editing: { type: Boolean, default: false },
