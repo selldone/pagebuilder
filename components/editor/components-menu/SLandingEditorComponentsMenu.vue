@@ -120,7 +120,7 @@ import Sortable from "sortablejs";
 import { VideoHelper } from "@core/helper/video/VideoHelper";
 
 export default defineComponent({
-  name: "SLandingComponents",
+  name: "SLandingEditorComponentsMenu",
   emits: ["update:isDragged"],
   props: {
     components: {

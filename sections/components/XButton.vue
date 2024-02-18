@@ -15,39 +15,49 @@
 <template>
   <!-- IMPORTANT: Element must have -trackable class! -->
   <v-btn
-    class="custom-btn text-no-transform -trackable"
-    :class="[btnData.classes, { 'button-glow': btnData.glow }]"
+    class="x--button tnt -trackable"
+    :class="[btnData.classes, { 'button-glow': is_glow }]"
     :href="editing ? ' ' : btnData.href"
     v-html="btnData.content?.applyAugment(augment, editing)"
-    :color="btnData.glow ? undefined : btnData.color"
+    :color="is_glow ? undefined : btnData.color"
     :icon="btnData.icon"
+    :theme="btnData.dark ? 'dark' : 'light'"
     :variant="
-      btnData.depressed
-        ? 'flat'
-        : btnData.outlined
-          ? 'outlined'
-          : btnData.text
-            ? 'text'
-            : btnData.fab
-              ? 'elevated'
-              : undefined
+      btnData.variant
+        ? btnData.variant
+        : btnData.depressed
+          ? 'flat'
+          : btnData.outlined
+            ? 'outlined'
+            : btnData.text
+              ? 'text'
+              : btnData.fab
+                ? 'elevated'
+                : undefined
     "
     :size="
-      btnData.xLarge
-        ? 'x-large'
-        : btnData.large
-          ? 'large'
-          : btnData.small
-            ? 'small'
-            : btnData.xSmall
-              ? 'x-small'
-              : undefined
+      btnData.size
+        ? btnData.size
+        : btnData.xLarge
+          ? 'x-large'
+          : btnData.large
+            ? 'large'
+            : btnData.small
+              ? 'small'
+              : btnData.xSmall
+                ? 'x-small'
+                : undefined
     "
     :ripple="btnData.ripple"
-    :rounded="btnData.tile ? 0 : btnData.rounded"
+    :rounded="
+      btnData.rounded ? btnData.rounded : btnData.tile ? 0 : btnData.rounded
+    "
     @click.stop="$emit('click')"
     :id="btnData.id"
     :loading="loading"
+    :elevation="btnData.elevation"
+    :height="btnData.height"
+    :style="{fontFamily: btnData.font}"
   >
   </v-btn>
 </template>
@@ -61,6 +71,13 @@ export default {
     loading: {},
     augment: {
       // Extra information to show to dynamic show in page content
+    },
+  },
+  computed: {
+    is_glow() {
+      return (
+        this.btnData.variant === "glow" /*New*/ || this.btnData.glow
+      ); /*Old*/
     },
   },
 };

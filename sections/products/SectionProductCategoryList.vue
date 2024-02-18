@@ -36,8 +36,7 @@
         :force-mode-view="mode_view"
         :force-package="force_package"
         :view-only="$builder.isEditing"
-        v-styler:row="$sectionData"
-        v-bind:has-arrange="true"
+        v-styler:row=" { target: $sectionData,hasArrangement:true,hasFluid:true }"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
       ></s-storefront-products-listing>
@@ -56,9 +55,12 @@ import * as types from "../../src/types";
 import SStorefrontProductsListing from "@components/storefront/products-listing/SStorefrontProductsListing.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
 
 export default {
   name: "SectionProductCategoryList",
+  directives: { styler: StylerDirective },
+
   components: { SStorefrontProductsListing },
   cover: require("../../assets/images/covers/products.svg"),
 

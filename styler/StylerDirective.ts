@@ -12,16 +12,50 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, VNode,} from "vue";
+import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
 import SStyler from "./SStyler.vue";
 import {getTypeFromSchema, getTypeFromTagName} from "../src/util";
 import {installGlobalComponents} from "@components/components-mandetory";
-import {isString} from "lodash-es";
+import {isObject, isString} from "lodash-es";
 import SelldonePageBuilderCore from "@app-page-builder/src";
 import {Section} from "@app-page-builder/src/section";
 import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
+import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";
+import * as types from "@app-page-builder/src/types";
+import SStylerButton from "@app-page-builder/styler/button/SStylerButton.vue";
 
-const StylerDirective = {
+export namespace StylerOptions {
+  export interface IButtonsRow {
+    target: types.ButtonsRow;
+    keyRow: string; //default: btn_row
+    keyButtons: string; // default: buttons
+  }
+
+  export interface IButton {
+    target: types.Button;
+    remove: ()=>void; // default: false
+    noLink: boolean; // default: false
+    hasAlign: boolean; // default: false
+  }
+
+  export interface IRow {
+    target: types.Row;
+    keyRow: string; // default: row
+    keyColumns: string; // default:columns
+    columnStructure: types.Column; // Initial column structure for adding new column
+    hasWrap: boolean; // default: false
+    hasArrangement: boolean; // default: false
+    hasAdd: boolean; // default: false
+    hasFluid: boolean; // default: false
+  }
+
+
+}
+
+const StylerDirective: ObjectDirective<
+  HTMLElement,
+  StylerOptions.IButtonsRow | StylerOptions.IRow
+> = {
   mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
     const instance = binding.instance as ComponentInstance<{
       $builder: SelldonePageBuilderCore;
@@ -54,8 +88,6 @@ const StylerDirective = {
 
     rootApp.appendChild(newNode);
 
-    el.classList.add("is-editable");
-
     // ------- Dynamic expression: -------
     const index = el.getAttribute("index");
 
@@ -72,15 +104,12 @@ const StylerDirective = {
       expression = expression.replace("index", index);
     }
 
-    if (!isString(expression)) {
-      console.log("expression -> ", binding);
-    }
     // ━━━━━━━━━━━━━━━━━━ Exceptions ━━━━━━━━━━━━━━━━━━
 
     /**
      * Handle dynamic v-stylers (If value is null then do not apply v-styler!) {@see XRow}
      */
-    if (binding.arg === "row" && !binding.value) return;
+    //if (binding.arg === "row" && !binding.value) return;
 
     // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
 
@@ -91,13 +120,13 @@ const StylerDirective = {
 
     // Create and mount the Styler component
     let stylerComponent = SStyler;
-    let props = {
-      name: expression,
-    };
 
     if (argument === "buttons-row") {
       stylerComponent = SStylerButtons;
-      console.log("btn-row styler");
+    } else if (argument === "button") {
+      stylerComponent = SStylerButton;
+    }else if (argument === "row") {
+      stylerComponent = SStylerRow;
     }
 
     const StylerComponent = defineComponent({
@@ -115,11 +144,14 @@ const StylerDirective = {
           el,
           section: section,
           type: argument,
+          name: expression,
           bindingValue: binding.value,
+
           builder: builder,
-          ...props,
+          ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
         }),
     });
+
     // Use Vuetify and i18n instances
     app.use(window.$global_vuetify);
     app.use(instance.$i18n);
@@ -129,9 +161,37 @@ const StylerDirective = {
     installGlobalComponents(app);
 
     // Create a temporary element to mount the app
-    app.mount(newNode);
+    try {
+      app.mount(newNode);
+    } catch (e) {
+      console.log("binding value", binding.value);
+      console.log("props", {
+        route: instance.$route,
+        el,
+        section: section,
+        type: argument,
+        name: expression,
+        bindingValue: binding.value,
+
+        builder: builder,
+        ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
+      });
+
+      console.error("Styler mount error!", e);
+      return;
+    }
 
     section.stylers.push({ instance: app, container: newNode });
+
+    if (!el.classList.contains("is-editable")) {
+      el.classList.add("is-editable");
+    }
+  },
+
+  updated(el: HTMLElement) {
+    if (!el.classList.contains("is-editable")) {
+      el.classList.add("is-editable");
+    }
   },
 };
 

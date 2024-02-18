@@ -51,15 +51,15 @@ section {
     --def-color: red;
   }
 
-  .row {
+  .v-row {
     --def-color: #8BC34A;
   }
 
-  .col {
+  .v-col {
     --def-color: #03A9F4
   }
 
-  .container {
+  .v-container {
     --def-color: #FFA000
   }
 
@@ -82,20 +82,20 @@ section {
         transition: none;
 
         // Row:
-        &.row {
+        &.v-row {
           //  border-color: #8BC34A !important;
           //   border-style: solid !important;
         }
 
         // Col:
-        &.col {
+        &.v-col {
           //    border-color: #03A9F4 !important;
           //   border-style: solid !important;
           filter: sepia(40%);
         }
 
         // Container:
-        &.container {
+        &.v-container {
           //    border-color: #FFA000 !important;
           //    border-style: solid !important;
         }

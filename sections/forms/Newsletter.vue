@@ -19,6 +19,7 @@
         :object="$sectionData"
         path="$sectionData"
         has-arrangement
+        has-fluid
         class="min-h-100"
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
@@ -99,11 +100,10 @@
               >
                 <x-button
                   v-if="$sectionData.button"
-                  v-styler:button="$sectionData.button"
-                  no-link="true"
+                  v-styler:button=" {target:$sectionData.button,hasAlign:true,noLink:true}"
+
                   :btn-data="$sectionData.button"
                   class="m-2"
-                  has-align
                   :editing="$builder.isEditing && !$builder.isHideExtra"
                   @click="$builder.isEditing ? undefined : submit()"
                   :loading="busy"

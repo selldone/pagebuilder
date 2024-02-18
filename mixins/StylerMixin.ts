@@ -27,7 +27,6 @@ export const StylerMixin = defineComponent({
   data() {
     return {
       isVisible: false,
-
     };
   },
   created() {},
@@ -78,19 +77,19 @@ export const StylerMixin = defineComponent({
       if (!this.popper) {
         const position = this.position;
         /* this.$props.type === "section"
-                                   ? "left-start"
-                                   : this.$props.type === "row" && this.hasAttribute("has-add")
-                                     ? "left-center" // Prevent over lapping rows
-                                     : this.$props.type === "buttons-row"
-                                       ? "left-center"
-                                       : this.$props.type === "row"
-                                         ? "right-end"
-                                         : this.$props.type === "container"
-                                           ? "right-center"
-                                           : this.$props.type === "grid" ||
-                                               this.$props.type === "row-grid"
-                                             ? "bottom"
-                                             : "top";*/
+                                                                                                   ? "left-start"
+                                                                                                   : this.$props.type === "row" && this.hasAttribute("has-add")
+                                                                                                     ? "left-center" // Prevent over lapping rows
+                                                                                                     : this.$props.type === "buttons-row"
+                                                                                                       ? "left-center"
+                                                                                                       : this.$props.type === "row"
+                                                                                                         ? "right-end"
+                                                                                                         : this.$props.type === "container"
+                                                                                                           ? "right-center"
+                                                                                                           : this.$props.type === "grid" ||
+                                                                                                               this.$props.type === "row-grid"
+                                                                                                             ? "bottom"
+                                                                                                             : "top";*/
 
         if (!this.$refs.styler) {
           console.error("Styler Mixin: No styler ref found!");
@@ -100,17 +99,16 @@ export const StylerMixin = defineComponent({
           console.error("Styler Mixin: No el found!");
           return;
         }
-        console.log(
-          "checkProper",
-          this.el,
-          this.$refs.styler.$el,
-          position,
-          this.popper,
-        );
 
-        this.popper = new Popper(this.el, this.$refs.styler.$el, {
-          placement: position,
-        });
+        this.popper = new Popper(
+          this.el,
+          this.$refs.styler.$el
+            ? this.$refs.styler.$el /*Vue components*/
+            : this.$refs.styler /*Native elements*/,
+          {
+            placement: position,
+          },
+        );
       }
     },
 
@@ -124,15 +122,19 @@ export const StylerMixin = defineComponent({
       this.checkProper();
       document.addEventListener("click", this.hideStyler, true);
 
-      this.currentOption = "";
-
       this.onPageBuilderStyleOpen(this.type, true); //Signal to other stylers about showing this styler!
+
+      event.preventDefault();
     },
 
     hideStyler(event: Event) {
       if (
-        (event && isParentTo(event.target, this.$el)) ||
-        (event && isParentTo(event.target, this.el))
+        event &&
+        (isParentTo(event.target, this.$el) || // Click on element in page builder
+          isParentTo(event.target, this.el) || // Click on styler element
+          !(
+            event.target instanceof Element && event.target.closest(".artboard")
+          )) // Close styler only if click inside artboard
       ) {
         return;
       }
@@ -144,6 +146,126 @@ export const StylerMixin = defineComponent({
       document.removeEventListener("click", this.hideStyler, true);
 
       this.onPageBuilderStyleOpen(this.type, false); //Signal to other stylers about hiding this styler!
+    },
+
+    //――――――――――――――――――――――  Text Range Select ――――――――――――――――――――
+
+    saveRangeSelected() {
+      this.selection = null;
+      if (window.getSelection) {
+        const sel = window.getSelection();
+        if (sel?.getRangeAt && sel.rangeCount) {
+          this.selection = sel.getRangeAt(0).cloneRange();
+          //console.log('this.selection --> Save',sel);
+        }
+      } /*else if (document.selection && document.selection.createRange) {
+        this.selection = document.selection.createRange();
+      }*/
+      // console.log('Save selection', this.selection)
+    },
+
+    restoreSelection() {
+      // console.log('Load selection', this.selection)
+      //console.log('this.selection --> Restore',this.selection);
+
+      const range = this.selection.cloneRange();
+      if (range && !range.collapsed) {
+        if (window.getSelection) {
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+        } /*else if (document.selection && range.select) {
+          range.select();
+        }*/
+      }
+    },
+
+    getSelectedText(): string {
+      let selectedText: string | undefined = "";
+      if (window.getSelection) {
+        selectedText = window.getSelection()?.toString();
+      } /* else if (document.selection && document.selection.type !== "Control") {
+        selectedText = document.selection.createRange().text;
+      }*/
+      return selectedText ? selectedText : "";
+    },
+
+    getSelectedTextColor() {
+      const selectedText = this.getSelectedText();
+      //console.log("Selected text:", selectedText);
+
+      if (selectedText === "") {
+        //console.log("No text selected");
+        return;
+      }
+      const range = window.getSelection()?.getRangeAt(0);
+      if (!range) return null;
+      //console.log("Selected range:", range);
+
+      const parentElement = range.commonAncestorContainer.parentElement;
+      if (!parentElement) return null;
+      const textColor = window.getComputedStyle(parentElement).color;
+
+      // Convert RGB color to hexadecimal format
+      const rgb = textColor.match(/\d+/g);
+      if (rgb)
+        try {
+          const hexColor = `#${Number(rgb[0])
+            .toString(16)
+            .padStart(2, "0")}${Number(rgb[1])
+            .toString(16)
+            .padStart(2, "0")}${Number(rgb[2]).toString(16).padStart(2, "0")}`;
+
+          return hexColor;
+        } catch (e) {
+          console.error(e);
+        }
+      return null;
+    },
+
+    //――――――――――――――――――――――  Element Helpers ――――――――――――――――――――
+
+    setTextRootElementStyle(property, value, remove_from_all_children = false) {
+      if (
+        this.el.childElementCount === 1 &&
+        this.el.firstChild.nodeName === "DIV"
+      ) {
+      } else {
+        // Need wrap by tag
+        $(this.el).wrapInner("<div></div>");
+      }
+
+      if (remove_from_all_children) {
+        $(this.el)
+          .find("*")
+          .each(function () {
+            $(this).css(property, "");
+          });
+      } else {
+        $(this.el)
+          .children()
+          .each(function () {
+            $(this).css(property, "");
+          });
+      }
+
+      const child = this.el.firstChild;
+      child.style[property] = value;
+      // Force set value on content! (not trigger styler hide!)
+      if (this.type === "button") {
+        this.section.set(this.name + ".content", this.el.innerHTML);
+      } else if (this.type === "text") {
+        this.section.set(this.name, this.el.innerHTML);
+      }
+    },
+
+    // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Old execute commands ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+
+    execute(command, value = null) {
+      this.el.focus();
+      //console.log("execute: ", this.el.focus(), command);
+      //  console.log('this.el: '+this.el)
+      document.execCommand(command, false, value);
     },
   },
 });

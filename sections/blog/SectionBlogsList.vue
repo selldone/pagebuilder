@@ -47,8 +47,7 @@
       <v-row
         :align="$sectionData.row ? $sectionData.row.align : 'stretch'"
         :justify="$sectionData.row ? $sectionData.row.justify : 'space-around'"
-        v-styler:row="$sectionData"
-        v-bind:has-arrange="true"
+        v-styler:row="{ target: $sectionData,hasArrangement:true,hasFluid:true }"
         class="min-h-100"
         v-styler:row-grid="$sectionData.grid"
       >
@@ -81,9 +80,12 @@ import * as types from "../../src/types";
 
 import SShopBlogCard from "@components/storefront/blog/SShopBlogCard.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
 
 export default {
   name: "SectionBlogsList",
+  directives: { styler: StylerDirective },
+
   components: { VideoBackground, SShopBlogCard },
   cover: require("../../assets/images/covers/blogs.svg"),
 

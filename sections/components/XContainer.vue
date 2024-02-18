@@ -24,8 +24,14 @@
 </template>
 
 <script>
-export default {
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "XContainer",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   components: {},
 
   props: {
@@ -37,7 +43,7 @@ export default {
 
   data: () => ({}),
   created() {},
-};
+});
 </script>
 
 <style lang="scss">

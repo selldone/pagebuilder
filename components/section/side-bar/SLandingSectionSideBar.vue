@@ -133,7 +133,7 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
 
 export default defineComponent({
-  name: "SLandingSectionSideActionsBar",
+  name: "SLandingSectionSideBar",
   mixins: [PageBuilderMixin, LandingHistoryMixin],
 
   emits: ["update:pastHoverIndex"],

@@ -439,7 +439,7 @@
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
-                <s-landing-section-side-actions-bar v-if="listShown && inEditMode" :section="section" :section-index="index"
+                <s-landing-section-side-bar v-if="listShown && inEditMode" :section="section" :section-index="index"
                                                     v-model:past-hover-index="past_hover_index"
 
                 @click:copy="copySection(section)"
@@ -449,7 +449,7 @@
                                                     :copySection="copy_section"
 
 
-                ></s-landing-section-side-actions-bar>
+                ></s-landing-section-side-bar>
 
 
                 <v-expand-transition>
@@ -576,7 +576,7 @@
           </div>
         </div>
 
-        <s-landing-components :components="components" v-model:is-dragged="start_drag" :is-visible="listShown && inEditMode" :isScrollDown="scrollTop > 200"></s-landing-components>
+        <s-landing-editor-components-menu :components="components" v-model:is-dragged="start_drag" :is-visible="listShown && inEditMode" :isScrollDown="scrollTop > 200"></s-landing-editor-components-menu>
 
       </div>
     </div>
@@ -668,8 +668,8 @@ import { HighlightEditingElements } from "@app-page-builder/src/helpers/Highligh
 import _ from "lodash-es";
 import {PageBuilderNoteMixin} from "@app-page-builder/mixins/PageBuilderNoteMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import SLandingComponents from "@app-page-builder/src/editor/SLandingComponents.vue";
-import SLandingSectionSideActionsBar from "@app-page-builder/src/editor/SLandingSectionSideActionsBar.vue";
+import SLandingEditorComponentsMenu from "@app-page-builder/components/editor/components-menu/SLandingEditorComponentsMenu.vue";
+import SLandingSectionSideBar from "@app-page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
 import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
 import {LandingHistoryMixin} from "@app-page-builder/mixins/LandingHistoryMixin";
 import {defineComponent} from "vue";
@@ -679,8 +679,8 @@ export default defineComponent({
   name: "SPageEditor",
   mixins:[PageBuilderNoteMixin,PageEventBusMixin,PageBuilderMixin,LandingHistoryMixin],
   components: {
-    SLandingSectionSideActionsBar,
-    SLandingComponents,
+    SLandingSectionSideBar,
+    SLandingEditorComponentsMenu,
     PageTemplatesList,
     PNoteDigest,
     GlobalTextLoopDialog,
@@ -2194,7 +2194,7 @@ label {
             }
 
             // Row:
-            &.row {
+            &.v-row {
               &:after {
                 top: unset;
                 bottom: -30px;
@@ -2202,7 +2202,7 @@ label {
               }
             }
             // Column:
-            &.col {
+            &.v-col {
               &:after {
                 top: unset;
                 bottom: 0px;
@@ -2211,7 +2211,7 @@ label {
               }
             }
             // Container:
-            &.container {
+            &.v-container {
               &:after {
                 top: 0;
                 bottom: unset;

@@ -14,7 +14,7 @@
 
 <template>
   <x-container :object="$sectionData">
-    <x-row :object="$sectionData" path="$sectionData" has-arrangement has-wrap>
+    <x-row :object="$sectionData" path="$sectionData" has-arrangement has-wrap has-fluid>
       <slot name="folders" :folders="folders"></slot>
 
       <slot name="products" :products="products"></slot>
@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+
 export default {
   name: "XCustomProductsList",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   emits: ["update"],
   props: {
     forcePackage: {},

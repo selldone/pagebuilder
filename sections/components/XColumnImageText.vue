@@ -73,10 +73,9 @@
       >
         <x-button
           v-if="object.button"
-          v-styler:button="`${path}.button`"
+          v-styler:button="{ target: object.button,hasAlign:true, }"
           :btn-data="object.button"
           class="m-2"
-          has-align
           :editing="SHOW_EDIT_TOOLS"
           :augment="augment"
         >
@@ -89,6 +88,9 @@
 <script>
 import XButton from "@app-page-builder/sections/components/XButton.vue";
 import { ClassesHelper } from "@core/helper/style/Classes";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+import { defineComponent } from "vue";
 
 const LAYOUTS = [
   "x-layout-normal", // Column | Image + Title + Content
@@ -103,8 +105,11 @@ const LAYOUTS = [
   "x-layout-title-content", //Title Content (no image)
   "x-layout-content-title", // Content Title (no image)
 ];
-export default {
+export default defineComponent({
   name: "XColumnImageText",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
+
   components: { XButton },
 
   props: {
@@ -147,17 +152,19 @@ export default {
     }
   },
   methods: {},
-};
+});
 </script>
 
 <style lang="scss">
 .x-layout-normal,
 .x-layout-middle {
 }
+
 .x-layout-overlay-top {
   p {
     display: none;
   }
+
   h3 {
     position: absolute;
     top: 22px;
@@ -166,10 +173,12 @@ export default {
     z-index: 100;
   }
 }
+
 .x-layout-overlay-center {
   p {
     display: none;
   }
+
   h3 {
     position: absolute;
     right: 12px;
@@ -185,6 +194,7 @@ export default {
   p {
     display: none;
   }
+
   h3 {
     position: absolute;
     bottom: 22px;
@@ -193,6 +203,7 @@ export default {
     z-index: 100;
   }
 }
+
 .x-layout-image {
   p,
   h3 {
@@ -205,6 +216,7 @@ export default {
 .x-layout-reverse {
   display: flex;
   flex-direction: column-reverse;
+
   p,
   h3 {
     margin-left: 0;
@@ -221,23 +233,29 @@ export default {
     flex-grow: 1;
     padding: 0 8px;
   }
+
   .--image {
     max-width: 50% !important; // Prevent exceed image size!
   }
 }
+
 .x-layout-row {
   flex-direction: row;
 }
+
 .x-layout-row-reverse {
   flex-direction: row-reverse;
 }
+
 .x-layout-title-content {
 }
+
 .x-layout-content-title {
   .--contents {
     display: flex;
     flex-direction: column-reverse;
     align-items: stretch;
+
     p,
     h3 {
       // Make sure fill width!

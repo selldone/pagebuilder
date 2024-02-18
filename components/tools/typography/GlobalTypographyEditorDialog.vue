@@ -72,6 +72,7 @@
               messages="Show only added fonts."
               persistent-placeholder
               clearable
+              variant="underlined"
             >
               <template v-slot:item="{ item }">
                 <span :style="{ fontFamily: item }">{{ item }}</span>
@@ -112,19 +113,23 @@
                 persistent-placeholder
                 class="my-5"
                 @keydown.enter="addFont"
+                variant="underlined"
               >
-                <template v-slot:append>
+                <template v-slot:append-inner>
                   <v-btn
                     @click.stop="addFont()"
                     :disabled="!font_input"
                     color="primary"
-                    >Add font</v-btn
+                    variant="elevated"
+                    prepend-icon="add"
+                    >
+
+                    Add font</v-btn
                   >
                 </template>
               </v-combobox>
               <div class="text-end">
                 <v-btn
-                  link
                   size="small"
                   variant="text"
                   color="amber"

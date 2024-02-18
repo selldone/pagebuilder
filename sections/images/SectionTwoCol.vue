@@ -15,7 +15,7 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
-      <x-row :object="$sectionData" path="$sectionData" has-arrangement>
+      <x-row :object="$sectionData" path="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column A ██████████████████████ -->
         <x-column :object="$sectionData.columnA" path="$sectionData.columnA">
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Row ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->

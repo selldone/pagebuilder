@@ -131,9 +131,7 @@ export default {
       type: String,
       required: true,
     },
-    bindingValue: {
-      // It's the value of v-styler:arg="value"
-    },
+
     section: {
       type: Object,
       required: true,
@@ -231,7 +229,7 @@ export default {
 
 <style lang="stylus">
 //@import '~@baianat/base.framework/src/stylus/util/colors'
-@import "../src/stylus/colors.styl"
+@import "../../src/stylus/colors.styl"
 
 $dark = #323c47;
 $white = #fff;

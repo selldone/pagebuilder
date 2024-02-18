@@ -27,7 +27,6 @@ import XContainer from "@app-page-builder/sections/components/XContainer.vue";
 import XButtons from "@app-page-builder/sections/components/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/sections/components/XCustomProductsList.vue";
 import initDataAttributeDirective from "@app-page-builder/directives/initDataAttributeDirective";
-import XMixin from "@app-page-builder/mixins/XMixin";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import {XUploader} from "@app-page-builder/sections/components/XUploader.vue";
 import {Page} from "@core/models/shop/page/page.model";
@@ -418,7 +417,7 @@ class SelldonePageBuilderCore {
  * Adds a component section to the builder and arguments it with the styler.
  */
 function initializeSections(app: App) {
-  const components = [
+  const components: any[] = [
     SectionHeroHorizontal,
     SectionHeroVertical,
     SectionHeroLottie,
@@ -468,7 +467,7 @@ function initializeSections(app: App) {
  * Initialize especial components
  */
 function initializeXComponents(app: App) {
-  const components = [
+  const components: any[] = [
     XColumnImageText,
     XRow,
     XColumn,
@@ -479,24 +478,12 @@ function initializeXComponents(app: App) {
   ];
 
   components.forEach((_component) => {
-    const ExtendedComponent = defineComponent({
-      extends: _component,
-      directives: { styler: StylerDirective },
-      mixins: [XMixin],
-    });
-
-    app.component(_component.name, ExtendedComponent);
+    app.component(_component.name, _component);
   });
-  const components_fix = [
-    XVariants,
-    XCountDown,
-    XRating
-
-  ];
+  const components_fix: any[] = [XVariants, XCountDown, XRating];
   components_fix.forEach((_component) => {
     app.component(_component.name, _component);
   });
-
 }
 
 export default SelldonePageBuilderCore;

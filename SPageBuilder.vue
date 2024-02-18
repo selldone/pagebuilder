@@ -32,7 +32,7 @@
     </v-fade-transition>
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <page-builder-top-tools
+    <s-landing-editor-top-menu
       v-if="page && inEditMode"
       :shop="shop"
       :page="page"
@@ -43,11 +43,11 @@
       @click:history="history_dialog = true"
       @click:auto-generate="autoGenerate"
       history
-      class="toolbar-top-rounded"
+      style="border-radius: 26px 26px 0 0"
       @click:prompt="show_prompt = !show_prompt"
       has-ai-button
     >
-    </page-builder-top-tools>
+    </s-landing-editor-top-menu>
 
     <v-expand-transition>
       <div v-if="show_prompt" class="pa-3 pa-sm-5">
@@ -144,6 +144,7 @@
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
       :ai-auto-fill-function="aiAutoFillFunction"
       @update:preview="(_page) => $emit('update:preview', _page)"
+      style="border-radius: 0 0 26px 26px"
     >
       <template v-slot:header>
         <slot name="header"></slot>
@@ -260,7 +261,7 @@ import SettingCustomPage from "@app-page-builder/src/setting/SettingCustomPage";
 
 import PageBuilderUsersBehavior from "@app-page-builder/src/statistics/PageBuilderUsersBehavior";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
-import PageBuilderTopTools from "./src/menus/PageBuilderTopTools.vue";
+import SLandingEditorTopMenu from "@app-page-builder/components/editor/top-menu/SLandingEditorTopMenu.vue";
 import { FontLoader } from "@core/helper/font/FontLoader";
 import PageBuilderFilesList from "@app-page-builder/src/files/PageBuilderFilesList.vue";
 import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
@@ -276,7 +277,7 @@ export default {
     SSmartSuggestion,
     AiModelSelect,
     PageBuilderFilesList,
-    PageBuilderTopTools,
+    SLandingEditorTopMenu,
 
     PageBuilderUsersBehavior,
     SettingCustomPage,

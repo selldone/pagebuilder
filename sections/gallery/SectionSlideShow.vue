@@ -97,8 +97,11 @@
                   ? $sectionData.slide.items[index].row.justify
                   : 'start'
               "
-              v-styler:row="$sectionData.slide.items[index]"
-              v-bind:has-arrange="true"
+              v-styler:row="{
+                target: $sectionData.slide.items[index],
+                hasArrangement: true,
+                hasFluid: true,
+              }"
             >
               <div>
                 <h2
@@ -126,7 +129,9 @@
 
                 <x-button
                   v-if="$sectionData.slide.items[index].button"
-                  v-styler:button="$sectionData.slide.items[index].button"
+                  v-styler:button="{
+                    target: $sectionData.slide.items[index].button,
+                  }"
                   :index="index"
                   :btn-data="$sectionData.slide.items[index].button"
                   class="m-2 z2"
@@ -151,8 +156,9 @@
                     "
                     class="z2"
                     icon
-                    ><v-icon>add</v-icon></v-btn
                   >
+                    <v-icon>add</v-icon>
+                  </v-btn>
                   <v-btn
                     key="del"
                     v-else
@@ -165,8 +171,9 @@
                       $forceUpdate();
                     "
                     icon
-                    ><v-icon>close</v-icon></v-btn
                   >
+                    <v-icon>close</v-icon>
+                  </v-btn>
                 </v-slide-x-reverse-transition>
                 <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ End Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
               </div>
@@ -176,15 +183,15 @@
       </swiper-slide>
 
       <template v-slot:pagination>
-        <div class="swiper-pagination"></div
-      ></template>
+        <div class="swiper-pagination"></div>
+      </template>
 
       <template v-if="$sectionData.slide.navigation" v-slot:button-prev>
-        <div class="swiper-button-prev"></div
-      ></template>
+        <div class="swiper-button-prev"></div>
+      </template>
       <template v-if="$sectionData.slide.navigation" v-slot:button-next>
-        <div class="swiper-button-next"></div
-      ></template>
+        <div class="swiper-button-next"></div>
+      </template>
     </swiper>
 
     <!-- swiper2 Thumbs -->
@@ -242,9 +249,12 @@ import * as types from "../../src/types";
 import XButton from "@app-page-builder/sections/components/XButton.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
 
 export default {
   name: "SectionSlideShow",
+  directives: { styler: StylerDirective },
+
   components: {
     VideoBackground,
     XButton,
@@ -470,6 +480,7 @@ export default {
   display: flex;
   margin: auto;
   pointer-events: none;
+
   h1,
   h2,
   p,
@@ -504,6 +515,7 @@ export default {
 .thumb-outline {
   border: solid thin #aaa;
 }
+
 .thumb-morph {
   background-color: rgb(255, 255, 255);
   border-color: rgb(255, 255, 255);
@@ -513,13 +525,16 @@ export default {
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
+
 .thumb-paper {
   border: solid thin #bbb;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
+
 .thumb-shadow-lg {
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+
 .thumb-shadow-sm {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

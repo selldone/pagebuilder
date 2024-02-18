@@ -27,7 +27,8 @@
         has-arrangement
         add-column
         has-wrap
-        :initial-new-column="ItemType"
+        has-fluid
+        :column-structure="ItemType"
         ><!-- Only addable can remove col-->
 
         <!-- ██████████████████████ Columns ██████████████████████ -->

@@ -18,7 +18,7 @@
 >
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
-      <x-row :object="$sectionData" path="$sectionData" has-arrangement>
+      <x-row :object="$sectionData" path="$sectionData" has-arrangement has-fluid>
         <v-col cols="12" sm="6" md="4">
           <h2
             v-styler:text="$sectionData.title"
@@ -47,7 +47,7 @@
             :object="$sectionData"
             path="$sectionData"
             add-column
-            :initial-new-column="ItemType"
+            :column-structure="ItemType"
             has-arrangement
             ><!-- Only addable can remove col-->
 

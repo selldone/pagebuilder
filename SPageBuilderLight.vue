@@ -16,7 +16,7 @@
   <div class="">
     <!-- --------------------------------- Top Tools --------------------------------- -->
 
-    <page-builder-top-tools
+    <s-landing-editor-top-menu
       v-if="modelValue && inEditMode"
       :page="modelValue"
       :pageBuilder="$refs.vueBuilder"
@@ -28,7 +28,7 @@
       :save-color="isMenu ? 'blue' : 'green'"
       class="toolbar-top-rounded"
     >
-    </page-builder-top-tools>
+    </s-landing-editor-top-menu>
 
     <SPageEditor
       class="designer-container"
@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import PageBuilderTopTools from "./src/menus/PageBuilderTopTools.vue";
+import SLandingEditorTopMenu from "@app-page-builder/components/editor/top-menu/SLandingEditorTopMenu.vue";
 export default {
   name: "SPageBuilderLight",
-  components: { PageBuilderTopTools },
+  components: { SLandingEditorTopMenu },
   emits: ["update:modelValue", "onSave"],
   props: {
     shop: { require: true, type: Object },

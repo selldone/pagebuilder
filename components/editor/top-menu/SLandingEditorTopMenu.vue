@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2023. Selldone® Business OS™
+  - Copyright (c) 2023-2024. Selldone® Business OS™
   -
   - Author: M.Pajuhaan
   - Web: https://selldone.com
@@ -354,7 +354,7 @@
               <li>
                 Click on the
                 <img
-                  src="@components/assets/icons/ci-logo.png"
+                  src="../../../../../Components/assets/icons/ci-logo.png"
                   :width="24"
                   :height="24"
                   class="mx-1"
@@ -673,7 +673,7 @@ const ShortKeys = {
 };
 
 export default {
-  name: "PageBuilderTopTools",
+  name: "SLandingEditorTopMenu",
 
   components: { AiButton, SDropZone },
   mixins: [LandingHistoryMixin],
@@ -841,9 +841,7 @@ export default {
 
 <style lang="scss" scoped>
 .s--landing-menus-top-tools {
-  top: 0;
-  z-index: 200;
-  position: sticky;
+
 
   ::v-deep(.v-toolbar-items) {
     .v-btn {

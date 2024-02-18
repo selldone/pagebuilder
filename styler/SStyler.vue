@@ -25,7 +25,7 @@
         /* && !other_styler_open !==  type*/ /*Prevent open style with samy view type to make inline editor simple!*/ '-dot -red':
           type === 'button' || type === 'text',
         '-dot -green':
-          type === 'row' || type === 'row-grid' || type === 'buttons-row',
+          type === 'row-grid',
         '-dot -amber': type === 'container',
 
         '-dot -blue': type === 'grid',
@@ -128,67 +128,14 @@
         </button>
       </li>
 
-      <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
 
-      <li
-        v-if="
-          (type === 'row' && hasAttribute('has-arrange')) ||
-          type === 'buttons-row'
-        "
-      >
-        <button
-          class="styler-button"
-          @click="updateOption('row-align-justify')"
-          title="Align & Justify"
-        >
-          <v-icon dark size="20">vertical_distribute</v-icon>
-        </button>
-      </li>
 
-      <!-- ―――――――――――――――――― Wrap / Scroll Mode ―――――――――――――――――― -->
-
-      <li v-if="type === 'row' && hasAttribute('has-wrap')">
-        <button
-          class="styler-button"
-          @click="toggleNoWrap"
-          title="Wrap / Nowrap"
-        >
-          <v-icon dark size="20"
-            >{{ no_wrap ? "view_column" : "view_comfy" }}
-          </v-icon>
-        </button>
-      </li>
-
-      <!-- ―――――――――――――――――― Add New Column ―――――――――――――――――― -->
-
-      <li v-if="type === 'row' && el.hasAttribute('has-add')">
-        <button
-          class="styler-button"
-          @click="addNewColumn"
-          title="Add new column"
-        >
-          <v-icon dark size="20" color="#CDDC39">library_add</v-icon>
-        </button>
-      </li>
-
-      <!-- ―――――――――――――――――― XButtons List (Add Button) ―――――――――――――――――― -->
-
-      <li v-if="type === 'buttons-row'">
-        <button
-          class="styler-button"
-          @click="addNewButton()"
-          title="Add new button"
-        >
-          <v-icon dark size="20" color="#CDDC39">add_box</v-icon>
-        </button>
-      </li>
 
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
       <li
         v-if="
-          ((type === 'row' &&
-            parentIs('container')) /*Parent container has editable itself!*/ ||
+          (
             type === 'container') &&
           !blockFluid()
         "
@@ -491,39 +438,7 @@
       v-if="!$builder.isAnimation && !$builder.isTracking"
       class="styler-list"
     >
-      <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
 
-      <div v-if="currentOption === 'row-align-justify'">
-        <v-btn-toggle
-          v-model="row_align"
-          class="m-3 d-block"
-          rounded
-          theme="dark"
-          selected-class="success"
-        >
-          <v-btn v-for="it in ALIGN" :key="it.val" :value="it.val" icon>
-            <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
-            <v-tooltip v-if="it.title" activator="parent" location="bottom">{{
-              it.title
-            }}</v-tooltip>
-          </v-btn>
-        </v-btn-toggle>
-
-        <v-btn-toggle
-          v-model="row_justify"
-          class="m-3 d-block"
-          rounded
-          theme="dark"
-          selected-class="blue-flat"
-        >
-          <v-btn v-for="it in JUSTIFY" :key="it.val" :value="it.val" icon>
-            <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
-            <v-tooltip v-if="it.title" activator="parent" location="bottom">{{
-              it.title
-            }}</v-tooltip>
-          </v-btn>
-        </v-btn-toggle>
-      </div>
 
       <!-- =================================================================================================== -->
 
@@ -767,26 +682,27 @@
 
       <!-- ―――――――――――――――――― Text Font ―――――――――――――――――― -->
 
-      <li v-if="currentOption === 'text-font'">
+      <li v-if="currentOption === 'text-font'" class="flex-grow-1">
         <v-select
-          :items="fonts"
-          v-model="text_font"
-          variant="solo"
-          rounded
-          dark
-          clearable
-          clear-icon="close"
-          append-icon="arrow_drop_down"
-          class="mx-2"
-          dense
-          @update:model-value="setFont"
-          messages=" "
+            :items="fonts"
+            v-model="text_font"
+            variant="solo"
+            rounded
+            clearable
+            class="mx-2"
+            @update:model-value="setFont"
+            messages=" "
+            placeholder="Select a font..."
         >
-          <template v-slot:item="{ item }">
-            <span :style="{ fontFamily: item }">{{ item }}</span>
+          <template v-slot:item="{ item,props }">
+            <v-list-item v-bind="props">
+              <template v-slot:title>
+                <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
+              </template>
+            </v-list-item>
           </template>
           <template v-slot:selection="{ item }">
-            <span :style="{ fontFamily: item }">{{ item }}</span>
+            <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
           </template>
           <template v-slot:message>
             <div class="mt-1">
@@ -1114,10 +1030,6 @@ export default {
 
     // ===== Align / Justify =====
 
-    row_align: "center",
-    row_justify: "space-around",
-    container_fluid: false,
-    no_wrap: false,
 
     isVisible: false,
     other_styler_open: null,
@@ -1209,65 +1121,10 @@ export default {
       this.changeColor();
     },
 
-    row_align() {
-      if (this.type === "row") {
-        this.section.set(
-          this.name + ".row" /*Always pass object (in XRow )*/,
-          (row) => {
-            row["align"] = this.row_align;
-          },
-        );
-      } else if (this.type === "buttons-row") {
-        this.section.set(
-          this.name /*Always pass object.btn_row (XButtons)*/,
-          (row) => {
-            row["align"] = this.row_align;
-          },
-        );
-      }
-    },
 
-    row_justify() {
-      if (this.type === "row") {
-        this.section.set(
-          this.name + ".row" /*Always pass object (in XRow)*/,
-          (row) => {
-            row["justify"] = this.row_justify;
-          },
-        );
-      } else if (this.type === "buttons-row") {
-        this.section.set(
-          this.name /*Always pass object.btn_row (in XButtons)*/,
-          (row) => {
-            row["justify"] = this.row_justify;
-          },
-        );
-      }
-    },
-    container_fluid() {
-      this.section.set(
-        this.type === "row"
-          ? this.name + ".row" /*Always pass object (in XRow)*/
-          : this.type === "container"
-            ? this.name /*in XContainer we set fluid in the container object.*/
-            : null,
-        (row) => {
-          row["fluid"] = this.container_fluid;
-        },
-      );
-      // Fix remove .is-editable at change element classes
-      this.isEditableFix();
-    },
-    no_wrap() {
-      this.section.set(this.name + ".row" /*We pass object*/, (row) => {
-        row.no_wrap = this.no_wrap;
-        if (this.no_wrap) {
-          row.justify = "start";
-        }
-      });
-      // Fix remove .is-editable at change element classes
-      this.isEditableFix();
-    },
+
+
+
 
     bgStylerStyle() {
       this.changeBgStyle();
@@ -1297,32 +1154,7 @@ export default {
           this.el.firstChild.classList.contains("text-uppercase");
       }
     }
-    if (this.type === "row") {
-      let row = this.section.get(`${this.name}.row`);
 
-      if (!row) {
-        row = { align: "center", justify: "space-around" };
-        this.section.set(`${this.name}.row`, row);
-      }
-
-      this.row_align = row.align;
-      this.row_justify = row.justify;
-      this.container_fluid = row.fluid;
-
-      this.no_wrap = row.no_wrap;
-    }
-    if (this.type === "buttons-row") {
-      // In Buttons, we have object.btn_row
-      let row = this.section.get(`${this.name}`);
-
-      if (!row) {
-        row = { align: "center", justify: "space-around" };
-        this.section.set(`${this.name}`, row);
-      }
-
-      this.row_align = row.align;
-      this.row_justify = row.justify;
-    }
 
     if (this.type === "container") {
       //console.log('created > this.name',this.name,this.section)
@@ -1983,12 +1815,7 @@ export default {
         const position =
           this.$props.type === "section"
             ? "left-start"
-            : this.$props.type === "row" && this.hasAttribute("has-add")
-              ? "left-center" // Prevent over lapping rows
-              : this.$props.type === "buttons-row"
-                ? "left-center"
-                : this.$props.type === "row"
-                  ? "right-end"
+
                   : this.$props.type === "container"
                     ? "right-center"
                     : this.$props.type === "grid" ||
@@ -2079,7 +1906,6 @@ export default {
         this.type === "row-grid" ||
         this.type === "input" ||
         this.type === "slide" ||
-        this.type === "buttons-row" ||
         this.type === "text-loop"
       ) {
         return;
@@ -2253,9 +2079,7 @@ export default {
       this.el.classList.remove("highlight-blueprint");
     },
 
-    toggleNoWrap() {
-      this.no_wrap = !this.no_wrap;
-    },
+
 
     //------------------------------------------------------------------
 
@@ -2270,30 +2094,9 @@ export default {
       );
     },
 
-    /**
-     * XButtons | Add button
-     */
-    addNewButton() {
-      // we have (object.btn_row) here and need (object.buttons)
-      console.log("this.name", this.bindingValue);
-      // const buttons_path = this.name.substring(0, this.name.lastIndexOf(".")) + ".buttons";
 
-     // let buttons = this.section.get(buttons_path);
-      this.bindingValue.buttons.push(Seeder.seed(types.Button));
-    },
 
-    /**
-     * XRow | Add new column
-     */
-    addNewColumn() {
-      //console.log('Name:',this.name,'Object',this.section.get(this.name+ ".columns"))
 
-      // we have (object) here and need (object.columns)
-      const columns_path = this.name + ".columns";
-
-      let columns = this.section.get(columns_path);
-      columns.push(Seeder.seed(this.section.__initialNewColumn));
-    },
   },
 };
 </script>

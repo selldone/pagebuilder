@@ -17,6 +17,7 @@ import toPath from "lodash-es/toPath";
 import {Seeder} from "./seeder";
 import {App} from "vue";
 
+const DEBUG = false;
 export namespace Section {
   export interface IData {
     id?: string;
@@ -56,8 +57,8 @@ export class Section implements Section.ISection {
   public stylers: { instance: App; container: Element }[];
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
-    LOG("⚽ Section > Constructor", options, this,force_set_new_uid);
-    console.log("🪷 ", options);
+    LOG("⚽ Section > Constructor", options, this, force_set_new_uid);
+    LOG("🪷 ", options);
 
     // this.id=options.data?.id
     options = Object.assign({}, options);
@@ -76,9 +77,14 @@ export class Section implements Section.ISection {
       // Set random ID for sections
       this.uid = "auto_" + Math.round(Math.random() * 99999999999);
 
-      console.log("🪷 Section.ts > constructor > UID (NEW):", this.uid,'force',force_set_new_uid);
+      LOG(
+        "🪷 Section.ts > constructor > UID (NEW):",
+        this.uid,
+        "force",
+        force_set_new_uid,
+      );
     } else {
-      console.log("🪷 Section.ts > constructor > UID (EXIST):", this.uid);
+      LOG("🪷 Section.ts > constructor > UID (EXIST):", this.uid);
     }
     // Compatible with missed updated in code(temporary)
     this.id = this.uid;
@@ -134,5 +140,5 @@ export class Section implements Section.ISection {
 }
 
 function LOG(...text: any) {
-  // console.log('🪷 Section.ts',...text)
+  if (DEBUG) console.log("🪷 Section.ts", ...text);
 }

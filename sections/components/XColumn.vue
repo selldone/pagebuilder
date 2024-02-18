@@ -40,9 +40,14 @@
 
 <script>
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "XColumn",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   components: { VideoBackground },
 
   props: {
@@ -73,7 +78,7 @@ export default {
       this.$forceUpdate();
     },
   },
-};
+});
 </script>
 
 <style scoped></style>

@@ -16,9 +16,9 @@
   <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
   <!-- Start Buttons group -->
   <v-row
-    class="text-center addable"
+    class="x--buttons"
     no-gutters
-    v-styler:buttons-row="{target:object,key_row:'btn_row',key_buttons:'buttons'}"
+    v-styler:buttons-row="{ target: object }"
     :align="object.btn_row ? object.btn_row.align : 'center'"
     :justify="object.btn_row ? object.btn_row.justify : 'space-around'"
   >
@@ -35,16 +35,20 @@
         align-items: center;
       "
     >
-      <v-icon class="me-1">library_add</v-icon> You can add buttons here...
+      <v-icon class="me-1">library_add</v-icon>
+      You can add buttons here...
     </div>
     <!-- Only addable cna remove col-->
 
     <x-button
       v-for="(col, index) in object.buttons"
-      :key="index"
-      :index="index"
-      v-styler:button="object.buttons[index]"
-      :btnData="object.buttons[index]"
+      v-styler:button="{
+        target: object.buttons[index],
+        remove: () => {
+          object.buttons=Object.assign([],object.buttons.splice(index, 1));
+        },
+      }"
+      :btn-data="object.buttons[index]"
       class="m-2"
       :editing="$builder.isEditing"
       :augment="augment"
@@ -57,9 +61,14 @@
 
 <script>
 import XButton from "@app-page-builder/sections/components/XButton.vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "XButtons",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   components: { XButton },
   props: {
     object: { required: true },
@@ -68,7 +77,11 @@ export default {
       // Extra information to show to dynamic show in page content
     },
   },
-};
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+.x--buttons {
+  text-align: start;
+}
+</style>

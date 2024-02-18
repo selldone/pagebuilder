@@ -17,7 +17,7 @@
     ref="styler"
     :el="el"
     :section="section"
-    type="buttons-row"
+    type="row"
     :builder="builder"
     :is-visible="isVisible"
   >
@@ -30,7 +30,7 @@
     <ul class="styler-list">
       <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
 
-      <li>
+      <li v-if="hasArrangement">
         <v-btn
           class="styler-button"
           @click="show_align = true"
@@ -45,24 +45,51 @@
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
-            >Align & Justify buttons
+            >Align & Justify columns
           </v-tooltip>
         </v-btn>
       </li>
 
-      <!-- ―――――――――――――――――― XButtons List (Add Button) ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Wrap / Scroll Mode ―――――――――――――――――― -->
 
-      <li>
+      <li v-if="hasWrap">
         <button
           class="styler-button"
-          @click="addNewButton()"
+          @click="toggleNoWrap"
+          title="Wrap / Nowrap"
         >
+          <v-icon dark size="20"
+            >{{ target[keyRow].no_wrap ? "view_column" : "view_comfy" }}
+          </v-icon>
+        </button>
+      </li>
+
+      <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
+
+      <li
+        v-if="hasFluid"
+      >
+        <button
+          class="styler-button"
+          @click="toggleFluid"
+          title="Fluid container"
+        >
+          <v-icon dark size="20"
+            >{{ target[keyRow].fluid ? "swap_horiz" : "compare_arrows" }}
+          </v-icon>
+        </button>
+      </li>
+
+      <!-- ―――――――――――――――――― Add New Column ―――――――――――――――――― -->
+
+      <li v-if="hasAdd">
+        <button class="styler-button" @click="addNewColumn()">
           <v-icon dark size="20" color="#CDDC39">add_box</v-icon>
           <v-tooltip
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
-            >Add new button
+            >Add new column
           </v-tooltip>
         </button>
       </li>
@@ -120,17 +147,16 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types";
-import { Seeder } from "@app-page-builder/src/seeder";
 import ALIGN from "@app-page-builder/src/enums/ALIGN";
 import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { Seeder } from "@app-page-builder/src/seeder";
 
 export default {
-  name: "SStylerButtons",
+  name: "SStylerRow",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
@@ -161,16 +187,53 @@ export default {
      */
     position: {
       type: String,
-      default: "left-center",
+      default: "right-end",
     },
 
     keyRow: {
       type: String,
-      default: "btn_row",
+      default: "row",
     },
-    keyButtons: {
+    keyColumns: {
       type: String,
-      default: "buttons",
+      default: "columns",
+    },
+
+
+    /**
+     * Initial column structure for adding new column
+     */
+    columnStructure:{
+      type: Object,
+      default: () => {
+        return {
+          title: "🌟 Title",
+          image: null,
+          content: "🌟 Content",
+          grid: {
+            mobile: 12,
+            tablet: 6,
+            desktop: 4,
+            widescreen: null,
+          },
+        };
+      },
+    },
+    hasWrap: {
+      type: Boolean,
+      default: false,
+    },
+    hasArrangement: {
+      type: Boolean,
+      default: false,
+    },
+    hasAdd: {
+      type: Boolean,
+      default: false,
+    },
+    hasFluid: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -178,7 +241,6 @@ export default {
     JUSTIFY: JUSTIFY,
 
     show_align: false,
-
   }),
 
   computed: {},
@@ -196,10 +258,10 @@ export default {
   },
   beforeCreate() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerButtons");
+      throw new Error("Target is required for SStylerRow");
     }
     // Auto seed buttons if not exist
-    if (!this.target[this.keyButtons]) this.target[this.keyButtons] = [];
+    if (!this.target[this.keyColumns]) this.target[this.keyColumns] = [];
     if (this.target[this.keyRow])
       this.target[this.keyRow] = {
         align: "center",
@@ -210,11 +272,22 @@ export default {
 
   methods: {
     /**
-     * XButtons | Add button
+     * XRow | Add new column
      */
-    addNewButton() {
-      this.target[this.keyButtons].push(Seeder.seed(types.Button));
+    addNewColumn() {
+      this.target[this.keyColumns].push(
+        Seeder.seed(this.columnStructure),
+      );
     },
+
+    toggleNoWrap() {
+      this.target[this.keyRow].no_wrap = !this.target[this.keyRow].no_wrap;
+    },
+    toggleFluid() {
+      this.target[this.keyRow].fluid = !this.target[this.keyRow].fluid;
+    },
+
+
   },
 };
 </script>

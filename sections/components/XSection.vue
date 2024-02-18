@@ -34,9 +34,13 @@
 
 <script>
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
 
 export default {
   name: "XSection",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   components: { VideoBackground },
 
   props: {

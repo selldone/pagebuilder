@@ -41,7 +41,8 @@
         has-arrangement
         add-column
         has-wrap
-        :initial-new-column="ItemType"
+        has-fluid
+        :column-structure="ItemType"
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text

@@ -34,6 +34,7 @@
         path="$sectionData"
         has-arrangement
         add-column
+        has-fluid
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text

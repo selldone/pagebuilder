@@ -390,7 +390,8 @@
 
           <x-button
             v-if="$sectionData.slide.items[index].button"
-            v-styler:button="$sectionData.slide.items[index].button"
+            v-styler:button=" {target:$sectionData.slide.items[index].button}"
+
             :index="index"
             :btn-data="$sectionData.slide.items[index].button"
             class="m-2"

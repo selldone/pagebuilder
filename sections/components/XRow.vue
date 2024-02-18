@@ -17,11 +17,15 @@
     :align="object.row ? object.row.align : 'center'"
     :justify="object.row ? object.row.justify : 'space-around'"
     :class="{ addable: addColumn, '-no-wrap': hasWrap && object.row?.no_wrap }"
-    v-styler:row="`${path}`"
+    v-styler:row="{
+      target: object,
+      columnStructure: columnStructure,
+      hasWrap: hasWrap,
+      hasAdd: addColumn,
+      hasArrangement: hasArrangement,
+      hasFluid: hasFluid,
+    }"
     class="x--row"
-    v-bind:has-wrap="hasWrap"
-    v-bind:has-add="addColumn"
-    v-bind:has-arrange="hasArrangement"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
@@ -38,25 +42,23 @@
         align-items: center;
       "
     >
-      <v-icon class="me-1">library_add</v-icon> You can add columns here...
+      <v-icon class="me-1">library_add</v-icon>
+      You can add columns here...
     </div>
 
-    <!-- <v-col
-      v-if="addColumn && SHOW_EDIT_TOOLS"
-      key="add"
-      class="add-col"
-      @click="addItemToArray(object.columns, initialNewColumn)"
-    >
-      <v-icon dark>add</v-icon>
-    </v-col>-->
   </v-row>
 </template>
 
 <script>
 import * as types from "@app-page-builder/src/types";
+import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import XMixin from "@app-page-builder/mixins/XMixin";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "XRow",
+  directives: { styler: StylerDirective },
+  mixins: [XMixin],
   components: {},
 
   props: {
@@ -64,15 +66,15 @@ export default {
     path: { required: true /*Required for v-styler*/ },
 
     addColumn: {
-      // set initial column : this.$section.__initialNewColumn
       type: Boolean,
       default: false,
     },
     hasArrangement: { type: Boolean, default: false },
 
     hasWrap: { type: Boolean, default: false },
+    hasFluid: { type: Boolean, default: false },
 
-    initialNewColumn: {
+    columnStructure: {
       default: () => {
         return {
           title: types.Title,
@@ -90,7 +92,7 @@ export default {
   },
   data: () => ({}),
   created() {
-    this.$section.__initialNewColumn = this.initialNewColumn;
+
   },
   methods: {
     /*  applyStylerDirective() {
@@ -101,7 +103,7 @@ export default {
       return {};
     },*/
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

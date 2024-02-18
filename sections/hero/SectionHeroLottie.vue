@@ -19,6 +19,7 @@
         :object="$sectionData"
         path="$sectionData"
         has-arrangement
+        has-fluid
         class="min-h-100"
         v-if="$sectionData.columns"
       >
