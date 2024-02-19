@@ -261,14 +261,14 @@ export const StylerMixin = defineComponent({
 
       // Get the first node in the selected range
       let node :Node|null = selection.getRangeAt(0).startContainer;
-      console.log('node',node)
 
       // Initialize a counter for the loop
       let counter = 0;
 
       // Traverse up the DOM tree to find the nearest enclosing <a> tag, up to 5 parents
       while (node && node.nodeName !== "A" && counter < 10) {
-        node = node.parentNode;
+
+        node = node.parentElement;
         counter++;
       }
 

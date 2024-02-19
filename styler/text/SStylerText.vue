@@ -469,8 +469,6 @@ export default {
     option(option) {
       this.updatePopper();
 
-      this.calculateSelectedTextStyle();
-
       // Save range selection:
       this.saveRangeSelected();
     },
@@ -479,7 +477,6 @@ export default {
      */
     isVisible() {
       this.option = null;
-      this.calculateSelectedTextStyle();
       this.updatePopper();
     },
   },
@@ -510,11 +507,28 @@ export default {
   mounted() {
     this.el.addEventListener("paste", this.stripHtmlToText, true);
 
+    this.selectionChangeHandler = () => {
+      const selection = document.getSelection();
+      const selectedElement = selection.anchorNode.parentNode;
+
+      if (this.el.contains(selectedElement)) {
+        console.log(
+          "Selection changed within your element:",
+          selection.toString(),
+        );
+        this.calculateSelectedTextStyle();
+      }
+    };
+
+    document.addEventListener("selectionchange", this.selectionChangeHandler);
   },
 
   beforeUnmount() {
     this.el.removeEventListener("paste", this.stripHtmlToText, true);
-
+    document.removeEventListener(
+      "selectionchange",
+      this.selectionChangeHandler,
+    );
   },
 
   methods: {
@@ -523,7 +537,7 @@ export default {
       this.text_font = this.getSelectedTextFont();
       this.url = this.getSelectedTextLink();
 
-      console.log(
+      /*console.log(
         "📐 calculateSelectedTextStyle",
         "color",
         this.text_color_display,
@@ -531,9 +545,7 @@ export default {
         this.text_font,
         "url",
         this.url,
-
-        this.el,
-      );
+      );*/
     },
 
     addLink(e) {
@@ -544,7 +556,7 @@ export default {
       e.preventDefault();
       this.option = null;
 
-      this.updateValue()
+      this.updateValue();
     },
 
     openTextColorEdit(event) {
@@ -567,7 +579,7 @@ export default {
 
       event.preventDefault();
 
-      this.updateValue()
+      this.updateValue();
     },
 
     setFont(font) {
@@ -575,7 +587,7 @@ export default {
       this.restoreSelection();
       this.setTextRootElementStyle("font-family", font, true);
 
-      this.updateValue()
+      this.updateValue();
     },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Upper /Normal case ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
@@ -584,20 +596,67 @@ export default {
       this.uppercase = !this.uppercase;
       this.toggleElementClass("text-uppercase", true);
 
-      this.updateValue()
-
+      this.updateValue();
     },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Text Align ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
     setTextAlign(val) {
       this.setElementClass("text-align-", val, true);
-      this.updateValue()
+      this.updateValue();
     },
 
-    updateValue(){
+    updateValue() {
       this.target[this.keyText] = this.el.innerHTML;
-    }
+    },
+
+    //------------------------------------------------------------------
+    /**
+     * Safe past (remove all html tags)
+     * @param event
+     */
+    stripHtmlToText(event) {
+      // Prevent past section data:
+      try {
+        function IsValidJsonSectionString(str) {
+          try {
+            let json = JSON.parse(str);
+            return json.name && json.data && Object.keys(json.data).length > 0;
+          } catch (e) {}
+          return false;
+        }
+
+        let paste = (event.clipboardData || window.clipboardData).getData(
+          "text",
+        );
+        if (IsValidJsonSectionString(paste)) return;
+      } catch (e) {}
+      // console.log("types", event.clipboardData.types);
+
+      event.preventDefault();
+
+      const cb = event.clipboardData;
+      let pastedContent = "";
+      if (cb.types.indexOf("text/plain") !== -1) {
+        // contains html
+        pastedContent = cb.getData("text/plain");
+      } else if (cb.types.indexOf("text/html") !== -1) {
+        // contains text
+        pastedContent = $(cb.getData("text/html")).text();
+      } else {
+        return;
+        //pastedContent = cb.getData(cb.types[0]); // get whatever it has
+      }
+      // console.log("Past", event, pastedContent);
+      //    let doc = new DOMParser().parseFromString(pastedContent, "text/html");
+      //  const pure = doc.body.textContent.trim() || "";
+
+      let pure = pastedContent.replace(/(\r\n|\n|\r)/gm, "");
+      // console.log("Past", 'pure', pure);
+
+      //  console.log('pure',pure)
+      this.el.insertAtCaret(pure);
+    },
   },
 };
 </script>
