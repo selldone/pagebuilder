@@ -16,14 +16,14 @@ export const MigrateFromOldVersion = (obj: Object) => {
   replaceStringInObject(obj, "is-samin", "bg--plate-dark-1");
   replaceStringInObject(obj, "is-red", "bg--plate-dark-2");
 
-  replaceStringInObject(obj, "is-black", "bg--plate-light-3");
-  replaceStringInObject(obj, "is-green", "bg--plate-light-4");
-  replaceStringInObject(obj, "is-blue", "bg--plate-light-5");
+  replaceStringInObject(obj, "is-black", "bg--plate-dark-3");
+  replaceStringInObject(obj, "is-green", "bg--plate-dark-4");
+  replaceStringInObject(obj, "is-blue", "bg--plate-dark-5");
   replaceStringInObject(obj, "is-white", "bg--plate-light-6");
-  replaceStringInObject(obj, "is-deep-purple", "bg--plate-light-7");
-  replaceStringInObject(obj, "is-teal", "bg--plate-light-8");
-  replaceStringInObject(obj, "is-cyan", "bg--plate-light-9");
-  replaceStringInObject(obj, "is-amber", "bg--plate-light-10");
+  replaceStringInObject(obj, "is-deep-purple", "bg--plate-dark-7");
+  replaceStringInObject(obj, "is-teal", "bg--plate-dark-8");
+  replaceStringInObject(obj, "is-cyan", "bg--plate-dark-9");
+  replaceStringInObject(obj, "is-amber", "bg--plate-dark-10");
   replaceStringInObject(obj, "is-pink", "bg--plate-light-2");
   replaceStringInObject(obj, "is-blue-grey", "bg--plate-light-11");
   replaceStringInObject(obj, "is-transparent", "bg--plate-transparent");

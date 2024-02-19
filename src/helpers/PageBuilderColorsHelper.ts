@@ -25,8 +25,8 @@ export class PageBuilderColorsHelper {
   static PLATE_LIGHT_4 = "#afb42b";
   static PLATE_DARK_4 = "#388e3c"; //green    colorGreen
 
-  static PLATE_LIGHT_5 = "#303f9f";
-  static PLATE_DARK_5 = "#0288d1"; // blue    colorBlue
+  static PLATE_LIGHT_5 = "#0288d1";
+  static PLATE_DARK_5 = "#303f9f"; // blue    colorBlue
 
   static PLATE_LIGHT_6 = "#ffffff";
   static PLATE_DARK_6 = "#eeeeee"; // white    colorWhite
@@ -40,11 +40,14 @@ export class PageBuilderColorsHelper {
   static PLATE_LIGHT_9 = "#0288d1";
   static PLATE_DARK_9 = "#0097a7"; // colorCyan
 
-  static PLATE_LIGHT_10 = "#ff5722";
-  static PLATE_DARK_10 = "#ffa000"; // colorAmber
+  static PLATE_LIGHT_10 = "#ffa000";
+  static PLATE_DARK_10 = "#ff5722"; // colorAmber
 
   static PLATE_LIGHT_11 = "#455a64";
   static PLATE_DARK_11 = "#374d57"; // colorBlue-grey
+
+  static PLATE_LIGHT_12 = "#795548";
+  static PLATE_DARK_12 = "#5D4037"; // colorBlue-grey
 
   static GenerateColorsStyle(style) {
     return {
@@ -114,6 +117,12 @@ export class PageBuilderColorsHelper {
       "--plate-dark-11": style?.plate_dark_11
         ? style.plate_dark_11
         : this.PLATE_DARK_11,
+      "--plate-light-12": style?.plate_light_12
+        ? style.plate_light_12
+        : this.PLATE_LIGHT_12,
+      "--plate-dark-12": style?.plate_dark_12
+        ? style.plate_dark_12
+        : this.PLATE_DARK_12,
     };
   }
 
@@ -124,6 +133,7 @@ export class PageBuilderColorsHelper {
         : this[`PLATE_LIGHT_` + index],
     );
   }
+
   static GetColorDark(style, index) {
     return this.ConvertToSixCharHex(
       style[`plate_dark_` + index]
@@ -143,3 +153,32 @@ export class PageBuilderColorsHelper {
     return null;
   }
 }
+
+export const PLATE_LIGHT_VARS = [
+  "var(--plate-light-1)",
+  "var(--plate-light-2)",
+  "var(--plate-light-3)",
+  "var(--plate-light-4)",
+  "var(--plate-light-5)",
+  "var(--plate-light-6)",
+  "var(--plate-light-7)",
+  "var(--plate-light-8)",
+  "var(--plate-light-9)",
+  "var(--plate-light-10)",
+  "var(--plate-light-11)",
+  "var(--plate-light-12)",
+];
+export const PLATE_DARK_VARS = [
+  "var(--plate-dark-1)",
+  "var(--plate-dark-2)",
+  "var(--plate-dark-3)",
+  "var(--plate-dark-4)",
+  "var(--plate-dark-5)",
+  "var(--plate-dark-6)",
+  "var(--plate-dark-7)",
+  "var(--plate-dark-8)",
+  "var(--plate-dark-9)",
+  "var(--plate-dark-10)",
+  "var(--plate-dark-11)",
+  "var(--plate-dark-12)",
+];

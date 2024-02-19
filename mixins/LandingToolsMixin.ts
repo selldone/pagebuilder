@@ -13,6 +13,7 @@
  */
 
 import {defineComponent} from "vue";
+import {EventBus} from "@core/events/EventBus";
 
 export const LandingHistoryMixin = defineComponent({
   data() {
@@ -27,18 +28,18 @@ export const LandingHistoryMixin = defineComponent({
      * 🗲 Global page refresh trigger.
      */
     triggerRefreshGlobalPageBuilder() {
-      this.EventBus.$emit("trigger:RefreshGlobalPageBuilder", {});
+      EventBus.$emit("trigger:RefreshGlobalPageBuilder", {});
     },
 
     ShowGlobalPageStyleEditorDialog(style, show, tab) {
-      this.EventBus.$emit("show:SLandingToolsStylePage", {
+      EventBus.$emit("show:SLandingToolsStylePage", {
         style,
         show,
         tab,
       });
     },
     ShowGlobalTypographyEditorDialog(style, tab) {
-      this.EventBus.$emit("show:GlobalTypographyEditorDialog", { style, tab });
+      EventBus.$emit("show:GlobalTypographyEditorDialog", { style, tab });
     },
 
     ShowGlobalStyleEditorDialog(
@@ -50,7 +51,7 @@ export const LandingHistoryMixin = defineComponent({
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
-      this.EventBus.$emit("show:SLandingToolsStyleElement", {
+      EventBus.$emit("show:SLandingToolsStyleElement", {
         el_style,
         el_class,
         section,
@@ -68,7 +69,7 @@ export const LandingHistoryMixin = defineComponent({
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
-      this.EventBus.$emit("show:GlobalAnimationEditorDialog", {
+      EventBus.$emit("show:GlobalAnimationEditorDialog", {
         el_style,
         el_class,
         section,
@@ -79,7 +80,7 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalLinkEditorDialog(el, section, urlPath) {
-      this.EventBus.$emit("show:GlobalLinkEditorDialog", {
+      EventBus.$emit("show:GlobalLinkEditorDialog", {
         el,
         section,
         urlPath,
@@ -87,21 +88,21 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalBackgroundEditorDialog(el, section, backgroundPath) {
-      this.EventBus.$emit("show:GlobalBackgroundEditorDialog", {
+      EventBus.$emit("show:GlobalBackgroundEditorDialog", {
         el,
         section,
         backgroundPath,
       });
     },
     ShowGlobalProductSelectDialog(el, section, productPath) {
-      this.EventBus.$emit("show:GlobalProductSelectDialog", {
+      EventBus.$emit("show:GlobalProductSelectDialog", {
         el,
         section,
         productPath,
       });
     },
     ShowGlobalProductsCategoriesSelectDialog(el, section, productsPath) {
-      this.EventBus.$emit("show:GlobalProductsCategoriesSelectDialog", {
+      EventBus.$emit("show:GlobalProductsCategoriesSelectDialog", {
         el,
         section,
         productsPath,
@@ -109,7 +110,7 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalProductsFrameDialog(el, section, productsPath) {
-      this.EventBus.$emit("show:GlobalProductsFrameDialog", {
+      EventBus.$emit("show:GlobalProductsFrameDialog", {
         el,
         section,
         productsPath,
@@ -117,21 +118,21 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalInputEditorDialog(el, section, inputPath) {
-      this.EventBus.$emit("show:GlobalInputEditorDialog", {
+      EventBus.$emit("show:GlobalInputEditorDialog", {
         el,
         section,
         inputPath,
       });
     },
     ShowGlobalSlideShowEditorDialog(el, section, slidePath) {
-      this.EventBus.$emit("show:GlobalSlideShowEditorDialog", {
+      EventBus.$emit("show:GlobalSlideShowEditorDialog", {
         el,
         section,
         slidePath,
       });
     },
     ShowGlobalXColumnLayoutEditorDialog(el, section, gridPath) {
-      this.EventBus.$emit("show:GlobalXColumnLayoutEditorDialog", {
+      EventBus.$emit("show:GlobalXColumnLayoutEditorDialog", {
         el,
         section,
         gridPath,
@@ -146,7 +147,7 @@ export const LandingHistoryMixin = defineComponent({
       setting,
       updateCallback,
     ) {
-      this.EventBus.$emit("show:GlobalImageSizeDialog", {
+      EventBus.$emit("show:GlobalImageSizeDialog", {
         el,
         section,
         sizePath,
@@ -163,7 +164,7 @@ export const LandingHistoryMixin = defineComponent({
       setting,
       updateCallback,
     ) {
-      this.EventBus.$emit("show:GlobalImageLayersDialog", {
+      EventBus.$emit("show:GlobalImageLayersDialog", {
         el,
         section,
         settingPath,
@@ -173,8 +174,8 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    showGlobalColorSelectorDialog(element, color, callback, alpha) {
-      this.EventBus.$emit("show:GlobalColorSelectorDialog", {
+    showGlobalColorSelectorDialog(element:Element, color:string|null, callback:()=>void, alpha:boolean) {
+      EventBus.$emit("show:GlobalColorSelectorDialog", {
         element,
         color,
         callback,
@@ -183,7 +184,7 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalBlogsFilterDialog(el, section, blogsPath) {
-      this.EventBus.$emit("show:GlobalBlogsFilterDialog", {
+      EventBus.$emit("show:GlobalBlogsFilterDialog", {
         el,
         section,
         blogsPath,
@@ -191,7 +192,7 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalTextLoopDialog(el, section, path) {
-      this.EventBus.$emit("show:GlobalTextLoopDialog", {
+      EventBus.$emit("show:GlobalTextLoopDialog", {
         el,
         section,
         path,

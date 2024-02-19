@@ -18,7 +18,7 @@
   object-fit: cover;
 
 
-  .bg-video{
+  .bg-video {
     position: absolute;
     left: 0;
     right: 0;
@@ -122,21 +122,41 @@ section {
 }
 
 // Highlight when mouse over styler of an element!
-.highlight-blueprint{
+:root {
+  --highlight-outline-width: 8px;
+
+  .in-scale-down {
+    --highlight-outline-width: 16px;
+
+    .highlight-blueprint {
+      outline-offset: 0; // add this line
+
+    }
+  }
+}
+
+.highlight-blueprint {
   animation: none;
-  transition: none;
- // outline: solid #323c47 medium;
-  background: #225082 !important;
-  color: #fff !important;
+  transition: all 0s !important;
+  // outline: solid #323c47 medium;
+  // background: #225082 !important;
+  // color: #fff !important;
+
+  outline: #225082 double var(--highlight-outline-width) !important;
+
+  outline-offset: calc(-0.5 * var(--highlight-outline-width)); // add this line
+
   //outline: #225082 10px double !important;
   z-index: 1;
-  video{
+
+  video {
     opacity: 0;
   }
 }
 
+
 // Highlight an element when editing dialog open:
-.element-focus-editing{
+.element-focus-editing {
   outline: #1e1e1e 16px double !important;
   z-index: 10;
 }

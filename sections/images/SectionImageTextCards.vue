@@ -16,13 +16,18 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <h3
-        v-styler:text="$sectionData.title"
+        v-styler:text="{target:$sectionData,keyText:'title'}   "
+
+
+
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
         class="mb-5 fadeIn delay_100"
       />
 
       <p
-        v-styler:text="$sectionData.content"
+        v-styler:text="{target:$sectionData,keyText:'content'}   "
+
+
         v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
         class="fadeIn delay_300"
       />

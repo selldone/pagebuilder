@@ -14,7 +14,7 @@
 
 <template>
   <section
-    v-styler:section="`${path}.classes`"
+    v-styler:section="sectionBinding"
     class="section background"
     :class="object.classes"
     :style="[BACKGROUND_STYLE, object.style]"
@@ -48,6 +48,15 @@ export default {
     path: { required: true /*Required for v-styler*/ },
   },
   data: () => ({}),
+  computed: {
+    /**
+     * Use compute for better performance.
+     * @return {{target: *}}
+     */
+    sectionBinding() {
+      return { target: this.object };
+    },
+  },
   created() {},
 };
 </script>

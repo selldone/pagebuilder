@@ -41,7 +41,6 @@
           </v-btn>
           <v-btn
             @click.stop="addNewSlide"
-            dark
             color="#2196F3"
             variant="flat"
             class="rounded-lg tnt me-2"
@@ -53,12 +52,12 @@
     </v-sheet>
 
     <h2
-      v-styler:text="$sectionData.title"
+      v-styler:text="{target:$sectionData,keyText:'title'}"
       class="mb-5"
       v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
     />
     <p
-      v-styler:text="$sectionData.content"
+      v-styler:text="{target:$sectionData,keyText:'content'}  "
       v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
     />
 
@@ -92,7 +91,7 @@
 
         <p
           v-if="$builder.isEditing || $sectionData.columns[index].title"
-          v-styler:text="$sectionData.columns[index].title"
+          v-styler:text="{target:$sectionData.columns[index],keyText:'title'}  "
           v-html="
             $sectionData.columns[index].title?.applyAugment(
               augment,

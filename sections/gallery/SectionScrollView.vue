@@ -366,7 +366,10 @@
           />
 
           <h2
-            v-styler:text="$sectionData.slide.items[index].title"
+            v-styler:text="{
+              target: $sectionData.slide.items[index],
+              keyText: 'title',
+            }"
             v-html="
               $sectionData.slide.items[index].title?.applyAugment(
                 augment,
@@ -376,7 +379,10 @@
             :index="index"
           />
           <p
-            v-styler:text="$sectionData.slide.items[index].subtitle"
+            v-styler:text="{
+              target: $sectionData.slide.items[index],
+              keyText: 'subtitle',
+            }"
             v-html="
               $sectionData.slide.items[index].subtitle?.applyAugment(
                 augment,
@@ -390,8 +396,7 @@
 
           <x-button
             v-if="$sectionData.slide.items[index].button"
-            v-styler:button=" {target:$sectionData.slide.items[index].button}"
-
+            v-styler:button="{ target: $sectionData.slide.items[index].button }"
             :index="index"
             :btn-data="$sectionData.slide.items[index].button"
             class="m-2"
@@ -418,8 +423,10 @@
                 variant="outlined"
                 class="ma-1"
                 title="Add action button."
-                ><v-icon color="success" start>add</v-icon> Add Action</v-btn
               >
+                <v-icon color="success" start>add</v-icon>
+                Add Action
+              </v-btn>
               <v-btn
                 key="del"
                 v-else
@@ -430,8 +437,10 @@
                   $sectionData.slide.items[index].button = null;
                   $forceUpdate();
                 "
-                ><v-icon color="red" start>close</v-icon> Remove Action</v-btn
               >
+                <v-icon color="red" start>close</v-icon>
+                Remove Action
+              </v-btn>
             </v-slide-x-reverse-transition>
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ End Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
@@ -442,22 +451,24 @@
               style="z-index: 100"
               @click.stop="removeSlide(index)"
               variant="outlined"
-              ><v-icon start color="red">close</v-icon> Delete Slide</v-btn
             >
+              <v-icon start color="red">close</v-icon>
+              Delete Slide
+            </v-btn>
           </v-sheet>
         </div>
       </swiper-slide>
 
-      <template v-slot:pagination
-        ><div class="swiper-pagination"></div
-      ></template>
+      <template v-slot:pagination>
+        <div class="swiper-pagination"></div>
+      </template>
 
-      <template v-if="$sectionData.slide.navigation" v-slot:button-prev
-        ><div class="swiper-button-prev"></div
-      ></template>
+      <template v-if="$sectionData.slide.navigation" v-slot:button-prev>
+        <div class="swiper-button-prev"></div>
+      </template>
       <template v-if="$sectionData.slide.navigation" v-slot:button-next>
-        <div class="swiper-button-next"></div
-      ></template>
+        <div class="swiper-button-next"></div>
+      </template>
     </swiper>
   </x-section>
 </template>
@@ -718,6 +729,7 @@ export default {
   display: flex;
   margin: auto;
   pointer-events: none;
+
   h1,
   h2,
   p,

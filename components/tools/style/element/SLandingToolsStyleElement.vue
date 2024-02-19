@@ -25,7 +25,12 @@
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
-    <v-card v-if="dialog_pre" class="text-start" flat>
+    <v-card
+      v-if="dialog_pre"
+      class="text-start"
+      flat
+      :style="pageStyleVariables"
+    >
       <!-- ████████████████████ Actions ████████████████████ -->
 
       <v-card-actions>
@@ -35,7 +40,7 @@
             @click="show_dialog_size = false"
             size="x-large"
           >
-            <v-icon class="me-1">close </v-icon>
+            <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -56,6 +61,8 @@
                 class="mx-1"
                 title="Width"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>fullscreen</v-icon>
                 {{ in_width }}
@@ -66,6 +73,8 @@
                 class="mx-1"
                 title="Min Width"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>fullscreen_exit</v-icon>
                 {{ in_minWidth }}
@@ -76,6 +85,8 @@
                 class="mx-1"
                 title="Max Width"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>crop_free</v-icon>
                 {{ in_maxWidth }}
@@ -87,6 +98,8 @@
                 class="mx-1"
                 title="Height"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>fullscreen</v-icon>
                 {{ in_height }}
@@ -97,6 +110,8 @@
                 class="mx-1"
                 title="Min Height"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>fullscreen_exit</v-icon>
                 {{ in_minHeight }}
@@ -107,6 +122,8 @@
                 class="mx-1"
                 title="Max Height"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>crop_free</v-icon>
                 {{ in_maxHeight }}
@@ -235,6 +252,8 @@
                 class="mx-1"
                 title="Padding Left"
                 label
+                variant="tonal"
+                color="green"
                 >Left: {{ in_paddingLeft }}
               </v-chip>
               <v-chip
@@ -243,6 +262,8 @@
                 class="mx-1"
                 title="Padding Right"
                 label
+                variant="tonal"
+                color="green"
                 >Right: {{ in_paddingRight }}
               </v-chip>
               <v-chip
@@ -251,6 +272,8 @@
                 class="mx-1"
                 title="Padding top"
                 label
+                variant="tonal"
+                color="green"
                 >top: {{ in_paddingTop }}
               </v-chip>
               <v-chip
@@ -259,6 +282,8 @@
                 class="mx-1"
                 title="Padding Bottom"
                 label
+                variant="tonal"
+                color="green"
                 >Bottom: {{ in_paddingBottom }}
               </v-chip>
             </div>
@@ -330,6 +355,8 @@
                 class="mx-1"
                 title="Margin Left"
                 label
+                variant="tonal"
+                color="green"
                 >Left: {{ in_marginLeft }}
               </v-chip>
               <v-chip
@@ -338,6 +365,8 @@
                 class="mx-1"
                 title="Margin Right"
                 label
+                variant="tonal"
+                color="green"
                 >Right: {{ in_marginRight }}
               </v-chip>
               <v-chip
@@ -346,6 +375,8 @@
                 class="mx-1"
                 title="Margin top"
                 label
+                variant="tonal"
+                color="green"
                 >top: {{ in_marginTop }}
               </v-chip>
               <v-chip
@@ -354,6 +385,8 @@
                 class="mx-1"
                 title="Margin Bottom"
                 label
+                variant="tonal"
+                color="green"
                 >Bottom: {{ in_marginBottom }}
               </v-chip>
             </div>
@@ -427,6 +460,8 @@
                 class="mx-1"
                 title="Border Left"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>border_left</v-icon>
                 {{ getName(in_borderLeft) }}
@@ -439,6 +474,8 @@
                 class="mx-1"
                 title="Border Right"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>border_right</v-icon>
                 {{ getName(in_borderRight) }}
@@ -449,6 +486,8 @@
                 class="mx-1"
                 title="Border Top"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>border_top</v-icon>
                 {{ getName(in_borderTop) }}
@@ -461,6 +500,8 @@
                 class="mx-1"
                 title="Border Bottom"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>border_bottom</v-icon>
                 {{ getName(in_borderBottom) }}
@@ -472,6 +513,8 @@
                 class="mx-1"
                 title="Border Left"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>rounded_corner</v-icon>
                 {{ getName(in_borderRadius) }}
@@ -566,6 +609,8 @@
                 :key="i"
                 class="mx-1"
                 label
+                variant="tonal"
+                color="green"
                 >{{ getName(it) }}
               </v-chip>
             </div>
@@ -630,6 +675,7 @@
                 closable-chips
                 clearable
                 class="max-w-640 mx-auto"
+                variant="underlined"
               >
               </v-combobox>
             </div>
@@ -650,6 +696,8 @@
                 class="mx-1"
                 title="Shadow"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>layers</v-icon>
                 {{ isObject(shadow) ? "Custom Shadow" : "Has Shadow" }}
@@ -823,6 +871,8 @@
                 class="mx-1"
                 title="Filter"
                 label
+                variant="tonal"
+                color="green"
               >
                 <v-icon size="x-small" start>photo_filter</v-icon>
                 Has Filter
@@ -858,6 +908,8 @@
                 class="mx-1"
                 title="Rotate"
                 label
+                variant="tonal"
+                color="green"
                 >R {{ transform.rotate }}°
               </v-chip>
               <v-chip
@@ -866,6 +918,8 @@
                 class="mx-1"
                 title="Rotate X"
                 label
+                variant="tonal"
+                color="green"
                 >Rx {{ transform.rotateX }}°
               </v-chip>
               <v-chip
@@ -874,6 +928,8 @@
                 class="mx-1"
                 title="Rotate Y"
                 label
+                variant="tonal"
+                color="green"
                 >Ry {{ transform.rotateY }}°
               </v-chip>
               <v-chip
@@ -882,6 +938,8 @@
                 class="mx-1"
                 title="Rotate Z"
                 label
+                variant="tonal"
+                color="green"
                 >Rz {{ transform.rotateZ }}°
               </v-chip>
 
@@ -895,6 +953,8 @@
                 class="mx-1"
                 title="Translate X"
                 label
+                variant="tonal"
+                color="green"
                 >Tx {{ getName(transform.translateX) }}
               </v-chip>
               <v-chip
@@ -907,6 +967,8 @@
                 class="mx-1"
                 title="Translate Y"
                 label
+                variant="tonal"
+                color="green"
                 >Ty {{ getName(transform.translateY) }}
               </v-chip>
               <v-chip
@@ -919,6 +981,8 @@
                 class="mx-1"
                 title="Translate Z"
                 label
+                variant="tonal"
+                color="green"
                 >Tz {{ getName(transform.translateZ) }}
               </v-chip>
 
@@ -930,6 +994,8 @@
                 class="mx-1"
                 title="Scale X"
                 label
+                variant="tonal"
+                color="green"
                 >Sx {{ getName(transform.scaleX) }}
               </v-chip>
               <v-chip
@@ -940,6 +1006,8 @@
                 class="mx-1"
                 title="Scale Y"
                 label
+                variant="tonal"
+                color="green"
                 >Sy {{ getName(transform.scaleY) }}
               </v-chip>
 
@@ -951,6 +1019,8 @@
                 class="mx-1"
                 title="Skew X"
                 label
+                variant="tonal"
+                color="green"
                 >Kx {{ getName(transform.skewX) }}
               </v-chip>
               <v-chip
@@ -961,6 +1031,8 @@
                 class="mx-1"
                 title="Skew Y"
                 label
+                variant="tonal"
+                color="green"
                 >Ky {{ getName(transform.skewY) }}
               </v-chip>
             </div>
@@ -1165,6 +1237,8 @@ import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import LandingGlobalEditorDialog from "@app-page-builder/mixins/LandingGlobalEditorDialog";
 
 const STYLE_TABS = [
   "size",
@@ -1179,7 +1253,7 @@ const STYLE_TABS = [
 
 export default {
   name: "SLandingToolsStyleElement",
-  mixins: [PageEventBusMixin],
+  mixins: [PageEventBusMixin,LandingGlobalEditorDialog],
   components: {
     SSmartSwitch,
     SSmartToggle,
@@ -1192,7 +1266,9 @@ export default {
     SNumberDimensionInput,
   },
 
-  props: {},
+  props: {
+
+  },
   data: () => ({
     el_style: null,
     el_class: null,
@@ -1254,6 +1330,8 @@ export default {
   }),
 
   computed: {
+
+
     available_tabs() {
       if (this.has_size) return STYLE_TABS;
       return STYLE_TABS.slice(1);

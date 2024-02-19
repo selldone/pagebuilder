@@ -24,7 +24,9 @@
       max-width-normal="1550px"
     >
       <h2
-        v-styler:text="$sectionData.title"
+        v-styler:text="{target:$sectionData,keyText:'title'}   "
+
+
         class="my-5"
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
@@ -42,7 +44,9 @@
       ></s-storefront-products-listing>
 
       <p
-        v-styler:text="$sectionData.text"
+        v-styler:text="{target:$sectionData,keyText:'text'}   "
+
+
         class="my-5"
         v-html="$sectionData.text?.applyAugment(augment, $builder.isEditing)"
       />

@@ -33,11 +33,11 @@ export const LandingHistoryMixin = defineComponent({
   computed: {
     hasUndo() {
       /* console.log(
-                     "hasUndo",
-                     this.builder.historyIndex,
-                     this.builder.history.length,
-                     this.builder.historyIndex + 1 < this.builder.history.length,
-                   );*/
+                           "hasUndo",
+                           this.builder.historyIndex,
+                           this.builder.history.length,
+                           this.builder.historyIndex + 1 < this.builder.history.length,
+                         );*/
       return this.builder.historyIndex + 1 < this.builder.history.length;
     },
     hasRedo() {
@@ -120,11 +120,13 @@ export const LandingHistoryMixin = defineComponent({
           (it) => it.id === raw.id && it.name === raw.name,
         );
         if (found) {
-          found.data = raw.data;
+          Object.assign(found.data, raw.data); // 🪱 Keep data link from component <-> v-styler <-> styler component
+
+          //found.data = raw.data;
           if (DEBUG) console.log("goUndo", "3 Update", found);
           this.builder.sections.push(found);
         } else {
-          this.builder.add(raw, index, false,false);
+          this.builder.add(raw, index, false, false);
           if (DEBUG) console.log("goUndo", "3 Add", raw);
         }
         index++;

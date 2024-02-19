@@ -25,11 +25,11 @@
     color="#1e1e1e"
     class="x-page-builder-options-slider"
   >
-    <v-card class="text-start" flat>
+    <v-card class="text-start" flat :style="pageStyleVariables">
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" @click="show_edit_style = false" size="x-large">
-            <v-icon class="me-1">close </v-icon>
+            <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -40,7 +40,10 @@
           title="Background color"
           v-model="bg_color"
           nullable
-        ></s-color-selector>
+        ><template v-slot:append-title>
+          <v-chip v-if="bg_color" label size="x-small" class="ma-1">{{bg_color}}</v-chip>
+        </template>
+        </s-color-selector>
         <background-image-editor
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
@@ -71,11 +74,12 @@ import { HighlightEditingElements } from "@app-page-builder/src/helpers/Highligh
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import LandingGlobalEditorDialog from "@app-page-builder/mixins/LandingGlobalEditorDialog";
 
 export default {
   name: "GlobalBackgroundEditorDialog",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin, LandingGlobalEditorDialog],
 
   components: {
     SColorSelector,

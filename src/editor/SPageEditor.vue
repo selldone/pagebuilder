@@ -613,8 +613,8 @@
 
     <!-- ――――――――――――――――――――――  Dialog Master Style ―――――――――――――――――――― -->
 
-    <s-landing-tools-style-element></s-landing-tools-style-element>
-    <global-background-editor-dialog></global-background-editor-dialog>
+    <s-landing-tools-style-element :builder="$builder"></s-landing-tools-style-element>
+    <global-background-editor-dialog  :builder="$builder"></global-background-editor-dialog>
     <global-product-select-dialog></global-product-select-dialog>
     <global-products-categories-select-dialog></global-products-categories-select-dialog>
 

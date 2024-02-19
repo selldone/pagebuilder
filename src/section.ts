@@ -136,6 +136,7 @@ export class Section implements Section.ISection {
       instance.unmount();
       container.remove();
     });
+    this.stylers = [];
   }
 }
 

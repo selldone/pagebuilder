@@ -16,7 +16,7 @@ import {Section} from "./section";
 import SPageEditor from "./editor/SPageEditor.vue";
 import SPageRender from "../SPageRender.vue";
 import SectionMixin from "../mixins/SectionMixin";
-import {isObject, removeBRFromSectionData} from "./util";
+import {removeBRFromSectionData} from "./util";
 import SPageRenderPopup from "../SPageRenderPopup.vue";
 import {App, defineComponent, provide, reactive} from "vue";
 import XColumnImageText from "@app-page-builder/sections/components/XColumnImageText.vue";
@@ -59,6 +59,7 @@ import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
 import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
 import {MigrateFromOldVersion} from "@app-page-builder/src/MigrateFromOldVersion";
+import {isObject} from "lodash-es";
 
 export namespace Landing {
   export interface IBuilderOptions {
@@ -367,7 +368,6 @@ class SelldonePageBuilderCore {
 
     MigrateFromOldVersion(data);
 
-
     this.style = data.style;
 
     this.title = data.title !== undefined ? data.title : this.title;
@@ -402,7 +402,8 @@ class SelldonePageBuilderCore {
     });
 
     this.sections.forEach((section) => {
-      section.data = removeBRFromSectionData(section.data);
+      // removeBRFromSectionData(section.data);
+      Object.assign(section.data, removeBRFromSectionData(section.data)); // 🪱 Keep data link from component <-> v-styler <-> styler component
     });
 
     return {

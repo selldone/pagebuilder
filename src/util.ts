@@ -14,18 +14,10 @@
 
 import getPath from "lodash/get";
 import * as types from "./types";
+import {isObject, isString} from "lodash-es";
 
-export function isObject(obj) {
-  return obj && typeof obj === "object" && obj !== null && !Array.isArray(obj);
-}
-
-function isString(value) {
-  if (!value) return true;
-  return typeof value === "string" || value instanceof String;
-}
-
-export function isParentTo(target, parent) {
-  let currentNode = target;
+export function isParentTo(target: HTMLElement, parent: HTMLElement) {
+  let currentNode: ParentNode | null = target;
   while (currentNode !== null) {
     if (currentNode === parent) return true;
     currentNode = currentNode.parentNode;
@@ -38,7 +30,7 @@ export function isParentTo(target, parent) {
  * @param {String} target
  * @param {Object} schema
  */
-export function getTypeFromSchema(target, schema) {
+export function getTypeFromSchema(target: string, schema: Object) {
   const tempTarget = target.split(".");
   tempTarget.shift();
   const value = getPath(schema, tempTarget.join("."));
@@ -57,7 +49,7 @@ export function getTypeFromSchema(target, schema) {
   return null;
 }
 
-export function getImageBlob(URL) {
+export function getImageBlob(URL: string) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", URL);
@@ -74,7 +66,7 @@ export function getImageBlob(URL) {
   });
 }
 
-export function getTypeFromTagName(tagName) {
+export function getTypeFromTagName(tagName: string) {
   tagName = tagName.toUpperCase();
   switch (tagName) {
     case "H1":
@@ -108,10 +100,16 @@ export function getTypeFromTagName(tagName) {
   }
 }
 
-export function cleanDOM(artboard) {
-  const editables = Array.from(artboard.querySelectorAll(".is-editable"));
-  const uploaders = Array.from(artboard.querySelectorAll(".uploader"));
-  const stylers = Array.from(artboard.querySelectorAll(".styler"));
+export function cleanDOM(artboard: HTMLElement) {
+  const editables: HTMLElement[] = Array.from(
+    artboard.querySelectorAll(".is-editable"),
+  );
+  const uploaders: HTMLElement[] = Array.from(
+    artboard.querySelectorAll(".uploader"),
+  );
+  const stylers: HTMLElement[] = Array.from(
+    artboard.querySelectorAll(".styler"),
+  );
 
   editables.forEach((el) => {
     el.contentEditable = "inherit";
@@ -127,7 +125,7 @@ export function cleanDOM(artboard) {
     const input = el.querySelector(":scope > input");
     const image = el.querySelector(":scope > img");
 
-    image.classList.add("add-full-width");
+    image?.classList.add("add-full-width");
     el.classList.remove("uploader");
 
     if (input) input.remove();
@@ -142,7 +140,7 @@ export function cleanDOM(artboard) {
 
 export function iterateOverSectionData(
   data: { [key: string]: any },
-  callback,
+  callback: (text: any) => any,
 ): any {
   if (!data) return null;
 
@@ -150,8 +148,8 @@ export function iterateOverSectionData(
     return data.map((v) => iterateOverSectionData(v, callback));
   }
   if (isObject(data)) {
-    const out = {};
-    Object.keys(data).forEach((key) => {
+    const out: any = {};
+    Object.keys(data).forEach((key: string) => {
       out[key] = iterateOverSectionData(data[key], callback);
     });
     return out;
@@ -168,7 +166,7 @@ export function iterateOverSectionData(
 export function removeBRFromSectionData(data: { [key: string]: any }) {
   // console.log('removeBR',data)
 
-  return iterateOverSectionData(data, (text) => {
+  return iterateOverSectionData(data, (text: any) => {
     if (isString(text) && text.trim() === "<br>") {
       console.log("🌶 Remove empty tags", text);
       return "";
@@ -184,9 +182,9 @@ export function removeBRFromSectionData(data: { [key: string]: any }) {
  */
 export function findAllFontsInSection(data: { [key: string]: any }) {
   // console.log('removeBR',data)
-  const fonts = [];
+  const fonts: string[] = [];
 
-  iterateOverSectionData(data, (text) => {
+  iterateOverSectionData(data, (text: any) => {
     if (isString(text)) {
       const div = document.createElement("div");
       div.innerHTML = text.trim();

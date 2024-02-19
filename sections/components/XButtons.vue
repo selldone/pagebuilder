@@ -42,13 +42,14 @@
 
     <x-button
       v-for="(col, index) in object.buttons"
+      :key="`${index}-${object.buttons.length}`"
       v-styler:button="{
-        target: object.buttons[index],
+        target: col,
         remove: () => {
-          object.buttons=Object.assign([],object.buttons.splice(index, 1));
+          object.buttons.splice(index, 1);
         },
       }"
-      :btn-data="object.buttons[index]"
+      :btn-data="col"
       class="m-2"
       :editing="$builder.isEditing"
       :augment="augment"

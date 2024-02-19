@@ -105,7 +105,7 @@
             >
               <div>
                 <h2
-                  v-styler:text="$sectionData.slide.items[index].title"
+                  v-styler:text="{target:$sectionData.slide.items[index],keyText:'title'}  "
                   v-html="
                     $sectionData.slide.items[index].title?.applyAugment(
                       augment,
@@ -115,7 +115,7 @@
                   :index="index"
                 />
                 <p
-                  v-styler:text="$sectionData.slide.items[index].subtitle"
+                  v-styler:text="{target:$sectionData.slide.items[index],keyText:'subtitle'}   "
                   v-html="
                     $sectionData.slide.items[index].subtitle?.applyAugment(
                       augment,
@@ -219,7 +219,7 @@
           ]"
         >
           <h3
-            v-styler:text="$sectionData.slide.items[index].thumb_title"
+            v-styler:text="{target:$sectionData.slide.items[index],keyText:'thumb_title'}   "
             v-html="
               $sectionData.slide.items[index].thumb_title?.applyAugment(
                 augment,
@@ -229,7 +229,7 @@
             :index="index"
           />
           <p
-            v-styler:text="$sectionData.slide.items[index].thumb_subtitle"
+            v-styler:text="{target:$sectionData.slide.items[index],keyText:'thumb_subtitle'}    "
             v-html="
               $sectionData.slide.items[index].thumb_subtitle?.applyAugment(
                 augment,

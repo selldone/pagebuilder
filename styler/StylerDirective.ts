@@ -23,6 +23,8 @@ import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue"
 import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";
 import * as types from "@app-page-builder/src/types";
 import SStylerButton from "@app-page-builder/styler/button/SStylerButton.vue";
+import SStylerSection from "@app-page-builder/styler/section/SStylerSection.vue";
+import SStylerText from "@app-page-builder/styler/text/SStylerText.vue";
 
 export namespace StylerOptions {
   export interface IButtonsRow {
@@ -33,7 +35,7 @@ export namespace StylerOptions {
 
   export interface IButton {
     target: types.Button;
-    remove: ()=>void; // default: false
+    remove: () => void; // default: false
     noLink: boolean; // default: false
     hasAlign: boolean; // default: false
   }
@@ -48,15 +50,17 @@ export namespace StylerOptions {
     hasAdd: boolean; // default: false
     hasFluid: boolean; // default: false
   }
-
-
 }
 
 const StylerDirective: ObjectDirective<
   HTMLElement,
   StylerOptions.IButtonsRow | StylerOptions.IRow
 > = {
-  mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+  mounted(
+    el: HTMLElement & { $section?: Section },
+    binding: DirectiveBinding,
+    vnode: VNode,
+  ) {
     const instance = binding.instance as ComponentInstance<{
       $builder: SelldonePageBuilderCore;
       $section: Section;
@@ -67,6 +71,7 @@ const StylerDirective: ObjectDirective<
 
     // Get section from parent section
     const section: Section = instance.$section;
+    el.$section = section; // To accessible from element.
 
     LOG(
       "arg",
@@ -115,7 +120,7 @@ const StylerDirective: ObjectDirective<
 
     const argument =
       binding.arg ||
-      getTypeFromSchema(expression, instance.$section.schema) ||
+      getTypeFromSchema(expression, section.schema) ||
       getTypeFromTagName(el.tagName);
 
     // Create and mount the Styler component
@@ -125,9 +130,15 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerButtons;
     } else if (argument === "button") {
       stylerComponent = SStylerButton;
-    }else if (argument === "row") {
+    } else if (argument === "row") {
       stylerComponent = SStylerRow;
+    } else if (argument === "section") {
+      stylerComponent = SStylerSection;
+    }else if (argument === "text") {
+      stylerComponent = SStylerText;
     }
+
+
 
     const StylerComponent = defineComponent({
       extends: stylerComponent as any,
@@ -137,7 +148,7 @@ const StylerDirective: ObjectDirective<
     });
 
     // Create a new Vue app with the SArticleAddonComparison component
-    const app = createApp({
+    const vnode_styler = createApp({
       render: () =>
         h(StylerComponent, {
           route: instance.$route,
@@ -153,16 +164,16 @@ const StylerDirective: ObjectDirective<
     });
 
     // Use Vuetify and i18n instances
-    app.use(window.$global_vuetify);
-    app.use(instance.$i18n);
-    app.use(instance.$router);
-    app.use(instance.$store);
+    vnode_styler.use(window.$global_vuetify);
+    vnode_styler.use(instance.$i18n);
+    vnode_styler.use(instance.$router);
+    vnode_styler.use(instance.$store);
 
-    installGlobalComponents(app);
+    installGlobalComponents(vnode_styler);
 
     // Create a temporary element to mount the app
     try {
-      app.mount(newNode);
+      vnode_styler.mount(newNode);
     } catch (e) {
       console.log("binding value", binding.value);
       console.log("props", {
@@ -181,17 +192,38 @@ const StylerDirective: ObjectDirective<
       return;
     }
 
-    section.stylers.push({ instance: app, container: newNode });
+    section.stylers.push({ instance: vnode_styler, container: newNode });
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
   },
 
-  updated(el: HTMLElement) {
+  updated(
+    el: HTMLElement & { $section?: Section },
+    binding: DirectiveBinding,
+    vnode: VNode,
+  ) {
+    // Check if binding.value has changed
+    if ( binding.oldValue !== binding.value) {
+      console.log("Styler directive updated", binding.value, "el", el);
+    }
+   /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
+      console.log("Styler directive updated", binding.value, "el", el);
+      Object.assign(el.$instance._component.props, binding.value);
+    }*/
+
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
+  },
+
+  beforeUnmount(
+    el: HTMLElement & { $section?: Section },
+    binding: DirectiveBinding,
+  ) {
+    // Make sure to remove stylers instance here. The stylers should destroy in the {section.destroy} method
+    el.$section?.destroy();
   },
 };
 

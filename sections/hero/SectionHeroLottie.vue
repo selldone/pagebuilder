@@ -31,7 +31,7 @@
           class="position-relative"
         >
           <h1
-            v-styler:text="$sectionData.title"
+            v-styler:text="{target:$sectionData,keyText:'title'} "
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
@@ -39,7 +39,7 @@
           />
 
           <p
-            v-styler:text="$sectionData.content"
+            v-styler:text="{target:$sectionData,keyText:'content'} "
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "

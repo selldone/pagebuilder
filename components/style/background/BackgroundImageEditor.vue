@@ -15,11 +15,11 @@
 <template>
   <div>
     <div
-      class="grad-layer bg-tiny-checkers-dark mx-auto mb-3 position-relative"
+      class="grad-layer bg-tiny-checkers-dark mx-auto mb-3 position-relative text-center"
     >
-      <v-list-subheader class="center-absolute">{{
+      <div class="center-absolute pa-2">{{
         $t("global.commons.preview")
-      }}</v-list-subheader>
+      }}</div>
       <div :style="final_bg_styles" class="grad-layer"></div>
     </div>
 

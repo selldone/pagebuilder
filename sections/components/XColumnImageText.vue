@@ -24,7 +24,7 @@
             layout_class === 'x-layout-middle' &&
             (object.title || SHOW_EDIT_TOOLS)
           "
-          v-styler:text="`${path}.title`"
+          v-styler:text="{target:object,keyText:'title'} "
           class="mb-3"
           v-html="object.title?.applyAugment(augment, $builder.isEditing)"
         />
@@ -49,14 +49,14 @@
               layout_class !== 'x-layout-middle' &&
               (object.title || SHOW_EDIT_TOOLS)
             "
-            v-styler:text="`${path}.title`"
+            v-styler:text="{target:object,keyText:'title'} "
             class="mb-3"
             v-html="object.title?.applyAugment(augment, $builder.isEditing)"
           />
 
           <p
             v-if="object.content || SHOW_EDIT_TOOLS"
-            v-styler:text="`${path}.content`"
+            v-styler:text="{target:object,keyText:'content'} "
             class="mt-2"
             v-html="object.content?.applyAugment(augment, $builder.isEditing)"
             :class="contentClass"

@@ -16,24 +16,25 @@
   <!-- IMPORTANT: Element must have -trackable class! -->
   <v-btn
     class="x--button tnt -trackable"
-    :class="[btnData.classes, { 'button-glow': is_glow }]"
+    :class="[btnData.classes, { '-button-glow': is_glow }]"
     :href="editing ? ' ' : btnData.href"
     v-html="btnData.content?.applyAugment(augment, editing)"
-    :color="is_glow ? undefined : btnData.color"
+    :color="btnData.color"
     :icon="btnData.icon"
-    :theme="btnData.dark ? 'dark' : 'light'"
     :variant="
-      btnData.variant
-        ? btnData.variant
-        : btnData.depressed
-          ? 'flat'
-          : btnData.outlined
-            ? 'outlined'
-            : btnData.text
-              ? 'text'
-              : btnData.fab
-                ? 'elevated'
-                : undefined
+      is_glow
+        ? 'elevated'
+        : btnData.variant
+          ? btnData.variant
+          : btnData.depressed
+            ? 'flat'
+            : btnData.outlined
+              ? 'outlined'
+              : btnData.text
+                ? 'text'
+                : btnData.fab
+                  ? 'elevated'
+                  : undefined
     "
     :size="
       btnData.size
@@ -57,7 +58,8 @@
     :loading="loading"
     :elevation="btnData.elevation"
     :height="btnData.height"
-    :style="{fontFamily: btnData.font}"
+    :style="{ fontFamily: btnData.font, '--shadow-color': btnData.color }"
+    :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
   >
   </v-btn>
 </template>
@@ -79,8 +81,43 @@ export default {
         this.btnData.variant === "glow" /*New*/ || this.btnData.glow
       ); /*Old*/
     },
+    is_dark() {
+      if (typeof this.btnData.color === "string") {
+        return this.btnData.color.includes("-dark-"); // ex. var(--plate-dark-4)
+      }
+      return false;
+    },
+    is_light() {
+      if (typeof this.btnData.color === "string") {
+        return this.btnData.color.includes("-light-"); // ex. var(--plate-light-4)
+      }
+      return false;
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.x--button {
+  &.-button-glow {
+    text-align: center;
+
+    background-size: 300% 100%;
+
+    transition: all 0.4s ease-in-out;
+
+    background: var(--shadow-color);
+    box-shadow: 0 4px 15px 0 var(--shadow-color) !important;
+
+    &:hover {
+      background-position: 100% 0 !important;
+      transition: all 0.4s ease-in-out;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+</style>

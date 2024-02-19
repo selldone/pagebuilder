@@ -46,7 +46,7 @@
         <v-divider class="mx-2" vertical inset></v-divider>
       </template>
 
-      <!-- ―――――――――――――――――― Colors ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Background Color ―――――――――――――――――― -->
 
       <li>
         <button class="styler-button" @click="updateOption('colorer')">
@@ -56,15 +56,13 @@
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
+            attach
           >
             Background
-            <v-chip v-if="bg_color_class" size="small" pill class="ma-1">
-              {{ bg_color_class }}
-            </v-chip>
 
-            <v-chip v-if="custom_color_value" size="small" pill class="ma-1">
-              <v-icon start :color="custom_color_value">circle</v-icon>
-              {{ custom_color_value }}
+            <v-chip v-if="target[keyColor]" size="small" pill class="ma-1">
+              <v-icon start :color="target[keyColor]">circle</v-icon>
+              {{ target[keyColor] }}
             </v-chip>
           </v-tooltip>
         </button>
@@ -114,7 +112,7 @@
         </button>
       </li>
 
-      <!-- ―――――――――――――――――― Text & Button caption―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Text & Button caption ―――――――――――――――――― -->
       <li>
         <button class="styler-button" @click="updateOption('textColor')">
           <v-icon size="20">format_color_text</v-icon>
@@ -138,7 +136,7 @@
             location="bottom"
             content-class="bg-black white--text"
             max-width="320"
-            >Change font
+            >Change font <v-chip v-if="target.font" size="x-small" class="mx-1" :style="{fontFamily:target.font}">{{target.font}}</v-chip>
           </v-tooltip>
         </button>
       </li>
@@ -185,36 +183,16 @@
         </ul>
       </li>
 
-      <!-- ―――――――――――――――――― Color ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Background Color ―――――――――――――――――― -->
 
-      <li v-if="option === 'colorer'">
-        <ul class="colorer">
-          <li v-for="color_plate in COLORS_LIGHT" :key="color_plate">
-            <input
-              :class="color_plate"
-              v-model="bg_color_class"
-              type="radio"
-              :value="color_plate"
-              @change="changeColor()"
-            />
-          </li>
-
-          <v-btn
-            icon
-            class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-            @click="
-              showColorDialog(
-                custom_color_value,
-                setCustomColorerBgSection,
-                true,
-              )
-            "
-            size="30"
-          >
-            <v-icon :color="custom_color_value" size="20">adjust</v-icon>
-          </v-btn>
-        </ul>
-      </li>
+      <s-styler-tools-colors
+        v-if="option === 'colorer'"
+        v-model="target[keyColor]"
+        :light-colors="PLATE_LIGHT_VARS"
+        :dark-colors="PLATE_DARK_VARS"
+        @update:model-value="removeClass(`bg--`)"
+      >
+      </s-styler-tools-colors>
 
       <!-- ―――――――――――――――――― Link ―――――――――――――――――― -->
 
@@ -259,9 +237,11 @@
             color="#fff"
             @click="target.variant = variant"
             rounded
-            :class="{ 'button-glow': variant === 'glow' }"
+            :class="{ '-button-glow': variant === 'glow' }"
             :style="
-              variant === 'glow' ? 'font-size: 14px;color: #000;' : undefined
+              variant === 'glow'
+                ? 'color: #000;--shadow-color:#fff;'
+                : undefined
             "
           >
             <v-scale-transition leave-absolute>
@@ -291,39 +271,40 @@
           </v-scale-transition>
           {{ rounded }}
         </v-btn>
-        <small class="d-block my-1 text-start px-3">Other:</small>
 
-        <v-row align="center" justify="center" class="ma-0">
-          <v-col
-            v-if="target.variant !== 'glow' /*Not supported for this variant*/"
-            cols="12"
-            sm="6"
-          >
-            <v-slide-y-transition hide-on-leave>
-              <v-btn
-                v-if="
-                  target.elevation === null || target.elevation === undefined
-                "
-                class="tnt"
-                size="small"
-                variant="plain"
-                @click="target.elevation = 0"
-              >
-                <v-icon start>layers_clear</v-icon>
-                Set elevation
-              </v-btn>
-              <s-number-input
-                e-else
-                v-model="target.elevation"
-                :min="0"
-                :max="24"
-                label="Elevation"
-                clearable
-                @clear="target.elevation === null"
-              ></s-number-input>
-            </v-slide-y-transition>
-          </v-col>
-        </v-row>
+        <template
+          v-if="target.variant !== 'glow' /*Not supported for this variant*/"
+        >
+          <small class="d-block my-1 text-start px-3">Other:</small>
+
+          <v-row align="center" justify="center" class="ma-0">
+            <v-col cols="12" sm="6">
+              <v-slide-y-transition hide-on-leave>
+                <v-btn
+                  v-if="
+                    target.elevation === null || target.elevation === undefined
+                  "
+                  class="tnt"
+                  size="small"
+                  variant="plain"
+                  @click="target.elevation = 0"
+                >
+                  <v-icon start>layers_clear</v-icon>
+                  Set elevation
+                </v-btn>
+                <s-number-input
+                  e-else
+                  v-model="target.elevation"
+                  :min="0"
+                  :max="24"
+                  label="Elevation"
+                  clearable
+                  @clear="target.elevation === null"
+                ></s-number-input>
+              </v-slide-y-transition>
+            </v-col>
+          </v-row>
+        </template>
       </li>
 
       <!-- ―――――――――――――――――― Button Size ―――――――――――――――――― -->
@@ -388,15 +369,13 @@
       <div v-if="option === 'text-font'" class="flex-grow-1 pa-1">
         <v-select
           :items="fonts"
-          v-model="text_font"
+          v-model="target.font"
           variant="solo"
           clearable
           class="mx-2"
-          @update:model-value="setFont"
           messages=" "
           placeholder="Select a font..."
           rounded
-
         >
           <template v-slot:item="{ item, props }">
             <v-list-item v-bind="props" @click.stop>
@@ -429,8 +408,13 @@ import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin"
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import {
+  PageBuilderColorsHelper,
+  PLATE_DARK_VARS,
+  PLATE_LIGHT_VARS,
+} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
 const TextAlign = [
   { val: "left", icon: "format_align_left" },
@@ -446,55 +430,13 @@ const ButtonAlign = [
 
 
 
-const COLORSxxxxxxx = [
-  "samin",
-  "pink",
-  "black",
-  "green",
-  "blue",
-  "white",
-  "deep-purple",
-  "teal",
-  "cyan",
-  "amber",
-  "blue-grey",
-  "transparent",
-];
-const COLORS_LIGHT=[
-    'bg--plate-light-1',
-    'bg--plate-light-2',
-    'bg--plate-light-3',
-    'bg--plate-light-4',
-    'bg--plate-light-5',
-    'bg--plate-light-6',
-    'bg--plate-light-7',
-    'bg--plate-light-8',
-    'bg--plate-light-9',
-    'bg--plate-light-10',
-    'bg--plate-light-11',
-    'bg--plate-light-12',
-]
-const COLORS_DARK=[
-  'bg--plate-dark-1',
-  'bg--plate-dark-2',
-  'bg--plate-dark-3',
-  'bg--plate-dark-4',
-  'bg--plate-dark-5',
-  'bg--plate-dark-6',
-  'bg--plate-dark-7',
-  'bg--plate-dark-8',
-  'bg--plate-dark-9',
-  'bg--plate-dark-10',
-  'bg--plate-dark-11',
-  'bg--plate-dark-12',
-]
-
 export default {
   name: "SStylerButton",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
   components: {
+    SStylerToolsColors,
     SNumberInput,
     SStylerIcon,
     SStylerTemplate,
@@ -553,8 +495,8 @@ export default {
   data: () => ({
     TextAlign: TextAlign,
     ButtonAlign: ButtonAlign,
-    COLORS_LIGHT: COLORS_LIGHT,
-    COLORS_DARK: COLORS_DARK,
+    PLATE_LIGHT_VARS: PLATE_LIGHT_VARS,
+    PLATE_DARK_VARS: PLATE_DARK_VARS,
 
     BtnSizes: [
       { val: "x-small", title: "X Small" },
@@ -577,12 +519,7 @@ export default {
 
     option: null,
 
-    bg_color_class: "",
-
-    custom_color_value: null,
-
     text_color_display: null, // Just for display!
-    text_font: null,
   }),
 
   computed: {
@@ -626,8 +563,6 @@ export default {
       throw new Error("Target is required for SStylerButtons");
     }
 
-    console.log("this.target", this.target);
-
     this.el.contentEditable = "true";
 
     // New style:
@@ -649,28 +584,9 @@ export default {
     delete this.target.small;
     delete this.target.large;
     delete this.target.xLarge;
-
-    this.custom_color_value = this.target[this.keyColor];
-    console.log("this.custom_color_value", this.custom_color_value);
-
-    // Find color set in class:
-    this.bg_color_class = COLORS_LIGHT.find((i) =>
-      this.target.classes.includes(`is-${i}`),
-    );
-
-
-
   },
   mounted() {
 
-    // Set font:
-    if (
-        this.el.childElementCount === 1 &&
-        this.el.firstChild.nodeName === "DIV"
-    ) {
-      this.text_font = this.el.firstChild.style.fontFamily;
-      console.log("this.text_font", this.text_font);
-    }
 
 
   },
@@ -699,21 +615,12 @@ export default {
       this.setElementClass("text-align-", val, true);
     },
 
-    changeColor() {
-      this.removeClass(`bg--`);
-      this.addClass(this.bg_color_class);
+    setBackground(color) {
+      this.removeClass(`bg--`); // remove all bg-- classes! (bg--plate-light-1, bg--plate-light-2, ...)
 
-      // Remove custom color property:
-      this.target[this.keyColor] = null;
-    },
-
-    setCustomColorerBgSection(color) {
       console.log("Set custom color:", color);
-      this.bg_color_class = null;
-      this.custom_color_value = color;
-      this.removeClass(`is-`); // Remove all color class!
 
-      this.target[this.keyColor] = color;
+      this.target[this.keyColor] = color; // ex. var(--bg--plate-light-1) , #874000
       this.target.glow = false;
     },
 
@@ -768,18 +675,7 @@ export default {
       this.option = null;
     },
 
-    // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Font ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
-    /*
-    Set root element font! not selected!
-     */
-    setFont(font) {
-      console.log("📐 Set font", font, this.el);
-      this.target.font=font;
-      return;
-      this.restoreSelection();
-      this.setTextRootElementStyle("font-family", font, true);
-    },
   },
 };
 </script>

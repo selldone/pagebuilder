@@ -437,6 +437,7 @@ import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import {PageBuilderColorsHelper} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 
 export default {
   name: "SLandingToolsStylePage",
@@ -492,41 +493,43 @@ export default {
         this.dialog_master_style = show;
         this.tab = ["background", "menu"].indexOf(tab);
 
-        if (!style.plate_light_1) style.plate_light_1 = "#70557e";
-        if (!style.plate_dark_1) style.plate_dark_1 = "#3a2c41";
+        if (!style.plate_light_1) style.plate_light_1 = PageBuilderColorsHelper.PLATE_LIGHT_1;
+        if (!style.plate_dark_1) style.plate_dark_1 = PageBuilderColorsHelper.PLATE_DARK_1;
 
-        if (!style.plate_light_2) style.plate_light_2 = "#e91e63";
-        if (!style.plate_dark_2) style.plate_dark_2 = "#d32f2f";
+        if (!style.plate_light_2) style.plate_light_2 = PageBuilderColorsHelper.PLATE_LIGHT_2;
+        if (!style.plate_dark_2) style.plate_dark_2 = PageBuilderColorsHelper.PLATE_DARK_2;
 
-        if (!style.plate_light_3) style.plate_light_3 = "#333333";
-        if (!style.plate_dark_3) style.plate_dark_3 = "#212121";
+        if (!style.plate_light_3) style.plate_light_3 = PageBuilderColorsHelper.PLATE_LIGHT_3;
+        if (!style.plate_dark_3) style.plate_dark_3 = PageBuilderColorsHelper.PLATE_DARK_3;
 
-        if (!style.plate_light_4) style.plate_light_4 = "#afb42b";
-        if (!style.plate_dark_4) style.plate_dark_4 = "#388e3c";
+        if (!style.plate_light_4) style.plate_light_4 = PageBuilderColorsHelper.PLATE_LIGHT_4;
+        if (!style.plate_dark_4) style.plate_dark_4 = PageBuilderColorsHelper.PLATE_DARK_4;
 
-        if (!style.plate_light_5) style.plate_light_5 = "#303f9f";
-        if (!style.plate_dark_5) style.plate_dark_5 = "#0288d1";
+        if (!style.plate_light_5) style.plate_light_5 = PageBuilderColorsHelper.PLATE_LIGHT_5;
+        if (!style.plate_dark_5) style.plate_dark_5 = PageBuilderColorsHelper.PLATE_DARK_5;
 
-        if (!style.plate_light_6) style.plate_light_6 = "#ffffff";
-        if (!style.plate_dark_6) style.plate_dark_6 = "#eeeeee";
+        if (!style.plate_light_6) style.plate_light_6 = PageBuilderColorsHelper.PLATE_LIGHT_6;
+        if (!style.plate_dark_6) style.plate_dark_6 = PageBuilderColorsHelper.PLATE_DARK_6;
 
-        if (!style.plate_light_7) style.plate_light_7 = "#7b1fa2";
-        if (!style.plate_dark_7) style.plate_dark_7 = "#512da8";
+        if (!style.plate_light_7) style.plate_light_7 = PageBuilderColorsHelper.PLATE_LIGHT_7;
+        if (!style.plate_dark_7) style.plate_dark_7 = PageBuilderColorsHelper.PLATE_DARK_7;
 
-        if (!style.plate_light_8) style.plate_light_8 = "#0097a7";
-        if (!style.plate_dark_8) style.plate_dark_8 = "#00796b";
+        if (!style.plate_light_8) style.plate_light_8 = PageBuilderColorsHelper.PLATE_LIGHT_8;
+        if (!style.plate_dark_8) style.plate_dark_8 = PageBuilderColorsHelper.PLATE_DARK_8;
 
-        if (!style.plate_light_9) style.plate_light_9 = "#0288d1";
-        if (!style.plate_dark_9) style.plate_dark_9 = "#0097a7";
+        if (!style.plate_light_9) style.plate_light_9 = PageBuilderColorsHelper.PLATE_LIGHT_9;
+        if (!style.plate_dark_9) style.plate_dark_9 = PageBuilderColorsHelper.PLATE_DARK_9;
 
-        if (!style.plate_light_10) style.plate_light_10 = "#ff5722";
-        if (!style.plate_dark_10) style.plate_dark_10 = "#ffa000";
+        if (!style.plate_light_10) style.plate_light_10 = PageBuilderColorsHelper.PLATE_LIGHT_10;
+        if (!style.plate_dark_10) style.plate_dark_10 = PageBuilderColorsHelper.PLATE_DARK_10;
 
-        if (!style.plate_light_11) style.plate_light_11 = "#c2185b";
-        if (!style.plate_dark_11) style.plate_dark_11 = "#961448";
+        if (!style.plate_light_11) style.plate_light_11 = PageBuilderColorsHelper.PLATE_LIGHT_11;
+        if (!style.plate_dark_11) style.plate_dark_11 = PageBuilderColorsHelper.PLATE_DARK_11;
 
-        if (!style.plate_light_11) style.plate_light_11 = "#455a64";
-        if (!style.plate_dark_11) style.plate_dark_11 = "#374d57";
+
+
+        if (!style.plate_light_12) style.plate_light_12 = PageBuilderColorsHelper.PLATE_LIGHT_12;
+        if (!style.plate_dark_12) style.plate_dark_12 = PageBuilderColorsHelper.PLATE_DARK_12;
       },
     );
 

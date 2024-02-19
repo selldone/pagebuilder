@@ -27,6 +27,7 @@ export const StylerMixin = defineComponent({
   data() {
     return {
       isVisible: false,
+      selection: null, // Keep selection range by user (text selection)
     };
   },
   created() {},
@@ -53,13 +54,6 @@ export const StylerMixin = defineComponent({
   beforeUnmount() {
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_STYLER_OPEN);
 
-    this.hideStyler();
-    try {
-      if (this.builder.isEditing) this.$refs.styler.remove();
-    } catch (e) {
-      console.error(e);
-    }
-
     this.el.classList.remove("is-editable");
     this.el.removeEventListener("click", this.showStyler);
     document.removeEventListener("click", this.hideStyler, true);
@@ -77,19 +71,19 @@ export const StylerMixin = defineComponent({
       if (!this.popper) {
         const position = this.position;
         /* this.$props.type === "section"
-                                                                                                   ? "left-start"
-                                                                                                   : this.$props.type === "row" && this.hasAttribute("has-add")
-                                                                                                     ? "left-center" // Prevent over lapping rows
-                                                                                                     : this.$props.type === "buttons-row"
-                                                                                                       ? "left-center"
-                                                                                                       : this.$props.type === "row"
-                                                                                                         ? "right-end"
-                                                                                                         : this.$props.type === "container"
-                                                                                                           ? "right-center"
-                                                                                                           : this.$props.type === "grid" ||
-                                                                                                               this.$props.type === "row-grid"
-                                                                                                             ? "bottom"
-                                                                                                             : "top";*/
+                                                                                                                                                   ? "left-start"
+                                                                                                                                                   : this.$props.type === "row" && this.hasAttribute("has-add")
+                                                                                                                                                     ? "left-center" // Prevent over lapping rows
+                                                                                                                                                     : this.$props.type === "buttons-row"
+                                                                                                                                                       ? "left-center"
+                                                                                                                                                       : this.$props.type === "row"
+                                                                                                                                                         ? "right-end"
+                                                                                                                                                         : this.$props.type === "container"
+                                                                                                                                                           ? "right-center"
+                                                                                                                                                           : this.$props.type === "grid" ||
+                                                                                                                                                               this.$props.type === "row-grid"
+                                                                                                                                                             ? "bottom"
+                                                                                                                                                             : "top";*/
 
         if (!this.$refs.styler) {
           console.error("Styler Mixin: No styler ref found!");
@@ -130,8 +124,14 @@ export const StylerMixin = defineComponent({
     hideStyler(event: Event) {
       if (
         event &&
-        (isParentTo(event.target, this.$el) || // Click on element in page builder
-          isParentTo(event.target, this.el) || // Click on styler element
+        // Click on styler but not this styler:
+        !(
+          event.target instanceof Element &&
+          event.target.closest(".styler") &&
+          event.target.closest(".styler") !== this.$el
+        ) &&
+        (isParentTo(event.target, this.$el) || // Click on styler element
+          isParentTo(event.target, this.el) || // Click on element in page builder
           !(
             event.target instanceof Element && event.target.closest(".artboard")
           )) // Close styler only if click inside artboard
@@ -221,6 +221,67 @@ export const StylerMixin = defineComponent({
           console.error(e);
         }
       return null;
+    },
+
+    getSelectedTextFont() {
+      // Get the selected range
+      const selection = window.getSelection();
+      if (!selection?.rangeCount) return null; // No selection
+
+      // Get the first node in the selected range
+      let node: Node | null = selection.getRangeAt(0).startContainer;
+      if (!node) {
+        console.error("Selected node is not an element ,node :", node);
+        return;
+      }
+      if (!(node instanceof Element)) {
+        node = node.parentElement;
+      }
+      if (!node || !(node instanceof Element)) {
+        console.error("Selected node is not an element ,node :", node);
+        return;
+      }
+
+      // Get the computed style of the node
+      const computedStyle = window.getComputedStyle(node);
+
+      // Get the font family
+      const fontFamily = computedStyle.getPropertyValue("font-family");
+
+      // Split the font family string by comma and get the first font
+      const firstFont = fontFamily.split(",")[0];
+
+      return firstFont;
+    },
+
+    getSelectedTextLink() {
+      // Get the selected range
+      const selection = window.getSelection();
+      if (!selection?.rangeCount) return null; // No selection
+
+      // Get the first node in the selected range
+      let node :Node|null = selection.getRangeAt(0).startContainer;
+      console.log('node',node)
+
+      // Initialize a counter for the loop
+      let counter = 0;
+
+      // Traverse up the DOM tree to find the nearest enclosing <a> tag, up to 5 parents
+      while (node && node.nodeName !== "A" && counter < 10) {
+        node = node.parentNode;
+        counter++;
+      }
+
+      // If an <a> tag is found within 5 parents, log its href attribute
+      if (node && node.nodeName === "A") {
+        const link = (node as HTMLAnchorElement).href;
+        console.log(link);
+        return link;
+      } else {
+        console.log(
+          "No link found in the selected range or within 5 parent nodes.",
+        );
+      }
     },
 
     //――――――――――――――――――――――  Element Helpers ――――――――――――――――――――
