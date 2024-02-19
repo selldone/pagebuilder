@@ -15,7 +15,7 @@
 import {App} from "vue";
 import SelldonePageBuilderCore from "./src";
 
-import "./sections/styles/_demo.styl";
+import "./sections/styles/_demo.scss";
 import SectionHeroHorizontal from "./sections/hero/SectionHeroHorizontal.vue";
 import SectionHeroVertical from "./sections/hero/SectionHeroVertical.vue";
 

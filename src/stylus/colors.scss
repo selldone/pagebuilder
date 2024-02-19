@@ -13,7 +13,43 @@
  */
 
 
-$flexCenter
-  display: flex
-  justify-content: center
-  align-items: center
+/*
+* Color theme
+*/
+
+$magenta: #eb008b !default;
+$blue: #0072FF !default;
+$cyan: #00d4f0 !default;
+$green: #18d88b !default;
+$yellow: #ffdd57 !default;
+$orange: #ffa557 !default;
+$red: #ff3d3d !default;
+$purple: #a324ea !default;
+
+$deep-purple: #512DA8 !default;
+$teal: #00796B !default;
+$amber: #FFA000 !default;
+$pink: #C2185B !default;
+$blue-grey: #455A64 !default;
+
+/*
+ * Grayscale
+ */
+$black: #000 !default;
+$dark: #323c47 !default;
+$gray: #c1c1c1 !default;
+$gray-dark: darken($gray, 10%) !default;
+$gray-light: lighten($gray, 10%) !default;
+$light: #f5f5f5 !default;
+$white: #fff !default;
+
+
+
+
+
+
+
+
+
+
+

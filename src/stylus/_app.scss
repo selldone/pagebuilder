@@ -12,23 +12,24 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-@import variables
+// Import statements in SCSS
+@import "variables";
+@import "colors";
 
+// .s--styler-icon class definition
+.s--styler-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  color: #fff;
+}
 
-  //@import '~@baianat/base.framework/base'
-@import "../../src/stylus/_app.styl"
-@import main
-@import header
-@import section
-@import social
-@import user
-@import helper
-@import scrolling
-@import "./components_style.scss"
-@import "./background.scss"
-//@import "./../sections/grids.scss"
-@import "slide.scss"
-
-.column
-  transition: 0.2s
-
+// $floatHover as a mixin in SCSS
+@mixin floatHover {
+  cursor: pointer;
+  // Note: Ensure $black is defined in your variables or colors import
+  // SCSS doesn't have a native alpha function like Stylus, use rgba instead if $black is a hex color
+  // If $black is defined as an rgba value in your variables, you can directly adjust its alpha
+  box-shadow: 0 14px 28px rgba(#000, 0.125), 0 10px 10px rgba(#000, 0.1);
+}

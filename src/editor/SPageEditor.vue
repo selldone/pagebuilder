@@ -41,6 +41,7 @@
           : undefined
       "
     >
+      <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
 
       <div
         id="artboard"
@@ -60,25 +61,29 @@
         >
           <b>View</b>
           <v-btn
-            icon variant="text"
+            icon
+            variant="text"
             @click="render_mode = null"
             :color="!render_mode ? 'amber' : undefined"
-            ><v-icon>burst_mode</v-icon></v-btn
           >
+            <v-icon>burst_mode</v-icon>
+          </v-btn>
           <v-btn
             icon
             variant="text"
             @click="render_mode = 'simple'"
             :color="render_mode === 'simple' ? 'amber' : undefined"
-            ><v-icon>apps</v-icon></v-btn
           >
+            <v-icon>apps</v-icon>
+          </v-btn>
           <v-btn
             icon
             variant="text"
             @click="render_mode = 'wire'"
             :color="render_mode === 'wire' ? 'amber' : undefined"
-            ><v-icon>grid_on</v-icon></v-btn
           >
+            <v-icon>grid_on</v-icon>
+          </v-btn>
 
           <v-expand-transition>
             <div v-if="render_mode === 'wire'" class="d-flex flex-column">
@@ -93,8 +98,9 @@
                 :color="show_classes ? '#512DA8' : undefined"
                 class="sub-caption mb-3"
                 caption="Class"
-                ><v-icon>architecture</v-icon></v-btn
               >
+                <v-icon>architecture</v-icon>
+              </v-btn>
               <v-btn
                 icon
                 variant="text"
@@ -105,8 +111,9 @@
                 :color="show_styles ? '#512DA8' : undefined"
                 class="sub-caption mb-3"
                 caption="Style"
-                ><v-icon>format_paint</v-icon></v-btn
               >
+                <v-icon>format_paint</v-icon>
+              </v-btn>
             </div>
           </v-expand-transition>
         </div>
@@ -147,117 +154,120 @@
           >
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Normal ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip  location="top" max-width="420" content-class="bg-black text-start pa-3 small">
+            <v-tooltip
+              location="top"
+              max-width="420"
+              content-class="bg-black text-start pa-3 small"
+            >
               <template v-slot:activator="{ props }">
-               <span       class="sub-caption -hover m-0 b-16px"
-                           caption="Design">
+                <span class="sub-caption -hover m-0 b-16px" caption="Design">
                   <v-btn
-                      v-bind="props"
-                      size="small"
-                      icon  variant="text"
-
-                      @click="
-                    $builder.isAnimation = false;
-                    $builder.isTracking = false;
-                    $builder.isHideExtra = false;
-                  "
+                    v-bind="props"
+                    size="small"
+                    icon
+                    variant="text"
+                    @click="
+                      $builder.isAnimation = false;
+                      $builder.isTracking = false;
+                      $builder.isHideExtra = false;
+                    "
                   >
-                  <v-icon
+                    <v-icon
                       size="small"
                       :color="
-                      !$builder.isAnimation && !$builder.isTracking
-                        ? 'green'
-                        : undefined
-                    "
+                        !$builder.isAnimation && !$builder.isTracking
+                          ? 'green'
+                          : undefined
+                      "
                       class="hover-scale-small"
-                  >lens</v-icon
-                  >
-                </v-btn>
-               </span>
+                      >lens</v-icon
+                    >
+                  </v-btn>
+                </span>
               </template>
-                <b class="d-block">Normal View</b>
-                <div>
-                  <v-icon dark size="small" class="me-1"
-                    >design_services</v-icon
-                  >
-                  You can access all the elements and editing tools required to
-                  modify the content and layout of the landing page.
-                </div>
+              <b class="d-block">Normal View</b>
+              <div>
+                <v-icon dark size="small" class="me-1">design_services</v-icon>
+                You can access all the elements and editing tools required to
+                modify the content and layout of the landing page.
+              </div>
             </v-tooltip>
 
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Animation ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip  location="top" max-width="420" content-class="bg-black text-start pa-3 small">
+            <v-tooltip
+              location="top"
+              max-width="420"
+              content-class="bg-black text-start pa-3 small"
+            >
               <template v-slot:activator="{ props }">
-                <span  class="sub-caption -hover m-0 b-16px"
-                       caption="Animation">
-
-
-                <v-btn
-                  v-bind="props"
-                  size="small"
-                  icon  variant="text"
-
-                  @click="
-                    $builder.isAnimation = true;
-                    $builder.isTracking = false;
-                    $builder.isHideExtra = true;
-                  "
-                >
-                  <v-icon
+                <span class="sub-caption -hover m-0 b-16px" caption="Animation">
+                  <v-btn
+                    v-bind="props"
                     size="small"
-                    :color="$builder.isAnimation ? 'blue' : undefined"
-                    class="hover-scale-small"
-                    >lens</v-icon
+                    icon
+                    variant="text"
+                    @click="
+                      $builder.isAnimation = true;
+                      $builder.isTracking = false;
+                      $builder.isHideExtra = true;
+                    "
                   >
-                </v-btn>
-                          </span>
+                    <v-icon
+                      size="small"
+                      :color="$builder.isAnimation ? 'blue' : undefined"
+                      class="hover-scale-small"
+                      >lens</v-icon
+                    >
+                  </v-btn>
+                </span>
               </template>
-                <b class="d-block">Animation View</b>
-                <div>
-                  <v-icon dark size="small" class="me-1">animation</v-icon> To
-                  configure animation and user interactions such as mouse hover
-                  transitions, you can check out the blueprint and the
-                  minimalist view of the page.
-                </div>
+              <b class="d-block">Animation View</b>
+              <div>
+                <v-icon dark size="small" class="me-1">animation</v-icon>
+                To configure animation and user interactions such as mouse hover
+                transitions, you can check out the blueprint and the minimalist
+                view of the page.
+              </div>
             </v-tooltip>
 
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Tracking ▃▃▃▃▃▃▃▃▃▃ -->
 
-            <v-tooltip  location="top" max-width="420" content-class="bg-black text-start pa-3 small">
+            <v-tooltip
+              location="top"
+              max-width="420"
+              content-class="bg-black text-start pa-3 small"
+            >
               <template v-slot:activator="{ props }">
-                <span      class="sub-caption -hover m-0 b-16px"
-                           caption="Tracking">
-
-
-                <v-btn
-                  v-bind="props"
-                  size="small"
-                  icon  variant="text"
-
-                  @click="
-                    $builder.isTracking = true;
-                    $builder.isAnimation = false;
-                    $builder.isHideExtra = true;
-                  "
-                >
-                  <v-icon
+                <span class="sub-caption -hover m-0 b-16px" caption="Tracking">
+                  <v-btn
+                    v-bind="props"
                     size="small"
-                    :color="$builder.isTracking ? 'red' : undefined"
-                    class="hover-scale-small"
-                    >lens</v-icon
+                    icon
+                    variant="text"
+                    @click="
+                      $builder.isTracking = true;
+                      $builder.isAnimation = false;
+                      $builder.isHideExtra = true;
+                    "
                   >
-                </v-btn>
-                    </span>
+                    <v-icon
+                      size="small"
+                      :color="$builder.isTracking ? 'red' : undefined"
+                      class="hover-scale-small"
+                      >lens</v-icon
+                    >
+                  </v-btn>
+                </span>
               </template>
-                <b class="d-block">Tracking View</b>
-                <div>
-                  <v-icon dark size="small" class="me-1">highlight_alt</v-icon>
-                  This view mode presents a simplified display of the page,
-                  allowing the allocation of tracking IDs to actions (buttons)
-                  that can be utilized in Google Tag Manager and other tracking
-                  applications.
-                </div>
+              <b class="d-block">Tracking View</b>
+              <div>
+                <v-icon dark size="small" class="me-1">highlight_alt</v-icon>
+                This view mode presents a simplified display of the page,
+                allowing the allocation of tracking IDs to actions (buttons)
+                that can be utilized in Google Tag Manager and other tracking
+                applications.
+              </div>
             </v-tooltip>
 
             <v-text-field
@@ -269,7 +279,7 @@
               variant="solo-filled"
               :prefix="!isPopup && $vuetify.display.smAndUp ? base_url : ''"
               v-model="page.name"
-              :density="$vuetify.display.smAndDown ? 'compact':undefined"
+              :density="$vuetify.display.smAndDown ? 'compact' : undefined"
               :placeholder="isPopup ? 'Popup' : 'Enter page address*'"
               :rules="!isPopup ? [GlobalRules.required()] : undefined"
               :prepend-inner-icon="isPopup ? 'notifications_none' : undefined"
@@ -280,12 +290,17 @@
                   :href="base_url + page.name"
                   target="_blank"
                   title="Open page"
-                  ><v-icon>launch</v-icon></v-btn
                 >
+                  <v-icon>launch</v-icon>
+                </v-btn>
               </template>
             </v-text-field>
 
-            <v-tooltip location="top" max-width="420" content-class="bg-black text-start pa-3 small">
+            <v-tooltip
+              location="top"
+              max-width="420"
+              content-class="bg-black text-start pa-3 small"
+            >
               <template v-slot:activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -293,27 +308,27 @@
                   @click="toggleListVisibility"
                   class="ms-1"
                 >
-                  <v-icon>{{
-                    scale_down ? "fullscreen_exit" : "fullscreen"
-                  }}</v-icon>
+                  <v-icon
+                    >{{ scale_down ? "fullscreen_exit" : "fullscreen" }}
+                  </v-icon>
                 </v-btn>
               </template>
-                <b class="d-block">View Mode</b>
-                <div>
-                  <v-icon dark size="small" class="me-1"
-                    >center_focus_weak</v-icon
+              <b class="d-block">View Mode</b>
+              <div>
+                <v-icon dark size="small" class="me-1"
+                  >center_focus_weak
+                </v-icon>
+                Make fullscreen/compact view mode.
+              </div>
+              <div>
+                Or press
+                <span class="text-amber"
+                  ><v-icon size="small" class="mx-1" color="amber"
+                    >swap_horiz</v-icon
                   >
-                  Make fullscreen/compact view mode.
-                </div>
-                <div>
-                  Or press
-                  <span class="text-amber"
-                    ><v-icon size="small" class="mx-1" color="amber"
-                      >swap_horiz</v-icon
-                    >
-                    Tab</span
-                  >.
-                </div>
+                  Tab</span
+                >.
+              </div>
             </v-tooltip>
           </v-toolbar>
 
@@ -341,7 +356,8 @@
               },
             ]"
             :class="{
-              'drop-active': !$builder.sections.length && past_hover_index === 0,
+              'drop-active':
+                !$builder.sections.length && past_hover_index === 0,
             }"
           >
             <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
@@ -439,18 +455,17 @@
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
-                <s-landing-section-side-bar v-if="listShown && inEditMode" :section="section" :section-index="index"
-                                                    v-model:past-hover-index="past_hover_index"
-
-                @click:copy="copySection(section)"
-                                                    @click:delete="deleteSection(section)"
-                                                    @click:save="saveSectionToRepository(section)"
-                                                    @click:past="pastSection(index + 1)"
-                                                    :copySection="copy_section"
-
-
+                <s-landing-section-side-bar
+                  v-if="listShown && inEditMode"
+                  :section="section"
+                  :section-index="index"
+                  v-model:past-hover-index="past_hover_index"
+                  @click:copy="copySection(section)"
+                  @click:delete="deleteSection(section)"
+                  @click:save="saveSectionToRepository(section)"
+                  @click:past="pastSection(index + 1)"
+                  :copySection="copy_section"
                 ></s-landing-section-side-bar>
-
 
                 <v-expand-transition>
                   <div
@@ -483,7 +498,7 @@
                   dir="ltr"
                 >
                   <v-btn
-                    class="x-feeder-btn hover-scale-small force-top    ml-6"
+                    class="x-feeder-btn hover-scale-small force-top ml-6"
                     icon
                     color="#000"
                     variant="flat"
@@ -491,16 +506,20 @@
                     :class="{ disabled: !section.data || !section.schema }"
                     @click="showFeeder(section)"
                   >
-                    <v-icon  size="36">donut_large</v-icon>
-                    <v-tooltip activator="parent" location="bottom" content-class="bg-black">
-                      <b>Feed</b><br>
-                      Simple edit section contents.</v-tooltip>
-
+                    <v-icon size="36">donut_large</v-icon>
+                    <v-tooltip
+                      activator="parent"
+                      location="bottom"
+                      content-class="bg-black"
+                    >
+                      <b>Feed</b><br />
+                      Simple edit section contents.
+                    </v-tooltip>
                   </v-btn>
 
                   <ai-button
                     v-if="aiAutoFillFunction"
-                    class="x-feeder-btn hover-scale-small force-top    ml-6"
+                    class="x-feeder-btn hover-scale-small force-top ml-6"
                     icon
                     x-large
                     @click="autoComplete(section)"
@@ -513,15 +532,13 @@
                   <v-badge
                     v-if="has_note"
                     :model-value="
-                      notes?.filter(
-                        (n) => n.element_id === section.uid,
-                      )?.length > 0
+                      notes?.filter((n) => n.element_id === section.uid)
+                        ?.length > 0
                     "
                     :content="
                       numeralFormat(
-                        notes?.filter(
-                          (n) => n.element_id === section.uid,
-                        )?.length,
+                        notes?.filter((n) => n.element_id === section.uid)
+                          ?.length,
                         '0a',
                       )
                     "
@@ -533,20 +550,26 @@
                       variant="flat"
                       size="x-large"
                       :color="
-                        notes?.filter(
-                          (n) => n.element_id === section.uid,
-                        )?.length
+                        notes?.filter((n) => n.element_id === section.uid)
+                          ?.length
                           ? 'amber'
                           : '#000'
                       "
                       @click="showWriteNote(section)"
                     >
                       <v-icon size="36">sticky_note_2</v-icon>
-                      <v-tooltip activator="parent" location="bottom" content-class="bg-black">
-                        <b>Message</b> ({{notes?.filter((n) => n.element_id === section.uid,)?.length}})<br>
+                      <v-tooltip
+                        activator="parent"
+                        location="bottom"
+                        content-class="bg-black"
+                      >
+                        <b>Message</b> ({{
+                          notes?.filter((n) => n.element_id === section.uid)
+                            ?.length
+                        }})<br />
 
-                        Write a reminder note or message to your agency.</v-tooltip>
-
+                        Write a reminder note or message to your agency.
+                      </v-tooltip>
                     </v-btn>
                   </v-badge>
                 </div>
@@ -555,12 +578,8 @@
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                 <p-note-digest
                   v-if="$vuetify.display.lgAndUp && has_note"
-                  :notes="
-                    notes?.filter(
-                      (n) => n.element_id === section.uid,
-                    )
-                  "
-                  @delete="(id)=>DeleteItemByID(page.notes, id)"
+                  :notes="notes?.filter((n) => n.element_id === section.uid)"
+                  @delete="(id) => DeleteItemByID(page.notes, id)"
                   :shop="shop"
                   :page="shop_page"
                   :popup="shop_popup"
@@ -576,12 +595,14 @@
           </div>
         </div>
 
-        <s-landing-editor-components-menu :components="components" v-model:is-dragged="start_drag" :is-visible="listShown && inEditMode" :isScrollDown="scrollTop > 200"></s-landing-editor-components-menu>
-
+        <s-landing-editor-components-menu
+          :components="components"
+          v-model:is-dragged="start_drag"
+          :is-visible="listShown && inEditMode"
+          :isScrollDown="scrollTop > 200"
+        ></s-landing-editor-components-menu>
       </div>
     </div>
-
-
 
     <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
 
@@ -648,8 +669,6 @@ import GlobalImageSizeDialog from "@app-page-builder/components/tools/image/Glob
 import GlobalImageLayersDialog from "@app-page-builder/components/tools/image/GlobalImageLayersDialog.vue";
 import GlobalBlogsFilterDialog from "@app-page-builder/components/tools/blog/GlobalBlogsFilterDialog.vue";
 import GlobalLinkEditorDialog from "@app-page-builder/components/tools/link/GlobalLinkEditorDialog.vue";
-import { findAllFontsInSection } from "@app-page-builder/src/util";
-import { FontLoader } from "@core/helper/font/FontLoader";
 import PageElementsRepository from "@app-page-builder/src/element-repository/PageElementsRepository.vue";
 import GlobalSectionFeederDialog from "@app-page-builder/src/feeders/GlobalSectionFeederDialog.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
@@ -666,18 +685,23 @@ import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 import _ from "lodash-es";
-import {PageBuilderNoteMixin} from "@app-page-builder/mixins/PageBuilderNoteMixin";
+import { PageBuilderNoteMixin } from "@app-page-builder/mixins/PageBuilderNoteMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import SLandingEditorComponentsMenu from "@app-page-builder/components/editor/components-menu/SLandingEditorComponentsMenu.vue";
 import SLandingSectionSideBar from "@app-page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
-import {PageBuilderMixin} from "@app-page-builder/mixins/PageBuilderMixin";
-import {LandingHistoryMixin} from "@app-page-builder/mixins/LandingHistoryMixin";
-import {defineComponent} from "vue";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
+import { defineComponent } from "vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "SPageEditor",
-  mixins:[PageBuilderNoteMixin,PageEventBusMixin,PageBuilderMixin,LandingHistoryMixin],
+  mixins: [
+    PageBuilderNoteMixin,
+    PageEventBusMixin,
+    PageBuilderMixin,
+    LandingHistoryMixin,
+  ],
   components: {
     SLandingSectionSideBar,
     SLandingEditorComponentsMenu,
@@ -752,7 +776,6 @@ export default defineComponent({
   },
   data() {
     return {
-
       PageBuilderTypoHelper: PageBuilderTypoHelper,
       PageBuilderColorsHelper: PageBuilderColorsHelper,
 
@@ -795,7 +818,6 @@ export default defineComponent({
       //-------------------
       sortable: null,
 
-
       //-------------------
       selected_section: null,
       selected_component: null,
@@ -812,7 +834,6 @@ export default defineComponent({
 
       past_hover_index: null,
       onPast: null,
-
     };
   },
 
@@ -835,11 +856,10 @@ export default defineComponent({
       return this.$builder.isSorting || this.listShown;
     },
 
-
     base_url() {
       return this.shop
-          ? `${this.getShopMainUrl(this.shop)}/pages/`
-          : `${this.SetupService.MainServiceUrl()}/`;
+        ? `${this.getShopMainUrl(this.shop)}/pages/`
+        : `${this.SetupService.MainServiceUrl()}/`;
     },
 
     in_design_mode() {
@@ -850,9 +870,9 @@ export default defineComponent({
       return this.$builder.sections && this.$builder.sections.length;
     },
 
-    notes(){
-      return this.page?.notes
-    }
+    notes() {
+      return this.page?.notes;
+    },
   },
 
   watch: {
@@ -915,7 +935,7 @@ export default defineComponent({
 
     sections_length(val) {
       if (val > 0 && this.delay_load < 999)
-          // loaded any section?
+        // loaded any section?
         this.loadNextDelayed();
     },
   },
@@ -925,8 +945,6 @@ export default defineComponent({
     this.$builder.set(this.data);
     // this.title = this.$builder.title;
     this.themes = this.$builder.themes;
-
-
   },
   mounted() {
     this.$builder.rootEl = this.$refs.artboard;
@@ -951,11 +969,8 @@ export default defineComponent({
       filter: ".ignore-elements",
 
       onAdd(evt) {
-
         const section_name = evt.item.getAttribute("section-name");
         const section = _self.components.find((it) => it.name === section_name);
-
-
 
         if (section) {
           _self.addSection(section, evt.newIndex);
@@ -990,7 +1005,7 @@ export default defineComponent({
 
       // Scape:
       let isEscape =
-          event.key === "Escape" || event.key === "Esc" || event.keyCode === 27;
+        event.key === "Escape" || event.key === "Esc" || event.keyCode === 27;
 
       if (isEscape) {
         //console.log('isEscape')
@@ -1019,8 +1034,8 @@ export default defineComponent({
       if (event.code === "Tab" /*&& !event.target.isContentEditable*/) {
         function calculateScroll(multiple) {
           return (
-              200 /*Top fixed high approximately!*/ +
-              (window.scrollY - 200) * multiple
+            200 /*Top fixed high approximately!*/ +
+            (window.scrollY - 200) * multiple
           );
         }
 
@@ -1030,15 +1045,15 @@ export default defineComponent({
         const scroll = calculateScroll(go_to_scale_down ? 0.5 : 2);
 
         _.delay(
-            () => {
-              this.$nextTick(() => {
-                window.scrollTo({
-                  top: scroll,
-                  // behavior: "smooth", // Optional: for smooth scrolling
-                });
+          () => {
+            this.$nextTick(() => {
+              window.scrollTo({
+                top: scroll,
+                // behavior: "smooth", // Optional: for smooth scrolling
               });
-            },
-            go_to_scale_down ? 0 : 350,
+            });
+          },
+          go_to_scale_down ? 0 : 350,
         ); // In scale up mode we need to wait to all view being scaled and scroll be available!
 
         this.toggleListVisibility();
@@ -1066,14 +1081,14 @@ export default defineComponent({
           document.execCommand("underline");
           event.preventDefault();
         } else if (
-            (event.ctrlKey || event.metaKey) &&
-            event.code === "Digit1"
+          (event.ctrlKey || event.metaKey) &&
+          event.code === "Digit1"
         ) {
           event.preventDefault();
           document.selectionAddTag("small", "big");
         } else if (
-            (event.ctrlKey || event.metaKey) &&
-            event.code === "Digit2"
+          (event.ctrlKey || event.metaKey) &&
+          event.code === "Digit2"
         ) {
           event.preventDefault();
           document.selectionAddTag("big", "small");
@@ -1105,8 +1120,7 @@ export default defineComponent({
       return "Are you sure to <b>close page design</b>?";
     };
 
-
-    this.registerPastListener()
+    this.registerPastListener();
   },
 
   updated() {
@@ -1132,23 +1146,20 @@ export default defineComponent({
 
     //console.log("...beforeDestroy...",this.$builder);
 
-
     //―――――――――――――――――――――― Past >Unregister ――――――――――――――――――――
     document.removeEventListener("paste", this.onPast, true);
   },
 
-
-
   methods: {
-
     //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
-    registerPastListener(){
+    registerPastListener() {
       // Add global past:
       this.onPast = (event) => {
         if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
 
-        let paste = (event.clipboardData || window.clipboardData).getData("text");
-
+        let paste = (event.clipboardData || window.clipboardData).getData(
+          "text",
+        );
 
         function IsValidJsonSectionString(str) {
           try {
@@ -1163,9 +1174,9 @@ export default defineComponent({
           this.copy_section = paste;
 
           this.pastSection(
-              this.past_hover_index === null
-                  ? this.$builder.sections.length + 1
-                  : this.past_hover_index + 1,
+            this.past_hover_index === null
+              ? this.$builder.sections.length + 1
+              : this.past_hover_index + 1,
           );
           event.preventDefault();
         }
@@ -1181,9 +1192,9 @@ export default defineComponent({
         data: section.data,
       });
       this.copyToClipboard(
-          this.copy_section,
-          "Copy Section Data & Structure",
-          `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
+        this.copy_section,
+        "Copy Section Data & Structure",
+        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
       );
     },
     saveSectionToRepository(section) {
@@ -1201,8 +1212,8 @@ export default defineComponent({
     pastSection(index) {
       if (!this.copy_section) {
         this.showWarningAlert(
-            "First copy a section!",
-            "Data on clipboard not found!",
+          "First copy a section!",
+          "Data on clipboard not found!",
         );
 
         return;
@@ -1211,7 +1222,7 @@ export default defineComponent({
       try {
         let section = JSON.parse(this.copy_section);
         if (section.name && section.data) {
-          this.builder.add(section, index, false,true);
+          this.builder.add(section, index, false, true);
           this.onSaveHistory();
           this.autoLoadSectionFonts(section);
           return;
@@ -1230,17 +1241,13 @@ export default defineComponent({
         this.builder.remove(section);
         this.onSaveHistory();
       } catch (e) {
-        console.error(e)
+        console.error(e);
         this.showErrorAlert(
-            null,
-            "We can not remove this section! Maybe fix it by refreshing the page.",
+          null,
+          "We can not remove this section! Maybe fix it by refreshing the page.",
         );
       }
     },
-
-
-
-
 
     inActiveEditingMode() {
       // Are we the other tab?
@@ -1282,23 +1289,19 @@ export default defineComponent({
       if (!this.pageStyle) return; // Fix bugs
 
       this.CUSTOM_PAGE_STYLE =
-          BackgroundHelper.CreateCompleteBackgroundStyleObject(
-              this.pageStyle.bg_custom,
-              this.pageStyle.bg_gradient,
-              this.pageStyle.bg_image
-                  ? this.getShopImagePath(this.pageStyle.bg_image)
-                  : null,
-              this.pageStyle.bg_size,
-              this.pageStyle.bg_repeat,
-              this.pageStyle.bg_color,
-          );
+        BackgroundHelper.CreateCompleteBackgroundStyleObject(
+          this.pageStyle.bg_custom,
+          this.pageStyle.bg_gradient,
+          this.pageStyle.bg_image
+            ? this.getShopImagePath(this.pageStyle.bg_image)
+            : null,
+          this.pageStyle.bg_size,
+          this.pageStyle.bg_repeat,
+          this.pageStyle.bg_color,
+        );
 
       //console.log('Calculate page style!', this.CUSTOM_PAGE_STYLE);
     },
-
-
-
-
 
     //-----------------------------------
 
@@ -1334,9 +1337,9 @@ export default defineComponent({
           const val = obj[key];
 
           if (
-              !val ||
-              key === "iframe" ||
-              key === "html" /**@see SectionRawHtml**/
+            !val ||
+            key === "iframe" ||
+            key === "html" /**@see SectionRawHtml**/
           )
             continue; // Not change iframe!
 
@@ -1377,15 +1380,15 @@ export default defineComponent({
       $div.html(this.$refs.pagecontent.innerHTML);
 
       $div
-          .find("*")
-          .not(
-              "a,i,ul,li,img,br,p,div,section,button,b,h1,h2,h3,h4,h5,h6,font,figure,figcaption,svg",
-          )
-          .each(function () {
-            if ($(this).closest("svg").length > 0) return; //prevent remove inside svg!
+        .find("*")
+        .not(
+          "a,i,ul,li,img,br,p,div,section,button,b,h1,h2,h3,h4,h5,h6,font,figure,figcaption,svg",
+        )
+        .each(function () {
+          if ($(this).closest("svg").length > 0) return; //prevent remove inside svg!
 
-            $(this).replaceWith("");
-          });
+          $(this).replaceWith("");
+        });
 
       // Remove no-render class objects:
       $div.find(".no-render").each(function () {
@@ -1405,16 +1408,16 @@ export default defineComponent({
 
         $.each(attributes, function (i, item) {
           if (
-              [
-                "href",
-                "src",
-                "alt",
-                "class",
-                "style",
-                "rel",
-                "width",
-                "height",
-              ].indexOf(item) === -1
+            [
+              "href",
+              "src",
+              "alt",
+              "class",
+              "style",
+              "rel",
+              "width",
+              "height",
+            ].indexOf(item) === -1
           )
             element.removeAttr(item);
         });
@@ -1435,7 +1438,7 @@ export default defineComponent({
     addSection(section, position) {
       //console.log("addSection", section, "position", position);
 
-      this.$builder.add(section, position, true,true);
+      this.$builder.add(section, position, true, true);
 
       // Fix BUG direction change by vuetify!
       this.$nextTick(() => {
@@ -1560,7 +1563,6 @@ export default defineComponent({
 
       // get components data
       components = Object.keys(this.$builder.components).map((sec) => {
-
         return {
           name: sec,
           group: this.$builder.components[sec].extends.group,
@@ -1571,7 +1573,6 @@ export default defineComponent({
           schema: this.$builder.components[sec].extends.$schema,
         };
       });
-
 
       return components;
     },
@@ -1595,8 +1596,6 @@ export default defineComponent({
       this.start_drag = true;
     },
 
-
-
     //――――――――――――――――――――――  Drop section (pre-built) ――――――――――――――――――――
     dropSection(event, index) {
       // console.log('dropSection!' ,event)
@@ -1610,7 +1609,7 @@ export default defineComponent({
           if (json && json.name && json.data) {
             event.preventDefault();
             // console.log("added!");
-            this.$builder.add(json, index + 1, false,true);
+            this.$builder.add(json, index + 1, false, true);
             this.autoLoadSectionFonts(json);
           }
         } catch (e) {}
@@ -1634,8 +1633,8 @@ export default defineComponent({
     },
     leaveDrag(event) {
       if (
-          this.$builder.sections.length /*No section mode!*/ &&
-          !event.target.classList.contains("target-drop")
+        this.$builder.sections.length /*No section mode!*/ &&
+        !event.target.classList.contains("target-drop")
       )
         return;
       //  console.log('leaveDrag' ,event)
@@ -1645,8 +1644,6 @@ export default defineComponent({
       this.past_hover_index = null;
       this.drop_section = false;
     },
-
-
 
     showFeeder(section) {
       this.selected_section = section;
@@ -1662,51 +1659,56 @@ export default defineComponent({
       this.loading_ai.push(section);
 
       promise
-          .then((generated) => {
-            console.log("🆎 AI created content.", section, generated);
-            Object.assign(section.data, generated);
-          })
-          .finally(() => {})
-          .finally(() => {
-            this.loading_ai.remove(section);
-          });
+        .then((generated) => {
+          console.log("🆎 AI created content.", section, generated);
+          Object.assign(section.data, generated);
+        })
+        .finally(() => {})
+        .finally(() => {
+          this.loading_ai.remove(section);
+        });
     },
-
-
-
 
     showWriteNote(section) {
       if (!section) return;
 
       this.showGlobalShopNoteDialog(
-          this.page.notes,
-          section.uid,
-          this.shop_page?.id,
-          this.shop_popup?.id,
+        this.page.notes,
+        section.uid,
+        this.shop_page?.id,
+        this.shop_popup?.id,
       );
     },
     autoShowNote() {
       if (this.$route.query.element_id) {
         this.showWriteNote(
-            this.$builder.sections.find(
-                (s) => s.id === this.$route.query.element_id,
-            ),
+          this.$builder.sections.find(
+            (s) => s.id === this.$route.query.element_id,
+          ),
         ); // Auto open note dialog if element_id be in query (used in notifications link)
       }
     },
 
     handleClickOnSections(event) {
       if (
-          !HighlightEditingElements.IsChildOfHighlightActiveEditing(event.target)
+        !HighlightEditingElements.IsChildOfHighlightActiveEditing(event.target)
       )
         this.EventBus.$emit(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
     },
   },
-})
-;
+});
 </script>
 
 <style lang="scss" scoped>
+@import "../stylus/app";
+//@import "../stylus/colors";
+
+$gray: #c1c1c1;
+$blue: #0072ff;
+$red: #ff3d3d;
+$green: #18d88b;
+$dark: #323c47;
+
 ::v-deep(.sortable-ghost) {
   .fmenu-elementImage {
     width: 100%;
@@ -1715,199 +1717,234 @@ export default defineComponent({
   }
 }
 
-
-
-</style>
-
-<style lang="stylus" scoped>
-@import '../stylus/_app.styl'
-
-h1{
-  font-size 1.7rem;
+h1 {
+  font-size: 1.7rem;
 }
-p{
-  font-size 1.2rem;
-  &.small{
-    font-size 1rem;
+
+p {
+  font-size: 1.2rem;
+
+  &.small {
+    font-size: 1rem;
   }
 }
 
+.artboard {
+  transform-origin: top center;
 
-.artboard
-  transform-origin: top center
-  &.is-editable .is-editable
-    outline: none
-    //&:hover
-    //  box-shadow: inset 0 0 0 4px #323c47
-.controller
-  box-sizing: border-box
-  &-panel
-    position: fixed
-    z-index: 200
-    bottom: 30px
-    right: 40px
-  &-input
-    outline: none
-    border: 1px solid $gray
-    padding: 0.5em 1em
-    margin: 20px 0
-    border-radius: 40px
-    width: 100%
-    font-size: 16px
-    max-width 500px
-    &:focus
-      border-color: $blue
-      box-shadow: 0 0 0 2px alpha($blue, 50%)
-  &-button
-    transition: 0.2s
-    border: none
-    outline: none
-    border-radius: 20px
-    padding: 5px
-    color: $white
-    fill: $white
-    font-size: 16px
-    svg
-      transition: 0.2s
-    &:not(:last-child)
-      margin-right: 20px
-    &.is-rotated >svg
-      transform: rotate(45deg)
-    &:hover
-      @extends $floatHover
-    &.is-blue
-      background-color: $blue
-      &:hover
-        background-color: darken($blue, 20%)
-    &.is-red
-      background-color: $red
-      &:hover
-        background-color: darken($red, 20%)
-    &.is-green
-      background-color: $green
-      &:hover
-        background-color: darken($green, 20%)
-    &.is-dark
-      background-color: $dark
-      &:hover
-        background-color: darken($dark, 20%)
-    &.is-gray
-      background-color: $gary
-      &:hover
-        background-color: darken($gray, 20%)
-  &-intro
-    width: 100%
-    max-width: 1620px
-    margin: auto
-    display: flex
-    justify-content: center
-    align-items: center
-    flex-direction: column
-    padding: 70px 50px
-    text-align: center
-    font-size: 30px
-    color: $dark
+  &.is-editable .is-editable {
+    outline: none;
+  }
+}
 
+.controller {
+  box-sizing: border-box;
 
+  &-panel {
+    position: fixed;
+    z-index: 200;
+    bottom: 30px;
+    right: 40px;
+  }
 
+  &-input {
+    outline: none;
+    border: 1px solid $gray;
+    padding: 0.5em 1em;
+    margin: 20px 0;
+    border-radius: 40px;
+    width: 100%;
+    font-size: 16px;
+    max-width: 500px;
 
-.menu
-  user-select: none
-  -moz-user-select: none
-  position: fixed
-  z-index 300
-  top: 0
-  left: 0
-  bottom: 0
-  margin: 0
-  width: 250px
-  background: $white
-  padding: 20px 10px
-  display: flex
-  flex-direction: column
-  overflow-y: auto
-  list-style: none
-  transition: 0.4s
-  box-shadow: 1px 0 10px alpha($dark, 20%)
-  transform: translate3d(-100%, 0, 0)
-  &.is-visiable
-    transform: translate3d(0, 0, 0)
-  &-body
-    display: none
-    padding: 0
-    margin: 0
-    list-style: none
-    ~/-group &
-      width: 90%
-      margin: 10px auto
-    ~/-group.is-visiable &
-      display: block
-  &-icon
-    width: 24px
-    height: 24px
-    fill: $gray
-    transition: 0.2s
-    ~/-group.is-visiable &
-      transform: rotate(180deg)
+    &:focus {
+      border-color: $blue;
+      box-shadow: 0 0 0 2px rgba($blue, 50%);
+    }
+  }
 
-  &-element
-    position: relative
-    display: flex
-    justify-content: center
-    align-items: center
-    width: 100%
-    min-height: 50px
-    border-radius: 5px
-    background: #fafafa
-    transition: 0.3s
-    cursor: pointer
-    color: $white
-    overflow: hidden
-    user-select: none
-    -moz-user-select: none
-    &:not(:last-child)
-      margin-bottom: 10px
-    &:hover
-      @extends $floatHover
+  &-button {
+    transition: 0.2s;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    padding: 5px;
+    color: $white;
+    fill: $white;
+    font-size: 16px;
 
-  &-elementImage
-    max-width: 100%
-    pointer-events: none
+    svg {
+      transition: 0.2s;
+    }
 
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
 
-  &-header
-    display: flex
-    justify-content: space-between
-    align-items: center
-    padding: 10px 5px
-    border-bottom: 1px solid alpha($black, 5%)
+    &.is-rotated > svg {
+      transform: rotate(45deg);
+    }
 
-.sortable-ghost
-  background-color #0c91d3
-  opacity: 0.9
-  height max-content
-  box-shadow: 0 0 2px 1px $blue
- // transform: scale(0.8)
+    &:hover {
+      @include floatHover;
+    }
 
+    &.is-blue {
+      background-color: $blue;
 
-.is-editable
-  &:hover
-    //box-shadow: inset 0 0 0 2px $gray
-</style>
+      &:hover {
+        background-color: darken($blue, 20%);
+      }
+    }
 
-<style scoped lang="scss">
+    &.is-red {
+      background-color: $red;
 
+      &:hover {
+        background-color: darken($red, 20%);
+      }
+    }
 
+    &.is-green {
+      background-color: $green;
 
+      &:hover {
+        background-color: darken($green, 20%);
+      }
+    }
 
+    &.is-dark {
+      background-color: $dark;
 
+      &:hover {
+        background-color: darken($dark, 20%);
+      }
+    }
 
+    &.is-gray {
+      background-color: $gray;
 
+      &:hover {
+        background-color: darken($gray, 20%);
+      }
+    }
+  }
 
+  &-intro {
+    width: 100%;
+    max-width: 1620px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 70px 50px;
+    text-align: center;
+    font-size: 30px;
+    color: $dark;
+  }
+}
 
+.menu {
+  user-select: none;
+  position: fixed;
+  z-index: 300;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  width: 250px;
+  background: $white;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  list-style: none;
+  transition: 0.4s;
+  box-shadow: 1px 0 10px rgba($dark, 20%);
+  transform: translate3d(-100%, 0, 0);
 
+  &.is-visiable {
+    transform: translate3d(0, 0, 0);
+  }
 
+  &-body {
+    display: none;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 
+    .menu-group & {
+      width: 90%;
+      margin: 10px auto;
+    }
+
+    .menu-group.is-visiable & {
+      display: block;
+    }
+  }
+
+  &-icon {
+    width: 24px;
+    height: 24px;
+    fill: $gray;
+    transition: 0.2s;
+
+    .menu-group.is-visiable & {
+      transform: rotate(180deg);
+    }
+  }
+
+  &-element {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 5px;
+    background: #fafafa;
+    transition: 0.3s;
+    cursor: pointer;
+    color: $white;
+    overflow: hidden;
+    user-select: none;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &:hover {
+      @include floatHover;
+    }
+  }
+
+  &-elementImage {
+    max-width: 100%;
+    pointer-events: none;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid rgba($black, 5%);
+  }
+}
+
+.sortable-ghost {
+  background-color: #0c91d3;
+  opacity: 0.9;
+  height: max-content;
+  box-shadow: 0 0 2px 1px $blue;
+}
+
+.is-editable {
+  &:hover {
+    //box-shadow: inset 0 0 0 2px $gray;
+  }
+}
 
 .controller-panel {
   background-color: #353e45;
@@ -1923,6 +1960,7 @@ p{
 
   //  padding: 8px 16px 24px 16px;
   padding: 0;
+
   .button-item {
     margin: 8px 16px 24px 16px;
   }
@@ -1948,6 +1986,7 @@ label {
   position: relative;
   cursor: move;
   transition: all 0.3s;
+
   &:hover {
     &::after {
       animation: fadeInFromNone 0.3s ease-out;
@@ -1960,8 +1999,10 @@ label {
       background-color: #ffc107 !important;
       opacity: 0.4;
     }
+
     box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.2);
   }
+
   &:active {
     /* &::after{
         background-color: #FFA000 !important;
@@ -1969,6 +2010,7 @@ label {
       }*/
   }
 }
+
 ::v-deep(.block-pointer-event) {
   div {
     pointer-events: none;
@@ -2010,6 +2052,7 @@ label {
     }
   }
 }
+
 .cursor-bucket {
   [clonable] {
     pointer-events: auto !important;
@@ -2043,13 +2086,17 @@ label {
     //  outline-offset: 8px;
     box-shadow: 0px 10px 50px 5px rgba(113, 112, 112, 0.24) !important;
   }
+
   margin: auto;
+
   &.desktop {
     max-width: 1920px;
   }
+
   &.tablet {
     max-width: 1200px;
   }
+
   &.mobile {
     max-width: 680px;
   }
@@ -2057,6 +2104,7 @@ label {
   // Fix no sections page height
   .page-content-wrap-editor {
     min-height: 80vh;
+
     &.drop-active {
       background: #4e52c4 !important;
     }
@@ -2096,10 +2144,12 @@ label {
       .-in-animation {
         opacity: 0 !important;
       }
+
       // Show ID of editable elements:
       .-trackable {
         // Element must have -trackable class!
         position: relative;
+
         &[id]:not([id=""]) {
           border: solid #b60e0e !important;
 
@@ -2117,6 +2167,7 @@ label {
             z-index: 4;
             transition: all 0.5s ease-in-out;
           }
+
           &:hover {
             &:after {
               transform: translateY(-50%);
@@ -2153,6 +2204,7 @@ label {
           }
         }
       }
+
       &.--show-styles {
         .is-editable {
           &[style]:not([style=""]) {
@@ -2162,10 +2214,12 @@ label {
           }
         }
       }
+
       &.--show-classes,
       &.--show-styles {
         .is-editable {
           position: relative;
+
           &[class]:not([class=""]),
           &[style]:not([style=""]) {
             &:after {
@@ -2183,6 +2237,7 @@ label {
               transition: all 0.5s ease-in-out;
               line-height: normal;
             }
+
             &:hover {
               &:after {
                 transform: scale(1.2);
@@ -2201,6 +2256,7 @@ label {
                 right: 0;
               }
             }
+
             // Column:
             &.v-col {
               &:after {
@@ -2210,6 +2266,7 @@ label {
                 left: 0;
               }
             }
+
             // Container:
             &.v-container {
               &:after {
@@ -2219,6 +2276,7 @@ label {
                 left: 0;
               }
             }
+
             // Section:
             &.section {
               &:after {
@@ -2228,8 +2286,11 @@ label {
               }
             }
           }
-        } //End of is-editable
+        }
+
+        //End of is-editable
       }
+
       // End add class & style show box
     }
 
@@ -2238,12 +2299,14 @@ label {
       .page-content-wrap-editor {
         section {
           border-width: 1.5px !important;
+
           .is-editable:not(section):not(.button):not(.artboard):not(.v-btn) {
             border-width: 1.5px !important;
           }
         }
       }
     }
+
     // End fix border width in scale down mode
 
     .page-content-wrap-editor {
@@ -2292,6 +2355,7 @@ label {
               background-size: cover;
             }
           }
+
           > :not(.v-img, img):not(header):not(.-in-animation) {
             display: none;
           }
@@ -2317,10 +2381,13 @@ label {
             ) !important;
             background-size: cover;
           }
+
           img {
             opacity: 0;
           }
-        } // END: .image-container
+        }
+
+        // END: .image-container
 
         .v-input {
           .v-input__slot {
@@ -2346,6 +2413,7 @@ label {
           small {
             color: var(--text-color) !important;
           }
+
           > div {
             // All time text gradient wrap with div!
             -webkit-text-fill-color: unset !important;
@@ -2365,10 +2433,7 @@ label {
           user-select: var(--ban-user-select) !important;
         }
 
-        // Add buttons: (make hide!)
-        .add-col,
-        .add-btn,
-        .remove-btn,
+        // (make hide!)
         .hide-on-blueprint {
           display: none !important;
         }
@@ -2377,6 +2442,7 @@ label {
         .product-view {
           pointer-events: var(--ban-pointer-event);
           position: relative;
+
           &:after {
             font-family: "fontawesome";
             content: "\f291";
@@ -2405,6 +2471,7 @@ label {
             border: solid var(--solid-bg-color-dark);
           }
         }
+
         // Products & Categories:
         .products-container {
           .products-layout {
@@ -2412,6 +2479,7 @@ label {
             .card-item-new {
               pointer-events: var(--ban-pointer-event);
               position: relative;
+
               &:after {
                 font-family: "fontawesome";
                 content: "\f115";
@@ -2437,26 +2505,34 @@ label {
 
                 border-radius: 8px;
                 border: solid var(--solid-bg-color-dark);
-              } // end after
+              }
+
+              // end after
 
               > div {
                 // Content of card:
                 opacity: 0 !important;
               }
-            } // end div
+            }
+
+            // end div
 
             > .card-item-new {
               &:after {
                 content: "\f291" !important;
               }
             }
-          } // end products-layout
+          }
+
+          // end products-layout
         }
+
         // Article: (Or blogs)
         .s--article-editor-container,
         .blog-card {
           pointer-events: var(--ban-pointer-event);
           position: relative;
+
           &:after {
             font-family: "fontawesome";
             content: "\f1ea";
@@ -2491,7 +2567,9 @@ label {
           &:after {
           }
         }
-      } // End section
+      }
+
+      // End section
     }
   }
 }
@@ -2524,6 +2602,7 @@ label {
 
 .show-name {
   position: relative;
+
   &:after {
     position: absolute;
     left: 0;
@@ -2540,8 +2619,6 @@ label {
   }
 }
 
-
-
 .arrow-margin {
   position: absolute;
   width: 6px;
@@ -2557,6 +2634,7 @@ label {
 
   &:hover {
     border-color: #d32f2f;
+
     &:after {
       background: #d32f2f;
     }
@@ -2586,9 +2664,11 @@ label {
 
   &.--reverse {
     height: calc(-1 * var(--margin));
+
     &.-top {
       top: var(--margin);
     }
+
     &.-bottom {
       bottom: var(--margin);
     }
@@ -2605,6 +2685,7 @@ label {
   flex-direction: row-reverse;
 
   --margin-left-bar: -80px;
+
   &:before {
     content: "";
     height: 4px;
@@ -2613,12 +2694,15 @@ label {
     margin-left: var(--margin-left-bar);
     pointer-events: none;
   }
+
   &.-single {
     --margin-left-bar: -45px;
   }
+
   &.-double {
     --margin-left-bar: -100px;
   }
+
   &.-triple {
     --margin-left-bar: -175px;
   }
@@ -2628,9 +2712,11 @@ label {
     border-radius: 50%;
     position: relative;
     z-index: 1;
+
     .v-icon {
       transition: all 0.3s;
     }
+
     &:hover {
       .v-icon {
         transform: rotate(120deg);
@@ -2647,6 +2733,7 @@ label {
   border-radius: 8px;
   text-align: center;
 }
+
 .in-scale-down {
   .inline-editor-sheet {
     button.v-btn--outlined {

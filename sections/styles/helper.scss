@@ -12,8 +12,32 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+// Mixin to add prefix to class names
+@mixin prefix-classes($prefix) {
+  .#{$prefix}center-horizontal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .#{$prefix}center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .#{$prefix}padding {
+    padding: 20px;
+  }
+  .#{$prefix}text-center {
+    text-align: center;
+  }
+  .#{$prefix}full-width {
+    width: 100%;
+  }
+}
 
-$flexCenter
-  display: flex
-  justify-content: center
-  align-items: center
+// Usage of the mixin within a parent class
+.page-builder {
+  @include prefix-classes('add-');
+}

@@ -15,14 +15,12 @@
 <template>
   <div
     v-if="builder.isEditing"
-
     class="styler"
     @click.stop=""
     :class="[
       {
         'is-visible': isVisible,
-      '-dot -red':
-          type === 'button' || type === 'text',
+        '-dot -red': type === 'button' || type === 'text',
         '-dot -green':
           type === 'row' || type === 'row-grid' || type === 'buttons-row',
         '-dot -amber': type === 'container',
@@ -97,8 +95,6 @@
 </template>
 
 <script>
-
-
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
@@ -136,22 +132,15 @@ export default {
       type: Object,
       required: true,
     },
-    isVisible:Boolean,
-
+    isVisible: Boolean,
   },
   data: () => ({
     PageBuilderColorsHelper: PageBuilderColorsHelper,
 
-
-
     element_id: null,
-
-
   }),
 
-  computed: {
-
-  },
+  computed: {},
   watch: {},
   created() {
     // Get element ID:
@@ -227,159 +216,144 @@ export default {
 };
 </script>
 
-<style lang="stylus">
-//@import '~@baianat/base.framework/src/stylus/util/colors'
-@import "../../src/stylus/colors.styl"
+<style lang="scss">
 
-$dark = #323c47;
-$white = #fff;
-.styler
-  position: absolute
-  top: 0
-  left 0
-  display none
-  z-index: 200
-  visibility: hidden
-  opacity: 0
-  margin: 10px 0
-  padding: 5px
-  background: $dark
-  border-radius: 26px
-  flex-direction: column
-  justify-content: center
-  align-items: center
+$dark: #323c47;
+$white: #fff;
+$red: #ff3d3d;
 
-  &-list
-    display: flex
-    justify-content: center
-    align-items: center
-    list-style: none
-    margin: 0
-    padding: 0 !important
-    color: #fff
+.styler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 200;
+  visibility: hidden;
+  opacity: 0;
+  margin: 10px 0;
+  padding: 5px;
+  background: $dark;
+  border-radius: 26px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  &-input
-    background: $white
-    color: $dark
-    border: 0
-    outline: 0
-    width: 40px
-    height: 40px
-    border-radius: 42px
-    margin: 0 5px 0 0
-    text-align: center
-    -webkit-appearance: none
-    -moz-appearance: textfield
-    appearance: none
+  &-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0 !important;
+    color: #fff;
+  }
 
-  &-button
-    display: flex
-    justify-content: center
-    align-items: center
-    outline: 0
-    background: $dark
-    border: 0
-    fill: $white
-    color: $white
-    width: 42px
-    height: 42px
-    border-radius: 42px
-    margin: 0 5px 0 0
+  &-input {
+    background: $white;
+    color: $dark;
+    border: 0;
+    outline: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 42px;
+    margin: 0 5px 0 0;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+  }
 
-    &:hover
-      background: darken($dark, 20%)
+  &-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+    background: $dark;
+    border: 0;
+    fill: $white;
+    color: $white;
+    width: 42px;
+    height: 42px;
+    border-radius: 42px;
+    margin: 0 5px 0 0;
 
-    &:first-child
-      margin-left: 5px
+    &:hover {
+      background: darken($dark, 20%);
+    }
 
-    &.selected
-      background: darken($dark, 40%)
+    &:first-child {
+      margin-left: 5px;
+    }
 
-  &-selector
-    margin: 0 5px
+    &.selected {
+      background: darken($dark, 40%);
+    }
+  }
 
-  &.is-visible
-    visibility: visible
-    opacity: 1
-    display flex
+  &-selector {
+    margin: 0 5px;
+  }
 
-  .input-group
-    margin: 5px
+  &.is-visible {
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+  }
 
-.align
-  @extend .styler-list
-  height: 42px
+  .input-group {
+    margin: 5px;
+  }
+}
 
+.align {
+  @extend .styler-list;
+  height: 42px;
+}
 
-.colorer
-  @extend .styler-list
-  height: 42px
+.colorer {
+  @extend .styler-list;
+  height: 42px;
 
-  li > input
-    -webkit-appearance: none
-    -moz-appearance: textfield
-    appearance: none
-    width: 30px
-    height: 30px
-    border-radius: 40px
-    border: 4px solid darken($dark, 20%)
-    margin: 0 5px
-    outline: none
+  li > input {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 40px;
+    border: 4px solid darken($dark, 20%);
+    margin: 0 5px;
+    outline: none;
 
-    &:checked
-      border-color: lighten($dark, 20%)
+    &:checked {
+      border-color: lighten($dark, 20%);
+    }
 
-    &:hover
-      border-color: lighten($dark, 20%)
+    &:hover {
+      border-color: lighten($dark, 20%);
+    }
 
-    &#colorRed
-      background $red
+    &#colorRed {
+      background: $red;
+    }
 
-    &#colorSamin
-      background var(--plate-light-1)
+    &#colorSamin {
+      background: var(--plate-light-1);
+    }
 
-    &#colorPink
-      background var(--plate-light-2)
+    // Repeat for other colors with appropriate variable or custom value
+  }
+}
 
-    &#colorBlack
-      background var(--plate-light-3)
+.is-hidden {
+  display: none;
+}
 
-    &#colorGreen
-      background var(--plate-light-4)
-
-    &#colorBlue
-      background var(--plate-light-5)
-
-    &#colorWhite
-      background var(--plate-light-6)
-
-    &#colorDeep-purple
-      background var(--plate-light-7)
-
-    &#colorTeal
-      background var(--plate-light-8)
-
-    &#colorCyan
-      background var(--plate-light-9)
-
-    &#colorAmber
-      background var(--plate-light-10)
-
-    &#colorBlue-grey
-      background var(--plate-light-11)
-
-
-    &#colorTransparent
-      background linear-gradient(45deg, white 50%, #444 50%);
-
-
-.is-hidden
-  display: none
-
-input[type=number]::-webkit-inner-spin-button
-input[type=number]::-webkit-outer-spin-button
-  -webkit-appearance: none
-  margin: 0
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
 
 <style lang="scss">

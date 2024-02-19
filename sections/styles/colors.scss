@@ -11,13 +11,32 @@
  * Our journey is not just about reaching a destination, but about creating a masterpiece.
  * Tread carefully, for you're treading on dreams.
  */
-
-
-.page-builder
 /*
-  ::selection
-    color: inherit   REMOVED !! BUG IN SELECTION!
-*/
+ * Color theme
+ */
+$magenta: #eb008b ;
+$blue: #0072FF ;
+$cyan: #00d4f0 ;
+$green: #18d88b !default;
+$yellow: #ffdd57 !default;
+$orange: #ffa557 !default;
+$red: #ff3d3d !default;
+$purple: #a324ea !default;
 
-  .button
-    white-space: nowrap
+$deep-purple: #512DA8 !default;
+$teal: #00796B !default;
+$cyan: #0097A7 !default;
+$amber: #FFA000 !default;
+$pink: #C2185B !default;
+$blue-grey: #455A64 !default;
+
+/*
+ * Grayscale
+ */
+$black: #000 !default;
+$dark: #323c47 !default;
+$gray: #c1c1c1 !default;
+$gray-dark: darken($gray, 10%) !default;
+$gray-light: lighten($gray, 10%) !default;
+$light: #f5f5f5 !default;
+$white: #fff !default;

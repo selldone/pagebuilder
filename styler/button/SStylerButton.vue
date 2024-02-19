@@ -58,8 +58,8 @@
             content-class="bg-black white--text"
           >
             Background
-            <v-chip v-if="colorerColor" size="small" pill class="ma-1">
-              {{ colorerColor }}
+            <v-chip v-if="bg_color_class" size="small" pill class="ma-1">
+              {{ bg_color_class }}
             </v-chip>
 
             <v-chip v-if="custom_color_value" size="small" pill class="ma-1">
@@ -189,13 +189,12 @@
 
       <li v-if="option === 'colorer'">
         <ul class="colorer">
-          <li v-for="color in COLORS_LIGHT" :key="color">
+          <li v-for="color_plate in COLORS_LIGHT" :key="color_plate">
             <input
-              :id="`color${color.charAt(0).toUpperCase() + color.slice(1)}`"
-              v-model="colorerColor"
+              :class="color_plate"
+              v-model="bg_color_class"
               type="radio"
-              name="colorer"
-              :value="color"
+              :value="color_plate"
               @change="changeColor()"
             />
           </li>
@@ -444,12 +443,14 @@ const ButtonAlign = [
   { val: "center", icon: "format_align_center" },
   { val: "right", icon: "format_align_right" },
 ];
-const COLORS = [
+
+
+
+const COLORSxxxxxxx = [
   "samin",
   "pink",
   "black",
   "green",
-
   "blue",
   "white",
   "deep-purple",
@@ -457,9 +458,36 @@ const COLORS = [
   "cyan",
   "amber",
   "blue-grey",
-
   "transparent",
 ];
+const COLORS_LIGHT=[
+    'bg--plate-light-1',
+    'bg--plate-light-2',
+    'bg--plate-light-3',
+    'bg--plate-light-4',
+    'bg--plate-light-5',
+    'bg--plate-light-6',
+    'bg--plate-light-7',
+    'bg--plate-light-8',
+    'bg--plate-light-9',
+    'bg--plate-light-10',
+    'bg--plate-light-11',
+    'bg--plate-light-12',
+]
+const COLORS_DARK=[
+  'bg--plate-dark-1',
+  'bg--plate-dark-2',
+  'bg--plate-dark-3',
+  'bg--plate-dark-4',
+  'bg--plate-dark-5',
+  'bg--plate-dark-6',
+  'bg--plate-dark-7',
+  'bg--plate-dark-8',
+  'bg--plate-dark-9',
+  'bg--plate-dark-10',
+  'bg--plate-dark-11',
+  'bg--plate-dark-12',
+]
 
 export default {
   name: "SStylerButton",
@@ -525,8 +553,8 @@ export default {
   data: () => ({
     TextAlign: TextAlign,
     ButtonAlign: ButtonAlign,
-    COLORS_LIGHT: COLORS,
-    COLORS_DARK: COLORS,
+    COLORS_LIGHT: COLORS_LIGHT,
+    COLORS_DARK: COLORS_DARK,
 
     BtnSizes: [
       { val: "x-small", title: "X Small" },
@@ -549,7 +577,7 @@ export default {
 
     option: null,
 
-    colorerColor: "",
+    bg_color_class: "",
 
     custom_color_value: null,
 
@@ -626,7 +654,7 @@ export default {
     console.log("this.custom_color_value", this.custom_color_value);
 
     // Find color set in class:
-    this.colorerColor = COLORS.find((i) =>
+    this.bg_color_class = COLORS_LIGHT.find((i) =>
       this.target.classes.includes(`is-${i}`),
     );
 
@@ -672,8 +700,8 @@ export default {
     },
 
     changeColor() {
-      this.removeClass(`is-`);
-      this.addClass(`is-${this.colorerColor}`);
+      this.removeClass(`bg--`);
+      this.addClass(this.bg_color_class);
 
       // Remove custom color property:
       this.target[this.keyColor] = null;
@@ -681,7 +709,7 @@ export default {
 
     setCustomColorerBgSection(color) {
       console.log("Set custom color:", color);
-      this.colorerColor = null;
+      this.bg_color_class = null;
       this.custom_color_value = color;
       this.removeClass(`is-`); // Remove all color class!
 

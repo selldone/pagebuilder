@@ -12,15 +12,20 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-@import variables
-@import colors
+@import "variables";
+@import "plates";
 
-.s--styler-icon
-  display: block
-  width: 20px
-  height: 20px
-  fill:  #fff;
-  color:  #fff;
-$floatHover
-  cursor: pointer
-  box-shadow: 0 14px 28px alpha($black, 0.125), 0 10px 10px alpha($black, 0.1)
+// The following import is commented out, similar to the original Stylus code.
+// @import '~@baianat/base.framework/base';
+@import "../../src/stylus/_app.scss";
+
+//@import "header";
+@import "section";
+@import "helper";
+//@import "scrolling";
+@import "./components_style.scss";
+@import "./background.scss";
+// The following import is commented out, similar to the original Stylus code.
+// @import "./../sections/grids.scss";
+@import "slide.scss";
+

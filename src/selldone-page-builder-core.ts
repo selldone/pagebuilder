@@ -58,6 +58,7 @@ import SectionHeroSearch from "@app-page-builder/sections/hero/SectionHeroSearch
 import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
 import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
+import {MigrateFromOldVersion} from "@app-page-builder/src/MigrateFromOldVersion";
 
 export namespace Landing {
   export interface IBuilderOptions {
@@ -363,6 +364,9 @@ class SelldonePageBuilderCore {
    */
   set(data: Page.IContent, from_theme: boolean = false) {
     LOG("⚽ Set -----> data", data);
+
+    MigrateFromOldVersion(data);
+
 
     this.style = data.style;
 

@@ -12,31 +12,13 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-.page-builder
-  .is-active
-    img
-      opacity: 1
-      transition: 0.4s
-    p
-    h1
-    h2
-    h3
-    h6
-    b
-      opacity: 1
-      transform: translate3d(0, 0, 0)
-      transition: 0.4s
+.page-builder {
+  .fade-enter-active, .fade-leave-active {
+    transition: all 0.3s ease;
+    transform: scaleX(1);
+  }
 
-  .is-inactive
-    img
-      opacity: 0
-      transition: 0.4s
-    p
-    h1
-    h2
-    h3
-    h6
-    b
-      opacity: 0
-      transform: translate3d(0, -200px, 0)
-      transition: 0.4s
+  .fade-enter, .fade-leave-to {
+    transform: scaleX(0);
+  }
+}
