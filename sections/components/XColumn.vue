@@ -68,7 +68,11 @@ export default defineComponent({
       type: Function,
     },
   },
-  created() {},
+  created() {
+    if(!this.isObject(this.object.grid)){
+      this.object.grid= { mobile: 12, tablet: 6, desktop: 4 }
+    }
+  },
 
   methods: {
     copyStyle(event) {

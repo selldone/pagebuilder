@@ -101,55 +101,15 @@
       <v-divider class="mx-2" vertical inset></v-divider>
       <!-- Row grid use to apply grid to all elements like blogs -->
 
-      <li>
-        <button
-          class="styler-button"
-          @click="selectDevice('mobile')"
-          :class="{ selected: device === 'mobile' }"
-          title="Size on mobile devices."
-        >
-          <SStylerIcon name="mobile" />
+      <s-styler-tools-devices
+        v-model="device"
+        @update:model-value="selectDevice"
+        :mobile-value="target.mobile"
+        :tablet-value="target.tablet"
+        :desktop-value="target.desktop"
+        :widescreen-value="target.widescreen"
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Mobile
-          </v-tooltip>
-        </button>
-      </li>
-      <li>
-        <button
-          class="styler-button"
-          @click="selectDevice('tablet')"
-          :class="{ selected: device === 'tablet' }"
-          title="Size on tablet devices."
-        >
-          <SStylerIcon name="tablet" />
-        </button>
-      </li>
-      <li>
-        <button
-          class="styler-button"
-          @click="selectDevice('desktop')"
-          :class="{ selected: device === 'desktop' }"
-          title="Size on pc devices."
-        >
-          <SStylerIcon name="laptop" />
-        </button>
-      </li>
-      <li>
-        <button
-          class="styler-button"
-          @click="selectDevice('widescreen')"
-          :class="{ selected: device === 'widescreen' }"
-          title="Size on large display."
-        >
-          <v-icon dark size="20">tv</v-icon>
-        </button>
-      </li>
+      ></s-styler-tools-devices>
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -195,6 +155,7 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
+import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerToolsDevices.vue";
 
 export default {
   name: "SStylerGrid",
@@ -202,6 +163,7 @@ export default {
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
   components: {
+    SStylerToolsDevices,
     SStylerToolsColors,
     SNumberInput,
     SStylerIcon,
@@ -303,22 +265,15 @@ export default {
     },
 
     selectDevice(device) {
-      const section_value = this.section.get(this.name);
-      if (!section_value)
-        this.section.set(this.name, { mobile: 12, tablet: 6, desktop: 4 });
-
-      const gridValue = section_value ? section_value[device] : null;
       this.option = "columnWidth";
       this.device = device;
-      this.gridValue = gridValue;
+
+      this.gridValue = this.target[device];
     },
     setGridValue(val) {
       val = Math.min(Math.max(val, 0), 12);
-      this.section.set(this.name, (grid) => {
-        grid[this.device] = val;
-      });
-      // Fix remove .is-editable at change element classes
-      this.isEditableFix();
+
+      this.target[this.device] = val;
     },
   },
 };

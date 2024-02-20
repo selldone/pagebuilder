@@ -23,7 +23,7 @@
         class="min-h-100"
       >
         <v-col
-          v-styler:grid="{target:$sectionData.columns[0].grid}"
+          v-styler:grid="{ target: $sectionData.columns[0].grid }"
           :class="[gridClasses[0], $sectionData.columns[0].classes]"
           :style="[
             $sectionData.columns[0].style,
@@ -39,7 +39,7 @@
           </video-background>
 
           <h1
-            v-styler:text="{target:$sectionData,keyText:'title'}   "
+            v-styler:text="{ target: $sectionData, keyText: 'title' }"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
@@ -47,7 +47,7 @@
           />
 
           <p
-            v-styler:text="{target:$sectionData,keyText:'content'}  "
+            v-styler:text="{ target: $sectionData, keyText: 'content' }"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "
@@ -84,7 +84,7 @@
         </v-col>
 
         <v-col
-          v-styler:grid="{target:$sectionData.columns[1].grid}"
+          v-styler:grid="{ target: $sectionData.columns[1].grid }"
           :class="[gridClasses[1], $sectionData.columns[1].classes]"
           :style="[
             $sectionData.columns[1].style,
@@ -100,7 +100,7 @@
           </video-background>
 
           <p
-            v-styler:text="{target:$sectionData,keyText:'content2'}  "
+            v-styler:text="{ target: $sectionData, keyText: 'content2' }"
             v-html="
               $sectionData.content2?.applyAugment(augment, $builder.isEditing)
             "
@@ -220,6 +220,19 @@ export default {
         dark: false,
         color: null,
       };
+    }
+
+    if (
+      this.$sectionData.columns[0] &&
+      !this.isObject(this.$sectionData.columns[0].grid)
+    ) {
+      this.$sectionData.columns[0].grid = { mobile: 12, tablet: 6, desktop: 4 };
+    }
+    if (
+      this.$sectionData.columns[1] &&
+      !this.isObject(this.$sectionData.columns[1].grid)
+    ) {
+      this.$sectionData.columns[1].grid = { mobile: 12, tablet: 6, desktop: 4 };
     }
   },
 
