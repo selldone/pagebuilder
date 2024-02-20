@@ -111,11 +111,11 @@
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block"><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
-        <div v-if="copySection" class="py-1">
-          <v-icon color="success" size="x-small">circle</v-icon>
+        <b ><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
+        <v-chip color="green" variant="tonal" v-if="copySection" class="ma-1" size="small">
+          <v-icon color="success" size="x-small" start>circle</v-icon>
           Copy available
-        </div>
+        </v-chip>
 
         <div>
           Clicking this button will add a copied section here. If you've copied

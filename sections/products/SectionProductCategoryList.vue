@@ -38,7 +38,7 @@
         :force-mode-view="mode_view"
         :force-package="force_package"
         :view-only="$builder.isEditing"
-        v-styler:row=" { target: $sectionData,hasArrangement:true,hasFluid:true }"
+        v-styler:row=" rowBinding"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
       ></s-storefront-products-listing>
@@ -101,7 +101,16 @@ export default {
     force_package: null,
     mode_view: ModeView.NORMAL.code,
   }),
-  computed: {},
+  computed: {
+    /**
+     * 🐍 Use compute for better performance.
+     * @return {{target: *}}
+     */
+    rowBinding() {
+      return { target: this.$sectionData,hasArrangement:true,hasFluid:true };
+    },
+
+  },
   watch: {
     "$sectionData.products_list"(value) {
       if (value instanceof Object) {

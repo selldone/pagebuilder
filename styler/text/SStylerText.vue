@@ -28,22 +28,32 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Button ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Link ―――――――――――――――――― -->
 
       <li v-if="!noLink">
-        <button class="styler-button" @click="option = 'link'" title="Link">
+        <button
+          class="styler-button position-relative"
+          @click="option = 'link'"
+        >
+          <v-icon
+            v-if="url"
+            color="#fff"
+            icon="check_circle"
+            class="absolute-bottom-end"
+            size="14"
+          >
+          </v-icon>
+
           <SStylerIcon name="link" />
 
           <v-tooltip
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
-            attach
           >
             Link
 
             <v-chip v-if="url" size="x-small" pill class="ma-1">
-              <v-icon start :color="url">circle</v-icon>
               {{ url }}
             </v-chip>
           </v-tooltip>
@@ -52,29 +62,48 @@
 
       <!-- ―――――――――――――――――― Text Color ―――――――――――――――――― -->
       <li>
-        <button class="styler-button" @click="option = 'textColor'">
-          <v-icon dark size="20">format_color_text</v-icon>
+        <v-badge
+          :model-value="!!text_color_display"
+          :color="text_color_display"
+          dot
+          offset-y="8"
+          offset-x="8"
+        >
+          <button class="styler-button" @click="option = 'textColor'">
+            <v-icon dark size="20">format_color_text</v-icon>
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Text Color
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+              content-class="bg-black white--text"
+              attach
+            >
+              Color
 
-            <v-chip v-if="text_color_display" size="small" pill class="ma-1">
-              <v-icon start :color="text_color_display">circle</v-icon>
-              {{ text_color_display }}
-            </v-chip>
-          </v-tooltip>
-        </button>
+              <v-chip v-if="text_color_display" size="small" pill class="ma-1">
+                <v-icon start :color="text_color_display">circle</v-icon>
+                {{ text_color_display }}
+              </v-chip>
+            </v-tooltip>
+          </button>
+        </v-badge>
       </li>
       <!-- ―――――――――――――――――― Font ―――――――――――――――――― -->
 
       <li>
-        <button class="styler-button" @click="option = 'text-font'">
-          <v-icon dark size="20">font_download</v-icon>
+        <button
+          class="styler-button position-relative"
+          @click="option = 'text-font'"
+        >
+          <v-icon size="20">font_download</v-icon>
+          <v-icon
+            v-if="text_font"
+            color="#fff"
+            icon="check_circle"
+            class="absolute-bottom-end"
+            size="14"
+          >
+          </v-icon>
 
           <v-tooltip
             activator="parent"
@@ -97,7 +126,8 @@
 
       <li>
         <button class="styler-button" @click="option = 'align'">
-          <SStylerIcon name="align" />
+          <v-icon v-if="text_align" size="20">{{ text_align.icon }}</v-icon>
+          <SStylerIcon v-else name="align" />
 
           <v-tooltip
             activator="parent"
@@ -105,7 +135,7 @@
             content-class="bg-black white--text"
             attach
           >
-            Text Align
+            Align
           </v-tooltip>
         </button>
       </li>
@@ -136,7 +166,7 @@
             content-class="bg-black white--text"
             attach
           >
-            Text Gradient
+            Gradient
           </v-tooltip>
         </button>
       </li>
@@ -248,14 +278,21 @@
               class="styler-button"
               @mousedown="
                 (event) => {
-                  setTextAlign(it.val);
-
+                  setTextAlign(it);
                   event.preventDefault();
                 }
               "
-              :title="getName(it.val)"
             >
               <v-icon dark size="20">{{ it.icon }}</v-icon>
+
+              <v-tooltip
+                activator="parent"
+                location="bottom"
+                content-class="bg-black white--text"
+                attach
+              >
+                {{ it.title }}
+              </v-tooltip>
             </button>
           </li>
         </ul>
@@ -336,10 +373,10 @@ import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
 
 const TextAlign = [
-  { val: "left", icon: "format_align_left" },
-  { val: "center", icon: "format_align_center" },
-  { val: "right", icon: "format_align_right" },
-  { val: "justify", icon: "format_align_justify" },
+  { val: "start", icon: "format_align_left", title: "Start" },
+  { val: "center", icon: "format_align_center", title: "Center" },
+  { val: "end", icon: "format_align_right", title: "End" },
+  { val: "justify", icon: "format_align_justify", title: "Justify" },
 ];
 const ButtonAlign = [
   { val: "left", icon: "format_align_left" },
@@ -439,6 +476,8 @@ export default {
     text_font: null,
 
     uppercase: false,
+
+    text_align: null,
   }),
 
   computed: {
@@ -502,6 +541,10 @@ export default {
         this.el.firstChild.classList.contains("text-gradient");
 
       this.uppercase = this.el.firstChild.classList.contains("text-uppercase");
+
+      this.text_align = TextAlign.find((it) =>
+        this.el.firstChild.classList.contains(`text-align-${it.val}`),
+      );
     }
   },
   mounted() {
@@ -509,18 +552,21 @@ export default {
 
     this.selectionChangeHandler = () => {
       const selection = document.getSelection();
-      const selectedElement = selection.anchorNode.parentNode;
+      const selectedElement = selection.anchorNode?.parentNode;
 
-      if (this.el.contains(selectedElement)) {
-        console.log(
-          "Selection changed within your element:",
-          selection.toString(),
-        );
-        this.calculateSelectedTextStyle();
+      if (selectedElement && this.el.contains(selectedElement)) {
+        //console.log("Selection changed within your element:", selection.toString(),);
+        if (selection.toString()) this.calculateSelectedTextStyle();
       }
     };
 
     document.addEventListener("selectionchange", this.selectionChangeHandler);
+
+    this.updateValue = () => {
+      // console.log("📐 updateValue", this.target, this.keyText, this.el.innerHTML);
+      this.target[this.keyText] = this.el.innerHTML;
+    };
+    this.el.addEventListener("blur", this.updateValue);
   },
 
   beforeUnmount() {
@@ -529,6 +575,8 @@ export default {
       "selectionchange",
       this.selectionChangeHandler,
     );
+
+    this.el.removeEventListener("blur", this.updateValue);
   },
 
   methods: {
@@ -555,8 +603,6 @@ export default {
 
       e.preventDefault();
       this.option = null;
-
-      this.updateValue();
     },
 
     openTextColorEdit(event) {
@@ -578,16 +624,12 @@ export default {
       );
 
       event.preventDefault();
-
-      this.updateValue();
     },
 
     setFont(font) {
       // console.log("📐 Set font", font, this.el);
       this.restoreSelection();
       this.setTextRootElementStyle("font-family", font, true);
-
-      this.updateValue();
     },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Upper /Normal case ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
@@ -595,19 +637,13 @@ export default {
     toggleCase() {
       this.uppercase = !this.uppercase;
       this.toggleElementClass("text-uppercase", true);
-
-      this.updateValue();
     },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Text Align ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
-    setTextAlign(val) {
-      this.setElementClass("text-align-", val, true);
-      this.updateValue();
-    },
-
-    updateValue() {
-      this.target[this.keyText] = this.el.innerHTML;
+    setTextAlign(align) {
+      this.text_align = align;
+      this.setElementClass("text-align-", align.val, true);
     },
 
     //------------------------------------------------------------------

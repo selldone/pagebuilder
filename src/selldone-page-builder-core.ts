@@ -61,6 +61,8 @@ import XRating from "@app-page-builder/components/x/rating/XRating.vue";
 import {MigrateFromOldVersion} from "@app-page-builder/src/MigrateFromOldVersion";
 import {isObject} from "lodash-es";
 
+const DEBUG = false;
+
 export namespace Landing {
   export interface IBuilderOptions {
     title: string;
@@ -222,9 +224,18 @@ class SelldonePageBuilderCore {
     has_initialize: boolean = false,
     force_set_new_uid: boolean = false,
   ) {
+    if (DEBUG)
+      console.log(
+        "📐 Add section",
+        options,
+        "position",
+        position,
+        has_initialize,
+        force_set_new_uid,
+      );
     if (!options.schema) {
       options.schema = this.components[options.name]?.extends?.$schema;
-      console.log("Auto assign schema.", options);
+      if (DEBUG) console.log("Auto assign schema.", options);
     }
 
     if (!options.schema) {
@@ -237,6 +248,9 @@ class SelldonePageBuilderCore {
       return;
     }
     const section = new Section(options, force_set_new_uid);
+
+    if (DEBUG) console.log("📐 Add section", "section", section);
+
     //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
     if (has_initialize && options.schema?.$init) {
       options.schema?.$init(section.data);
@@ -494,5 +508,5 @@ function initializeXComponents(app: App) {
 export default SelldonePageBuilderCore;
 
 function LOG(...text: any) {
-  // console.log('🪷 Core',...text)
+  if (DEBUG) console.log("🪷 Core", ...text);
 }

@@ -16,8 +16,10 @@ import {defineComponent} from "vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import {isParentTo} from "@app-page-builder/src/util";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import Popper from "popper.js";
+//import Popper from "popper.js";
+import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui/dom";
 
+const DEBUG = true;
 /**
  * Mixin to provide inline editing capabilities.
  * @mixin PageBuilderMixin
@@ -52,6 +54,12 @@ export const StylerMixin = defineComponent({
   },
 
   beforeUnmount() {
+    if (DEBUG)
+      console.log(
+        `Styler Mixin | beforeUnmount | Remove event listener ${this.position}`,
+        this,
+      );
+
     this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_STYLER_OPEN);
 
     this.el.classList.remove("is-editable");
@@ -62,28 +70,29 @@ export const StylerMixin = defineComponent({
   methods: {
     //――――――――――――――――――――――  Proper (Styler tools location) ――――――――――――――――――――
     updatePopper() {
+      return;
       this.$nextTick(() => {
         this.checkProper();
         this.popper.update();
       });
     },
     checkProper() {
-      if (!this.popper) {
+      if (!this.cleanup) {
         const position = this.position;
         /* this.$props.type === "section"
-                                                                                                                                                   ? "left-start"
-                                                                                                                                                   : this.$props.type === "row" && this.hasAttribute("has-add")
-                                                                                                                                                     ? "left-center" // Prevent over lapping rows
-                                                                                                                                                     : this.$props.type === "buttons-row"
-                                                                                                                                                       ? "left-center"
-                                                                                                                                                       : this.$props.type === "row"
-                                                                                                                                                         ? "right-end"
-                                                                                                                                                         : this.$props.type === "container"
-                                                                                                                                                           ? "right-center"
-                                                                                                                                                           : this.$props.type === "grid" ||
-                                                                                                                                                               this.$props.type === "row-grid"
-                                                                                                                                                             ? "bottom"
-                                                                                                                                                             : "top";*/
+                                                                              ? "left-start"
+                                                                                                                                                                                                                           : this.$props.type === "row" && this.hasAttribute("has-add")
+                                                                                                                                                                                                                             ? "left-center" // Prevent over lapping rows
+                                                                                                                                                                                                                             : this.$props.type === "buttons-row"
+                                                                                                                                                                                                                               ? "left-center"
+                                                                                                                                                                                                                               : this.$props.type === "row"
+                                                                                                                                                                                                                                 ? "right-end"
+                                                                                                                                                                                                                                 : this.$props.type === "container"
+                                                                                                                                                                                                                                   ? "right-center"
+                                                                                                                                                                                                                                   : this.$props.type === "grid" ||
+                                                                                                                                                                                                                                       this.$props.type === "row-grid"
+                                                                                                                                                                                                                                     ? "bottom"
+                                                                                                                                                                                                                                     : "top";*/
 
         if (!this.$refs.styler) {
           console.error("Styler Mixin: No styler ref found!");
@@ -93,21 +102,73 @@ export const StylerMixin = defineComponent({
           console.error("Styler Mixin: No el found!");
           return;
         }
+        const referenceEl = this.el;
+        const floatingEl = this.$refs.styler.$el
+          ? this.$refs.styler.$el /*Vue components*/
+          : this.$refs.styler; /*Native elements*/
 
-        this.popper = new Popper(
-          this.el,
-          this.$refs.styler.$el
-            ? this.$refs.styler.$el /*Vue components*/
-            : this.$refs.styler /*Native elements*/,
-          {
+        const PADDING = 15;
+        // When the floating element is open on the screen
+        this.cleanup = autoUpdate(referenceEl, floatingEl, () => {
+          computePosition(referenceEl, floatingEl, {
             placement: position,
-          },
-        );
+            middleware: [
+              offset(PADDING),
+              {
+                name: "custom",
+
+                // Detect if the floating element is overflowing its boundary
+
+                async fn(state) {
+                  const { bottom, left, top, right } = await detectOverflow(
+                    state,
+                    {
+                      boundary: document.body,
+                      padding: PADDING,
+                    },
+                  );
+
+
+                  if (left > 0) {
+                    // Overflow from left
+                    return { x: PADDING };
+                  } else if (right > 0) {
+                    // Overflow from right
+                    return {
+                      x:
+                        window.innerWidth -
+                        state.rects.floating.width -
+                        PADDING,
+                    };
+                  }
+                  return {};
+                },
+              },
+            ],
+          }).then((out) => {
+
+            Object.assign(floatingEl.style, {
+              left: `${out.x}px`,
+              top: `${out.y}px`,
+            });
+          });
+        });
+
+        /*
+                        this.popper = new Popper(
+                            referenceEl,floatingEl,
+                
+                          {
+                            placement: position,
+                          },
+                        );*/
       }
     },
 
     showStyler(event: Event) {
-      console.log("showStyler", this.isVisible);
+      if (DEBUG) console.log("Styler Mixin | showStyler", this);
+
+      // console.log("showStyler", this.isVisible);
       // event.stopPropagation();
       if (this.isVisible) return;
       this.isVisible = true;
@@ -122,6 +183,8 @@ export const StylerMixin = defineComponent({
     },
 
     hideStyler(event: Event) {
+      if (DEBUG) console.log("Styler Mixin | hideStyler", this);
+
       if (
         event &&
         // Click on styler but not this styler:
@@ -139,10 +202,16 @@ export const StylerMixin = defineComponent({
         return;
       }
       this.isVisible = false;
-      if (this.popper) {
-        this.popper.destroy();
-        this.popper = null;
+      if (this.cleanup) {
+        this.cleanup();
+        this.cleanup = null;
       }
+
+      /*
+                  if (this.popper) {
+                    this.popper.destroy();
+                    this.popper = null;
+                  }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.onPageBuilderStyleOpen(this.type, false); //Signal to other stylers about hiding this styler!
@@ -231,14 +300,14 @@ export const StylerMixin = defineComponent({
       // Get the first node in the selected range
       let node: Node | null = selection.getRangeAt(0).startContainer;
       if (!node) {
-        console.error("Selected node is not an element ,node :", node);
+        // console.error("Selected node is not an element ,node :", node);
         return;
       }
       if (!(node instanceof Element)) {
         node = node.parentElement;
       }
       if (!node || !(node instanceof Element)) {
-        console.error("Selected node is not an element ,node :", node);
+        // console.error("Selected node is not an element ,node :", node);
         return;
       }
 
@@ -260,14 +329,13 @@ export const StylerMixin = defineComponent({
       if (!selection?.rangeCount) return null; // No selection
 
       // Get the first node in the selected range
-      let node :Node|null = selection.getRangeAt(0).startContainer;
+      let node: Node | null = selection.getRangeAt(0).startContainer;
 
       // Initialize a counter for the loop
       let counter = 0;
 
       // Traverse up the DOM tree to find the nearest enclosing <a> tag, up to 5 parents
       while (node && node.nodeName !== "A" && counter < 10) {
-
         node = node.parentElement;
         counter++;
       }
@@ -275,12 +343,10 @@ export const StylerMixin = defineComponent({
       // If an <a> tag is found within 5 parents, log its href attribute
       if (node && node.nodeName === "A") {
         const link = (node as HTMLAnchorElement).href;
-        console.log(link);
+        //  console.log(link);
         return link;
       } else {
-        console.log(
-          "No link found in the selected range or within 5 parent nodes.",
-        );
+        // console.log("No link found in the selected range or within 5 parent nodes.",);
       }
     },
 
@@ -322,11 +388,68 @@ export const StylerMixin = defineComponent({
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Old execute commands ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
-    execute(command, value = null) {
+    execute(command: string, value = null) {
       this.el.focus();
       //console.log("execute: ", this.el.focus(), command);
       //  console.log('this.el: '+this.el)
       document.execCommand(command, false, value);
+    },
+
+    // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Root inner element > Set class ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+
+    /**
+     * Applies a specified class to the first child element within the component's root element, optionally removing
+     * existing classes that match a given prefix from all child elements or direct children only.
+     *
+     * This method first ensures the root element has a single wrapper `<div>` if necessary, then applies the new class
+     * to this wrapper. It's useful for dynamically adjusting styles based on component state or props.
+     *
+     * @param {string} prefix_class_name - The prefix used to identify classes for removal. Only classes starting with this prefix are removed.
+     * @param {string} class_name - The class name to be added to the first child of the root element. The full class name will be the concatenation of `prefix_class_name` and `class_name`.
+     * @param {boolean} [remove_from_all_children=false] - Determines whether classes should be removed from all descendants (`true`) or direct children (`false`) of the root element.
+     */
+    setElementClass(
+      prefix_class_name: string,
+      class_name: string,
+      remove_from_all_children = false,
+    ) {
+      this.el.focus(); // Set focus to the root element
+
+      // Define a helper function to remove classes based on the prefix
+      const removeClasses = (element: Element) => {
+        $(element).removeClass(function (index, css) {
+          return (
+            css.match(new RegExp(`\\b${prefix_class_name}\\S*`, "g")) || []
+          ).join(" ");
+        });
+      };
+
+      // Remove matching classes from either all descendants or direct children
+      if (remove_from_all_children) {
+        $(this.el)
+          .find("*")
+          .each(function () {
+            removeClasses(this);
+          });
+      } else {
+        $(this.el)
+          .children()
+          .each(function () {
+            removeClasses(this);
+          });
+      }
+
+      // Ensure there's a single <div> wrapper for the element's content
+      if (
+        this.el.childElementCount !== 1 ||
+        this.el.firstChild.nodeName !== "DIV"
+      ) {
+        $(this.el).wrapInner("<div></div>");
+      }
+
+      // Add the new class to the first child element
+      const child = this.el.firstChild;
+      child.classList.add(`${prefix_class_name}${class_name}`);
     },
   },
 });

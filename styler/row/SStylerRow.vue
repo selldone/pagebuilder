@@ -45,7 +45,7 @@
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
-            >Align & Justify columns
+            >Align & Justify Columns
           </v-tooltip>
         </v-btn>
       </li>
@@ -53,30 +53,35 @@
       <!-- ―――――――――――――――――― Wrap / Scroll Mode ―――――――――――――――――― -->
 
       <li v-if="hasWrap">
-        <button
-          class="styler-button"
-          @click="toggleNoWrap"
-          title="Wrap / Nowrap"
-        >
+        <button class="styler-button" @click="toggleNoWrap">
           <v-icon dark size="20"
             >{{ target[keyRow].no_wrap ? "view_column" : "view_comfy" }}
           </v-icon>
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+            >Wrap / Nowrap
+
+            <v-img :src="target[keyRow].no_wrap?require('./assets/row-no-wrap.svg'):require('./assets/row-wrap.svg')" width="150" class="mx-auto"></v-img>
+
+          </v-tooltip>
         </button>
       </li>
 
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
-      <li
-        v-if="hasFluid"
-      >
-        <button
-          class="styler-button"
-          @click="toggleFluid"
-          title="Fluid container"
-        >
+      <li v-if="hasFluid">
+        <button class="styler-button" @click="toggleFluid">
           <v-icon dark size="20"
             >{{ target[keyRow].fluid ? "swap_horiz" : "compare_arrows" }}
           </v-icon>
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+            >Fluid / Limit Width
+          </v-tooltip>
         </button>
       </li>
 
@@ -89,7 +94,7 @@
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
-            >Add new column
+            >Add New Column
           </v-tooltip>
         </button>
       </li>
@@ -199,11 +204,10 @@ export default {
       default: "columns",
     },
 
-
     /**
      * Initial column structure for adding new column
      */
-    columnStructure:{
+    columnStructure: {
       type: Object,
       default: () => {
         return {
@@ -275,9 +279,8 @@ export default {
      * XRow | Add new column
      */
     addNewColumn() {
-      this.target[this.keyColumns].push(
-        Seeder.seed(this.columnStructure),
-      );
+      console.log("addNewColumn", this.target[this.keyColumns]);
+      this.target[this.keyColumns].push(Seeder.seed(this.columnStructure));
     },
 
     toggleNoWrap() {
@@ -286,8 +289,6 @@ export default {
     toggleFluid() {
       this.target[this.keyRow].fluid = !this.target[this.keyRow].fluid;
     },
-
-
   },
 };
 </script>

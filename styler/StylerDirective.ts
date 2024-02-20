@@ -25,6 +25,9 @@ import * as types from "@app-page-builder/src/types";
 import SStylerButton from "@app-page-builder/styler/button/SStylerButton.vue";
 import SStylerSection from "@app-page-builder/styler/section/SStylerSection.vue";
 import SStylerText from "@app-page-builder/styler/text/SStylerText.vue";
+import SStylerGrid from "@app-page-builder/styler/grid/SStylerGrid.vue";
+
+const DEBUG = true;
 
 export namespace StylerOptions {
   export interface IButtonsRow {
@@ -74,6 +77,7 @@ const StylerDirective: ObjectDirective<
     el.$section = section; // To accessible from element.
 
     LOG(
+      `mounted()  > ${binding.arg}`,
       "arg",
       binding.arg,
       "value",
@@ -134,11 +138,11 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerRow;
     } else if (argument === "section") {
       stylerComponent = SStylerSection;
-    }else if (argument === "text") {
+    } else if (argument === "text") {
       stylerComponent = SStylerText;
+    } else if (argument === "grid") {
+      stylerComponent = SStylerGrid;
     }
-
-
 
     const StylerComponent = defineComponent({
       extends: stylerComponent as any,
@@ -205,30 +209,24 @@ const StylerDirective: ObjectDirective<
     vnode: VNode,
   ) {
     // Check if binding.value has changed
-    if ( binding.oldValue !== binding.value) {
+    if (DEBUG && binding.oldValue !== binding.value) {
       console.log("Styler directive updated", binding.value, "el", el);
     }
-   /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-      console.log("Styler directive updated", binding.value, "el", el);
-      Object.assign(el.$instance._component.props, binding.value);
-    }*/
+    /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
+               console.log("Styler directive updated", binding.value, "el", el);
+               Object.assign(el.$instance._component.props, binding.value);
+             }*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
   },
 
-  beforeUnmount(
-    el: HTMLElement & { $section?: Section },
-    binding: DirectiveBinding,
-  ) {
-    // Make sure to remove stylers instance here. The stylers should destroy in the {section.destroy} method
-    el.$section?.destroy();
-  },
+
 };
 
 export default StylerDirective;
 
 function LOG(...text: any) {
-  // console.log("🪷 StylerDirective", ...text);
+  if (DEBUG) console.log("🪷 Styler Directive | StylerDirective", ...text);
 }

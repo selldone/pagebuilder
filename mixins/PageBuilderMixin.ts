@@ -12,12 +12,11 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {defineComponent, inject} from "vue";
-import _ from "lodash-es";
+import {defineComponent} from "vue";
 import {findAllFontsInSection} from "@app-page-builder/src/util";
 import {FontLoader} from "@core/helper/font/FontLoader.js";
 
-const DEBUG=true;
+const DEBUG = false;
 /**
  * Mixin to provide inline editing capabilities.
  * @mixin PageBuilderMixin
@@ -25,16 +24,15 @@ const DEBUG=true;
 export const PageBuilderMixin = defineComponent({
   data() {
     return {
-    /*  builder:this.$builder
-          ? this
-              .$builder
-          : inject("$builder")
-*/
+      /*  builder:this.$builder
+                  ? this
+                      .$builder
+                  : inject("$builder")
+        */
     };
   },
   created() {},
   methods: {
-
     //――――――――――――――――――――――  Load Fonts ――――――――――――――――――――
 
     autoLoadSectionFonts(json: any) {
@@ -48,7 +46,7 @@ export const PageBuilderMixin = defineComponent({
 
         if (!builder.style.fonts || !Array.isArray(builder.style.fonts))
           builder.style.fonts = [];
-        this.fonts.forEach((font:string) => {
+        this.fonts.forEach((font: string) => {
           if (!builder.style.fonts.includes(font)) {
             builder.style.fonts.push(font);
             this.showSuccessAlert(
@@ -64,8 +62,6 @@ export const PageBuilderMixin = defineComponent({
         console.error(e);
       }
     },
-
-
 
     //―――――――――――――――――――――― Upload Url For Page Builder ――――――――――――――――――――
 

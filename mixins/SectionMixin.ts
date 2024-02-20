@@ -17,7 +17,16 @@ import {Seeder} from "../src/seeder";
 import * as types from "../src/types";
 import {defineComponent, inject, provide} from "vue";
 
+const DEBUG = false;
+
 const SectionMixin = defineComponent({
+  data: () => ({
+    BACKGROUND_STYLE: null,
+    types: types,
+
+    $builder: null,
+    $section: null,
+  }),
 
   beforeCreate() {
     // Get builder from main page editor/viewer
@@ -43,13 +52,6 @@ const SectionMixin = defineComponent({
       console.error("updated | section", e, this);
     }
   },
-
-  //------------------------------------------------- New Common -------------------------------------------------
-
-  data: () => ({
-    BACKGROUND_STYLE: null,
-    types: types,
-  }),
 
   computed: {
     SHOW_EDIT_TOOLS() {
@@ -162,5 +164,5 @@ const SectionMixin = defineComponent({
 export default SectionMixin;
 
 function LOG(...text: any) {
-  // console.log("🪷 SectionMixin", ...text);
+  if (DEBUG) console.log("🪷 SectionMixin", ...text);
 }

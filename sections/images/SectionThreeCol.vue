@@ -29,10 +29,13 @@
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnA.columns"
-              :key="index"
               :object="$sectionData.columnA.columns[index]"
               :path="`$sectionData.columnA.columns[${index}]`"
               :augment="augment"
+
+              :key="`${index}-${$sectionData.columns.length}`"
+              :remove-column="()=> $sectionData.columns.splice(index, 1)"
+
             >
             </x-column-image-text>
           </x-row>
@@ -50,10 +53,13 @@
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnB.columns"
-              :key="index"
               :object="$sectionData.columnB.columns[index]"
               :path="`$sectionData.columnB.columns[${index}]`"
               :augment="augment"
+
+              :key="`${index}-${$sectionData.columns.length}`"
+              :remove-column="()=> $sectionData.columns.splice(index, 1)"
+
             >
             </x-column-image-text>
           </x-row>
@@ -71,10 +77,12 @@
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnC.columns"
-              :key="index"
               :object="$sectionData.columnC.columns[index]"
               :path="`$sectionData.columnC.columns[${index}]`"
               :augment="augment"
+
+              :key="`${index}-${$sectionData.columns.length}`"
+              :remove-column="()=> $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>

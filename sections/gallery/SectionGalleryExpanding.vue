@@ -69,7 +69,7 @@
     ></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
-    <div class="container-gallery addable">
+    <div class="container-gallery">
       <div
         v-for="(col, index) in $sectionData.columns"
         :key="index"

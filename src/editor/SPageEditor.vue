@@ -54,69 +54,72 @@
       >
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-        <div
-          class="side-menu zoomIn"
-          v-if="!$builder.isAnimation && !$builder.isTracking"
-          :class="{ '-scale-down': scale_down }"
-        >
-          <b>View</b>
-          <v-btn
-            icon
-            variant="text"
-            @click="render_mode = null"
-            :color="!render_mode ? 'amber' : undefined"
-          >
-            <v-icon>burst_mode</v-icon>
-          </v-btn>
-          <v-btn
-            icon
-            variant="text"
-            @click="render_mode = 'simple'"
-            :color="render_mode === 'simple' ? 'amber' : undefined"
-          >
-            <v-icon>apps</v-icon>
-          </v-btn>
-          <v-btn
-            icon
-            variant="text"
-            @click="render_mode = 'wire'"
-            :color="render_mode === 'wire' ? 'amber' : undefined"
-          >
-            <v-icon>grid_on</v-icon>
-          </v-btn>
+       <v-slide-x-reverse-transition leave-absolute>
+         <div
+             v-if="!$builder.isAnimation && !$builder.isTracking && ($vuetify.display.xlAndUp || scale_down)"
+             class="side-menu zoomIn"
+             :class="{ '-scale-down': scale_down }"
+         >
+           <b>View</b>
+           <v-btn
+               icon
+               variant="text"
+               @click="render_mode = null"
+               :color="!render_mode ? 'amber' : undefined"
+           >
+             <v-icon>burst_mode</v-icon>
+           </v-btn>
+           <v-btn
+               icon
+               variant="text"
+               @click="render_mode = 'simple'"
+               :color="render_mode === 'simple' ? 'amber' : undefined"
+           >
+             <v-icon>apps</v-icon>
+           </v-btn>
+           <v-btn
+               icon
+               variant="text"
+               @click="render_mode = 'wire'"
+               :color="render_mode === 'wire' ? 'amber' : undefined"
+           >
+             <v-icon>grid_on</v-icon>
+           </v-btn>
 
-          <v-expand-transition>
-            <div v-if="render_mode === 'wire'" class="d-flex flex-column">
-              <hr />
-              <v-btn
-                icon
-                variant="text"
-                @click="
+           <v-expand-transition>
+             <div v-if="render_mode === 'wire'" class="d-flex flex-column">
+               <hr />
+               <v-btn
+                   icon
+                   variant="text"
+                   @click="
                   show_classes = !show_classes;
                   show_styles = false;
                 "
-                :color="show_classes ? '#512DA8' : undefined"
-                class="sub-caption mb-3"
-                caption="Class"
-              >
-                <v-icon>architecture</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                variant="text"
-                @click="
+                   :color="show_classes ? '#512DA8' : undefined"
+                   class="sub-caption mb-3"
+                   caption="Class"
+               >
+                 <v-icon>architecture</v-icon>
+               </v-btn>
+               <v-btn
+                   icon
+                   variant="text"
+                   @click="
                   show_styles = !show_styles;
                   show_classes = false;
                 "
-                :color="show_styles ? '#512DA8' : undefined"
-                class="sub-caption mb-3"
-                caption="Style"
-              >
-                <v-icon>format_paint</v-icon>
-              </v-btn>
-            </div>
-          </v-expand-transition>
-        </div>
+                   :color="show_styles ? '#512DA8' : undefined"
+                   class="sub-caption mb-3"
+                   caption="Style"
+               >
+                 <v-icon>format_paint</v-icon>
+               </v-btn>
+             </div>
+           </v-expand-transition>
+         </div>
+       </v-slide-x-reverse-transition>
+
 
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -393,79 +396,209 @@
               <div
                 v-for="(section, index) in $builder.sections"
                 :key="section.uid"
-                class="position-relative d-flex flex-column target-drop"
-                :class="{
-                  'cursor-pipette':
-                    $builder.cloneStyle && !$builder.cloneObject,
-                  'cursor-bucket': $builder.cloneStyle && $builder.cloneObject,
-
-                  'show-name': listShown && inEditMode,
-                }"
-                :section-name="$builder.components[section.name].extends.label"
-                @drop="
-                  (e) =>
-                    !$builder.isEditing ? undefined : dropSection(e, index)
-                "
-                @dragover="
-                  (e) =>
-                    !$builder.isEditing ? undefined : allowDropSection(e, index)
-                "
+                class="position-relative"
               >
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                 <div
-                  v-if="$builder.isEditing && section.data?.style?.marginTop"
-                  class="arrow-margin -top"
-                  :margin="section.data.style.marginTop"
-                  :style="{ '--margin': section.data.style.marginTop }"
-                  :class="{
-                    '--reverse': parseInt(section.data.style.marginTop) < 0,
-                  }"
-                  title="Top Margin"
-                  @mousedown.prevent
+                    v-if="$builder.isEditing && section.data?.style?.marginTop"
+                    class="arrow-margin -top"
+                    :margin="section.data.style.marginTop"
+                    :style="{ '--margin': section.data.style.marginTop }"
+                    :class="{
+                      '--reverse': parseInt(section.data.style.marginTop) < 0,
+                    }"
+                    title="Top Margin"
+                    @mousedown.prevent
                 ></div>
 
                 <div
-                  v-if="$builder.isEditing && section.data?.style?.marginBottom"
-                  class="arrow-margin -bottom"
-                  :margin="section.data.style.marginBottom"
-                  :style="{ '--margin': section.data.style.marginBottom }"
-                  :class="{
-                    '--reverse': parseInt(section.data.style.marginBottom) < 0,
-                  }"
-                  title="Bottom Margin"
-                  @mousedown.prevent
+                    v-if="
+                      $builder.isEditing && section.data?.style?.marginBottom
+                    "
+                    class="arrow-margin -bottom"
+                    :margin="section.data.style.marginBottom"
+                    :style="{ '--margin': section.data.style.marginBottom }"
+                    :class="{
+                      '--reverse':
+                        parseInt(section.data.style.marginBottom) < 0,
+                    }"
+                    title="Bottom Margin"
+                    @mousedown.prevent
                 ></div>
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                <component
-                  v-if="delay_load > index"
-                  :is="section.name"
-                  :id="section.uid"
-                  :class="{
-                    'move-courser block-pointer-event': $builder.isSorting,
 
-                    'ignore-elements': !$builder.isSorting,
-                    pen: drop_section,
+
+
+                <div
+                  class="position-relative d-flex flex-column target-drop"
+                  :class="{
+                    'cursor-pipette':
+                      $builder.cloneStyle && !$builder.cloneObject,
+                    'cursor-bucket':
+                      $builder.cloneStyle && $builder.cloneObject,
+
+                    'show-name': listShown && inEditMode,
                   }"
-                  :style="section.get('$sectionData.style')"
-                  :ref="'SECTION_' + section.uid"
-                />
-                <div v-else style="height: 400px"></div>
+                  :section-name="
+                    $builder.components[section.name].extends.label
+                  "
+                  @drop="
+                    (e) =>
+                      !$builder.isEditing ? undefined : dropSection(e, index)
+                  "
+                  @dragover="
+                    (e) =>
+                      !$builder.isEditing
+                        ? undefined
+                        : allowDropSection(e, index)
+                  "
+                >
+
+                  <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                  <component
+                    v-if="delay_load > index"
+                    :is="section.name"
+                    :id="section.uid"
+                    :class="{
+                      'move-courser block-pointer-event': $builder.isSorting,
+
+                      'ignore-elements': !$builder.isSorting,
+                      pen: drop_section,
+                    }"
+                    :style="section.get('$sectionData.style')"
+                    :ref="'SECTION_' + section.uid"
+                  />
+                  <div v-else style="height: 400px"></div>
+
+                </div>
 
                 <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                 <s-landing-section-side-bar
-                  v-if="listShown && inEditMode"
-                  :section="section"
-                  :section-index="index"
-                  v-model:past-hover-index="past_hover_index"
-                  @click:copy="copySection(section)"
-                  @click:delete="deleteSection(section)"
-                  @click:save="saveSectionToRepository(section)"
-                  @click:past="pastSection(index + 1)"
-                  :copySection="copy_section"
+                    v-if="listShown && inEditMode"
+                    :section="section"
+                    :section-index="index"
+                    v-model:past-hover-index="past_hover_index"
+                    @click:copy="copySection(section)"
+                    @click:delete="deleteSection(section)"
+                    @click:save="saveSectionToRepository(section)"
+                    @click:past="pastSection(index + 1)"
+                    :copy-section="copy_section"
                 ></s-landing-section-side-bar>
+
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+
+                <div
+                    class="x-feeder"
+                    :class="{
+                      '-single': !aiAutoFillFunction && !has_note,
+                      '-double':
+                        (!aiAutoFillFunction && has_note) ||
+                        (aiAutoFillFunction && !has_note),
+                      '-triple': aiAutoFillFunction && has_note,
+                    }"
+                    dir="ltr"
+                >
+                  <v-btn
+                      class="x-feeder-btn hover-scale-small force-top ml-6"
+                      icon
+                      color="#000"
+                      variant="flat"
+                      size="x-large"
+                      :class="{ disabled: !section.data || !section.schema }"
+                      @click="showFeeder(section)"
+                  >
+                    <v-icon size="36">donut_large</v-icon>
+                    <v-tooltip
+                        activator="parent"
+                        location="bottom"
+                        content-class="bg-black"
+                    >
+                      <b>Feed</b><br />
+                      Simple edit section contents.
+                    </v-tooltip>
+                  </v-btn>
+
+                  <ai-button
+                      v-if="aiAutoFillFunction"
+                      class="x-feeder-btn hover-scale-small force-top ml-6"
+                      icon
+                      x-large
+                      @click="autoComplete(section)"
+                      :loading="loading_ai.includes(section)"
+                      tooltip="<b>AI</b><br>Auto generate contents."
+                      tooltip-location="bottom"
+                  >
+                  </ai-button>
+
+                  <v-badge
+                      v-if="has_note"
+                      :model-value="
+                        notes?.filter((n) => n.element_id === section.uid)
+                          ?.length > 0
+                      "
+                      :content="
+                        numeralFormat(
+                          notes?.filter((n) => n.element_id === section.uid)
+                            ?.length,
+                          '0a',
+                        )
+                      "
+                      color="#000"
+                  >
+                    <v-btn
+                        class="x-feeder-btn hover-scale-small force-top"
+                        icon
+                        variant="flat"
+                        size="x-large"
+                        :color="
+                          notes?.filter((n) => n.element_id === section.uid)
+                            ?.length
+                            ? 'amber'
+                            : '#000'
+                        "
+                        @click="showWriteNote(section)"
+                    >
+                      <v-icon size="36">sticky_note_2</v-icon>
+                      <v-tooltip
+                          activator="parent"
+                          location="bottom"
+                          content-class="bg-black"
+                      >
+                        <b>Message</b> ({{
+                          notes?.filter((n) => n.element_id === section.uid)
+                              ?.length
+                        }})<br />
+
+                        Write a reminder note or message to your agency.
+                      </v-tooltip>
+                    </v-btn>
+                  </v-badge>
+                </div>
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+
+
+
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                <p-note-digest
+                    v-if="$vuetify.display.lgAndUp && has_note"
+                    :notes="notes?.filter((n) => n.element_id === section.uid)"
+                    @delete="(id) => DeleteItemByID(page.notes, id)"
+                    :shop="shop"
+                    :page="shop_page"
+                    :popup="shop_popup"
+                    class="position-absolute"
+                    style="top: 50px"
+                    :style="{ width: '400px', right: '-600px' }"
+                    hover-able
+                    :limit="2"
+                ></p-note-digest>
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+
+                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Past & Drop Expanding Bar ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                 <v-expand-transition>
                   <div
@@ -477,119 +610,12 @@
                   </div>
                   <div
                     v-else-if="past_hover_index === index"
-                    class="bg-red-soft"
-                    style="height: 4px"
-                  ></div>
+                    class="bg-red-soft d-flex align-center justify-center"
+                    style="height: 84px"
+                  >
+                    Past section here!
+                  </div>
                 </v-expand-transition>
-
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                <div
-                  class="x-feeder"
-                  :class="{
-                    '-single': !aiAutoFillFunction && !has_note,
-                    '-double':
-                      (!aiAutoFillFunction && has_note) ||
-                      (aiAutoFillFunction && !has_note),
-                    '-triple': aiAutoFillFunction && has_note,
-                  }"
-                  dir="ltr"
-                >
-                  <v-btn
-                    class="x-feeder-btn hover-scale-small force-top ml-6"
-                    icon
-                    color="#000"
-                    variant="flat"
-                    size="x-large"
-                    :class="{ disabled: !section.data || !section.schema }"
-                    @click="showFeeder(section)"
-                  >
-                    <v-icon size="36">donut_large</v-icon>
-                    <v-tooltip
-                      activator="parent"
-                      location="bottom"
-                      content-class="bg-black"
-                    >
-                      <b>Feed</b><br />
-                      Simple edit section contents.
-                    </v-tooltip>
-                  </v-btn>
-
-                  <ai-button
-                    v-if="aiAutoFillFunction"
-                    class="x-feeder-btn hover-scale-small force-top ml-6"
-                    icon
-                    x-large
-                    @click="autoComplete(section)"
-                    :loading="loading_ai.includes(section)"
-                    tooltip="<b>AI</b><br>Auto generate contents."
-                    tooltip-location="bottom"
-                  >
-                  </ai-button>
-
-                  <v-badge
-                    v-if="has_note"
-                    :model-value="
-                      notes?.filter((n) => n.element_id === section.uid)
-                        ?.length > 0
-                    "
-                    :content="
-                      numeralFormat(
-                        notes?.filter((n) => n.element_id === section.uid)
-                          ?.length,
-                        '0a',
-                      )
-                    "
-                    color="#000"
-                  >
-                    <v-btn
-                      class="x-feeder-btn hover-scale-small force-top"
-                      icon
-                      variant="flat"
-                      size="x-large"
-                      :color="
-                        notes?.filter((n) => n.element_id === section.uid)
-                          ?.length
-                          ? 'amber'
-                          : '#000'
-                      "
-                      @click="showWriteNote(section)"
-                    >
-                      <v-icon size="36">sticky_note_2</v-icon>
-                      <v-tooltip
-                        activator="parent"
-                        location="bottom"
-                        content-class="bg-black"
-                      >
-                        <b>Message</b> ({{
-                          notes?.filter((n) => n.element_id === section.uid)
-                            ?.length
-                        }})<br />
-
-                        Write a reminder note or message to your agency.
-                      </v-tooltip>
-                    </v-btn>
-                  </v-badge>
-                </div>
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                <p-note-digest
-                  v-if="$vuetify.display.lgAndUp && has_note"
-                  :notes="notes?.filter((n) => n.element_id === section.uid)"
-                  @delete="(id) => DeleteItemByID(page.notes, id)"
-                  :shop="shop"
-                  :page="shop_page"
-                  :popup="shop_popup"
-                  class="position-absolute"
-                  style="top: 50px"
-                  :style="{ width: '400px', right: '-600px' }"
-                  hover-able
-                  :limit="2"
-                ></p-note-digest>
-                <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
               </div>
             </div>
           </div>
@@ -597,7 +623,6 @@
 
         <s-landing-editor-components-menu
           :components="components"
-          v-model:is-dragged="start_drag"
           :is-visible="listShown && inEditMode"
           :isScrollDown="scrollTop > 200"
         ></s-landing-editor-components-menu>
@@ -613,8 +638,12 @@
 
     <!-- ――――――――――――――――――――――  Dialog Master Style ―――――――――――――――――――― -->
 
-    <s-landing-tools-style-element :builder="$builder"></s-landing-tools-style-element>
-    <global-background-editor-dialog  :builder="$builder"></global-background-editor-dialog>
+    <s-landing-tools-style-element
+      :builder="$builder"
+    ></s-landing-tools-style-element>
+    <global-background-editor-dialog
+      :builder="$builder"
+    ></global-background-editor-dialog>
     <global-product-select-dialog></global-product-select-dialog>
     <global-products-categories-select-dialog></global-products-categories-select-dialog>
 
@@ -787,7 +816,6 @@ export default defineComponent({
       listShown: false,
       components: this.getComponents(),
       currentSection: "", // Important not be null (BUG occur)
-      start_drag: false,
 
       inEditMode: false,
       themes: null,
@@ -1590,11 +1618,7 @@ export default defineComponent({
     onScroll(e) {
       this.scrollTop = document.documentElement.scrollTop;
     },
-    onDragTool(section) {
-      if (DEBUG) console.log("onDragTool", section);
-      this.currentSection = section;
-      this.start_drag = true;
-    },
+
 
     //――――――――――――――――――――――  Drop section (pre-built) ――――――――――――――――――――
     dropSection(event, index) {
@@ -1618,7 +1642,7 @@ export default defineComponent({
 
       this.onSaveHistory();
     },
-    allowDropSection(event, index) {
+    allowDropSection(event, index,allowed_class) {
       // Tips:  getData("section") not available on drag over event in chrome , edge ,... security!
       const types = event.dataTransfer.types;
       //  console.log('allowDropSection!' ,types)
@@ -2576,7 +2600,7 @@ label {
 
 .side-menu {
   position: absolute;
-  right: -60px;
+  right: -80px;
   top: 200px;
   background: #7577fa;
   display: flex;
@@ -2590,7 +2614,7 @@ label {
   color: #fff;
 
   &.-scale-down {
-    right: calc(25% - 60px);
+    right: calc(25% - 64px);
     transition-delay: 0.1s;
     transition-duration: 0.5s;
   }

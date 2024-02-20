@@ -65,7 +65,7 @@
                   title="Edit element"
                   class="absolute-top-end"
                 >
-                  <v-icon size="small">edit</v-icon>
+                  <v-icon >edit</v-icon>
                 </v-btn>
               </v-img>
               <div class="label single-line">

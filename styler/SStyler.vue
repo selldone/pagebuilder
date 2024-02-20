@@ -23,8 +23,7 @@
       {
         'is-visible': isVisible,
         /* && !other_styler_open !==  type*/ /*Prevent open style with samy view type to make inline editor simple!*/ '-dot -red':
-          type === 'button' || type === 'text',
-        '-dot -green':
+
           type === 'row-grid',
         '-dot -amber': type === 'container',
 

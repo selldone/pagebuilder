@@ -300,8 +300,12 @@ export default {
       this.target.background = {};
     }
 
+    if(!this.target.classes || !Array.isArray(this.target.classes)){
+      this.target.classes = [];
+    }
+
     for (const _class of FrameStyles) {
-      if (this.target.classes?.includes(_class)) {
+      if (this.target.classes.includes(_class)) {
         this.bgStylerStyle = _class;
         break;
       }

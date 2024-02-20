@@ -53,9 +53,12 @@
 
             <x-column
               v-for="(col, index) in $sectionData.columns"
-              :key="index"
+
               :path="`$sectionData.columns[${index}]`"
               :object="col"
+
+              :key="`${index}-${$sectionData.columns.length}`"
+              :remove-column="()=> $sectionData.columns.splice(index, 1)"
             >
               <x-uploader
                 :initialSize="null"

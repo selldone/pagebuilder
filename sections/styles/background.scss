@@ -31,13 +31,16 @@
   }
 }
 
-section {
-  position: relative; // All section has relative position by default!
-}
+$outline-width: 4px;
+
+
 
 .artboard { // first main page!
 
   section {
+    position: relative; // All section has relative position by default!
+
+    outline-offset: -$outline-width;
     --def-color: #9C27B0;
 
   }
@@ -48,18 +51,22 @@ section {
   h3,
   h4,
   h5 {
+    outline-offset: 0;
     --def-color: red;
   }
 
   .v-row {
+    outline-offset: 0;
     --def-color: #8BC34A;
   }
 
   .v-col {
+    outline-offset: 0;
     --def-color: #03A9F4
   }
 
   .v-container {
+    outline-offset: 0;
     --def-color: #FFA000
   }
 
@@ -78,8 +85,10 @@ section {
                   border-width: 2px;*/
         outline-color: var(--def-color) !important;
         outline-style: solid;
-        outline-width: thick;
+        outline-width: $outline-width;
         transition: none;
+
+
 
         // Row:
         &.v-row {

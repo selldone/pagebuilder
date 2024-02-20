@@ -50,7 +50,7 @@ export default {
   data: () => ({}),
   computed: {
     /**
-     * Use compute for better performance.
+     * 🐍 Use compute for better performance.
      * @return {{target: *}}
      */
     sectionBinding() {

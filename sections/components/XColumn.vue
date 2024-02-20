@@ -15,7 +15,7 @@
 <template>
   <component
     :is="noGrid ? 'div' : 'v-col'"
-    v-styler:grid="`${path}.grid`"
+    v-styler:grid="{target:object.grid,hasCustomLayout:hasCustomLayout,removeColumn:removeColumn}"
     :class="[
       !noGrid ? calcGridClasses(object.grid) : undefined,
       object.classes,
@@ -24,7 +24,6 @@
     v-init-data-attribute="object.style"
     :clonable="clonable"
     @click="copyStyle"
-    :has-custom-layout="hasCustomLayout"
   >
     <!-- 📹 Background video -->
     <video-background
@@ -63,6 +62,10 @@ export default defineComponent({
       // Used in v-styler
       default: false,
       type: Boolean,
+    },
+    removeColumn: {
+      // Used in v-styler
+      type: Function,
     },
   },
   created() {},

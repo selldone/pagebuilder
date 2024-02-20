@@ -17,7 +17,7 @@ import toPath from "lodash-es/toPath";
 import {Seeder} from "./seeder";
 import {App} from "vue";
 
-const DEBUG = false;
+const DEBUG = true;
 export namespace Section {
   export interface IData {
     id?: string;
@@ -132,6 +132,8 @@ export class Section implements Section.ISection {
   }
 
   destroy() {
+    LOG("Destroy all stylers in the section!", this);
+
     this.stylers.forEach(({ instance, container }) => {
       instance.unmount();
       container.remove();
@@ -141,5 +143,5 @@ export class Section implements Section.ISection {
 }
 
 function LOG(...text: any) {
-  if (DEBUG) console.log("🪷 Section.ts", ...text);
+  if (DEBUG) console.log("🐤 Section.ts", ...text);
 }

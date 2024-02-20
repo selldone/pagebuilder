@@ -13,30 +13,32 @@
  */
 
 import * as types from "./types";
-import { isObject } from "./util";
 import ProductFramesSample from "@app-page-builder/sections/products/frames/ProductFramesSample";
 import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
+import {isFunction, isObject} from "lodash-es";
 
-const data = new Map([
-  [types.Title, "Lorem ipsum dolor sit amet"],
+const DEBUG = false;
+
+const SeederRepository: Map<string, any> = new Map([
+  [types.Title.name, "Lorem ipsum dolor sit amet"],
   [
-    types.Text,
+    types.Text.name,
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   ],
-  [types.Avatar, require("../assets/images/samples/empty-photo-1.svg")],
-  [types.Logo, require("../assets/images/samples/empty-photo-2.svg")],
-  [types.Link, ""],
+  [types.Avatar.name, require("../assets/images/samples/empty-photo-1.svg")],
+  [types.Logo.name, require("../assets/images/samples/empty-photo-2.svg")],
+  [types.Link.name, ""],
   [
-    types.Image,
+    types.Image.name,
     () => ({
       src: require("../assets/images/samples/empty-photo-3.svg"),
       setting: { contain: false, aspect: 1 },
     }),
   ],
-  [types.Style, () => ({})],
-  [types.ClassList, () => []],
+  [types.Style.name, () => ({})],
+  [types.ClassList.name, () => []],
   [
-    types.Button,
+    types.Button.name,
     () => ({
       content: "Action",
       classes: [],
@@ -58,18 +60,21 @@ const data = new Map([
     }),
   ],
   [
-    types.Quote,
+    types.Quote.name,
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   ],
-  [types.Grid, () => ({ mobile: "", tablet: "", desktop: "", widescreen: "" })],
-  [Number, 100],
   [
-    String,
+    types.Grid.name,
+    () => ({ mobile: "", tablet: "", desktop: "", widescreen: "" }),
+  ],
+  [Number.name, 100],
+  [
+    String.name,
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   ],
 
   [
-    types.Products,
+    types.Products.name,
     () => ({
       sort: "most_popular",
       only_available: true,
@@ -77,15 +82,15 @@ const data = new Map([
       categories_count: 4,
     }),
   ],
-  [types.Product, () => ({ id: null })],
+  [types.Product.name, () => ({ id: null })],
 
   [
-    types.Html,
+    types.Html.name,
     "<h1 class='text-h2'>\n<b>Hello world.</b>\n</h1>\n<h2>We are Selldoners.</h2>\n<br>\n<br>\n<br>\n<br>\n<p> The #1 operating system for fast-growing companies </p>\n<br>\n<br>\n\n\n\n",
   ],
 
   [
-    types.Lottie,
+    types.Lottie.name,
     () => ({
       src: "/animation/23222-checkmark.json",
       setting: { size: "auto", width: "100%" },
@@ -93,7 +98,7 @@ const data = new Map([
   ],
 
   [
-    types.Background,
+    types.Background.name,
     () => ({
       bg_color: null,
       bg_image: null,
@@ -107,7 +112,7 @@ const data = new Map([
   ],
 
   [
-    types.Row,
+    types.Row.name,
     () => ({
       align: "stretch",
       justify: "space-around",
@@ -116,7 +121,7 @@ const data = new Map([
     }),
   ],
   [
-    types.Container,
+    types.Container.name,
     () => ({
       fluid: false,
       classes: Seeder.seed(types.ClassList),
@@ -125,7 +130,7 @@ const data = new Map([
   ],
 
   [
-    types.Blogs,
+    types.Blogs.name,
     () => ({
       tags: [],
       offset: 0,
@@ -138,7 +143,7 @@ const data = new Map([
   ],
 
   [
-    types.Slide,
+    types.Slide.name,
     () => ({
       title: "Title",
       subtitle: "Some messages...",
@@ -153,16 +158,16 @@ const data = new Map([
   ],
 
   [
-    types.FrameProduct,
+    types.FrameProduct.name,
     () => ({ code: ProductFramesSample.Curvy_Card, classes: [] }),
   ],
   [
-    types.FrameCategory,
+    types.FrameCategory.name,
     () => ({ code: CategoryFramesSample.Curvy_Card, classes: [] }),
   ],
 
   [
-    types.Input,
+    types.Input.name,
     () => ({
       placeholder: "Enter your email john@...",
       flat: false,
@@ -181,7 +186,7 @@ const data = new Map([
   ],
 
   [
-    types.Newsletter,
+    types.Newsletter.name,
     () => ({
       success_msg:
         "Thank you, we have received your email address for our newsletter.",
@@ -201,7 +206,7 @@ const data = new Map([
   ],
 
   [
-    types.TextLoop,
+    types.TextLoop.name,
     () => ({
       html: "Write some text here...",
       height: "24px",
@@ -213,32 +218,52 @@ const data = new Map([
 
 export class Seeder {
   // Seeds values using a schema.
-  static seed(schema) {
-    //console.log("seeder > schema", schema);
-
+  /**
+   * Recursively seeds a given schema, transforming it based on predefined rules or data mappings.
+   * If the schema is an array, each element is seeded individually.
+   * If the schema is an object (excluding arrays), its properties are seeded.
+   * The method supports special cases, such as skipping seeding for a schema named "$init",
+   * and directly returning values for schemas associated with a predefined value or a function in `data`.
+   *
+   * @param schema The input schema to seed, which can be an array, object, or any other type.
+   * @returns The seeded schema, with transformations applied to each element or property as needed.
+   */
+  static seed(schema: Record<string, any>): any {
     //━━━━━━━━━━━━━━━ Ignore init function ━━━━━━━━━━━━━━━
     if (schema?.name === "$init") return; // init in $schema is used to set default value on add new section step.
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    if (isObject(schema)) {
-      return Object.keys(schema).reduce((values, key) => {
-        // console.log("seeder > Object", key, schema[key]);
+    if (DEBUG)
+      console.log(
+        `Seed > schema:${schema?.name} ${Array.isArray(schema) ? "Array" : ""} ${isObject(schema) ? "Object" : ""}  ${isFunction(schema) ? "Function" : ""} >`,
+        schema,
+      );
 
-        values[key] = Seeder.seed(schema[key]);
-        return values;
-      }, {});
-    } else if (Array.isArray(schema)) {
-      // console.log("seeder > Array", schema);
-      return schema.map((s) => {
-        return Seeder.seed(s);
-      });
-    }
-    // console.log("seeder > Normal", schema);
+    if (Array.isArray(schema)) {
+      return schema.map((s) => Seeder.seed(s));
+    } else if (isFunction(schema)) {
+      const value = SeederRepository.get(schema?.name);
+      if (value !== undefined) {
+        const out = isFunction(value) ? value() : value;
+        if (DEBUG) console.log(`👽 Seed by repository ${schema?.name} ->`, out);
 
-    let value = data.get(schema);
-    if (value === undefined) {
-      value = schema;
+        return out;
+      }
+    } else if (isObject(schema)) {
+      return Object.keys(schema).reduce(
+        (values, key) => {
+          values[key] = Seeder.seed(schema[key]);
+          return values;
+        },
+        {} as Record<string, any>,
+      );
     }
-    return typeof value === "function" ? value() : value;
+
+    // Assuming `data` is a predefined map or function to get seeded values
+    const out = isFunction(schema) ? schema() : schema;
+
+    if (DEBUG) console.log(`😅 Seed by schema ${schema} ->`, out);
+
+    return out;
   }
 }

@@ -16,15 +16,8 @@
   <v-row
     :align="object.row ? object.row.align : 'center'"
     :justify="object.row ? object.row.justify : 'space-around'"
-    :class="{ addable: addColumn, '-no-wrap': hasWrap && object.row?.no_wrap }"
-    v-styler:row="{
-      target: object,
-      columnStructure: columnStructure,
-      hasWrap: hasWrap,
-      hasAdd: addColumn,
-      hasArrangement: hasArrangement,
-      hasFluid: hasFluid,
-    }"
+    :class="{ '-no-wrap': hasWrap && object.row?.no_wrap }"
+    v-styler:row="rowBinding"
     class="x--row"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -45,7 +38,6 @@
       <v-icon class="me-1">library_add</v-icon>
       You can add columns here...
     </div>
-
   </v-row>
 </template>
 
@@ -91,18 +83,25 @@ export default defineComponent({
     },
   },
   data: () => ({}),
-  created() {
 
+  computed: {
+    /**
+     * 🐍 Use compute for better performance.
+     * @return {{target: *}}
+     */
+    rowBinding() {
+      return {
+        target: this.object,
+        columnStructure: this.columnStructure,
+        hasWrap: this.hasWrap,
+        hasAdd: this.addColumn,
+        hasArrangement: this.hasArrangement,
+        hasFluid: this.hasFluid,
+      };
+    },
   },
-  methods: {
-    /*  applyStylerDirective() {
-      if (this.hasArrangement) {
-        console.log("applyStylerDirective");
-        return { "v-styler:row": this.object.row };
-      }
-      return {};
-    },*/
-  },
+  created() {},
+  methods: {},
 });
 </script>
 

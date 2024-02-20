@@ -15,9 +15,9 @@
 <template>
   <v-col
     :class="[calcGridClasses(object.grid)]"
-    class="position-relative pa-0 addable"
+    class="position-relative pa-0"
   >
-    <x-column :object="object" :path="path" clonable no-grid has-custom-layout>
+    <x-column :object="object" :path="path" clonable no-grid has-custom-layout :removeColumn="removeColumn">
       <div :class="layout_class" class="position-relative">
         <h3
           v-if="
@@ -125,6 +125,11 @@ export default defineComponent({
     augment: {
       // Extra information to show to dynamic show in page content
     },
+    removeColumn: {
+      // Used in v-styler
+      type: Function,
+    },
+
   },
   data: () => ({
     standard_classes: ClassesHelper.StandardClasses(),

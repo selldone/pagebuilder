@@ -26,12 +26,12 @@
     </video-background>
 
     <h2
-      v-styler:text="{target:$sectionData,keyText:'title'}"
+      v-styler:text="{ target: $sectionData, keyText: 'title' }"
       class="my-5 fadeIn"
       v-html="$sectionData.title"
     />
     <p
-      v-styler:text="{target:$sectionData,keyText:'text'} "
+      v-styler:text="{ target: $sectionData, keyText: 'text' }"
       class="my-5 fadeIn delay_300"
       v-html="$sectionData.text"
     />
@@ -47,7 +47,11 @@
       <v-row
         :align="$sectionData.row ? $sectionData.row.align : 'stretch'"
         :justify="$sectionData.row ? $sectionData.row.justify : 'space-around'"
-        v-styler:row="{ target: $sectionData,hasArrangement:true,hasFluid:true }"
+        v-styler:row="{
+          target: $sectionData,
+          hasArrangement: true,
+          hasFluid: true,
+        }"
         class="min-h-100"
         v-styler:row-grid="$sectionData.grid"
       >
@@ -68,6 +72,7 @@
             :dark="card_style?.dark"
             :rect="card_style?.rect"
             :color="card_style?.color"
+            :view-only="$builder.isEditing"
           ></s-shop-blog-card>
         </v-col>
       </v-row>
@@ -81,10 +86,12 @@ import * as types from "../../src/types";
 import SShopBlogCard from "@components/storefront/blog/SShopBlogCard.vue";
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
+import SectionMixin from "@app-page-builder/mixins/SectionMixin";
 
 export default {
   name: "SectionBlogsList",
   directives: { styler: StylerDirective },
+  mixins: [SectionMixin],
 
   components: { VideoBackground, SShopBlogCard },
   cover: require("../../assets/images/covers/blogs.svg"),

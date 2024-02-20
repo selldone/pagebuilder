@@ -23,7 +23,7 @@
         class="min-h-100"
       >
         <v-col
-          v-styler:grid="$sectionData.columns[0].grid"
+          v-styler:grid="{target:$sectionData.columns[0].grid}"
           :class="[gridClasses[0], $sectionData.columns[0].classes]"
           :style="[
             $sectionData.columns[0].style,
@@ -84,7 +84,7 @@
         </v-col>
 
         <v-col
-          v-styler:grid="$sectionData.columns[1].grid"
+          v-styler:grid="{target:$sectionData.columns[1].grid}"
           :class="[gridClasses[1], $sectionData.columns[1].classes]"
           :style="[
             $sectionData.columns[1].style,

@@ -52,12 +52,14 @@
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
           v-for="(col, index) in $sectionData.columns"
-          :key="index"
           :object="$sectionData.columns[index]"
           :path="`$sectionData.columns[${index}]`"
           initial-column-layout="x-layout-normal"
           clonable
           :augment="augment"
+
+          :key="`${index}-${$sectionData.columns.length}`"
+          :remove-column="()=> $sectionData.columns.splice(index, 1)"
         >
         </x-column-image-text>
         <!-- █████████████████████████████████████████████████████ -->
