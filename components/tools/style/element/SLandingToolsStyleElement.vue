@@ -1272,9 +1272,9 @@ export default {
   data: () => ({
     el_style: null,
     el_class: null,
-    section: null,
-    stylePath: null, // $sectionData.style
-    classPath: null, // $sectionData.classes
+    target: null,
+    keyStyle: null, // style
+    keyClass: null, // classes
     options: {},
 
     // ---------------------------------
@@ -1512,7 +1512,7 @@ export default {
     this.EventBus.$on(
       "show:SLandingToolsStyleElement",
 
-      ({ el_style, el_class, section, stylePath, classPath, options }) => {
+      ({ el_style, el_class, target, keyStyle, keyClass, options }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -1520,9 +1520,9 @@ export default {
         this.el_style = el_style;
         this.el_class = el_class;
 
-        this.section = section;
-        this.stylePath = stylePath;
-        this.classPath = classPath;
+        this.target = target;
+        this.keyStyle = keyStyle;
+        this.keyClass = keyClass;
 
         this.options = options;
 
@@ -1582,7 +1582,7 @@ export default {
     showSizeDialog() {
       //  this.Selected_tab = this.has_size ? STYLE_TABS[0] : STYLE_TABS[1];
 
-      let classes = this.section.get(this.classPath);
+      let classes = this.target[this.keyClass];
       if (!classes) classes = [];
       this.in_classes = classes.unique();
 
@@ -1595,7 +1595,7 @@ export default {
         */
 
       //console.log(' this.in_classes', this.in_classes,this.el_class.className)
-      let style = this.section.get(this.stylePath);
+      let style = this.target[this.keyStyle];
       if (!style || Array.isArray(style)) style = {};
 
       this.in_width = this.el_style.style.width;
@@ -1760,7 +1760,7 @@ export default {
 
       safeSetStyle("transform", this.transform_gen);
 
-      let style = this.section.get(this.stylePath);
+      let style = this.target[this.keyStyle];
       if (!style || Array.isArray(style)) style = {};
 
       // Keep other style values and filter!
@@ -1779,13 +1779,12 @@ export default {
 
       //  style = Object.assign(style, filtered_style);
 
-      // console.log("filter -->  ", this.section, this.stylePath, style);
 
-      this.section.set(this.stylePath, style); // Save data in section!
+      this.target[this.keyStyle]= style; // Save data in section!
 
       // ----------------------- Save Custom Classes -----------------------
       // Set classes:
-      let classes = this.section.get(this.classPath);
+      let classes = this.target[this.keyClass];
       if (!classes) classes = [];
       const cur_classes = classes;
 
@@ -1811,15 +1810,11 @@ export default {
       this.el_class.classList.remove(...deletes);
       this.el_class.classList.add(...adds);
 
-      /* let classes_cur = this.section.get(this.classPath);
-      if (!classes_cur || !Array.isArray(classes_cur)) classes_cur = [];
-      classes_cur.push(...this.in_classes);*/
 
-      this.section.set(this.classPath, this.in_classes); // Save data in section!
 
-      //console.log('this.section.get("$sectionData.classes")',this.section.get("$sectionData.classes"))
+      this.target[this.keyClass]=this.in_classes; // Save data in section!
 
-      ///  this.show_dialog_size = false;
+
     },
   },
 };

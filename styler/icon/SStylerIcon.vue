@@ -1,5 +1,9 @@
 <template>
-  <svg class="s--styler-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg
+    class="s--styler-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+  >
     <path :d="iconPath" />
   </svg>
 </template>
@@ -67,3 +71,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.s--styler-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  color: #fff;
+}
+</style>

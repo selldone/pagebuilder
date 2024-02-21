@@ -28,8 +28,54 @@ export const MigrateFromOldVersion = (obj: Object) => {
   replaceStringInObject(obj, "is-blue-grey", "bg--plate-light-11");
   replaceStringInObject(obj, "is-transparent", "bg--plate-transparent");
 
+
+  console.log('Migrate ',obj)
+  obj.sections.forEach((section: any) => {
+    section.name=migrateSectionName(section.name)
+  })
+
+
   return obj;
 };
+
+function migrateSectionName(name: string) {
+  switch (name) {
+    case 'SectionArticle': return 'LSectionArticle';
+    case 'SectionRawHtml': return 'LSectionHtml';
+    case 'SectionBlogsList': return 'LSectionBlogList';
+    case 'Newsletter': return 'LSectionFormNewsletter';
+    case 'Gallery1': return 'LSectionGalleryExpandable';
+    case 'Gallery2': return 'LSectionGalleryBrands';
+    case 'SectionScrollView': return 'LSectionGalleryScroll';
+    case 'SectionSlideShow': return 'LSectionGallerySwiper';
+    case 'Hero1': return 'LSectionHeroHorizontal';
+    case 'hero-animate': return 'LSectionHeroLottie';
+    case 'SectionHeroSearch': return 'LSectionHeroSearch';
+    case 'Hero2': return 'LSectionHeroVertical';
+
+    case 'Social3': return 'LSectionImageFeatures';
+    case 'Social4': return 'LSectionImageSocials';
+    case 'image-text-cards': return 'LSectionImageCards';
+    case 'Social2': return 'LSectionImageIntro';
+    case 'SectionThreeCol': return 'LSectionImageThreeColumns';
+    case 'SectionTwoCol': return 'LSectionImageTwoColumns';
+
+    case 'SectionProductsCustomList': return 'LSectionStoreCustomListing';
+    case 'SectionProductCategoryList': return 'LSectionStoreListing';
+    case 'SectionProductView': return 'LSectionStoreProduct';
+
+    case 'infinite-stream': return 'LSectionTextMarquee';
+    case 'Social1': return 'LSectionTextNumbers';
+    case 'Section2': return 'LSectionTextThreeColumns';
+    case 'Section1': return 'LSectionTextTwoColumns';
+
+
+    case 'xxxx': return 'xxxxxxxxxxxx';
+
+  }
+
+  return name;
+}
 
 function replaceStringInObject(
   value: any,

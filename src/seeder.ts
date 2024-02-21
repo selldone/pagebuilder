@@ -13,8 +13,8 @@
  */
 
 import * as types from "./types";
-import ProductFramesSample from "@app-page-builder/sections/products/frames/ProductFramesSample";
-import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
+import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
+import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
 
 const DEBUG = false;

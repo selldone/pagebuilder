@@ -16,19 +16,19 @@ import {App} from "vue";
 import SelldonePageBuilderCore from "./src";
 
 import "./sections/styles/_demo.scss";
-import SectionHeroHorizontal from "./sections/hero/SectionHeroHorizontal.vue";
-import SectionHeroVertical from "./sections/hero/SectionHeroVertical.vue";
+import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
+import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
 
-import Section2TextColumns from "./sections/text/Section2TextColumns.vue";
-import Section3TextColumns from "./sections/text/Section3TextColumns.vue";
-import Section3NumberColumns from "./sections/text/Section3NumberColumns.vue";
-import Section3Images from "./sections/images/Section3Images.vue";
-import Section3ImagesText from "./sections/images/Section3ImagesText.vue";
+import Section2TextColumns from "./sections/text/two-columns/LSectionTextTwoColumns.vue";
+import LSectionTextThreeColumns from "./sections/text/three-columns/LSectionTextThreeColumns.vue";
+import LSectionTextNumbers from "./sections/text/numbers/LSectionTextNumbers.vue";
+import LSectionImageFeatures from "@app-page-builder/sections/image/features/LSectionImageFeatures.vue";
+import LSectionImageSocials from "@app-page-builder/sections/image/socials/LSectionImageSocials.vue";
 
-import SectionGalleryExpanding from "./sections/gallery/SectionGalleryExpanding.vue";
+import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGalleryExpandable.vue";
 
 //import newsletter from './sections/forms/newsletter';
-import SectionProductCategoryList from "./sections/products/SectionProductCategoryList.vue";
+import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import Router from "vue-router";
 import {Store} from "vuex";
 
@@ -58,31 +58,31 @@ export function SetupPageBuilder(app: App) {
       {
         name: "Branding",
         sections: [
-          SectionHeroHorizontal,
+          LSectionHeroHorizontal,
           Section2TextColumns,
-          Section3NumberColumns,
-          Section3Images,
+          LSectionTextNumbers,
+          LSectionImageFeatures,
         ],
         image: require("./assets/images/themes/branding.jpg"),
       },
       {
         name: "Campaign",
         sections: [
-          SectionHeroVertical,
-          Section3TextColumns,
-          Section3Images,
-          Section3ImagesText,
+          LSectionHeroVertical,
+          LSectionTextThreeColumns,
+          LSectionImageFeatures,
+          LSectionImageSocials,
         ],
         image: require("./assets/images/themes/campaign.jpg"),
       },
       {
         name: "Products",
         sections: [
-          SectionHeroVertical,
-          SectionProductCategoryList,
-          Section3TextColumns,
-          Section3ImagesText,
-          SectionGalleryExpanding,
+          LSectionHeroVertical,
+          LSectionStoreListing,
+          LSectionTextThreeColumns,
+          LSectionImageSocials,
+          LSectionGalleryExpandable,
           Section2TextColumns,
         ],
         image: require("./assets/images/themes/products.jpg"),

@@ -29,7 +29,6 @@
           <v-btn
             variant="text"
             @click="show_dialog = false"
-            color="primary"
             size="x-large"
           >
             <v-icon start>close</v-icon>
@@ -54,7 +53,7 @@
           :label="$t('global.commons.url')"
           v-model="link"
           class="english-field my-3"
-          append-icon="link"
+          prepend-inner-icon="link"
           clearable
           @change="setLink"
         >

@@ -64,7 +64,6 @@
       class="styler-button"
       @click="setDevice('desktop')"
       :class="{ selected: modelValue === 'desktop' }"
-      title="Size on pc devices."
     >
 
       <v-badge :model-value="desktopValue>0" location="bottom end" color="#fff" :content="desktopValue">
@@ -91,7 +90,6 @@
       class="styler-button"
       @click="setDevice('widescreen')"
       :class="{ selected: modelValue === 'widescreen' }"
-      title="Size on large display."
     >
       <v-badge :model-value="widescreenValue>0" location="bottom end" color="#fff" :content="widescreenValue">
         <v-icon dark size="20">tv</v-icon>

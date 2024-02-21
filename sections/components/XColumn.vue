@@ -15,7 +15,7 @@
 <template>
   <component
     :is="noGrid ? 'div' : 'v-col'"
-    v-styler:grid="{target:object.grid,hasCustomLayout:hasCustomLayout,removeColumn:removeColumn}"
+    v-styler:column="{target:object,hasCustomLayout:hasCustomLayout,removeColumn:removeColumn}"
     :class="[
       !noGrid ? calcGridClasses(object.grid) : undefined,
       object.classes,
@@ -69,9 +69,7 @@ export default defineComponent({
     },
   },
   created() {
-    if(!this.isObject(this.object.grid)){
-      this.object.grid= { mobile: 12, tablet: 6, desktop: 4 }
-    }
+
   },
 
   methods: {

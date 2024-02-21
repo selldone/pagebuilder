@@ -14,6 +14,7 @@
 
 import {defineComponent} from "vue";
 import {EventBus} from "@core/events/EventBus";
+import {Section} from "@app-page-builder/src/section";
 
 export const LandingHistoryMixin = defineComponent({
   data() {
@@ -43,26 +44,26 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalStyleEditorDialog(
-      el_style,
-      el_class,
-      section,
-      stylePath,
-      classPath,
+      el_style: HTMLElement,
+      el_class: HTMLElement,
+      target: Object,
+      keyStyle: string,
+      keyClass: string,
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
       EventBus.$emit("show:SLandingToolsStyleElement", {
         el_style,
         el_class,
-        section,
-        stylePath,
-        classPath,
+        target,
+        keyStyle,
+        keyClass,
         options,
       });
     },
     ShowGlobalAnimationEditorDialog(
-      el_style,
-      el_class,
+      el_style:HTMLElement,
+      el_class:HTMLElement,
       section,
       stylePath,
       classPath,
@@ -79,7 +80,7 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalLinkEditorDialog(el, section, urlPath) {
+    ShowGlobalLinkEditorDialog(el:HTMLElement, section, urlPath) {
       EventBus.$emit("show:GlobalLinkEditorDialog", {
         el,
         section,
@@ -87,21 +88,20 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalBackgroundEditorDialog(el, section, backgroundPath) {
+    ShowGlobalBackgroundEditorDialog(el:HTMLElement, target:Object, keyBackground:string) {
       EventBus.$emit("show:GlobalBackgroundEditorDialog", {
         el,
-        section,
-        backgroundPath,
+        target,
+        keyBackground,
       });
     },
-    ShowGlobalProductSelectDialog(el, section, productPath) {
+    ShowGlobalProductSelectDialog(el:HTMLElement, target:Object) {
       EventBus.$emit("show:GlobalProductSelectDialog", {
         el,
-        section,
-        productPath,
+        target,
       });
     },
-    ShowGlobalProductsCategoriesSelectDialog(el, section, productsPath) {
+    ShowGlobalProductsCategoriesSelectDialog(el:HTMLElement, section, productsPath) {
       EventBus.$emit("show:GlobalProductsCategoriesSelectDialog", {
         el,
         section,
@@ -109,7 +109,7 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalProductsFrameDialog(el, section, productsPath) {
+    ShowGlobalProductsFrameDialog(el:HTMLElement, section, productsPath) {
       EventBus.$emit("show:GlobalProductsFrameDialog", {
         el,
         section,
@@ -117,30 +117,29 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalInputEditorDialog(el, section, inputPath) {
+    ShowGlobalInputEditorDialog(el:HTMLElement, section, inputPath) {
       EventBus.$emit("show:GlobalInputEditorDialog", {
         el,
         section,
         inputPath,
       });
     },
-    ShowGlobalSlideShowEditorDialog(el, section, slidePath) {
+    ShowGlobalSlideShowEditorDialog(el:HTMLElement, section, slidePath) {
       EventBus.$emit("show:GlobalSlideShowEditorDialog", {
         el,
         section,
         slidePath,
       });
     },
-    ShowGlobalXColumnLayoutEditorDialog(el, section, gridPath) {
-      EventBus.$emit("show:GlobalXColumnLayoutEditorDialog", {
+    ShowSLandingToolsColumnLayout(el:HTMLElement, target:Object) {
+      EventBus.$emit("show:SLandingToolsColumnLayout", {
         el,
-        section,
-        gridPath,
+        target,
       });
     },
 
     ShowGlobalImageSizeDialog(
-      el,
+      el:HTMLElement,
       section,
       sizePath,
       src,
@@ -157,7 +156,7 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
     ShowGlobalImageLayersDialog(
-      el,
+      el:HTMLElement,
       section,
       settingPath,
       src,
@@ -174,7 +173,12 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    showGlobalColorSelectorDialog(element:Element, color:string|null, callback:()=>void, alpha:boolean) {
+    showGlobalColorSelectorDialog(
+      element: Element,
+      color: string | null,
+      callback: () => void,
+      alpha: boolean,
+    ) {
       EventBus.$emit("show:GlobalColorSelectorDialog", {
         element,
         color,
@@ -183,7 +187,7 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalBlogsFilterDialog(el, section, blogsPath) {
+    ShowGlobalBlogsFilterDialog(el:HTMLElement, section, blogsPath) {
       EventBus.$emit("show:GlobalBlogsFilterDialog", {
         el,
         section,
@@ -191,7 +195,7 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalTextLoopDialog(el, section, path) {
+    ShowGlobalTextLoopDialog(el:HTMLElement, section, path) {
       EventBus.$emit("show:GlobalTextLoopDialog", {
         el,
         section,

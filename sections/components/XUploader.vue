@@ -13,14 +13,216 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Toolbar ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
+
+  <v-menu
+    v-if="has_edit_toolbar || has_animate_toolbar"
+    :activator="$refs.container as HTMLElement"
+    location="top"
+    open-on-hover
+    transition="slide-y-reverse-transition"
+    :open-delay="0"
+    :close-on-content-click="false"
+  >
+    <v-toolbar
+      v-if="has_edit_toolbar"
+      density="compact"
+      rounded
+      theme="dark"
+      color="#111"
+    >
+      <v-toolbar-items>
+        <template v-if="src">
+          <v-btn
+            @click.stop="
+              setting.contain = !setting.contain;
+              forceUpdate();
+            "
+            icon
+            size="small"
+          >
+            <v-icon
+              >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
+            </v-icon>
+            <v-tooltip
+              activator="parent"
+              content-class="bg-black"
+              text="Contain / Cover"
+              location="bottom"
+            ></v-tooltip>
+          </v-btn>
+
+          <v-btn @click.stop="showResize()" icon size="small">
+            <v-icon> photo_size_select_large</v-icon>
+            <v-tooltip
+              activator="parent"
+              content-class="bg-black"
+              text="Size"
+              location="bottom"
+            ></v-tooltip>
+          </v-btn>
+
+          <v-btn @click.stop="showMasterDesignDialog()" icon size="small">
+            <v-icon> architecture</v-icon>
+            <v-tooltip
+                activator="parent"
+                content-class="bg-black"
+                text="Classes & Style"
+                location="bottom"
+            ></v-tooltip>
+          </v-btn>
+
+
+
+          <v-btn @click.stop="showLayers()" icon size="small">
+            <v-icon> layers</v-icon>
+            <v-tooltip
+              activator="parent"
+              content-class="bg-black"
+              text="Image Layers"
+              location="bottom"
+            ></v-tooltip>
+          </v-btn>
+
+          <v-menu open-on-hover    :close-on-content-click="false">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" icon size="small">
+                <v-icon> {{ selected_aspect.icon }}</v-icon>
+              </v-btn>
+            </template>
+
+            <v-card subtitle="Aspect Ratio" class="text-start bg-black">
+              <v-list
+                density="compact"
+                bg-color="transparent"
+                class="border-between-vertical"
+              >
+                <v-list-item
+                  v-for="(item, index) in aspects"
+                  :key="index"
+                  @click.stop="
+                    setting.aspect = item.val;
+                    forceUpdate();
+                  "
+                  :prepend-icon="item.icon"
+                  :title="item.title"
+                >
+                  <template v-slot:append>
+                    <v-list-item-action>
+                      <v-icon color="green" v-if="setting.aspect === item.val"
+                        >check
+                      </v-icon>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+
+                <v-list-item
+                  key="round"
+                  @click.stop="
+                    setting.round = !setting.round;
+                    forceUpdate();
+                  "
+                  prepend-icon="panorama_fish_eye"
+                >
+                  <v-list-item-title> Circle</v-list-item-title>
+                  <template v-slot:append>
+                    <v-list-item-action>
+                      <v-icon color="green" v-if="setting.round">check</v-icon>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+
+          <v-menu v-if="!noFloat" open-on-hover    :close-on-content-click="false">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" icon size="small">
+                <v-icon> {{ selected_float.icon }}</v-icon>
+              </v-btn>
+            </template>
+
+            <v-card subtitle="Float Position" class="text-start bg-black">
+              <v-list
+                density="compact"
+                bg-color="transparent"
+                class="border-between-vertical"
+              >
+                <v-list-item
+                  v-for="(item, index) in floats"
+                  :key="index"
+                  @click="
+                    setting.float = item.val;
+                    forceUpdate();
+                  "
+                  :prepend-icon="item.icon"
+                  :title="item.title"
+                >
+                  <template v-slot:append>
+                    <v-list-item-action>
+                      <v-icon color="green" v-if="setting.float === item.val"
+                        >check
+                      </v-icon>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+
+          <v-btn @click.stop="showLink()" icon size="small">
+            <v-icon>add_link</v-icon>
+
+            <v-tooltip
+              activator="parent"
+              content-class="bg-black"
+              text="Add Link"
+              location="bottom"
+            ></v-tooltip>
+          </v-btn>
+        </template>
+        <v-btn v-else-if="has_restore" @click.stop="restoreImage()" icon size="small">
+          <v-icon>settings_backup_restore</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black"
+            text="Restore Previous Image"
+            location="bottom"
+          ></v-tooltip>
+        </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-toolbar
+      v-else-if="has_animate_toolbar"
+      dense
+      rounded
+      theme="dark"
+      color="#111"
+    >
+      <span v-html="getAnimationClassesDetail()"></span>
+
+      <v-btn
+        @click.stop="showAnimationEdit()"
+        title="Image Animation"
+        icon
+        variant="text"
+      >
+        <v-icon>movie_filter</v-icon>
+      </v-btn>
+    </v-toolbar>
+  </v-menu>
+
+  <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Image ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
+
   <component
     v-if="src || blobUrl || $builder.isEditing"
+    v-bind="$attrs"
     :is="link && !$builder.isEditing ? 'a' : 'div'"
+    ref="container"
     :class="[
       {
         uploader: $builder.isEditing,
         'force-show-strips': !src,
-        'min-h': is_input && !(src || blobUrl),
         'drag-over': dragOverHolder,
       },
       /*classes,*/
@@ -41,7 +243,7 @@
         'aspect-ratio': setting?.aspect,
         height: size?.h,
         width: size?.w,
-        'min-height': size?.min_h,
+        'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
         'min-width': size?.min_w,
         'max-height': size?.max_h,
         'max-width': size?.max_w,
@@ -67,38 +269,6 @@
     "
   >
     <slot :src="src"></slot>
-    <!--
-    <v-img
-      v-if="(src || blobUrl) && !noPreview && show_img"
-      :src="blobUrl ? blobUrl : getShopImagePath(src)"
-      :aspect-ratio="setting.aspect"
-      :contain="setting.contain"
-      :height="size.h"
-      :width="size.w"
-      :min-height="size.min_h"
-      :min-width="size.min_w"
-      :max-height="size.max_h"
-      :max-width="size.max_w"
-      @error="image.src = null"
-      :class="[
-        { 'rounded-circle': setting.round },
-        classes /*image_classes*/,
-        $builder.isEditing?'pen':null
-      ]"
-      :style="styles"
-      class="margin-default-auto"
-      ref="i_image"
-      eager
-    >
-      <template v-slot:placeholder>
-        <v-layout fill-height align-center justify-center ma-0>
-          <v-progress-circular indeterminate color="grey lighten-5" />
-        </v-layout>
-      </template>
-
-      <div class="h-100 w-100" :style="fg_cal"></div>
-    </v-img>
-      -->
 
     <div
       v-if="is_dynamic_value && $builder.isEditing"
@@ -174,14 +344,12 @@
         @dragleave="onDropLeaveHolder"
       />
 
-      <v-icon size="48px" color="#fff" class="no-render image-mark">
-        image
-      </v-icon>
+      <v-icon size="48px" color="#fff" class="image-mark"> image</v-icon>
 
       <v-btn
         v-if="is_input && src && !dragOverHolder"
         icon
-        class="no-render button-delete"
+        class="button-delete"
         variant="flat"
         color="red"
         @click="deleteImage()"
@@ -190,175 +358,6 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
-
-      <v-toolbar
-        v-if="
-          !$builder.isHideExtra /*Hide extra edit buttons*/ &&
-          is_input &&
-          !noPreview &&
-          !$builder.isAnimation &&
-          !$builder.isTracking
-        "
-        class="no-render image-tools"
-        dense
-        rounded
-        dark
-      >
-        <v-toolbar-items>
-          <template v-if="src">
-            <v-btn
-              @click.stop="
-                setting.contain = !setting.contain;
-                forceUpdate();
-              "
-              title="Contain / Cover"
-              icon
-              size="small"
-            >
-              <v-icon
-                >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
-              </v-icon>
-            </v-btn>
-
-            <v-btn
-              @click.stop="showResize()"
-              title="Resize Image"
-              icon
-              size="small"
-            >
-              <v-icon> photo_size_select_large</v-icon>
-            </v-btn>
-
-            <v-btn
-              @click.stop="showLayers()"
-              title="Image Layers"
-              icon
-              size="small"
-            >
-              <v-icon> layers</v-icon>
-            </v-btn>
-
-            <v-btn
-              @click.stop="showMasterDesignDialog()"
-              :title="$t('styler.size_class')"
-              icon
-              size="small"
-            >
-              <v-icon> architecture</v-icon>
-            </v-btn>
-
-            <v-menu>
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  :title="selected_aspect.title"
-                  icon
-                  size="small"
-                >
-                  <v-icon> {{ selected_aspect.icon }}</v-icon>
-                </v-btn>
-              </template>
-
-              <v-list density="compact">
-                <v-list-item
-                  v-for="(item, index) in aspects"
-                  :key="index"
-                  @click.stop="
-                    setting.aspect = item.val;
-                    forceUpdate();
-                  "
-                  :prepend-icon="item.icon"
-                >
-                  <v-list-item-title> {{ item.title }}</v-list-item-title>
-                  <template v-slot:append>
-                    <v-list-item-action>
-                      <v-icon color="green" v-if="setting.aspect === item.val"
-                      >check
-                      </v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-list-item
-                  key="round"
-                  @click.stop="
-                    setting.round = !setting.round;
-                    forceUpdate();
-                  "
-                  prepend-icon="panorama_fish_eye"
-                >
-                  <v-list-item-title> Circle</v-list-item-title>
-                <template v-slot:append>
-                  <v-list-item-action>
-                    <v-icon color="green" v-if="setting.round">check</v-icon>
-                  </v-list-item-action>
-                </template>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
-            <v-menu v-if="!noFloat">
-              <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" title="Float Position" icon size="small">
-                  <v-icon> {{ selected_float.icon }}</v-icon>
-                </v-btn>
-              </template>
-
-              <v-list density="compact">
-                <v-list-item
-                  v-for="(item, index) in floats"
-                  :key="index"
-                  @click="
-                    setting.float = item.val;
-                    forceUpdate();
-                  "
-                  :prepend-icon="item.icon"
-                >
-                  <v-list-item-title> {{ item.title }}</v-list-item-title>
-                  <template v-slot:append>
-                    <v-list-item-action>
-                      <v-icon color="green" v-if="setting.float === item.val"
-                      >check
-                      </v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
-            <v-btn @click.stop="showLink()" title="Add Link" icon size="small">
-              <v-icon>add_link</v-icon>
-            </v-btn>
-          </template>
-          <v-btn
-            v-else
-            @click.stop="restoreImage()"
-            title="Restore previous image"
-            icon
-            size="small"
-          >
-            <v-icon>settings_backup_restore</v-icon>
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-toolbar
-        v-else-if="is_input && !noPreview && $builder.isAnimation"
-        class="no-render image-tools"
-        dense
-        rounded
-        dark
-      >
-        <span v-html="getAnimationClassesDetail()"></span>
-
-        <v-btn
-          @click.stop="showAnimationEdit()"
-          title="Image Animation"
-          icon
-          variant="text"
-        >
-          <v-icon>movie_filter</v-icon>
-        </v-btn>
-      </v-toolbar>
 
       <div v-if="busy_upload" class="loader-container">
         <div class="circular-loader"></div>
@@ -477,6 +476,33 @@ export const XUploader = defineComponent({
   },
 
   computed: {
+    has_image() {
+      return this.src || this.blobUrl;
+    },
+
+    is_waiting_for_drop_image() {
+      return this.is_input && !this.has_image;
+    },
+
+    has_edit_toolbar() {
+      return (
+        !this.$builder.isHideExtra /*Hide extra edit buttons*/ &&
+        this.is_input &&
+        !this.noPreview &&
+        !this.$builder.isAnimation &&
+        !this.$builder.isTracking &&
+        (this.has_image/*Image menu*/ || this.has_restore/*Restore menu*/)
+      );
+    },
+
+    has_animate_toolbar() {
+      return this.is_input && !this.noPreview && this.$builder.isAnimation;
+    },
+
+    has_restore(){
+      return this.pre_src
+    },
+
     original_data() {
       return this.$section.get(this.path);
     },
@@ -646,9 +672,9 @@ export const XUploader = defineComponent({
         this.$refs.i_image,
         this.$refs.i_image,
 
-        this.$section,
-        this.path + ".style",
-        this.path + ".classes",
+        this.$section.get(this.path),
+        "style",
+        "classes",
         { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
     },
@@ -732,7 +758,7 @@ export const XUploader = defineComponent({
             this.showSuccessAlert(null, `Image uploaded successfully.`);
 
             /* let imageURL = response.data.files.url;
-                  this.image.src = imageURL;*/
+                              this.image.src = imageURL;*/
             const imageURL = response.data.files.path;
             this.image.src = imageURL;
             /////    this.$section.set(this.path, imageURL);
@@ -914,6 +940,7 @@ export default XUploader;
   max-height: 100%;
 }
 
+/*
 .image-tools {
   position: absolute;
   top: 0px;
@@ -927,22 +954,18 @@ export default XUploader;
     z-index: 999;
   }
 }
-
+*/
 .image-container {
   flex-shrink: 0;
   display: block;
   position: relative;
 
   // transition: all 0.45s;
-  &:hover {
-    .image-tools {
-      opacity: 1;
-    }
-  }
-
-  &.min-h {
-    min-height: 200px;
-  }
+  /*  &:hover {
+      .image-tools {
+        opacity: 1;
+      }
+    }*/
 }
 
 .anim-inherit {

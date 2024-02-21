@@ -37,11 +37,13 @@
 
       <v-tooltip
         activator="parent"
-        location="right"
+        location="left"
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block"><v-icon class="me-1">content_copy</v-icon> Copy Section Now!</b>
+        <b class="d-block"
+          ><v-icon class="me-1">content_copy</v-icon> Copy Section Now!</b
+        >
         <div>
           When you click here, this section structure and data will be copied,
           allowing you to paste it onto this page or any other pages.
@@ -54,7 +56,6 @@
     <v-btn
       icon
       variant="text"
-      title="Delete section"
       color="red"
       size="large"
       class="hover-scale-small -fast force-top"
@@ -63,6 +64,15 @@
       @click="$emit('click:delete', section)"
     >
       <v-icon size="36">close</v-icon>
+
+      <v-tooltip
+        activator="parent"
+        location="left"
+        max-width="420"
+        content-class="bg-red pa-3 text-start small"
+        text="Delete Section"
+      >
+      </v-tooltip>
     </v-btn>
 
     <v-spacer></v-spacer>
@@ -82,11 +92,13 @@
 
       <v-tooltip
         activator="parent"
-        location="right"
+        location="left"
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block"><v-icon class="me-1">save</v-icon> Save & Reuse This Section</b>
+        <b class="d-block"
+          ><v-icon class="me-1">save</v-icon> Save & Reuse This Section</b
+        >
         <div>Save this section to my repository for use on other pages.</div>
       </v-tooltip>
     </v-btn>
@@ -107,12 +119,18 @@
 
       <v-tooltip
         activator="parent"
-        location="right"
+        location="left"
         max-width="420"
         content-class="bg-black pa-3 text-start small"
       >
-        <b ><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
-        <v-chip color="green" variant="tonal" v-if="copySection" class="ma-1" size="small">
+        <b><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
+        <v-chip
+          color="green"
+          variant="tonal"
+          v-if="copySection"
+          class="ma-1"
+          size="small"
+        >
           <v-icon color="success" size="x-small" start>circle</v-icon>
           Copy available
         </v-chip>

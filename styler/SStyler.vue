@@ -1383,24 +1383,24 @@ export default {
       if (this.type === "section") {
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
-          this.section,
-          `$sectionData.background`,
+          this.target,
+          `background`,
         );
       } else if (this.type === "grid" /* this.name.includes('[')*/) {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
 
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
-          this.section,
-          `${column_path}.background`,
+          this.target,
+          `background`,
         );
       } /* if (this.type === "container")*/ else {
         const path = this.name;
 
         this.ShowGlobalBackgroundEditorDialog(
           this.el,
-          this.section,
-          `${path}.background`,
+          this.target,
+          `background`,
         );
       }
     },
@@ -1926,9 +1926,9 @@ export default {
         this.ShowGlobalStyleEditorDialog(
           this.el,
           this.el,
-          this.section,
-          `$sectionData.style`,
-          `$sectionData.classes`,
+          this.target,
+          `style`,
+          `classes`,
         );
       } else if (this.type === "grid" /*this.name.includes('[')*/) {
         // Class and style is in the same level of grid!!! not it's child!
@@ -1937,9 +1937,9 @@ export default {
         this.ShowGlobalStyleEditorDialog(
           this.el,
           this.el,
-          this.section,
-          `${column_path}.style`,
-          `${column_path}.classes`,
+          this.target,
+          `style`,
+          `classes`,
         );
       } /* if (this.type === "container")*/ else {
         const path = this.name;
@@ -1947,9 +1947,9 @@ export default {
         this.ShowGlobalStyleEditorDialog(
           this.el,
           this.el,
-          this.section,
-          `${path}.style`,
-          `${path}.classes`,
+          this.target,
+          `style`,
+          `classes`,
 
           //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
         );
@@ -2086,7 +2086,7 @@ export default {
      * SectionSlideShow | Edit slides
      */
     showCustomLayout() {
-      this.ShowGlobalXColumnLayoutEditorDialog(
+      this.ShowSLandingToolsColumnLayout(
         this.el,
         this.section,
         this.name,

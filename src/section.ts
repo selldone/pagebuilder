@@ -17,7 +17,7 @@ import toPath from "lodash-es/toPath";
 import {Seeder} from "./seeder";
 import {App} from "vue";
 
-const DEBUG = true;
+const DEBUG = false;
 export namespace Section {
   export interface IData {
     id?: string;

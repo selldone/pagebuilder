@@ -12,11 +12,11 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 //――――――――――――――――――――――――― Page Builder ―――――――――――――――――――――――――
 import PageBuilder from "../SPageBuilder.vue";
-import { StorefrontRoutesName } from "@core/enums/route/StorefrontRoutesName";
+import {StorefrontRoutesName} from "@core/enums/route/StorefrontRoutesName";
 
 const router = createRouter({
   history: createWebHistory("page-builder" /*process.env.BASE_URL*/),

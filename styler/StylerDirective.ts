@@ -25,9 +25,12 @@ import * as types from "@app-page-builder/src/types";
 import SStylerButton from "@app-page-builder/styler/button/SStylerButton.vue";
 import SStylerSection from "@app-page-builder/styler/section/SStylerSection.vue";
 import SStylerText from "@app-page-builder/styler/text/SStylerText.vue";
+import SStylerColumn from "@app-page-builder/styler/column/SStylerColumn.vue";
 import SStylerGrid from "@app-page-builder/styler/grid/SStylerGrid.vue";
+import SStylerContainer from "@app-page-builder/styler/container/SStylerContainer.vue";
+import SStylerProduct from "@app-page-builder/styler/product/SStylerProduct.vue";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export namespace StylerOptions {
   export interface IButtonsRow {
@@ -140,8 +143,14 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerSection;
     } else if (argument === "text") {
       stylerComponent = SStylerText;
-    } else if (argument === "grid") {
+    } else if (argument === "column") {
+      stylerComponent = SStylerColumn;
+    }else if (argument === "grid") {
       stylerComponent = SStylerGrid;
+    }else if (argument === "container") {
+      stylerComponent = SStylerContainer;
+    }else if (argument === "product") {
+      stylerComponent = SStylerProduct;
     }
 
     const StylerComponent = defineComponent({

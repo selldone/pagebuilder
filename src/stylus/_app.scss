@@ -17,13 +17,7 @@
 @import "colors";
 
 // .s--styler-icon class definition
-.s--styler-icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  fill: #fff;
-  color: #fff;
-}
+
 
 // $floatHover as a mixin in SCSS
 @mixin floatHover {

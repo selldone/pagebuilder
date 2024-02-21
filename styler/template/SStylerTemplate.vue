@@ -22,10 +22,10 @@
         'is-visible': isVisible,
         '-dot -red': type === 'button' || type === 'text',
         '-dot -green':
-          type === 'row' || type === 'row-grid' || type === 'buttons-row',
+          type === 'row' || type === 'grid' || type === 'buttons-row',
         '-dot -amber': type === 'container',
 
-        '-dot -blue': type === 'grid',
+        '-dot -blue': type === 'column',
         '-dot': type === 'section',
       },
       `-type-${type}`,
@@ -44,7 +44,7 @@
 
     <ul v-if="builder.isAnimation" class="styler-list">
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
-      <!-- Available for: section / grid -->
+      <!-- Available for: section / column -->
       <li>
         <button
           class="styler-button"
@@ -63,7 +63,7 @@
 
     <ul v-if="builder.isTracking" class="styler-list">
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
-      <!-- Available for: section / grid -->
+      <!-- Available for: section / column -->
       <li v-if="!element_id">
         <button
           class="styler-button fadeIn"
@@ -160,7 +160,7 @@ export default {
           `$sectionData.style`,
           `$sectionData.classes`,
         );
-      } else if (this.type === "grid") {
+      } else if (this.type === "column") {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
 
         this.ShowGlobalAnimationEditorDialog(
@@ -178,7 +178,7 @@ export default {
       if (this.type === "section") {
         classes = this.section.get(`$sectionData.classes`);
         style = this.section.get(`$sectionData.style`);
-      } else if (this.type === "grid") {
+      } else if (this.type === "column") {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
         classes = this.section.get(`${column_path}.classes`);
         style = this.section.get(`${column_path}.style`);

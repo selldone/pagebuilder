@@ -36,13 +36,12 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre">
-        <s-color-selector
-          title="Background color"
-          v-model="bg_color"
-          nullable
-        ><template v-slot:append-title>
-          <v-chip v-if="bg_color" label size="x-small" class="ma-1">{{bg_color}}</v-chip>
-        </template>
+        <s-color-selector title="Background color" v-model="bg_color" nullable>
+          <template v-slot:append-title>
+            <v-chip v-if="bg_color" label size="x-small" class="ma-1">{{
+              bg_color
+            }}</v-chip>
+          </template>
         </s-color-selector>
         <background-image-editor
           :upload-url="upload_bg_url"
@@ -89,8 +88,8 @@ export default {
   props: {},
   data: () => ({
     el: null,
-    section: null,
-    backgroundPath: null, // $sectionData.backgroundPath
+    target: null,
+    keyBackground: null, // background
 
     //----------------------- Bg image -----------------------
     show_edit_style: false,
@@ -150,14 +149,14 @@ export default {
     this.EventBus.$on(
       "show:GlobalBackgroundEditorDialog",
 
-      ({ el, section, backgroundPath }) => {
+      ({ el, target, keyBackground }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
-        this.backgroundPath = backgroundPath;
+        this.target = target;
+        this.keyBackground = keyBackground;
         this.showSizeDialog();
       },
     );
@@ -198,7 +197,7 @@ export default {
 
   methods: {
     showSizeDialog() {
-      const background = this.section.get(this.backgroundPath);
+      const background = this.target[this.keyBackground];
 
       this.bg_color = background ? background.bg_color : null;
 
@@ -231,9 +230,9 @@ export default {
     setBackground() {
       if (!this.show_edit_style || this.LOCK) return;
 
-      this.section?.set(this.backgroundPath, this.in_background); // Save data in section!
+      this.target[this.keyBackground] = this.in_background; // Save data in section!
 
-      const background = this.section.get(this.backgroundPath);
+      const background = this.target[this.keyBackground];
 
       const style = BackgroundHelper.CreateCompleteBackgroundStyleObject(
         background.bg_custom,

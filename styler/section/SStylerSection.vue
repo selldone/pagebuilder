@@ -54,7 +54,8 @@
           activator="parent"
           location="bottom"
           content-class="bg-black white--text"
-          max-width="320" attach
+          max-width="320"
+          attach
           >Background Image & Pattern<br />
 
           <v-chip
@@ -222,6 +223,9 @@ const FrameStyles = [
   "bg-style-arrow-up",
 ];
 
+/**
+ * v-styler:section
+ */
 export default {
   name: "SStylerSection",
 
@@ -300,7 +304,7 @@ export default {
       this.target.background = {};
     }
 
-    if(!this.target.classes || !Array.isArray(this.target.classes)){
+    if (!this.target.classes || !Array.isArray(this.target.classes)) {
       this.target.classes = [];
     }
 
@@ -329,17 +333,17 @@ export default {
       this.ShowGlobalStyleEditorDialog(
         this.el,
         this.el,
-        this.section,
-        `$sectionData.style`,
-        `$sectionData.classes`,
+        this.target,
+        `style`,
+        `classes`,
       );
     },
 
     showStyleDialog() {
       this.ShowGlobalBackgroundEditorDialog(
         this.el,
-        this.section,
-        `$sectionData.background`,
+        this.target,
+        `background`,
       );
     },
 

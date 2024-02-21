@@ -19,7 +19,7 @@ import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 //import Popper from "popper.js";
 import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui/dom";
 
-const DEBUG = true;
+const DEBUG = false;
 /**
  * Mixin to provide inline editing capabilities.
  * @mixin PageBuilderMixin

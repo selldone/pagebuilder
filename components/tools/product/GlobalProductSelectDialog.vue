@@ -44,7 +44,7 @@
           >Choose a single product to feature on the homepage.
         </v-list-subheader>
         <product-select-box
-          v-model="product_info.id"
+          v-model="target.id"
           :shop="getShop()"
           single-product-select
           class="my-5"
@@ -76,7 +76,7 @@ export default {
 
     //----------------------- Product Select -----------------------
 
-    product_info: {},
+    target: {},
     dialog_product_select: false,
     dialog_pre: false,
 
@@ -88,23 +88,20 @@ export default {
 
   computed: {},
   watch: {
-    "product_info.id"() {
-      this.setProduct();
-    },
+
   },
   created() {},
   mounted() {
     this.EventBus.$on(
       "show:GlobalProductSelectDialog",
 
-      ({ el, section, productPath }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
-        this.productPath = productPath;
+        this.target = target;
         this.showProductDialog();
       },
     );
@@ -145,7 +142,7 @@ export default {
 
   methods: {
     showProductDialog() {
-      this.product_info = this.section.get(this.productPath);
+
       if (!this.isObject(this.product_info)) {
         this.product_info = {};
       } else {
@@ -160,16 +157,7 @@ export default {
       });
     },
 
-    //----------------------------------------------------------------------------
-    setProduct() {
-      if (!this.dialog_product_select || this.LOCK) return;
-      this.section?.set(
-        this.productPath,
-        this.product_info ? Object.assign({}, this.product_info) : null,
-      ); // Save data in section and force update!
 
-      //  this.dialog_product_select = false;
-    },
   },
 };
 </script>

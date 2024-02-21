@@ -63,7 +63,7 @@
             content-class="bg-black white--text"
             >Wrap / Nowrap
 
-            <v-img :src="target[keyRow].no_wrap?require('./assets/row-no-wrap.svg'):require('./assets/row-wrap.svg')" width="150" class="mx-auto"></v-img>
+            <v-img :src="target[keyRow].no_wrap?require('./assets/row-no-wrap.svg'):require('./assets/row-wrap.svg')" width="150" class="mx-auto op-0-5"></v-img>
 
           </v-tooltip>
         </button>

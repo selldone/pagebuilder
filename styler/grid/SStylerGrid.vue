@@ -28,87 +28,14 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Delete col ―――――――――――――――――― -->
-
-      <li v-if="removeColumn">
-        <button class="styler-button" @click="removeColumn">
-          <v-icon color="red" size="20">close</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Delete Column
-          </v-tooltip>
-        </button>
-      </li>
-      <v-divider class="mx-2" vertical dark inset></v-divider>
-
-      <!-- ―――――――――――――――――― Custom Layout (XColumn) ―――――――――――――――――― -->
-
-      <li v-if="hasCustomLayout">
-        <button class="styler-button" @click="showCustomLayout">
-          <v-icon size="20" dark>fit_screen</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Customize Layout
-          </v-tooltip>
-        </button>
-      </li>
-
-      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
-
-      <li>
-        <button class="styler-button" @click="showMasterDesignDialog()">
-          <v-icon dark size="20">architecture</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Size & Class
-          </v-tooltip>
-        </button>
-      </li>
-
-      <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
-
-      <li>
-        <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20" dark>fa:fas fa-image</v-icon>
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-            attach
-          >
-            Background
-          </v-tooltip>
-        </button>
-      </li>
-
       <!-- ―――――――――――――――――― Grid ―――――――――――――――――― -->
-
-      <v-divider class="mx-2" vertical inset></v-divider>
-      <!-- Row grid use to apply grid to all elements like blogs -->
-
       <s-styler-tools-devices
         v-model="device"
         @update:model-value="selectDevice"
-        :mobile-value="target.mobile"
-        :tablet-value="target.tablet"
-        :desktop-value="target.desktop"
-        :widescreen-value="target.widescreen"
-
+        :mobile-value="target[keyGrid].mobile"
+        :tablet-value="target[keyGrid].tablet"
+        :desktop-value="target[keyGrid].desktop"
+        :widescreen-value="target[keyGrid].widescreen"
       ></s-styler-tools-devices>
     </ul>
 
@@ -152,11 +79,12 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
-import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
-import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerToolsDevices.vue";
 
+/**
+ * v-styler:grid
+
+ */
 export default {
   name: "SStylerGrid",
 
@@ -164,9 +92,6 @@ export default {
 
   components: {
     SStylerToolsDevices,
-    SStylerToolsColors,
-    SNumberInput,
-    SStylerIcon,
     SStylerTemplate,
   },
   props: {
@@ -195,16 +120,14 @@ export default {
       default: "bottom",
     },
 
-    removeColumn: {
-      type: Function,
-    },
-    hasCustomLayout: {
-      type: Boolean,
-      default: false,
+    keyGrid: {
+      type: String,
+      default: "grid",
     },
   },
   data: () => ({
     option: null,
+
     device: null,
 
     gridValue: 0,
@@ -231,49 +154,17 @@ export default {
   mounted() {},
 
   methods: {
-    /**
-     * SectionSlideShow | Edit slides
-     */
-    showCustomLayout() {
-      this.ShowGlobalXColumnLayoutEditorDialog(
-        this.el,
-        this.section,
-        this.name,
-      );
-    },
-    showMasterDesignDialog() {
-      // Class and style is in the same level of grid!!! not it's child!
-      const column_path = this.name.substring(0, this.name.lastIndexOf("."));
-
-      this.ShowGlobalStyleEditorDialog(
-        this.el,
-        this.el,
-        this.section,
-        `${column_path}.style`,
-        `${column_path}.classes`,
-      );
-    },
-
-    showStyleDialog() {
-      const column_path = this.name.substring(0, this.name.lastIndexOf("."));
-
-      this.ShowGlobalBackgroundEditorDialog(
-        this.el,
-        this.section,
-        `${column_path}.background`,
-      );
-    },
-
     selectDevice(device) {
       this.option = "columnWidth";
       this.device = device;
 
-      this.gridValue = this.target[device];
+      this.gridValue = this.target[this.keyGrid][device];
     },
+
     setGridValue(val) {
       val = Math.min(Math.max(val, 0), 12);
 
-      this.target[this.device] = val;
+      this.target[this.keyGrid][this.device] = val;
     },
   },
 };

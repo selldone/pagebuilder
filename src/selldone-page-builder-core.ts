@@ -15,7 +15,6 @@
 import {Section} from "./section";
 import SPageEditor from "./editor/SPageEditor.vue";
 import SPageRender from "../SPageRender.vue";
-import SectionMixin from "../mixins/SectionMixin";
 import {removeBRFromSectionData} from "./util";
 import SPageRenderPopup from "../SPageRenderPopup.vue";
 import {App, defineComponent, provide, reactive} from "vue";
@@ -27,34 +26,33 @@ import XContainer from "@app-page-builder/sections/components/XContainer.vue";
 import XButtons from "@app-page-builder/sections/components/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/sections/components/XCustomProductsList.vue";
 import initDataAttributeDirective from "@app-page-builder/directives/initDataAttributeDirective";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import {XUploader} from "@app-page-builder/sections/components/XUploader.vue";
 import {Page} from "@core/models/shop/page/page.model";
-import SectionHeroHorizontal from "@app-page-builder/sections/hero/SectionHeroHorizontal.vue";
-import SectionHeroVertical from "@app-page-builder/sections/hero/SectionHeroVertical.vue";
-import SectionHeroLottie from "@app-page-builder/sections/hero/SectionHeroLottie.vue";
-import Section2TextColumns from "@app-page-builder/sections/text/Section2TextColumns.vue";
-import Section3TextColumns from "@app-page-builder/sections/text/Section3TextColumns.vue";
-import Section3NumberColumns from "@app-page-builder/sections/text/Section3NumberColumns.vue";
-import SectionSingleImage from "@app-page-builder/sections/images/SectionSingleImage.vue";
-import Section3Images from "@app-page-builder/sections/images/Section3Images.vue";
-import Section3ImagesText from "@app-page-builder/sections/images/Section3ImagesText.vue";
-import SectionInfinitStream from "@app-page-builder/sections/text/SectionInfiniteStream.vue";
-import SectionGalleryExpanding from "@app-page-builder/sections/gallery/SectionGalleryExpanding.vue";
-import SectionGalleryLogos from "@app-page-builder/sections/gallery/SectionGalleryLogos.vue";
-import SectionProductCategoryList from "@app-page-builder/sections/products/SectionProductCategoryList.vue";
-import SectionProductView from "@app-page-builder/sections/products/SectionProductView.vue";
-import SectionProductsCustomList from "@app-page-builder/sections/products/SectionProductsCustomList.vue";
-import SectionArticle from "@app-page-builder/sections/article/SectionArticle.vue";
-import SectionRawHtml from "@app-page-builder/sections/basic/SectionRawHtml.vue";
-import SectionSlideShow from "@app-page-builder/sections/gallery/SectionSlideShow.vue";
-import SectionScrollView from "@app-page-builder/sections/gallery/SectionScrollView.vue";
-import Newsletter from "@app-page-builder/sections/forms/Newsletter.vue";
-import SectionTwoCol from "@app-page-builder/sections/images/SectionTwoCol.vue";
-import SectionThreeCol from "@app-page-builder/sections/images/SectionThreeCol.vue";
-import SectionImageTextCards from "@app-page-builder/sections/images/SectionImageTextCards.vue";
-import SectionBlogsList from "@app-page-builder/sections/blog/SectionBlogsList.vue";
-import SectionHeroSearch from "@app-page-builder/sections/hero/SectionHeroSearch.vue";
+import LSectionHeroHorizontal from "@app-page-builder/sections/hero/horizontal/LSectionHeroHorizontal.vue";
+import LSectionHeroVertical from "@app-page-builder/sections/hero/vertical/LSectionHeroVertical.vue";
+import LSectionHeroLottie from "@app-page-builder/sections/hero/lottie/LSectionHeroLottie.vue";
+import Section2TextColumns from "@app-page-builder/sections/text/two-columns/LSectionTextTwoColumns.vue";
+import LSectionTextThreeColumns from "@app-page-builder/sections/text/three-columns/LSectionTextThreeColumns.vue";
+import LSectionTextNumbers from "@app-page-builder/sections/text/numbers/LSectionTextNumbers.vue";
+import LSectionImageIntro from "@app-page-builder/sections/image/intro/LSectionImageIntro.vue";
+import LSectionImageFeatures from "@app-page-builder/sections/image/features/LSectionImageFeatures.vue";
+import LSectionImageSocials from "@app-page-builder/sections/image/socials/LSectionImageSocials.vue";
+import LSectionTextMarquee from "@app-page-builder/sections/text/marquee/LSectionTextMarquee.vue";
+import LSectionGalleryExpandable from "@app-page-builder/sections/gallery/expandable/LSectionGalleryExpandable.vue";
+import LSectionGalleryBrands from "@app-page-builder/sections/gallery/brands/LSectionGalleryBrands.vue";
+import LSectionStoreListing from "@app-page-builder/sections/store/listing/LSectionStoreListing.vue";
+import LSectionStoreProduct from "@app-page-builder/sections/store/product/LSectionStoreProduct.vue";
+import LSectionStoreCustomListing from "@app-page-builder/sections/store/custom-listing/LSectionStoreCustomListing.vue";
+import LSectionArticle from "@app-page-builder/sections/article/LSectionArticle.vue";
+import LSectionHtml from "@app-page-builder/sections/html/LSectionHtml.vue";
+import LSectionGallerySwiper from "@app-page-builder/sections/gallery/swiper/LSectionGallerySwiper.vue";
+import LSectionGalleryScroll from "@app-page-builder/sections/gallery/scroll/LSectionGalleryScroll.vue";
+import LSectionFormNewsletter from "@app-page-builder/sections/form/newsletter/LSectionFormNewsletter.vue";
+import LSectionImageTwoColumns from "@app-page-builder/sections/image/two-columns/LSectionImageTwoColumns.vue";
+import LSectionImageThreeColumns from "@app-page-builder/sections/image/three-columns/LSectionImageThreeColumns.vue";
+import LSectionImageCards from "@app-page-builder/sections/image/cards/LSectionImageCards.vue";
+import LSectionBlogList from "@app-page-builder/sections/blog/list/LSectionBlogList.vue";
+import LSectionHeroSearch from "@app-page-builder/sections/hero/search/LSectionHeroSearch.vue";
 import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
 import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
@@ -234,7 +232,7 @@ class SelldonePageBuilderCore {
         force_set_new_uid,
       );
     if (!options.schema) {
-      options.schema = this.components[options.name]?.extends?.$schema;
+      options.schema = this.components[options.name]?.$schema;
       if (DEBUG) console.log("Auto assign schema.", options);
     }
 
@@ -396,7 +394,7 @@ class SelldonePageBuilderCore {
           name: section.name,
           uid: section.uid,
           data: from_theme ? null : section.data,
-          schema: this.components[section.name].extends.$schema, // We do not save schema in page json data!
+          schema: this.components[section.name].$schema, // We do not save schema in page json data!
         };
 
         return new Section(sectionData);
@@ -437,41 +435,36 @@ class SelldonePageBuilderCore {
  */
 function initializeSections(app: App) {
   const components: any[] = [
-    SectionHeroHorizontal,
-    SectionHeroVertical,
-    SectionHeroLottie,
+    LSectionHeroHorizontal,
+    LSectionHeroVertical,
+    LSectionHeroLottie,
     Section2TextColumns,
-    Section3TextColumns,
-    Section3NumberColumns,
-    SectionSingleImage,
-    Section3Images,
-    Section3ImagesText,
-    SectionInfinitStream,
-    SectionGalleryExpanding,
-    SectionGalleryLogos,
-    SectionProductCategoryList,
-    SectionProductView,
-    SectionProductsCustomList,
-    SectionArticle,
-    SectionRawHtml,
-    SectionSlideShow,
-    SectionScrollView,
-    Newsletter,
-    SectionTwoCol,
-    SectionThreeCol,
-    SectionImageTextCards,
-    SectionBlogsList,
-    SectionHeroSearch,
+    LSectionTextThreeColumns,
+    LSectionTextNumbers,
+    LSectionImageIntro,
+    LSectionImageFeatures,
+    LSectionImageSocials,
+    LSectionTextMarquee,
+    LSectionGalleryExpandable,
+    LSectionGalleryBrands,
+    LSectionStoreListing,
+    LSectionStoreProduct,
+    LSectionStoreCustomListing,
+    LSectionArticle,
+    LSectionHtml,
+    LSectionGallerySwiper,
+    LSectionGalleryScroll,
+    LSectionFormNewsletter,
+    LSectionImageTwoColumns,
+    LSectionImageThreeColumns,
+    LSectionImageCards,
+    LSectionBlogList,
+    LSectionHeroSearch,
   ];
 
   components.forEach((_component) => {
-    const ExtendedComponent = defineComponent({
-      extends: _component,
-      directives: { styler: StylerDirective },
-      mixins: [SectionMixin],
-    });
-    Components[_component.name] = ExtendedComponent;
-    app.component(_component.name, ExtendedComponent);
+    Components[_component.name] = _component;
+    app.component(_component.name, _component);
   });
 
   // reset to prevent duplications.

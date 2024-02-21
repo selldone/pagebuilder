@@ -218,8 +218,8 @@
 <script>
 import { ClassesHelper } from "@core/helper/style/Classes";
 
-import ProductFramesSample from "@app-page-builder/sections/products/frames/ProductFramesSample";
-import CategoryFramesSample from "@app-page-builder/sections/products/frames/CategoryFramesSample";
+import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
+import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import {HighlightEditingElements} from "@app-page-builder/src/helpers/HighlightEditingElements";
