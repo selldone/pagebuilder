@@ -1994,7 +1994,7 @@ export default {
     //----------------------------------------------------------------------------
 
     showInputEditor() {
-      this.ShowGlobalInputEditorDialog(this.el, this.section, this.name);
+      this.ShowGlobalInputEditorDialog(this.el, this.target);
     },
     //----------------------------------------------------------------------------
     openTextColorEdit(event) {

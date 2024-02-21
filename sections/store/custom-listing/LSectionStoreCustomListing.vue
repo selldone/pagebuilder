@@ -16,8 +16,13 @@
   <x-section
     :object="$sectionData"
     path="$sectionData"
-    v-styler:products="$sectionData.products_list"
-    custom-layout="true"
+    v-styler:products="{
+      target: $sectionData,
+      keyFilter: 'products_list',
+      keyFrameCategory: 'frame_category',
+      keyFrameProduct: 'frame_product',
+      custom: true,
+    }"
   >
     <x-custom-products-list :force-package="forcePackage">
       <template v-slot:folders="{ folders }">
@@ -67,7 +72,7 @@ import {
   getCurrentInstance,
 } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin"; // This works! We need to compuile html to component! After replacing with VIte we can remove it! TODO: Check after Vite update!
+import SectionMixin from "@app-page-builder/mixins/SectionMixin";
 
 export default {
   name: "LSectionStoreCustomListing",
@@ -150,6 +155,7 @@ export default {
         template: html,
       });
     },
+
 
     getProductCode(product) {
       if (!product) return "-";

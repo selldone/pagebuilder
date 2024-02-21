@@ -17,7 +17,7 @@
     ref="styler"
     :el="el"
     :section="section"
-    type="product"
+    type="products"
     :builder="builder"
     :is-visible="isVisible"
   >
@@ -28,20 +28,35 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Product ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Products & Categories ―――――――――――――――――― -->
 
-      <li>
-        <button class="styler-button" @click="showSelectProduct">
-          <v-icon color="#fff" size="20"> bento</v-icon>
+      <li v-if="custom">
+        <button class="styler-button" @click="showCustomProductFrame">
+          <v-icon color="#fff" size="20"> code</v-icon>
+
           <v-tooltip
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
           >
-            Select Product
+            Custom Frames Code
           </v-tooltip>
         </button>
       </li>
+      <li>
+        <button class="styler-button" @click="showQueryBuilderProducts">
+          <v-icon color="#fff" size="20"> filter_alt</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+          >
+            Filter Products & Categories
+          </v-tooltip>
+        </button>
+      </li>
+
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -57,13 +72,14 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { isFunction } from "lodash-es";
 
 /**
- * v-styler:product
+ * v-styler:products
  */
 
 export default {
-  name: "SStylerProduct",
+  name: "SStylerProducts",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
@@ -93,8 +109,28 @@ export default {
      */
     position: {
       type: String,
-      default: "top",
+      default: "top-center",
     },
+
+    custom: {
+      type: Boolean,
+      default: false,
+    },
+
+    keyFilter: {
+      type: String,
+      default: "products_list",
+    },
+    keyFrameCategory: {
+      type: String,
+      default: "frame_category",
+    },
+    keyFrameProduct: {
+      type: String,
+      default: "frame_product",
+    },
+
+
   },
   data: () => ({
     option: null,
@@ -115,15 +151,30 @@ export default {
   },
   beforeMount() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerProduct");
+      throw new Error("Target is required for SStylerProducts");
     }
   },
   mounted() {},
 
   methods: {
-    showSelectProduct() {
-      this.ShowGlobalProductSelectDialog(this.el, this.target);
+    showCustomProductFrame() {
+      this.ShowGlobalProductsFrameDialog(
+        this.el,
+        this.target,
+        this.keyFrameCategory,
+        this.keyFrameProduct,
+      );
     },
+
+    showQueryBuilderProducts() {
+      this.ShowGlobalProductsCategoriesSelectDialog(
+        this.el,
+        this.target,
+        this.keyFilter,
+      );
+    },
+
+
   },
 };
 </script>

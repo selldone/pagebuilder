@@ -40,7 +40,7 @@
           >You can adjust the field property here to customize its
           appearance.</v-list-subheader
         >
-        <feeder-input v-model="input" @change="onChange"> </feeder-input>
+        <feeder-input v-model="target" @change="onChange"> </feeder-input>
       </v-card-title>
     </v-card>
   </v-navigation-drawer>
@@ -61,9 +61,8 @@ export default {
   props: {},
   data: () => ({
     el: null,
-    section: null,
-    inputPath: null,
-    input: null,
+
+    target: null,
 
     dialog: false,
     dialog_pre: false,
@@ -87,14 +86,13 @@ export default {
     this.EventBus.$on(
       "show:GlobalInputEditorDialog",
 
-      ({ el, section, inputPath }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
-        this.inputPath = inputPath;
+        this.target = target;
         this.showDialog();
       },
     );
@@ -135,7 +133,6 @@ export default {
 
   methods: {
     showDialog() {
-      this.input = this.section.get(this.inputPath);
 
       this.dialog_pre = false;
       this.$nextTick(() => {
@@ -149,7 +146,7 @@ export default {
     onChange() {
       if (!this.dialog || this.LOCK) return;
 
-      this.section?.set(this.inputPath, this.input); // Save data in section!
+
     },
   },
 };

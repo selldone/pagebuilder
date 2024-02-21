@@ -29,6 +29,7 @@ import SStylerColumn from "@app-page-builder/styler/column/SStylerColumn.vue";
 import SStylerGrid from "@app-page-builder/styler/grid/SStylerGrid.vue";
 import SStylerContainer from "@app-page-builder/styler/container/SStylerContainer.vue";
 import SStylerProduct from "@app-page-builder/styler/product/SStylerProduct.vue";
+import SStylerProducts from "@app-page-builder/styler/products/SStylerProducts.vue";
 
 const DEBUG = false;
 
@@ -56,11 +57,19 @@ export namespace StylerOptions {
     hasAdd: boolean; // default: false
     hasFluid: boolean; // default: false
   }
+
+  export interface IProducts {
+    target: types.Products;
+    custom: boolean; // Has custom code for products and categories
+  }
 }
 
 const StylerDirective: ObjectDirective<
   HTMLElement,
-  StylerOptions.IButtonsRow | StylerOptions.IRow
+  | StylerOptions.IButtonsRow
+  | StylerOptions.IRow
+  | StylerOptions.IButton
+  | StylerOptions.IProducts
 > = {
   mounted(
     el: HTMLElement & { $section?: Section },
@@ -145,12 +154,14 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerText;
     } else if (argument === "column") {
       stylerComponent = SStylerColumn;
-    }else if (argument === "grid") {
+    } else if (argument === "grid") {
       stylerComponent = SStylerGrid;
-    }else if (argument === "container") {
+    } else if (argument === "container") {
       stylerComponent = SStylerContainer;
-    }else if (argument === "product") {
+    } else if (argument === "product") {
       stylerComponent = SStylerProduct;
+    } else if (argument === "products") {
+      stylerComponent = SStylerProducts;
     }
 
     const StylerComponent = defineComponent({
@@ -222,16 +233,14 @@ const StylerDirective: ObjectDirective<
       console.log("Styler directive updated", binding.value, "el", el);
     }
     /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-               console.log("Styler directive updated", binding.value, "el", el);
-               Object.assign(el.$instance._component.props, binding.value);
-             }*/
+                   console.log("Styler directive updated", binding.value, "el", el);
+                   Object.assign(el.$instance._component.props, binding.value);
+                 }*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
   },
-
-
 };
 
 export default StylerDirective;

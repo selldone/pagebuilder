@@ -18,7 +18,9 @@
     theme="dark"
     location="right"
     temporary
-    :width="$vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
     :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
@@ -29,7 +31,8 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" size="x-large" @click="dialog_frame = false">
-            <v-icon start>close</v-icon> {{ $t("global.actions.close") }}
+            <v-icon start>close</v-icon>
+            {{ $t("global.actions.close") }}
           </v-btn>
         </div>
       </v-card-actions>
@@ -40,7 +43,8 @@
         <v-expansion-panel>
           <v-expansion-panel-title>
             <div>
-              <v-icon class="me-1" dark>inventory</v-icon> Product Frame
+              <v-icon class="me-1" dark>inventory</v-icon>
+              Product Frame
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
@@ -88,9 +92,8 @@
                 variant="outlined"
                 label="Samples"
                 prepend-inner-icon="inventory"
-
-                :item-title="item=>getName(item)"
-                :item-value="item=>item"
+                :item-title="(item) => getName(item)"
+                :item-value="(item) => item"
               >
               </v-select>
             </div>
@@ -127,7 +130,10 @@
 
         <v-expansion-panel>
           <v-expansion-panel-title>
-            <div><v-icon class="me-1" dark>folder</v-icon> Category Frame</div>
+            <div>
+              <v-icon class="me-1" dark>folder</v-icon>
+              Category Frame
+            </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <s-widget-header title="Element Class"></s-widget-header>
@@ -222,7 +228,7 @@ import ProductFramesSample from "@app-page-builder/sections/store/custom-listing
 import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import {HighlightEditingElements} from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
 
 export default {
   name: "GlobalProductsFrameDialog",
@@ -243,9 +249,9 @@ export default {
     standard_classes: ClassesHelper.StandardClasses(),
 
     el: null,
-    section: null,
-    productFramePath: "frame_product", // $sectionData.frame - Always should be 'frame_product'
-    categoryFramePath: "frame_category", // $sectionData.frame - Always should be 'frame_category'
+    target: null,
+    keyFrameProduct: "frame_product", // $sectionData.frame - Always should be 'frame_product'
+    keyFrameCategory: "frame_category", // $sectionData.frame - Always should be 'frame_category'
 
     //----------------------- Products Filter -----------------------
 
@@ -297,26 +303,26 @@ export default {
 
   computed: {},
   watch: {
-
     dialog_frame(dialog) {
       // Keep highlight active element:
       if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
       else if (this.el) HighlightEditingElements.Activate(this.el);
     },
-
   },
   created() {},
   mounted() {
     this.EventBus.$on(
       "show:GlobalProductsFrameDialog",
 
-      ({ el, section }) => {
+      ({ el, target, keyFrameCategory, keyFrameProduct }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
+        this.target = target;
+        this.keyFrameCategory = keyFrameCategory;
+        this.keyFrameProduct = keyFrameProduct;
         this.showProductsDialog();
       },
     );
@@ -357,8 +363,8 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.frame_product = this.section.get(this.productFramePath);
-      this.frame_category = this.section.get(this.categoryFramePath);
+      this.frame_product = Object.assign({},this.target[this.keyFrameProduct]);
+      this.frame_category = Object.assign({},this.target[this.keyFrameCategory]);
 
       // Auto fix frame structure:
 
@@ -389,14 +395,11 @@ export default {
     onFrameCodeChange() {
       if (!this.dialog_frame || this.LOCK) return;
 
-      this.section?.set(this.productFramePath, this.frame_product); // Save data in section!
-      this.section?.set(this.categoryFramePath, this.frame_category); // Save data in section!
+      this.target[this.keyFrameProduct] = Object.assign({},this.frame_product); // Save data in section!
+      this.target[this.keyFrameCategory] = Object.assign({},this.frame_category); // Save data in section!
 
       // this.dialog_frame = false;
     },
-
-
-
   },
 };
 </script>

@@ -18,7 +18,9 @@
     theme="dark"
     location="right"
     temporary
-    :width="$vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
     :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
@@ -31,7 +33,8 @@
             size="x-large"
             @click="dialog_product_filter = false"
           >
-            <v-icon start>close</v-icon> {{ $t("global.actions.close") }}
+            <v-icon start>close</v-icon>
+            {{ $t("global.actions.close") }}
           </v-btn>
         </div>
       </v-card-actions>
@@ -63,6 +66,7 @@
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+
 export default {
   name: "GlobalProductsCategoriesSelectDialog",
   mixins: [PageEventBusMixin],
@@ -74,8 +78,8 @@ export default {
   props: {},
   data: () => ({
     el: null,
-    section: null,
-    productsPath: null, // $sectionData.products
+    target: null,
+    keyFilter: null, // ex. products_list
 
     //----------------------- Products Filter -----------------------
 
@@ -102,12 +106,12 @@ export default {
     this.EventBus.$on(
       "show:GlobalProductsCategoriesSelectDialog",
 
-      ({ el, section, productsPath }) => {
+      ({ el, target, keyFilter }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.el = el;
-        this.section = section;
-        this.productsPath = productsPath;
+        this.target = target;
+        this.keyFilter = keyFilter;
         this.showProductsDialog();
       },
     );
@@ -148,15 +152,13 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.product_filter_view_data = this.section.get(this.productsPath);
-
       if (!this.isObject(this.product_filter_view_data)) {
         this.product_filter_view_data = {};
       } else {
         // Make it clone:
         this.product_filter_view_data = Object.assign(
           {},
-          this.product_filter_view_data,
+          this.target[this.keyFilter],
         );
       }
 
@@ -170,9 +172,7 @@ export default {
     //----------------------------------------------------------------------------
     onAcceptProductFilterChange() {
       if (!this.dialog_product_filter) return;
-      this.section?.set(this.productsPath, this.product_filter_view_data); // Save data in section!
-
-      /// this.dialog_product_filter = false;
+      this.target[this.keyFilter] = this.product_filter_view_data; // Save data in section!
     },
   },
 };

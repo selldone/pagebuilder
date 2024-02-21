@@ -101,27 +101,27 @@ export const LandingHistoryMixin = defineComponent({
         target,
       });
     },
-    ShowGlobalProductsCategoriesSelectDialog(el:HTMLElement, section, productsPath) {
+    ShowGlobalProductsCategoriesSelectDialog(el:HTMLElement, target:Object,keyFilter:string) {
       EventBus.$emit("show:GlobalProductsCategoriesSelectDialog", {
         el,
-        section,
-        productsPath,
+        target,
+        keyFilter
       });
     },
 
-    ShowGlobalProductsFrameDialog(el:HTMLElement, section, productsPath) {
+    ShowGlobalProductsFrameDialog(el:HTMLElement, target:Object,keyFrameCategory:string,keyFrameProduct:string) {
       EventBus.$emit("show:GlobalProductsFrameDialog", {
         el,
-        section,
-        productsPath,
+        target,
+        keyFrameCategory,keyFrameProduct
+
       });
     },
 
-    ShowGlobalInputEditorDialog(el:HTMLElement, section, inputPath) {
+    ShowGlobalInputEditorDialog(el:HTMLElement, target:Object) {
       EventBus.$emit("show:GlobalInputEditorDialog", {
         el,
-        section,
-        inputPath,
+        target,
       });
     },
     ShowGlobalSlideShowEditorDialog(el:HTMLElement, section, slidePath) {

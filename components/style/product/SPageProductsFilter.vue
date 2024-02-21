@@ -524,7 +524,7 @@ export default {
 
       this.surrounded = !!filter_bundle.surrounded;
 
-      this.$forceUpdate(); // Force refresh component!
+      //this.$forceUpdate(); // Force refresh component!
     },
   },
 };

@@ -16,7 +16,7 @@
   <x-section
     :object="$sectionData"
     path="$sectionData"
-    v-styler:products="$sectionData.products_list"
+    v-styler:products="{target:$sectionData.products_list,keyFilter:'products_list'}"
   >
     <x-container
       path="$sectionData"
