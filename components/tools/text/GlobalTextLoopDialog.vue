@@ -18,7 +18,9 @@
     theme="dark"
     location="right"
     temporary
-    :width="$vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
     :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
@@ -27,9 +29,9 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" @click="dialog = false" size="x-large">
-            <v-icon class="me-1">close</v-icon
-            >{{ $t("global.actions.close") }}</v-btn
-          >
+            <v-icon class="me-1">close </v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
         </div>
       </v-card-actions>
 
@@ -39,14 +41,16 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">article</v-icon> Text / Html</div>
+                <div>
+                  <v-icon class="me-1">article</v-icon>
+                  Text / Html
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <v-list-subheader
-                >The content, in text or HTML, you wish to
-                display.</v-list-subheader
-              >
+                >The content, in text or HTML, you wish to display.
+              </v-list-subheader>
 
               <v-textarea
                 v-model="text_loop.html"
@@ -60,7 +64,10 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">brush</v-icon> Appearance</div>
+                <div>
+                  <v-icon class="me-1">brush</v-icon>
+                  Appearance
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -96,7 +103,10 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">animation</v-icon> Animation</div>
+                <div>
+                  <v-icon class="me-1">animation</v-icon>
+                  Animation
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -133,9 +143,10 @@ import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import _ from "lodash-es";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+
 export default {
   name: "GlobalTextLoopDialog",
-  mixins:[PageEventBusMixin],
+  mixins: [PageEventBusMixin],
 
   components: {
     SSmartToggle,
@@ -148,8 +159,8 @@ export default {
     tab: null,
 
     el: null,
-    section: null,
-    path: null, // $sectionData.products
+    target: null,
+    keyMarquee: null, // ex. text_loop
 
     dialog: false,
 
@@ -175,14 +186,14 @@ export default {
     this.EventBus.$on(
       "show:GlobalTextLoopDialog",
 
-      ({ el, section, path }) => {
+      ({ el, target, keyMarquee }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
-        this.path = path;
+        this.target = target;
+        this.keyMarquee = keyMarquee;
         this.showDialog();
       },
     );
@@ -224,7 +235,7 @@ export default {
 
   methods: {
     showDialog() {
-      this.text_loop = this.section.get(this.path);
+      this.text_loop = this.target[this.keyMarquee];
 
       if (!this.isObject(this.text_loop)) {
         this.text_loop = {
@@ -249,7 +260,7 @@ export default {
     onAccept() {
       if (!this.dialog || this.LOCK) return;
 
-      this.section?.set(this.path, Object.assign({}, this.text_loop)); // Save data in section!
+      this.target = Object.assign({}, this.text_loop); // Save data in section!
 
       if (this.text_loop.height)
         this.el.style.setProperty("--height", this.text_loop.height);

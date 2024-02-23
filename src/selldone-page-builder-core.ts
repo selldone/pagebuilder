@@ -56,7 +56,7 @@ import LSectionHeroSearch from "@app-page-builder/sections/hero/search/LSectionH
 import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
 import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
-import {MigrateFromOldVersion} from "@app-page-builder/src/MigrateFromOldVersion";
+import {Migration} from "@app-page-builder/src/MigrateFromOldVersion";
 import {isObject} from "lodash-es";
 
 const DEBUG = false;
@@ -231,6 +231,14 @@ class SelldonePageBuilderCore {
         has_initialize,
         force_set_new_uid,
       );
+
+    options.name = Migration.MigrateSectionName(options.name);
+    if (!this.components[options.name]) {
+      throw new Error(
+        `Component [<b>${options.name}</b>] not found! The section name is invalid! Maybe it's removed from the page builder.`,
+      );
+    }
+
     if (!options.schema) {
       options.schema = this.components[options.name]?.$schema;
       if (DEBUG) console.log("Auto assign schema.", options);
@@ -378,7 +386,7 @@ class SelldonePageBuilderCore {
   set(data: Page.IContent, from_theme: boolean = false) {
     LOG("⚽ Set -----> data", data);
 
-    MigrateFromOldVersion(data);
+    data = Migration.MigratePageContent(data);
 
     this.style = data.style;
 
@@ -390,6 +398,12 @@ class SelldonePageBuilderCore {
 
     if (data.sections && Array.isArray(data.sections)) {
       this.sections = data.sections.map((section) => {
+
+        if(!this.components[section.name]){
+          console.error("Component not found", section.name, this.components[section.name])
+        }
+
+
         const sectionData = {
           name: section.name,
           uid: section.uid,

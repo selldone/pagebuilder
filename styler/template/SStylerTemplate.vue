@@ -26,10 +26,16 @@
         '-dot -amber': type === 'container',
 
         '-dot -blue': type === 'column',
+
+        '-dot -amber': type === 'swiper',
+        '-dot -amber': type === 'blogs',
+        '-dot -amber': type === 'marquee',
+
         '-dot': type === 'section',
       },
       `-type-${type}`,
     ]"
+    :caption="type"
     :style="[PageBuilderColorsHelper.GenerateColorsStyle(builder.style)]"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
@@ -217,7 +223,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 $dark: #323c47;
 $white: #fff;
 $red: #ff3d3d;
@@ -226,8 +231,8 @@ $red: #ff3d3d;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 100;
   display: none;
-  z-index: 200;
   visibility: hidden;
   opacity: 0;
   margin: 10px 0;
@@ -390,10 +395,21 @@ input[type="number"]::-webkit-outer-spin-button {
 
   //------------------ Start Styler dot color ------------------
   &.-dot {
+    &:before {
+      position: absolute;
+      z-index: 1;
+      top: 3px;
+      left: 22px;
+      content: attr(caption);
+      font-size: 8px;
+      color: #fff;
+      background: transparent;
+    }
+
     &:after {
       position: absolute;
-      top: 9px;
-      left: 9px;
+      top: 7px;
+      left: 12px;
       content: " ";
       width: 6px;
       height: 6px;

@@ -17,7 +17,7 @@
     :object="$sectionData"
     path="$sectionData"
     class="p-0"
-    v-styler:slide="$sectionData.slide"
+    v-styler:swiper="{target:$sectionData,keySlide:'slide'}"
   >
 
     <!-- --------------------------------------------------------------------------------------------------------- -->
@@ -282,7 +282,7 @@ export default {
   watch: {},
 
   created() {
-    this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+  //  this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.__goToSlide = (index) => {
       this.$refs.swiperTop?.$swiper?.slideTo(index);

@@ -16,38 +16,53 @@
   <x-section
     :object="$sectionData"
     path="$sectionData"
-    class="p-0"
-    v-styler:slide="$sectionData.slide"
+    class="pa-0"
+    v-styler:swiper="{ target: $sectionData, keySlide: 'slide' }"
     has-thumbnail="true"
   >
+    <!-- ████████████████████████ Main ████████████████████████ -->
     <swiper
-      v-if="showSlider"
-      ref="swiperTop"
-      :options="swiperTop"
-      @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex"
+      @swiper="onMainSwiperInitialized"
+      :modules="modules"
+      :thumbs="{ swiper: thumbsSwiper }"
+      :allow-touch-move="allow_touch_move"
+      auto-height
+      :direction="SLIDE_DATA.direction?SLIDE_DATA.direction:'horizontal' "
+      :loop="SLIDE_DATA.loop"
+      :centered-slides="true"
+      :keyboard="{ enabled: true }"
+      :slides-per-view="calcSlidesPerView()"
+      :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
+      :effect="SLIDE_DATA.effect"
+      :pagination="pagination"
+      :navigation="navigation"
+      :autoplay="autoplay"
+      :grab-cursor="SLIDE_DATA.grabCursor"
+      :cubeEffect="{
+        shadow: true,
+        slideShadows: true,
+        shadowOffset: 20,
+        shadowScale: 0.94,
+      }"
     >
       <swiper-slide
-        v-for="(slide, index) in $sectionData.slide.items"
+        v-for="(_slide, index) in SLIDE_DATA.items"
         :key="index"
-        :style="{ height: $sectionData.slide.height }"
         class="overflow-hidden"
+        :style="{ height: SLIDE_DATA.height }"
       >
         <!-- 📹 Background video -->
         <video-background
-          v-if="$sectionData.slide.items[index].container?.background?.bg_video"
-          :video="
-            getVideoUrl(
-              $sectionData.slide.items[index].container?.background?.bg_video,
-            )
-          "
+          v-if="_slide.container?.background?.bg_video"
+          :video="getVideoUrl(_slide.container?.background?.bg_video)"
         >
         </video-background>
 
         <div
           class="position-relative h-100"
           :index="index"
-          :style="[backgroundStyle($sectionData.slide.items[index].background)]"
-          :class="[realIndex === index ? $sectionData.slide.active : null]"
+          :style="[backgroundStyle(_slide.background)]"
+          :class="[realIndex === index ? SLIDE_DATA.active : null]"
         >
           <!-- ----------------- Image Layer ----------------- -->
 
@@ -65,41 +80,32 @@
             :index="index"
             :container-styler="true"
             :class="[
-              $sectionData.slide.items[index].container.classes,
+              _slide.container.classes,
               {
-                'container--fluid': $sectionData.slide.items[index].container
-                  ? $sectionData.slide.items[index].container.fluid
+                'container--fluid': _slide.container
+                  ? _slide.container.fluid
                   : false,
               },
             ]"
-            :style="[$sectionData.slide.items[index].container.style]"
+            :style="[_slide.container.style]"
             v-styler:container="{
               target: $sectionData.slide.items[index].container,
               hasFluid: true,
             }"
             clonable="true"
             @click="
-              $builder.onClickClone(
-                $event,
-                $sectionData.slide.items[index].container,
-                ['classes', 'style'],
-              );
+              $builder.onClickClone($event, _slide.container, [
+                'classes',
+                'style',
+              ]);
               $forceUpdate();
             "
           >
             <v-row
               no-gutters
               :index="index"
-              :align="
-                $sectionData.slide.items[index].row
-                  ? $sectionData.slide.items[index].row.align
-                  : 'center'
-              "
-              :justify="
-                $sectionData.slide.items[index].row
-                  ? $sectionData.slide.items[index].row.justify
-                  : 'start'
-              "
+              :align="_slide.row ? _slide.row.align : 'center'"
+              :justify="_slide.row ? _slide.row.justify : 'start'"
               v-styler:row="{
                 target: $sectionData.slide.items[index],
                 hasArrangement: true,
@@ -113,10 +119,7 @@
                     keyText: 'title',
                   }"
                   v-html="
-                    $sectionData.slide.items[index].title?.applyAugment(
-                      augment,
-                      $builder.isEditing,
-                    )
+                    _slide.title?.applyAugment(augment, $builder.isEditing)
                   "
                   :index="index"
                 />
@@ -126,10 +129,7 @@
                     keyText: 'subtitle',
                   }"
                   v-html="
-                    $sectionData.slide.items[index].subtitle?.applyAugment(
-                      augment,
-                      $builder.isEditing,
-                    )
+                    _slide.subtitle?.applyAugment(augment, $builder.isEditing)
                   "
                   :index="index"
                 ></p>
@@ -137,12 +137,12 @@
                 <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
                 <x-button
-                  v-if="$sectionData.slide.items[index].button"
+                  v-if="_slide.button"
                   v-styler:button="{
                     target: $sectionData.slide.items[index].button,
                   }"
                   :index="index"
-                  :btn-data="$sectionData.slide.items[index].button"
+                  :btn-data="_slide.button"
                   class="m-2 z2"
                   :editing="$builder.isEditing"
                   :augment="augment"
@@ -154,13 +154,11 @@
                 >
                   <v-btn
                     key="add"
-                    v-if="!$sectionData.slide.items[index].button"
+                    v-if="!_slide.button"
                     variant="flat"
                     color="success"
                     @click.stop="
-                      $sectionData.slide.items[index].button = getInstance(
-                        types.Button,
-                      );
+                      _slide.button = getInstance(types.Button);
                       $forceUpdate();
                     "
                     class="z2"
@@ -173,10 +171,9 @@
                     v-else
                     variant="flat"
                     color="red"
-                    dark
                     class="z2"
                     @click.stop="
-                      $sectionData.slide.items[index].button = null;
+                      _slide.button = null;
                       $forceUpdate();
                     "
                     icon
@@ -203,17 +200,21 @@
       </template>
     </swiper>
 
-    <!-- swiper2 Thumbs -->
+    <!-- ████████████████████████ Thumbnail ████████████████████████ -->
     <swiper
-      v-if="showSlider && $sectionData.slide.thumbs"
-      class="overflow-visible"
-      :options="swiperOptionThumbs"
-      ref="swiperThumbs"
+      @swiper="onThumbnailSwiperInitialized"
+      v-if=" SLIDE_DATA.thumbs"
+      :allow-touch-move="allow_touch_move"
+      :slide-to-clicked-slide="true"
+      :slides-per-view="thumbnail_slides_per_view"
+      :space-between="10"
+      :centered-slides="true"
+      :loop="SLIDE_DATA.loop"
     >
       <swiper-slide
-        v-for="(slide, index) in $sectionData.slide.items"
+        v-for="(slide, index) in SLIDE_DATA.items"
         :key="index"
-        :style="{ height: $sectionData.slide.heightThumbs }"
+        :style="{ height: SLIDE_DATA.heightThumbs }"
         :class="{ pp: swiperOptionThumbs.allowTouchMove }"
       >
         <div
@@ -266,6 +267,33 @@ import VideoBackground from "@app-page-builder/sections/components/VideoBackgrou
 import { Swiper, SwiperSlide } from "swiper/vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import {
+  A11y,
+  Autoplay,
+  Controller,
+  EffectCards,
+  EffectCoverflow,
+  EffectCreative,
+  EffectCube,
+  EffectFade,
+  EffectFlip,
+  FreeMode,
+  Grid,
+  HashNavigation,
+  History,
+  Keyboard,
+  Manipulation,
+  Mousewheel,
+  Navigation,
+  Pagination,
+  Parallax,
+  Scrollbar,
+  Thumbs,
+  Virtual,
+  Zoom,
+} from "swiper/modules";
+import { LandingSettingStructure } from "@app-page-builder/sections/LandingSettingStructure";
+import {SlideStructure} from "@app-page-builder/styler/swiper/SwiperOptions";
 
 export default {
   name: "LSectionGallerySwiper",
@@ -327,97 +355,144 @@ export default {
   },
 
   data: () => ({
+    modules: [
+      // Effect modules
+      EffectFade, // Fade Effect module
+      EffectCube, // Cube Effect module
+      EffectFlip, // Flip Effect module
+      EffectCoverflow, // Coverflow Effect module
+      EffectCards, // Cards Effect module
+      EffectCreative, // Creative Effect module
+
+      // Navigation modules
+      Navigation, // Navigation module
+      Pagination, // Pagination module
+      Scrollbar, // Scrollbar module
+      Thumbs, // Thumbs module
+
+      // Control modules
+      Keyboard, // Keyboard Control module
+      Mousewheel, // Mousewheel Control module
+      Controller, // Controller module
+
+      // Advanced functionality modules
+      Virtual, // Virtual Slides module
+      Parallax, // Parallax module
+      FreeMode, // Free Mode module
+      Grid, // Grid module
+      Manipulation, // Slides manipulation module (only for Core version)
+      Zoom, // Zoom module
+
+      // Accessibility & Usability modules
+      A11y, // Accessibility module
+      History, // History Navigation module
+      HashNavigation, // Hash Navigation module
+      Autoplay, // Autoplay module
+    ],
+
     realIndex: 0,
 
     dialog: false,
-    showSlider: true,
 
-    swiperTop: {},
 
     swiperOptionThumbs: {},
+
+    thumbsSwiper: null,
+    mainSwiper: null,
+
+    key:0,
   }),
 
-  watch: {},
+  computed: {
+    thumbnail_slides_per_view() {
+      return this.$vuetify.display.xlAndUp
+        ? 5
+        : this.$vuetify.display.lg
+          ? 4
+          : this.$vuetify.display.md
+            ? 3
+            : this.$vuetify.display.sm
+              ? 2
+              : 1;
+    },
+
+    allow_touch_move() {
+      return !this.$builder.isEditing || !this.$section.lock;
+    },
+
+    SLIDE_DATA() {
+      return this.$sectionData.slide;
+    },
+
+    pagination() {
+      return {
+        el: ".swiper-pagination",
+        type: this.SLIDE_DATA.pagination, // 'bullets' | 'fraction' | 'progressbar' | 'custom'
+        dynamicBullets: true,
+        clickable: true,
+      };
+    },
+
+    navigation() {
+      return this.$sectionData.slide.navigation
+        ? {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          }
+        : false;
+    },
+
+    autoplay() {
+      return !this.$builder.isEditing && this.$sectionData.slide.autoplay
+        ? {
+            delay: 7000,
+          }
+        : false;
+    },
+  },
+
+  watch: {
+    SLIDE_DATA: {
+      deep: true,
+      handler() {
+        this.refresh();
+      },
+    },
+    allow_touch_move() {
+      this.refresh();
+    },
+  },
 
   created() {
-    this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+   // this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+
     this.$section.__goToSlide = (index) => {
-      this.$refs.swiperTop?.$swiper?.slideTo(index);
+      this.mainSwiper.slideTo(index);
     };
-    this.init();
+
+    // Migrate old version:
+    this.SLIDE_DATA.direction=this.SLIDE_DATA.vertical?'vertical':'horizontal';
+
+
+    // this.init();
   },
 
   mounted() {
-    this.refresh();
+    // this.refresh();
   },
 
   methods: {
-    // Computed values not call!
-    init() {
-      this.swiperOptionThumbs = {
-        allowTouchMove: !this.$builder.isEditing || !this.$section.lock,
-        loop: this.$sectionData.slide.loop,
-        loopedSlides: this.$sectionData.slide.items.length, // looped slides should be the same
-        spaceBetween: 10,
-        centeredSlides: true,
-        slidesPerView: this.$vuetify.display.xlAndUp
-          ? 5
-          : this.$vuetify.display.lg
-            ? 4
-            : this.$vuetify.display.md
-              ? 3
-              : this.$vuetify.display.sm
-                ? 2
-                : 1,
-        touchRatio: 0.2,
-        slideToClickedSlide: true,
-      };
-
-      this.swiperTop = {
-        allowTouchMove: !this.$builder.isEditing || !this.$section.lock,
-        //  allowSlideNext: true,
-        //   allowSlidePrev: true,
-        autoHeight: true,
-        direction: this.$sectionData.slide.vertical ? "vertical" : "horizontal",
-
-        loop: this.$sectionData.slide.loop,
-        loopedSlides: this.$sectionData.slide.items.length, // looped slides should be the same
-
-        //loopedSlides: "auto", // conflict with loop!
-        centeredSlides: true,
-        keyboard: {
-          enabled: true,
-        },
-
-        slidesPerView: this.calcSlidesPerView(),
-        spaceBetween: this.$sectionData.slide.spaceBetween
-          ? this.$sectionData.slide.spaceBetween
-          : 0,
-
-        effect: this.$sectionData.slide.effect,
-
-        pagination: {
-          el: ".swiper-pagination",
-          type: this.$sectionData.slide.pagination, // 'bullets' | 'fraction' | 'progressbar' | 'custom'
-          dynamicBullets: true,
-          clickable: true,
-        },
-        navigation: this.$sectionData.slide.navigation
-          ? {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }
-          : false,
-
-        autoplay:
-          !this.$builder.isEditing && this.$sectionData.slide.autoplay
-            ? {
-                delay: 7000,
-              }
-            : false,
-      };
+    onMainSwiperInitialized(swiper) {
+      this.mainSwiper = swiper;
     },
+
+    onThumbnailSwiperInitialized(swiper) {
+      this.thumbsSwiper = swiper;
+    },
+
+    // Computed values not call!
+    init() {},
 
     calcSlidesPerView() {
       if (
@@ -435,49 +510,25 @@ export default {
     },
 
     refresh() {
-      // Reset controllers:
-      const swiperTop = this.$refs.swiperTop?.$swiper;
-      const swiperThumbs = this.$refs.swiperThumbs?.$swiper;
-      if (swiperTop?.controller?.control) swiperTop.controller.control = null;
-      if (swiperThumbs?.controller?.control)
-        swiperThumbs.controller.control = null;
+      if (!this.mainSwiper) return;
+
+      console.log("REQUEST REFRESH!!!!");
+      this.mainSwiper.allowTouchMove = this.allow_touch_move; // Edit mode!
+
+      if(this.SLIDE_DATA.grabCursor){
+        this.mainSwiper.setGrabCursor();
+      }else{
+        this.mainSwiper.unsetGrabCursor()
+      }
+
+
+
+
+
+      this.mainSwiper.update();
 
       this.$forceUpdate();
-      this.$nextTick(() => {
-        this.init();
-        const current_slide = this.$refs.swiperTop.$swiper.realIndex;
 
-        this.$nextTick(() => {
-          // Force apply change to computed options.
-          this.showSlider = false;
-          this.$nextTick(() => {
-            this.showSlider = true;
-
-            if (this.$sectionData.slide.thumbs) {
-              this.$nextTick(() => {
-                const swiperTop = this.$refs.swiperTop.$swiper;
-                const swiperThumbs = this.$refs.swiperThumbs.$swiper;
-                swiperTop.controller.control = swiperThumbs;
-                swiperThumbs.controller.control = swiperTop;
-
-                // Go current index:
-                this.$nextTick(() => {
-                  this.$refs.swiperTop.$swiper.slideToLoop(current_slide, 0);
-                });
-              });
-            } else {
-              this.$nextTick(() => {
-                // Go current index:
-                this.$nextTick(() => {
-                  this.$refs.swiperTop.$swiper.slideToLoop(current_slide, 0);
-
-                  this.$forceUpdate();
-                });
-              });
-            }
-          });
-        });
-      });
     },
   },
 };

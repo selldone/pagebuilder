@@ -18,7 +18,7 @@
     path="$sectionData"
     v-styler:products="{
       target: $sectionData,
-      keyFilter: 'products_list',
+      keyFilter: 'filter',
       keyFrameCategory: 'frame_category',
       keyFrameProduct: 'frame_product',
       custom: true,
@@ -67,12 +67,10 @@
 <script>
 import * as types from "../../../src/types";
 
-import {
-  defineComponent,
-  getCurrentInstance,
-} from "vue/dist/vue.esm-bundler.js";
+import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
 
 export default {
   name: "LSectionStoreCustomListing",
@@ -94,7 +92,7 @@ export default {
     background: types.Background,
     style: types.Style,
 
-    products_list: types.Products,
+    filter: types.Products,
 
     row: types.Row,
 
@@ -116,14 +114,19 @@ export default {
 
   data: () => ({
     forcePackage: null,
-    instance: null,
   }),
   computed: {},
   watch: {
-    "$sectionData.products_list"(value) {
+    "$sectionData.filter"(value) {
+
       if (value instanceof Object) {
         console.log("✻ Change products filter.");
-        this.forcePackage = value;
+
+        this.forcePackage = ApplyAugmentToObject(
+          value,
+          this.augment,
+          this.$builder.isEditing,
+        );
       }
     },
     "$sectionData.frame_product"() {
@@ -133,18 +136,27 @@ export default {
   },
 
   created() {
-    this.forcePackage = this.$sectionData.products_list;
-
-    // Set dynamic values for filter:
-    if (Array.isArray(this.forcePackage?.tags)) {
-      this.forcePackage.tags = this.forcePackage.tags.map((x) =>
-        this.isString(x)
-          ? x.applyAugment(this.augment, this.$builder.isEditing)
-          : x,
-      );
+    if (!this.isObject(this.$sectionData.filter)) {
+      this.$sectionData.filter = {};
     }
 
-    this.instance = getCurrentInstance();
+    this.forcePackage = this.$sectionData.filter;
+
+    // Set dynamic values for filter:
+    this.forcePackage = ApplyAugmentToObject(
+      this.forcePackage,
+      this.augment,
+      this.$builder.isEditing,
+    );
+
+    // Set dynamic values for filter:
+    /* if (Array.isArray(this.forcePackage?.tags)) {
+       this.forcePackage.tags = this.forcePackage.tags.map((x) =>
+         this.isString(x)
+           ? x.applyAugment(this.augment, this.$builder.isEditing)
+           : x,
+       );
+     }*/
   },
 
   mounted() {},
@@ -155,7 +167,6 @@ export default {
         template: html,
       });
     },
-
 
     getProductCode(product) {
       if (!product) return "-";

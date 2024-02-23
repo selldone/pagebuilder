@@ -16,7 +16,7 @@
   <x-section
     :object="$sectionData"
     path="$sectionData"
-    v-styler:products="{target:$sectionData.products_list,keyFilter:'products_list'}"
+    v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
   >
     <x-container
       path="$sectionData"
@@ -24,9 +24,7 @@
       max-width-normal="1550px"
     >
       <h2
-        v-styler:text="{target:$sectionData,keyText:'title'}   "
-
-
+        v-styler:text="{ target: $sectionData, keyText: 'title' }"
         class="my-5"
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
@@ -36,17 +34,15 @@
         silent
         landing-page-mode
         :force-mode-view="mode_view"
-        :force-package="force_package"
+        :force-package="forcePackage"
         :view-only="$builder.isEditing"
-        v-styler:row=" rowBinding"
+        v-styler:row="rowBinding"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
       ></s-storefront-products-listing>
 
       <p
-        v-styler:text="{target:$sectionData,keyText:'text'}   "
-
-
+        v-styler:text="{ target: $sectionData, keyText: 'text' }"
         class="my-5"
         v-html="$sectionData.text?.applyAugment(augment, $builder.isEditing)"
       />
@@ -85,7 +81,7 @@ export default {
     title: types.Title,
     text: types.Text,
 
-    products_list: types.Products,
+    filter: types.Products,
 
     row: types.Row,
   },
@@ -100,7 +96,7 @@ export default {
   },
 
   data: () => ({
-    force_package: null,
+    forcePackage: null,
     mode_view: ModeView.NORMAL.code,
   }),
   computed: {
@@ -109,18 +105,21 @@ export default {
      * @return {{target: *}}
      */
     rowBinding() {
-      return { target: this.$sectionData,hasArrangement:true,hasFluid:true };
+      return {
+        target: this.$sectionData,
+        hasArrangement: true,
+        hasFluid: true,
+      };
     },
-
   },
   watch: {
-    "$sectionData.products_list"(value) {
+    "$sectionData.filter"(value) {
       if (value instanceof Object) {
         console.log("✻ Change products / categories filter.");
         //console.log("watch", value);
-        //console.log("force_package", this.$sectionData.products_list);
+        //console.log("forcePackage", this.$sectionData.filter);
 
-        this.force_package = ApplyAugmentToObject(
+        this.forcePackage = ApplyAugmentToObject(
           value,
           this.augment,
           this.$builder.isEditing,
@@ -131,15 +130,18 @@ export default {
   },
 
   created() {
-    this.force_package = this.$sectionData.products_list;
+    if (!this.isObject(this.$sectionData.filter)) {
+      this.$sectionData.filter = {};
+    }
 
-    if (this.force_package && this.force_package.mode_view)
-      this.mode_view = this.force_package.mode_view;
+    this.forcePackage = this.$sectionData.filter;
+
+    if (this.forcePackage.mode_view)
+      this.mode_view = this.forcePackage.mode_view;
 
     // Set dynamic values for filter:
-
-    this.force_package = ApplyAugmentToObject(
-      this.force_package,
+    this.forcePackage = ApplyAugmentToObject(
+      this.forcePackage,
       this.augment,
       this.$builder.isEditing,
     );

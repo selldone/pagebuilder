@@ -18,7 +18,9 @@
     theme="dark"
     location="right"
     temporary
-    :width="$vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
     :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
@@ -27,9 +29,9 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" @click="dialog = false" size="x-large">
-            <v-icon class="me-1">close</v-icon
-            >{{ $t("global.actions.close") }}</v-btn
-          >
+            <v-icon class="me-1">close </v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
         </div>
       </v-card-actions>
 
@@ -39,13 +41,16 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">sort</v-icon> Sort</div>
+                <div>
+                  <v-icon class="me-1">sort</v-icon>
+                  Sort
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <v-list-subheader
-                >Set how to sort blogs to show.</v-list-subheader
-              >
+                >Set how to sort blogs to show.
+              </v-list-subheader>
 
               <v-row class="my-2">
                 <v-btn-toggle
@@ -61,9 +66,9 @@
                     :value="val.value"
                     class="tnt"
                   >
-                    <v-icon v-if="val.icon" size="small" class="me-1">{{
-                      val.icon
-                    }}</v-icon>
+                    <v-icon v-if="val.icon" size="small" class="me-1"
+                      >{{ val.icon }}
+                    </v-icon>
                     {{ $t(val.label) }}
                   </v-btn>
                 </v-btn-toggle>
@@ -90,7 +95,10 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">filter_alt</v-icon> Filter</div>
+                <div>
+                  <v-icon class="me-1">filter_alt</v-icon>
+                  Filter
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -125,7 +133,10 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">margin</v-icon> Limit</div>
+                <div>
+                  <v-icon class="me-1">margin</v-icon>
+                  Limit
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -162,7 +173,10 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <div><v-icon class="me-1">brush</v-icon> Appearance</div>
+                <div>
+                  <v-icon class="me-1">brush</v-icon>
+                  Appearance
+                </div>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -222,6 +236,7 @@ import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import _ from "lodash-es";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+
 export default {
   name: "GlobalBlogsFilterDialog",
   mixins: [PageEventBusMixin],
@@ -237,8 +252,8 @@ export default {
     tab: null,
 
     el: null,
-    section: null,
-    blogsPath: null, // $sectionData.products
+    target: null,
+    keyFilter: null, // ex. blogs_filter
 
     //----------------------- Products Filter -----------------------
 
@@ -280,14 +295,14 @@ export default {
     this.EventBus.$on(
       "show:GlobalBlogsFilterDialog",
 
-      ({ el, section, blogsPath }) => {
+      ({ el, target, keyFilter }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
-        this.section = section;
-        this.blogsPath = blogsPath;
+        this.target = target;
+        this.keyFilter = keyFilter;
         this.showProductsDialog();
       },
     );
@@ -329,7 +344,7 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.blogs_filter = this.section.get(this.blogsPath);
+      this.blogs_filter = this.target[this.keyFilter];
 
       if (!this.isObject(this.blogs_filter)) {
         this.blogs_filter = {};
@@ -357,7 +372,7 @@ export default {
     onAccept() {
       if (!this.dialog || this.LOCK) return;
 
-      this.section?.set(this.blogsPath, Object.assign({}, this.blogs_filter)); // Save data in section!
+      this.target[this.keyFilter] = Object.assign({}, this.blogs_filter); // Save data in section!
 
       /// this.dialog = false;
     },

@@ -50,16 +50,16 @@
         icon="dashboard_customize"
       ></s-widget-header>
 
-      <v-list-subheader>{{
-        $t("styler.products.item_types")
-      }}</v-list-subheader>
+      <v-list-subheader
+        >{{ $t("styler.products.item_types") }}
+      </v-list-subheader>
 
       <v-btn-toggle
         v-model="selected_mode"
         mandatory
-        rounded
-        borderless
-        class="widget-toggle"
+        :border="2"
+        class="mt-2"
+        divided
         selected-class="blue-flat"
       >
         <v-btn
@@ -71,7 +71,7 @@
             }
           "
         >
-          <v-icon class="me-1">all_inclusive</v-icon>
+          <v-icon start>all_inclusive</v-icon>
           {{ $t("global.commons.all") }}
         </v-btn>
         <!-- ⬬⬬⬬⬬ Only products ⬬⬬⬬⬬ -->
@@ -85,7 +85,7 @@
             }
           "
         >
-          <v-icon class="me-1">inventory</v-icon>
+          <v-icon start>inventory</v-icon>
           {{ $t("styler.products.product_only") }}
         </v-btn>
         <!-- ⬬⬬⬬⬬ Only categories ⬬⬬⬬⬬ -->
@@ -99,7 +99,7 @@
             }
           "
         >
-          <v-icon class="me-1">folder</v-icon>
+          <v-icon start>folder</v-icon>
           {{ $t("styler.products.category_only") }}
         </v-btn>
       </v-btn-toggle>
@@ -112,9 +112,9 @@
         icon="folder_open"
       ></s-widget-header>
 
-      <v-list-subheader>{{
-        $t("styler.products.select_categories")
-      }}</v-list-subheader>
+      <v-list-subheader
+        >{{ $t("styler.products.select_categories") }}
+      </v-list-subheader>
 
       <s-smart-switch
         v-model="surrounded"
@@ -139,8 +139,8 @@
             size="small"
             color="green"
             v-if="!products_only && !categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
         <li>
           <b>
@@ -153,8 +153,8 @@
             size="small"
             color="green"
             v-if="products_only && !categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
 
         <li>
@@ -168,8 +168,8 @@
             size="small"
             color="green zoomIn"
             v-if="!products_only && categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
       </ul>
 
@@ -180,13 +180,14 @@
             {{ $t("global.commons.all") }}:
           </b>
           Only products and sub categories in the selected categories will be
-          shown.<v-icon
+          shown.
+          <v-icon
             class="mx-1 zoomIn"
             size="small"
             color="green"
             v-if="!products_only && !categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
         <li>
           <b>
@@ -199,8 +200,8 @@
             size="small"
             color="green"
             v-if="products_only && !categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
 
         <li>
@@ -214,11 +215,10 @@
             size="small"
             color="green"
             v-if="!products_only && categories_only"
-            >check_circle</v-icon
-          >
+            >check_circle
+          </v-icon>
         </li>
       </ul>
-
       <b-shop-category-input
         v-if="hasCategoriesFilter"
         v-model="categories_value"
@@ -241,8 +241,8 @@
     >
       <s-widget-header title="Tags" icon="label"></s-widget-header>
 
-      <v-list-subheader
-        ><div>
+      <v-list-subheader>
+        <div>
           Filter by product tags. You can set tags in the
           <b>Product > Edit > Survey & Features > Tags</b>.
         </div>
@@ -257,30 +257,26 @@
         persistent-placeholder
         label="Tags list"
         hint="You can set dynamic values { { key } } here. This value will be replace by augmentation data in product,category or other pages."
+        variant="underlined"
       >
-        <template v-slot:chip="{ item, attrs, selected, disabled, parent }">
-          <v-chip
-            :key="JSON.stringify(item)"
-            v-bind="attrs"
-            :model-value="selected"
-            :disabled="disabled"
-            @click:close="parent.selectItem(item)"
-            closable
-          >
+        <template v-slot:chip="{ item, props }">
+          <v-chip v-bind="props">
             <v-avatar
               class="text-white"
               :color="
-                isDynamicValue(item)
+                isDynamicValue(item.raw)
                   ? '#FFF'
-                  : item
-                    ? item.toColor(true)
+                  : item.raw
+                    ? item.raw.toColor(true)
                     : '#333'
               "
               start
               >{{
-                isDynamicValue(item) ? "🪄" : item?.slice(0, 1).toUpperCase()
-              }}</v-avatar
-            >
+                isDynamicValue(item.raw)
+                  ? "🪄"
+                  : item.raw?.slice(0, 1).toUpperCase()
+              }}
+            </v-avatar>
             {{ item }}
           </v-chip>
         </template>
@@ -440,8 +436,6 @@ export default {
   }),
 
   watch: {
-
-
     filter_bundle(val) {
       this.$emit("update:modelValue", val);
     },
@@ -485,7 +479,9 @@ export default {
   },
 
   created() {
-    this.setDefaultValues(this.modelValue ? this.modelValue : this.defaultValue);
+    this.setDefaultValues(
+      this.modelValue ? this.modelValue : this.defaultValue,
+    );
   },
   methods: {
     isDynamicValue(item) {

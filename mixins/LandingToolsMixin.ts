@@ -32,14 +32,14 @@ export const LandingHistoryMixin = defineComponent({
       EventBus.$emit("trigger:RefreshGlobalPageBuilder", {});
     },
 
-    ShowGlobalPageStyleEditorDialog(style, show, tab) {
+    ShowGlobalPageStyleEditorDialog(style:Object, show:boolean, tab:string) {
       EventBus.$emit("show:SLandingToolsStylePage", {
         style,
         show,
         tab,
       });
     },
-    ShowGlobalTypographyEditorDialog(style, tab) {
+    ShowGlobalTypographyEditorDialog(style:Object, tab:string) {
       EventBus.$emit("show:GlobalTypographyEditorDialog", { style, tab });
     },
 
@@ -64,7 +64,7 @@ export const LandingHistoryMixin = defineComponent({
     ShowGlobalAnimationEditorDialog(
       el_style:HTMLElement,
       el_class:HTMLElement,
-      section,
+      section:Section,
       stylePath,
       classPath,
       options = {},
@@ -124,11 +124,12 @@ export const LandingHistoryMixin = defineComponent({
         target,
       });
     },
-    ShowGlobalSlideShowEditorDialog(el:HTMLElement, section, slidePath) {
+    ShowGlobalSlideShowEditorDialog(el:HTMLElement,section:Section, target:Object, keySlide:string) {
       EventBus.$emit("show:GlobalSlideShowEditorDialog", {
         el,
         section,
-        slidePath,
+        target,
+        keySlide,
       });
     },
     ShowSLandingToolsColumnLayout(el:HTMLElement, target:Object) {
@@ -187,19 +188,19 @@ export const LandingHistoryMixin = defineComponent({
       });
     },
 
-    ShowGlobalBlogsFilterDialog(el:HTMLElement, section, blogsPath) {
+    ShowGlobalBlogsFilterDialog(el:HTMLElement, target:Object, keyFilter:string) {
       EventBus.$emit("show:GlobalBlogsFilterDialog", {
         el,
-        section,
-        blogsPath,
+        target,
+        keyFilter,
       });
     },
 
-    ShowGlobalTextLoopDialog(el:HTMLElement, section, path) {
+    ShowGlobalTextLoopDialog(el:HTMLElement, target:Object, keyMarquee:string) {
       EventBus.$emit("show:GlobalTextLoopDialog", {
         el,
-        section,
-        path,
+        target,
+        keyMarquee,
       });
     },
   },

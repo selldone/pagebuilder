@@ -489,9 +489,9 @@
     dark
     :max-width="
       $vuetify.display.xlAndUp
-        ? 560
+        ? 860
         : $vuetify.display.lgAndUp
-          ? 420
+          ? 620
           : undefined
     "
     :scrim="false"
@@ -654,6 +654,7 @@ import { SetupService } from "@core/server/SetupService";
 import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { Migration } from "@app-page-builder/src/MigrateFromOldVersion";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -789,6 +790,9 @@ export default {
             this.showErrorAlert(null, "Sections in the file is empty!");
           }
 
+          // Migrate from old version:
+          template.content = Migration.MigratePageContent(template.content);
+
           const components = this.pageBuilder.$builder.components;
 
           const valid_sections = [];
@@ -841,8 +845,6 @@ export default {
 
 <style lang="scss" scoped>
 .s--landing-menus-top-tools {
-
-
   ::v-deep(.v-toolbar-items) {
     .v-btn {
       padding: 4px !important;

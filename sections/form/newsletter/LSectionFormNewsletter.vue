@@ -85,7 +85,7 @@
                 class="max-w-400 mx-auto"
                 :rules="[GlobalRules.email(), GlobalRules.required()]"
                 :label="$sectionData.newsletter.input.label"
-                :messages="$sectionData.newsletter.input.messages"
+                :messages="$sectionData.newsletter.input.messages?$sectionData.newsletter.input.messages:undefined"
                 :hint="$sectionData.newsletter.input.hint"
                 :persistent-placeholder="
                   $sectionData.newsletter.input.persistentPlaceholder

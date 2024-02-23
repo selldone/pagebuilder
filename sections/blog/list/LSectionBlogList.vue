@@ -16,7 +16,7 @@
   <x-section
     :object="$sectionData"
     path="$sectionData"
-    v-styler:blogs="$sectionData.blogs_filter"
+    v-styler:blogs="{target:$sectionData,keyFilter:'blogs_filter'}"
   >
     <!-- 📹 Background video -->
     <video-background

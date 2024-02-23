@@ -30,6 +30,9 @@ import SStylerGrid from "@app-page-builder/styler/grid/SStylerGrid.vue";
 import SStylerContainer from "@app-page-builder/styler/container/SStylerContainer.vue";
 import SStylerProduct from "@app-page-builder/styler/product/SStylerProduct.vue";
 import SStylerProducts from "@app-page-builder/styler/products/SStylerProducts.vue";
+import SStylerSwiper from "@app-page-builder/styler/swiper/SStylerSwiper.vue";
+import SStylerBlogs from "@app-page-builder/styler/blogs/SStylerBlogs.vue";
+import SStylerMarquee from "@app-page-builder/styler/marquee/SStylerMarquee.vue";
 
 const DEBUG = false;
 
@@ -162,7 +165,15 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerProduct;
     } else if (argument === "products") {
       stylerComponent = SStylerProducts;
+    }else if (argument === "swiper") {
+      stylerComponent = SStylerSwiper;
+    }else if (argument === "blogs") {
+      stylerComponent = SStylerBlogs;
+    }else if (argument === "marquee") {
+      stylerComponent = SStylerMarquee;
     }
+
+
 
     const StylerComponent = defineComponent({
       extends: stylerComponent as any,

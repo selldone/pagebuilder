@@ -14,7 +14,13 @@
 
 <template>
   <x-container :object="$sectionData">
-    <x-row :object="$sectionData" path="$sectionData" has-arrangement has-wrap has-fluid>
+    <x-row
+      :object="$sectionData"
+      path="$sectionData"
+      has-arrangement
+      has-wrap
+      has-fluid
+    >
       <slot name="folders" :folders="folders"></slot>
 
       <slot name="products" :products="products"></slot>

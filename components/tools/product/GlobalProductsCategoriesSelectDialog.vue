@@ -79,7 +79,7 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keyFilter: null, // ex. products_list
+    keyFilter: null, // ex. filter
 
     //----------------------- Products Filter -----------------------
 
@@ -172,6 +172,7 @@ export default {
     //----------------------------------------------------------------------------
     onAcceptProductFilterChange() {
       if (!this.dialog_product_filter) return;
+
       this.target[this.keyFilter] = this.product_filter_view_data; // Save data in section!
     },
   },

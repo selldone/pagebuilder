@@ -27,9 +27,10 @@
     <v-toolbar
       v-if="has_edit_toolbar"
       density="compact"
-      rounded
+      rounded="lg"
       theme="dark"
       color="#111"
+      style="max-width: max-content"
     >
       <v-toolbar-items>
         <template v-if="src">
@@ -194,10 +195,11 @@
     </v-toolbar>
     <v-toolbar
       v-else-if="has_animate_toolbar"
-      dense
-      rounded
+      density="compact"
+      rounded="lg"
       theme="dark"
       color="#111"
+      style="max-width: max-content"
     >
       <span v-html="getAnimationClassesDetail()"></span>
 

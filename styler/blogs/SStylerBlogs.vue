@@ -17,7 +17,7 @@
     ref="styler"
     :el="el"
     :section="section"
-    type="products"
+    type="blogs"
     :builder="builder"
     :is-visible="isVisible"
   >
@@ -28,23 +28,10 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Products & Categories ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Blogs ―――――――――――――――――― -->
 
-      <li v-if="custom">
-        <button class="styler-button" @click="showCustomProductFrame">
-          <v-icon color="#fff" size="20"> code</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-          >
-            Custom Frames Code
-          </v-tooltip>
-        </button>
-      </li>
       <li>
-        <button class="styler-button" @click="showQueryBuilderProducts">
+        <button class="styler-button" @click="showQueryBuilderBlogs">
           <v-icon color="#fff" size="20"> filter_alt</v-icon>
 
           <v-tooltip
@@ -52,11 +39,10 @@
             location="bottom"
             content-class="bg-black white--text"
           >
-            Filter Products & Categories
+            Blog Filter
           </v-tooltip>
         </button>
       </li>
-
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -72,14 +58,12 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
-import { isFunction } from "lodash-es";
 
 /**
- * v-styler:products
+ * v-styler:blogs
  */
-
 export default {
-  name: "SStylerProducts",
+  name: "SStylerBlogs",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
@@ -109,28 +93,12 @@ export default {
      */
     position: {
       type: String,
-      default: "top-center",
-    },
-
-    custom: {
-      type: Boolean,
-      default: false,
+      default: "top",
     },
 
     keyFilter: {
-      type: String,
-      default: "filter",
+      default: "blogs_filter",
     },
-    keyFrameCategory: {
-      type: String,
-      default: "frame_category",
-    },
-    keyFrameProduct: {
-      type: String,
-      default: "frame_product",
-    },
-
-
   },
   data: () => ({
     option: null,
@@ -151,30 +119,17 @@ export default {
   },
   beforeMount() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerProducts");
+      throw new Error("Target is required for SStylerBlogs");
     }
   },
   mounted() {},
 
   methods: {
-    showCustomProductFrame() {
-      this.ShowGlobalProductsFrameDialog(
-        this.el,
-        this.target,
-        this.keyFrameCategory,
-        this.keyFrameProduct,
-      );
+    //================================= Blogs Filter ===================================
+
+    showQueryBuilderBlogs() {
+      this.ShowGlobalBlogsFilterDialog(this.el, this.target, this.keyFilter);
     },
-
-    showQueryBuilderProducts() {
-      this.ShowGlobalProductsCategoriesSelectDialog(
-        this.el,
-        this.target,
-        this.keyFilter,
-      );
-    },
-
-
   },
 };
 </script>

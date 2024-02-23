@@ -465,7 +465,16 @@
                       :style="section.get('$sectionData.style')"
                       :ref="'SECTION_' + section.uid"
                     />
-                    <div v-else style="height: 400px"></div>
+                    <div
+                      v-else
+                      style="height: 400px"
+                      class="d-flex align-center justify-center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        size="84"
+                      ></v-progress-circular>
+                    </div>
                   </div>
 
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
@@ -692,7 +701,7 @@ import GlobalSectionFeederDialog from "@app-page-builder/src/feeders/GlobalSecti
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import GlobalProductsFrameDialog from "@app-page-builder/components/tools/product/GlobalProductsFrameDialog.vue";
 import GlobalInputEditorDialog from "@app-page-builder/components/tools/input/GlobalInputEditorDialog.vue";
-import GlobalSlideShowEditorDialog from "@app-page-builder/components/tools/slide-show/GlobalSlideShowEditorDialog.vue";
+import GlobalSlideShowEditorDialog from "@app-page-builder/styler/swiper/setting/GlobalSlideShowEditorDialog.vue";
 import SLandingToolsColumnLayout from "@app-page-builder/components/tools/column/SLandingToolsColumnLayout.vue";
 import GlobalTypographyEditorDialog from "@app-page-builder/components/tools/typography/GlobalTypographyEditorDialog.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
@@ -710,6 +719,7 @@ import SLandingSectionSideBar from "@app-page-builder/components/section/side-ba
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
 import { defineComponent } from "vue";
+import { Migration } from "@app-page-builder/src/MigrateFromOldVersion";
 
 const DEBUG = false;
 export default defineComponent({
@@ -931,38 +941,29 @@ export default defineComponent({
           },
         };
         this.$emit("update:preview", _page);
-        //console.log('Update Preview!',_page)
       },
     },
 
     scale_down(scale_down) {
-      //let height = this.$refs.pagecontent.clientHeight +200;
-      // console.log('---------height----------',height)
-
       this.calcMaxH();
-
       this.$emit("scale", scale_down ? 0.5 : 1);
     },
 
-    /* title(value) {
-      this.$builder.title = value;
-      if(value) // Set page title:
-        document.title = value;
-    },*/
     inEditMode(val) {
       this.$emit("changeMode", val);
     },
-
-    sections_length(val) {
-      if (val > 0 && this.delay_load < 999)
-        // loaded any section?
-        this.loadNextDelayed();
-    },
+    /*
+        sections_length(val) {
+          if (val > 0 && this.delay_load < 999)
+            // loaded any section?
+            this.loadNextDelayed();
+        },*/
   },
   created() {
     // sets the initial data.
+    this.setPage(this.data);
 
-    this.$builder.set(this.data);
+    // this.$builder.set(this.data);
     // this.title = this.$builder.title;
     this.themes = this.$builder.themes;
   },
@@ -1112,15 +1113,7 @@ export default defineComponent({
         ) {
           event.preventDefault();
           document.selectionAddTag("big", "small");
-        } /* else if ((event.ctrlKey || event.metaKey)&& event.code === "Digit3") {
-          event.preventDefault();
-          document.selectionSetStyle('color','#847')
-
-        }else if ((event.ctrlKey || event.metaKey)&& event.code === "Digit4") {
-          event.preventDefault();
-          document.selectionSetStyle('color','#0F7')
-
-        }*/
+        }
 
         return; // No action in content editable focus!
       }
@@ -1286,20 +1279,6 @@ export default defineComponent({
       return rect.height > 0;
     },
 
-    loadNextDelayed() {
-      _.delay(() => {
-        this.delay_load++;
-        // console.log('this.delay_load',this.delay_load,this.$builder.sections.length)
-        if (this.delay_load <= this.$builder.sections.length) {
-          this.$nextTick(() => {
-            this.loadNextDelayed();
-          });
-        } else {
-          this.delay_load = 999;
-        }
-      }, 300);
-    },
-
     /**
      * External function call. (don't change it!)
      *
@@ -1337,13 +1316,6 @@ export default defineComponent({
     getJson() {
       const page = this.$builder.export();
       this.checkHealth(page);
-
-      // 🌼 Fix real time font adding issue:
-      /*  if (!page.style) page.style = {};
-      if (!page.style.fonts || !Array.isArray(page.style.fonts))
-        page.style.fonts = [];
-
-      console.log('getJson',page)*/
       return page;
     },
 
@@ -1414,13 +1386,19 @@ export default defineComponent({
 
       this.onSaveHistory();
     },
-    clearSections() {
-      this.inEditMode = false;
-      this.$builder.clear();
-      this.$router.replace({
-        name: "PageBuilder",
-        params: { shop_id: this.$route.params.shop_id },
-      });
+
+    loadNextDelayed() {
+      _.delay(() => {
+        this.delay_load++;
+        // console.log('this.delay_load',this.delay_load,this.$builder.sections.length)
+        if (this.delay_load <= this.$builder.sections.length) {
+          this.$nextTick(() => {
+            this.loadNextDelayed();
+          });
+        } else {
+          this.delay_load = 999;
+        }
+      }, 300);
     },
 
     addTheme(theme) {
@@ -1428,7 +1406,20 @@ export default defineComponent({
 
       this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
     },
+
+    loadTemplate(page) {
+      this.setPage(page.content);
+
+      //update random title:
+      const title = "Landing-" + Math.random().toString(36).substring(7);
+      page.content.title = title;
+
+      this.$emit("load:template", page);
+    },
+
     setPage(data, from_theme = false) {
+      this.delay_load = 0;
+
       console.style("<b>📐 Set page builder data.</b>", data, from_theme);
 
       // ---------------------------------------*******************-------------------------------------
@@ -1464,8 +1455,9 @@ export default defineComponent({
       this.inEditMode = true;
       this.$builder.set(data, from_theme);
 
-      if (from_theme) {
-      } else {
+      this.loadNextDelayed();
+
+      if (!from_theme) {
         // Save initial state: (Call after set!)
         this.onSaveHistory();
       }
@@ -1520,6 +1512,7 @@ export default defineComponent({
 
       // get components data
       components = Object.keys(this.$builder.components).map((name) => {
+        name = Migration.MigrateSectionName(name);
         const component = this.$builder.components[name];
         return {
           name: name,
@@ -1533,16 +1526,6 @@ export default defineComponent({
       });
 
       return components;
-    },
-
-    loadTemplate(page) {
-      this.setPage(page.content);
-
-      //update random title:
-      const title = "Landing-" + Math.random().toString(36).substring(7);
-      page.content.title = title;
-
-      this.$emit("load:template", page);
     },
 
     onScroll(e) {
@@ -1560,12 +1543,17 @@ export default defineComponent({
           const json = JSON.parse(text);
 
           if (json && json.name && json.data) {
+
+
+
             event.preventDefault();
             // console.log("added!");
             this.$builder.add(json, index + 1, false, true);
             this.autoLoadSectionFonts(json);
           }
-        } catch (e) {}
+        } catch (e) {
+          this.showErrorAlert(null,e)
+        }
       this.past_hover_index = null;
       this.drop_section = false;
 
@@ -1738,8 +1726,6 @@ p {
       transform: rotate(45deg);
     }
 
-
-
     &.is-blue {
       background-color: $blue;
 
@@ -1864,7 +1850,6 @@ p {
     &:not(:last-child) {
       margin-bottom: 10px;
     }
-
   }
 
   &-elementImage {

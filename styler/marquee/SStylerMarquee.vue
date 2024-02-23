@@ -17,7 +17,7 @@
     ref="styler"
     :el="el"
     :section="section"
-    type="products"
+    type="marquee"
     :builder="builder"
     :is-visible="isVisible"
   >
@@ -28,34 +28,20 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Products & Categories ―――――――――――――――――― -->
 
-      <li v-if="custom">
-        <button class="styler-button" @click="showCustomProductFrame">
-          <v-icon color="#fff" size="20"> code</v-icon>
+      <!-- ―――――――――――――――――― Text Loop ―――――――――――――――――― -->
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-          >
-            Custom Frames Code
-          </v-tooltip>
+      <li >
+        <button
+            class="styler-button"
+            @click="showQueryBuilderTextLoop"
+            title="Text Loop"
+        >
+          <v-icon color="#fff" size="20"> recycling</v-icon>
         </button>
       </li>
-      <li>
-        <button class="styler-button" @click="showQueryBuilderProducts">
-          <v-icon color="#fff" size="20"> filter_alt</v-icon>
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-          >
-            Filter Products & Categories
-          </v-tooltip>
-        </button>
-      </li>
+
 
     </ul>
 
@@ -63,7 +49,9 @@
     <!-- ―――――――――――――――――――― Normal editing tools (sub list) ――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul class="styler-list flex-grow-1 w-100"></ul>
+    <ul class="styler-list flex-grow-1 w-100">
+
+    </ul>
   </s-styler-template>
 </template>
 
@@ -72,18 +60,26 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
-import { isFunction } from "lodash-es";
+import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
+import {
+  PageBuilderColorsHelper,
+  PLATE_DARK_VARS,
+  PLATE_LIGHT_VARS,
+} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
+
 
 /**
- * v-styler:products
+ * v-styler:marquee
  */
-
 export default {
-  name: "SStylerProducts",
+  name: "SStylerMarquee",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
   components: {
+
     SStylerTemplate,
   },
   props: {
@@ -109,34 +105,22 @@ export default {
      */
     position: {
       type: String,
-      default: "top-center",
+      default: "top",
     },
 
-    custom: {
-      type: Boolean,
-      default: false,
-    },
-
-    keyFilter: {
+    keyMarquee:{
       type: String,
-      default: "filter",
+      default: "text_loop",
     },
-    keyFrameCategory: {
-      type: String,
-      default: "frame_category",
-    },
-    keyFrameProduct: {
-      type: String,
-      default: "frame_product",
-    },
-
 
   },
   data: () => ({
-    option: null,
+    option:null,
   }),
 
-  computed: {},
+  computed: {
+
+  },
   watch: {
     option() {
       this.updatePopper();
@@ -151,30 +135,19 @@ export default {
   },
   beforeMount() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerProducts");
+      throw new Error("Target is required for SStylerMarquee");
     }
+
   },
-  mounted() {},
+  mounted() {
+
+  },
 
   methods: {
-    showCustomProductFrame() {
-      this.ShowGlobalProductsFrameDialog(
-        this.el,
-        this.target,
-        this.keyFrameCategory,
-        this.keyFrameProduct,
-      );
+
+    showQueryBuilderTextLoop() {
+      this.ShowGlobalTextLoopDialog(this.el, this.target, this.keyMarquee);
     },
-
-    showQueryBuilderProducts() {
-      this.ShowGlobalProductsCategoriesSelectDialog(
-        this.el,
-        this.target,
-        this.keyFilter,
-      );
-    },
-
-
   },
 };
 </script>

@@ -64,11 +64,13 @@
             "
           >
             <v-list-item-icon>
-              <v-icon color="amber">{{
-                item.code === selected_category
-                  ? "fa:fas fa-folder-open"
-                  : "fa:fas fa-folder"
-              }}</v-icon>
+              <v-icon color="amber"
+                >{{
+                  item.code === selected_category
+                    ? "fa:fas fa-folder-open"
+                    : "fa:fas fa-folder"
+                }}
+              </v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
           </v-list-item>
@@ -118,8 +120,8 @@
                     class="ma-3 absolute-bottom-end"
                     size="small"
                     color="amber"
-                    >raw</v-chip
-                  >
+                    >raw
+                  </v-chip>
                 </v-img>
                 <v-card-title>
                   {{ theme.name }}
@@ -176,6 +178,7 @@ import _ from "lodash-es";
 export default {
   name: "PageTemplatesList",
   components: { PageTemplateCard },
+  emits: ["select:page", "select:raw-theme"],
   props: {
     themes: {
       type: Array,
@@ -184,7 +187,7 @@ export default {
   },
   data() {
     return {
-      drawer: this.$vuetify.display.smAndUp,
+      drawer: false,
       selected_category: "raw",
 
       search: null,
@@ -252,6 +255,8 @@ export default {
     if (!this.has_raw_themes) {
       this.selected_category = "*";
     }
+
+    this.drawer = this.$vuetify.display.smAndUp;
   },
   mounted() {},
 
@@ -327,6 +332,7 @@ export default {
   .drawer {
     // z-index: 99;
   }
+
   .drawer-open-margin {
     padding-left: 280px;
   }

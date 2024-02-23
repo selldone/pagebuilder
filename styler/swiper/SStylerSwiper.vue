@@ -17,7 +17,7 @@
     ref="styler"
     :el="el"
     :section="section"
-    type="products"
+    type="swiper"
     :builder="builder"
     :is-visible="isVisible"
   >
@@ -28,35 +28,54 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Products & Categories ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Slide Show ―――――――――――――――――― -->
 
-      <li v-if="custom">
-        <button class="styler-button" @click="showCustomProductFrame">
-          <v-icon color="#fff" size="20"> code</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
-          >
-            Custom Frames Code
-          </v-tooltip>
-        </button>
-      </li>
       <li>
-        <button class="styler-button" @click="showQueryBuilderProducts">
-          <v-icon color="#fff" size="20"> filter_alt</v-icon>
+        <button class="styler-button" @click="showEditSlides">
+          <v-icon color="#fff" size="20"> tune</v-icon>
 
           <v-tooltip
             activator="parent"
             location="bottom"
             content-class="bg-black white--text"
           >
-            Filter Products & Categories
+            Slides Setting
           </v-tooltip>
         </button>
       </li>
 
+      <li>
+        <button class="styler-button" @click="section.lock=!section.lock">
+          <v-icon color="#fff" size="20">
+            {{ section.lock ? "lock" : "swipe" }}</v-icon
+          >
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text  text-start small"
+            max-width="360"
+
+          >
+            <div>
+              <b>
+                <v-icon start>lock</v-icon>
+                Edit Mode</b
+              ><br />
+              Scroll by dragging, touch functionality disabled for seamless
+              editing.
+            </div>
+            <div>
+              <b>
+                <v-icon start>swap_horiz</v-icon>
+                View Mode</b
+              ><br />
+              Drag and touch functionality is enabled, allowing you to scroll
+              horizontally.
+            </div>
+          </v-tooltip>
+        </button>
+      </li>
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -72,14 +91,13 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
-import { isFunction } from "lodash-es";
 
 /**
- * v-styler:products
+ * v-styler:swiper
  */
 
 export default {
-  name: "SStylerProducts",
+  name: "SStylerSwiper",
 
   mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
 
@@ -99,6 +117,10 @@ export default {
       required: true,
       type: Object,
     },
+    /**
+     * should have these temporary variables:
+     * lock
+     */
     section: {
       type: Object,
       required: true,
@@ -109,28 +131,12 @@ export default {
      */
     position: {
       type: String,
-      default: "top-center",
+      default: "right-start",
     },
 
-    custom: {
-      type: Boolean,
-      default: false,
+    keySlide: {
+      default: "slide",
     },
-
-    keyFilter: {
-      type: String,
-      default: "filter",
-    },
-    keyFrameCategory: {
-      type: String,
-      default: "frame_category",
-    },
-    keyFrameProduct: {
-      type: String,
-      default: "frame_product",
-    },
-
-
   },
   data: () => ({
     option: null,
@@ -151,30 +157,20 @@ export default {
   },
   beforeMount() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerProducts");
+      throw new Error("Target is required for SStylerSwiper");
     }
   },
   mounted() {},
 
   methods: {
-    showCustomProductFrame() {
-      this.ShowGlobalProductsFrameDialog(
+    showEditSlides() {
+      this.ShowGlobalSlideShowEditorDialog(
         this.el,
+        this.section,
         this.target,
-        this.keyFrameCategory,
-        this.keyFrameProduct,
+        this.keySlide,
       );
     },
-
-    showQueryBuilderProducts() {
-      this.ShowGlobalProductsCategoriesSelectDialog(
-        this.el,
-        this.target,
-        this.keyFilter,
-      );
-    },
-
-
   },
 };
 </script>

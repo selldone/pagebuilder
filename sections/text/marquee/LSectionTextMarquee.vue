@@ -17,7 +17,7 @@
     :object="$sectionData"
     path="$sectionData"
     class="-x-infinite-sec"
-    v-styler:text-loop="$sectionData.text_loop"
+    v-styler:marquee="{target:$sectionData.text_loop,keyMarquee:'text_loop'}"
     :style="{
       '--height': $sectionData.text_loop?.height
         ? $sectionData.text_loop?.height

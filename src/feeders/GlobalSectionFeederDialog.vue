@@ -239,7 +239,7 @@
         <!-- ████████████████████ Products & Categories ████████████████████ -->
         <div
           class="widget-box mb-5"
-          v-if="schema.products_list && section_data.products_list"
+          v-if="schema.filter && section_data.filter"
         >
           <s-widget-header
             title="Products & Categories"
@@ -251,7 +251,7 @@
           >
 
           <s-page-products-filter
-            v-model="products_list_clone"
+            v-model="filter_clone"
             has-sort
             has-product-category-selection
             has-categories-filter
@@ -391,7 +391,7 @@ export default {
     sectionComponent: { required: true },
   },
   data: () => ({
-    products_list_clone: null, // To prevent live update
+    filter_clone: null, // To prevent live update
   }),
 
   computed: {
@@ -418,15 +418,15 @@ export default {
 
   methods: {
     assignValues() {
-      this.products_list = this.section_data?.products_list
-        ? Object.assign({}, this.section_data.products_list)
+      this.filter = this.section_data?.filter
+        ? Object.assign({}, this.section_data.filter)
         : null;
     },
 
     onAccept() {
-      if (this.schema.products_list) {
+      if (this.schema.filter) {
         // Section has products and categories filter:
-        this.section_data.products_list = this.products_list_clone;
+        this.section_data.filter = this.filter_clone;
       }
 
       this.$emit("input", false);

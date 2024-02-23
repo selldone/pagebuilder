@@ -18,7 +18,9 @@
     theme="dark"
     location="right"
     temporary
-    :width="$vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
     :scrim="false"
     color="#1e1e1e"
     class="x-page-builder-options-slider"
@@ -27,26 +29,13 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn variant="text" @click="show_edit_slide = false" size="x-large">
-            <v-icon class="me-1">close</v-icon
-            >{{ $t("global.actions.close") }}</v-btn
-          >
+            <v-icon class="me-1">close </v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
         </div>
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre">
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Lock / View ▃▃▃▃▃▃▃▃▃▃ -->
-        <s-smart-switch
-          v-model="lock"
-          true-title="Lock"
-          true-icon="lock"
-          true-description="Scroll by dragging, touch functionality disabled for seamless editing."
-          false-title="Unlock"
-          false-icon="swap_horiz"
-          false-description="Drag and touch functionality is enabled, allowing you to scroll horizontally."
-          dark
-          class="mb-3"
-        >
-        </s-smart-switch>
 
         <!-- ████████████████████ Slides ████████████████████ -->
         <s-widget-header
@@ -55,23 +44,24 @@
           add-caption="Add Slide"
           @click:add="addSlide"
           class="mt-5"
+          button-color="#fff"
         ></s-widget-header>
         <v-list-subheader
-          >You can customize and make your filter here.</v-list-subheader
-        >
+          >You can customize and make your filter here.
+        </v-list-subheader>
 
         <v-expansion-panels>
           <v-expansion-panel
             v-for="(item, i) in slide.items"
             :key="i"
-            @click="goToSlide(i)"
+            @click="goToSlide(i+1)"
           >
-            <v-expansion-panel-title class="text-start"
-              ><div class="flex-grow-0">
-                <v-avatar v-if="item.image?.src" size="16" rounded class="me-1"
-                  ><v-img :src="getShopImagePath(item.image.src)"></v-img
-                ></v-avatar>
-                <v-icon v-else class="me-1" size="small">view_headline</v-icon>
+            <v-expansion-panel-title class="text-start py-1">
+              <div class="flex-grow-0">
+                <v-avatar v-if="item.image?.src" size="16" rounded class="me-2">
+                  <v-img :src="getShopImagePath(item.image.src)" ></v-img>
+                </v-avatar>
+                <v-icon v-else class="me-2" size="16">view_headline</v-icon>
                 Slide {{ i + 1 }}
               </div>
               <div
@@ -80,9 +70,9 @@
               >
                 | {{ StripTags(item.title)?.limitWords(5) }}
               </div>
-              <v-btn icon @click.stop="removeSlide(i)" class="flex-grow-0"
-                ><v-icon>delete</v-icon></v-btn
-              >
+              <v-btn icon @click.stop="removeSlide(i)" class="flex-grow-0" size="small">
+                <v-icon>delete</v-icon>
+              </v-btn>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <s-image-uploader
@@ -97,22 +87,22 @@
                 label="Slide Image"
               />
 
-              <v-text-field v-model="item.title" label="Slide Title">
+              <v-text-field v-model="item.title" label="Slide Title" variant="underlined">
               </v-text-field>
 
-              <v-text-field v-model="item.subtitle" label="Slide Subtitle">
+              <v-text-field v-model="item.subtitle" label="Slide Subtitle" variant="underlined">
               </v-text-field>
 
               <template v-if="slide.thumbs">
                 <v-text-field
                   v-model="item.thumb_title"
-                  label="Thumbnail Title"
+                  label="Thumbnail Title" variant="underlined"
                 >
                 </v-text-field>
 
                 <v-text-field
                   v-model="item.thumb_subtitle"
-                  label="Thumbnail Subtitle"
+                  label="Thumbnail Subtitle" variant="underlined"
                 >
                 </v-text-field>
               </template>
@@ -121,6 +111,12 @@
         </v-expansion-panels>
 
         <!-- ████████████████████ Settings ████████████████████ -->
+
+<landing-settings-input v-model="target[keySlide]" :structure="SlideStructure"></landing-settings-input>
+
+
+
+
 
         <s-widget-header
           title="Settings"
@@ -132,8 +128,11 @@
           class="mt-5"
         ></s-widget-header>
         <v-list-subheader
-          >You can customize and make your filter here.</v-list-subheader
-        >
+          >You can customize and make your filter here.
+        </v-list-subheader>
+
+
+
 
         <v-expansion-panels>
           <v-expansion-panel>
@@ -420,6 +419,8 @@ import SImageUploader from "@components/uploader/SImageUploader.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import LandingSettingsInput from "@app-page-builder/styler/settings/LandingSettingsInput.vue";
+import {SlideStructure} from "@app-page-builder/styler/swiper/SwiperOptions";
 
 const THUMBS_TYPES = [
   { title: "None", class: "" },
@@ -450,13 +451,13 @@ const ACTIVE_CENTER = [
 export default {
   name: "GlobalSlideShowEditorDialog",
 
-  mixins: [PageBuilderMixin,PageEventBusMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin],
 
   components: {
+    LandingSettingsInput,
     SImageUploader,
     SSmartSelect,
     SSmartToggle,
-    SSmartSwitch,
 
     SNumberInput,
     SNumberDimensionInput,
@@ -464,13 +465,15 @@ export default {
 
   props: {},
   data: () => ({
+    SlideStructure:SlideStructure,
     THUMBS_TYPES: THUMBS_TYPES,
     EFFECTS: EFFECTS,
     ACTIVE_CENTER: ACTIVE_CENTER,
 
     el: null,
     section: null,
-    slidePath: null, // $sectionData.slidePath
+    target: null,
+    keySlide: null, // ex. slide
 
     //----------------------- Bg image -----------------------
     show_edit_slide: false,
@@ -502,14 +505,15 @@ export default {
     this.EventBus.$on(
       "show:GlobalSlideShowEditorDialog",
 
-      ({ el, section, slidePath }) => {
+      ({ el, section, target, keySlide }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.section = section;
-        this.slidePath = slidePath;
+        this.target = target;
+        this.keySlide = keySlide;
         this.showDialog();
       },
     );
@@ -551,7 +555,7 @@ export default {
   methods: {
     StripTags,
     showDialog() {
-      this.slide = this.section.get(this.slidePath);
+      this.slide = this.target[this.keySlide];
 
       this.lock = this.section.lock; // temporary values
 
@@ -626,7 +630,7 @@ export default {
     setSlide() {
       if (!this.show_edit_slide || this.LOCK) return;
 
-      this.section?.set(this.slidePath, this.slide); // Force update slide to trigger watch on component and refresh slider
+      this.target[this.keySlide] = this.slide; // Force update slide to trigger watch on component and refresh slider
 
       this.section?.__refreshCallback();
     },
