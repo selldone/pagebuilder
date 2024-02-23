@@ -14,7 +14,7 @@
 
 import getPath from "lodash/get";
 import * as types from "./types";
-import {isObject, isString} from "lodash-es";
+import {isBoolean, isObject, isString} from "lodash-es";
 
 export function isParentTo(target: HTMLElement, parent: HTMLElement) {
   let currentNode: ParentNode | null = target;
@@ -142,6 +142,9 @@ export function iterateOverSectionData(
   data: { [key: string]: any },
   callback: (text: any) => any,
 ): any {
+
+  if(isBoolean(data))return data;// Don't touch boolean values
+
   if (!data) return null;
 
   if (Array.isArray(data)) {

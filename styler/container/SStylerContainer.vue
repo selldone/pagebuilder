@@ -31,38 +31,50 @@
       <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
 
       <li>
-        <button
-          class="styler-button"
-          @click="showMasterDesignDialog()"
-          title="Size & Class"
-        >
+        <button class="styler-button" @click="showMasterDesignDialog()">
           <v-icon dark size="20">architecture</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+          >
+            Style & Class
+          </v-tooltip>
         </button>
       </li>
 
       <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
 
       <li>
-        <button
-          class="styler-button"
-          @click="showStyleDialog()"
-          title="Background image"
-        >
+        <button class="styler-button" @click="showStyleDialog()">
           <v-icon size="20" dark>fa:fas fa-image</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+          >
+            Background Image / Video / Pattern
+          </v-tooltip>
         </button>
       </li>
 
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
       <li v-if="hasFluid">
-        <button
-          class="styler-button"
-          @click="target.fluid = !target.fluid"
-          title="Fluid container"
-        >
+        <button class="styler-button" @click="target.fluid = !target.fluid">
           <v-icon dark size="20"
             >{{ target.fluid ? "swap_horiz" : "compare_arrows" }}
           </v-icon>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            content-class="bg-black white--text"
+          >
+            Fluid / Limit Width
+          </v-tooltip>
         </button>
       </li>
     </ul>

@@ -30,7 +30,7 @@
       <v-text-field
         v-model="page.title"
         :counter="48"
-        :label="$t('page_builder.setting.title_input')"
+        :label="$t('page_builder.setting.title_input')" variant="underlined"
       >
         <template v-slot:append-inner>
           <score-indicator
@@ -45,7 +45,7 @@
         :counter="256"
         :label="$t('page_builder.setting.description_input')"
         rows="3"
-        auto-grow
+        auto-grow  variant="underlined"
       >
         <template v-slot:append-inner>
           <score-indicator

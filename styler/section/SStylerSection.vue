@@ -56,7 +56,7 @@
           content-class="bg-black white--text"
           max-width="320"
           attach
-          >Background Image & Pattern<br />
+          >Background Image / Video / Pattern<br />
 
           <v-chip
             v-if="target.background.bg_color"

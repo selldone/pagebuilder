@@ -26,6 +26,10 @@
       v-if="showSlider"
       ref="swiperTop"
       :options="swiperTop"
+
+
+
+
       @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex"
     >
       <swiper-slide

@@ -70,7 +70,7 @@
             :style="{ pointerEvents: $builder.isEditing ? 'none' : 'unset' }"
             :flat="card_style?.flat"
             :dark="card_style?.dark"
-            :rect="card_style?.rect"
+            :rounded="card_style?.rounded"
             :color="card_style?.color"
             :view-only="$builder.isEditing"
           ></s-shop-blog-card>

@@ -93,7 +93,7 @@
             content-class="bg-black white--text"
             attach
           >
-            Background
+            Background Image / Video / Pattern
           </v-tooltip>
         </button>
       </li>

@@ -75,6 +75,7 @@
           class="mt-3"
           persistent-placeholder
           :rules="[GlobalRules.counter(512)]"
+          variant="underlined"
         >
         </v-textarea>
 

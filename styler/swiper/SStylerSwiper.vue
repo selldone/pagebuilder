@@ -137,6 +137,9 @@ export default {
     keySlide: {
       default: "slide",
     },
+    hasThumbnail: {
+      default: false,
+    },
   },
   data: () => ({
     option: null,
@@ -169,6 +172,7 @@ export default {
         this.section,
         this.target,
         this.keySlide,
+          this.hasThumbnail
       );
     },
   },

@@ -31,6 +31,7 @@
         '-dot -amber': type === 'blogs',
         '-dot -amber': type === 'marquee',
 
+
         '-dot': type === 'section',
       },
       `-type-${type}`,

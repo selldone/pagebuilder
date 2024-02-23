@@ -14,13 +14,13 @@
 
 <template>
   <v-dialog
-    :model-value="value"
-    @update:model-value="(val) => $emit('input', val)"
+    :model-value="modelValue"
+    @update:model-value="(val) => $emit('update:modelValue', val)"
     fullscreen
     scrollable
     transition="dialog-bottom-transition"
   >
-    <v-card v-if="section_data">
+    <v-card v-if="section_data" class="text-start">
       <v-card-title
         ><v-icon class="me-1" color="#333">donut_large</v-icon> Feeder
         <v-spacer></v-spacer>
@@ -28,7 +28,7 @@
           section.name
         }}</v-chip>
       </v-card-title>
-      <v-card-text>
+      <v-card-text >
         <!-- ████████████████████ Background ████████████████████ -->
         <div class="widget-box mb-5" v-if="schema.background">
           <s-widget-header
@@ -336,12 +336,12 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn
-            variant="flat"
+            variant="elevated"
             color="primary"
             @click="onAccept"
             size="x-large"
           >
-            <v-icon class="me-1">check</v-icon>
+            <v-icon start>check</v-icon>
             {{ $t("global.actions.confirm") }}</v-btn
           >
         </div>
@@ -386,7 +386,7 @@ export default {
   },
 
   props: {
-    value: {}, // Dialog
+    modelValue: {}, // Dialog
     section: { required: true },
     sectionComponent: { required: true },
   },
@@ -429,7 +429,7 @@ export default {
         this.section_data.filter = this.filter_clone;
       }
 
-      this.$emit("input", false);
+      this.$emit("update:modelValue", false);
     },
     backgroundStyle(background) {
       if (!background) return null;

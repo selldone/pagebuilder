@@ -124,12 +124,13 @@ export const LandingHistoryMixin = defineComponent({
         target,
       });
     },
-    ShowGlobalSlideShowEditorDialog(el:HTMLElement,section:Section, target:Object, keySlide:string) {
+    ShowGlobalSlideShowEditorDialog(el:HTMLElement,section:Section, target:Object, keySlide:string,hasThumbnail:boolean) {
       EventBus.$emit("show:GlobalSlideShowEditorDialog", {
         el,
         section,
         target,
         keySlide,
+        hasThumbnail
       });
     },
     ShowSLandingToolsColumnLayout(el:HTMLElement, target:Object) {
@@ -189,7 +190,7 @@ export const LandingHistoryMixin = defineComponent({
     },
 
     ShowGlobalBlogsFilterDialog(el:HTMLElement, target:Object, keyFilter:string) {
-      EventBus.$emit("show:GlobalBlogsFilterDialog", {
+      EventBus.$emit("show:SStylerBlogsSetting", {
         el,
         target,
         keyFilter,

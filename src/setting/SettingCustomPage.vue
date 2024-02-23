@@ -31,7 +31,7 @@
         :model-value="name"
         @update:model-value="(val) => $emit('update:name', val)"
         :counter="32"
-        :label="$t('page_builder.setting.name_input')"
+        :label="$t('page_builder.setting.name_input')" variant="underlined"
       />
 
       <p dir="ltr">
@@ -69,7 +69,7 @@
       <v-btn
         v-for="item in colors"
         :key="item"
-        icon
+        icon variant="text"
         class="me-1 color-button-ball"
         :class="{ active: item === color }"
         @click="$emit('update:color', item)"
@@ -89,7 +89,7 @@
         :color="SaminColorLight"
         :counter="128"
         :label="$t('page_builder.setting.designer_note')"
-        :rows="2"
+        :rows="2" variant="underlined"
       />
 
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->

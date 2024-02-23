@@ -649,7 +649,7 @@
 
     <global-color-selector-dialog></global-color-selector-dialog>
 
-    <global-blogs-filter-dialog></global-blogs-filter-dialog>
+    <s-styler-blogs-setting></s-styler-blogs-setting>
 
     <global-link-editor-dialog></global-link-editor-dialog>
 
@@ -685,28 +685,17 @@ import Sortable from "sortablejs";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import SLandingToolsStylePage from "../../components/tools/style/page/SLandingToolsStylePage.vue";
-import GlobalBackgroundEditorDialog from "../../components/tools/background/GlobalBackgroundEditorDialog.vue";
-import SLandingToolsStyleElement from "../../components/tools/style/element/SLandingToolsStyleElement.vue";
-import GlobalProductSelectDialog from "@app-page-builder/components/tools/product/GlobalProductSelectDialog.vue";
-import GlobalProductsCategoriesSelectDialog from "@app-page-builder/components/tools/product/GlobalProductsCategoriesSelectDialog.vue";
-import GlobalAnimationEditorDialog from "@app-page-builder/components/tools/animation/GlobalAnimationEditorDialog.vue";
-import GlobalColorSelectorDialog from "@app-page-builder/components/tools/color/GlobalColorSelectorDialog.vue";
-import GlobalImageSizeDialog from "@app-page-builder/components/tools/image/GlobalImageSizeDialog.vue";
-import GlobalImageLayersDialog from "@app-page-builder/components/tools/image/GlobalImageLayersDialog.vue";
-import GlobalBlogsFilterDialog from "@app-page-builder/components/tools/blog/GlobalBlogsFilterDialog.vue";
-import GlobalLinkEditorDialog from "@app-page-builder/components/tools/link/GlobalLinkEditorDialog.vue";
+import SLandingToolsStylePage from "@app-page-builder/styler/tools/style-page/SLandingToolsStylePage.vue";
+import SLandingToolsStyleElement from "@app-page-builder/styler/tools/style-element/SLandingToolsStyleElement.vue";
+import SStylerBlogsSetting from "@app-page-builder/styler/blogs/setting/SStylerBlogsSetting.vue";
 import PageElementsRepository from "@app-page-builder/src/element-repository/PageElementsRepository.vue";
 import GlobalSectionFeederDialog from "@app-page-builder/src/feeders/GlobalSectionFeederDialog.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
-import GlobalProductsFrameDialog from "@app-page-builder/components/tools/product/GlobalProductsFrameDialog.vue";
-import GlobalInputEditorDialog from "@app-page-builder/components/tools/input/GlobalInputEditorDialog.vue";
 import GlobalSlideShowEditorDialog from "@app-page-builder/styler/swiper/setting/GlobalSlideShowEditorDialog.vue";
-import SLandingToolsColumnLayout from "@app-page-builder/components/tools/column/SLandingToolsColumnLayout.vue";
-import GlobalTypographyEditorDialog from "@app-page-builder/components/tools/typography/GlobalTypographyEditorDialog.vue";
+import GlobalTypographyEditorDialog from "@app-page-builder/styler/tools/typography/GlobalTypographyEditorDialog.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
-import GlobalTextLoopDialog from "@app-page-builder/components/tools/text/GlobalTextLoopDialog.vue";
+import GlobalTextLoopDialog from "@app-page-builder/styler/tools/text/GlobalTextLoopDialog.vue";
 import PNoteDigest from "@app-page-builder/components/note/digest/PNoteDigest.vue";
 import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
@@ -720,6 +709,17 @@ import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
 import { defineComponent } from "vue";
 import { Migration } from "@app-page-builder/src/MigrateFromOldVersion";
+import GlobalProductSelectDialog from "@app-page-builder/styler/tools/product/GlobalProductSelectDialog.vue";
+import GlobalBackgroundEditorDialog from "@app-page-builder/styler/tools/background/GlobalBackgroundEditorDialog.vue";
+import GlobalProductsCategoriesSelectDialog from "@app-page-builder/styler/tools/product/GlobalProductsCategoriesSelectDialog.vue";
+import GlobalAnimationEditorDialog from "@app-page-builder/styler/tools/animation/GlobalAnimationEditorDialog.vue";
+import GlobalColorSelectorDialog from "@app-page-builder/styler/tools/color/GlobalColorSelectorDialog.vue";
+import GlobalImageSizeDialog from "@app-page-builder/styler/tools/image/GlobalImageSizeDialog.vue";
+import GlobalImageLayersDialog from "@app-page-builder/styler/tools/image/GlobalImageLayersDialog.vue";
+import GlobalLinkEditorDialog from "@app-page-builder/styler/tools/link/GlobalLinkEditorDialog.vue";
+import GlobalProductsFrameDialog from "@app-page-builder/styler/tools/product/GlobalProductsFrameDialog.vue";
+import GlobalInputEditorDialog from "@app-page-builder/styler/tools/input/GlobalInputEditorDialog.vue";
+import SLandingToolsColumnLayout from "@app-page-builder/styler/tools/column/SLandingToolsColumnLayout.vue";
 
 const DEBUG = false;
 export default defineComponent({
@@ -745,7 +745,7 @@ export default defineComponent({
     GlobalSectionFeederDialog,
     PageElementsRepository,
     GlobalLinkEditorDialog,
-    GlobalBlogsFilterDialog,
+    SStylerBlogsSetting,
     GlobalImageLayersDialog,
     GlobalImageSizeDialog,
     GlobalColorSelectorDialog,
@@ -1543,16 +1543,13 @@ export default defineComponent({
           const json = JSON.parse(text);
 
           if (json && json.name && json.data) {
-
-
-
             event.preventDefault();
             // console.log("added!");
             this.$builder.add(json, index + 1, false, true);
             this.autoLoadSectionFonts(json);
           }
         } catch (e) {
-          this.showErrorAlert(null,e)
+          this.showErrorAlert(null, e);
         }
       this.past_hover_index = null;
       this.drop_section = false;
