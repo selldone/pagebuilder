@@ -49,6 +49,11 @@ export class PageBuilderColorsHelper {
   static PLATE_LIGHT_12 = "#795548";
   static PLATE_DARK_12 = "#5D4037"; // colorBlue-grey
 
+  /**
+   * Apply custom plate colors on style variables.
+   * @return {{"--plate-dark-12": string, "--plate-light-1": any, "--plate-dark-11": any, "--plate-light-2": any, "--plate-light-3": any, "--plate-light-4": any, "--plate-light-5": any, "--plate-light-6": any, "--plate-light-7": any, "--plate-light-8": any, "--plate-light-9": any, "--plate-dark-8": any, "--plate-dark-9": any, "--plate-dark-6": any, "--plate-light-10": any, "--plate-dark-7": any, "--plate-dark-4": any, "--plate-light-12": string, "--plate-dark-5": any, "--plate-light-11": any, "--plate-dark-2": any, "--plate-dark-10": any, "--plate-dark-3": any, "--plate-dark-1": any}}
+   */
+
   static GenerateColorsStyle(style) {
     return {
       "--plate-light-1": style?.plate_light_1

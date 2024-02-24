@@ -14,33 +14,33 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
     class="s--setting-combobox"
+    density="compact"
   >
-    <div v-if="subtitle" class="small">{{subtitle}}</div>
+    <div v-if="subtitle" class="small">{{ subtitle }}</div>
     <v-combobox
-      chips
-      multiple
-      hide-details
-      density="compact"
-      color="#1976D2"
-      :items="items"
-      :item-value="'value'"
-      :item-title="'title'"
-      :return-object="false"
-      :model-value="modelValue"
-      @update:model-value="(val) => setValue(val)"
-      variant="plain"
       :clearable="clearable"
       :disabled="disabled"
+      :item-title="'title'"
+      :item-value="'value'"
+      :items="items"
+      :model-value="modelValue"
+      :return-object="false"
+      chips
       class="my-1"
       closable-chips
+      color="#1976D2"
+      density="compact"
+      hide-details
+      multiple
       placeholder="Select..."
-      style="min-width: 200px"
       single-line
+      style="min-width: 200px"
+      variant="plain"
+      @update:model-value="(val) => setValue(val)"
     >
       <template v-slot:chip="{ item, props }">
         <v-chip v-bind="props">
@@ -61,7 +61,7 @@
       </template>
       <template v-slot:item="{ item, props }">
         <v-list-item
-          v-bind="props"
+          :prepend-icon="item.raw.icon"
           :title="
             isObject(item.raw)
               ? item.raw.title
@@ -69,8 +69,8 @@
                 : item.raw.value
               : item.raw
           "
-          :prepend-icon="item.raw.icon"
           class="text-start"
+          v-bind="props"
         ></v-list-item>
       </template>
     </v-combobox>

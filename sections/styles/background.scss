@@ -34,7 +34,6 @@
 $outline-width: 4px;
 
 
-
 .artboard { // first main page!
 
   section {
@@ -89,7 +88,6 @@ $outline-width: 4px;
         transition: none;
 
 
-
         // Row:
         &.v-row {
           //  border-color: #8BC34A !important;
@@ -133,6 +131,7 @@ $outline-width: 4px;
 // Highlight when mouse over styler of an element!
 :root {
   --highlight-outline-width: 8px;
+  --highlight-element-outline-color: #225082;
 
   .in-scale-down {
     --highlight-outline-width: 16px;
@@ -142,16 +141,25 @@ $outline-width: 4px;
 
     }
   }
+
+  // Page editor in the blue print mode
+  .--blueprint-mode {
+    --highlight-element-outline-color: #fff;
+
+    &.--tracking {
+      --highlight-element-outline-color: #000;
+    }
+  }
 }
 
 .highlight-blueprint {
-  animation: none;
+  animation-play-state: paused;
   transition: all 0s !important;
   // outline: solid #323c47 medium;
   // background: #225082 !important;
   // color: #fff !important;
 
-  outline: #225082 double var(--highlight-outline-width) !important;
+  outline: var(--highlight-element-outline-color) double var(--highlight-outline-width) !important;
 
   outline-offset: calc(-0.5 * var(--highlight-outline-width)); // add this line
 
@@ -167,5 +175,4 @@ $outline-width: 4px;
 // Highlight an element when editing dialog open:
 .element-focus-editing {
   outline: #1e1e1e 16px double !important;
-  z-index: 10;
 }

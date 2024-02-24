@@ -16,41 +16,56 @@
   <div>
     <div :style="{ background: gradient }" class="gradient-view"></div>
     <div class="container">
-      <v-fade-transition group tag="div" class="row m-1">
+      <v-fade-transition class="row m-1" group tag="div">
         <s-color-selector
           v-for="(color, index) in modelValue"
           :key="index"
           v-model="modelValue[index]"
-          @update:modelValue="onChange()"
           class="m-1 inline-block"
+          @update:modelValue="onChange()"
         >
           lens
         </s-color-selector>
       </v-fade-transition>
 
-      <v-btn @click="addColor" icon title="Add a color"
-        ><v-icon>add</v-icon></v-btn
-      >
-      <v-btn
-        v-if="modelValue && modelValue.length > 2"
-        @click="removeColor"
-        icon
-        title="Remove last color"
-        ><v-icon>remove</v-icon></v-btn
-      >
+      <div class="px-2">
+        <v-btn class="ma-1" icon title="Add a color" @click="addColor">
+          <v-icon>add</v-icon>
+        </v-btn>
+        <v-btn
+          v-if="modelValue && modelValue.length > 2"
+          class="ma-1"
+          icon
+          title="Remove last color"
+          @click="removeColor"
+        >
+          <v-icon>remove</v-icon>
+        </v-btn>
 
-      <v-btn @click="generateGradient" icon title="Create random colors"
-        ><v-icon>fa:fas fa-dice</v-icon></v-btn
-      >
-      <v-btn v-if="clearable" @click="$emit('update:modelValue', [])" icon
-        ><v-icon>delete</v-icon></v-btn
-      >
+        <v-btn
+          class="ma-1"
+          icon
+          title="Create random colors"
+          @click="generateGradient"
+        >
+          <v-icon>fa:fas fa-dice</v-icon>
+        </v-btn>
+        <v-btn
+          v-if="clearable"
+          class="ma-1"
+          icon
+          @click="$emit('update:modelValue', [])"
+        >
+          <v-icon>delete</v-icon>
+        </v-btn>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+
 export default {
   name: "GradientBuilder",
   components: { SColorSelector },
@@ -85,9 +100,7 @@ export default {
     },
   },
 
-  created() {
-
-  },
+  created() {},
 
   methods: {
     addColor() {
@@ -151,7 +164,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .gradient-view {
   width: 96%;
   margin: 8px auto;

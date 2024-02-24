@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="products"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="products"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -36,8 +37,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Custom Frames Code
           </v-tooltip>
@@ -49,14 +50,13 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Filter Products & Categories
           </v-tooltip>
         </button>
       </li>
-
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -69,7 +69,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import { isFunction } from "lodash-es";
@@ -81,7 +81,7 @@ import { isFunction } from "lodash-es";
 export default {
   name: "SStylerProducts",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -129,8 +129,6 @@ export default {
       type: String,
       default: "frame_product",
     },
-
-
   },
   data: () => ({
     option: null,
@@ -158,7 +156,7 @@ export default {
 
   methods: {
     showCustomProductFrame() {
-      this.ShowGlobalProductsFrameDialog(
+      this.ShowLSettingsFrame(
         this.el,
         this.target,
         this.keyFrameCategory,
@@ -167,14 +165,12 @@ export default {
     },
 
     showQueryBuilderProducts() {
-      this.ShowGlobalProductsCategoriesSelectDialog(
+      this.ShowLSettingsProductsFilter(
         this.el,
         this.target,
         this.keyFilter,
       );
     },
-
-
   },
 };
 </script>

@@ -15,77 +15,79 @@
 <template>
   <v-dialog
     :model-value="modelValue"
-    @update:model-value="(val) => $emit('update:modelValue', val)"
     fullscreen
     scrollable
     transition="dialog-bottom-transition"
+    @update:model-value="(val) => $emit('update:modelValue', val)"
   >
     <v-card v-if="section_data" class="text-start">
-      <v-card-title
-        ><v-icon class="me-1" color="#333">donut_large</v-icon> Feeder
+      <v-card-title>
+        <v-icon class="me-1" color="#333">donut_large</v-icon>
+        Feeder
         <v-spacer></v-spacer>
-        <v-chip title="Section Code" label size="x-small" color="#fafafa">{{
-          section.name
-        }}</v-chip>
+        <v-chip color="#fafafa" label size="x-small" title="Section Code"
+          >{{ section.name }}
+        </v-chip>
       </v-card-title>
-      <v-card-text >
+      <v-card-text>
         <!-- ████████████████████ Background ████████████████████ -->
-        <div class="widget-box mb-5" v-if="schema.background">
+        <div v-if="schema.background" class="widget-box mb-5">
           <s-widget-header
-            title="Background"
             icon="wallpaper"
+            title="Background"
           ></s-widget-header>
           <v-list-subheader
             >Alter the background of this section by choosing from a variety of
             options, including patterns, gradients, images, and videos to serve
-            as the backdrop.</v-list-subheader
-          >
+            as the backdrop.
+          </v-list-subheader>
 
           <v-sheet
+            :dark="section_data.background.dark"
             :style="backgroundStyle(section_data.background)"
+            class="rounded-lg min-h-100 d-flex align-center justify-center pa-2"
             @click="
-              ShowGlobalBackgroundEditorDialog(
+              ShowLSettingsBackground(
                 sectionElement,
                 section,
                 '$sectionData.background',
               )
             "
-            class="rounded-lg min-h-100 d-flex align-center justify-center pa-2"
-            :dark="section_data.background.dark"
           >
             <span class="small">Background Preview</span>
           </v-sheet>
 
           <s-smart-switch
             v-model="section_data.background.dark"
-            true-title="Dark Mode"
-            false-title="Light Mode"
-            true-icon="dark_mode"
-            false-icon="light_mode"
             class="my-3"
-            true-description="Use this when you want the default text color to be white."
             false-description="Use this when you want the default text color to be black."
+            false-icon="light_mode"
+            false-title="Light Mode"
+            true-description="Use this when you want the default text color to be white."
+            true-icon="dark_mode"
+            true-title="Dark Mode"
           >
           </s-smart-switch>
         </div>
 
         <!-- ████████████████████ Main Title / Content ████████████████████ -->
-        <div class="widget-box mb-5" v-if="schema.title || schema.content">
+        <div v-if="schema.title || schema.content" class="widget-box mb-5">
           <s-widget-header
-            title="Title & Subtitle"
             icon="sort"
+            title="Title & Subtitle"
           ></s-widget-header>
           <v-list-subheader
             >You can modify the primary section heading and subheading in this
-            area.</v-list-subheader
-          >
+            area.
+          </v-list-subheader>
           <v-textarea
             v-if="schema.title"
-            :rows="2"
-            label="Title"
-            auto-grow
             v-model="section_data.title"
+            :rows="2"
+            auto-grow
+            label="Title"
             messages=" "
+            variant="underlined"
           >
             <template v-slot:message>
               <s-backoffice-augment-keys-finder
@@ -95,10 +97,11 @@
           </v-textarea>
           <v-textarea
             v-if="schema.content"
-            :rows="2"
-            label="Description"
-            auto-grow
             v-model="section_data.content"
+            :rows="2"
+            auto-grow
+            label="Description"
+            variant="underlined"
           >
             <template v-slot:message>
               <s-backoffice-augment-keys-finder
@@ -109,18 +112,17 @@
         </div>
 
         <!-- ████████████████████ Buttons ████████████████████ -->
-        <div class="widget-box mb-5" v-if="schema.buttons">
+        <div v-if="schema.buttons" class="widget-box mb-5">
           <s-widget-header
-            title="Buttons"
-            icon="smart_button"
-            add-text
             add-caption="Add Button"
+            add-text
+            icon="smart_button"
+            title="Buttons"
             @click:add="addButton"
           ></s-widget-header>
           <v-list-subheader
-            >In this section, you can configure the call-to-action
-            elements.</v-list-subheader
-          >
+            >In this section, you can configure the call-to-action elements.
+          </v-list-subheader>
 
           <div class="border-between-vertical">
             <div
@@ -130,50 +132,54 @@
             >
               <div class="flex-grow-1">
                 <v-text-field
-                  label="Button Caption"
                   v-model="button.content"
+                  label="Button Caption"
                   placeholder="Write a call to action e.g View Now"
+                  variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  label="Link"
                   v-model="button.href"
                   append-icon="link"
+                  label="Link"
                   placeholder="https://...  or relative path e.g. /products/..."
+                  variant="underlined"
                 ></v-text-field>
               </div>
               <v-btn
-                icon
                 class="ma-1"
+                icon
                 title="Delete button"
+                variant="text"
                 @click="
                   Remove(section_data.buttons, button);
                   $forceUpdate();
                   sectionComponent.$forceUpdate();
                 "
-                ><v-icon color="red">close</v-icon></v-btn
               >
+                <v-icon color="red">close</v-icon>
+              </v-btn>
             </div>
           </div>
         </div>
 
         <!-- ████████████████████ Search ████████████████████ -->
-        <div class="widget-box mb-5" v-if="schema.search">
-          <s-widget-header title="Search" icon="search"></s-widget-header>
+        <div v-if="schema.search" class="widget-box mb-5">
+          <s-widget-header icon="search" title="Search"></s-widget-header>
           <v-list-subheader
-            >Modify the appearance of the search box here.</v-list-subheader
-          >
+            >Modify the appearance of the search box here.
+          </v-list-subheader>
 
           <s-storefront-search-box
-            :solo="section_data.search.solo"
+            :background-color="section_data.search.color"
+            :dark="section_data.search.dark"
             :filled="section_data.search.filled"
             :flat="section_data.search.flat"
-            :dark="section_data.search.dark"
-            no-qr
+            :solo="section_data.search.solo"
             block
-            readonly
-            :background-color="section_data.search.color"
             expand-input
             label="Preview of search box..."
+            no-qr
+            readonly
           ></s-storefront-search-box>
 
           <s-value-dashed>
@@ -186,41 +192,43 @@
 
           <s-smart-toggle
             v-model="section_data.search.dark"
-            true-title="Dark Mode"
             true-description="Configure this setting if the search box has a dark background."
+            true-title="Dark Mode"
           ></s-smart-toggle>
           <s-smart-toggle
             v-model="section_data.search.filled"
-            true-title="Filled"
             true-description="The search box was filled with a background."
+            true-title="Filled"
           ></s-smart-toggle>
 
           <s-smart-toggle
             v-model="section_data.search.solo"
-            true-title="Solo"
             true-description="In solo mode, a box is accentuated by a shadow for emphasis."
+            true-title="Solo"
           ></s-smart-toggle>
 
           <s-smart-toggle
             v-model="section_data.search.flat"
-            true-title="Flat"
             true-description="When set to solo mode, the search box becomes flat."
+            true-title="Flat"
           ></s-smart-toggle>
         </div>
 
         <!-- ████████████████████ Product ████████████████████ -->
         <div
-          class="widget-box mb-5"
           v-if="schema.product_info && section_data.product_info"
+          class="widget-box mb-5"
         >
-          <s-widget-header title="Product" icon="inventory"></s-widget-header>
+          <s-widget-header icon="inventory" title="Product"></s-widget-header>
           <v-list-subheader
             >The chosen product information will be displayed in the product
-            section.</v-list-subheader
-          >
+            section.
+          </v-list-subheader>
 
           <product-select-box
             :model-value="section_data.product_info.id"
+            :shop="getShop()"
+            single-product-select
             @update:model-value="
               (val) => {
                 section_data.product_info = Object.assign(
@@ -230,53 +238,50 @@
                 section_data.product_info.id = val; /*Force update product!*/
               }
             "
-            :shop="getShop()"
-            single-product-select
           >
           </product-select-box>
         </div>
 
         <!-- ████████████████████ Products & Categories ████████████████████ -->
         <div
-          class="widget-box mb-5"
           v-if="schema.filter && section_data.filter"
+          class="widget-box mb-5"
         >
           <s-widget-header
-            title="Products & Categories"
             icon="filter_alt"
+            title="Products & Categories"
           ></s-widget-header>
           <v-list-subheader
             >The chosen product information will be displayed in the product
-            section.</v-list-subheader
-          >
+            section.
+          </v-list-subheader>
 
           <s-page-products-filter
             v-model="filter_clone"
-            has-sort
-            has-product-category-selection
             has-categories-filter
             has-count
+            has-product-category-selection
+            has-sort
           />
         </div>
 
         <!-- ████████████████████ Row ████████████████████ -->
-        <div class="widget-box mb-5" v-if="schema.row">
-          <s-widget-header title="Row" icon="view_week"></s-widget-header>
+        <div v-if="schema.row" class="widget-box mb-5">
+          <s-widget-header icon="view_week" title="Row"></s-widget-header>
           <v-list-subheader
             >Organize columns within a row, allowing for both vertical and
-            horizontal alignment adjustments to be made for each
-            column.</v-list-subheader
-          >
+            horizontal alignment adjustments to be made for each column.
+          </v-list-subheader>
 
           <feeder-align v-model="section_data.row.align"></feeder-align>
           <feeder-justify v-model="section_data.row.justify"></feeder-justify>
           <s-smart-toggle
             v-model="section_data.row.fluid"
-            true-title="Fill width"
-            true-description="The container spans the full width."
             false-description="The container possesses a restricted width."
-            true-icon="swap_horiz"
             false-icon="compare_arrows"
+            true-description="The container spans the full width."
+            true-icon="swap_horiz"
+            true-title="Fill width"
           ></s-smart-toggle>
         </div>
 
@@ -284,10 +289,10 @@
         <feeder-column
           v-if="schema.columns?.length"
           v-model:column="section_data"
-          has-grid
-          has-title
           has-content
+          has-grid
           has-image
+          has-title
           label="Column"
         ></feeder-column>
         <feeder-column
@@ -316,17 +321,16 @@
 
         <!-- ████████████████████ Newsletter ████████████████████ -->
         <div
-          class="widget-box mb-5"
           v-if="schema.newsletter && section_data.newsletter"
+          class="widget-box mb-5"
         >
           <s-widget-header
-            title="Newsletter"
             icon="newspaper"
+            title="Newsletter"
           ></s-widget-header>
           <v-list-subheader
-            >You can modify the newsletter email input form in this
-            location.</v-list-subheader
-          >
+            >You can modify the newsletter email input form in this location.
+          </v-list-subheader>
 
           <feeder-newsletter v-model="section_data.newsletter">
           </feeder-newsletter>
@@ -336,14 +340,14 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn
-            variant="elevated"
             color="primary"
-            @click="onAccept"
             size="x-large"
+            variant="elevated"
+            @click="onAccept"
           >
             <v-icon start>check</v-icon>
-            {{ $t("global.actions.confirm") }}</v-btn
-          >
+            {{ $t("global.actions.confirm") }}
+          </v-btn>
         </div>
       </v-card-actions>
     </v-card>
@@ -367,8 +371,11 @@ import FeederNewsletter from "@app-page-builder/src/feeders/FeederNewsletter.vue
 import FeederImage from "@app-page-builder/src/feeders/FeederImage.vue";
 import SBackofficeAugmentKeysFinder from "@components/backoffice/augment/SBackofficeAugmentKeysFinder.vue";
 import SValueDashed from "@components/ui/text/SValueDashed.vue";
+import {LMixinsEvents} from "@app-page-builder/mixins/events/LMixinsEvents";
+
 export default {
   name: "GlobalSectionFeederDialog",
+  mixins:[LMixinsEvents],
   components: {
     SBackofficeAugmentKeysFinder,
     FeederImage,
@@ -453,4 +460,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

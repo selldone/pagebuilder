@@ -14,47 +14,52 @@
 
 <template>
   <div class="pa-1 text-center min-width-75 d-flex flex-column align-center">
-    <v-menu location="top">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          :color="modelValue ? 'primary' : undefined"
-          :variant="!modelValue ? 'flat' : 'outlined'"
-          v-bind="props"
-        >
-          {{ modelValue ? modelValue : "❌" }}
-        </v-btn>
-      </template>
+    <v-btn
+      :color="modelValue ? 'primary' : undefined"
+      :variant="modelValue ? 'flat' : 'outlined'"
+    >
+      {{ modelValue ? modelValue : "❌" }}
 
-      <v-sheet color="#fff" rounded="lg">
-        <v-list-subheader
-          >Opt for a 12-split layout in relative design, enabling flexible,
-          evenly divided sections for efficient space utilization.
-        </v-list-subheader>
+      <v-menu activator="parent" location="top">
+        <v-sheet class="pa-2" color="#fff" rounded="lg">
+          <div class="text-start">
+            <v-icon class="me-1">{{ icon }}</v-icon>
+            <b>{{ label }}</b>
+          </div>
+          <div class="my-2 text-start">
+            Opt for a 12-split layout in relative design, enabling flexible,
+            evenly divided sections for efficient space utilization.
+          </div>
 
-        <v-btn
-          @click="$emit('update:modelValue', null)"
-          key="-"
-          variant="flat"
-          size="small"
-          class="ma-1"
-          min-width="36"
-          title="Inherit from smaller screen size."
-        >
-          ❌
-        </v-btn>
-        <v-btn
-          variant="flat"
-          v-for="index in 12"
-          :key="index"
-          size="small"
-          class="ma-1"
-          @click="$emit('update:modelValue', index)"
-          min-width="36"
-        >
-          {{ index }}
-        </v-btn>
-      </v-sheet>
-    </v-menu>
+          <v-btn
+            key="-"
+            class="ma-1"
+            icon
+            min-width="36"
+            size="small"
+            title="Inherit from smaller screen size."
+            variant="text"
+            @click="$emit('update:modelValue', null)"
+          >
+            ❌
+          </v-btn>
+          <v-btn
+            v-for="index in 12"
+            :key="index"
+            :color="modelValue === index ? 'primary' : undefined"
+            class="ma-1"
+            icon
+            min-width="36"
+            size="small"
+            variant="flat"
+            @click="$emit('update:modelValue', index)"
+          >
+            {{ index }}
+          </v-btn>
+        </v-sheet>
+      </v-menu>
+    </v-btn>
+
     <small class="mt-2">
       <v-icon size="small">{{ icon }}</v-icon>
       {{ label }}</small

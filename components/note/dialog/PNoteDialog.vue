@@ -17,21 +17,22 @@
     v-model="dialog"
     :scrim="false"
     :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : undefined
+      $vuetify.display.xlAndUp
+        ? 560
+        : $vuetify.display.lgAndUp
+          ? 420
+          : undefined
     "
     class="x-page-builder-options-slider"
     color="#1e1e1e"
     temporary
-
   >
     <v-card
       class="text-start d-flex flex-column"
+      color="#1e1e1e"
       flat
       style="min-height: 100%; height: 100%"
-      color="#1e1e1e"
     >
-
-
       <!-- ████████████████████ Chats ████████████████████ -->
 
       <v-list ref="list" class="flex-grow-0 overflow-auto py-16" lines="two">
@@ -63,11 +64,9 @@
           :size="32"
         ></s-dense-images-circles-users>
 
-
         <!-- ████████████████████ Actions ████████████████████ -->
 
         <div class="widget-buttons">
-
           <v-btn size="x-large" variant="text" @click="dialog = false">
             <v-icon start>{{ $t("icons.chevron_back") }}</v-icon>
             {{ $t("global.actions.close") }}

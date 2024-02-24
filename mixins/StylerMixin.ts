@@ -79,20 +79,6 @@ export const StylerMixin = defineComponent({
     checkProper() {
       if (!this.cleanup) {
         const position = this.position;
-        /* this.$props.type === "section"
-                                                                              ? "left-start"
-                                                                                                                                                                                                                           : this.$props.type === "row" && this.hasAttribute("has-add")
-                                                                                                                                                                                                                             ? "left-center" // Prevent over lapping rows
-                                                                                                                                                                                                                             : this.$props.type === "buttons-row"
-                                                                                                                                                                                                                               ? "left-center"
-                                                                                                                                                                                                                               : this.$props.type === "row"
-                                                                                                                                                                                                                                 ? "right-end"
-                                                                                                                                                                                                                                 : this.$props.type === "container"
-                                                                                                                                                                                                                                   ? "right-center"
-                                                                                                                                                                                                                                   : this.$props.type === "grid" ||
-                                                                                                                                                                                                                                       this.$props.type === "row-grid"
-                                                                                                                                                                                                                                     ? "bottom"
-                                                                                                                                                                                                                                     : "top";*/
 
         if (!this.$refs.styler) {
           console.error("Styler Mixin: No styler ref found!");
@@ -128,7 +114,6 @@ export const StylerMixin = defineComponent({
                     },
                   );
 
-
                   if (left > 0) {
                     // Overflow from left
                     return { x: PADDING };
@@ -146,7 +131,6 @@ export const StylerMixin = defineComponent({
               },
             ],
           }).then((out) => {
-
             Object.assign(floatingEl.style, {
               left: `${out.x}px`,
               top: `${out.y}px`,
@@ -155,13 +139,13 @@ export const StylerMixin = defineComponent({
         });
 
         /*
-                        this.popper = new Popper(
-                            referenceEl,floatingEl,
-                
-                          {
-                            placement: position,
-                          },
-                        );*/
+                                this.popper = new Popper(
+                                    referenceEl,floatingEl,
+                        
+                                  {
+                                    placement: position,
+                                  },
+                                );*/
       }
     },
 
@@ -208,10 +192,10 @@ export const StylerMixin = defineComponent({
       }
 
       /*
-                  if (this.popper) {
-                    this.popper.destroy();
-                    this.popper = null;
-                  }*/
+                        if (this.popper) {
+                          this.popper.destroy();
+                          this.popper = null;
+                        }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.onPageBuilderStyleOpen(this.type, false); //Signal to other stylers about hiding this styler!

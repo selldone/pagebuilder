@@ -99,8 +99,6 @@ export class Migration {
         return "LSectionTextThreeColumns";
       case "Section1":
         return "LSectionTextTwoColumns";
-
-
     }
 
     return name;

@@ -15,57 +15,56 @@
 <template>
   <div>
     <v-text-field
-      v-model="value.input.placeholder"
+      v-model="modelValue.input.placeholder"
+      append-icon="mail_outline"
       label="Input placeholder"
       placeholder="john@gmail..."
-      append-icon="mail_outline"
     ></v-text-field>
 
-    <feeder-input v-model="value.input"></feeder-input>
+    <feeder-input v-model="modelValue.input"></feeder-input>
 
     <v-list-subheader>
       This message will be shown after user successfully submit their email.
     </v-list-subheader>
     <v-text-field
-      v-model="value.success_dialog.title"
+      v-model="modelValue.success_dialog.title"
+      append-icon="check_circle_outline"
       label="Dialog success title"
       placeholder="Thanks..."
-      append-icon="check_circle_outline"
     ></v-text-field>
     <v-text-field
-      v-model="value.success_dialog.message"
+      v-model="modelValue.success_dialog.message"
+      append-icon="check_circle_outline"
       label="Dialog success message"
       placeholder="Thank you, we have..."
-      append-icon="check_circle_outline"
     ></v-text-field>
 
     <v-list-subheader>
       This message will be shown when email is empty.
     </v-list-subheader>
     <v-text-field
-      v-model="value.error_dialog.title"
+      v-model="modelValue.error_dialog.title"
+      append-icon="error_outline"
       label="Dialog error title"
       placeholder="Email is empty!"
-      append-icon="error_outline"
     ></v-text-field>
     <v-text-field
-      v-model="value.error_dialog.message"
+      v-model="modelValue.error_dialog.message"
+      append-icon="error_outline"
       label="Dialog error message"
       placeholder="Please enter your email address..."
-      append-icon="error_outline"
     ></v-text-field>
   </div>
 </template>
 
 <script>
-import ALIGN from "@app-page-builder/src/enums/ALIGN";
 import FeederInput from "@app-page-builder/src/feeders/FeederInput.vue";
 
 export default {
   name: "FeederNewsletter",
   components: { FeederInput },
   props: {
-    value: {},
+    modelValue: {},
   },
   data: () => {
     return {};

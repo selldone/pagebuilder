@@ -15,24 +15,24 @@
   <!-- ████████████████████████ Switch ████████████████████████ -->
 
   <v-list-item
-    :title="title"
+    :class="{ 'disabled-scale-down': disabled }"
     :prepend-icon="icon"
+    :title="title"
+    class="s--setting-switch"
     density="compact"
     @click="setValue(!modelValue)"
-    class="s--setting-switch"
-    :class="{'disabled-scale-down':disabled}"
   >
     <template v-slot:append>
       <v-switch
-        inset
+        :disabled="disabled"
         :model-value="modelValue"
+        class="-switch"
+        color="#1976D2"
+        density="compact"
+        hide-details
+        inset
         @update:model-value="(val) => setValue(val)"
         @click.stop
-        hide-details
-        density="compact"
-        color="#1976D2"
-        class="-switch"
-        :disabled="disabled"
       ></v-switch>
     </template>
   </v-list-item>
@@ -52,7 +52,6 @@ export default defineComponent({
     title: {},
     icon: {},
     disabled: Boolean,
-
   },
   computed: {},
   data() {
@@ -68,8 +67,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-switch {
-
-  .-switch{
+  .-switch {
     transform: scale(0.8);
   }
 }

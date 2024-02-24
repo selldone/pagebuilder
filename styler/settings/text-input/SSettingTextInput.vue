@@ -14,26 +14,26 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
     class="s--setting-combobox"
+    density="compact"
   >
-    <div v-if="subtitle" class="small">{{subtitle}}</div>
+    <div v-if="subtitle" class="small">{{ subtitle }}</div>
     <v-text-field
-      hide-details
-      density="compact"
-      single-line
-      color="#1976D2"
-      :model-value="modelValue"
-      @update:model-value="(val) => setValue(val)"
-      variant="plain"
       :clearable="clearable"
       :disabled="disabled"
+      :model-value="modelValue"
       class="my-1"
+      color="#1976D2"
+      density="compact"
+      hide-details
       placeholder="Enter..."
+      single-line
       style="min-width: 200px"
+      variant="plain"
+      @update:model-value="(val) => setValue(val)"
     >
     </v-text-field>
   </v-list-item>

@@ -18,7 +18,7 @@
     @update:model-value="(val) => $emit('update:modelValue', val)"
   >
     <v-container>
-      <v-row justify="center" class="pb-10">
+      <v-row class="pb-10" justify="center">
         <v-item
           v-for="(item, index) in animationClasses"
           :key="index"
@@ -27,16 +27,16 @@
         >
           <v-card
             :color="active ? 'amber' : ''"
+            :elevation="active ? 10 : 0"
             class="p-1 rounded-18px overflow-hidden m-1 position-relative d-flex align-center justify-center"
             flat
-            @click="toggle"
-            :elevation="active ? 10 : 0"
-            width="72"
             height="72"
+            width="72"
+            @click="toggle"
           >
-            <v-icon color="blue" :class="item" class="inf-anim mb-3">{{
-              item && item.includes("rotate") ? "remove_circle" : "lens"
-            }}</v-icon>
+            <v-icon :class="item" class="inf-anim mb-3" color="blue"
+              >{{ item && item.includes("rotate") ? "remove_circle" : "lens" }}
+            </v-icon>
 
             <div class="bottom-absolute-bar-dark text-capitalize p-1">
               {{ getName(item) }}
@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .inf-anim {
   animation-iteration-count: infinite;
 }

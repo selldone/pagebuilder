@@ -14,17 +14,17 @@
 <template>
   <!-- ████████████████████████ Color ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
     class="s--setting-color"
+    density="compact"
   >
     <template v-slot:append>
       <s-color-selector
         :model-value="modelValue"
-        @update:model-value="setValue"
         :nullable="clearable"
+        @update:model-value="setValue"
       ></s-color-selector>
     </template>
   </v-list-item>
@@ -36,7 +36,7 @@ import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 
 export default defineComponent({
   name: "SSettingColor",
-  components: {SColorSelector},
+  components: { SColorSelector },
   props: {
     modelValue: {
       type: Boolean,

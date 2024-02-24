@@ -14,25 +14,23 @@
 
 <template>
   <div
-    class="pre-parent bg-tiny-checkers-dark"
     :class="{
       '-border': border,
       '-size': size,
       '-margin': margin,
       '-padding': padding,
     }"
+    class="pre-parent bg-tiny-checkers-dark"
   >
     Container
     <div
+      :style="{ borderRadius: modelValue.borderRadius }"
       class="pre-margin pointer-pointer"
       @click.stop="$emit('click:area', 'margin')"
-      :style="{ borderRadius: modelValue.borderRadius }"
     >
       Margin
 
       <div
-        class="pre-layer pointer-pointer"
-        @click.stop="$emit('click:area', 'padding')"
         :style="{
           borderLeft: modelValue.borderLeft,
           borderRight: modelValue.borderRight,
@@ -40,12 +38,14 @@
           borderBottom: modelValue.borderBottom,
           borderRadius: modelValue.borderRadius,
         }"
+        class="pre-layer pointer-pointer"
+        @click.stop="$emit('click:area', 'padding')"
       >
         Padding
         <div
+          :style="{ borderRadius: modelValue.borderRadius }"
           class="pre-content pointer-pointer"
           @click.stop="$emit('click:area', 'size')"
-          :style="{ borderRadius: modelValue.borderRadius }"
         >
           <p class="m-0 text-center">Content</p>
         </div>
@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .pre-parent {
   padding: 8px;
 

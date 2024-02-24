@@ -14,21 +14,21 @@
 <template>
   <!-- ████████████████████████ Size ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
     class="s--setting-size"
+    density="compact"
   >
     <template v-slot:append>
       <s-number-dimension-input
+        :disabled="disabled"
         :model-value="modelValue"
-        @update:model-value="setValue"
-        hide-details
         dense
+        hide-details
         style="min-width: 200px"
         variant="plain"
-        :disabled="disabled"
+        @update:model-value="setValue"
       ></s-number-dimension-input>
     </template>
   </v-list-item>

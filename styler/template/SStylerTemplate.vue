@@ -15,11 +15,11 @@
 <template>
   <div
     v-if="builder.isEditing"
-    class="styler"
-    @click.stop=""
+    :caption="type"
     :class="[
       {
-        'is-visible': isVisible,
+        'is-visible':
+          isVisible && (normal_mode || tracking_mode || animation_mode),
         '-dot -red': type === 'button' || type === 'text',
         '-dot -green':
           type === 'row' || type === 'grid' || type === 'buttons-row',
@@ -31,71 +31,115 @@
         '-dot -amber': type === 'blogs',
         '-dot -amber': type === 'marquee',
 
-
         '-dot': type === 'section',
       },
       `-type-${type}`,
     ]"
-    :caption="type"
     :style="[PageBuilderColorsHelper.GenerateColorsStyle(builder.style)]"
+    class="styler"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
+    @click.stop=""
   >
     <!-- Important: Display non because of preventing proper error -->
 
-    <slot v-if="!builder.isAnimation && !builder.isTracking"></slot>
+    <slot v-if="normal_mode"></slot>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――― Animation tools ―――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul v-if="builder.isAnimation" class="styler-list">
+    <ul v-if="animation_mode" class="styler-list">
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
       <!-- Available for: section / column -->
       <li>
-        <button
-          class="styler-button"
-          @click="showAnimationEdit"
-          title="Animation"
-        >
+        <button class="styler-button" @click="showAnimationEdit">
           <v-icon dark size="20">movie_filter</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black white--text text-start"
+            location="bottom"
+            max-width="360"
+          >
+            Animation
+          </v-tooltip>
         </button>
       </li>
-      <span v-html="getAnimationClassesDetail()"></span>
+
+      <v-chip
+        v-for="a in animations"
+        :Key="a"
+        class="me-2"
+        color="blue"
+        label
+        prepend-icon="animation"
+        size="x-small"
+      >
+        {{ a }}
+      </v-chip>
+      <v-chip
+        v-for="h in hovers"
+        :Key="h"
+        class="me-2"
+        color="amber"
+        label
+        prepend-icon="mouse"
+        size="x-small"
+      >
+        {{ h }}
+      </v-chip>
+      <v-chip
+        v-if="threshold"
+        class="me-2"
+        color="fff"
+        label
+        prepend-icon="bolt"
+        size="x-small"
+        >Threshold: <b class="mx-1">{{ threshold * 100 }}%</b></v-chip
+      >
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――― Tracking tools ―――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul v-if="builder.isTracking" class="styler-list">
+    <ul v-if="tracking_mode" class="styler-list">
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
       <!-- Available for: section / column -->
       <li v-if="!element_id">
-        <button
-          class="styler-button fadeIn"
-          @click="enableTrackingCode()"
-          title="Animation"
-        >
+        <button class="styler-button fadeIn" @click="enableTrackingCode()">
           <v-icon dark size="20">gps_fixed</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black white--text text-start"
+            location="bottom"
+            max-width="360"
+          >
+            Add ID
+            <div class="small">
+              You can use this ID to track this element with Google Analytics or
+              other tracking tools.
+            </div>
+          </v-tooltip>
         </button>
       </li>
 
       <v-text-field
-        variant="solo"
-        single-line
-        label="ID"
         v-if="element_id"
         v-model="element_id"
-        clearable
-        @click:clear="setId(null)"
-        @blur="setId(element_id)"
-        hide-details
-        flat
-        clear-icon="location_disabled"
-        rounded
         bg-color="#111"
-        class="zoomInRight min-width-200"
+        class="min-width-200"
+        clear-icon="location_disabled"
+        clearable
+        flat
+        hide-details
+        label="ID"
+        rounded
+        single-line
+        variant="solo"
+        @blur="setId(element_id)"
+        @click:clear="setId(null)"
       ></v-text-field>
     </ul>
   </div>
@@ -106,18 +150,22 @@ import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuild
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 
 export default {
   name: "SStylerTemplate",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin, LandingHistoryMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin, LMixinsEvents],
 
   components: {},
   props: {
     builder: {
       // type: Object,
       required: true,
+    },
+    target: {
+      required: true,
+      type: Object,
     },
 
     el: {
@@ -140,6 +188,8 @@ export default {
       required: true,
     },
     isVisible: Boolean,
+    hasAnimation: Boolean,
+    hasTracking: Boolean,
   },
   data: () => ({
     PageBuilderColorsHelper: PageBuilderColorsHelper,
@@ -147,7 +197,27 @@ export default {
     element_id: null,
   }),
 
-  computed: {},
+  computed: {
+    normal_mode() {
+      return !this.builder.isAnimation && !this.builder.isTracking;
+    },
+    tracking_mode() {
+      return this.builder.isTracking && this.hasTracking;
+    },
+    animation_mode() {
+      return this.builder.isAnimation && this.hasAnimation;
+    },
+
+    animations() {
+      return StylerHelper.GetAnimations(this.target.classes);
+    },
+    hovers() {
+      return StylerHelper.GetHovers(this.target.classes);
+    },
+    threshold() {
+      return StylerHelper.GetThreshold(this.target.style);
+    },
+  },
   watch: {},
   created() {
     // Get element ID:
@@ -160,37 +230,22 @@ export default {
 
     showAnimationEdit() {
       if (this.type === "section") {
-        this.ShowGlobalAnimationEditorDialog(
+        this.ShowLSettingsAnimation(
           this.el,
           this.el,
-          this.section,
-          `$sectionData.style`,
-          `$sectionData.classes`,
+          this.target,
+          `style`,
+          `classes`,
         );
       } else if (this.type === "column") {
-        const column_path = this.name.substring(0, this.name.lastIndexOf("."));
-
-        this.ShowGlobalAnimationEditorDialog(
+        this.ShowLSettingsAnimation(
           this.el,
           this.el,
-          this.section,
-          `${column_path}.style`,
-          `${column_path}.classes`,
+          this.target,
+          `style`,
+          `classes`,
         );
       }
-    },
-    getAnimationClassesDetail() {
-      let classes = null;
-      let style = null;
-      if (this.type === "section") {
-        classes = this.section.get(`$sectionData.classes`);
-        style = this.section.get(`$sectionData.style`);
-      } else if (this.type === "column") {
-        const column_path = this.name.substring(0, this.name.lastIndexOf("."));
-        classes = this.section.get(`${column_path}.classes`);
-        style = this.section.get(`${column_path}.style`);
-      }
-      return StylerHelper.GetAnimationClassesDetail(classes, style);
     },
 
     //----------------------------------------------------------------------------
@@ -210,12 +265,12 @@ export default {
 
     //――――――――――――――――――――――  Mouse Events ――――――――――――――――――――
 
-    mouseenter(e) {
+    mouseenter() {
       if (!this.el.classList.contains("highlight-blueprint")) {
         this.el.classList.add("highlight-blueprint");
       }
     },
-    mouseleave(e) {
+    mouseleave() {
       // Reset
       this.el.classList.remove("highlight-blueprint");
     },
@@ -313,7 +368,9 @@ $red: #ff3d3d;
 
 .align {
   @extend .styler-list;
-  height: 42px;
+  min-height: 42px;
+  flex-wrap: wrap;
+  max-width: 860px;
 }
 
 .colorer {

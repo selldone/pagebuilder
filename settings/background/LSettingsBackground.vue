@@ -1,0 +1,273 @@
+<!--
+  - Copyright (c) 2023-2024. Selldone® Business OS™
+  -
+  - Author: M.Pajuhaan
+  - Web: https://selldone.com
+  - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  -
+  - All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+  - From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+  - Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+  - Our journey is not just about reaching a destination, but about creating a masterpiece.
+  - Tread carefully, for you're treading on dreams.
+  -->
+
+<template>
+  <v-navigation-drawer
+    v-model="show_edit_style"
+    :scrim="false"
+    :width="
+      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+    "
+    class="x-page-builder-options-slider"
+    color="#1e1e1e"
+    location="right"
+    temporary
+    theme="dark"
+  >
+    <v-card :style="global_variables" class="text-start" flat>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn size="x-large" variant="text" @click="show_edit_style = false">
+            <v-icon class="me-1">close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+
+      <v-card-text v-if="dialog_pre" class="pb-16">
+        <s-color-selector v-model="bg_color" nullable title="Background color">
+          <template v-slot:append-title>
+            <v-chip v-if="bg_color" class="ma-1" label size="x-small"
+              >{{ bg_color }}
+            </v-chip>
+          </template>
+        </s-color-selector>
+        <background-image-editor
+          v-model:bg-image="bg_image"
+          v-model:bgCustom="bg_custom"
+          v-model:bgGradient="bg_gradient"
+          v-model:bgImageRepeat="bg_repeat"
+          v-model:bgImageSize="bg_size"
+          v-model:bgPosition="bg_position"
+          v-model:bgVideo="bg_video"
+          :BgColor="bg_color"
+          :upload-url="upload_bg_url"
+          :upload-video-url="upload_video_url"
+          class="mt-8"
+          dark
+          has-bg-video
+        >
+        </background-image-editor>
+      </v-card-text>
+    </v-card>
+  </v-navigation-drawer>
+</template>
+
+<script>
+import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
+import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import _ from "lodash-es";
+import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
+import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+
+export default {
+  name: "LSettingsBackground",
+
+  mixins: [PageBuilderMixin, PageEventBusMixin],
+
+  components: {
+    SColorSelector,
+    BackgroundImageEditor,
+  },
+
+  props: {
+    builder: {
+      type: Object,
+      required: true,
+    },
+  },
+  data: () => ({
+    el: null,
+    target: null,
+    keyBackground: null, // background
+
+    //----------------------- Bg image -----------------------
+    show_edit_style: false,
+    dialog_pre: false,
+
+    bg_color: null,
+    bg_image: null,
+    bg_video: null,
+    bg_gradient: [],
+    bg_size: null,
+    bg_custom: null,
+    bg_repeat: null,
+    dark: null,
+    bg_position: "center",
+
+    //--------------------------
+    key_listener_keydown: null,
+
+    LOCK: false, // 🔐 Lock changes
+  }),
+
+  computed: {
+    global_variables() {
+      return PageBuilderColorsHelper.GenerateColorsStyle(this.builder.style);
+    },
+
+    upload_bg_url() {
+      return this.getPageBuilderUploadUrlImage();
+    },
+    upload_video_url() {
+      return this.getPageBuilderUploadUrlVideo();
+    },
+    //-----------------------------------
+    in_background() {
+      return {
+        bg_color: this.bg_color,
+        bg_image: this.bg_image,
+        bg_video: this.bg_video,
+        bg_gradient: this.bg_gradient,
+        bg_size: this.bg_size,
+        bg_custom: this.bg_custom,
+        bg_repeat: this.bg_repeat,
+        dark: this.dark,
+        bg_position: this.bg_position,
+      };
+    },
+  },
+  watch: {
+    in_background() {
+      this.setBackgroundDebounced();
+    },
+
+    show_edit_style(dialog) {
+      // Keep highlight active element:
+      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
+      else if (this.el) HighlightEditingElements.Activate(this.el);
+    },
+  },
+  created() {},
+  mounted() {
+    this.EventBus.$on(
+      "show:LSettingsBackground",
+
+      ({ el, target, keyBackground }) => {
+        this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
+
+        this.LOCK = true; // 🔒 Prevent update style and classes
+
+        this.el = el;
+        this.target = target;
+        this.keyBackground = keyBackground;
+        this.showSizeDialog();
+      },
+    );
+
+    //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
+    this.key_listener_keydown = (event) => {
+      // Scape:
+      let isEscape =
+        event.key === "Escape" || event.key === "Esc" || event.keyCode === 27;
+
+      if (isEscape) {
+        if (this.show_edit_style) {
+          // Close tools
+          this.show_edit_style = false;
+          event.preventDefault();
+          return false;
+        }
+      }
+    };
+    document.addEventListener("keydown", this.key_listener_keydown, true);
+    //――――――――――――――――――――――  END Editor key listener ――――――――――――――――――――
+
+    //█████████████████████████████████████████████████████████████
+    //――――――――――――――― Event Bus ――――――――――――――――
+    //█████████████████████████████████████████████████████████████
+    // Listen for show loading data from server
+    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+      this.show_edit_style = false;
+    });
+  },
+  beforeUnmount() {
+    this.EventBus.$off("show:LSettingsBackground");
+    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+
+    //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
+    document.removeEventListener("keydown", this.key_listener_keydown, true);
+  },
+
+  methods: {
+    showSizeDialog() {
+      const background = this.target[this.keyBackground];
+
+      this.bg_color = background ? background.bg_color : null;
+
+      this.bg_image = background ? background.bg_image : null;
+      this.bg_video = background ? background.bg_video : null;
+
+      this.bg_gradient =
+        background && background.bg_gradient ? background.bg_gradient : [];
+      this.bg_size = background ? background.bg_size : null;
+      this.bg_custom = background ? background.bg_custom : null;
+      this.bg_repeat = background ? background.bg_repeat : null;
+      this.dark = background ? background.dark : false;
+
+      this.bg_position = background ? background.bg_position : "center";
+
+      this.dialog_pre = false;
+      this.$nextTick(() => {
+        this.dialog_pre = true;
+        this.show_edit_style = true;
+        this.LOCK = false; // 🔓 Now can update values
+      });
+    },
+
+    //----------------------------------------------------------------------------
+
+    setBackgroundDebounced: _.debounce(function () {
+      this.setBackground(false);
+    }, 100),
+
+    setBackground() {
+      if (!this.show_edit_style || this.LOCK) return;
+
+      this.target[this.keyBackground] = this.in_background; // Save data in section!
+
+      const background = this.target[this.keyBackground];
+
+      const style = BackgroundHelper.CreateCompleteBackgroundStyleObject(
+        background.bg_custom,
+        background.bg_gradient,
+        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
+        background.bg_size,
+        background.bg_repeat,
+        background.bg_color,
+        background.dark,
+        background.bg_position,
+      );
+
+      //  console.log('+++style+++',style)
+
+      // Live update:
+
+      Object.keys(style).forEach((key) => {
+        this.el.style[key] = style[key];
+      });
+
+      //  this.el.style.cssText =style
+
+      //   this.show_edit_style = false;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>

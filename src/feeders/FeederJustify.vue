@@ -14,17 +14,17 @@
 
 <template>
   <v-btn-toggle
-    :model-value="value"
-    @update:model-value="(val) => $emit('input', val)"
+    :model-value="modelValue"
     class="m-3"
     selected-class="blue-flat"
+    @update:model-value="(val) => $emit('update:modelValue', val)"
   >
     <v-btn
       v-for="it in JUSTIFY"
       :key="it.val"
-      :value="it.val"
       :caption="it.title"
       :title="it.title"
+      :value="it.val"
       class="sub-caption -hover b-12px"
       icon
     >
@@ -39,8 +39,9 @@ import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 export default {
   name: "FeederJustify",
   components: {},
+  emits: ["update:modelValue"],
   props: {
-    value: {},
+    modelValue: {},
   },
   data: () => {
     return {

@@ -27,12 +27,12 @@
 
       <s-products-sort-view
         v-model="product_sort"
-        class="mx-2 overflow-auto"
         v-model:only-available="only_available"
-        has-view-mode
         v-model:viewMode="mode_view"
-        two-line
         active-class="blue-flat"
+        class="mx-2 overflow-auto"
+        has-view-mode
+        two-line
       />
     </div>
 
@@ -56,10 +56,10 @@
 
       <v-btn-toggle
         v-model="selected_mode"
-        mandatory
         :border="2"
         class="mt-2"
         divided
+        mandatory
         selected-class="blue-flat"
       >
         <v-btn
@@ -118,12 +118,12 @@
 
       <s-smart-switch
         v-model="surrounded"
-        false-title="Show items inside selected categories."
-        false-icon="select_all"
-        true-title="Show only selected categories."
-        true-icon="deselect"
         :dark="dark"
         class="my-3"
+        false-icon="select_all"
+        false-title="Show items inside selected categories."
+        true-icon="deselect"
+        true-title="Show only selected categories."
       >
       </s-smart-switch>
 
@@ -135,10 +135,10 @@
           </b>
           Only selected categories and the products inside them will be shown.
           <v-icon
-            class="mx-1 zoomIn"
-            size="small"
-            color="green"
             v-if="!products_only && !categories_only"
+            class="mx-1 zoomIn"
+            color="green"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -149,10 +149,10 @@
           </b>
           Only products in selected categories will be shown.
           <v-icon
-            class="mx-1 zoomIn"
-            size="small"
-            color="green"
             v-if="products_only && !categories_only"
+            class="mx-1 zoomIn"
+            color="green"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -164,10 +164,10 @@
           </b>
           Only selected categories will be shown.
           <v-icon
-            class="mx-1"
-            size="small"
-            color="green zoomIn"
             v-if="!products_only && categories_only"
+            class="mx-1"
+            color="green zoomIn"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -182,10 +182,10 @@
           Only products and sub categories in the selected categories will be
           shown.
           <v-icon
-            class="mx-1 zoomIn"
-            size="small"
-            color="green"
             v-if="!products_only && !categories_only"
+            class="mx-1 zoomIn"
+            color="green"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -196,10 +196,10 @@
           </b>
           Only products in the selected categories will be shown.
           <v-icon
-            class="mx-1 zoomIn"
-            size="small"
-            color="green"
             v-if="products_only && !categories_only"
+            class="mx-1 zoomIn"
+            color="green"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -211,10 +211,10 @@
           </b>
           Only sub categories in the selected categories will be shown.
           <v-icon
-            class="mx-1 zoomIn"
-            size="small"
-            color="green"
             v-if="!products_only && categories_only"
+            class="mx-1 zoomIn"
+            color="green"
+            size="small"
             >check_circle
           </v-icon>
         </li>
@@ -223,12 +223,12 @@
         v-if="hasCategoriesFilter"
         v-model="categories_value"
         chips
-        label="Categories list"
-        placeholder="Root / Leave it empty to display items in the root."
-        persistent-placeholder
-        multiple
         clearable
+        label="Categories list"
+        multiple
         no-home
+        persistent-placeholder
+        placeholder="Root / Leave it empty to display items in the root."
       >
       </b-shop-category-input>
     </div>
@@ -239,7 +239,7 @@
       class="py-5"
       style="border-top: dashed thin #777"
     >
-      <s-widget-header title="Tags" icon="label"></s-widget-header>
+      <s-widget-header icon="label" title="Tags"></s-widget-header>
 
       <v-list-subheader>
         <div>
@@ -249,20 +249,19 @@
       </v-list-subheader>
       <v-combobox
         v-model="tags"
-        multiple
-        closable-chips
-        clearable
         chips
-        placeholder="Write tag and press enter. ex. new collection"
-        persistent-placeholder
-        label="Tags list"
+        clearable
+        closable-chips
         hint="You can set dynamic values { { key } } here. This value will be replace by augmentation data in product,category or other pages."
+        label="Tags list"
+        multiple
+        persistent-placeholder
+        placeholder="Write tag and press enter. ex. new collection"
         variant="underlined"
       >
         <template v-slot:chip="{ item, props }">
           <v-chip v-bind="props">
             <v-avatar
-              class="text-white"
               :color="
                 isDynamicValue(item.raw)
                   ? '#FFF'
@@ -270,6 +269,7 @@
                     ? item.raw.toColor(true)
                     : '#333'
               "
+              class="text-white"
               start
               >{{
                 isDynamicValue(item.raw)
@@ -290,7 +290,7 @@
       class="py-5"
       style="border-top: dashed thin #777"
     >
-      <s-widget-header title="Vendor" icon="storefront"></s-widget-header>
+      <s-widget-header icon="storefront" title="Vendor"></s-widget-header>
 
       <v-list-subheader
         >Show products only for a selected vendor. You can use this option to
@@ -329,30 +329,30 @@
 
       <s-number-input
         v-if="!categories_only"
-        class="my-6 max-width-field mx-auto"
         v-model="products_count"
         :label="$t('styler.products.limit')"
-        suffix="items"
+        :max="24"
+        :messages="$t('styler.products.limit_message')"
         :min="1"
         :step="1"
-        :max="24"
+        class="my-6 max-width-field mx-auto"
         show-buttons
-        :messages="$t('styler.products.limit_message')"
+        suffix="items"
       ></s-number-input>
 
       <s-number-input
         v-if="!products_only"
-        class="my-6 max-width-field mx-auto"
         v-model="categories_count"
         :label="$t('styler.products.categories_limit')"
-        suffix="items"
+        :max="24"
+        :messages="$t('styler.products.categories_limit_msg')"
         :min="1"
         :step="1"
-        :max="24"
-        show-buttons
+        class="my-6 max-width-field mx-auto"
         clearable
-        :messages="$t('styler.products.categories_limit_msg')"
         placeholder="No limit"
+        show-buttons
+        suffix="items"
       ></s-number-input>
     </div>
   </div>

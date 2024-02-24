@@ -14,18 +14,18 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
+    v-styler:product="{ target: $sectionData.product_info }"
     :object="$sectionData"
     path="$sectionData"
-    v-styler:product="{ target: $sectionData.product_info }"
   >
     <s-shop-product-main-card
       v-if="product"
+      :hss-sticky-but-button="false"
       :product="product"
       can-buy
-      show-cover
       class="product-view mx-auto text-start"
+      show-cover
       style="max-width: 1650px; font-size: 14px"
-      :hss-sticky-but-button="false"
     />
     <product-info-loading-view v-else-if="busy"></product-info-loading-view>
 
@@ -34,10 +34,10 @@
       class="text-center min-height-40vh widget-hover pointer-pointer d-flex align-items-center justify-center flex-column bg-tiny-checkers"
     >
       <img
+        class="m-3"
+        height="96"
         src="../../../../../Components/assets/icons/product-comparison.svg"
         width="96"
-        height="96"
-        class="m-3"
       />
       <p class="text-h2">Select a product</p>
     </div>
@@ -122,7 +122,7 @@ export default {
     getProductInfo() {
       this.product = null;
 
-      console.log(`getProductInfo ----> `,this.productInfo)
+      console.log(`getProductInfo ----> `, this.productInfo);
       if (!this.productInfo || !this.productInfo.id) return;
 
       this.busy = true;

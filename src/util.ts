@@ -142,8 +142,7 @@ export function iterateOverSectionData(
   data: { [key: string]: any },
   callback: (text: any) => any,
 ): any {
-
-  if(isBoolean(data))return data;// Don't touch boolean values
+  if (isBoolean(data)) return data; // Don't touch boolean values
 
   if (!data) return null;
 

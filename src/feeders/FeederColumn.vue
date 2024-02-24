@@ -17,13 +17,14 @@
     <s-widget-header :title="title" icon="view_agenda"></s-widget-header>
     <v-list-subheader
       >Enter column values here and adjust their size according to your
-      customization preferences.</v-list-subheader
-    >
+      customization preferences.
+    </v-list-subheader>
     <div class="border-between-vertical-white-space">
       <div v-for="(_column, i) in column.columns" :key="i">
         <v-list-subheader>
           <div class="flex-grow-1">
-            <v-icon>arrow_drop_down</v-icon> Contents of sub-column {{ i + 1 }}.
+            <v-icon>arrow_drop_down</v-icon>
+            Contents of sub-column {{ i + 1 }}.
           </div>
           <v-avatar v-if="_column.image?.src" rounded size="42">
             <v-icon v-if="_column.image.src.includes('{{')">tonality</v-icon>
@@ -35,13 +36,15 @@
           v-if="hasTitle(_column)"
           v-model="_column.title"
           label="Title"
+          variant="underlined"
         ></v-text-field>
         <v-textarea
           v-if="hasContent(_column)"
           v-model="_column.content"
-          label="Content"
           :rows="2"
           auto-grow
+          label="Content"
+          variant="underlined"
         ></v-textarea>
 
         <feeder-grid-input
@@ -65,6 +68,7 @@ import FeederImage from "@app-page-builder/src/feeders/FeederImage.vue";
 export default {
   name: "FeederColumn",
   components: { FeederImage, FeederGridInput },
+  emits: ["column:update"],
   props: {
     title: { default: "Column" },
     column: { required: true },

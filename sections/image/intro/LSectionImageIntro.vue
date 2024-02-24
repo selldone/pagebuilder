@@ -16,40 +16,37 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <h2
-        v-styler:text="{target:$sectionData,keyText:'title'}   "
-
-
+        v-styler:text="{ target: $sectionData, keyText: 'title' }"
         class="mb-5 fadeIn delay_100"
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
       <x-uploader
-        class="fadeIn delay_300"
-        :path="`$sectionData.image`"
-        rounded
-        :initial-size="{ max_w: 600, max_h: 600 }"
+        v-model="$sectionData.image"
         :augment="augment"
+        :initial-size="{ max_w: 600, max_h: 600 }"
+        :path="`$sectionData.image`"
+        class="fadeIn delay_300"
+        rounded
       />
 
       <x-row
         :object="$sectionData"
-        path="$sectionData"
-        has-arrangement
         add-column
+        has-arrangement
         has-fluid
+        path="$sectionData"
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
           v-for="(col, index) in $sectionData.columns"
+          :key="`${index}-${$sectionData.columns.length}`"
+          :augment="augment"
           :object="$sectionData.columns[index]"
           :path="`$sectionData.columns[${index}]`"
-          initial-column-layout="x-layout-title-content"
+          :remove-column="() => $sectionData.columns.splice(index, 1)"
           clonable
-          :augment="augment"
-
-          :key="`${index}-${$sectionData.columns.length}`"
-          :remove-column="()=> $sectionData.columns.splice(index, 1)"
-
+          initial-column-layout="x-layout-title-content"
         >
         </x-column-image-text>
         <!-- █████████████████████████████████████████████████████ -->

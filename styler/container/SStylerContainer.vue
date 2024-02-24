@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="container"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="container"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -36,8 +37,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Style & Class
           </v-tooltip>
@@ -48,12 +49,12 @@
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20" dark>fa:fas fa-image</v-icon>
+          <v-icon dark size="20">fa:fas fa-image</v-icon>
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Background Image / Video / Pattern
           </v-tooltip>
@@ -70,8 +71,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Fluid / Limit Width
           </v-tooltip>
@@ -89,7 +90,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 
@@ -99,7 +100,7 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 export default {
   name: "SStylerContainer",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -172,11 +173,11 @@ export default {
 
   methods: {
     showStyleDialog() {
-      this.ShowGlobalBackgroundEditorDialog(this.el, this.target, `background`);
+      this.ShowLSettingsBackground(this.el, this.target, `background`);
     },
 
     showMasterDesignDialog() {
-      this.ShowGlobalStyleEditorDialog(
+      this.ShowLSettingsClassStyle(
         this.el,
         this.el,
         this.target,

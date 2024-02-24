@@ -12,13 +12,20 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
-import SStyler from "./SStyler.vue";
-import {getTypeFromSchema, getTypeFromTagName} from "../src/util";
-import {installGlobalComponents} from "@components/components-mandetory";
-import {isObject, isString} from "lodash-es";
+import {
+  ComponentInstance,
+  createApp,
+  defineComponent,
+  DirectiveBinding,
+  h,
+  ObjectDirective,
+  VNode,
+} from "vue";
+import { getTypeFromSchema, getTypeFromTagName } from "../src/util";
+import { installGlobalComponents } from "@components/components-mandetory";
+import { isObject, isString } from "lodash-es";
 import SelldonePageBuilderCore from "@app-page-builder/src";
-import {Section} from "@app-page-builder/src/section";
+import { Section } from "@app-page-builder/src/section";
 import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
 import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";
 import * as types from "@app-page-builder/src/types";
@@ -143,7 +150,7 @@ const StylerDirective: ObjectDirective<
       getTypeFromTagName(el.tagName);
 
     // Create and mount the Styler component
-    let stylerComponent = SStyler;
+    let stylerComponent = null;
 
     if (argument === "buttons-row") {
       stylerComponent = SStylerButtons;
@@ -165,15 +172,13 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerProduct;
     } else if (argument === "products") {
       stylerComponent = SStylerProducts;
-    }else if (argument === "swiper") {
+    } else if (argument === "swiper") {
       stylerComponent = SStylerSwiper;
-    }else if (argument === "blogs") {
+    } else if (argument === "blogs") {
       stylerComponent = SStylerBlogs;
-    }else if (argument === "marquee") {
+    } else if (argument === "marquee") {
       stylerComponent = SStylerMarquee;
     }
-
-
 
     const StylerComponent = defineComponent({
       extends: stylerComponent as any,
@@ -244,9 +249,9 @@ const StylerDirective: ObjectDirective<
       console.log("Styler directive updated", binding.value, "el", el);
     }
     /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-                   console.log("Styler directive updated", binding.value, "el", el);
-                   Object.assign(el.$instance._component.props, binding.value);
-                 }*/
+                           console.log("Styler directive updated", binding.value, "el", el);
+                           Object.assign(el.$instance._component.props, binding.value);
+                         }*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");

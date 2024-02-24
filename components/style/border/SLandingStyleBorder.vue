@@ -16,28 +16,28 @@
   <div class="d-flex align-center">
     <b class="me-2 min-width-100">{{ label }}</b>
     <s-number-dimension-input
-      label="Width"
       v-model="width"
-      @change="updateOut"
       class="flex-grow-1"
-      variant="underlined"
       hide-details
+      label="Width"
+      variant="underlined"
+      @change="updateOut"
     ></s-number-dimension-input>
     <v-select
-      :items="items"
-      label="Type"
       v-model="type"
-      @update:model-value="updateOut"
+      :items="items"
       class="px-2"
-      variant="underlined"
       flat
       hide-details
+      label="Type"
+      variant="underlined"
+      @update:model-value="updateOut"
     ></v-select>
     <s-color-selector
       v-model="color"
-      @change="updateOut"
       class="flex-grow-0 ms-2"
       mode="rgba"
+      @change="updateOut"
     ></s-color-selector>
   </div>
 </template>
@@ -103,7 +103,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

@@ -14,10 +14,10 @@
 
 <template>
   <v-row
-    :align="object.row ? object.row.align : 'center'"
-    :justify="object.row ? object.row.justify : 'space-around'"
-    :class="{ '-no-wrap': hasWrap && object.row?.no_wrap }"
     v-styler:row="rowBinding"
+    :align="object.row ? object.row.align : 'center'"
+    :class="{ '-no-wrap': hasWrap && object.row?.no_wrap }"
+    :justify="object.row ? object.row.justify : 'space-around'"
     class="x--row"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -55,7 +55,6 @@ export default defineComponent({
 
   props: {
     object: { required: true },
-    path: { required: true /*Required for v-styler*/ },
 
     addColumn: {
       type: Boolean,
@@ -105,7 +104,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .x--row {
   &.-no-wrap {
     flex-wrap: nowrap;

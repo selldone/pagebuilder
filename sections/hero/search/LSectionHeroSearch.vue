@@ -17,10 +17,10 @@
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
-        path="$sectionData"
+        class="min-h-100"
         has-arrangement
         has-fluid
-        class="min-h-100"
+        path="$sectionData"
       >
         <v-col
           v-styler:column="{ target: $sectionData.columns[0] }"
@@ -40,44 +40,44 @@
 
           <h1
             v-styler:text="{ target: $sectionData, keyText: 'title' }"
+            class="mb-2 fadeIn delay_100"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-2 fadeIn delay_100"
           />
 
           <p
             v-styler:text="{ target: $sectionData, keyText: 'content' }"
+            class="mb-4 fadeIn delay_300"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-4 fadeIn delay_300"
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ Start Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
           <s-storefront-search-box
-            :shop-name="getShop() && getShop().name"
-            class="fadeIn delay_300"
-            @onSearch="onSearch"
-            :solo="$sectionData.search.solo"
-            :flat="$sectionData.search.flat"
-            :outlined="$sectionData.search.outlined"
-            :dark="$sectionData.search.dark"
+            v-styler:input="$sectionData.search"
             :background-color="$sectionData.search.backgroundColor"
             :color="$sectionData.search.color"
+            :dark="$sectionData.search.dark"
             :filled="$sectionData.search.filled"
-            :rounded="$sectionData.search.rounded"
-            :placeholder="$sectionData.search.placeholder"
+            :flat="$sectionData.search.flat"
+            :hint="$sectionData.search.hint"
             :label="$sectionData.search.label"
             :messages="$sectionData.search.messages"
-            :hint="$sectionData.search.hint"
+            :outlined="$sectionData.search.outlined"
             :persistent-placeholder="$sectionData.search.persistentPlaceholder"
-            :single-line="false"
-            no-qr
-            block
+            :placeholder="$sectionData.search.placeholder"
             :readonly="$builder.isEditing"
+            :rounded="$sectionData.search.rounded"
+            :shop-name="getShop() && getShop().name"
+            :single-line="false"
+            :solo="$sectionData.search.solo"
+            block
+            class="fadeIn delay_300"
             expand-input
-            v-styler:input="$sectionData.search"
+            no-qr
+            @onSearch="onSearch"
           ></s-storefront-search-box>
 
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ End Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
@@ -101,10 +101,10 @@
 
           <p
             v-styler:text="{ target: $sectionData, keyText: 'content2' }"
+            class="my-5 fadeIn delay_500"
             v-html="
               $sectionData.content2?.applyAugment(augment, $builder.isEditing)
             "
-            class="my-5 fadeIn delay_500"
           />
         </v-col>
       </x-row>

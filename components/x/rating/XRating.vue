@@ -16,9 +16,9 @@
   <v-rating
     v-if="value"
     :model-value="value"
+    color="amber"
     density="compact"
     readonly
-    color="amber"
   ></v-rating>
 </template>
 
@@ -34,4 +34,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

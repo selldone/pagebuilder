@@ -16,50 +16,50 @@
     <ul v-for="(colors, i) in list" :key="i" class="colorer">
       <li v-for="color_plate in colors" :key="color_plate">
         <input
-          :style="{ background: color_plate }"
-          type="radio"
           :checked="modelValue === color_plate"
+          :style="{ background: color_plate }"
           :value="color_plate"
+          type="radio"
           @change="setBackground(color_plate)"
         />
         <v-tooltip
           activator="parent"
-          location="bottom"
           content-class="bg-black white--text"
+          location="bottom"
           >{{ color_plate }}
         </v-tooltip>
       </li>
 
       <v-btn
         v-if="i === 0"
-        icon
         class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-        @click="showColorDialog(modelValue, setBackground, true)"
+        icon
         size="30"
+        @click="showColorDialog(modelValue, setBackground, true)"
       >
         <v-icon :color="modelValue" size="20">adjust</v-icon>
 
         <v-tooltip
           activator="parent"
-          location="bottom"
           content-class="bg-black white--text"
+          location="bottom"
           >Set Custom Color
         </v-tooltip>
       </v-btn>
       <v-btn
         v-if="i === list.length - 1"
-        icon
         class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-        @click="setBackground(null)"
-        size="30"
         color="#fff"
+        icon
+        size="30"
+        @click="setBackground(null)"
       >
         <v-icon size="20">close</v-icon>
 
         <v-tooltip
           activator="parent"
-          location="bottom"
           content-class="bg-black white--text"
+          location="bottom"
           >Clear Color
         </v-tooltip>
       </v-btn>
@@ -68,11 +68,11 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 
 export default defineComponent({
   name: "SStylerToolsColors",
-  mixins: [LandingHistoryMixin],
+  mixins: [LMixinsEvents],
   emits: ["update:modelValue"],
   props: {
     lightColors: Array,
@@ -92,7 +92,7 @@ export default defineComponent({
 
   methods: {
     showColorDialog(color, callback, alpha) {
-      this.showGlobalColorSelectorDialog(this.el, color, callback, alpha);
+      this.ShowLSettingsColor(this.el, color, callback, alpha);
     },
     setBackground(color) {
       this.$emit("update:modelValue", color);
@@ -101,4 +101,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

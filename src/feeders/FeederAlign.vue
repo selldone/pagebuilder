@@ -14,17 +14,17 @@
 
 <template>
   <v-btn-toggle
-    :model-value="value"
-    @update:model-value="(val) => $emit('input', val)"
+    :model-value="modelValue"
     class="m-3"
     selected-class="blue-flat"
+    @update:model-value="(val) => $emit('update:modelValue', val)"
   >
     <v-btn
       v-for="it in ALIGN"
       :key="it.val"
-      :value="it.val"
       :caption="it.title"
       :title="it.title"
+      :value="it.val"
       class="sub-caption -hover b-12px"
       icon
     >
@@ -38,9 +38,10 @@ import ALIGN from "@app-page-builder/src/enums/ALIGN";
 
 export default {
   name: "FeederAlign",
+  emits: ["update:modelValue"],
   components: {},
   props: {
-    value: {},
+    modelValue: {},
   },
   data: () => {
     return {

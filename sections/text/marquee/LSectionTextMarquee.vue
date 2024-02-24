@@ -14,10 +14,11 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
+    v-styler:marquee="{
+      target: $sectionData.text_loop,
+      keyMarquee: 'text_loop',
+    }"
     :object="$sectionData"
-    path="$sectionData"
-    class="-x-infinite-sec"
-    v-styler:marquee="{target:$sectionData.text_loop,keyMarquee:'text_loop'}"
     :style="{
       '--height': $sectionData.text_loop?.height
         ? $sectionData.text_loop?.height
@@ -28,6 +29,8 @@
       '--font-size': $sectionData.text_loop?.font_size,
       '--font-color': $sectionData.text_loop?.font_color,
     }"
+    class="-x-infinite-sec"
+    path="$sectionData"
   >
     <marquee-slider
       :id="marquee_id"
@@ -36,13 +39,13 @@
           ? $sectionData.text_loop?.duration
           : '10s'
       "
-      auto-width
       :reverse="!!$sectionData.text_loop?.reverse"
+      auto-width
       style="min-width: 100%"
     >
       <div
-        v-html="$sectionData.text_loop?.html"
         class="-x-infinite-content"
+        v-html="$sectionData.text_loop?.html"
       ></div>
     </marquee-slider>
   </x-section>
@@ -90,7 +93,7 @@ export default {
   }),
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .-x-infinite-sec {
   min-height: var(--height);
 
@@ -100,6 +103,7 @@ export default {
   align-items: start;
   justify-content: center;
 }
+
 .-x-infinite-content {
   white-space: nowrap;
   font-size: var(--font-size);

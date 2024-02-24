@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-count-down v-if="end" :end="end.convertToLocalDate()"> </s-count-down>
+  <s-count-down v-if="end" :end="end.convertToLocalDate()"></s-count-down>
 </template>
 
 <script>
@@ -29,4 +29,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

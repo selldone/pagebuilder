@@ -14,60 +14,55 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
-    :object="$sectionData"
-    path="$sectionData"
-    class="pa-0"
+    v-if="show"
     v-styler:swiper="{
       target: $sectionData,
       keySlide: 'slide',
       hasThumbnail: true,
     }"
-    v-if="show"
+    :object="$sectionData"
+    class="pa-0"
+    path="$sectionData"
   >
     <!-- ████████████████████████ Main ████████████████████████ -->
     <swiper
-      @swiper="onMainSwiperInitialized"
-      @realIndexChange="(s) => (realIndex = s.realIndex)"
-      :modules="modules"
-      :thumbs="{ swiper: thumbsSwiper }"
+      ref="main_swiper_ref"
       :allow-touch-move="allow_touch_move"
-      :direction="SLIDE_DATA.direction ? SLIDE_DATA.direction : 'horizontal'"
-      :loop="SLIDE_DATA.loop"
-      :centered-slides="SLIDE_DATA.centeredSlides"
-      :keyboard="keyboard"
-      :slides-per-view="calcSlidesPerView()"
-      :slides-per-group="
-        SLIDE_DATA.slidesPerGroup !== 'auto'
-          ? SLIDE_DATA.slidesPerGroup
-          : 1
-      "
-      :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
-      :grid="SLIDE_DATA.grid"
-      :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
-      :initial-slide="SLIDE_DATA.initialSlide"
-      slide-to-clicked-slide
-      :navigation="navigation"
-      :effect="SLIDE_DATA.effect"
-      :pagination="pagination"
       :auto-height="
         SLIDE_DATA.autoHeight !== undefined ? SLIDE_DATA.autoHeight : false
       "
       :autoplay="autoplay"
-      :grab-cursor="SLIDE_DATA.grabCursor"
+      :centered-slides="SLIDE_DATA.centeredSlides"
       :cubeEffect="{
         shadow: true,
         slideShadows: true,
         shadowOffset: 20,
         shadowScale: 0.94,
       }"
+      :direction="SLIDE_DATA.direction ? SLIDE_DATA.direction : 'horizontal'"
+      :effect="SLIDE_DATA.effect"
+      :grab-cursor="SLIDE_DATA.grabCursor"
+      :grid="SLIDE_DATA.grid"
       :height="SLIDE_DATA.height"
+      :initial-slide="SLIDE_DATA.initialSlide"
+      :keyboard="keyboard"
+      :loop="SLIDE_DATA.loop"
+      :modules="modules"
+      :navigation="navigation"
+      :pagination="pagination"
+      :slides-per-group="
+        SLIDE_DATA.slidesPerGroup !== 'auto' ? SLIDE_DATA.slidesPerGroup : 1
+      "
+      :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
+      :slides-per-view="calcSlidesPerView()"
+      :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
       :style="{ height: SLIDE_DATA.height }"
-      ref="main_swiper_ref"
+      :thumbs="{ swiper: thumbsSwiper }"
+      slide-to-clicked-slide
+      @realIndexChange="(s) => (realIndex = s.realIndex)"
+      @swiper="onMainSwiperInitialized"
     >
-      <swiper-slide
-        v-for="(_slide, index) in SLIDE_DATA.items"
-        :key="index"
-      >
+      <swiper-slide v-for="(_slide, index) in SLIDE_DATA.items" :key="index">
         <!-- 📹 Background video -->
         <video-background
           v-if="_slide.container?.background?.bg_video"
@@ -76,26 +71,27 @@
         </video-background>
 
         <div
-          class="position-relative h-100"
+          :class="[realIndex === index ? SLIDE_DATA.active : null]"
           :index="index"
           :style="[backgroundStyle(_slide.background)]"
-          :class="[realIndex === index ? SLIDE_DATA.active : null]"
+          class="position-relative h-100"
         >
           <!-- ----------------- Image Layer ----------------- -->
 
           <x-uploader
-            :path="`$sectionData.slide.items[${index}].image`"
-            :class="{ pen: !$section.lock }"
-            style="min-height: 100%; min-width: 100%; max-height: 100%"
+            v-model="_slide.image"
             :augment="augment"
+            :class="{ pen: !$section.lock }"
+            :path="`$sectionData.slide.items[${index}].image`"
+            style="min-height: 100%; min-width: 100%; max-height: 100%"
           />
 
           <!-- ----------------- Text Layer ----------------- -->
           <div
-            class="abs-container container"
-            style="z-index: 100"
-            :index="index"
-            :container-styler="true"
+            v-styler:container="{
+              target: $sectionData.slide.items[index].container,
+              hasFluid: true,
+            }"
             :class="[
               _slide.container.classes,
               {
@@ -104,12 +100,12 @@
                   : false,
               },
             ]"
+            :container-styler="true"
+            :index="index"
             :style="[_slide.container.style]"
-            v-styler:container="{
-              target: $sectionData.slide.items[index].container,
-              hasFluid: true,
-            }"
+            class="abs-container container"
             clonable="true"
+            style="z-index: 100"
             @click="
               $builder.onClickClone($event, _slide.container, [
                 'classes',
@@ -119,15 +115,15 @@
             "
           >
             <v-row
-              no-gutters
-              :index="index"
-              :align="_slide.row ? _slide.row.align : 'center'"
-              :justify="_slide.row ? _slide.row.justify : 'start'"
               v-styler:row="{
                 target: $sectionData.slide.items[index],
                 hasArrangement: true,
                 hasFluid: true,
               }"
+              :align="_slide.row ? _slide.row.align : 'center'"
+              :index="index"
+              :justify="_slide.row ? _slide.row.justify : 'start'"
+              no-gutters
             >
               <div>
                 <h2
@@ -135,20 +131,20 @@
                     target: $sectionData.slide.items[index],
                     keyText: 'title',
                   }"
+                  :index="index"
                   v-html="
                     _slide.title?.applyAugment(augment, $builder.isEditing)
                   "
-                  :index="index"
                 />
                 <p
                   v-styler:text="{
                     target: $sectionData.slide.items[index],
                     keyText: 'subtitle',
                   }"
+                  :index="index"
                   v-html="
                     _slide.subtitle?.applyAugment(augment, $builder.isEditing)
                   "
-                  :index="index"
                 ></p>
 
                 <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -158,11 +154,11 @@
                   v-styler:button="{
                     target: $sectionData.slide.items[index].button,
                   }"
-                  :index="index"
-                  :btn-data="_slide.button"
-                  class="m-2 z2"
-                  :editing="$builder.isEditing"
                   :augment="augment"
+                  :btn-data="_slide.button"
+                  :editing="$builder.isEditing"
+                  :index="index"
+                  class="m-2 z2"
                 >
                 </x-button>
                 <v-slide-x-reverse-transition
@@ -170,30 +166,30 @@
                   hide-on-leave
                 >
                   <v-btn
-                    key="add"
                     v-if="!_slide.button"
-                    variant="flat"
+                    key="add"
+                    class="z2"
                     color="success"
+                    icon
+                    variant="flat"
                     @click.stop="
                       _slide.button = getInstance(types.Button);
                       $forceUpdate();
                     "
-                    class="z2"
-                    icon
                   >
                     <v-icon>add</v-icon>
                   </v-btn>
                   <v-btn
-                    key="del"
                     v-else
-                    variant="flat"
-                    color="red"
+                    key="del"
                     class="z2"
+                    color="red"
+                    icon
+                    variant="flat"
                     @click.stop="
                       _slide.button = null;
                       $forceUpdate();
                     "
-                    icon
                   >
                     <v-icon>close</v-icon>
                   </v-btn>
@@ -208,20 +204,20 @@
 
     <!-- ████████████████████████ Thumbnail ████████████████████████ -->
     <swiper
-      @swiper="onThumbnailSwiperInitialized"
       v-if="SLIDE_DATA.thumbnail?.enable"
       :allow-touch-move="allow_touch_move"
+      :centered-slides="true"
+      :loop="SLIDE_DATA.loop"
       :slide-to-clicked-slide="true"
       :slides-per-view="thumbnail_slides_per_view"
       :space-between="10"
-      :centered-slides="true"
-      :loop="SLIDE_DATA.loop"
+      @swiper="onThumbnailSwiperInitialized"
     >
       <swiper-slide
         v-for="(slide, index) in SLIDE_DATA.items"
         :key="index"
-        :style="{ height: SLIDE_DATA.heightThumbs }"
         :class="{ pp: swiperOptionThumbs.allowTouchMove }"
+        :style="{ height: SLIDE_DATA.heightThumbs }"
       >
         <div
           :class="[
@@ -239,26 +235,26 @@
               target: $sectionData.slide.items[index],
               keyText: 'thumb_title',
             }"
+            :index="index"
             v-html="
               $sectionData.slide.items[index].thumb_title?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            :index="index"
           />
           <p
             v-styler:text="{
               target: $sectionData.slide.items[index],
               keyText: 'thumb_subtitle',
             }"
+            :index="index"
             v-html="
               $sectionData.slide.items[index].thumb_subtitle?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            :index="index"
           ></p>
         </div>
       </swiper-slide>

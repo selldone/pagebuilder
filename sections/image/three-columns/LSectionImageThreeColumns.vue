@@ -15,7 +15,12 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
-      <x-row :object="$sectionData" path="$sectionData" has-arrangement has-fluid>
+      <x-row
+        :object="$sectionData"
+        has-arrangement
+        has-fluid
+        path="$sectionData"
+      >
         <!-- ██████████████████████ Column A ██████████████████████ -->
 
         <x-column :object="$sectionData.columnA" path="$sectionData.columnA">
@@ -23,19 +28,17 @@
 
           <x-row
             :object="$sectionData.columnA"
-            path="$sectionData.columnA"
             add-column
+            path="$sectionData.columnA"
           >
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnA.columns"
+              :key="`${index}-${$sectionData.columnA.length}`"
+              :augment="augment"
               :object="$sectionData.columnA.columns[index]"
               :path="`$sectionData.columnA.columns[${index}]`"
-              :augment="augment"
-
-              :key="`${index}-${$sectionData.columnA.length}`"
-              :remove-column="()=> $sectionData.columns.splice(index, 1)"
-
+              :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>
@@ -47,19 +50,17 @@
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Row ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
           <x-row
             :object="$sectionData.columnB"
-            path="$sectionData.columnB"
             add-column
+            path="$sectionData.columnB"
           >
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnB.columns"
+              :key="`${index}-${$sectionData.columnB.length}`"
+              :augment="augment"
               :object="$sectionData.columnB.columns[index]"
               :path="`$sectionData.columnB.columns[${index}]`"
-              :augment="augment"
-
-              :key="`${index}-${$sectionData.columnB.length}`"
-              :remove-column="()=> $sectionData.columns.splice(index, 1)"
-
+              :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>
@@ -71,18 +72,17 @@
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Row ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
           <x-row
             :object="$sectionData.columnC"
-            path="$sectionData.columnC"
             add-column
+            path="$sectionData.columnC"
           >
             <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
             <x-column-image-text
               v-for="(col, index) in $sectionData.columnC.columns"
+              :key="`${index}-${$sectionData.columnC.length}`"
+              :augment="augment"
               :object="$sectionData.columnC.columns[index]"
               :path="`$sectionData.columnC.columns[${index}]`"
-              :augment="augment"
-
-              :key="`${index}-${$sectionData.columnC.length}`"
-              :remove-column="()=> $sectionData.columns.splice(index, 1)"
+              :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>

@@ -15,14 +15,18 @@
 <template>
   <component
     :is="noGrid ? 'div' : 'v-col'"
-    v-styler:column="{target:object,hasCustomLayout:hasCustomLayout,removeColumn:removeColumn}"
+    v-data-x="object.style"
+    v-styler:column="{
+      target: object,
+      hasCustomLayout: hasCustomLayout,
+      removeColumn: removeColumn,
+    }"
     :class="[
       !noGrid ? calcGridClasses(object.grid) : undefined,
       object.classes,
     ]"
-    :style="[object.style, backgroundStyle(object.background)]"
-    v-init-data-attribute="object.style"
     :clonable="clonable"
+    :style="[object.style, backgroundStyle(object.background)]"
     @click="copyStyle"
   >
     <!-- 📹 Background video -->
@@ -42,16 +46,16 @@ import VideoBackground from "@app-page-builder/sections/components/VideoBackgrou
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import XMixin from "@app-page-builder/mixins/XMixin";
 import { defineComponent } from "vue";
+import DataXDirective from "@app-page-builder/directives/DataXDirective";
 
 export default defineComponent({
   name: "XColumn",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective, "data-x": DataXDirective },
   mixins: [XMixin],
   components: { VideoBackground },
 
   props: {
     object: { required: true },
-    path: { required: true /*Required for v-styler*/ },
     clonable: { default: false, type: Boolean },
     noGrid: {
       /*No grid: Grid do not apply to the column here, but apply in it's parent which is column! It useful to have margin and it act like a card.*/
@@ -68,9 +72,7 @@ export default defineComponent({
       type: Function,
     },
   },
-  created() {
-
-  },
+  created() {},
 
   methods: {
     copyStyle(event) {

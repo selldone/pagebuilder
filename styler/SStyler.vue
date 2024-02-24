@@ -17,13 +17,10 @@
     v-if="$builder.isEditing"
     id="styler"
     ref="styler"
-    class="styler"
-    @click.stop=""
     :class="[
       {
         'is-visible': isVisible,
         /* && !other_styler_open !==  type*/ /*Prevent open style with samy view type to make inline editor simple!*/ '-dot -red':
-
           type === 'row-grid',
         '-dot -amber': type === 'container',
 
@@ -39,8 +36,10 @@
       },
       PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
     ]"
+    class="styler"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
+    @click.stop=""
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -59,14 +58,14 @@
       >
         <li>
           <button
+            :title="type === 'button' ? 'Delete button' : 'Delete column'"
             class="styler-button"
             @click="removeItem"
-            :title="type === 'button' ? 'Delete button' : 'Delete column'"
           >
             <v-icon color="red" size="20">close</v-icon>
           </button>
         </li>
-        <v-divider class="mx-2" vertical dark inset></v-divider>
+        <v-divider class="mx-2" dark inset vertical></v-divider>
       </template>
 
       <!-- ―――――――――――――――――― Custom Layout (XColumn) ―――――――――――――――――― -->
@@ -74,10 +73,10 @@
       <li v-if="type === 'grid' && hasAttribute('has-custom-layout')">
         <button
           class="styler-button"
-          @click="showCustomLayout"
           title="Customize Layout"
+          @click="showCustomLayout"
         >
-          <v-icon size="20" dark>fit_screen</v-icon>
+          <v-icon dark size="20">fit_screen</v-icon>
         </button>
       </li>
 
@@ -86,8 +85,8 @@
       <li v-if="type === 'section' || type === 'grid' || type === 'container'">
         <button
           class="styler-button"
-          @click="showMasterDesignDialog()"
           title="Size & Class"
+          @click="showMasterDesignDialog()"
         >
           <v-icon dark size="20">architecture</v-icon>
         </button>
@@ -98,10 +97,10 @@
       <li v-if="type === 'section' || type === 'grid' || type === 'container'">
         <button
           class="styler-button"
-          @click="showStyleDialog()"
           title="Background image"
+          @click="showStyleDialog()"
         >
-          <v-icon size="20" dark>fa:fas fa-image</v-icon>
+          <v-icon dark size="20">fa:fas fa-image</v-icon>
         </button>
       </li>
 
@@ -110,8 +109,8 @@
       <li v-if="type === 'button' || type === 'section'">
         <button
           class="styler-button"
-          @click="updateOption('colorer')"
           title="Background color"
+          @click="updateOption('colorer')"
         >
           <SStylerIcon name="palettes" />
         </button>
@@ -120,29 +119,20 @@
       <li v-if="type === 'section'">
         <button
           class="styler-button"
-          @click="updateOption('bg-styler')"
           title="Section style"
+          @click="updateOption('bg-styler')"
         >
-          <v-icon size="20" dark>style</v-icon>
+          <v-icon dark size="20">style</v-icon>
         </button>
       </li>
 
-
-
-
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
-      <li
-        v-if="
-          (
-            type === 'container') &&
-          !blockFluid()
-        "
-      >
+      <li v-if="type === 'container' && !blockFluid()">
         <button
           class="styler-button"
-          @click="container_fluid = !container_fluid"
           title="Fluid container"
+          @click="container_fluid = !container_fluid"
         >
           <v-icon dark size="20"
             >{{ container_fluid ? "swap_horiz" : "compare_arrows" }}
@@ -159,8 +149,8 @@
       >
         <button
           class="styler-button"
-          @click="updateOption('link')"
           title="Link"
+          @click="updateOption('link')"
         >
           <SStylerIcon name="link" />
         </button>
@@ -169,8 +159,8 @@
       <li v-if="type === 'button'">
         <button
           class="styler-button"
-          @click="updateOption('btn-shape')"
           title="Shape"
+          @click="updateOption('btn-shape')"
         >
           <v-icon dark size="20">smart_button</v-icon>
         </button>
@@ -179,8 +169,8 @@
       <li v-if="type === 'button'">
         <button
           class="styler-button"
-          @click="updateOption('btn-size')"
           title="Size"
+          @click="updateOption('btn-size')"
         >
           <v-icon dark size="20">straighten</v-icon>
         </button>
@@ -198,8 +188,8 @@
         >
           <button
             class="styler-button"
-            @click="showCustomProductFrame"
             title="Custom Code"
+            @click="showCustomProductFrame"
           >
             <v-icon color="#fff" size="20"> code</v-icon>
           </button>
@@ -207,8 +197,8 @@
         <li>
           <button
             class="styler-button"
-            @click="showQueryBuilderProducts"
             title="Products & Categories"
+            @click="showQueryBuilderProducts"
           >
             <v-icon color="#fff" size="20"> filter_alt</v-icon>
           </button>
@@ -220,8 +210,8 @@
       <li v-if="type === 'slide'">
         <button
           class="styler-button"
-          @click="showEditSlides"
           title="Slides Setting"
+          @click="showEditSlides"
         >
           <v-icon color="#fff" size="20"> tune</v-icon>
         </button>
@@ -232,8 +222,8 @@
       <li v-if="type === 'blogs'">
         <button
           class="styler-button"
-          @click="showQueryBuilderBlogs"
           title="Blogs"
+          @click="showQueryBuilderBlogs"
         >
           <v-icon color="#fff" size="20"> filter_alt</v-icon>
         </button>
@@ -244,8 +234,8 @@
       <li v-if="type === 'text-loop'">
         <button
           class="styler-button"
-          @click="showQueryBuilderTextLoop"
           title="Text Loop"
+          @click="showQueryBuilderTextLoop"
         >
           <v-icon color="#fff" size="20"> recycling</v-icon>
         </button>
@@ -256,8 +246,8 @@
       <li v-if="type === 'product'">
         <button
           class="styler-button"
-          @click="showSelectProduct"
           title="Select product"
+          @click="showSelectProduct"
         >
           <v-icon color="#fff" size="20"> bento</v-icon>
         </button>
@@ -268,8 +258,8 @@
       <li v-if="type === 'header' || type === 'section'">
         <button
           class="styler-button"
-          @click="removeSection"
           title="Delete section"
+          @click="removeSection"
         >
           <SStylerIcon name="trash" />
         </button>
@@ -280,8 +270,8 @@
         <li>
           <button
             class="styler-button"
-            @click="updateOption('textColor')"
             title="Text Color"
+            @click="updateOption('textColor')"
           >
             <v-icon dark size="20">format_color_text</v-icon>
           </button>
@@ -290,8 +280,8 @@
         <li>
           <button
             class="styler-button"
-            @click="updateOption('text-font')"
             title="Font"
+            @click="updateOption('text-font')"
           >
             <v-icon dark size="20">font_download</v-icon>
           </button>
@@ -300,8 +290,8 @@
         <li v-if="type === 'text' || hasButtonAlign">
           <button
             class="styler-button"
-            @click="updateOption('align')"
             title="Text Align"
+            @click="updateOption('align')"
           >
             <SStylerIcon name="align" />
           </button>
@@ -314,8 +304,8 @@
         <li>
           <button
             class="styler-button"
-            @click="updateOption('textStyle')"
             title="Text style"
+            @click="updateOption('textStyle')"
           >
             <SStylerIcon name="textStyle" />
           </button>
@@ -324,8 +314,8 @@
         <li>
           <button
             class="styler-button"
-            @click="updateOption('text-gradient')"
             title="Text gradient"
+            @click="updateOption('text-gradient')"
           >
             <v-icon dark size="20">gradient</v-icon>
           </button>
@@ -338,48 +328,48 @@
         <v-divider
           v-if="type === 'grid'"
           class="mx-2"
-          vertical
           dark
           inset
+          vertical
         ></v-divider>
         <!-- Row grid use to apply grid to all elements like blogs -->
 
         <li>
           <button
-            class="styler-button"
-            @click="selectDevice('mobile')"
             :class="{ selected: device === 'mobile' }"
+            class="styler-button"
             title="Size on mobile devices."
+            @click="selectDevice('mobile')"
           >
             <SStylerIcon name="mobile" />
           </button>
         </li>
         <li>
           <button
-            class="styler-button"
-            @click="selectDevice('tablet')"
             :class="{ selected: device === 'tablet' }"
+            class="styler-button"
             title="Size on tablet devices."
+            @click="selectDevice('tablet')"
           >
             <SStylerIcon name="tablet" />
           </button>
         </li>
         <li>
           <button
-            class="styler-button"
-            @click="selectDevice('desktop')"
             :class="{ selected: device === 'desktop' }"
+            class="styler-button"
             title="Size on pc devices."
+            @click="selectDevice('desktop')"
           >
             <SStylerIcon name="laptop" />
           </button>
         </li>
         <li>
           <button
-            class="styler-button"
-            @click="selectDevice('widescreen')"
             :class="{ selected: device === 'widescreen' }"
+            class="styler-button"
             title="Size on large display."
+            @click="selectDevice('widescreen')"
           >
             <v-icon dark size="20">tv</v-icon>
           </button>
@@ -390,25 +380,25 @@
       <li v-if="type === 'section' || type === 'button'">
         <button
           class="styler-button"
-          @click="toggleDarkMode()"
           title="Dark / Light"
+          @click="toggleDarkMode()"
         >
           <v-scroll-y-reverse-transition group leave-absolute>
             <v-icon
-              key="1"
-              dark
               v-if="dark_mode"
-              color="#1BD4F2"
+              key="1"
               class="bg-malibu-beach text-gradient"
+              color="#1BD4F2"
+              dark
               size="20"
               >nights_stay
             </v-icon>
             <v-icon
-              key="2"
               v-else
-              dark
-              color="#FFC107"
+              key="2"
               class="bg-sunny-morning text-gradient"
+              color="#FFC107"
+              dark
               size="20"
               >wb_sunny
             </v-icon>
@@ -421,8 +411,8 @@
       <li v-if="type === 'input'">
         <button
           class="styler-button"
-          @click="showInputEditor"
           title="Input Setting"
+          @click="showInputEditor"
         >
           <v-icon color="#fff" size="20"> input</v-icon>
         </button>
@@ -437,8 +427,6 @@
       v-if="!$builder.isAnimation && !$builder.isTracking"
       class="styler-list"
     >
-
-
       <!-- =================================================================================================== -->
 
       <!-- ―――――――――――――――――― Color ―――――――――――――――――― -->
@@ -449,15 +437,15 @@
             <input
               :id="`color${color.charAt(0).toUpperCase() + color.slice(1)}`"
               v-model="colorerColor"
-              type="radio"
-              name="colorer"
               :value="color"
+              name="colorer"
+              type="radio"
             />
           </li>
 
           <v-btn
-            icon
             class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
+            icon
             @click="
               showColorDialog(
                 custom_color_value,
@@ -474,7 +462,7 @@
       <!-- ―――――――――――――――――― Bg styler ―――――――――――――――――― -->
 
       <li v-if="currentOption === 'bg-styler'" style="--bg-color: #323c47">
-        <v-item-group v-model="bgStylerStyle" mandatory dark>
+        <v-item-group v-model="bgStylerStyle" dark mandatory>
           <v-item
             v-for="item in FrameStyles"
             :key="item.code"
@@ -507,30 +495,30 @@
         <ul class="colorer">
           <li v-for="(color, index) in TEXT_COLORS" :key="color">
             <input
+              :style="{ backgroundColor: TEXT_COLORS[index] }"
+              :title="`Color ${index + 1}`"
               :value="color"
-              type="radio"
               name="colorer"
+              type="radio"
               @mousedown="
                 (event) => {
                   execute('forecolor', TEXT_COLORS[index]);
                   event.preventDefault();
                 }
               "
-              :style="{ backgroundColor: TEXT_COLORS[index] }"
-              :title="`Color ${index + 1}`"
             />
           </li>
 
           <v-btn
-            icon
             class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-            @mousedown="openTextColorEdit"
+            icon
             title="Open color dialog."
+            @mousedown="openTextColorEdit"
           >
             <v-icon
               :color="text_color_display"
-              size="20"
               class="hover-scale-small"
+              size="20"
               >circle
             </v-icon>
           </v-btn>
@@ -541,19 +529,19 @@
       <li v-if="currentOption === 'link'">
         <div class="input-group is-rounded has-itemAfter is-primary">
           <v-text-field
-            single-line
-            variant="solo"
-            flat
-            rounded
+            v-model="url"
+            :append-icon="url ? 'link' : 'link_off'"
+            class="english-field mx-2"
             dark
             density="compact"
-            v-model="url"
-            class="english-field mx-2"
-            placeholder="https://..."
+            flat
             messages="● External: https://domain.. ● Internal: /shop"
+            placeholder="https://..."
+            rounded
+            single-line
+            variant="solo"
             @blur="addLink"
             @keydown.enter="addLink"
-            :append-icon="url ? 'link' : 'link_off'"
             @click:append="addLink"
           />
         </div>
@@ -563,21 +551,21 @@
       <li v-if="currentOption === 'btn-shape'">
         <v-btn-toggle
           v-model="btnShapeValue"
-          rounded
-          multiple
-          density="compact"
-          selected-class="blue-flat"
-          dark
           class="mx-1 my-2"
+          dark
+          density="compact"
+          multiple
+          rounded
+          selected-class="blue-flat"
           @update:model-value="setButtonShapeValue()"
         >
           <v-btn
             v-for="shape in BtnShapes"
             :key="shape.val"
-            :value="shape.val"
-            size="small"
-            class="dens-btn sub-caption -hover b-16px"
             :caption="shape.title"
+            :value="shape.val"
+            class="dens-btn sub-caption -hover b-16px"
+            size="small"
           >
             <v-icon size="20">{{ shape.icon }}</v-icon>
           </v-btn>
@@ -588,21 +576,21 @@
       <li v-if="currentOption === 'btn-size'">
         <v-btn-toggle
           v-model="btnSizeValue"
-          rounded
-          mandatory
-          density="compact"
-          selected-class="blue-flat"
-          dark
           class="mx-1 my-2"
+          dark
+          density="compact"
+          mandatory
+          rounded
+          selected-class="blue-flat"
         >
           <v-btn
             v-for="(size, index) in BtnSizes"
             :key="size.val"
-            :value="size.val"
-            size="small"
-            class="dens-btn sub-caption -hover b-16px"
-            @click="setButtonSizeValue(size.val)"
             :caption="size.title"
+            :value="size.val"
+            class="dens-btn sub-caption -hover b-16px"
+            size="small"
+            @click="setButtonSizeValue(size.val)"
           >
             <v-icon :size="10 + 4 * index">lens</v-icon>
           </v-btn>
@@ -618,6 +606,7 @@
             :key="it.val"
           >
             <button
+              :title="getName(it.val)"
               class="styler-button"
               @mousedown="
                 (event) => {
@@ -627,7 +616,6 @@
                   event.preventDefault();
                 }
               "
-              :title="getName(it.val)"
             >
               <v-icon dark size="20">{{ it.icon }}</v-icon>
             </button>
@@ -641,26 +629,27 @@
         <ul class="align">
           <li v-for="it in TextGradients" :key="it">
             <v-btn
+              class="styler-button bordered-dark"
+              height="30"
+              icon
+              width="30"
               @mousedown="
                 (event) => {
                   setElementClass('bg-', it, true);
                   event.preventDefault();
                 }
               "
-              icon
-              width="30"
-              height="30"
-              class="styler-button bordered-dark"
             >
-              <v-icon dark class="text-gradient" :class="'bg-' + it"
+              <v-icon :class="'bg-' + it" class="text-gradient" dark
                 >lens
               </v-icon>
             </v-btn>
           </li>
-          <v-divider class="mx-2" vertical dark inset></v-divider>
+          <v-divider class="mx-2" dark inset vertical></v-divider>
 
           <li>
             <button
+              :title="text_gradient_mode ? 'Foreground' : 'Background'"
               class="styler-button"
               @mousedown="
                 (event) => {
@@ -669,7 +658,6 @@
                   event.preventDefault();
                 }
               "
-              :title="text_gradient_mode ? 'Foreground' : 'Background'"
             >
               <v-icon dark size="20"
                 >{{ text_gradient_mode ? "texture" : "format_color_fill" }}
@@ -683,17 +671,17 @@
 
       <li v-if="currentOption === 'text-font'" class="flex-grow-1">
         <v-select
-            :items="fonts"
-            v-model="text_font"
-            variant="solo"
-            rounded
-            clearable
-            class="mx-2"
-            @update:model-value="setFont"
-            messages=" "
-            placeholder="Select a font..."
+          v-model="text_font"
+          :items="fonts"
+          class="mx-2"
+          clearable
+          messages=" "
+          placeholder="Select a font..."
+          rounded
+          variant="solo"
+          @update:model-value="setFont"
         >
-          <template v-slot:item="{ item,props }">
+          <template v-slot:item="{ item, props }">
             <v-list-item v-bind="props">
               <template v-slot:title>
                 <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
@@ -783,22 +771,22 @@
       <li v-if="currentOption === 'columnWidth'">
         <v-btn-toggle
           v-model="gridValue"
-          rounded
-          mandatory
-          density="compact"
-          selected-class="blue-flat"
-          dark
           class="mx-1 my-2"
+          dark
+          density="compact"
+          mandatory
+          rounded
+          selected-class="blue-flat"
         >
-          <v-btn :value="null" size="small" class="dens-btn">
+          <v-btn :value="null" class="dens-btn" size="small">
             <v-icon size="small">close</v-icon>
           </v-btn>
           <v-btn
             v-for="col in 12"
             :key="col"
             :value="col"
-            size="small"
             class="dens-btn"
+            size="small"
             @click="setGridValue(col)"
           >
             {{ col }}
@@ -817,8 +805,8 @@
       <li>
         <button
           class="styler-button"
-          @click="showAnimationEdit"
           title="Animation"
+          @click="showAnimationEdit"
         >
           <v-icon dark size="20">movie_filter</v-icon>
         </button>
@@ -836,29 +824,29 @@
       <li v-if="!element_id">
         <button
           class="styler-button fadeIn"
-          @click="enableTrackingCode()"
           title="Animation"
+          @click="enableTrackingCode()"
         >
           <v-icon dark size="20">gps_fixed</v-icon>
         </button>
       </li>
 
       <v-text-field
-        variant="solo"
-        density="compact"
-        label="ID"
         v-if="element_id"
         v-model="element_id"
-        clearable
-        @click:clear="setId(null)"
-        @blur="setId(element_id)"
-        dark
-        hide-details
-        flat
-        clear-icon="location_disabled"
-        rounded
         bg-color="#111"
         class="zoomInRight"
+        clear-icon="location_disabled"
+        clearable
+        dark
+        density="compact"
+        flat
+        hide-details
+        label="ID"
+        rounded
+        variant="solo"
+        @blur="setId(element_id)"
+        @click:clear="setId(null)"
       ></v-text-field>
     </ul>
   </div>
@@ -877,7 +865,7 @@ import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuild
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 
 const COLORS = [
   "samin",
@@ -961,7 +949,7 @@ const TextGradients = [
 export default {
   name: "SStyler",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin, LandingHistoryMixin],
+  mixins: [PageBuilderMixin, PageEventBusMixin, LMixinsEvents],
 
   components: {
     SStylerIcon,
@@ -1028,7 +1016,6 @@ export default {
     gridValue: 0,
 
     // ===== Align / Justify =====
-
 
     isVisible: false,
     other_styler_open: null,
@@ -1120,11 +1107,6 @@ export default {
       this.changeColor();
     },
 
-
-
-
-
-
     bgStylerStyle() {
       this.changeBgStyle();
     },
@@ -1153,7 +1135,6 @@ export default {
           this.el.firstChild.classList.contains("text-uppercase");
       }
     }
-
 
     if (this.type === "container") {
       //console.log('created > this.name',this.name,this.section)
@@ -1346,7 +1327,7 @@ export default {
     //================================= Product Filter ===================================
 
     showQueryBuilderProducts() {
-      this.ShowGlobalProductsCategoriesSelectDialog(
+      this.ShowLSettingsProductsFilter(
         this.el,
         this.section,
         this.name,
@@ -1354,34 +1335,34 @@ export default {
     },
 
     showSelectProduct() {
-      this.ShowGlobalProductSelectDialog(this.el, this.section, this.name);
+      this.ShowLSettingsProduct(this.el, this.section, this.name);
     },
 
     showCustomProductFrame() {
-      this.ShowGlobalProductsFrameDialog(this.el, this.section, this.name);
+      this.ShowLSettingsFrame(this.el, this.section, this.name);
     },
     //================================= Slide Show ===================================
 
     showEditSlides() {
-      this.ShowGlobalSlideShowEditorDialog(this.el, this.section, this.name);
+      this.ShowLSettingsSwiper(this.el, this.section, this.name);
     },
 
     //================================= Blogs Filter ===================================
 
     showQueryBuilderBlogs() {
-      this.ShowGlobalBlogsFilterDialog(this.el, this.section, this.name);
+      this.ShowLSettingsBlogs(this.el, this.section, this.name);
     },
 
     //================================= Text Loop ===================================
 
     showQueryBuilderTextLoop() {
-      this.ShowGlobalTextLoopDialog(this.el, this.section, this.name);
+      this.ShowLSettingsMarquee(this.el, this.section, this.name);
     },
 
     //=====================================================================================
     showStyleDialog() {
       if (this.type === "section") {
-        this.ShowGlobalBackgroundEditorDialog(
+        this.ShowLSettingsBackground(
           this.el,
           this.target,
           `background`,
@@ -1389,7 +1370,7 @@ export default {
       } else if (this.type === "grid" /* this.name.includes('[')*/) {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
 
-        this.ShowGlobalBackgroundEditorDialog(
+        this.ShowLSettingsBackground(
           this.el,
           this.target,
           `background`,
@@ -1397,7 +1378,7 @@ export default {
       } /* if (this.type === "container")*/ else {
         const path = this.name;
 
-        this.ShowGlobalBackgroundEditorDialog(
+        this.ShowLSettingsBackground(
           this.el,
           this.target,
           `background`,
@@ -1406,7 +1387,7 @@ export default {
     },
     //=====================================================================================
     showColorDialog(color, callback, alpha) {
-      this.showGlobalColorSelectorDialog(this.el, color, callback, alpha);
+      this.ShowLSettingsColor(this.el, color, callback, alpha);
     },
     //=====================================================================================
 
@@ -1535,9 +1516,11 @@ export default {
     },
 
     addClass(className) {
-
-      if(Array.isArray(this.bindingValue.classes) && !this.bindingValue.classes.includes(className))
-      this.bindingValue.classes.push(className);
+      if (
+        Array.isArray(this.bindingValue.classes) &&
+        !this.bindingValue.classes.includes(className)
+      )
+        this.bindingValue.classes.push(className);
 
       return;
       //console.log("addClass", className);
@@ -1566,9 +1549,13 @@ export default {
         });
       }
 
-      console.log("removeClass > value ",this.name,'className',className)
-      if(!Array.isArray(this.bindingValue.classes)) {
-        console.error("removeClass > value ",'classes',this.bindingValue.classes)
+      console.log("removeClass > value ", this.name, "className", className);
+      if (!Array.isArray(this.bindingValue.classes)) {
+        console.error(
+          "removeClass > value ",
+          "classes",
+          this.bindingValue.classes,
+        );
         return;
       }
 
@@ -1578,12 +1565,11 @@ export default {
       });
       return;
 
-
       this.section.set(this.name, (value) => {
         if (value && value.classes && Array.isArray(value.classes)) {
           value = value.classes;
         }
-        if(!Array.isArray(value)) return;
+        if (!Array.isArray(value)) return;
 
         let splices = [];
         let i = 0;
@@ -1814,13 +1800,11 @@ export default {
         const position =
           this.$props.type === "section"
             ? "left-start"
-
-                  : this.$props.type === "container"
-                    ? "right-center"
-                    : this.$props.type === "grid" ||
-                        this.$props.type === "row-grid"
-                      ? "bottom"
-                      : "top";
+            : this.$props.type === "container"
+              ? "right-center"
+              : this.$props.type === "grid" || this.$props.type === "row-grid"
+                ? "bottom"
+                : "top";
 
         this.popper = new Popper(this.el, this.$refs.styler, {
           placement: position,
@@ -1923,7 +1907,7 @@ export default {
     showMasterDesignDialog() {
       //  console.log('showMasterDesignDialog',this.name)
       if (this.type === "section") {
-        this.ShowGlobalStyleEditorDialog(
+        this.ShowLSettingsClassStyle(
           this.el,
           this.el,
           this.target,
@@ -1934,7 +1918,7 @@ export default {
         // Class and style is in the same level of grid!!! not it's child!
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
 
-        this.ShowGlobalStyleEditorDialog(
+        this.ShowLSettingsClassStyle(
           this.el,
           this.el,
           this.target,
@@ -1944,7 +1928,7 @@ export default {
       } /* if (this.type === "container")*/ else {
         const path = this.name;
 
-        this.ShowGlobalStyleEditorDialog(
+        this.ShowLSettingsClassStyle(
           this.el,
           this.el,
           this.target,
@@ -1959,7 +1943,7 @@ export default {
 
     showAnimationEdit() {
       if (this.type === "section") {
-        this.ShowGlobalAnimationEditorDialog(
+        this.ShowLSettingsAnimation(
           this.el,
           this.el,
           this.section,
@@ -1969,7 +1953,7 @@ export default {
       } else if (this.type === "grid") {
         const column_path = this.name.substring(0, this.name.lastIndexOf("."));
 
-        this.ShowGlobalAnimationEditorDialog(
+        this.ShowLSettingsAnimation(
           this.el,
           this.el,
           this.section,
@@ -1989,12 +1973,12 @@ export default {
         classes = this.section.get(`${column_path}.classes`);
         style = this.section.get(`${column_path}.style`);
       }
-      return StylerHelper.GetAnimationClassesDetail(classes, style);
+      //  return StylerHelper.GetAnimationClassesDetail(classes, style);
     },
     //----------------------------------------------------------------------------
 
     showInputEditor() {
-      this.ShowGlobalInputEditorDialog(this.el, this.target);
+      this.ShowLSettingsInput(this.el, this.target);
     },
     //----------------------------------------------------------------------------
     openTextColorEdit(event) {
@@ -2078,30 +2062,19 @@ export default {
       this.el.classList.remove("highlight-blueprint");
     },
 
-
-
     //------------------------------------------------------------------
 
     /**
      * SectionSlideShow | Edit slides
      */
     showCustomLayout() {
-      this.ShowSLandingToolsColumnLayout(
-        this.el,
-        this.section,
-        this.name,
-      );
+      this.ShowLSettingsColumn(this.el, this.section, this.name);
     },
-
-
-
-
   },
 };
 </script>
 
 <style lang="scss">
-
 $dark: #323c47;
 $white: #fff;
 
@@ -2216,7 +2189,6 @@ $white: #fff;
       border-color: lighten($dark, 20%);
     }
 
-
     // Repeat for other colors with appropriate variable or custom value
   }
 }
@@ -2225,12 +2197,11 @@ $white: #fff;
   display: none;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 </style>
 
 <style lang="scss">

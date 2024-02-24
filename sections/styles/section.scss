@@ -24,12 +24,29 @@
     margin-right: auto;
     max-width: 1200px;
 
-    &.h1 { font-size: var(--h1-font-size); }
-    &.h2 { font-size: var(--h2-font-size); }
-    &.h3 { font-size: var(--h3-font-size); }
-    &.h4 { font-size: var(--h4-font-size); }
-    &.h5 { font-size: var(--h5-font-size); }
-    &.h6 { font-size: var(--h6-font-size); }
+    &.h1 {
+      font-size: var(--h1-font-size);
+    }
+
+    &.h2 {
+      font-size: var(--h2-font-size);
+    }
+
+    &.h3 {
+      font-size: var(--h3-font-size);
+    }
+
+    &.h4 {
+      font-size: var(--h4-font-size);
+    }
+
+    &.h5 {
+      font-size: var(--h5-font-size);
+    }
+
+    &.h6 {
+      font-size: var(--h6-font-size);
+    }
   }
 
   p {
@@ -58,8 +75,6 @@
   }
 
 
-
-
   .section {
     padding: 20px 30px;
     text-align: center;
@@ -85,6 +100,10 @@
       transition: all 0.35s linear;
     }
 
+    img {
+      transition: all 0.35s ease-in-out;
+    }
+
     section {
       &:hover {
         z-index: 100;
@@ -92,6 +111,7 @@
 
       &.is-blur {
         filter: grayscale(100%) opacity(0.5);
+
         &:hover {
           filter: none;
         }
@@ -113,19 +133,19 @@
 
 
   // Old style: (Depricated)
- /*section{
-   &.is-samin { background: var(--plate-light-1); color: #fff; }
-   &.is-red { background: var(--plate-light-2); color: #fff; }
-   &.is-black { background: var(--plate-light-3); color: #fff; }
-   &.is-green { background: var(--plate-light-4); color: #fff; }
-   &.is-blue { background: var(--plate-light-5); color: #fff; }
-   &.is-white { background: var(--plate-light-6); color: #fff; }
-   &.is-deep-purple { background: var(--plate-light-7); color: #fff; }
-   &.is-teal { background: var(--plate-light-8); color: #fff; }
-   &.is-cyan { background: var(--plate-light-9); color: #fff; }
-   &.is-amber { background: var(--plate-light-10); }
-   &.is-pink { background: #C2185B; color: #fff; }
-   &.is-blue-grey { background: var(--plate-light-11); color: #fff; }
-   &.is-transparent { background: transparent; }
- }*/
+  /*section{
+    &.is-samin { background: var(--plate-light-1); color: #fff; }
+    &.is-red { background: var(--plate-light-2); color: #fff; }
+    &.is-black { background: var(--plate-light-3); color: #fff; }
+    &.is-green { background: var(--plate-light-4); color: #fff; }
+    &.is-blue { background: var(--plate-light-5); color: #fff; }
+    &.is-white { background: var(--plate-light-6); color: #fff; }
+    &.is-deep-purple { background: var(--plate-light-7); color: #fff; }
+    &.is-teal { background: var(--plate-light-8); color: #fff; }
+    &.is-cyan { background: var(--plate-light-9); color: #fff; }
+    &.is-amber { background: var(--plate-light-10); }
+    &.is-pink { background: #C2185B; color: #fff; }
+    &.is-blue-grey { background: var(--plate-light-11); color: #fff; }
+    &.is-transparent { background: transparent; }
+  }*/
 }

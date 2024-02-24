@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="swiper"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="swiper"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -36,8 +37,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Slides Setting
           </v-tooltip>
@@ -45,17 +46,16 @@
       </li>
 
       <li>
-        <button class="styler-button" @click="section.lock=!section.lock">
+        <button class="styler-button" @click="section.lock = !section.lock">
           <v-icon color="#fff" size="20">
-            {{ section.lock ? "lock" : "swipe" }}</v-icon
-          >
+            {{ section.lock ? "lock" : "swipe" }}
+          </v-icon>
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text  text-start small"
+            location="bottom"
             max-width="360"
-
           >
             <div>
               <b>
@@ -88,7 +88,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 
@@ -99,7 +99,7 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 export default {
   name: "SStylerSwiper",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -167,12 +167,12 @@ export default {
 
   methods: {
     showEditSlides() {
-      this.ShowGlobalSlideShowEditorDialog(
+      this.ShowLSettingsSwiper(
         this.el,
         this.section,
         this.target,
         this.keySlide,
-          this.hasThumbnail
+        this.hasThumbnail,
       );
     },
   },

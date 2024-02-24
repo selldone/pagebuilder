@@ -14,35 +14,36 @@
 
 <template>
   <div
-    class="side-section"
     :class="{
       '-copy': copy_hover,
       '-delete': delete_hover,
       '-row': ['infinite-stream'].includes(section.name),
     }"
+    class="side-section"
   >
     <!-- ▃▃▃▃▃▃▃▃▃▃ Copy ▃▃▃▃▃▃▃▃▃▃ -->
 
     <v-btn
-      icon
-      variant="text"
-      color="#000"
-      size="large"
       class="hover-scale-small -fast force-top"
+      color="#000"
+      icon
+      size="large"
+      variant="text"
+      @click="$emit('click:copy', section)"
       @mouseenter="copy_hover = true"
       @mouseleave="copy_hover = false"
-      @click="$emit('click:copy', section)"
     >
       <v-icon size="36">content_copy</v-icon>
 
       <v-tooltip
         activator="parent"
+        content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
-        content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block"
-          ><v-icon class="me-1">content_copy</v-icon> Copy Section Now!</b
+        <b class="d-block">
+          <v-icon class="me-1">content_copy</v-icon>
+          Copy Section Now!</b
         >
         <div>
           When you click here, this section structure and data will be copied,
@@ -54,22 +55,22 @@
     <v-spacer></v-spacer>
 
     <v-btn
-      icon
-      variant="text"
-      color="red"
-      size="large"
       class="hover-scale-small -fast force-top"
+      color="red"
+      icon
+      size="large"
+      variant="text"
+      @click="$emit('click:delete', section)"
       @mouseenter="delete_hover = true"
       @mouseleave="delete_hover = false"
-      @click="$emit('click:delete', section)"
     >
       <v-icon size="36">close</v-icon>
 
       <v-tooltip
         activator="parent"
+        content-class="bg-red pa-3 text-start small"
         location="left"
         max-width="420"
-        content-class="bg-red pa-3 text-start small"
         text="Delete Section"
       >
       </v-tooltip>
@@ -81,23 +82,24 @@
 
     <v-btn
       v-if="$route.params.shop_id /*Only in shop admin dashboard!*/"
-      icon
-      variant="text"
-      color="#000"
       class="hover-scale-small -fast force-top mb-1"
+      color="#000"
+      icon
       size="large"
+      variant="text"
       @click="$emit('click:save', section)"
     >
       <v-icon size="36">save</v-icon>
 
       <v-tooltip
         activator="parent"
+        content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
-        content-class="bg-black pa-3 text-start small"
       >
-        <b class="d-block"
-          ><v-icon class="me-1">save</v-icon> Save & Reuse This Section</b
+        <b class="d-block">
+          <v-icon class="me-1">save</v-icon>
+          Save & Reuse This Section</b
         >
         <div>Save this section to my repository for use on other pages.</div>
       </v-tooltip>
@@ -106,30 +108,33 @@
     <!-- ▃▃▃▃▃▃▃▃▃▃ Past ▃▃▃▃▃▃▃▃▃▃ -->
 
     <v-btn
-      icon
-      variant="text"
-      color="#000"
       class="hover-scale-small -fast"
+      color="#000"
+      icon
       size="large"
+      variant="text"
+      @click="$emit('click:past', section)"
       @mouseenter="$emit('update:pastHoverIndex', sectionIndex)"
       @mouseleave="$emit('update:pastHoverIndex', null)"
-      @click="$emit('click:past', section)"
     >
       <v-icon size="36">content_paste</v-icon>
 
       <v-tooltip
         activator="parent"
+        content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
-        content-class="bg-black pa-3 text-start small"
       >
-        <b><v-icon class="me-1">content_paste</v-icon> Ctrl + V Now!</b>
+        <b>
+          <v-icon class="me-1">content_paste</v-icon>
+          Ctrl + V Now!</b
+        >
         <v-chip
-          color="green"
-          variant="tonal"
           v-if="copySection"
           class="ma-1"
+          color="green"
           size="small"
+          variant="tonal"
         >
           <v-icon color="success" size="x-small" start>circle</v-icon>
           Copy available
@@ -148,11 +153,11 @@
 <script>
 import { defineComponent } from "vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
+import { LMixinsHistory } from "@app-page-builder/mixins/history/LMixinsHistory";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
-  mixins: [PageBuilderMixin, LandingHistoryMixin],
+  mixins: [PageBuilderMixin, LMixinsHistory],
 
   emits: ["update:pastHoverIndex"],
   props: {
@@ -184,7 +189,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .side-section {
   position: absolute;
   left: -84px;

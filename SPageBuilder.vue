@@ -21,8 +21,8 @@
         style="z-index: 99999"
       >
         <v-progress-circular
-          :size="50"
           :color="SaminColorLight"
+          :size="50"
           indeterminate
         />
         <p class="mt-2">
@@ -34,18 +34,19 @@
 
     <s-landing-editor-top-menu
       v-if="page && inEditMode"
-      :shop="shop"
+      :busySave="busy_save"
+      :histories="histories"
+      :inDesignTab="in_desig_tab"
       :page="page"
       :pageBuilder="$refs.vueBuilder"
-      :busySave="busy_save"
-      :inDesignTab="in_desig_tab"
+      :shop="shop"
+      has-ai-button
+      history
+      style="border-radius: 26px 26px 0 0"
       @click:save="onSave"
       @click:history="history_dialog = true"
       @click:auto-generate="autoGenerate"
-      history
-      style="border-radius: 26px 26px 0 0"
       @click:prompt="show_prompt = !show_prompt"
-      has-ai-button
     >
     </s-landing-editor-top-menu>
 
@@ -55,33 +56,33 @@
           <v-spacer></v-spacer>
           <ai-model-select
             v-model="ai_model"
-            variant="outlined"
             class="max-w-300"
-            label="label"
             hide-details
+            label="label"
+            variant="outlined"
           >
           </ai-model-select>
         </div>
 
         <v-textarea
           v-model="prompt"
-          hide-details
+          :counter="512"
           :rows="2"
+          :rules="[GlobalRules.counter(512)]"
           auto-grow
+          class="mt-3"
+          hide-details
+          label="Prompt"
+          persistent-placeholder
           placeholder="Write short about this page..."
           style="font-size: 1.2em; font-weight: 600"
-          :counter="512"
-          label="Prompt"
-          class="mt-3"
-          persistent-placeholder
-          :rules="[GlobalRules.counter(512)]"
           variant="underlined"
         >
         </v-textarea>
 
         <s-smart-suggestion
-          class="mt-2 mb-4"
           :samples="prompt_samples"
+          class="mt-2 mb-4"
           @select="(v) => (prompt = v)"
         >
         </s-smart-suggestion>
@@ -105,15 +106,15 @@
         <div class="widget-buttons mb-3">
           <v-btn
             v-if="false"
-            @click="autoGenerate"
             :loading="auto_generate_busy"
-            variant="outlined"
             size="x-large"
+            variant="outlined"
+            @click="autoGenerate"
           >
             Auto Generate Page
           </v-btn>
 
-          <v-btn @click="show_prompt = false" color="primary" size="x-large">
+          <v-btn color="primary" size="x-large" @click="show_prompt = false">
             <v-icon class="me-1">check</v-icon>
             {{ $t("global.actions.done") }}
           </v-btn>
@@ -124,15 +125,20 @@
 
     <SPageEditor
       v-show="tab === 'design'"
-      class="designer-container"
       ref="vueBuilder"
+      :ai-auto-fill-function="aiAutoFillFunction"
       :dir="page ? page.direction : 'auto'"
-      :page="page"
-      @saved="onSave"
       :hasSaveButton="isOfficialPage"
-      @openSeo="sheet_seo = true"
-      @historyOpen="history_dialog = true"
+      :page="page"
+      :pageStyle="style"
+      :shop="shop"
+      :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
+      class="designer-container"
+      style="border-radius: 0 0 26px 26px"
       @changeMode="(val) => (inEditMode = val)"
+      @historyOpen="history_dialog = true"
+      @openSeo="sheet_seo = true"
+      @saved="onSave"
       @scale="
         (val) => {
           scale = val;
@@ -140,12 +146,7 @@
         }
       "
       @load:template="onSetPageBySelectTemplate"
-      :shop="shop"
-      :pageStyle="style"
-      :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
-      :ai-auto-fill-function="aiAutoFillFunction"
       @update:preview="(_page) => $emit('update:preview', _page)"
-      style="border-radius: 0 0 26px 26px"
     >
       <template v-slot:header>
         <slot name="header"></slot>
@@ -154,16 +155,16 @@
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <setting-custom-page
-      v-show="tab === 'setting'"
       v-if="page"
-      :shop="shop"
-      :page="page"
-      v-model:name="page.name"
-      v-model:color="page.color"
-      v-model:note="page.note"
+      v-show="tab === 'setting'"
       v-model:cluster-id="page.cluster_id"
+      v-model:color="page.color"
       v-model:direction="page.direction"
+      v-model:name="page.name"
+      v-model:note="page.note"
       :is-official-page="isOfficialPage"
+      :page="page"
+      :shop="shop"
     ></setting-custom-page>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -183,31 +184,32 @@
     <v-bottom-sheet
       v-if="page"
       v-model="history_dialog"
-      max-width="840px"
-      inset
-      scrollable
       content-class="rounded-t-xl"
+      inset
+      max-width="840px"
+      scrollable
     >
       <v-card class="position-relative rounded-t-xl" rounded="0">
         <v-progress-linear
           v-if="busy_fetch"
-          indeterminate
           class="loader-to-bar"
+          indeterminate
         ></v-progress-linear>
         <v-card-title>
           <p class="ma-auto dialog-title text-start">
-            <v-icon color="#111" class="me-2">history</v-icon>
+            <v-icon class="me-2" color="#111">history</v-icon>
             {{ $t("page_builder.history.title") }}
           </p>
         </v-card-title>
 
         <v-card-text>
-          <v-list density="compact" class="text-start v-line-list">
+          <v-list class="text-start border-between-vertical" density="compact">
             <v-list-item
-              ripple
-              @click="fetchPageData()"
+              class="-h-item"
               lines="two"
               prepend-icon="settings_backup_restore"
+              ripple
+              @click="fetchPageData()"
             >
               <v-list-item-title> Restore last saved page</v-list-item-title>
               <v-list-item-subtitle
@@ -218,16 +220,19 @@
             <v-list-item
               v-for="history in histories"
               :key="history.id"
+              class="-h-item"
+              lines="two"
               ripple
               @click="getHistory(history.id)"
-              lines="two"
             >
               <template v-slot:prepend>
                 <v-icon
-                  :color="current_history_id === history.id ? 'green' : '#333'"
+                  :color="
+                    current_history_id === history.id ? 'primary' : '#111'
+                  "
                   >{{
                     current_history_id === history.id
-                      ? "adjust"
+                      ? "circle"
                       : "panorama_fish_eye"
                   }}
                 </v-icon>
@@ -236,18 +241,36 @@
               <v-list-item-title>
                 {{ getLocalTimeString(history.created_at) }}
               </v-list-item-title>
-              <v-list-item-subtitle
-                >{{ getFromNowString(history.created_at) }}
+              <v-list-item-subtitle>
+                <v-avatar
+                  v-if="history.user_id"
+                  :size="28"
+                  class="avatar-gradient -thin -user me-2 hover-scale"
+                >
+                  <v-img :src="getUserAvatar(history.user_id)" />
+                </v-avatar>
+
+                {{ getFromNowString(history.created_at) }}
               </v-list-item-subtitle>
 
-              <v-list-item-action>
-                <v-btn icon @click="togglePersistent(history)" @click.stop variant="text">
-                  <v-icon v-if="history.persistent" color="yellow-darken-2">
-                    star
-                  </v-icon>
-                  <v-icon v-else color="grey-lighten-1"> star_border</v-icon>
-                </v-btn>
-              </v-list-item-action>
+              <template v-slot:append>
+                <v-list-item-action end>
+                  <small>{{
+                    history.persistent ? "persistent" : "temporary"
+                  }}</small>
+                  <v-btn
+                    icon
+                    variant="text"
+                    @click="togglePersistent(history)"
+                    @click.stop
+                  >
+                    <v-icon v-if="history.persistent" color="yellow-darken-2">
+                      star
+                    </v-icon>
+                    <v-icon v-else color="grey-lighten-1">star_border</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </template>
             </v-list-item>
           </v-list>
         </v-card-text>
@@ -362,6 +385,7 @@ export default {
     },
 
     upload_bg_url() {
+
       return this.getPageBuilderUploadUrlImage();
     },
 
@@ -404,18 +428,10 @@ export default {
     if (this.externalTab) this.tab = this.externalTab;
   },
   mounted() {
-    // 🗲 Global page refresh trigger
-    this.EventBus.$on(
-      "trigger:RefreshGlobalPageBuilder",
 
-      ({}) => {
-        this.$forceUpdate();
-        this.$refs.vueBuilder.PageStyleCalc(); // Force recalculate style! do not trigger on watch 'pageStyle'!
-      },
-    );
   },
   beforeUnmount() {
-    this.EventBus.$off("trigger:RefreshGlobalPageBuilder");
+
   },
   methods: {
     /*  updateGlobal() {
@@ -571,10 +587,10 @@ export default {
               );
 
               /*
-             IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-              this.page = data.page;
-             this.loadPageData();
-              */
+                   IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                    this.page = data.page;
+                   this.loadPageData();
+                    */
             }
           })
           .catch((error) => {
@@ -622,18 +638,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                this.$route.params.page_id = data.page.id;
-  */
+                      this.$route.params.page_id = data.page.id;
+        */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-  
-                this.loadPageData();
-                 */
+                      IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+        
+                      this.loadPageData();
+                       */
             }
           })
           .catch((error) => {
@@ -801,7 +817,9 @@ export default {
 </script>
 
 <style lang="scss">
+// Global setting drawer: (Important)
 .x-page-builder-options-slider {
   z-index: 999;
+  --background: #1e1e1e; // For nested components like <s-fade-scroll>
 }
 </style>

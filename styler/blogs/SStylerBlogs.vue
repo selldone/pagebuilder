@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="blogs"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="blogs"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -36,8 +37,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Blog Filter
           </v-tooltip>
@@ -55,7 +56,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 
@@ -65,7 +66,7 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 export default {
   name: "SStylerBlogs",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -128,7 +129,7 @@ export default {
     //================================= Blogs Filter ===================================
 
     showQueryBuilderBlogs() {
-      this.ShowGlobalBlogsFilterDialog(this.el, this.target, this.keyFilter);
+      this.ShowLSettingsBlogs(this.el, this.target, this.keyFilter);
     },
   },
 };

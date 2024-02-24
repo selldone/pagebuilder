@@ -14,15 +14,15 @@
 
 <template>
   <v-card
-    class="rounded-2rem widget position-relative border overflow-hidden"
-    @click="need_become_premium ? showNeedSubscribePremium() : $emit('click')"
-    :disabled="!!loading"
     :class="{
       'widget-hover pp': !show_deploy_button /*We are in teh shop!*/,
     }"
+    :disabled="!!loading"
+    :min-width="show_deploy_button ? 360 : undefined"
     :ripple="!show_deploy_button"
     :to="need_become_premium ? undefined : to"
-    :min-width="show_deploy_button ? 360 : undefined"
+    class="rounded-2rem widget position-relative border overflow-hidden"
+    @click="need_become_premium ? showNeedSubscribePremium() : $emit('click')"
   >
     <v-img
       :src="getShopImagePath(template.image)"
@@ -34,14 +34,17 @@
         <v-chip
           v-if="template.premium"
           class="ma-1"
-          size="small"
           color="#673AB7"
+          size="small"
           title="This template is accessible exclusively for premium users who have subscribed to premium content."
-          ><v-icon size="small" start>auto_awesome</v-icon> premium</v-chip
         >
-        <v-chip v-if="template.hot" class="ma-1" size="small" color="#D32F2F"
-          ><v-icon size="small" start>local_fire_department</v-icon> hot</v-chip
-        >
+          <v-icon size="small" start>auto_awesome</v-icon>
+          premium
+        </v-chip>
+        <v-chip v-if="template.hot" class="ma-1" color="#D32F2F" size="small">
+          <v-icon size="small" start>local_fire_department</v-icon>
+          hot
+        </v-chip>
       </div>
     </v-img>
     <s-progress-loading v-if="loading"></s-progress-loading>
@@ -52,34 +55,36 @@
       <div class="widget-buttons">
         <v-btn
           v-if="template.preview"
-          variant="outlined"
           :href="template.preview"
-          target="_blank"
-          @click.stop
           size="x-large"
-          >Preview <v-icon class="ms-1" size="small">open_in_new</v-icon></v-btn
-        >
+          target="_blank"
+          variant="outlined"
+          @click.stop
+          >Preview
+          <v-icon class="ms-1" size="small">open_in_new</v-icon>
+        </v-btn>
 
         <v-btn
           v-if="
             show_deploy_button &&
             !need_become_premium /*We are in the templates page of selldone*/
           "
-          variant="flat"
-          color="success"
           :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
-          target="_blank"
+          color="success"
           size="x-large"
+          target="_blank"
+          variant="flat"
         >
-          <v-icon class="me-1" size="small">upload_file</v-icon> Deploy Now
+          <v-icon class="me-1" size="small">upload_file</v-icon>
+          Deploy Now
         </v-btn>
 
         <v-btn
           v-if="show_deploy_button && need_become_premium"
-          @click="showNeedSubscribePremium()"
-          variant="flat"
-          size="x-large"
           color="primary"
+          size="x-large"
+          variant="flat"
+          @click="showNeedSubscribePremium()"
         >
           <v-icon class="me-1">auto_awesome</v-icon>
           Become Premium
@@ -139,6 +144,7 @@ export default {
   .drawer {
     // z-index: 99;
   }
+
   .drawer-open-margin {
     padding-left: 280px;
   }

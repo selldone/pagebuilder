@@ -15,12 +15,12 @@
 <template>
   <!-- 📹 Background video -->
   <video
+    :poster="poster"
     autoplay
-    playsinline
+    class="bg-video hide-on-blueprint"
     loop
     muted
-    class="bg-video hide-on-blueprint"
-    :poster="poster"
+    playsinline
   >
     <source :src="video" :type="VideoHelper.GetMime(video)" />
   </video>

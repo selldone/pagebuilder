@@ -16,14 +16,14 @@
   <x-container :object="$sectionData">
     <x-row
       :object="$sectionData"
-      path="$sectionData"
       has-arrangement
-      has-wrap
       has-fluid
+      has-wrap
+      path="$sectionData"
     >
-      <slot name="folders" :folders="folders"></slot>
+      <slot :folders="folders" name="folders"></slot>
 
-      <slot name="products" :products="products"></slot>
+      <slot :products="products" name="products"></slot>
     </x-row>
   </x-container>
 </template>

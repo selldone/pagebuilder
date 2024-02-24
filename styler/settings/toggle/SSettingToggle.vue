@@ -14,23 +14,23 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
+    density="compact"
   >
     <template v-slot:append>
       <v-btn-toggle
+        :disabled="disabled"
+        :items="items"
         :mandatory="mandatory"
+        :model-value="modelValue"
+        class="my-1"
+        density="compact"
         hide-details
         selected-class="blue-flat"
-        density="compact"
-        :items="items"
-        :model-value="modelValue"
-        @update:model-value="(val) => setValue(val)"
         variant="text"
-        :disabled="disabled"
-        class="my-1"
+        @update:model-value="(val) => setValue(val)"
       >
         <v-btn
           v-for="item in items"
@@ -39,9 +39,7 @@
           class="tnt"
           size="small"
         >
-          <v-icon v-if="item.icon" start
-            >{{ item.icon }}
-          </v-icon>
+          <v-icon v-if="item.icon" start>{{ item.icon }} </v-icon>
           {{ is_object ? (item.title ? item.title : item.value) : item }}
         </v-btn>
       </v-btn-toggle>

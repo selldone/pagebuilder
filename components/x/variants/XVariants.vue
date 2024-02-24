@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <product-variants-view v-if="variants" :variants="variants" :small="small">
+  <product-variants-view v-if="variants" :small="small" :variants="variants">
   </product-variants-view>
 </template>
 
@@ -30,10 +30,10 @@ export default defineComponent({
       default: false,
     },
     variants: {
-      type:Object,
+      type: Object,
     },
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

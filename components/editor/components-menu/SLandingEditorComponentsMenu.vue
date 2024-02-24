@@ -17,20 +17,19 @@
 
   <div
     ref="menu"
-    class="float-menu no-inv thin-scroll"
     :class="{
       'is-visiable': isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': isDragged,
     }"
-
+    class="float-menu no-inv thin-scroll"
   >
     <v-expansion-panels
       v-model="expanded"
-      theme="dark"
       :style="{ maxWidth: expanded === 0 ? '260px' : '140px' }"
       class="overflow-hidden rounded-18px"
       style="transition: all 0.35s; --v-activated-opacity: 0"
+      theme="dark"
     >
       <v-expansion-panel :bg-color="expanded === 0 ? '#111' : '#0152d0'">
         <v-expansion-panel-title ripple>
@@ -51,16 +50,16 @@
                 <span
                   v-for="(section, index) in group"
                   :key="index"
-                  class="fmenu-element hover-scale-small"
                   :section-name="section.name"
+                  class="fmenu-element hover-scale-small"
                   draggable="true"
                   @mouseenter="(e) => showMenu(e, section)"
                   @mouseleave="hideMenu()"
                 >
                   <img
                     v-if="section.cover"
-                    class="fmenu-elementImage"
                     :src="section.cover"
+                    class="fmenu-elementImage"
                   />
                 </span>
               </v-row>
@@ -74,22 +73,22 @@
   <v-menu
     v-if="hover_section?.help"
     v-model="show_element_info"
+    :offset="36"
     :target="hover_element"
     absolute
-    max-width="420"
-    width="300"
-    :offset="36"
     content-class="pen"
     location="right"
+    max-width="420"
+    width="300"
   >
     <v-sheet color="#000">
       <v-responsive v-if="hover_section.help.video" :aspect-ratio="1920 / 1080">
         <video
           :key="hover_section.help.video"
           autoplay
-          playsinline
           loop
           muted
+          playsinline
           width="100%"
         >
           <source
@@ -224,7 +223,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .float-menu {
   user-select: none;
   z-index: 210;

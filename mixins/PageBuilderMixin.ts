@@ -24,11 +24,7 @@ const DEBUG = false;
 export const PageBuilderMixin = defineComponent({
   data() {
     return {
-      /*  builder:this.$builder
-                  ? this
-                      .$builder
-                  : inject("$builder")
-        */
+
     };
   },
   created() {},
@@ -66,24 +62,24 @@ export const PageBuilderMixin = defineComponent({
     //―――――――――――――――――――――― Upload Url For Page Builder ――――――――――――――――――――
 
     getPageBuilderUploadUrlImage() {
+
+      return this.$builder.getImageUploadUrl()
+
+
       if (this.$route.params.shop_id) {
         // Popups:
         if (this.$route.params.popup_id) {
-          return window.API.POST_UPLOAD_POPUP_IMAGE(
-            this.$route.params.shop_id,
-            this.$route.params.popup_id,
-          );
+
+
+          return window.API.POST_UPLOAD_POPUP_IMAGE(this.$route.params.shop_id, this.$route.params.popup_id,);
         }
         // Shop landing pages & Menus:
-        return window.API.POST_UPLOAD_PAGE_IMAGE(
-          this.$route.params.shop_id,
-          this.$route.params.page_id ? this.$route.params.page_id : "default", // Save in default (For menus / notifications custom page design)
-        );
+        // Save in default (For menus / notifications custom page design)
+
+        return window.API.POST_UPLOAD_PAGE_IMAGE(this.$route.params.shop_id, this.$route.params.page_id ? this.$route.params.page_id : "default",);
       } else {
         // Admin selldone landing builder
-        return window.ADMIN_API.POST_UPLOAD_PAGE_IMAGE(
-          this.$route.params.page_id,
-        );
+        return window.ADMIN_API.POST_UPLOAD_PAGE_IMAGE(this.$route.params.page_id,);
       }
     },
 

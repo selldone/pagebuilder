@@ -19,14 +19,15 @@
         <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
         {{ title }}
         <v-chip
-          size="x-small"
           v-for="tag in tags"
           :key="tag"
           class="ma-1"
-          color="green" label
+          color="green"
+          label
+          size="x-small"
           variant="flat"
-          >{{ tag }}</v-chip
-        >
+          >{{ tag }}
+        </v-chip>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <div class="-content">

@@ -21,12 +21,12 @@
           v-for="file in videos"
           :key="file.id"
           cols="6"
-          sm="4"
-          md="3"
           lg="2"
+          md="3"
+          sm="4"
         >
           <div class="con-asset">
-            <video muted controls class="prev-asset">
+            <video class="prev-asset" controls muted>
               <source
                 :src="getVideoUrl(file.path)"
                 :type="VideoHelper.GetMime(file.path)"
@@ -34,17 +34,18 @@
             </video>
             <v-spacer></v-spacer>
             <div class="pa-1 d-flex align-center">
-              <b class="small mx-2" v-if="file.size">{{
+              <b v-if="file.size" class="small mx-2">{{
                 numeralFormat(file.size, "0 b")
               }}</b>
               <v-spacer></v-spacer>
               <v-btn
-                @click="copyToClipboard(getVideoUrl(file.path))"
                 color="black"
                 dark
                 title="Copy video URL."
-                ><v-icon>content_copy</v-icon></v-btn
+                @click="copyToClipboard(getVideoUrl(file.path))"
               >
+                <v-icon>content_copy</v-icon>
+              </v-btn>
             </div>
           </div>
         </v-col>
@@ -53,9 +54,9 @@
           v-for="file in images"
           :key="file.id"
           cols="6"
-          sm="4"
-          md="3"
           lg="2"
+          md="3"
+          sm="4"
         >
           <div class="con-asset">
             <v-img
@@ -64,28 +65,29 @@
             ></v-img>
 
             <div class="pa-1 d-flex align-center">
-              <b class="small mx-2" v-if="file.size">{{
+              <b v-if="file.size" class="small mx-2">{{
                 numeralFormat(file.size, "0 b")
               }}</b>
               <v-spacer></v-spacer>
               <v-btn
-                @click="copyToClipboard(getShopImagePath(file.path))"
                 color="black"
                 dark
                 title="Copy image URL."
-                ><v-icon>content_copy</v-icon></v-btn
+                @click="copyToClipboard(getShopImagePath(file.path))"
               >
+                <v-icon>content_copy</v-icon>
+              </v-btn>
             </div>
           </div>
         </v-col>
 
         <v-col
-          cols="12"
           v-if="!busy && !images?.length && !videos?.length"
           class="pa-6 text-h4 font-weight-light op-0-4 usn min-height-40vh d-flex align-center justify-center"
+          cols="12"
         >
-          <v-icon size="x-large" class="ma-2">folder_open</v-icon> No asset
-          uploaded yet.
+          <v-icon class="ma-2" size="x-large">folder_open</v-icon>
+          No asset uploaded yet.
         </v-col>
       </v-row>
     </v-container>
@@ -141,7 +143,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .con-asset {
   background: #000;
   border-radius: 6px;
@@ -149,6 +151,7 @@ export default {
   display: flex;
   flex-direction: column;
   color: #fff;
+
   .prev-asset {
     max-width: 100%;
     aspect-ratio: 1;

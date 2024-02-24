@@ -13,18 +13,22 @@
   -->
 
 <template>
-  <v-col
-    :class="[calcGridClasses(object.grid)]"
-    class="position-relative pa-0"
-  >
-    <x-column :object="object" :path="path" clonable no-grid has-custom-layout :removeColumn="removeColumn">
+  <v-col :class="[calcGridClasses(object.grid)]" class="position-relative pa-0">
+    <x-column
+      :object="object"
+      :path="path"
+      :removeColumn="removeColumn"
+      clonable
+      has-custom-layout
+      no-grid
+    >
       <div :class="layout_class" class="position-relative">
         <h3
           v-if="
             layout_class === 'x-layout-middle' &&
             (object.title || SHOW_EDIT_TOOLS)
           "
-          v-styler:text="{target:object,keyText:'title'} "
+          v-styler:text="{ target: object, keyText: 'title' }"
           class="mb-3"
           v-html="object.title?.applyAugment(augment, $builder.isEditing)"
         />
@@ -35,11 +39,12 @@
               layout_class,
             )
           "
-          :path="`${path}.image`"
-          :initialClasses="['mx-auto', 'my-2']"
-          contain
-          class="--image"
+          v-model="object.image"
           :augment="augment"
+          :initialClasses="['mx-auto', 'my-2']"
+          :path="`${path}.image`"
+          class="--image"
+          contain
         />
 
         <div class="--contents">
@@ -49,17 +54,17 @@
               layout_class !== 'x-layout-middle' &&
               (object.title || SHOW_EDIT_TOOLS)
             "
-            v-styler:text="{target:object,keyText:'title'} "
+            v-styler:text="{ target: object, keyText: 'title' }"
             class="mb-3"
             v-html="object.title?.applyAugment(augment, $builder.isEditing)"
           />
 
           <p
             v-if="object.content || SHOW_EDIT_TOOLS"
-            v-styler:text="{target:object,keyText:'content'} "
+            v-styler:text="{ target: object, keyText: 'content' }"
+            :class="contentClass"
             class="mt-2"
             v-html="object.content?.applyAugment(augment, $builder.isEditing)"
-            :class="contentClass"
           />
         </div>
       </div>
@@ -73,11 +78,11 @@
       >
         <x-button
           v-if="object.button"
-          v-styler:button="{ target: object.button,hasAlign:true, }"
-          :btn-data="object.button"
-          class="m-2"
-          :editing="SHOW_EDIT_TOOLS"
+          v-styler:button="{ target: object.button, hasAlign: true }"
           :augment="augment"
+          :btn-data="object.button"
+          :editing="SHOW_EDIT_TOOLS"
+          class="m-2"
         >
         </x-button>
       </div>
@@ -129,7 +134,6 @@ export default defineComponent({
       // Used in v-styler
       type: Function,
     },
-
   },
   data: () => ({
     standard_classes: ClassesHelper.StandardClasses(),

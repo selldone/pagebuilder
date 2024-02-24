@@ -14,22 +14,32 @@
 <template>
   <li>
     <button
+      :class="{ selected: modelValue === 'mobile' }"
       class="styler-button"
       @click="setDevice('mobile')"
-      :class="{ selected: modelValue === 'mobile' }"
     >
-      <v-badge :model-value="mobileValue>0" location="bottom end" color="#fff"  :content="mobileValue">
+      <v-badge
+        :content="mobileValue"
+        :model-value="mobileValue > 0"
+        color="#fff"
+        location="bottom end"
+      >
         <SStylerIcon name="mobile" />
       </v-badge>
 
       <v-tooltip
         activator="parent"
-        location="bottom"
-        content-class="bg-black white--text"
         attach
+        content-class="bg-black white--text"
+        location="bottom"
       >
         Mobile
-        <v-chip v-if="mobileValue" label color="green" size="small" variant="tonal"
+        <v-chip
+          v-if="mobileValue"
+          color="green"
+          label
+          size="small"
+          variant="tonal"
           >{{ mobileValue }}
         </v-chip>
       </v-tooltip>
@@ -37,23 +47,32 @@
   </li>
   <li>
     <button
+      :class="{ selected: modelValue === 'tablet' }"
       class="styler-button"
       @click="setDevice('tablet')"
-      :class="{ selected: modelValue === 'tablet' }"
     >
-
-      <v-badge :model-value="tabletValue>0" location="bottom end" color="#fff" :content="tabletValue">
+      <v-badge
+        :content="tabletValue"
+        :model-value="tabletValue > 0"
+        color="#fff"
+        location="bottom end"
+      >
         <SStylerIcon name="tablet" />
       </v-badge>
 
       <v-tooltip
         activator="parent"
-        location="bottom"
-        content-class="bg-black white--text"
         attach
+        content-class="bg-black white--text"
+        location="bottom"
       >
         Tablet
-        <v-chip v-if="tabletValue" label color="green" size="small" variant="tonal"
+        <v-chip
+          v-if="tabletValue"
+          color="green"
+          label
+          size="small"
+          variant="tonal"
           >{{ tabletValue }}
         </v-chip>
       </v-tooltip>
@@ -61,25 +80,32 @@
   </li>
   <li>
     <button
+      :class="{ selected: modelValue === 'desktop' }"
       class="styler-button"
       @click="setDevice('desktop')"
-      :class="{ selected: modelValue === 'desktop' }"
     >
-
-      <v-badge :model-value="desktopValue>0" location="bottom end" color="#fff" :content="desktopValue">
+      <v-badge
+        :content="desktopValue"
+        :model-value="desktopValue > 0"
+        color="#fff"
+        location="bottom end"
+      >
         <SStylerIcon name="laptop" />
       </v-badge>
 
-
-
       <v-tooltip
         activator="parent"
-        location="bottom"
-        content-class="bg-black white--text"
         attach
+        content-class="bg-black white--text"
+        location="bottom"
       >
         Desktop
-        <v-chip v-if="desktopValue" label color="green" size="small" variant="tonal"
+        <v-chip
+          v-if="desktopValue"
+          color="green"
+          label
+          size="small"
+          variant="tonal"
           >{{ desktopValue }}
         </v-chip>
       </v-tooltip>
@@ -87,22 +113,32 @@
   </li>
   <li>
     <button
+      :class="{ selected: modelValue === 'widescreen' }"
       class="styler-button"
       @click="setDevice('widescreen')"
-      :class="{ selected: modelValue === 'widescreen' }"
     >
-      <v-badge :model-value="widescreenValue>0" location="bottom end" color="#fff" :content="widescreenValue">
+      <v-badge
+        :content="widescreenValue"
+        :model-value="widescreenValue > 0"
+        color="#fff"
+        location="bottom end"
+      >
         <v-icon dark size="20">tv</v-icon>
       </v-badge>
 
       <v-tooltip
         activator="parent"
-        location="bottom"
-        content-class="bg-black white--text"
         attach
+        content-class="bg-black white--text"
+        location="bottom"
       >
         Widescreen
-        <v-chip v-if="widescreenValue" label color="green" size="small" variant="tonal"
+        <v-chip
+          v-if="widescreenValue"
+          color="green"
+          label
+          size="small"
+          variant="tonal"
           >{{ widescreenValue }}
         </v-chip>
       </v-tooltip>
@@ -111,13 +147,13 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
 export default defineComponent({
   name: "SStylerToolsDevices",
   components: { SStylerIcon },
-  mixins: [LandingHistoryMixin],
+  mixins: [LMixinsEvents],
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
@@ -137,4 +173,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

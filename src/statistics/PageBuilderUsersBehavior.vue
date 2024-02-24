@@ -19,11 +19,11 @@
       <div class="c-container -force-rounded inline-block w-auto p-2 my-5">
         <v-btn-toggle
           v-model="type"
-          class="rounded-group m-1 c-widget"
-          rounded
-          mandatory
-          selected-class="blue-flat"
           borderless
+          class="rounded-group m-1 c-widget"
+          mandatory
+          rounded
+          selected-class="blue-flat"
         >
           <v-btn value="desktop">
             <v-icon>desktop_mac</v-icon>
@@ -57,13 +57,15 @@
 
     <div>
       <iframe
+        ref="ifram_view"
+        :height="
+          type === 'desktop' ? '800px' : type === 'tablet' ? '1024px' : '736px'
+        "
         :src="render_url"
         :width="
           type === 'desktop' ? '98%' : type === 'tablet' ? '768px' : '420px'
         "
-        :height="
-          type === 'desktop' ? '800px' : type === 'tablet' ? '1024px' : '736px'
-        "
+        class="mt-4 mx-auto d-block"
         frameborder="0"
         scrolling="auto"
         style="
@@ -71,8 +73,6 @@
           transition: all 0.3s;
           border: #eee solid 8px;
         "
-        class="mt-4 mx-auto d-block"
-        ref="ifram_view"
       >
       </iframe>
     </div>

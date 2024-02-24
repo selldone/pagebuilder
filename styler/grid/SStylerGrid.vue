@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="grid"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="grid"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -31,11 +32,11 @@
       <!-- ―――――――――――――――――― Grid ―――――――――――――――――― -->
       <s-styler-tools-devices
         v-model="device"
-        @update:model-value="selectDevice"
+        :desktop-value="target[keyGrid].desktop"
         :mobile-value="target[keyGrid].mobile"
         :tablet-value="target[keyGrid].tablet"
-        :desktop-value="target[keyGrid].desktop"
         :widescreen-value="target[keyGrid].widescreen"
+        @update:model-value="selectDevice"
       ></s-styler-tools-devices>
     </ul>
 
@@ -49,21 +50,21 @@
       <li v-if="option === 'columnWidth'">
         <v-btn-toggle
           v-model="gridValue"
-          rounded
-          mandatory
-          density="compact"
-          selected-class="blue-flat"
           class="mx-1 my-2"
+          density="compact"
+          mandatory
+          rounded
+          selected-class="blue-flat"
         >
-          <v-btn :value="null" size="small" class="dens-btn">
+          <v-btn :value="null" class="dens-btn" size="small">
             <v-icon size="small">close</v-icon>
           </v-btn>
           <v-btn
             v-for="col in 12"
             :key="col"
             :value="col"
-            size="small"
             class="dens-btn"
+            size="small"
             @click="setGridValue(col)"
           >
             {{ col }}
@@ -76,7 +77,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerToolsDevices.vue";
@@ -88,7 +89,7 @@ import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerT
 export default {
   name: "SStylerGrid",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerToolsDevices,

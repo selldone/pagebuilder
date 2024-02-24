@@ -15,11 +15,13 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="button"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    has-tracking
+    type="button"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -37,13 +39,13 @@
 
             <v-tooltip
               activator="parent"
-              location="bottom"
               content-class="bg-black white--text"
+              location="bottom"
               >Delete button
             </v-tooltip>
           </button>
         </li>
-        <v-divider class="mx-2" vertical inset></v-divider>
+        <v-divider class="mx-2" inset vertical></v-divider>
       </template>
 
       <!-- ―――――――――――――――――― Background Color ―――――――――――――――――― -->
@@ -54,14 +56,14 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Background
 
-            <v-chip v-if="target[keyColor]" size="small" pill class="ma-1">
-              <v-icon start :color="target[keyColor]">circle</v-icon>
+            <v-chip v-if="target[keyColor]" class="ma-1" pill size="small">
+              <v-icon :color="target[keyColor]" start>circle</v-icon>
               {{ target[keyColor] }}
             </v-chip>
           </v-tooltip>
@@ -76,8 +78,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             >Set link
 
             <div v-if="target[keyUrl]" class="small">
@@ -93,8 +95,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             >Shape and style
           </v-tooltip>
         </button>
@@ -105,8 +107,8 @@
           <v-icon size="20">straighten</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             >Button size
           </v-tooltip>
         </button>
@@ -119,8 +121,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Select text and to change the color
           </v-tooltip>
@@ -133,10 +135,17 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
-            >Change font <v-chip v-if="target.font" size="x-small" class="mx-1" :style="{fontFamily:target.font}">{{target.font}}</v-chip>
+            >Change font
+            <v-chip
+              v-if="target.font"
+              :style="{ fontFamily: target.font }"
+              class="mx-1"
+              size="x-small"
+              >{{ target.font }}
+            </v-chip>
           </v-tooltip>
         </button>
       </li>
@@ -147,8 +156,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Change text align
           </v-tooltip>
@@ -167,6 +176,7 @@
         <ul class="align">
           <li v-for="it in TextAlign" :key="it.val">
             <button
+              :title="getName(it.val)"
               class="styler-button"
               @mousedown="
                 (event) => {
@@ -175,7 +185,6 @@
                   event.preventDefault();
                 }
               "
-              :title="getName(it.val)"
             >
               <v-icon size="20">{{ it.icon }}</v-icon>
             </button>
@@ -188,8 +197,8 @@
       <s-styler-tools-colors
         v-if="option === 'colorer'"
         v-model="target[keyColor]"
-        :light-colors="PLATE_LIGHT_VARS"
         :dark-colors="PLATE_DARK_VARS"
+        :light-colors="PLATE_LIGHT_VARS"
         @update:model-value="removeClass(`bg--`)"
       >
       </s-styler-tools-colors>
@@ -199,17 +208,17 @@
       <li v-if="option === 'link'" class="flex-grow-1">
         <div class="input-group is-rounded has-itemAfter is-primary">
           <v-text-field
-            variant="solo"
-            flat
-            rounded
             v-model="target[keyUrl]"
+            :prepend-inner-icon="target[keyUrl] ? 'link' : 'link_off'"
             class="english-field mx-2"
-            placeholder="https://..."
+            clearable
+            flat
             messages="● External: https://domain.. ● Internal: /shop"
+            placeholder="https://..."
+            rounded
+            variant="solo"
             @blur="addLink"
             @keydown.enter="addLink"
-            :prepend-inner-icon="target[keyUrl] ? 'link' : 'link_off'"
-            clearable
           />
         </div>
       </li>
@@ -231,21 +240,21 @@
               'plain',
             ]"
             :key="variant"
-            :variant="variant"
-            class="ma-1 x--button"
-            size="small"
-            color="#fff"
-            @click="target.variant = variant"
-            rounded
             :class="{ '-button-glow': variant === 'glow' }"
             :style="
               variant === 'glow'
                 ? 'color: #000;--shadow-color:#fff;'
                 : undefined
             "
+            :variant="variant"
+            class="ma-1 x--button"
+            color="#fff"
+            rounded
+            size="small"
+            @click="target.variant = variant"
           >
             <v-scale-transition leave-absolute>
-              <v-icon v-if="target.variant === variant" start color="green"
+              <v-icon v-if="target.variant === variant" color="green" start
                 >check_circle
               </v-icon>
             </v-scale-transition>
@@ -258,14 +267,14 @@
           v-for="rounded in ['0', 'xs', 'sm', 'default', 'lg', 'xl']"
           :key="rounded"
           :rounded="rounded"
-          class="ma-1 x--button"
-          size="small"
           :variant="target.rounded === rounded ? 'flat' : 'outlined'"
+          class="ma-1 x--button"
           color="#fff"
+          size="small"
           @click="target.rounded = rounded"
         >
           <v-scale-transition leave-absolute>
-            <v-icon v-if="target.rounded === rounded" start color="green"
+            <v-icon v-if="target.rounded === rounded" color="green" start
               >check_circle
             </v-icon>
           </v-scale-transition>
@@ -277,7 +286,7 @@
         >
           <small class="d-block my-1 text-start px-3">Other:</small>
 
-          <v-row align="center" justify="center" class="ma-0">
+          <v-row align="center" class="ma-0" justify="center">
             <v-col cols="12" sm="6">
               <v-slide-y-transition hide-on-leave>
                 <v-btn
@@ -293,12 +302,12 @@
                   Set elevation
                 </v-btn>
                 <s-number-input
-                  e-else
                   v-model="target.elevation"
-                  :min="0"
                   :max="24"
-                  label="Elevation"
+                  :min="0"
                   clearable
+                  e-else
+                  label="Elevation"
                   @clear="target.elevation === null"
                 ></s-number-input>
               </v-slide-y-transition>
@@ -316,11 +325,11 @@
           :variant="target.size === size.val ? 'flat' : 'outlined'"
           class="ma-1"
           color="#fff"
-          @click="target.size = size.val"
           rounded
+          @click="target.size = size.val"
         >
           <v-scale-transition leave-absolute>
-            <v-icon v-if="target.size === size.val" start color="green"
+            <v-icon v-if="target.size === size.val" color="green" start
               >check_circle
             </v-icon>
           </v-scale-transition>
@@ -334,30 +343,30 @@
         <ul class="colorer">
           <li v-for="(color, index) in TEXT_COLORS" :key="color">
             <input
+              :style="{ backgroundColor: TEXT_COLORS[index] }"
+              :title="`Color ${index + 1}`"
               :value="color"
-              type="radio"
               name="colorer"
+              type="radio"
               @mousedown="
                 (event) => {
                   execute('forecolor', TEXT_COLORS[index]);
                   event.preventDefault();
                 }
               "
-              :style="{ backgroundColor: TEXT_COLORS[index] }"
-              :title="`Color ${index + 1}`"
             />
           </li>
 
           <v-btn
-            size="30"
             class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-            @mousedown="openTextColorEdit"
+            size="30"
             title="Open color dialog."
+            @mousedown="openTextColorEdit"
           >
             <v-icon
               :color="text_color_display"
-              size="20"
               class="hover-scale-small"
+              size="20"
               >circle
             </v-icon>
           </v-btn>
@@ -368,14 +377,14 @@
 
       <div v-if="option === 'text-font'" class="flex-grow-1 pa-1">
         <v-select
-          :items="fonts"
           v-model="target.font"
-          variant="solo"
-          clearable
+          :items="fonts"
           class="mx-2"
+          clearable
           messages=" "
           placeholder="Select a font..."
           rounded
+          variant="solo"
         >
           <template v-slot:item="{ item, props }">
             <v-list-item v-bind="props" @click.stop>
@@ -404,7 +413,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
@@ -428,12 +437,10 @@ const ButtonAlign = [
   { val: "right", icon: "format_align_right" },
 ];
 
-
-
 export default {
   name: "SStylerButton",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerToolsColors,
@@ -585,11 +592,7 @@ export default {
     delete this.target.large;
     delete this.target.xLarge;
   },
-  mounted() {
-
-
-
-  },
+  mounted() {},
 
   methods: {
     updateOption(option) {
@@ -645,7 +648,7 @@ export default {
 
     //=====================================================================================
     showColorDialog(color, callback, alpha) {
-      this.showGlobalColorSelectorDialog(this.el, color, callback, alpha);
+      this.ShowLSettingsColor(this.el, color, callback, alpha);
     },
     //=====================================================================================
 
@@ -674,8 +677,6 @@ export default {
       e.preventDefault();
       this.option = null;
     },
-
-
   },
 };
 </script>

@@ -17,57 +17,79 @@
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
-        path="$sectionData"
+        class="min-h-100"
         has-arrangement
         has-fluid
-        class="min-h-100"
+        path="$sectionData"
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[0]"
           :object="$sectionData.columns[0]"
           class="position-relative"
+          path="$sectionData.columns[0]"
         >
           <h1
-            v-styler:text="{target:$sectionData.columns[0],keyText:'title'}"
+            v-styler:text="{
+              target: $sectionData.columns[0],
+              keyText: 'title',
+            }"
+            class="mb-2 fadeIn delay_100"
             v-html="
               $sectionData.columns[0].title?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            class="mb-2 fadeIn delay_100"
           />
 
           <p
-            v-styler:text="{target:$sectionData.columns[0],keyText:'content'}   "
+            v-styler:text="{
+              target: $sectionData.columns[0],
+              keyText: 'content',
+            }"
+            class="mb-4 fadeIn delay_300"
             v-html="
               $sectionData.columns[0].content?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            class="mb-4 fadeIn delay_300"
           />
 
           <v-expand-transition>
             <div v-if="success" key="1">
               <p
                 v-styler:text="$sectionData.newsletter.success_msg"
+                class="my-4"
                 v-html="
                   $sectionData.newsletter.success_msg?.applyAugment(
                     augment,
                     $builder.isEditing,
                   )
                 "
-                class="my-4"
               />
             </div>
             <div v-else key="2">
               <v-text-field
-                v-styler:input="$sectionData.newsletter.input"
                 v-model="email"
+                v-styler:input="$sectionData.newsletter.input"
+                :bg-color="$sectionData.newsletter.input.backgroundColor"
+                :color="$sectionData.newsletter.input.color"
+                :flat="$sectionData.newsletter.input.flat"
+                :hint="$sectionData.newsletter.input.hint"
+                :label="$sectionData.newsletter.input.label"
+                :messages="
+                  $sectionData.newsletter.input.messages
+                    ? $sectionData.newsletter.input.messages
+                    : undefined
+                "
+                :persistent-placeholder="
+                  $sectionData.newsletter.input.persistentPlaceholder
+                "
+                :placeholder="$sectionData.newsletter.input.placeholder"
+                :rounded="$sectionData.newsletter.input.rounded"
+                :rules="[GlobalRules.email(), GlobalRules.required()]"
                 :variant="
                   $sectionData.newsletter.input.solo
                     ? 'solo'
@@ -77,19 +99,7 @@
                         ? 'filled'
                         : undefined
                 "
-                :flat="$sectionData.newsletter.input.flat"
-                :bg-color="$sectionData.newsletter.input.backgroundColor"
-                :color="$sectionData.newsletter.input.color"
-                :rounded="$sectionData.newsletter.input.rounded"
-                :placeholder="$sectionData.newsletter.input.placeholder"
                 class="max-w-400 mx-auto"
-                :rules="[GlobalRules.email(), GlobalRules.required()]"
-                :label="$sectionData.newsletter.input.label"
-                :messages="$sectionData.newsletter.input.messages?$sectionData.newsletter.input.messages:undefined"
-                :hint="$sectionData.newsletter.input.hint"
-                :persistent-placeholder="
-                  $sectionData.newsletter.input.persistentPlaceholder
-                "
               ></v-text-field>
 
               <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -100,14 +110,17 @@
               >
                 <x-button
                   v-if="$sectionData.button"
-                  v-styler:button=" {target:$sectionData.button,hasAlign:true,noLink:true}"
-
-                  :btn-data="$sectionData.button"
-                  class="m-2"
-                  :editing="$builder.isEditing && !$builder.isHideExtra"
-                  @click="$builder.isEditing ? undefined : submit()"
-                  :loading="busy"
+                  v-styler:button="{
+                    target: $sectionData.button,
+                    hasAlign: true,
+                    noLink: true,
+                  }"
                   :augment="augment"
+                  :btn-data="$sectionData.button"
+                  :editing="$builder.isEditing && !$builder.isHideExtra"
+                  :loading="busy"
+                  class="m-2"
+                  @click="$builder.isEditing ? undefined : submit()"
                 >
                 </x-button>
               </div>
@@ -121,9 +134,9 @@
             class="inline-editor-sheet absolute-top-end op-0-3 op1h"
           >
             <v-btn
+              class="tnt ma-1"
               variant="outlined"
               @click.stop="toggleMode()"
-              class="tnt ma-1"
             >
               <v-icon start>flip_camera_android</v-icon>
               {{ success ? "Show form" : "Show success" }}

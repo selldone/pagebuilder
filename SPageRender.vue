@@ -17,7 +17,6 @@
 
   <div
     ref="render_container"
-    class="page-content"
     :style="[
       CUSTOM_PAGE_STYLE,
       PageBuilderTypoHelper.GenerateTypoStyle(style),
@@ -33,13 +32,14 @@
           : '#fff' /*IMPORTANT! Used by shop dynamic css. e.g. fade scrolls*/,
       },
     ]"
+    class="page-content"
   >
     <div v-for="section in $builder.sections" :key="section.uid">
       <component
         :is="section.name"
         :id="section.uid"
-        :style="section.get('$sectionData.style')"
         :augment="augment"
+        :style="section.get('$sectionData.style')"
       />
     </div>
 
@@ -95,7 +95,7 @@ export default {
     data() {
       this.$builder.isEditing = false;
       this.$builder.isRendered = true;
-      this.$builder.set(this.data);
+      this.$builder.setContent(this.data);
       //-------------------
     },
   },
@@ -109,7 +109,7 @@ export default {
 
     this.$builder.isEditing = false;
     this.$builder.isRendered = true;
-    this.$builder.set(this.data);
+    this.$builder.setContent(this.data);
   },
 
   mounted() {

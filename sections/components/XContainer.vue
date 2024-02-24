@@ -15,8 +15,8 @@
 <template>
   <v-container
     :fluid="object.row ? object.row.fluid : false"
-    class="x--container"
     :style="{ maxWidth: object.row?.fluid ? undefined : maxWidthNormal }"
+    class="x--container"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>

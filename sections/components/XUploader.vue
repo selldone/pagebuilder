@@ -17,30 +17,30 @@
 
   <v-menu
     v-if="has_edit_toolbar || has_animate_toolbar"
-    :activator="$refs.container as HTMLElement"
+    :activator="$refs.i_image as HTMLElement"
+    :close-on-content-click="false"
+    :open-delay="0"
     location="top"
     open-on-hover
     transition="slide-y-reverse-transition"
-    :open-delay="0"
-    :close-on-content-click="false"
   >
     <v-toolbar
       v-if="has_edit_toolbar"
+      color="#111"
       density="compact"
       rounded="lg"
-      theme="dark"
-      color="#111"
       style="max-width: max-content"
+      theme="dark"
     >
       <v-toolbar-items>
         <template v-if="src">
           <v-btn
+            icon
+            size="small"
             @click.stop="
               setting.contain = !setting.contain;
               forceUpdate();
             "
-            icon
-            size="small"
           >
             <v-icon
               >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
@@ -48,69 +48,103 @@
             <v-tooltip
               activator="parent"
               content-class="bg-black"
-              text="Contain / Cover"
               location="bottom"
+              text="Contain / Cover"
             ></v-tooltip>
           </v-btn>
 
-          <v-btn @click.stop="showResize()" icon size="small">
+          <v-btn icon size="small" @click.stop="showResize()">
             <v-icon> photo_size_select_large</v-icon>
             <v-tooltip
               activator="parent"
-              content-class="bg-black"
-              text="Size"
+              content-class="bg-black text-start"
               location="bottom"
-            ></v-tooltip>
+              max-width="360"
+            >
+              Size
+
+              <div v-if="size">
+                <v-chip
+                  v-for="(val, k) in size"
+                  :key="k"
+                  class="ma-1"
+                  color="#fff"
+                  size="x-small"
+                  variant="tonal"
+                  ><b>{{ k }}: </b> {{ val }}
+                </v-chip>
+              </div>
+            </v-tooltip>
           </v-btn>
 
-          <v-btn @click.stop="showMasterDesignDialog()" icon size="small">
+          <v-btn icon size="small" @click.stop="showMasterDesignDialog()">
             <v-icon> architecture</v-icon>
             <v-tooltip
-                activator="parent"
-                content-class="bg-black"
-                text="Classes & Style"
-                location="bottom"
+              activator="parent"
+              content-class="bg-black"
+              location="bottom"
+              text="Classes & Style"
             ></v-tooltip>
           </v-btn>
 
-
-
-          <v-btn @click.stop="showLayers()" icon size="small">
+          <v-btn icon size="small" @click.stop="showLayers()">
             <v-icon> layers</v-icon>
             <v-tooltip
               activator="parent"
               content-class="bg-black"
-              text="Image Layers"
               location="bottom"
-            ></v-tooltip>
+            >
+              Image Layers
+
+              <div v-if="bg_cal" class="py-1 d-flex align-center small">
+                <v-card
+                  :style="bg_cal"
+                  class="me-2"
+                  height="24"
+                  rounded="lg"
+                  width="24"
+                ></v-card>
+                Background
+              </div>
+              <div v-if="fg_cal" class="py-1 d-flex align-center small">
+                <v-card
+                  :style="fg_cal"
+                  class="me-2"
+                  height="24"
+                  rounded="lg"
+                  width="24"
+                ></v-card>
+                Foreground
+              </div>
+            </v-tooltip>
           </v-btn>
 
-          <v-menu open-on-hover    :close-on-content-click="false">
+          <v-menu :close-on-content-click="false" open-on-hover>
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" icon size="small">
+              <v-btn icon size="small" v-bind="props">
                 <v-icon> {{ selected_aspect.icon }}</v-icon>
               </v-btn>
             </template>
 
-            <v-card subtitle="Aspect Ratio" class="text-start bg-black">
+            <v-card class="text-start bg-black" subtitle="Aspect Ratio">
               <v-list
-                density="compact"
                 bg-color="transparent"
                 class="border-between-vertical"
+                density="compact"
               >
                 <v-list-item
                   v-for="(item, index) in aspects"
                   :key="index"
+                  :prepend-icon="item.icon"
+                  :title="item.title"
                   @click.stop="
                     setting.aspect = item.val;
                     forceUpdate();
                   "
-                  :prepend-icon="item.icon"
-                  :title="item.title"
                 >
                   <template v-slot:append>
                     <v-list-item-action>
-                      <v-icon color="green" v-if="setting.aspect === item.val"
+                      <v-icon v-if="setting.aspect === item.val" color="green"
                         >check
                       </v-icon>
                     </v-list-item-action>
@@ -119,16 +153,16 @@
 
                 <v-list-item
                   key="round"
+                  prepend-icon="panorama_fish_eye"
                   @click.stop="
                     setting.round = !setting.round;
                     forceUpdate();
                   "
-                  prepend-icon="panorama_fish_eye"
                 >
                   <v-list-item-title> Circle</v-list-item-title>
                   <template v-slot:append>
                     <v-list-item-action>
-                      <v-icon color="green" v-if="setting.round">check</v-icon>
+                      <v-icon v-if="setting.round" color="green">check</v-icon>
                     </v-list-item-action>
                   </template>
                 </v-list-item>
@@ -136,32 +170,32 @@
             </v-card>
           </v-menu>
 
-          <v-menu v-if="!noFloat" open-on-hover    :close-on-content-click="false">
+          <v-menu v-if="!noFloat" :close-on-content-click="false" open-on-hover>
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" icon size="small">
+              <v-btn icon size="small" v-bind="props">
                 <v-icon> {{ selected_float.icon }}</v-icon>
               </v-btn>
             </template>
 
-            <v-card subtitle="Float Position" class="text-start bg-black">
+            <v-card class="text-start bg-black" subtitle="Float Position">
               <v-list
-                density="compact"
                 bg-color="transparent"
                 class="border-between-vertical"
+                density="compact"
               >
                 <v-list-item
                   v-for="(item, index) in floats"
                   :key="index"
+                  :prepend-icon="item.icon"
+                  :title="item.title"
                   @click="
                     setting.float = item.val;
                     forceUpdate();
                   "
-                  :prepend-icon="item.icon"
-                  :title="item.title"
                 >
                   <template v-slot:append>
                     <v-list-item-action>
-                      <v-icon color="green" v-if="setting.float === item.val"
+                      <v-icon v-if="setting.float === item.val" color="green"
                         >check
                       </v-icon>
                     </v-list-item-action>
@@ -171,56 +205,91 @@
             </v-card>
           </v-menu>
 
-          <v-btn @click.stop="showLink()" icon size="small">
+          <v-btn icon size="small" @click.stop="showLink()">
             <v-icon>add_link</v-icon>
 
             <v-tooltip
               activator="parent"
               content-class="bg-black"
-              text="Add Link"
               location="bottom"
+              text="Add Link"
             ></v-tooltip>
           </v-btn>
         </template>
-        <v-btn v-else-if="has_restore" @click.stop="restoreImage()" icon size="small">
+        <v-btn
+          v-else-if="has_restore"
+          icon
+          size="small"
+          @click.stop="restoreImage()"
+        >
           <v-icon>settings_backup_restore</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black"
-            text="Restore Previous Image"
             location="bottom"
+            text="Restore Previous Image"
           ></v-tooltip>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-toolbar
       v-else-if="has_animate_toolbar"
+      color="#111"
       density="compact"
       rounded="lg"
-      theme="dark"
-      color="#111"
       style="max-width: max-content"
+      theme="dark"
     >
-      <span v-html="getAnimationClassesDetail()"></span>
-
       <v-btn
-        @click.stop="showAnimationEdit()"
-        title="Image Animation"
         icon
+        title="Image Animation"
         variant="text"
+        @click.stop="showAnimationEdit()"
       >
         <v-icon>movie_filter</v-icon>
       </v-btn>
+
+      <v-chip
+        v-for="a in animations"
+        :Key="a"
+        class="me-2"
+        color="blue"
+        label
+        prepend-icon="animation"
+        size="x-small"
+      >
+        {{ a }}
+      </v-chip>
+      <v-chip
+        v-for="h in hovers"
+        :Key="h"
+        class="me-2"
+        color="amber"
+        label
+        prepend-icon="mouse"
+        size="x-small"
+      >
+        {{ h }}
+      </v-chip>
+      <v-chip
+        v-if="threshold"
+        class="me-2"
+        color="fff"
+        label
+        prepend-icon="bolt"
+        size="x-small"
+        >Threshold: <b>{{ threshold * 100 }}%</b></v-chip
+      >
     </v-toolbar>
   </v-menu>
 
   <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Image ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
 
   <component
-    v-if="src || blobUrl || $builder.isEditing"
-    v-bind="$attrs"
     :is="link && !$builder.isEditing ? 'a' : 'div'"
-    ref="container"
+    v-if="src || blobUrl || $builder.isEditing"
+    ref="i_image"
+    v-data-x="styles"
     :class="[
       {
         uploader: $builder.isEditing,
@@ -230,38 +299,45 @@
       /*classes,*/
       !noFloat && setting.float ? `float-${setting.float}` : null,
 
-      /*root_classes*/
-
-      classes /*image_classes*/,
-
       { 'rounded-circle': setting.round }, // to keep rounded intuitive!
+
+      /*root_classes*/
+      classes /*image_classes*/,
     ]"
-    class="image-container flex-column d-flex margin-default-auto"
-    target="_blank"
     :href="link"
     :style="[
       {
         // Need same size to parent!
         'aspect-ratio': setting?.aspect,
-        height: size?.h,
-        width: size?.w,
-        'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
-        'min-width': size?.min_w,
+        height: size?.h ? size.h : 'unset',
+        width: size?.w ? size.w : 'unset',
+
         'max-height': size?.max_h,
         'max-width': size?.max_w,
-      },
-      {
+
         animationDuration: styles?.animationDuration,
         animationDelay: styles?.animationDelay,
         animationIterationCount: styles?.animationIterationCount,
         animationDirection: styles?.animationDirection,
         animationTimingFunction: styles?.animationTimingFunction,
+
+        'object-fit': setting.contain ? 'contain' : 'cover',
+        'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
+        'min-width': is_waiting_for_drop_image ? 200 : size?.min_w,
+
+        // Fix animation in classes which apply to its parent! Duration and repeat of animation will be set to styles!
+        // Because we like to have padding and margin and other custome style separate than classes (more flexibility)
+        // 'animation-name': 'inherit',
       },
+      bg_cal,
+      styles,
     ]"
-    v-init-data-attribute="styles"
+    class="image-container"
     clonable="true"
+    target="_blank"
+    v-bind="$attrs"
     @click="
-      $builder.onClickClone($event, $section.get(path), [
+      $builder.onClickClone($event, modelValue, [
         'classes',
         'style',
         'setting',
@@ -272,20 +348,8 @@
   >
     <slot :src="src"></slot>
 
-    <div
-      v-if="is_dynamic_value && $builder.isEditing"
-      class="absolute-bottom-start pa-2 ma-2 bg-white rounded-lg text-start text-black pen"
-      style="max-height: 80%; overflow: hidden; font-size: 14px"
-    >
-      <b class="d-block">
-        <v-icon color="#111" class="me-1">whatshot</v-icon>
-        {{ src?.findAllDynamicAugmentKeys().join(" - ") }}</b
-      >
-      <small
-        >The image url will be created by augment values which will be feed
-        dynamically.</small
-      >
-    </div>
+    <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Image ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
+
     <img
       v-if="
         (src || blobUrl) &&
@@ -300,40 +364,37 @@
             ? blobUrl
             : getShopImagePath(src)
       "
-      :style="[
-        bg_cal,
-        {
-          'aspect-ratio': setting.aspect,
-          'object-fit': setting.contain ? 'contain' : 'cover',
-          height: isPercent(size.h) ? '100%' : size.h,
-          width: isPercent(size.w) ? '100%' : size.w,
-          'min-height': size.min_h,
-          'min-width': size.min_w,
-          'max-height': isPercent(size.max_h) ? '100%' : size.max_h,
-          'max-width': isPercent(size.max_w) ? '100%' : size.max_w,
-
-          // Fix animation in classes which apply to its parent! Duration and repeat of animation will be set to styles!
-          // Because we like to have padding and margin and other custome style separate than classes (more flexibility)
-          // 'animation-name': 'inherit',
-        },
-        styles,
-      ]"
-      :class="[
-        { 'rounded-circle': setting.round },
-
-        $builder.isEditing ? 'pen' : null,
-      ]"
-      class="d-block margin-default-auto"
-      ref="i_image"
+      style="
+        flex-grow: 1;
+        aspect-ratio: inherit;
+        object-fit: inherit;
+        border-radius: inherit;
+        height: 100%;
+        width: 100%;
+      "
     />
 
+    <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Foreground ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
+
+    <div :style="fg_cal" class="-foreground"></div>
+
+    <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Dynamic Image ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
     <div
-      class="-foreground"
-      :style="fg_cal"
-      :class="{
-        'rounded-circle': setting.round /*to keep rounded intuitive!*/,
-      }"
-    ></div>
+      v-if="is_dynamic_value && $builder.isEditing"
+      class="absolute-bottom-start pa-2 ma-2 bg-white rounded-lg text-start text-black pen"
+      style="max-height: 80%; overflow: hidden; font-size: 14px"
+    >
+      <b class="d-block">
+        <v-icon class="me-1" color="#111">whatshot</v-icon>
+        {{ src?.findAllDynamicAugmentKeys().join(" - ") }}</b
+      >
+      <small
+        >The image url will be created by augment values which will be feed
+        dynamically.</small
+      >
+    </div>
+
+    <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Actions Buttons ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
 
     <template v-if="$builder.isEditing">
       <input
@@ -346,17 +407,17 @@
         @dragleave="onDropLeaveHolder"
       />
 
-      <v-icon size="48px" color="#fff" class="image-mark"> image</v-icon>
+      <v-icon class="image-mark" color="#fff" size="48px"> image</v-icon>
 
       <v-btn
         v-if="is_input && src && !dragOverHolder"
-        icon
         class="button-delete"
-        variant="flat"
         color="red"
+        icon
+        title="Delete image"
+        variant="flat"
         @click="deleteImage()"
         @click.stop
-        title="Delete image"
       >
         <v-icon>close</v-icon>
       </v-btn>
@@ -373,7 +434,8 @@ import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
 import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import { defineComponent } from "vue";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import DataXDirective from "@app-page-builder/directives/DataXDirective";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -392,15 +454,16 @@ const FLOATS = [
 
 export const XUploader = defineComponent({
   name: "XUploader",
-  mixins: [PageBuilderMixin, LandingHistoryMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents],
+  directives: {
+    "data-x": DataXDirective,
+  },
 
   components: {},
   inject: ["$builder", "$section"],
   props: {
-    path: {
-      // Path to src & setting
-      type: String,
-      required: true,
+    modelValue: {
+      type: Object,
     },
     mode: {
       default: "input",
@@ -493,7 +556,7 @@ export const XUploader = defineComponent({
         !this.noPreview &&
         !this.$builder.isAnimation &&
         !this.$builder.isTracking &&
-        (this.has_image/*Image menu*/ || this.has_restore/*Restore menu*/)
+        (this.has_image /*Image menu*/ || this.has_restore) /*Restore menu*/
       );
     },
 
@@ -501,12 +564,8 @@ export const XUploader = defineComponent({
       return this.is_input && !this.noPreview && this.$builder.isAnimation;
     },
 
-    has_restore(){
-      return this.pre_src
-    },
-
-    original_data() {
-      return this.$section.get(this.path);
+    has_restore() {
+      return this.pre_src;
     },
 
     is_input() {
@@ -589,13 +648,20 @@ export const XUploader = defineComponent({
     link() {
       return this.image && this.image.link;
     },
+
+    animations() {
+      return StylerHelper.GetAnimations(this.classes);
+    },
+    hovers() {
+      return StylerHelper.GetHovers(this.classes);
+    },
+    threshold() {
+      return StylerHelper.GetThreshold(this.styles);
+    },
   },
   watch: {
-    image: {
-      deep: true,
-      handler() {
-        this.$section.set(this.path, this.image);
-      },
+    image() {
+      this.$emit("update:modelValue", this.image);
     },
     "setting.aspect"(aspect) {
       // Force rerender image when select auto aspect ration : (Fix zero height problem)
@@ -607,8 +673,7 @@ export const XUploader = defineComponent({
       }
     },
 
-    original_data(original_data) {
-      // console.log('original_data',original_data)
+    modelValue() {
       this.init();
     },
   },
@@ -621,7 +686,7 @@ export const XUploader = defineComponent({
     },
 
     init() {
-      this.image = this.$section.get(this.path);
+      this.image = this.modelValue;
       // console.log('init',this.image)
 
       if (!this.image || !Object.keys(this.image) || !this.image.setting)
@@ -639,14 +704,14 @@ export const XUploader = defineComponent({
       // this.setting.contain=!this.cover
       // this.setting.aspect=this.aspectRatio
 
-      this.classes = this.$section.get(this.path + ".classes");
-      this.styles = this.$section.get(this.path + ".style");
+      this.classes = this.modelValue.classes;
+      this.styles = this.modelValue.style;
 
       if (!this.classes || !Array.isArray(this.classes)) {
         this.classes = this.initialClasses ? this.initialClasses : [];
         // Auto set class image:
         //  console.log('Auto set class image',this.classes)
-        this.$section.set(this.path + ".classes", this.classes);
+        this.modelValue.classes = this.classes;
       }
 
       if (this.rounded && this.setting.round === undefined) {
@@ -658,23 +723,17 @@ export const XUploader = defineComponent({
     forceUpdate() {
       this.uid = Math.random();
       this.$forceUpdate();
-      /*
-      this.$nextTick(() => {
-        this.$forceUpdate();
 
-        //this.$refs.i_image.$forceUpdate();
-      });
-      console.log('======******======',this.setting.size)*/
     },
 
     //-------------------------------------------------------------
 
     showMasterDesignDialog() {
-      this.ShowGlobalStyleEditorDialog(
+      this.ShowLSettingsClassStyle(
         this.$refs.i_image,
         this.$refs.i_image,
 
-        this.$section.get(this.path),
+        this.modelValue,
         "style",
         "classes",
         { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
@@ -683,12 +742,11 @@ export const XUploader = defineComponent({
 
     //-------------------------------------------------------------
     showLayers() {
-      this.ShowGlobalImageLayersDialog(
+      this.ShowLSettingsImageLayers(
         this.$refs.i_image,
-        this.$section,
-        `${this.path}.setting`,
+        this.modelValue,
+        "setting",
         this.src,
-        this.setting,
         () => {
           this.forceUpdate();
         },
@@ -697,12 +755,11 @@ export const XUploader = defineComponent({
 
     //-------------------------------------------------------------
     showResize() {
-      this.ShowGlobalImageSizeDialog(
+      this.ShowLSettingsImageSize(
         this.$refs.i_image,
-        this.$section,
-        `${this.path}.setting.size`,
+        this.modelValue.setting,
+        "size",
         this.src,
-        this.setting,
         () => {
           this.$nextTick(() => {
             this.forceUpdate();
@@ -716,12 +773,10 @@ export const XUploader = defineComponent({
     deleteImage() {
       this.pre_src = this.src;
       this.image.src = "";
-      //// this.$section.set(this.path, "");
       this.$emit("uploaded", "");
     },
     restoreImage() {
       this.image.src = this.pre_src;
-      //// this.$section.set(this.path,  this.src );
       this.$emit("uploaded", this.src);
       this.pre_src = null;
     },
@@ -742,9 +797,6 @@ export const XUploader = defineComponent({
       // Preview image before upload:
       this.blobUrl = URL.createObjectURL(file);
 
-      // this.image.src = imageURL;
-      ////   this.$section.set(this.path, imageURL);
-
       let formData = new FormData();
       formData.append(this.fileKey, file);
 
@@ -759,11 +811,9 @@ export const XUploader = defineComponent({
           if (!response.data.error) {
             this.showSuccessAlert(null, `Image uploaded successfully.`);
 
-            /* let imageURL = response.data.files.url;
-                              this.image.src = imageURL;*/
             const imageURL = response.data.files.path;
             this.image.src = imageURL;
-            /////    this.$section.set(this.path, imageURL);
+
             this.$emit("uploaded", imageURL);
           } else {
             this.showErrorAlert(null, response.data.error_msg);
@@ -781,44 +831,38 @@ export const XUploader = defineComponent({
     //----------------------------------------------------------------------------
 
     showAnimationEdit() {
-      this.ShowGlobalAnimationEditorDialog(
+      this.ShowLSettingsAnimation(
         this.$refs.i_image, // Style
-        this.$el, // Class
+        this.$refs.i_image, // Class
 
-        this.$section,
-        this.path + ".style",
-        this.path + ".classes",
+        this.modelValue,
+        "style",
+        "classes",
         { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
-    },
-    getAnimationClassesDetail() {
-      return StylerHelper.GetAnimationClassesDetail(this.classes, this.styles);
     },
 
     //----------------------------------------------------------------------------
 
     showLink() {
-      this.ShowGlobalLinkEditorDialog(
-        this.$el,
-        this.$section,
-        this.path + ".link",
+      this.ShowLSettingsLink(
+        this.$refs.i_image,
+        this.modelValue,
+        "link",
       );
     },
 
-    onDropEnterHolder(e) {
-      //console.log('onDropEnterHolder',e)
+    onDropEnterHolder() {
       this.dragOverHolder = true;
     },
-    onDropLeaveHolder(e) {
-      // console.log('onDropLeaveHolder',e)
-
+    onDropLeaveHolder() {
       this.dragOverHolder = false;
     },
   },
 });
 export default XUploader;
 </script>
-<style src="../styles/uploader.scss" lang="scss"></style>
+<style lang="scss" src="../styles/uploader.scss"></style>
 
 <style lang="scss" scoped>
 .uploader {
@@ -942,32 +986,13 @@ export default XUploader;
   max-height: 100%;
 }
 
-/*
-.image-tools {
-  position: absolute;
-  top: 0px;
-  right: 0;
-  z-index: 999;
-  min-width: max-content;
-  opacity: 0.1;
-  //transform: translateY(110%);
-
-  &:hover {
-    z-index: 999;
-  }
-}
-*/
 .image-container {
+  overflow: hidden;
   flex-shrink: 0;
-  display: block;
   position: relative;
-
-  // transition: all 0.45s;
-  /*  &:hover {
-      .image-tools {
-        opacity: 1;
-      }
-    }*/
+  flex-direction: column;
+  display: flex;
+  margin: auto;
 }
 
 .anim-inherit {
@@ -975,10 +1000,6 @@ export default XUploader;
   animation-iteration-count: inherit;
   animation-direction: inherit;
   animation-timing-function: inherit;
-}
-
-.margin-default-auto {
-  margin: auto;
 }
 
 .-foreground {

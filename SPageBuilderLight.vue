@@ -18,38 +18,39 @@
 
     <s-landing-editor-top-menu
       v-if="modelValue && inEditMode"
-      :page="modelValue"
-      :pageBuilder="$refs.vueBuilder"
       :busySave="busySave"
       :inDesignTab="true"
+      :page="modelValue"
+      :pageBuilder="$refs.vueBuilder"
+      :save-color="isMenu ? 'blue' : 'green'"
+      :save-icon="isMenu ? 'check' : 'save'"
+      class="toolbar-top-rounded"
       @click:save="onSave"
       @click:history="history_dialog = true"
-      :save-icon="isMenu ? 'check' : 'save'"
-      :save-color="isMenu ? 'blue' : 'green'"
-      class="toolbar-top-rounded"
     >
     </s-landing-editor-top-menu>
 
     <SPageEditor
-      class="designer-container"
       ref="vueBuilder"
       :dir="modelValue ? modelValue.direction : 'auto'"
+      :isMenu="isMenu"
+      :isPopup="isPopup"
       :page="modelValue"
+      :pageStyle="style"
+      :shop="shop"
+      :showIntro="show_intro"
+      class="designer-container"
+      @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"
       @scale="(val) => (scale = val)"
-      @changeMode="(val) => (inEditMode = val)"
       @load:template="onSetPageBySelectTemplate"
-      :shop="shop"
-      :pageStyle="style"
-      :showIntro="show_intro"
-      :isPopup="isPopup"
-      :isMenu="isMenu"
     />
   </div>
 </template>
 
 <script>
 import SLandingEditorTopMenu from "@app-page-builder/components/editor/top-menu/SLandingEditorTopMenu.vue";
+
 export default {
   name: "SPageBuilderLight",
   components: { SLandingEditorTopMenu },
@@ -80,7 +81,11 @@ export default {
 
   computed: {
     style() {
-      return this.modelValue && this.modelValue.content && this.modelValue.content.style;
+      return (
+        this.modelValue &&
+        this.modelValue.content &&
+        this.modelValue.content.style
+      );
     },
 
     show_intro() {
@@ -96,7 +101,11 @@ export default {
   },
 
   mounted() {
-    if (!this.modelValue || !this.modelValue.content || !this.modelValue.content.sections) {
+    if (
+      !this.modelValue ||
+      !this.modelValue.content ||
+      !this.modelValue.content.sections
+    ) {
       this.$emit("update:modelValue", {
         direction: "auto",
         content: { sections: [], style: { font_size: 16 } },

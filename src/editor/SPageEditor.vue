@@ -14,27 +14,27 @@
 
 <template>
   <div
-    class="page-builder position-relative"
     v-scroll="onScroll"
-    spellcheck="false"
+    class="page-builder position-relative"
     data-gramm="false"
+    spellcheck="false"
     style="min-height: 60vh"
   >
     <!-- ------------------------------------- Themes ------------------------------------------>
 
     <page-templates-list
       v-if="showIntro && !$builder.sections.length"
-      has-header
       :themes="themes"
+      has-header
       @select:raw-theme="(_raw) => addTheme(_raw)"
       @select:page="(_page) => loadTemplate(_page)"
     ></page-templates-list>
 
     <!-- ████████████████████████ Editor ████████████████████████ -->
     <div
+      :class="{ hidden: showIntro && !$builder.sections.length }"
       :style="{ 'max-height': max_h }"
       class="overflow-y-hidden"
-      :class="{ hidden: showIntro && !$builder.sections.length }"
       @mouseup="
         $builder.isEditing && components && components.length
           ? onSaveHistory()
@@ -46,11 +46,11 @@
       <div
         id="artboard"
         ref="artboard"
-        class="artboard overflow-hidden"
         :class="{
           'is-sorting': $builder.isSorting,
           'is-editable': $builder.isEditing && inEditMode,
         }"
+        class="artboard overflow-hidden"
       >
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -61,31 +61,31 @@
               !$builder.isTracking &&
               ($vuetify.display.xlAndUp || scale_down)
             "
-            class="side-menu zoomIn"
             :class="{ '-scale-down': scale_down }"
+            class="side-menu zoomIn"
           >
             <b>View</b>
             <v-btn
+              :color="!render_mode ? 'amber' : undefined"
               icon
               variant="text"
               @click="render_mode = null"
-              :color="!render_mode ? 'amber' : undefined"
             >
               <v-icon>burst_mode</v-icon>
             </v-btn>
             <v-btn
+              :color="render_mode === 'simple' ? 'amber' : undefined"
               icon
               variant="text"
               @click="render_mode = 'simple'"
-              :color="render_mode === 'simple' ? 'amber' : undefined"
             >
               <v-icon>apps</v-icon>
             </v-btn>
             <v-btn
+              :color="render_mode === 'wire' ? 'amber' : undefined"
               icon
               variant="text"
               @click="render_mode = 'wire'"
-              :color="render_mode === 'wire' ? 'amber' : undefined"
             >
               <v-icon>grid_on</v-icon>
             </v-btn>
@@ -94,28 +94,28 @@
               <div v-if="render_mode === 'wire'" class="d-flex flex-column">
                 <hr />
                 <v-btn
+                  :color="show_classes ? '#512DA8' : undefined"
+                  caption="Class"
+                  class="sub-caption mb-3"
                   icon
                   variant="text"
                   @click="
                     show_classes = !show_classes;
                     show_styles = false;
                   "
-                  :color="show_classes ? '#512DA8' : undefined"
-                  class="sub-caption mb-3"
-                  caption="Class"
                 >
                   <v-icon>architecture</v-icon>
                 </v-btn>
                 <v-btn
+                  :color="show_styles ? '#512DA8' : undefined"
+                  caption="Style"
+                  class="sub-caption mb-3"
                   icon
                   variant="text"
                   @click="
                     show_styles = !show_styles;
                     show_classes = false;
                   "
-                  :color="show_styles ? '#512DA8' : undefined"
-                  class="sub-caption mb-3"
-                  caption="Style"
                 >
                   <v-icon>format_paint</v-icon>
                 </v-btn>
@@ -127,8 +127,6 @@
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
         <div
-          class="main-sections-container no-inv"
-          :style="CUSTOM_PAGE_STYLE"
           :class="{
             'in-scale-down': scale_down,
             desktop: device === 'desktop',
@@ -149,28 +147,30 @@
 
             '--editable': in_design_mode,
           }"
+          :style="CUSTOM_PAGE_STYLE"
+          class="main-sections-container no-inv"
         >
           <v-toolbar
             v-if="page"
+            class="py-1 border-bottom rounded-t-xl"
+            color="#fff"
             dir="ltr"
             flat
-            class="py-1 border-bottom rounded-t-xl"
             height="84"
-            color="#fff"
           >
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Normal ▃▃▃▃▃▃▃▃▃▃ -->
 
             <v-tooltip
+              content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
-              content-class="bg-black text-start pa-3 small"
             >
               <template v-slot:activator="{ props }">
-                <span class="sub-caption -hover m-0 b-16px" caption="Design">
+                <span caption="Design" class="sub-caption -hover b-16px ms-2">
                   <v-btn
-                    v-bind="props"
-                    size="small"
+                    :size="32"
                     icon
+                    v-bind="props"
                     variant="text"
                     @click="
                       $builder.isAnimation = false;
@@ -179,11 +179,13 @@
                     "
                   >
                     <v-icon
-                      size="small"
                       :color="
                         !$builder.isAnimation && !$builder.isTracking
                           ? 'green'
-                          : undefined
+                          : '#333'
+                      "
+                      :size="
+                        !$builder.isAnimation && !$builder.isTracking ? 20 : 14
                       "
                       class="hover-scale-small"
                       >lens</v-icon
@@ -193,7 +195,7 @@
               </template>
               <b class="d-block">Normal View</b>
               <div>
-                <v-icon dark size="small" class="me-1">design_services</v-icon>
+                <v-icon class="me-1" dark size="small">design_services</v-icon>
                 You can access all the elements and editing tools required to
                 modify the content and layout of the landing page.
               </div>
@@ -202,16 +204,16 @@
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Animation ▃▃▃▃▃▃▃▃▃▃ -->
 
             <v-tooltip
+              content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
-              content-class="bg-black text-start pa-3 small"
             >
               <template v-slot:activator="{ props }">
-                <span class="sub-caption -hover m-0 b-16px" caption="Animation">
+                <span caption="Animation" class="sub-caption -hover b-16px">
                   <v-btn
-                    v-bind="props"
-                    size="small"
+                    :size="32"
                     icon
+                    v-bind="props"
                     variant="text"
                     @click="
                       $builder.isAnimation = true;
@@ -220,8 +222,8 @@
                     "
                   >
                     <v-icon
-                      size="small"
-                      :color="$builder.isAnimation ? 'blue' : undefined"
+                      :color="$builder.isAnimation ? 'blue' : '#333'"
+                      :size="$builder.isAnimation ? 20 : 14"
                       class="hover-scale-small"
                       >lens</v-icon
                     >
@@ -230,7 +232,7 @@
               </template>
               <b class="d-block">Animation View</b>
               <div>
-                <v-icon dark size="small" class="me-1">animation</v-icon>
+                <v-icon class="me-1" dark size="small">animation</v-icon>
                 To configure animation and user interactions such as mouse hover
                 transitions, you can check out the blueprint and the minimalist
                 view of the page.
@@ -240,16 +242,16 @@
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Tracking ▃▃▃▃▃▃▃▃▃▃ -->
 
             <v-tooltip
+              content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
-              content-class="bg-black text-start pa-3 small"
             >
               <template v-slot:activator="{ props }">
-                <span class="sub-caption -hover m-0 b-16px" caption="Tracking">
+                <span caption="Tracking" class="sub-caption -hover m-0 b-16px">
                   <v-btn
-                    v-bind="props"
-                    size="small"
+                    :size="32"
                     icon
+                    v-bind="props"
                     variant="text"
                     @click="
                       $builder.isTracking = true;
@@ -258,8 +260,8 @@
                     "
                   >
                     <v-icon
-                      size="small"
-                      :color="$builder.isTracking ? 'red' : undefined"
+                      :color="$builder.isTracking ? 'red' : '#333'"
+                      :size="$builder.isTracking ? 20 : 14"
                       class="hover-scale-small"
                       >lens</v-icon
                     >
@@ -268,7 +270,7 @@
               </template>
               <b class="d-block">Tracking View</b>
               <div>
-                <v-icon dark size="small" class="me-1">highlight_alt</v-icon>
+                <v-icon class="me-1" dark size="small">highlight_alt</v-icon>
                 This view mode presents a simplified display of the page,
                 allowing the allocation of tracking IDs to actions (buttons)
                 that can be utilized in Google Tag Manager and other tracking
@@ -277,23 +279,23 @@
             </v-tooltip>
 
             <v-text-field
-              :disabled="isPopup"
-              class="english-field mx-1 mx-sm-2 mx-md-3"
-              rounded
-              hide-details
-              flat
-              variant="solo-filled"
-              :prefix="!isPopup && $vuetify.display.smAndUp ? base_url : ''"
               v-model="page.name"
               :density="$vuetify.display.smAndDown ? 'compact' : undefined"
+              :disabled="isPopup"
               :placeholder="isPopup ? 'Popup' : 'Enter page address*'"
-              :rules="!isPopup ? [GlobalRules.required()] : undefined"
+              :prefix="!isPopup && $vuetify.display.smAndUp ? base_url : ''"
               :prepend-inner-icon="isPopup ? 'notifications_none' : undefined"
+              :rules="!isPopup ? [GlobalRules.required()] : undefined"
+              class="english-field mx-1 mx-sm-2 mx-md-3"
+              flat
+              hide-details
+              rounded
+              variant="solo-filled"
             >
               <template v-if="!isPopup" v-slot:append-inner>
                 <v-btn
-                  icon
                   :href="base_url + page.name"
+                  icon
                   target="_blank"
                   title="Open page"
                 >
@@ -303,16 +305,16 @@
             </v-text-field>
 
             <v-tooltip
+              content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
-              content-class="bg-black text-start pa-3 small"
             >
               <template v-slot:activator="{ props }">
                 <v-btn
-                  v-bind="props"
-                  icon
-                  @click="toggleListVisibility"
                   class="ms-1"
+                  icon
+                  v-bind="props"
+                  @click="toggleListVisibility"
                 >
                   <v-icon
                     >{{ scale_down ? "fullscreen_exit" : "fullscreen" }}
@@ -321,7 +323,7 @@
               </template>
               <b class="d-block">View Mode</b>
               <div>
-                <v-icon dark size="small" class="me-1"
+                <v-icon class="me-1" dark size="small"
                   >center_focus_weak
                 </v-icon>
                 Make fullscreen/compact view mode.
@@ -329,7 +331,7 @@
               <div>
                 Or press
                 <span class="text-amber"
-                  ><v-icon size="small" class="mx-1" color="amber"
+                  ><v-icon class="mx-1" color="amber" size="small"
                     >swap_horiz</v-icon
                   >
                   Tab</span
@@ -340,14 +342,17 @@
 
           <v-progress-linear
             v-if="delay_load > 0 && delay_load < 999"
-            striped
-            color="success"
             :model-value="load_percent"
+            color="success"
+            striped
           ></v-progress-linear>
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
           <div
-            class="page-content-wrap-editor position-relative"
+            :class="{
+              'drop-active':
+                !$builder.sections.length && past_hover_index === 0,
+            }"
             :style="[
               {
                 '--bg-color':
@@ -361,10 +366,7 @@
                   : '#fff' /*IMPORTANT! Used by shop dynamic css. e.g. fade scrolls*/,
               },
             ]"
-            :class="{
-              'drop-active':
-                !$builder.sections.length && past_hover_index === 0,
-            }"
+            class="page-content-wrap-editor position-relative"
           >
             <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
             <div key="header-demo">
@@ -373,12 +375,15 @@
 
             <div
               ref="pagecontent"
+              :class="{ 'min-height-80vh': $builder.isEditing }"
+              :style="[
+                PageBuilderTypoHelper.GenerateTypoStyle(pageStyle),
+                PageBuilderColorsHelper.GenerateColorsStyle(pageStyle),
+              ]"
+              class="page-content"
               @click="handleClickOnSections"
-              @drop="
-                (e) =>
-                  !$builder.isEditing || $builder.sections.length
-                    ? undefined
-                    : dropSection(e, 0)
+              @dragleave="
+                (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
               "
               @dragover="
                 (e) =>
@@ -386,15 +391,12 @@
                     ? undefined
                     : allowDropSection(e, 0)
               "
-              @dragleave="
-                (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
+              @drop="
+                (e) =>
+                  !$builder.isEditing || $builder.sections.length
+                    ? undefined
+                    : dropSection(e, 0)
               "
-              class="page-content"
-              :style="[
-                PageBuilderTypoHelper.GenerateTypoStyle(pageStyle),
-                PageBuilderColorsHelper.GenerateColorsStyle(pageStyle),
-              ]"
-              :class="{ 'min-height-80vh': $builder.isEditing }"
             >
               <template
                 v-for="(section, index) in $builder.sections"
@@ -404,12 +406,12 @@
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                   <div
                     v-if="$builder.isEditing && section.data?.style?.marginTop"
-                    class="arrow-margin -top"
-                    :margin="section.data.style.marginTop"
-                    :style="{ '--margin': section.data.style.marginTop }"
                     :class="{
                       '--reverse': parseInt(section.data.style.marginTop) < 0,
                     }"
+                    :margin="section.data.style.marginTop"
+                    :style="{ '--margin': section.data.style.marginTop }"
+                    class="arrow-margin -top"
                     title="Top Margin"
                     @mousedown.prevent
                   ></div>
@@ -417,20 +419,19 @@
                     v-if="
                       $builder.isEditing && section.data?.style?.marginBottom
                     "
-                    class="arrow-margin -bottom"
-                    :margin="section.data.style.marginBottom"
-                    :style="{ '--margin': section.data.style.marginBottom }"
                     :class="{
                       '--reverse':
                         parseInt(section.data.style.marginBottom) < 0,
                     }"
+                    :margin="section.data.style.marginBottom"
+                    :style="{ '--margin': section.data.style.marginBottom }"
+                    class="arrow-margin -bottom"
                     title="Bottom Margin"
                     @mousedown.prevent
                   ></div>
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                   <div
-                    class="position-relative d-flex flex-column target-drop"
                     :class="{
                       'cursor-pipette':
                         $builder.cloneStyle && !$builder.cloneObject,
@@ -440,22 +441,24 @@
                       'show-name': listShown && inEditMode,
                     }"
                     :section-name="$builder.components[section.name].label"
-                    @drop="
-                      (e) =>
-                        !$builder.isEditing ? undefined : dropSection(e, index)
-                    "
+                    class="position-relative d-flex flex-column target-drop"
                     @dragover="
                       (e) =>
                         !$builder.isEditing
                           ? undefined
                           : allowDropSection(e, index)
                     "
+                    @drop="
+                      (e) =>
+                        !$builder.isEditing ? undefined : dropSection(e, index)
+                    "
                   >
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                     <component
-                      v-if="delay_load > index"
                       :is="section.name"
+                      v-if="delay_load > index"
                       :id="section.uid"
+                      :ref="'SECTION_' + section.uid"
                       :class="{
                         'move-courser block-pointer-event': $builder.isSorting,
 
@@ -463,12 +466,11 @@
                         pen: drop_section,
                       }"
                       :style="section.get('$sectionData.style')"
-                      :ref="'SECTION_' + section.uid"
                     />
                     <div
                       v-else
-                      style="height: 400px"
                       class="d-flex align-center justify-center"
+                      style="height: 400px"
                     >
                       <v-progress-circular
                         indeterminate
@@ -480,20 +482,19 @@
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                   <s-landing-section-side-bar
                     v-if="listShown && inEditMode"
+                    v-model:past-hover-index="past_hover_index"
+                    :copy-section="copy_section"
                     :section="section"
                     :section-index="index"
-                    v-model:past-hover-index="past_hover_index"
                     @click:copy="copySection(section)"
                     @click:delete="deleteSection(section)"
                     @click:save="saveSectionToRepository(section)"
                     @click:past="pastSection(index + 1)"
-                    :copy-section="copy_section"
                   ></s-landing-section-side-bar>
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                   <div
-                    class="x-feeder"
                     :class="{
                       '-single': !aiAutoFillFunction && !has_note,
                       '-double':
@@ -501,22 +502,23 @@
                         (aiAutoFillFunction && !has_note),
                       '-triple': aiAutoFillFunction && has_note,
                     }"
+                    class="x-feeder"
                     dir="ltr"
                   >
                     <v-btn
-                      class="x-feeder-btn hover-scale-small force-top ml-6"
-                      icon
-                      color="#000"
-                      variant="flat"
-                      size="x-large"
                       :class="{ disabled: !section.data || !section.schema }"
+                      class="x-feeder-btn hover-scale-small force-top ml-6"
+                      color="#000"
+                      icon
+                      size="x-large"
+                      variant="flat"
                       @click="showFeeder(section)"
                     >
                       <v-icon size="36">donut_large</v-icon>
                       <v-tooltip
                         activator="parent"
-                        location="bottom"
                         content-class="bg-black"
+                        location="bottom"
                       >
                         <b>Feed</b><br />
                         Simple edit section contents.
@@ -525,22 +527,18 @@
 
                     <ai-button
                       v-if="aiAutoFillFunction"
+                      :loading="loading_ai.includes(section)"
                       class="x-feeder-btn hover-scale-small force-top ml-6"
                       icon
-                      x-large
-                      @click="autoComplete(section)"
-                      :loading="loading_ai.includes(section)"
                       tooltip="<b>AI</b><br>Auto generate contents."
                       tooltip-location="bottom"
+                      x-large
+                      @click="autoComplete(section)"
                     >
                     </ai-button>
 
                     <v-badge
                       v-if="has_note"
-                      :model-value="
-                        notes?.filter((n) => n.element_id === section.uid)
-                          ?.length > 0
-                      "
                       :content="
                         numeralFormat(
                           notes?.filter((n) => n.element_id === section.uid)
@@ -548,26 +546,30 @@
                           '0a',
                         )
                       "
+                      :model-value="
+                        notes?.filter((n) => n.element_id === section.uid)
+                          ?.length > 0
+                      "
                       color="#000"
                     >
                       <v-btn
-                        class="x-feeder-btn hover-scale-small force-top"
-                        icon
-                        variant="flat"
-                        size="x-large"
                         :color="
                           notes?.filter((n) => n.element_id === section.uid)
                             ?.length
                             ? 'amber'
                             : '#000'
                         "
+                        class="x-feeder-btn hover-scale-small force-top"
+                        icon
+                        size="x-large"
+                        variant="flat"
                         @click="showWriteNote(section)"
                       >
                         <v-icon size="36">sticky_note_2</v-icon>
                         <v-tooltip
                           activator="parent"
-                          location="bottom"
                           content-class="bg-black"
+                          location="bottom"
                         >
                           <b>Message</b> ({{
                             notes?.filter((n) => n.element_id === section.uid)
@@ -584,16 +586,16 @@
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                   <p-note-digest
                     v-if="$vuetify.display.lgAndUp && has_note"
+                    :limit="2"
                     :notes="notes?.filter((n) => n.element_id === section.uid)"
-                    @delete="(id) => DeleteItemByID(page.notes, id)"
-                    :shop="shop"
                     :page="shop_page"
                     :popup="shop_popup"
-                    class="position-absolute"
-                    style="top: 50px"
+                    :shop="shop"
                     :style="{ width: '400px', right: '-600px' }"
+                    class="position-absolute"
                     hover-able
-                    :limit="2"
+                    style="top: 50px"
+                    @delete="(id) => DeleteItemByID(page.notes, id)"
                   ></p-note-digest>
                   <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                 </div>
@@ -629,41 +631,35 @@
 
     <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
 
-    <SLandingToolsStylePage></SLandingToolsStylePage>
-    <GlobalTypographyEditorDialog
-      @change="$forceUpdate()"
-    ></GlobalTypographyEditorDialog>
+    <LSettingsPageStyle></LSettingsPageStyle>
+    <LSettingsPageTypography @change="$forceUpdate()"></LSettingsPageTypography>
 
     <!-- ――――――――――――――――――――――  Dialog Master Style ―――――――――――――――――――― -->
 
-    <s-landing-tools-style-element
-      :builder="$builder"
-    ></s-landing-tools-style-element>
-    <global-background-editor-dialog
-      :builder="$builder"
-    ></global-background-editor-dialog>
-    <global-product-select-dialog></global-product-select-dialog>
-    <global-products-categories-select-dialog></global-products-categories-select-dialog>
+    <l-settings-class-style :builder="$builder"></l-settings-class-style>
+    <l-settings-background :builder="$builder"></l-settings-background>
+    <l-settings-product></l-settings-product>
+    <l-settings-products-filter></l-settings-products-filter>
 
-    <global-animation-editor-dialog></global-animation-editor-dialog>
+    <l-settings-animation></l-settings-animation>
 
-    <global-color-selector-dialog></global-color-selector-dialog>
+    <l-settings-color></l-settings-color>
 
-    <s-styler-blogs-setting></s-styler-blogs-setting>
+    <l-settings-blogs></l-settings-blogs>
 
-    <global-link-editor-dialog></global-link-editor-dialog>
+    <l-settings-link></l-settings-link>
 
-    <global-products-frame-dialog></global-products-frame-dialog>
-    <global-input-editor-dialog></global-input-editor-dialog>
+    <l-settings-frame></l-settings-frame>
+    <l-settings-input></l-settings-input>
 
-    <global-slide-show-editor-dialog></global-slide-show-editor-dialog>
-    <s-landing-tools-column-layout></s-landing-tools-column-layout>
-    <global-text-loop-dialog></global-text-loop-dialog>
+    <l-settings-swiper></l-settings-swiper>
+    <l-settings-column></l-settings-column>
+    <l-settings-marquee></l-settings-marquee>
 
     <!-- ――――――――――――――――――――――  Dialog Master Style Image ―――――――――――――――――――― -->
 
-    <global-image-size-dialog></global-image-size-dialog>
-    <global-image-layers-dialog></global-image-layers-dialog>
+    <l-settings-image-size></l-settings-image-size>
+    <l-settings-image-layers></l-settings-image-layers>
 
     <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
@@ -685,17 +681,17 @@ import Sortable from "sortablejs";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
 import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import SLandingToolsStylePage from "@app-page-builder/styler/tools/style-page/SLandingToolsStylePage.vue";
-import SLandingToolsStyleElement from "@app-page-builder/styler/tools/style-element/SLandingToolsStyleElement.vue";
-import SStylerBlogsSetting from "@app-page-builder/styler/blogs/setting/SStylerBlogsSetting.vue";
+import LSettingsPageStyle from "@app-page-builder/settings/page/style/LSettingsPageStyle.vue";
+import LSettingsClassStyle from "@app-page-builder/settings/class-style/LSettingsClassStyle.vue";
+import LSettingsBlogs from "@app-page-builder/settings/blogs/LSettingsBlogs.vue";
 import PageElementsRepository from "@app-page-builder/src/element-repository/PageElementsRepository.vue";
 import GlobalSectionFeederDialog from "@app-page-builder/src/feeders/GlobalSectionFeederDialog.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
-import GlobalSlideShowEditorDialog from "@app-page-builder/styler/swiper/setting/GlobalSlideShowEditorDialog.vue";
-import GlobalTypographyEditorDialog from "@app-page-builder/styler/tools/typography/GlobalTypographyEditorDialog.vue";
+import LSettingsSwiper from "@app-page-builder/settings/swiper/LSettingsSwiper.vue";
+import LSettingsPageTypography from "@app-page-builder/settings/page/typography/LSettingsPageTypography.vue";
 import { PageBuilderTypoHelper } from "@app-page-builder/src/helpers/PageBuilderTypoHelper";
 import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
-import GlobalTextLoopDialog from "@app-page-builder/styler/tools/text/GlobalTextLoopDialog.vue";
+import LSettingsMarquee from "@app-page-builder/settings/marquee/LSettingsMarquee.vue";
 import PNoteDigest from "@app-page-builder/components/note/digest/PNoteDigest.vue";
 import PageTemplatesList from "@app-page-builder/src/pages/PageTemplatesList.vue";
 import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
@@ -706,20 +702,20 @@ import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import SLandingEditorComponentsMenu from "@app-page-builder/components/editor/components-menu/SLandingEditorComponentsMenu.vue";
 import SLandingSectionSideBar from "@app-page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
+import { LMixinsHistory } from "@app-page-builder/mixins/history/LMixinsHistory";
 import { defineComponent } from "vue";
 import { Migration } from "@app-page-builder/src/MigrateFromOldVersion";
-import GlobalProductSelectDialog from "@app-page-builder/styler/tools/product/GlobalProductSelectDialog.vue";
-import GlobalBackgroundEditorDialog from "@app-page-builder/styler/tools/background/GlobalBackgroundEditorDialog.vue";
-import GlobalProductsCategoriesSelectDialog from "@app-page-builder/styler/tools/product/GlobalProductsCategoriesSelectDialog.vue";
-import GlobalAnimationEditorDialog from "@app-page-builder/styler/tools/animation/GlobalAnimationEditorDialog.vue";
-import GlobalColorSelectorDialog from "@app-page-builder/styler/tools/color/GlobalColorSelectorDialog.vue";
-import GlobalImageSizeDialog from "@app-page-builder/styler/tools/image/GlobalImageSizeDialog.vue";
-import GlobalImageLayersDialog from "@app-page-builder/styler/tools/image/GlobalImageLayersDialog.vue";
-import GlobalLinkEditorDialog from "@app-page-builder/styler/tools/link/GlobalLinkEditorDialog.vue";
-import GlobalProductsFrameDialog from "@app-page-builder/styler/tools/product/GlobalProductsFrameDialog.vue";
-import GlobalInputEditorDialog from "@app-page-builder/styler/tools/input/GlobalInputEditorDialog.vue";
-import SLandingToolsColumnLayout from "@app-page-builder/styler/tools/column/SLandingToolsColumnLayout.vue";
+import LSettingsProduct from "@app-page-builder/settings/product/LSettingsProduct.vue";
+import LSettingsBackground from "@app-page-builder/settings/background/LSettingsBackground.vue";
+import LSettingsProductsFilter from "@app-page-builder/settings/products-filter/LSettingsProductsFilter.vue";
+import LSettingsAnimation from "@app-page-builder/settings/animation/LSettingsAnimation.vue";
+import LSettingsColor from "@app-page-builder/settings/color/LSettingsColor.vue";
+import LSettingsImageSize from "@app-page-builder/settings/image/size/LSettingsImageSize.vue";
+import LSettingsImageLayers from "@app-page-builder/settings/image/layers/LSettingsImageLayers.vue";
+import LSettingsLink from "@app-page-builder/settings/link/LSettingsLink.vue";
+import LSettingsFrame from "@app-page-builder/settings/frame/LSettingsFrame.vue";
+import LSettingsInput from "@app-page-builder/settings/input/LSettingsInput.vue";
+import LSettingsColumn from "@app-page-builder/settings/column/LSettingsColumn.vue";
 
 const DEBUG = false;
 export default defineComponent({
@@ -728,33 +724,33 @@ export default defineComponent({
     PageBuilderNoteMixin,
     PageEventBusMixin,
     PageBuilderMixin,
-    LandingHistoryMixin,
+    LMixinsHistory,
   ],
   components: {
     SLandingSectionSideBar,
     SLandingEditorComponentsMenu,
     PageTemplatesList,
     PNoteDigest,
-    GlobalTextLoopDialog,
-    GlobalTypographyEditorDialog,
-    SLandingToolsColumnLayout,
-    GlobalSlideShowEditorDialog,
-    GlobalInputEditorDialog,
-    GlobalProductsFrameDialog,
+    LSettingsMarquee,
+    LSettingsPageTypography,
+    LSettingsColumn,
+    LSettingsSwiper,
+    LSettingsInput,
+    LSettingsFrame,
     AiButton,
     GlobalSectionFeederDialog,
     PageElementsRepository,
-    GlobalLinkEditorDialog,
-    SStylerBlogsSetting,
-    GlobalImageLayersDialog,
-    GlobalImageSizeDialog,
-    GlobalColorSelectorDialog,
-    GlobalAnimationEditorDialog,
-    GlobalProductsCategoriesSelectDialog,
-    GlobalProductSelectDialog,
-    SLandingToolsStyleElement,
-    GlobalBackgroundEditorDialog,
-    SLandingToolsStylePage,
+    LSettingsLink,
+    LSettingsBlogs,
+    LSettingsImageLayers,
+    LSettingsImageSize,
+    LSettingsColor,
+    LSettingsAnimation,
+    LSettingsProductsFilter,
+    LSettingsProduct,
+    LSettingsClassStyle,
+    LSettingsBackground,
+    LSettingsPageStyle,
 
     SStylerIcon,
   },
@@ -911,6 +907,7 @@ export default defineComponent({
     },
     page() {
       this.autoShowNote();
+      this.setModelInBuilder();
     },
 
     pageStyle: {
@@ -962,10 +959,10 @@ export default defineComponent({
   created() {
     // sets the initial data.
     this.setPage(this.data);
+    this.setModelInBuilder();
 
-    // this.$builder.set(this.data);
-    // this.title = this.$builder.title;
     this.themes = this.$builder.themes;
+
   },
   mounted() {
     this.$builder.rootEl = this.$refs.artboard;
@@ -1453,7 +1450,7 @@ export default defineComponent({
       // ---------------------------------------*******************-------------------------------------
 
       this.inEditMode = true;
-      this.$builder.set(data, from_theme);
+      this.$builder.setContent(data, from_theme);
 
       this.loadNextDelayed();
 
@@ -1625,6 +1622,11 @@ export default defineComponent({
           ),
         ); // Auto open note dialog if element_id be in query (used in notifications link)
       }
+    },
+
+    setModelInBuilder() {
+      const model_type = this.isPopup ? "popup" : this.isMenu ? "menu" : "page";
+      this.$builder.setModel(model_type, this.page); // Link model (pass to generate upload urls)
     },
 
     handleClickOnSections(event) {

@@ -16,34 +16,31 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <h2
-        v-styler:text="{target:$sectionData,keyText:'header'}   "
-
-
+        v-styler:text="{ target: $sectionData, keyText: 'header' }"
         class="mb-5 fadeIn delay_100"
         v-html="$sectionData.header?.applyAugment(augment, $builder.isEditing)"
       ></h2>
 
       <x-row
-        :object="$sectionData"
-        path="$sectionData"
-        has-arrangement
-        add-column
-        has-wrap
-        has-fluid
         :column-structure="ItemType"
+        :object="$sectionData"
+        add-column
+        has-arrangement
+        has-fluid
+        has-wrap
+        path="$sectionData"
         ><!-- Only addable can remove col-->
 
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
           v-for="(col, index) in $sectionData.columns"
+          :key="`${index}-${$sectionData.columns.length}`"
+          :augment="augment"
           :object="$sectionData.columns[index]"
           :path="`$sectionData.columns[${index}]`"
-          initial-column-layout="x-layout-title-content"
+          :remove-column="() => $sectionData.columns.splice(index, 1)"
           clonable
-          :augment="augment"
-
-          :key="`${index}-${$sectionData.columns.length}`"
-          :remove-column="()=> $sectionData.columns.splice(index, 1)"
+          initial-column-layout="x-layout-title-content"
         >
         </x-column-image-text>
         <!-- █████████████████████████████████████████████████████ -->

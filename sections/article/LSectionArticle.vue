@@ -22,23 +22,23 @@
     </video-background>
 
     <v-container
-      :fluid="$sectionData.container ? $sectionData.container.fluid : false"
-      v-styler:container="{target:$sectionData.container,hasFluid:true}"
+      v-styler:container="{ target: $sectionData.container, hasFluid: true }"
       :class="[$sectionData.container?.classes]"
+      :fluid="$sectionData.container ? $sectionData.container.fluid : false"
       :style="[
         $sectionData.container?.style,
         backgroundStyle($sectionData.container?.background),
       ]"
     >
       <s-article-editor
-        :only-view="!$builder.isEditing"
-        :edit="$builder.isEditing"
         ref="editorContainer"
-        class="article mx-auto"
         :body="$sectionData.body"
-        :upload-url="get_upload_url()"
+        :edit="$builder.isEditing"
         :enable-title="false"
+        :only-view="!$builder.isEditing"
         :suffix-id="rand_id"
+        :upload-url="get_upload_url()"
+        class="article mx-auto"
       />
     </v-container>
   </x-section>

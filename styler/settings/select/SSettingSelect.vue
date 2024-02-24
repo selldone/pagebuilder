@@ -14,26 +14,27 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
+    density="compact"
   >
     <template v-slot:append>
       <v-select
-        inset
-        hide-details
-        density="compact"
-        color="#1976D2"
-        :items="items"
-        :item-value="is_object ? 'value' : undefined"
-        :item-title="is_object ? 'title' : undefined"
-        :return-object="false"
-        :model-value="modelValue"
-        @update:model-value="(val) => setValue(val)"
-        variant="plain"
         :clearable="clearable"
-        :disabled="disabled" class="mt-n1 mb-1"
+        :disabled="disabled"
+        :item-title="is_object ? 'title' : undefined"
+        :item-value="is_object ? 'value' : undefined"
+        :items="items"
+        :model-value="modelValue"
+        :return-object="false"
+        class="mt-n1 mb-1"
+        color="#1976D2"
+        density="compact"
+        hide-details
+        inset
+        variant="plain"
+        @update:model-value="(val) => setValue(val)"
       >
         <template v-slot:selection="{ item }">
           <v-icon v-if="is_object && item.raw.icon" class="me-2" size="20"
@@ -49,7 +50,7 @@
         </template>
         <template v-slot:item="{ item, props }">
           <v-list-item
-            v-bind="props"
+            :prepend-icon="item.raw.icon"
             :title="
               is_object
                 ? item.raw.title
@@ -57,8 +58,8 @@
                   : item.raw.value
                 : item.raw
             "
-            :prepend-icon="item.raw.icon"
             class="text-start"
+            v-bind="props"
           ></v-list-item>
         </template>
       </v-select>

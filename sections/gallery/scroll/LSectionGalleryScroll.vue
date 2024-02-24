@@ -14,22 +14,17 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
+    v-styler:swiper="{ target: $sectionData, keySlide: 'slide' }"
     :object="$sectionData"
-    path="$sectionData"
     class="p-0"
-    v-styler:swiper="{target:$sectionData,keySlide:'slide'}"
+    path="$sectionData"
   >
-
     <!-- --------------------------------------------------------------------------------------------------------- -->
 
     <swiper
       v-if="showSlider"
       ref="swiperTop"
       :options="swiperTop"
-
-
-
-
       @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex"
     >
       <swiper-slide
@@ -39,17 +34,17 @@
         class="d-flex justify-center"
       >
         <div
-          class="container position-relative h-100"
+          v-styler:container="{ target: $sectionData.slide.items[index] }"
+          :class="[
+            $sectionData.slide.items[index].classes,
+            realIndex === index ? $sectionData.slide.active : null,
+          ]"
           :index="index"
           :style="[
             backgroundStyle($sectionData.slide.items[index].background),
             $sectionData.slide.items[index].style,
           ]"
-          :class="[
-            $sectionData.slide.items[index].classes,
-            realIndex === index ? $sectionData.slide.active : null,
-          ]"
-          v-styler:container="{ target: $sectionData.slide.items[index] }"
+          class="container position-relative h-100"
           clonable="true"
           @click="
             $builder.onClickClone($event, $sectionData.slide.items[index], [
@@ -71,7 +66,8 @@
           <!-- ----------------- Image Layer ----------------- -->
 
           <x-uploader
-            :path="`$sectionData.slide.items[${index}].image`"
+            v-model="slide.image"
+            :augment="augment"
             :class="{ pen: !$section.lock }"
             :initialSize="{
               w: '100px',
@@ -79,8 +75,8 @@
               min_h: '20px',
               min_w: '20px',
             }"
+            :path="`$sectionData.slide.items[${index}].image`"
             contain
-            :augment="augment"
           />
 
           <h2
@@ -88,26 +84,26 @@
               target: $sectionData.slide.items[index],
               keyText: 'title',
             }"
+            :index="index"
             v-html="
               $sectionData.slide.items[index].title?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            :index="index"
           />
           <p
             v-styler:text="{
               target: $sectionData.slide.items[index],
               keyText: 'subtitle',
             }"
+            :index="index"
             v-html="
               $sectionData.slide.items[index].subtitle?.applyAugment(
                 augment,
                 $builder.isEditing,
               )
             "
-            :index="index"
           ></p>
 
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -115,42 +111,42 @@
           <x-button
             v-if="$sectionData.slide.items[index].button"
             v-styler:button="{ target: $sectionData.slide.items[index].button }"
-            :index="index"
-            :btn-data="$sectionData.slide.items[index].button"
-            class="m-2"
-            :editing="$builder.isEditing"
             :augment="augment"
+            :btn-data="$sectionData.slide.items[index].button"
+            :editing="$builder.isEditing"
+            :index="index"
+            class="m-2"
           >
           </x-button>
 
           <v-sheet
             v-if="$builder.isEditing && !$builder.isHideExtra"
-            dark
             class="inline-editor-sheet"
+            dark
           >
             <v-slide-x-reverse-transition hide-on-leave>
               <v-btn
-                key="add"
                 v-if="!$sectionData.slide.items[index].button"
+                key="add"
+                class="ma-1"
+                title="Add action button."
+                variant="outlined"
                 @click.stop="
                   $sectionData.slide.items[index].button = getInstance(
                     types.Button,
                   );
                   $forceUpdate();
                 "
-                variant="outlined"
-                class="ma-1"
-                title="Add action button."
               >
                 <v-icon color="success" start>add</v-icon>
                 Add Action
               </v-btn>
               <v-btn
-                key="del"
                 v-else
-                variant="outlined"
+                key="del"
                 class="ma-1"
                 title="Delete button."
+                variant="outlined"
                 @click.stop="
                   $sectionData.slide.items[index].button = null;
                   $forceUpdate();
@@ -164,13 +160,13 @@
 
             <v-btn
               v-if="$builder.isEditing && !$builder.isHideExtra"
-              dark
               class="tnt ma-1"
+              dark
               style="z-index: 100"
-              @click.stop="removeSlide(index)"
               variant="outlined"
+              @click.stop="removeSlide(index)"
             >
-              <v-icon start color="red">close</v-icon>
+              <v-icon color="red" start>close</v-icon>
               Delete Slide
             </v-btn>
           </v-sheet>
@@ -286,7 +282,7 @@ export default {
   watch: {},
 
   created() {
-  //  this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+    //  this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
     this.$section.__goToSlide = (index) => {
       this.$refs.swiperTop?.$swiper?.slideTo(index);

@@ -14,12 +14,12 @@
 
 <template>
   <section
+    :id="object.id"
+    v-data-x="object.style"
     v-styler:section="sectionBinding"
-    class="section background"
     :class="object.classes"
     :style="[BACKGROUND_STYLE, object.style]"
-    v-init-data-attribute="object.style"
-    :id="object.id"
+    class="section background"
   >
     <!-- 📹 Background video -->
     <video-background
@@ -36,16 +36,16 @@
 import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import XMixin from "@app-page-builder/mixins/XMixin";
+import DataXDirective from "@app-page-builder/directives/DataXDirective";
 
 export default {
   name: "XSection",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective, "data-x": DataXDirective },
   mixins: [XMixin],
   components: { VideoBackground },
 
   props: {
     object: { required: true },
-    path: { required: true /*Required for v-styler*/ },
   },
   data: () => ({}),
   computed: {

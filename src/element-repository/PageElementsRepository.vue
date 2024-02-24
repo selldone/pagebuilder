@@ -15,9 +15,9 @@
 <template>
   <div
     v-if="$vuetify.display.mdAndUp"
-    class="r-con c-container -force-rounded p-2 fadeIn"
-    :class="{ collapse: collapse }"
     v-show="(scaleDownMode || $vuetify.display.xlAndUp) && show"
+    :class="{ collapse: collapse }"
+    class="r-con c-container -force-rounded p-2 fadeIn"
   >
     <v-expand-transition>
       <div v-if="!collapse" class="text-center text-white">
@@ -30,12 +30,12 @@
     >
       <v-text-field
         v-model="search"
-        placeholder="Search..."
+        :append-icon="collapse ? 'expand_more' : 'expand_less'"
         class="flex-grow-0"
-        variant="solo"
         flat
         hide-details
-        :append-icon="collapse ? 'expand_more' : 'expand_less'"
+        placeholder="Search..."
+        variant="solo"
         @click:append.stop="collapse = !collapse"
       ></v-text-field>
 
@@ -45,27 +45,28 @@
             <v-card
               v-for="(item, i) in elements"
               :key="i"
-              draggable="true"
-              @dragstart="(e) => drag(e, item)"
               class="r-card mb-2"
+              draggable="true"
               flat
               height="84"
+              @dragstart="(e) => drag(e, item)"
             >
               <v-img
                 :src="getShopImagePath(item.image)"
                 class="-img"
-                height="100%"
                 cover
+                height="100%"
               >
                 <v-btn
                   v-if="item.shop_id"
-                  variant="flat" icon
-                  size="small"
-                  @click.stop="showEdit(item)"
-                  title="Edit element"
                   class="absolute-top-end"
+                  icon
+                  size="small"
+                  title="Edit element"
+                  variant="flat"
+                  @click.stop="showEdit(item)"
                 >
-                  <v-icon >edit</v-icon>
+                  <v-icon>edit</v-icon>
                 </v-btn>
               </v-img>
               <div class="label single-line">
@@ -75,7 +76,6 @@
           </v-list>
 
           <div
-            class="py-4"
             v-intersect="
               (isIntersecting, entries, observer) => {
                 if (isIntersecting) {
@@ -83,6 +83,7 @@
                 }
               }
             "
+            class="py-4"
           >
             <small v-if="more">Load more...</small>
           </div>
@@ -97,10 +98,10 @@
     <v-bottom-sheet
       v-if="shop_id /*Only in shop admin dashboard!*/"
       v-model="dialog"
-      max-width="840px"
-      width="98%"
-      scrollable
       content-class="rounded-t-xl"
+      max-width="840px"
+      scrollable
+      width="98%"
     >
       <v-card rounded="t-xl">
         <v-card-title>
@@ -109,9 +110,9 @@
 
           <v-spacer></v-spacer>
           <v-btn
+            :loading="busy_delete"
             color="red"
             variant="text"
-            :loading="busy_delete"
             @click="deleteSection(selected_element)"
           >
             <v-icon class="me-1" size="small">delete</v-icon>
@@ -121,8 +122,8 @@
         <v-card-text>
           <div class="widget-box mb-5">
             <s-widget-header
-              title="Configuration"
               icon="tune"
+              title="Configuration"
             ></s-widget-header>
             <v-list-subheader>
               You can save custom-designed sections for later use in your page
@@ -137,38 +138,38 @@
             ></v-text-field>
 
             <v-combobox
-              multiple
+              v-model="tags"
               chips
               closable-chips
-              v-model="tags"
               label="Tags"
               messages="Used for search and categorize elements."
+              multiple
             ></v-combobox>
           </div>
 
           <div v-if="selected_element" class="widget-box mb-5">
-            <s-widget-header title="Image" icon="image"></s-widget-header>
+            <s-widget-header icon="image" title="Image"></s-widget-header>
             <v-list-subheader>Public image in the list.</v-list-subheader>
 
             <s-image-uploader
-              class="my-2 mx-auto fadeIn"
-              label="Preview Image "
+              :image="getShopImagePath(selected_element.image)"
               :server="
                 window.API.POST_PAGE_ELEMENT_UPLOAD_IMAGE(
                   shop_id,
                   selected_element.id,
                 )
               "
-              :image="getShopImagePath(selected_element.image)"
+              auto-compact
+              class="my-2 mx-auto fadeIn"
+              label="Preview Image "
               max-file-size="2MB"
               @new-path="(path) => (selected_element.image = path)"
-              auto-compact
             >
             </s-image-uploader>
           </div>
 
           <div class="widget-box mb-5">
-            <s-widget-header title="Code" icon="data_object"></s-widget-header>
+            <s-widget-header icon="data_object" title="Code"></s-widget-header>
             <v-list-subheader>
               You can copy and past the element code form left side of sections
               in the page builder.
@@ -186,7 +187,7 @@
                 class="row-font text-start"
               >
                 <b :style="{ fontFamily: font }">
-                  <v-icon size="small" class="me-1">font_download</v-icon>
+                  <v-icon class="me-1" size="small">font_download</v-icon>
                   {{ font }}</b
                 >
               </div>
@@ -195,17 +196,17 @@
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
-            <v-btn variant="text" size="x-large" @click="dialog = false">
+            <v-btn size="x-large" variant="text" @click="dialog = false">
               <v-icon start>close</v-icon>
               {{ $t("global.actions.close") }}
             </v-btn>
 
             <v-btn
-              variant="flat"
-              size="x-large"
-              @click="selected_element ? editElement() : addElement()"
               :loading="busy_save"
               color="primary"
+              size="x-large"
+              variant="flat"
+              @click="selected_element ? editElement() : addElement()"
             >
               <v-icon class="me-1"
                 >{{ selected_element ? "save" : "add" }}
@@ -486,7 +487,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .r-con {
   --top: 84px;
 

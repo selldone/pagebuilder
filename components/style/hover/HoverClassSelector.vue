@@ -15,11 +15,11 @@
 <template>
   <v-item-group
     :model-value="modelValue"
-    @update:model-value="(val) => $emit('update:modelValue', val)"
     :multiple="multiple"
+    @update:model-value="(val) => $emit('update:modelValue', val)"
   >
     <v-container>
-      <v-row justify="center" class="pb-10">
+      <v-row class="pb-10" justify="center">
         <v-item
           v-for="(item, index) in hoversClasses"
           :key="index"
@@ -27,18 +27,18 @@
           :value="item"
         >
           <v-card
+            :class="item"
             :color="active ? 'amber' : ''"
+            :elevation="active ? 10 : 0"
             class="p-1 rounded-18px overflow-hidden m-1 position-relative d-flex align-center justify-center transition-ease-in-out hover-top"
             flat
-            @click="toggle"
-            :elevation="active ? 10 : 0"
-            width="72"
             height="72"
-            :class="item"
+            width="72"
+            @click="toggle"
           >
-            <v-icon color="blue" class="bg-sunny-morning text-gradient mb-3"
-              >lens</v-icon
-            >
+            <v-icon class="bg-sunny-morning text-gradient mb-3" color="blue"
+              >lens
+            </v-icon>
 
             <div class="bottom-absolute-bar-dark text-capitalize p-1">
               {{ getName(item) }}
@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .hover-top {
   &:hover {
     z-index: 1;

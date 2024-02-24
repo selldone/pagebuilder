@@ -14,22 +14,22 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <div
-    class="s--setting-number-input"
     :class="{ 'disabled-scale-down': disabled }"
+    class="s--setting-number-input"
   >
-    <v-list-item :title="title" :prepend-icon="icon" density="compact">
+    <v-list-item :prepend-icon="icon" :title="title" density="compact">
       <template v-slot:append>
         <s-number-input
-          hide-details
-          density="compact"
-          color="#1976D2"
-          :model-value="modelValue"
-          @update:model-value="(val) => setValue(val)"
-          variant="plain"
-          style="min-width: 100px"
           :clearable="clearable"
-          :min="min"
           :max="max"
+          :min="min"
+          :model-value="modelValue"
+          color="#1976D2"
+          density="compact"
+          hide-details
+          style="min-width: 100px"
+          variant="plain"
+          @update:model-value="(val) => setValue(val)"
         >
         </s-number-input>
       </template>

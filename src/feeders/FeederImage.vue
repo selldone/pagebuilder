@@ -15,25 +15,26 @@
 <template>
   <div class="widget-box">
     <s-widget-header
-      title="Image"
-      icon="image"
-      add-icon="whatshot"
       add-caption="Set Dynamic Source"
+      add-icon="whatshot"
+      add-text
+      icon="image"
+      title="Image"
       @click:add="
         lock = false;
-        value.src = '{{key}}';
+        modelValue.src = '{{key}}';
       "
-      add-text
     >
     </s-widget-header>
     <v-text-field
-      v-model="value.src"
-      label="Image path"
-      @change="$emit('change', value)"
-      @click:append-inner="lock = !lock"
+      v-model="modelValue.src"
       :append-inner-icon="lock ? 'lock' : 'lock_open'"
       :disabled="lock"
+      label="Image path"
       messages="You can input an image URL or a dynamic value like { { key } }. This dynamic value can even be part of a complete URL."
+      variant="underlined"
+      @change="$emit('change', modelValue)"
+      @click:append-inner="lock = !lock"
     ></v-text-field>
   </div>
 </template>
@@ -42,8 +43,9 @@
 export default {
   name: "FeederImage",
   components: {},
+  emits: ["change"],
   props: {
-    value: {},
+    modelValue: {},
   },
   data: () => {
     return {
@@ -52,7 +54,7 @@ export default {
   },
   methods: {},
   created() {
-    this.lock = !this.value?.src?.includes("{{");
+    this.lock = !this.modelValue?.src?.includes("{{");
   },
 };
 </script>

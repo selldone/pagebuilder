@@ -17,50 +17,54 @@
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
-        path="$sectionData"
+        class="min-h-100"
         has-arrangement
         has-fluid
-        class="min-h-100"
+        path="$sectionData"
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[0]"
           :object="$sectionData.columns[0]"
           class="position-relative"
+          path="$sectionData.columns[0]"
         >
           <h1
-            v-styler:text="{target:$sectionData,keyText:'title'}   "
+            v-styler:text="{ target: $sectionData, keyText: 'title' }"
+            class="mb-2 fadeIn delay_100"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-2 fadeIn delay_100"
           />
 
           <p
-            v-styler:text="{target:$sectionData,keyText:'content'}   "
+            v-styler:text="{ target: $sectionData, keyText: 'content' }"
+            class="mb-4 fadeIn delay_300"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-4 fadeIn delay_300"
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
           <x-buttons
+            :augment="augment"
             :object="$sectionData"
             path="$sectionData"
-            :augment="augment"
           ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
         <!-- ██████████████████████ Column 2 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[1]"
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
+          path="$sectionData.columns[1]"
         >
-          <x-uploader path="$sectionData.image" :augment="augment" />
+          <x-uploader
+            v-model="$sectionData.image"
+            :augment="augment"
+            path="$sectionData.image"
+          />
         </x-column>
       </x-row>
     </x-container>

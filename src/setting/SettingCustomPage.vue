@@ -24,54 +24,56 @@
 
       <v-list-subheader
         >Adjusting the page URL and modifying the publication status of the
-        page.</v-list-subheader
-      >
+        page.
+      </v-list-subheader>
 
       <v-text-field
-        :model-value="name"
-        @update:model-value="(val) => $emit('update:name', val)"
         :counter="32"
-        :label="$t('page_builder.setting.name_input')" variant="underlined"
+        :label="$t('page_builder.setting.name_input')"
+        :model-value="name"
+        variant="underlined"
+        @update:model-value="(val) => $emit('update:name', val)"
       />
 
       <p dir="ltr">
-        <v-icon size="small" class="me-1">link</v-icon>
+        <v-icon class="me-1" size="small">link</v-icon>
         <span style="color: #777">domain.com/pages/</span
-        ><span style="color: #0288d1" class="font-weight-black">{{
+        ><span class="font-weight-black" style="color: #0288d1">{{
           encodeURIComponent(name)
         }}</span>
       </p>
 
       <s-smart-switch
-        class="my-3"
         v-model="page.published"
-        :true-title="$t('global.commons.published')"
-        true-icon="public"
         :false-title="$t('global.commons.draft')"
-        false-icon="public_off"
-        false-gray
-        true-description="This page is accessible to the public."
+        :true-title="$t('global.commons.published')"
+        class="my-3"
         false-description="This page is currently set to draft mode and is not accessible to the public."
+        false-gray
+        false-icon="public_off"
+        true-description="This page is accessible to the public."
+        true-icon="public"
       >
       </s-smart-switch>
     </div>
 
     <!-- ---------------------- Label ---------------------- -->
     <div class="widget-box mb-5">
-      <s-widget-header title="Designer" icon="architecture"></s-widget-header>
+      <s-widget-header icon="architecture" title="Designer"></s-widget-header>
 
       <!-- ============== colors ============== -->
       <v-list-subheader
         >Assign color labels to quickly identify pages, and you can also utilize
-        these color labels for page categorization.</v-list-subheader
-      >
+        these color labels for page categorization.
+      </v-list-subheader>
 
       <v-btn
         v-for="item in colors"
         :key="item"
-        icon variant="text"
-        class="me-1 color-button-ball"
         :class="{ active: item === color }"
+        class="me-1 color-button-ball"
+        icon
+        variant="text"
         @click="$emit('update:color', item)"
       >
         <v-icon :color="item"> brightness_1</v-icon>
@@ -79,27 +81,27 @@
 
       <!-- ============== Note ============== -->
       <v-list-subheader
-        >Here, you can add a note that will be visible only to
-        administrators.</v-list-subheader
-      >
+        >Here, you can add a note that will be visible only to administrators.
+      </v-list-subheader>
 
       <v-textarea
-        :model-value="note"
-        @update:model-value="(val) => $emit('update:note', val)"
         :color="SaminColorLight"
         :counter="128"
         :label="$t('page_builder.setting.designer_note')"
-        :rows="2" variant="underlined"
+        :model-value="note"
+        :rows="2"
+        variant="underlined"
+        @update:model-value="(val) => $emit('update:note', val)"
       />
 
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
       <s-widget-header
-        title="Cluster"
-        icon="workspaces"
-        add-text
+        :to="{ name: 'BPageShopClassificationClusters' }"
         add-caption="Management"
         add-icon="settings"
-        :to="{ name: 'BPageShopClassificationClusters' }"
+        add-text
+        icon="workspaces"
+        title="Cluster"
       ></s-widget-header>
 
       <v-list-subheader>
@@ -108,33 +110,32 @@
       </v-list-subheader>
       <b-cluster-input
         :model-value="clusterId"
-        @update:modelValue="(val) => $emit('update:clusterId', val)"
         :return-object="false"
         clearable
-        no-home
         icon="workspaces_filled"
+        no-home
+        @update:modelValue="(val) => $emit('update:clusterId', val)"
       ></b-cluster-input>
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
     </div>
 
     <div class="widget-box mb-5">
-      <s-widget-header title="Image" icon="image"></s-widget-header>
+      <s-widget-header icon="image" title="Image"></s-widget-header>
       <v-list-subheader
         >Upload an image for the page. This image will serve as the cover for
-        SEO purposes and will also be used in the page
-        listings.</v-list-subheader
-      >
+        SEO purposes and will also be used in the page listings.
+      </v-list-subheader>
 
       <!-- ============== Image ============== -->
       <s-image-uploader
         v-if="page"
+        :image="getShopImagePath(page.image)"
+        :server="page_image_cover_upload_url"
+        auto-compact
         class="my-4"
         label="Cover image"
-        :server="page_image_cover_upload_url"
         max-file-size="2MB"
-        :image="getShopImagePath(page.image)"
         @new-path="handleProcessFile"
-        auto-compact
       >
       </s-image-uploader>
     </div>
@@ -142,8 +143,8 @@
     <!-- ---------------------- Delete ---------------------- -->
     <div class="widget-box mb-5" style="border-top: solid medium red">
       <s-widget-header
-        title="Delete page"
         icon="error_outline"
+        title="Delete page"
       ></s-widget-header>
 
       <v-list-subheader>
@@ -157,20 +158,20 @@
       </v-list-subheader>
 
       <s-smart-check-verify-action
-        color="red"
         v-model="verify_delete"
+        color="red"
       ></s-smart-check-verify-action>
 
       <div class="widget-buttons">
         <v-btn
+          :class="{ disabled: !verify_delete }"
+          :loading="busy_delete"
           color="red"
+          size="x-large"
           variant="text"
           @click="deletePage()"
-          :loading="busy_delete"
-          size="x-large"
-          :class="{ disabled: !verify_delete }"
         >
-          <v-icon size="small" class="me-1">delete</v-icon>
+          <v-icon class="me-1" size="small">delete</v-icon>
           Delete This Page
         </v-btn>
       </div>
@@ -289,7 +290,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .active {
   border: solid 2px #0d0d0d;
 }

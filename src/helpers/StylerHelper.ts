@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import { ClassesHelper } from "@core/helper/style/Classes";
+import {ClassesHelper} from "@core/helper/style/Classes";
 
 export class StylerHelper {
   static GetAnimationClassesDetail(classes, style) {
@@ -20,23 +20,47 @@ export class StylerHelper {
 
     const _animations = classes
       .filter((x) => ClassesHelper.AnimationsClasses().includes(x))
-      .unique()
-      .join(", ");
+      .unique();
+
     const _hovers = classes
       .filter((x) => ClassesHelper.HoversClasses().includes(x))
-      .unique()
-      .join(", ");
+      .unique();
+
+    return {
+      animations: _animations,
+      hovers: _hovers,
+    };
 
     return (
       (_animations
-        ? `<small class="me-2"  title="Animation">🟢 ${_animations}</small>` +
+        ? `<small class="ma-1"  title="Animation">🟢 ${_animations}</small>` +
           (style?.threshold
             ? `<small class="me-2">⚡ Threshold: <b>${
                 style.threshold * 100
               }%</b></small>`
             : "")
         : "") +
-      (_hovers ? `<small class="me-2" title="Hover">🟡 ${_hovers}</small>` : "")
+      (_hovers ? `<small class="ma-1" title="Hover">🟡 ${_hovers}</small>` : "")
     );
+  }
+
+  static GetHovers(classes): string[] {
+    if (!classes || !Array.isArray(classes)) return [];
+
+    return classes
+      .filter((x) => ClassesHelper.HoversClasses().includes(x))
+      .unique();
+  }
+
+  static GetAnimations(classes): string[] {
+    if (!classes || !Array.isArray(classes)) return [];
+
+    return classes
+      .filter((x) => ClassesHelper.AnimationsClasses().includes(x))
+      .unique();
+  }
+
+  static GetThreshold(style): number {
+    return style?.threshold;
   }
 }

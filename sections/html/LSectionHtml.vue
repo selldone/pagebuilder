@@ -25,7 +25,7 @@
       v-if="$builder.isEditing && !$builder.isHideExtra"
       class="text-center widget-buttons"
     >
-      <v-btn @click="dialog = !dialog" dark color="#225082" size="x-large">
+      <v-btn color="#225082" dark size="x-large" @click="dialog = !dialog">
         <v-icon class="me-1">code</v-icon>
         <span class="mx-1">Add Custom Code Here</span>
 
@@ -33,8 +33,8 @@
           v-for="item in scripts_list"
           :key="item.url"
           class="ma-1"
-          size="24"
           rounded
+          size="24"
         >
           <v-img
             :src="item.provider_icon ? item.provider_icon : item.icon_url"
@@ -45,9 +45,9 @@
 
     <div
       v-if="!dialog /*Force refresh on edits!*/"
-      v-html="$sectionData.html"
-      :style="{ pen: $builder.isEditing }"
       v-dynamic-scripts="true"
+      :style="{ pen: $builder.isEditing }"
+      v-html="$sectionData.html"
     ></div>
 
     <!-- █████████████████████ Edit Dialog █████████████████████ -->
@@ -55,19 +55,19 @@
       v-if="$builder.isEditing"
       v-model="dialog"
       fullscreen
-      transition="dialog-bottom-transition"
       scrollable
+      transition="dialog-bottom-transition"
     >
       <v-card>
         <v-card-title>
-          <v-icon class="me-1" color="#111">integration_instructions </v-icon>
+          <v-icon class="me-1" color="#111">integration_instructions</v-icon>
           Html Code Editor
         </v-card-title>
         <v-card-text>
           <div class="widget-box -large mb-5">
             <s-widget-header
-              title="Your Custom Code"
               icon="code"
+              title="Your Custom Code"
             ></s-widget-header>
             <v-list-subheader
               >Here, you can either write raw HTML code or paste your code.
@@ -79,19 +79,19 @@
 
             <prism-editor
               v-model="$sectionData.html"
-              contenteditable="false"
+              :highlight="highlighter"
               class="light-code scrollable-element-light"
-              style="min-height: 50vh"
+              contenteditable="false"
               language="html"
               line-numbers
-              :highlight="highlighter"
+              style="min-height: 50vh"
               @blur="refreshScripts"
             >
             </prism-editor>
           </div>
 
           <div class="widget-box -large mb-5">
-            <s-widget-header title="Scripts" icon="code"></s-widget-header>
+            <s-widget-header icon="code" title="Scripts"></s-widget-header>
             <v-list-subheader
               >If your code includes scripts, they will be identified and
               displayed here for your review. These scripts will be
@@ -125,7 +125,7 @@
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
-            <v-btn size="x-large" @click="dialog = false" variant="text">
+            <v-btn size="x-large" variant="text" @click="dialog = false">
               <v-icon start>close</v-icon>
               {{ $t("global.actions.close") }}
             </v-btn>

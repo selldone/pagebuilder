@@ -13,38 +13,38 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData" class="pa-0">
+  <x-section :object="$sectionData" class="pa-0" path="$sectionData">
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃▃ Actions ▃▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
     <v-sheet
-      dark
-      color="#225082"
       v-if="$builder.isEditing && !$builder.isHideExtra"
       class="inline-editor-sheet"
+      color="#225082"
+      dark
       @click.stop
     >
       <v-toolbar
         class="overflow-x-auto thin-scroll"
+        color="#225082"
         flat
         height="84"
-        color="#225082"
       >
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
-            @click.stop="removeLastSlide"
+            class="rounded-lg tnt me-2"
             color="#2196F3"
             variant="flat"
-            class="rounded-lg tnt me-2"
+            @click.stop="removeLastSlide"
           >
             <v-icon start>backspace</v-icon>
             Remove Last Slide
           </v-btn>
           <v-btn
-            @click.stop="addNewSlide"
+            class="rounded-lg tnt me-2"
             color="#2196F3"
             variant="flat"
-            class="rounded-lg tnt me-2"
+            @click.stop="addNewSlide"
           >
             <v-icon start>queue</v-icon>
             Add New Slide
@@ -65,9 +65,9 @@
 
     <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
     <x-buttons
+      :augment="augment"
       :object="$sectionData"
       path="$sectionData"
-      :augment="augment"
     ></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
@@ -75,19 +75,20 @@
       <div
         v-for="(col, index) in $sectionData.columns"
         :key="index"
+        :class="{ 'run-mode': /*!$builder.isEditing*/ true }"
         :index="index"
         class="box"
-        :class="{ 'run-mode': /*!$builder.isEditing*/ true }"
       >
         <x-uploader
-          cover
-          class="gallery-image-item"
-          :path="`$sectionData.columns[${index}].image`"
+          v-model="col.image"
+          :augment="augment"
           :class="{
             '-caption': $builder.isEditing || $sectionData.columns[index].title,
             '-editing': $builder.isEditing,
           }"
-          :augment="augment"
+          :path="`$sectionData.columns[${index}].image`"
+          class="gallery-image-item"
+          cover
         >
         </x-uploader>
 
@@ -97,13 +98,13 @@
             target: $sectionData.columns[index],
             keyText: 'title',
           }"
+          :index="index"
           v-html="
             $sectionData.columns[index].title?.applyAugment(
               augment,
               $builder.isEditing,
             )
           "
-          :index="index"
         />
       </div>
     </div>
@@ -112,14 +113,14 @@
 
 <script>
 import * as types from "../../../src/types";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingHistoryMixin";
+import { LMixinsHistory } from "@app-page-builder/mixins/history/LMixinsHistory";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import SectionMixin from "@app-page-builder/mixins/SectionMixin";
 
 export default {
   name: "LSectionGalleryExpandable",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin, LandingHistoryMixin],
+  mixins: [SectionMixin, LMixinsHistory],
 
   components: {},
   cover: require("../../../assets/images/covers/gallery-1.svg"),

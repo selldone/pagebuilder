@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="buttons-row"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="buttons-row"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -32,19 +33,19 @@
 
       <li>
         <v-btn
-          class="styler-button"
-          @click="show_align = true"
-          icon
-          variant="text"
-          size="42"
           :disabled="show_align"
+          class="styler-button"
+          icon
+          size="42"
+          variant="text"
+          @click="show_align = true"
         >
           <v-icon dark size="20">vertical_distribute</v-icon>
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             >Align & Justify buttons
           </v-tooltip>
         </v-btn>
@@ -53,15 +54,12 @@
       <!-- ―――――――――――――――――― XButtons List (Add Button) ―――――――――――――――――― -->
 
       <li>
-        <button
-          class="styler-button"
-          @click="addNewButton()"
-        >
-          <v-icon dark size="20" color="#CDDC39">add_box</v-icon>
+        <button class="styler-button" @click="addNewButton()">
+          <v-icon color="#CDDC39" dark size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             >Add new button
           </v-tooltip>
         </button>
@@ -80,17 +78,17 @@
           v-model="target[keyRow].align"
           class="ma-1"
           rounded="xl"
-          theme="dark"
           selected-class="green-flat"
           style="min-height: 48px"
+          theme="dark"
         >
           <v-btn v-for="it in ALIGN" :key="it.val" :value="it.val" icon="">
             <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              location="bottom"
               content-class="bg-black white--text"
+              location="bottom"
               >{{ it.title }}
             </v-tooltip>
           </v-btn>
@@ -99,17 +97,17 @@
           v-model="target[keyRow].justify"
           class="ma-1"
           rounded="xl"
-          theme="dark"
           selected-class="blue-flat"
           style="min-height: 48px"
+          theme="dark"
         >
           <v-btn v-for="it in JUSTIFY" :key="it.val" :value="it.val" icon>
             <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              location="bottom"
               content-class="bg-black white--text"
+              location="bottom"
               >{{ it.title }}
             </v-tooltip>
           </v-btn>
@@ -125,14 +123,14 @@ import { Seeder } from "@app-page-builder/src/seeder";
 import ALIGN from "@app-page-builder/src/enums/ALIGN";
 import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 
 export default {
   name: "SStylerButtons",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -178,7 +176,6 @@ export default {
     JUSTIFY: JUSTIFY,
 
     show_align: false,
-
   }),
 
   computed: {},

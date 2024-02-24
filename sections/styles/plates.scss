@@ -18,12 +18,14 @@
     color: #000;
   }
 }
+
 @for $i from 1 through 12 {
   .bg--plate-dark-#{$i} {
     background: var(--plate-dark-#{$i});
     color: #fff;
   }
 }
+
 .bg--plate-transparent {
   background: transparent;
 }

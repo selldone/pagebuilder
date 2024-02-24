@@ -13,20 +13,23 @@
   -->
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
-  <div class="s--setting-number-select" :class="{'disabled-scale-down':disabled}">
-    <v-list-item :title="title" :prepend-icon="icon" density="compact" >
+  <div
+    :class="{ 'disabled-scale-down': disabled }"
+    class="s--setting-number-select"
+  >
+    <v-list-item :prepend-icon="icon" :title="title" density="compact">
       <template v-slot:append>
         <v-select
-          inset
-          hide-details
-          density="compact"
-          color="#1976D2"
+          :clearable="clearable"
           :items="items"
           :model-value="modelValue"
-          @update:model-value="(val) => setValue(val)"
-          variant="plain"
+          color="#1976D2"
+          density="compact"
+          hide-details
+          inset
           style="min-width: 64px"
-          :clearable="clearable"
+          variant="plain"
+          @update:model-value="(val) => setValue(val)"
         >
         </v-select>
       </template>
@@ -82,6 +85,5 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-number-select {
-
 }
 </style>

@@ -14,8 +14,6 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
-    :object="$sectionData"
-    path="$sectionData"
     v-styler:products="{
       target: $sectionData,
       keyFilter: 'filter',
@@ -23,13 +21,16 @@
       keyFrameProduct: 'frame_product',
       custom: true,
     }"
+    :object="$sectionData"
+    path="$sectionData"
   >
     <x-custom-products-list :force-package="forcePackage">
       <template v-slot:folders="{ folders }">
         <component
+          :is="gen(getCategoryCode(folder))"
           v-for="folder in folders"
           :key="'f' + folder.id"
-          :is="gen(getCategoryCode(folder))"
+          :category-id="folder.id"
           :class="[
             $sectionData.frame_category?.classes,
             {
@@ -38,16 +39,15 @@
                 !$builder.isHideExtra /*Vie mode activate links!*/,
             },
           ]"
-          :category-id="folder.id"
         >
         </component>
       </template>
 
       <template v-slot:products="{ products }">
         <component
+          :is="gen(getProductCode(product))"
           v-for="product in products"
           :key="'p' + product.id"
-          :is="gen(getProductCode(product))"
           :class="[
             $sectionData.frame_product?.classes,
             {
@@ -118,7 +118,6 @@ export default {
   computed: {},
   watch: {
     "$sectionData.filter"(value) {
-
       if (value instanceof Object) {
         console.log("✻ Change products filter.");
 

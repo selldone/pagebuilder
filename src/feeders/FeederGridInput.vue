@@ -16,26 +16,26 @@
   <div class="d-flex align-center justify-space-around">
     <responsive-size-selector
       v-model="grid.mobile"
-      label="Mobile"
       icon="smartphone"
+      label="Mobile"
       @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.tablet"
-      label="Tablet"
       icon="tablet_mac"
+      label="Tablet"
       @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.desktop"
-      label="Desktop"
       icon="laptop"
+      label="Desktop"
       @update:modelValue="update"
     ></responsive-size-selector>
     <responsive-size-selector
       v-model="grid.widescreen"
-      label="Widescreen"
       icon="desktop_windows"
+      label="Widescreen"
       @update:modelValue="update"
     ></responsive-size-selector>
   </div>

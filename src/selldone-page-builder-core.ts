@@ -25,7 +25,6 @@ import XSection from "@app-page-builder/sections/components/XSection.vue";
 import XContainer from "@app-page-builder/sections/components/XContainer.vue";
 import XButtons from "@app-page-builder/sections/components/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/sections/components/XCustomProductsList.vue";
-import initDataAttributeDirective from "@app-page-builder/directives/initDataAttributeDirective";
 import {XUploader} from "@app-page-builder/sections/components/XUploader.vue";
 import {Page} from "@core/models/shop/page/page.model";
 import LSectionHeroHorizontal from "@app-page-builder/sections/hero/horizontal/LSectionHeroHorizontal.vue";
@@ -58,13 +57,16 @@ import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
 import {Migration} from "@app-page-builder/src/MigrateFromOldVersion";
 import {isObject} from "lodash-es";
+import {Popup} from "@core/models/shop/popup/popup.model";
 
 const DEBUG = false;
 
-export namespace Landing {
-  export interface IBuilderOptions {
+export namespace builder {
+  export interface IOptions {
+    mode: Mode;
+    themes: any[];
+
     title: string;
-    intro: boolean;
     sections: Section[];
     style: any;
     columnsPrefix: {
@@ -74,8 +76,26 @@ export namespace Landing {
       widescreen: string;
       ultrawide: string;
     };
-    themes: any[];
+
+    // Edit mode only options:
+    server?: IServer;
+    type: ModelType;
+    model:Page | Popup | ShopMenu
   }
+
+  type Mode = "edit" | "view";
+
+  type ModelType = "page" | "popup"|"menu";
+  type IUploadImageFunction = (
+    type: ModelType,
+    model: Page | Popup | ShopMenu,
+  ) => string;
+
+
+  export interface IServer{
+    uploadImageUrl?: IUploadImageFunction;
+  }
+
 }
 
 export const Components: Record<string, any> = {};
@@ -83,12 +103,13 @@ export const Components: Record<string, any> = {};
 /**
  * Default options for the builder.
  */
-const BUILDER_OPTIONS: Landing.IBuilderOptions = {
+const BUILDER_OPTIONS: builder.IOptions = {
+  mode: "editor",
+  themes: [],
+
   title: "",
-  intro: true,
   sections: [],
   style: {},
-  themes: [],
   columnsPrefix: {
     mobile: "v-col-",
     tablet: "v-col-sm-",
@@ -102,18 +123,67 @@ const BUILDER_OPTIONS: Landing.IBuilderOptions = {
 let _Vue: App | null = null;
 
 class SelldonePageBuilderCore {
-  static install(app: App, options: Partial<Landing.IBuilderOptions> = {}) {
+  // Assigned from options:
+  public title: string;
+  public sections: Section[];
+  public style: any;
+  public columnsPrefix: any;
+  public themes: any[];
+  public server: builder.IServer | undefined|null;
+
+  // Local variables:
+  public isAnimation: boolean;
+  public isTracking: boolean;
+  public isEditing: boolean;
+  public isHideExtra: boolean;
+  public isSorting: boolean;
+  public isRendered: boolean;
+  public components: Record<string, any>;
+  public cloneStyle: boolean;
+  public cloneObject: any;
+  public rootEl: any;
+  public history: string[] = [];
+  public historyIndex: number = 0;
+
+  // Corresponding model of page in the server. We pass it to uploadImageUrl and etc functions to generate upload urls,... It should be set in the set function.
+  public type: builder.ModelType ;
+  public model: Object ;
+
+  constructor(options: builder.IOptions) {
+    LOG("⚽ 3. Constructor > Create page builder instance", "options", options);
+
+    // Assigned from option:
+    this.title = options.title;
+    this.sections = options.sections;
+    this.style = options.style;
+    this.columnsPrefix = options.columnsPrefix;
+    this.themes = options.themes;
+    this.server = options.server;
+
+
+    // Local variables:
+    this.isAnimation = false; // In animation editing mode
+    this.isTracking = false; // In tracking editing mode
+
+    this.isEditing = true;
+    this.isHideExtra = false; // Hide add buttons and empty texts (Only in edit mode)
+    this.isSorting = false;
+    this.isRendered = false;
+
+    this.components = Components;
+
+    //----------------- Clone Style ------------------
+    this.cloneStyle = false;
+    this.cloneObject = null;
+  }
+
+  static install(app: App, options: Partial<builder.IOptions> = {}) {
     // already installed
     if (_Vue) {
       LOG("⚽ 2. Call Install", "Already installed!");
       return;
     }
     LOG("⚽ 2. Start Install...");
-
-    /**
-     * Use this directive to add extra data-x attribute to elements in page builder.
-     */
-    app.directive("initDataAttribute", initDataAttributeDirective);
 
     app.component(XUploader.name, XUploader);
 
@@ -139,7 +209,7 @@ class SelldonePageBuilderCore {
     app: App,
     name: string,
     component: any,
-    options: Partial<Landing.IBuilderOptions>,
+    options: Partial<builder.IOptions>,
   ) {
     {
       const core_instance = new SelldonePageBuilderCore(
@@ -165,49 +235,6 @@ class SelldonePageBuilderCore {
       // Register the main components
       app.component(name, ExtendedSPageRender);
     }
-  }
-
-  public isAnimation: boolean;
-  public isTracking: boolean;
-  public isEditing: boolean;
-  public isHideExtra: boolean;
-  public isSorting: boolean;
-  public isRendered: boolean;
-  public title: string;
-  public intro: boolean;
-  public sections: Section[];
-  public style: any;
-  public columnsPrefix: any;
-  public themes: any[];
-  public components: Record<string, any>;
-  public cloneStyle: boolean;
-  public cloneObject: any;
-  public rootEl: any;
-
-  public history: string[] = [];
-  public historyIndex: number = 0;
-
-  constructor(options: Landing.IBuilderOptions) {
-    LOG("⚽ 3. Constructor > Create page builder instance", "options", options);
-
-    this.isAnimation = false; // In animation editing mode
-    this.isTracking = false; // In tracking editing mode
-
-    this.isEditing = true;
-    this.isHideExtra = false; // Hide add buttons and empty texts (Only in edit mode)
-    this.isSorting = false;
-    this.isRendered = false;
-    this.title = options.title;
-    this.intro = options.intro;
-    this.sections = options.sections;
-    this.style = options.style;
-    this.columnsPrefix = options.columnsPrefix;
-    this.themes = options.themes;
-    this.components = Components;
-
-    //----------------- Clone Style ------------------
-    this.cloneStyle = false;
-    this.cloneObject = null;
   }
 
   /**
@@ -380,11 +407,23 @@ class SelldonePageBuilderCore {
   }
 
   /**
+   * Set model for upload image url
+   * Only use in the edit mode.
+   * @param type
+   * @param model
+   */
+  setModel(type:builder.ModelType,model:Object|null){
+    this.type=type;
+    this.model=model;
+  }
+
+  /**
    * Load page content from a JSON object.
    * @param data
    */
-  set(data: Page.IContent, from_theme: boolean = false) {
+  setContent(data: Page.IContent, from_theme: boolean = false) {
     LOG("⚽ Set -----> data", data);
+
 
     data = Migration.MigratePageContent(data);
 
@@ -398,11 +437,13 @@ class SelldonePageBuilderCore {
 
     if (data.sections && Array.isArray(data.sections)) {
       this.sections = data.sections.map((section) => {
-
-        if(!this.components[section.name]){
-          console.error("Component not found", section.name, this.components[section.name])
+        if (!this.components[section.name]) {
+          console.error(
+            "Component not found",
+            section.name,
+            this.components[section.name],
+          );
         }
-
 
         const sectionData = {
           name: section.name,
@@ -442,6 +483,23 @@ class SelldonePageBuilderCore {
       style: this.style,
     };
   }
+
+
+
+  //---------------------------------
+  getImageUploadUrl(){
+    return this.server?.uploadImageUrl(this.type,this.model)
+  }
+
+
+
+
+
+
+
+
+
+
 }
 
 /**

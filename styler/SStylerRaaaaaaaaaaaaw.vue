@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="section"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="section"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -27,23 +28,19 @@
     <!-- ――――――――――――――――――――――― Normal editing tools ―――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul class="styler-list">
-
-    </ul>
+    <ul class="styler-list"></ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――― Normal editing tools (sub list) ――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul class="styler-list flex-grow-1 w-100">
-
-    </ul>
+    <ul class="styler-list flex-grow-1 w-100"></ul>
   </s-styler-template>
 </template>
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
@@ -55,12 +52,10 @@ import {
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
-
-
 export default {
   name: "SStylerRaaaaaaaaaaaaw",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerToolsColors,
@@ -93,16 +88,12 @@ export default {
       type: String,
       default: "top-center",
     },
-
-
   },
   data: () => ({
-    option:null,
+    option: null,
   }),
 
-  computed: {
-
-  },
+  computed: {},
   watch: {
     option() {
       this.updatePopper();
@@ -119,14 +110,9 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerRaaaaaaaaaaaaw");
     }
-
   },
-  mounted() {
+  mounted() {},
 
-  },
-
-  methods: {
-
-  },
+  methods: {},
 };
 </script>

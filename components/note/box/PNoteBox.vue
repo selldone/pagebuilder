@@ -55,8 +55,8 @@
           :loading="delete_busy === note"
           color="red"
           icon
-          variant="text"
           title="Remove note."
+          variant="text"
           @click.stop="
             openDangerAlert(
               'Remove Note',

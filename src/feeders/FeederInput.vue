@@ -24,10 +24,12 @@
 
     <v-text-field
       v-model="modelValue.placeholder"
+      :append-inner-icon="
+        modelValue.persistentPlaceholder ? 'lock' : 'lock_open'
+      "
       label="Placeholder"
       placeholder="Sample of input..."
       @change="$emit('change', modelValue)"
-      :append-inner-icon="modelValue.persistentPlaceholder ? 'lock' : 'lock_open'"
       @click:append-inner="
         modelValue.persistentPlaceholder = !modelValue.persistentPlaceholder;
         $emit('change', modelValue);
@@ -38,16 +40,16 @@
     <v-text-field
       v-model="modelValue.messages"
       label="Message"
-      placeholder="A short message..."
       messages="It will be shown under input."
+      placeholder="A short message..."
       @change="$emit('change', modelValue)"
     >
     </v-text-field>
     <v-text-field
       v-model="modelValue.hint"
       label="Hint"
-      placeholder="A short help..."
       messages="It will appear when the user clicks on the input and focusing on it."
+      placeholder="A short help..."
       @change="$emit('change', modelValue)"
     >
     </v-text-field>
@@ -55,114 +57,114 @@
     <v-list-subheader></v-list-subheader>
 
     <v-btn
+      :color="modelValue.flat ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.flat = !modelValue.flat;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.flat ? 'primary' : undefined"
-      variant="flat"
     >
       Flat
     </v-btn>
 
     <v-btn
+      :color="modelValue.rounded ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.rounded = !modelValue.rounded;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.rounded ? 'primary' : undefined"
-      variant="flat"
     >
       <v-icon>{{ modelValue.rounded ? "rounded_corner" : "crop_din" }}</v-icon>
     </v-btn>
 
     <v-btn
+      :color="modelValue.solo ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.solo = !modelValue.solo;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.solo ? 'primary' : undefined"
-      variant="flat"
     >
       Solo
     </v-btn>
 
     <v-btn
+      :color="modelValue.outlined ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.outlined = !modelValue.outlined;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.outlined ? 'primary' : undefined"
-      variant="flat"
     >
       Outlined
     </v-btn>
 
     <v-btn
+      :color="modelValue.dark ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.dark = !modelValue.dark;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.dark ? 'primary' : undefined"
-      variant="flat"
     >
       Dark
     </v-btn>
 
     <v-btn
+      :color="modelValue.filled ? 'primary' : undefined"
+      class="ma-1"
+      min-width="36"
+      tile
+      variant="flat"
       @click="
         () => {
           modelValue.filled = !modelValue.filled;
           $emit('change', modelValue);
         }
       "
-      class="ma-1"
-      tile
-      min-width="36"
-      :color="modelValue.filled ? 'primary' : undefined"
-      variant="flat"
     >
       Filled
     </v-btn>
 
     <s-color-selector
       v-model="modelValue.color"
-      title="Color"
       class="my-3"
       nullable
+      title="Color"
       @change="$emit('change', modelValue)"
     ></s-color-selector>
 
     <s-color-selector
       v-model="modelValue.backgroundColor"
-      title="Background color"
       class="my-3"
       nullable
+      title="Background color"
       @change="$emit('change', modelValue)"
     ></s-color-selector>
   </div>

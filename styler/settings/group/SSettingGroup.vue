@@ -18,8 +18,10 @@
       <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
       {{ title }}
     </v-card-title>
-    <v-card-subtitle v-if="subtitle" class="small">{{subtitle}}</v-card-subtitle>
-    <v-card color="#99999911" rounded="lg" class="my-2">
+    <v-card-subtitle v-if="subtitle" class="small">{{
+      subtitle
+    }}</v-card-subtitle>
+    <v-card class="my-2" color="#282828" rounded="lg">
       <div class="-card-content">
         <slot></slot>
       </div>
@@ -35,7 +37,7 @@ export default defineComponent({
   components: {},
   props: {
     title: {},
-    subtitle:{},
+    subtitle: {},
     icon: {},
   },
   computed: {},
@@ -46,7 +48,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .s--setting-group {
   margin-bottom: 12px;
 
@@ -60,5 +62,7 @@ export default defineComponent({
       border-bottom: solid 1px #545454;
     }
   }
+
+  --background: #282828; // For nested components like <s-fade-scroll>
 }
 </style>

@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="product"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="product"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -35,8 +36,8 @@
           <v-icon color="#fff" size="20"> bento</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Select Product
           </v-tooltip>
@@ -54,7 +55,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 
@@ -65,7 +66,7 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 export default {
   name: "SStylerProduct",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerTemplate,
@@ -122,7 +123,7 @@ export default {
 
   methods: {
     showSelectProduct() {
-      this.ShowGlobalProductSelectDialog(this.el, this.target);
+      this.ShowLSettingsProduct(this.el, this.target);
     },
   },
 };

@@ -15,11 +15,13 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="column"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    has-animation
+    type="column"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -37,28 +39,28 @@
 
             <v-tooltip
               activator="parent"
-              location="bottom"
-              content-class="bg-black white--text"
               attach
+              content-class="bg-black white--text"
+              location="bottom"
             >
               Delete Column
             </v-tooltip>
           </button>
         </li>
-        <v-divider class="mx-2" vertical dark inset></v-divider>
+        <v-divider class="mx-2" dark inset vertical></v-divider>
       </template>
 
       <!-- ―――――――――――――――――― Custom Layout (XColumn) ―――――――――――――――――― -->
 
       <li v-if="hasCustomLayout">
         <button class="styler-button" @click="showCustomLayout">
-          <v-icon size="20" dark>fit_screen</v-icon>
+          <v-icon dark size="20">fit_screen</v-icon>
 
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Customize Layout
           </v-tooltip>
@@ -73,9 +75,9 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Size & Class
           </v-tooltip>
@@ -86,12 +88,12 @@
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20" dark>fa:fas fa-image</v-icon>
+          <v-icon dark size="20">fa:fas fa-image</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Background Image / Video / Pattern
           </v-tooltip>
@@ -100,16 +102,16 @@
 
       <!-- ―――――――――――――――――― Grid ―――――――――――――――――― -->
 
-      <v-divider class="mx-2" vertical inset></v-divider>
+      <v-divider class="mx-2" inset vertical></v-divider>
       <!-- Row grid use to apply grid to all elements like blogs -->
 
       <s-styler-tools-devices
         v-model="device"
-        @update:model-value="selectDevice"
+        :desktop-value="target[keyGrid].desktop"
         :mobile-value="target[keyGrid].mobile"
         :tablet-value="target[keyGrid].tablet"
-        :desktop-value="target[keyGrid].desktop"
         :widescreen-value="target[keyGrid].widescreen"
+        @update:model-value="selectDevice"
       ></s-styler-tools-devices>
     </ul>
 
@@ -123,21 +125,21 @@
       <li v-if="option === 'columnWidth'">
         <v-btn-toggle
           v-model="gridValue"
-          rounded
-          mandatory
-          density="compact"
-          selected-class="blue-flat"
           class="mx-1 my-2"
+          density="compact"
+          mandatory
+          rounded
+          selected-class="blue-flat"
         >
-          <v-btn :value="null" size="small" class="dens-btn">
+          <v-btn :value="null" class="dens-btn" size="small">
             <v-icon size="small">close</v-icon>
           </v-btn>
           <v-btn
             v-for="col in 12"
             :key="col"
             :value="col"
-            size="small"
             class="dens-btn"
+            size="small"
             @click="setGridValue(col)"
           >
             {{ col }}
@@ -150,7 +152,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerToolsDevices.vue";
@@ -162,7 +164,7 @@ import { isObject } from "lodash-es";
 export default {
   name: "SStylerColumn",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerToolsDevices,
@@ -246,12 +248,12 @@ export default {
      * SectionSlideShow | Edit slides
      */
     showCustomLayout() {
-      this.ShowSLandingToolsColumnLayout(this.el, this.target);
+      this.ShowLSettingsColumn(this.el, this.target);
     },
     showMasterDesignDialog() {
       // Class and style is in the same level of grid!!! not it's child!
 
-      this.ShowGlobalStyleEditorDialog(
+      this.ShowLSettingsClassStyle(
         this.el,
         this.el,
         this.target,
@@ -261,7 +263,7 @@ export default {
     },
 
     showStyleDialog() {
-      this.ShowGlobalBackgroundEditorDialog(this.el, this.target, `background`);
+      this.ShowLSettingsBackground(this.el, this.target, `background`);
     },
 
     selectDevice(device) {

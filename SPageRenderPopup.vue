@@ -17,7 +17,6 @@
 
   <div
     ref="render_container"
-    class="page-content"
     :style="[
       CUSTOM_PAGE_STYLE,
       PageBuilderTypoHelper.GenerateTypoStyle(style),
@@ -27,6 +26,7 @@
         fontFamily: style && style.font ? style.font : undefined,
       },
     ]"
+    class="page-content"
   >
     <component
       :is="section.name"
@@ -34,7 +34,8 @@
       :id="section.uid"
       :key="section.uid"
       :style="section.get('$sectionData.style')"
-    /><!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
+    />
+    <!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
   </div>
 </template>
 
@@ -82,7 +83,7 @@ export default {
     data() {
       this.$builder.isEditing = false;
       this.$builder.isRendered = true;
-      this.$builder.set(this.data);
+      this.$builder.setContent(this.data);
       //-------------------
     },
   },
@@ -93,7 +94,7 @@ export default {
 
     this.$builder.isEditing = false;
     this.$builder.isRendered = true;
-    this.$builder.set(this.data);
+    this.$builder.setContent(this.data);
   },
 
   mounted() {

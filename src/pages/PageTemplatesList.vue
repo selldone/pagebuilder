@@ -15,14 +15,14 @@
 <template>
   <v-card
     v-if="blur"
-    min-height="60vh"
     class="x--page-builder-templates d-flex align-center justify-center pa-3 text-h2 font-weight-thin text-muted"
+    min-height="60vh"
     style="--background: #fff"
   >
     Loading Template...
   </v-card>
-  <v-card v-else flat class="x--page-builder-templates">
-    <v-app-bar color="transparent" prominent flat max-height="64">
+  <v-card v-else class="x--page-builder-templates" flat>
+    <v-app-bar color="transparent" flat max-height="64" prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
@@ -32,9 +32,9 @@
       <h1 class="text-h3 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
+            height="55%"
             src="@components/assets/selldone-logo/selldone-gradient-purple.svg"
             width="55%"
-            height="55%"
         /></span>
 
         {{ $t("page_builder.design.themes.title") }}
@@ -49,15 +49,15 @@
     <div class="position-relative min-height-60vh">
       <v-navigation-drawer
         v-model="drawer"
-        absolute
         :temporary="$vuetify.display.mdAndDown"
+        absolute
         class="drawer"
       >
-        <v-list nav density="compact">
+        <v-list density="compact" nav>
           <v-list-item
-            link
             v-for="item in categories"
             :key="item.code"
+            link
             @click="
               selected_category = item.code;
               drawer = !$vuetify.display.mdAndDown;
@@ -85,31 +85,31 @@
       >
         <div>
           <v-text-field
-            prepend-inner-icon="search"
-            :label="$t('global.commons.search')"
             v-model="search"
-            clearable
-            variant="plain"
-            single-line
-            hide-details
+            :label="$t('global.commons.search')"
             class="max-width-field"
+            clearable
+            hide-details
+            prepend-inner-icon="search"
+            single-line
+            variant="plain"
           ></v-text-field>
         </div>
         <template v-if="themes && selected_category === 'raw'">
           <v-fade-transition
-            group
-            tag="v-row"
-            row
             class="align-items-center justify-start"
+            group
             hide-on-leave
+            row
+            tag="v-row"
           >
             <v-col
               v-for="(theme, index) in themes"
               :key="'raw-' + index"
               cols="12"
-              sm="6"
-              md="4"
               lg="3"
+              md="4"
+              sm="6"
             >
               <v-card
                 class="widget-hover rounded-2rem widget border overflow-hidden"
@@ -118,8 +118,8 @@
                 <v-img :src="theme.image" aspect-ratio="1" class="rounded-2rem">
                   <v-chip
                     class="ma-3 absolute-bottom-end"
-                    size="small"
                     color="amber"
+                    size="small"
                     >raw
                   </v-chip>
                 </v-img>
@@ -133,18 +133,18 @@
 
         <template v-else>
           <v-fade-transition
-            group
-            tag="v-row"
-            row
             class="align-items-center justify-start"
+            group
             hide-on-leave
+            row
+            tag="v-row"
           >
-            <v-col v-if="page_count > 1" cols="12" key="p">
+            <v-col v-if="page_count > 1" key="p" cols="12">
               <v-pagination
                 v-model="page"
                 :disabled="busy_fetch"
-                rounded
                 :length="page_count"
+                rounded
                 @update:model-value="fetchTemplates()"
               />
             </v-col>
@@ -153,15 +153,15 @@
               v-for="item in templates"
               :key="'tem-' + item.id"
               cols="12"
-              sm="6"
-              md="4"
               lg="3"
+              md="4"
+              sm="6"
               style="min-width: max-content"
             >
               <page-template-card
+                :loading="busy_get_template === item.id"
                 :template="item"
                 @click="$route.params.shop_id ? loadTemplate(item) : undefined"
-                :loading="busy_get_template === item.id"
               ></page-template-card>
             </v-col>
           </v-fade-transition>

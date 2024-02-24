@@ -15,12 +15,33 @@
 <template>
   <!-- IMPORTANT: Element must have -trackable class! -->
   <v-btn
-    class="x--button tnt -trackable"
+    :id="btnData.id"
     :class="[btnData.classes, { '-button-glow': is_glow }]"
-    :href="editing ? ' ' : btnData.href"
-    v-html="btnData.content?.applyAugment(augment, editing)"
     :color="btnData.color"
+    :elevation="btnData.elevation"
+    :height="btnData.height"
+    :href="editing ? ' ' : btnData.href"
     :icon="btnData.icon"
+    :loading="loading"
+    :ripple="btnData.ripple"
+    :rounded="
+      btnData.rounded ? btnData.rounded : btnData.tile ? 0 : btnData.rounded
+    "
+    :size="
+      btnData.size
+        ? btnData.size
+        : btnData.xLarge
+          ? 'x-large'
+          : btnData.large
+            ? 'large'
+            : btnData.small
+              ? 'small'
+              : btnData.xSmall
+                ? 'x-small'
+                : undefined
+    "
+    :style="{ fontFamily: btnData.font, '--shadow-color': btnData.color }"
+    :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
     :variant="
       is_glow
         ? 'elevated'
@@ -36,30 +57,9 @@
                   ? 'elevated'
                   : undefined
     "
-    :size="
-      btnData.size
-        ? btnData.size
-        : btnData.xLarge
-          ? 'x-large'
-          : btnData.large
-            ? 'large'
-            : btnData.small
-              ? 'small'
-              : btnData.xSmall
-                ? 'x-small'
-                : undefined
-    "
-    :ripple="btnData.ripple"
-    :rounded="
-      btnData.rounded ? btnData.rounded : btnData.tile ? 0 : btnData.rounded
-    "
+    class="x--button tnt -trackable"
+    v-html="btnData.content?.applyAugment(augment, editing)"
     @click.stop="$emit('click')"
-    :id="btnData.id"
-    :loading="loading"
-    :elevation="btnData.elevation"
-    :height="btnData.height"
-    :style="{ fontFamily: btnData.font, '--shadow-color': btnData.color }"
-    :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
   >
   </v-btn>
 </template>

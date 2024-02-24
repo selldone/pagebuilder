@@ -16,46 +16,43 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <h3
-        v-styler:text="{target:$sectionData,keyText:'title'}   "
-        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
+        v-styler:text="{ target: $sectionData, keyText: 'title' }"
         class="mb-5 fadeIn delay_100"
+        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
       <p
-        v-styler:text="{target:$sectionData,keyText:'content'}   "
-
-
-        v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
+        v-styler:text="{ target: $sectionData, keyText: 'content' }"
         class="fadeIn delay_300"
+        v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
       />
 
       <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
       <x-buttons
+        :augment="augment"
         :object="$sectionData"
         path="$sectionData"
-        :augment="augment"
       ></x-buttons>
       <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
       <x-row
-        :object="$sectionData"
-        path="$sectionData"
-        has-arrangement
-        add-column
-        has-wrap
-        has-fluid
         :column-structure="ItemType"
+        :object="$sectionData"
+        add-column
+        has-arrangement
+        has-fluid
+        has-wrap
+        path="$sectionData"
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
           v-for="(col, index) in $sectionData.columns"
+          :key="`${index}-${$sectionData.columns.length}`"
+          :augment="augment"
           :object="$sectionData.columns[index]"
           :path="`$sectionData.columns[${index}]`"
+          :remove-column="() => $sectionData.columns.splice(index, 1)"
           initial-column-layout="x-layout-middle"
-          :augment="augment"
-
-          :key="`${index}-${$sectionData.columns.length}`"
-          :remove-column="()=> $sectionData.columns.splice(index, 1)"
         >
         </x-column-image-text>
         <!-- █████████████████████████████████████████████████████ -->

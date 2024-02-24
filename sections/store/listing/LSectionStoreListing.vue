@@ -14,14 +14,14 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
+    v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
     :object="$sectionData"
     path="$sectionData"
-    v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
   >
     <x-container
-      path="$sectionData"
       :object="$sectionData"
       max-width-normal="1550px"
+      path="$sectionData"
     >
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'title' }"
@@ -30,15 +30,15 @@
       />
 
       <s-storefront-products-listing
-        :shop="getShop()"
-        silent
-        landing-page-mode
-        :force-mode-view="mode_view"
-        :force-package="forcePackage"
-        :view-only="$builder.isEditing"
         v-styler:row="rowBinding"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
+        :force-mode-view="mode_view"
+        :force-package="forcePackage"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
+        :shop="getShop()"
+        :view-only="$builder.isEditing"
+        landing-page-mode
+        silent
       ></s-storefront-products-listing>
 
       <p

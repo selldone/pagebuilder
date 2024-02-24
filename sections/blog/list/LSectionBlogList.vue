@@ -14,9 +14,9 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
+    v-styler:blogs="{ target: $sectionData, keyFilter: 'blogs_filter' }"
     :object="$sectionData"
     path="$sectionData"
-    v-styler:blogs="{target:$sectionData,keyFilter:'blogs_filter'}"
   >
     <!-- 📹 Background video -->
     <video-background
@@ -37,41 +37,41 @@
     />
 
     <v-progress-circular
-      rotate=""
-      color="#999"
       v-if="busy"
+      color="#999"
       indeterminate
+      rotate=""
     ></v-progress-circular>
 
     <v-container :fluid="$sectionData.row ? $sectionData.row.fluid : false">
       <v-row
-        :align="$sectionData.row ? $sectionData.row.align : 'stretch'"
-        :justify="$sectionData.row ? $sectionData.row.justify : 'space-around'"
+        v-styler:grid="{ target: $sectionData }"
         v-styler:row="{
           target: $sectionData,
           hasArrangement: true,
           hasFluid: true,
         }"
+        :align="$sectionData.row ? $sectionData.row.align : 'stretch'"
+        :justify="$sectionData.row ? $sectionData.row.justify : 'space-around'"
         class="min-h-100"
-        v-styler:grid="{target:$sectionData}"
       >
         <v-col
           v-for="(article, i) in articles"
           :key="article.id"
+          :cols="$sectionData.grid.mobile"
+          :lg="$sectionData.grid.widescreen"
+          :md="$sectionData.grid.desktop"
+          :sm="$sectionData.grid.tablet"
           :style="{ 'animation-delay': 300 + i * 100 + 'ms' }"
           class="fadeInUp v-col"
-          :cols="$sectionData.grid.mobile"
-          :sm="$sectionData.grid.tablet"
-          :md="$sectionData.grid.desktop"
-          :lg="$sectionData.grid.widescreen"
         >
           <s-shop-blog-card
             :article="article"
-            :style="{ pointerEvents: $builder.isEditing ? 'none' : 'unset' }"
-            :flat="card_style?.flat"
-            :dark="card_style?.dark"
-            :rounded="card_style?.rounded"
             :color="card_style?.color"
+            :dark="card_style?.dark"
+            :flat="card_style?.flat"
+            :rounded="card_style?.rounded"
+            :style="{ pointerEvents: $builder.isEditing ? 'none' : 'unset' }"
             :view-only="$builder.isEditing"
           ></s-shop-blog-card>
         </v-col>

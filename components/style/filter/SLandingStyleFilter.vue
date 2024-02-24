@@ -18,39 +18,39 @@
 
     <v-img
       v-if="showPreview"
-      :style="{ filter: filter }"
       :src="selected_prev"
-      max-width="800"
-      max-height="30vh"
-      min-height="15vh"
+      :style="{ filter: filter }"
       class="mb-3"
+      max-height="30vh"
+      max-width="800"
+      min-height="15vh"
     >
       <div>
         <v-img
           v-if="previewImage"
           :src="previewImage"
-          @click="selected_prev = previewImage"
           class="pr-item shadow-hover"
+          @click="selected_prev = previewImage"
         ></v-img>
         <v-img
           v-for="im in plates"
           :key="im"
           :src="im"
-          @click="selected_prev = im"
           class="pr-item shadow-hover"
+          @click="selected_prev = im"
         ></v-img>
       </div>
     </v-img>
     <!-- ████████████████████ Collection ████████████████████ -->
 
     <s-widget-header
-      title="Filters collection"
       icon="filter_vintage"
+      title="Filters collection"
     ></s-widget-header>
     <v-list-subheader
       >Select a filter from the collection. Using complex filters may slow down
-      your page experience.</v-list-subheader
-    >
+      your page experience.
+    </v-list-subheader>
 
     <v-item-group v-model="filter_value">
       <v-container>
@@ -63,27 +63,27 @@
           >
             <v-card
               :color="active ? 'blue' : ''"
+              :elevation="active ? 10 : 0"
               class="p-1 rounded-18px overflow-hidden m-1 position-relative"
               flat
               @click="toggle"
-              :elevation="active ? 10 : 0"
             >
               <v-img
-                width="64"
-                height="64"
-                class="rounded-18px"
-                :style="{ filter: calcFilter(it.value) }"
                 :src="selected_prev"
+                :style="{ filter: calcFilter(it.value) }"
+                class="rounded-18px"
+                height="64"
+                width="64"
               >
               </v-img>
               <div class="bottom-absolute-bar-dark">
                 <v-icon
-                  size="8"
-                  color="#fff"
                   v-if="it.value.url"
+                  color="#fff"
+                  size="8"
                   title="Slowdown!"
-                  >warning</v-icon
-                >
+                  >warning
+                </v-icon>
                 {{ it.name }}
               </div>
             </v-card>
@@ -94,10 +94,10 @@
 
     <!-- ████████████████████ Customize ████████████████████ -->
 
-    <s-widget-header title="Tune" icon="tune"></s-widget-header>
+    <s-widget-header icon="tune" title="Tune"></s-widget-header>
     <v-list-subheader
-      >You can customize and make your filter here.</v-list-subheader
-    >
+      >You can customize and make your filter here.
+    </v-list-subheader>
 
     <v-expansion-panels>
       <v-expansion-panel>
@@ -112,12 +112,12 @@
             v-for="key in editable_values"
             :key="key"
             v-model="filter_value[key]"
-            :min="getMin(key)"
-            :max="getMax(key)"
-            :step="getStep(key)"
             :label="key"
-            thumb-label
+            :max="getMax(key)"
+            :min="getMin(key)"
+            :step="getStep(key)"
             thumb-color="#1976D2"
+            thumb-label
           >
           </v-slider>
         </v-expansion-panel-text>
@@ -211,7 +211,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .pr-item {
   margin: 4px;
   width: 36px;

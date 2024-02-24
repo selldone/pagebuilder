@@ -15,41 +15,41 @@
   <!-- ████████████████████████ Slider ████████████████████████ -->
 
   <v-list-item
-    :title="title"
-    :prepend-icon="icon"
-    density="compact"
-    class="s--setting-switch"
     :class="{ 'disabled-scale-down': disabled }"
+    :prepend-icon="icon"
+    :title="title"
+    class="s--setting-switch"
+    density="compact"
   >
     <template v-slot:append>
       <s-number-input
-        inset
+        :disabled="disabled"
+        :max="max"
+        :min="min"
         :model-value="modelValue"
+        color="#1976D2"
+        density="compact"
+        hide-details
+        inset
+        style="min-width: 100px"
+        variant="plain"
         @update:model-value="(val) => setValue(val)"
         @click.stop
-        hide-details
-        density="compact"
-        color="#1976D2"
-        variant="plain"
-        style="min-width: 100px"
-        :min="min"
-        :max="max"
-        :disabled="disabled"
       ></s-number-input>
-      <small class="ms-1" v-if="suffix">{{ suffix }}</small>
+      <small v-if="suffix" class="ms-1">{{ suffix }}</small>
     </template>
     <v-slider
-      :model-value="modelValue"
-      @update:model-value="(val) => setValue(val)"
-      rounded
-      hide-details
-      density="compact"
-      track-size="5"
-      color="#1976D2"
-      class="px-2"
-      :min="minSlider ? minSlider : min"
-      :max="maxSlider ? maxSlider : max"
       :disabled="disabled"
+      :max="maxSlider ? maxSlider : max"
+      :min="minSlider ? minSlider : min"
+      :model-value="modelValue"
+      class="px-2"
+      color="#1976D2"
+      density="compact"
+      hide-details
+      rounded
+      track-size="5"
+      @update:model-value="(val) => setValue(val)"
     ></v-slider>
   </v-list-item>
 </template>

@@ -16,41 +16,41 @@
   <x-section :object="$sectionData" path="$sectionData">
     <x-container :object="$sectionData">
       <x-row
+        v-if="$sectionData.columns"
         :object="$sectionData"
-        path="$sectionData"
+        class="min-h-100"
         has-arrangement
         has-fluid
-        class="min-h-100"
-        v-if="$sectionData.columns"
+        path="$sectionData"
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[0]"
           :object="$sectionData.columns[0]"
           class="position-relative"
+          path="$sectionData.columns[0]"
         >
           <h1
-            v-styler:text="{target:$sectionData,keyText:'title'} "
+            v-styler:text="{ target: $sectionData, keyText: 'title' }"
+            class="mb-2 fadeIn"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-2 fadeIn"
           />
 
           <p
-            v-styler:text="{target:$sectionData,keyText:'content'} "
+            v-styler:text="{ target: $sectionData, keyText: 'content' }"
+            class="mb-4 fadeIn delay_300"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-4 fadeIn delay_300"
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
           <x-buttons
+            :augment="augment"
             :object="$sectionData"
             path="$sectionData"
-            :augment="augment"
           ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
@@ -58,32 +58,33 @@
         <!-- ██████████████████████ Column 2 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[1]"
           :object="$sectionData.columns[1]"
           class="fadeIn delay_300 position-relative"
+          path="$sectionData.columns[1]"
         >
           <x-uploader
-            no-preview
+            v-model="$sectionData.lottie"
             :aspect-ratio="1"
+            :augment="augment"
             class="header-image hero-image"
+            file-key="lottie"
+            no-preview
             path="$sectionData.lottie"
             @uploaded="refreshAnimation"
-            :augment="augment"
-            file-key="lottie"
           >
             <template v-slot="{ src }">
               <s-lottie
                 v-if="show_lottie_view"
-                style="max-width: 800px; max-height: 800px"
                 :options="{
                   path: getShopJsonPath(src),
                   loop: true,
                   autoplay: true,
                 }"
-                height="auto"
-                width="100%"
                 :speed="1"
                 class="-in-animation"
+                height="auto"
+                style="max-width: 800px; max-height: 800px"
+                width="100%"
               />
             </template>
           </x-uploader>

@@ -15,11 +15,13 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="section"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    has-animation
+    type="section"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -36,8 +38,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Classes & Style
           </v-tooltip>
@@ -48,23 +50,23 @@
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20" dark>fa:fas fa-image</v-icon>
+          <v-icon dark size="20">fa:fas fa-image</v-icon>
         </button>
         <v-tooltip
           activator="parent"
-          location="bottom"
-          content-class="bg-black white--text"
-          max-width="320"
           attach
+          content-class="bg-black white--text"
+          location="bottom"
+          max-width="320"
           >Background Image / Video / Pattern<br />
 
           <v-chip
             v-if="target.background.bg_color"
-            size="small"
-            pill
             class="ma-1"
+            pill
+            size="small"
           >
-            <v-icon start :color="target.background.bg_color">circle</v-icon>
+            <v-icon :color="target.background.bg_color" start>circle</v-icon>
             {{ target.background.bg_color }}
           </v-chip>
         </v-tooltip>
@@ -77,8 +79,8 @@
           <SStylerIcon name="palettes" />
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Background Color
           </v-tooltip>
@@ -87,11 +89,11 @@
       <!-- ―――――――――――――――――― Frame Shape ―――――――――――――――――― -->
       <li>
         <button class="styler-button" @click="option = 'bg-styler'">
-          <v-icon size="20" dark>style</v-icon>
+          <v-icon dark size="20">style</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Frame Shape
           </v-tooltip>
@@ -105,8 +107,8 @@
           <SStylerIcon name="trash" />
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Delete Section
           </v-tooltip>
@@ -118,20 +120,20 @@
         <button class="styler-button" @click="toggleDarkMode()">
           <v-scroll-y-reverse-transition group leave-absolute>
             <v-icon
-              key="1"
-              dark
               v-if="target.background.dark"
-              color="#1BD4F2"
+              key="1"
               class="bg-malibu-beach text-gradient"
+              color="#1BD4F2"
+              dark
               size="20"
               >nights_stay
             </v-icon>
             <v-icon
-              key="2"
               v-else
-              dark
-              color="#FFC107"
+              key="2"
               class="bg-sunny-morning text-gradient"
+              color="#FFC107"
+              dark
               size="20"
               >wb_sunny
             </v-icon>
@@ -139,8 +141,8 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Dark / Light Mode
           </v-tooltip>
@@ -156,8 +158,8 @@
       <s-styler-tools-colors
         v-if="option === 'colorer'"
         v-model="target.background.bg_color"
-        :light-colors="PLATE_LIGHT_VARS"
         :dark-colors="PLATE_DARK_VARS"
+        :light-colors="PLATE_LIGHT_VARS"
         @update:model-value="removeClass(`bg--`)"
       >
       </s-styler-tools-colors>
@@ -167,18 +169,18 @@
       <li v-if="option === 'bg-styler'" style="--bg-color: #323c47">
         <v-item-group
           v-model="bgStylerStyle"
-          mandatory
           dark
+          mandatory
           @update:model-value="changeBgStyle()"
         >
           <v-item v-for="item in FrameStyles" :key="item" :value="item">
             <template v-slot="{ isSelected, toggle }">
               <v-btn
                 :color="isSelected ? 'primary' : '#fff'"
-                icon
-                @click="toggle"
-                style="background: transparent"
                 flat
+                icon
+                style="background: transparent"
+                @click="toggle"
               >
                 <div
                   :class="item"
@@ -200,7 +202,7 @@
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
@@ -229,7 +231,7 @@ const FrameStyles = [
 export default {
   name: "SStylerSection",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerToolsColors,
@@ -330,7 +332,7 @@ export default {
     },
 
     showMasterDesignDialog() {
-      this.ShowGlobalStyleEditorDialog(
+      this.ShowLSettingsClassStyle(
         this.el,
         this.el,
         this.target,
@@ -340,11 +342,7 @@ export default {
     },
 
     showStyleDialog() {
-      this.ShowGlobalBackgroundEditorDialog(
-        this.el,
-        this.target,
-        `background`,
-      );
+      this.ShowLSettingsBackground(this.el, this.target, `background`);
     },
 
     removeSection() {

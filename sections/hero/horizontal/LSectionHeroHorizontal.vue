@@ -13,59 +13,45 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <x-row
-        :object="$sectionData"
-        path="$sectionData"
-        has-arrangement
-        has-fluid
-        class="min-h-100"
-      >
+      <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
         <x-column
-          path="$sectionData.columns[0]"
           :object="$sectionData.columns[0]"
           class="position-relative"
+          path="$sectionData.columns[0]"
         >
           <h1
-            v-styler:text="{target:$sectionData,keyText:'title'}    "
+            v-styler:text="{ target: $sectionData, keyText: 'title' }"
+            class="mb-2"
             v-html="
               $sectionData.title?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-2 fadeIn delay_100"
           />
 
           <p
-            v-styler:text="{target:$sectionData,keyText:'content'} "
+            v-styler:text="{ target: $sectionData, keyText: 'content' }"
+            class="mb-4"
             v-html="
               $sectionData.content?.applyAugment(augment, $builder.isEditing)
             "
-            class="mb-4 fadeIn delay_300"
           />
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons
-            :object="$sectionData"
-            path="$sectionData"
-            :augment="augment"
-          ></x-buttons>
+          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
 
         <!-- ██████████████████████ Column 2 ██████████████████████ -->
 
-        <x-column
-          path="$sectionData.columns[1]"
-          :object="$sectionData.columns[1]"
-          class="fadeIn delay_300 position-relative"
-        >
+        <x-column :object="$sectionData.columns[1]">
           <x-uploader
+            v-model="$sectionData.image"
             :aspect-ratio="1"
-            class="ma-auto"
-            path="$sectionData.image"
             :augment="augment"
+            class="ma-auto"
           />
         </x-column>
       </x-row>
@@ -155,12 +141,8 @@ export default {
 
   computed: {},
   watch: {},
-  beforeCreate() {
-
-  },
+  beforeCreate() {},
   created() {
-
-
     // 🛠️Fix bad data structures:
     if (!this.$sectionData.columns || this.$sectionData.columns.length < 2) {
       this.$sectionData.columns = [

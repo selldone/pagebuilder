@@ -14,14 +14,14 @@
 
 <template>
   <div
-    ref="page_render_container"
     id="page-builder"
+    ref="page_render_container"
+    v-resize="onResize"
     :dir="direction"
     class="page-builder"
     style="background-color: #fff"
-    @mousemove="handleDebouncedMouseMove"
     @click="handleMouseClick"
-    v-resize="onResize"
+    @mousemove="handleDebouncedMouseMove"
   >
     <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ Top Shop Menu ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
     <div :class="{ 'top-abs': menu_transparent }">
@@ -30,17 +30,17 @@
     <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
     <div v-if="busy" class="min-height-80vh">
-      <s-loading height="240px" class="my-10"></s-loading>
+      <s-loading class="my-10" height="240px"></s-loading>
     </div>
 
     <SPageRender
-      :key="'page_' + page?.id"
       v-if="json"
+      :key="'page_' + page?.id"
       ref="page_render"
-      style="min-height: 800px"
+      :augment="augment"
       :data="json"
       :style="background"
-      :augment="augment"
+      style="min-height: 800px"
     />
 
     <div
@@ -50,11 +50,11 @@
     >
       <v-btn-toggle
         v-model="action"
-        class="m-1 widget-toggle"
-        mandatory
-        density="compact"
-        selected-class="blue-flat"
         borderless
+        class="m-1 widget-toggle"
+        density="compact"
+        mandatory
+        selected-class="blue-flat"
       >
         <v-btn value="move">
           <v-icon class="me-1">mouse</v-icon>
@@ -73,8 +73,9 @@
       </v-btn-toggle>
 
       <div class="mt-2 widget-buttons">
-        <v-btn :href="window.location.href" target="_blank" variant="text"
-          ><v-icon class="me-1">open_in_new</v-icon> Open full page
+        <v-btn :href="window.location.href" target="_blank" variant="text">
+          <v-icon class="me-1">open_in_new</v-icon>
+          Open full page
         </v-btn>
       </div>
     </div>
@@ -495,6 +496,7 @@ export default {
   display: flow-root; // Fix problem in first section margin from top! (Not show background of main element)
   position: relative;
 }
+
 .top-abs {
   position: absolute;
   left: 0;

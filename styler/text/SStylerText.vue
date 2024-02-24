@@ -15,11 +15,12 @@
 <template>
   <s-styler-template
     ref="styler"
-    :el="el"
-    :section="section"
-    type="text"
     :builder="builder"
+    :el="el"
     :is-visible="isVisible"
+    :section="section"
+    :target="target"
+    type="text"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -37,9 +38,9 @@
         >
           <v-icon
             v-if="url"
+            class="absolute-bottom-end"
             color="#fff"
             icon="check_circle"
-            class="absolute-bottom-end"
             size="14"
           >
           </v-icon>
@@ -48,12 +49,12 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
           >
             Link
 
-            <v-chip v-if="url" size="x-small" pill class="ma-1">
+            <v-chip v-if="url" class="ma-1" pill size="x-small">
               {{ url }}
             </v-chip>
           </v-tooltip>
@@ -63,25 +64,25 @@
       <!-- ―――――――――――――――――― Text Color ―――――――――――――――――― -->
       <li>
         <v-badge
-          :model-value="!!text_color_display"
           :color="text_color_display"
+          :model-value="!!text_color_display"
           dot
-          offset-y="8"
           offset-x="8"
+          offset-y="8"
         >
           <button class="styler-button" @click="option = 'textColor'">
             <v-icon dark size="20">format_color_text</v-icon>
 
             <v-tooltip
               activator="parent"
-              location="bottom"
-              content-class="bg-black white--text"
               attach
+              content-class="bg-black white--text"
+              location="bottom"
             >
               Color
 
-              <v-chip v-if="text_color_display" size="small" pill class="ma-1">
-                <v-icon start :color="text_color_display">circle</v-icon>
+              <v-chip v-if="text_color_display" class="ma-1" pill size="small">
+                <v-icon :color="text_color_display" start>circle</v-icon>
                 {{ text_color_display }}
               </v-chip>
             </v-tooltip>
@@ -98,24 +99,24 @@
           <v-icon size="20">font_download</v-icon>
           <v-icon
             v-if="text_font"
+            class="absolute-bottom-end"
             color="#fff"
             icon="check_circle"
-            class="absolute-bottom-end"
             size="14"
           >
           </v-icon>
 
           <v-tooltip
             activator="parent"
-            location="bottom"
             content-class="bg-black white--text"
+            location="bottom"
             max-width="320"
             >Font
             <v-chip
               v-if="text_font"
-              size="x-small"
-              class="mx-1"
               :style="{ fontFamily: text_font }"
+              class="mx-1"
+              size="x-small"
               >{{ text_font }}
             </v-chip>
           </v-tooltip>
@@ -131,9 +132,9 @@
 
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Align
           </v-tooltip>
@@ -147,9 +148,9 @@
           <SStylerIcon name="textStyle" />
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Style
           </v-tooltip>
@@ -162,9 +163,9 @@
           <v-icon dark size="20">gradient</v-icon>
           <v-tooltip
             activator="parent"
-            location="bottom"
-            content-class="bg-black white--text"
             attach
+            content-class="bg-black white--text"
+            location="bottom"
           >
             Gradient
           </v-tooltip>
@@ -182,17 +183,17 @@
       <li v-if="option === 'link'" class="flex-grow-1">
         <div class="input-group is-rounded has-itemAfter is-primary">
           <v-text-field
-            variant="solo"
-            flat
-            rounded
             v-model="url"
+            :prepend-inner-icon="url ? 'link' : 'link_off'"
             class="english-field mx-2"
-            placeholder="https://..."
+            clearable
+            flat
             messages="● External: https://domain.. ● Internal: /shop"
+            placeholder="https://..."
+            rounded
+            variant="solo"
             @blur="addLink"
             @keydown.enter="addLink"
-            :prepend-inner-icon="url ? 'link' : 'link_off'"
-            clearable
           />
         </div>
       </li>
@@ -203,30 +204,30 @@
         <ul class="colorer">
           <li v-for="(color, index) in TEXT_COLORS" :key="color">
             <input
+              :style="{ backgroundColor: TEXT_COLORS[index] }"
+              :title="`Color ${index + 1}`"
               :value="color"
-              type="radio"
               name="colorer"
+              type="radio"
               @mousedown="
                 (event) => {
                   execute('forecolor', TEXT_COLORS[index]);
                   event.preventDefault();
                 }
               "
-              :style="{ backgroundColor: TEXT_COLORS[index] }"
-              :title="`Color ${index + 1}`"
             />
           </li>
 
           <v-btn
-            icon
             class="mb-1 ms-3 bg-tiny-checkers rounded-circle"
-            @mousedown="openTextColorEdit"
+            icon
             title="Open color dialog."
+            @mousedown="openTextColorEdit"
           >
             <v-icon
               :color="text_color_display"
-              size="20"
               class="hover-scale-small"
+              size="20"
               >circle
             </v-icon>
           </v-btn>
@@ -237,15 +238,15 @@
 
       <div v-if="option === 'text-font'" class="flex-grow-1 pa-1">
         <v-select
-          :items="fonts"
           v-model="text_font"
-          variant="solo"
-          clearable
+          :items="fonts"
           class="mx-2"
-          @update:model-value="setFont"
+          clearable
           messages=" "
           placeholder="Select a font..."
           rounded
+          variant="solo"
+          @update:model-value="setFont"
         >
           <template v-slot:item="{ item, props }">
             <v-list-item v-bind="props" @click.stop>
@@ -287,9 +288,9 @@
 
               <v-tooltip
                 activator="parent"
-                location="bottom"
-                content-class="bg-black white--text"
                 attach
+                content-class="bg-black white--text"
+                location="bottom"
               >
                 {{ it.title }}
               </v-tooltip>
@@ -360,13 +361,78 @@
           </li>
         </ul>
       </li>
+
+      <!-- ―――――――――――――――――― Text Gradient ―――――――――――――――――― -->
+
+      <li v-if="option === 'text-gradient'">
+        <ul class="align">
+          <li v-for="it in TextGradients" :key="it">
+            <v-btn
+              class="styler-button bordered-dark"
+              height="30"
+              icon
+              width="30"
+              @mousedown="
+                (event) => {
+                  setElementClass('bg-', it, true);
+                  event.preventDefault();
+                }
+              "
+            >
+              <v-icon :class="'bg-' + it" class="text-gradient" dark
+                >lens
+              </v-icon>
+            </v-btn>
+          </li>
+          <v-divider class="mx-2" dark inset vertical></v-divider>
+
+          <li>
+            <button
+              class="styler-button"
+              @mousedown="
+                (event) => {
+                  toggleElementClass('text-gradient', true);
+                  text_gradient_mode = !text_gradient_mode;
+                  event.preventDefault();
+                }
+              "
+            >
+              <v-icon dark size="20"
+                >{{ text_gradient_mode ? "texture" : "format_color_fill" }}
+              </v-icon>
+
+              <v-tooltip
+                activator="parent"
+                content-class="bg-black white--text text-start"
+                location="bottom"
+              >
+                <span :class="{ 'font-weight-bold': text_gradient_mode }"
+                  >Foreground</span
+                >
+                /
+                <span :class="{ 'font-weight-bold': !text_gradient_mode }"
+                  >Background</span
+                >
+                <div class="small my-1">
+                  <div class="text-gradient bg-crystal-river">
+                    Foreground | Spread the vision!
+                  </div>
+                  <div class="bg-crystal-river">
+                    Background | Spread the vision!
+                  </div>
+                </div>
+              </v-tooltip>
+            </button>
+          </li>
+        </ul>
+      </li>
     </ul>
   </s-styler-template>
 </template>
 
 <script>
 import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LandingHistoryMixin } from "@app-page-builder/mixins/LandingToolsMixin";
+import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
@@ -422,7 +488,7 @@ const TextGradients = [
 export default {
   name: "SStylerText",
 
-  mixins: [PageBuilderMixin, LandingHistoryMixin, StylerMixin],
+  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
 
   components: {
     SStylerIcon,
@@ -475,6 +541,7 @@ export default {
 
     text_font: null,
 
+    text_gradient_mode: false,
     uppercase: false,
 
     text_align: null,
@@ -541,6 +608,8 @@ export default {
         this.el.firstChild.classList.contains("text-gradient");
 
       this.uppercase = this.el.firstChild.classList.contains("text-uppercase");
+      this.text_gradient_mode =
+        this.el.firstChild.classList.contains("text-gradient");
 
       this.text_align = TextAlign.find((it) =>
         this.el.firstChild.classList.contains(`text-align-${it.val}`),
@@ -692,6 +761,52 @@ export default {
 
       //  console.log('pure',pure)
       this.el.insertAtCaret(pure);
+    },
+
+    // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Root inner element > Toggle class ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+
+    toggleElementClass(class_name, remove_from_all_children = false) {
+      this.el.focus();
+
+      if (
+        this.el.childElementCount === 1 &&
+        this.el.firstChild.nodeName === "DIV"
+      ) {
+        //nodeType=3 is pure text!  (Wrap by element!)
+      } else {
+        // Need wrap by tag
+        $(this.el).wrapInner("<div></div>");
+      }
+
+      const child = this.el.firstChild;
+
+      const add = !child.classList.contains(class_name);
+
+      // Remove All classes 'class_name' except first child (root) :
+      // Why? by enter add <div class='...'> to separating the text!
+      if (remove_from_all_children) {
+        $(this.el)
+          .find("*")
+          .removeClass(function (index, css) {
+            return (
+              css.match(new RegExp("\\S*" + class_name + "\\S*", "g")) || []
+            ).join(" "); // removes anything that starts with "page-"
+          });
+      } else {
+        $(this.el)
+          .children()
+          .removeClass(function (index, css) {
+            return (
+              css.match(new RegExp("\\S*" + class_name + "\\S*", "g")) || []
+            ).join(" "); // removes anything that starts with "page-"
+          });
+      }
+
+      if (add) {
+        child.classList.add(class_name);
+      } else {
+        child.classList.remove(class_name);
+      }
     },
   },
 };
