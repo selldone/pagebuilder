@@ -46,7 +46,7 @@
           @click:add="addSlide"
         ></s-widget-header>
         <v-list-subheader
-          >You can customize and make your filter here.
+          >List of slides in the swiper. Click on a slide to edit it.
         </v-list-subheader>
 
         <v-expansion-panels>
@@ -82,7 +82,7 @@
               <s-image-uploader
                 v-if="item.image"
                 :image="getShopImagePath(item.image.src)"
-                :server="getPageBuilderUploadUrlImage()"
+                :server="upload_image_url"
                 auto-compact
                 clearable
                 dark
@@ -199,17 +199,13 @@
 </template>
 
 <script>
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
-import { Seeder } from "@app-page-builder/src/seeder";
-import * as types from "@app-page-builder/src/types";
-import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import SSmartSelect from "@components/smart/SSmartSelect.vue";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import * as types from "@app-page-builder/src/types/types";
 import { StripTags } from "@core/helper/html/HtmlHelper";
 import SImageUploader from "@components/uploader/SImageUploader.vue";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
 import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
@@ -227,12 +223,13 @@ import OSwiperCenteredSlides from "@app-page-builder/settings/swiper/items/Cente
 import OSwiperGrid from "@app-page-builder/settings/swiper/items/Grid/OSwiperGrid.vue";
 import OSwiperSlidesPerGroup from "@app-page-builder/settings/swiper/items/SlidesPerGroup/OSwiperSlidesPerGroup.vue";
 import OSwiperSlidesPerView from "@app-page-builder/settings/swiper/items/SlidesPerView/OSwiperSlidesPerView.vue";
-
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsSwiper",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     OSwiperKeyboard,
@@ -255,7 +252,12 @@ export default {
     SImageUploader,
   },
 
-  props: {},
+  props: {
+    builder: {
+      type: Object,
+      required: true,
+    },
+  },
   data: () => ({
     el: null,
     section: null,
@@ -279,6 +281,9 @@ export default {
     effect() {
       return this.target?.effect;
     },
+    upload_image_url() {
+      return this.builder.getImageUploadUrl();
+    },
   },
   watch: {
     show_edit_slide(dialog) {
@@ -294,7 +299,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsSwiper",
 
       ({ el, section, target, keySlide, hasThumbnail }) => {
@@ -333,13 +338,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_edit_slide = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsSwiper");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsSwiper");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

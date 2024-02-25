@@ -42,23 +42,24 @@
         <v-list-subheader
           >You can adjust the field property here to customize its appearance.
         </v-list-subheader>
-        <feeder-input v-model="target" @change="onChange"></feeder-input>
+        <l-feeder-input v-model="target" @change="onChange"></l-feeder-input>
       </v-card-title>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import FeederInput from "@app-page-builder/src/feeders/FeederInput.vue";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import LFeederInput from "@app-page-builder/components/feeder/input/LFeederInput.vue";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsInput",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
-  components: { FeederInput },
+  components: { LFeederInput },
 
   props: {},
   data: () => ({
@@ -85,7 +86,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsInput",
 
       ({ el, target }) => {
@@ -121,13 +122,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsInput");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsInput");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

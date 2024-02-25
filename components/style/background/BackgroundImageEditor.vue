@@ -161,6 +161,21 @@
           >Add an image as your background pattern.
         </v-list-subheader>
 
+        <s-image-uploader
+            :dark="dark"
+            :image="bgImage ? getShopImagePath(bgImage) : null"
+            :server="uploadUrl"
+            auto-compact
+            class="mt-2"
+            clearable
+            dense
+            max-file-size="2MB"
+            @onClear="$emit('update:bgImage', null)"
+            @new-path="handleProcessFile"
+        >
+        </s-image-uploader>
+
+
         <div class="p-1 text-center">
           <v-btn-toggle
             :model-value="bgImageSize"
@@ -214,19 +229,7 @@
           </v-btn-toggle>
         </div>
 
-        <s-image-uploader
-          :dark="dark"
-          :image="bgImage ? getShopImagePath(bgImage) : null"
-          :server="uploadUrl"
-          auto-compact
-          class="mt-2"
-          clearable
-          dense
-          max-file-size="2MB"
-          @onClear="$emit('update:bgImage', null)"
-          @new-path="handleProcessFile"
-        >
-        </s-image-uploader>
+
 
         <v-item-group
           :model-value="bgPosition"
@@ -337,7 +340,7 @@
 <script>
 import SImageUploader from "@components/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
-import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
+import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 
 import SVideoUploader from "@components/uploader/SVideoUploader.vue";

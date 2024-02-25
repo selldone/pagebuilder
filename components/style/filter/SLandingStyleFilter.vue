@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { CssFilter, CssFiltersGallery } from "@core/helper/style/CssFilters";
+import { CssFilter, CssFiltersGallery } from "@app-page-builder/utils/filter/CssFilters";
 
 export default {
   name: "SLandingStyleFilter",

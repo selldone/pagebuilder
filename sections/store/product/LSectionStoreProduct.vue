@@ -45,18 +45,18 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import SShopProductMainCard from "@components/product/info/SShopProductMainCard.vue";
 import ProductInfoLoadingView from "@components/product/loading/ProductInfoLoadingView.vue";
 import { GtagEcommerce } from "@components/plugins/gtag/GtagEcommerce";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import { isObject } from "lodash-es";
 
 export default {
   name: "LSectionStoreProduct",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
 
   components: { ProductInfoLoadingView, SShopProductMainCard },
   cover: require("../../../assets/images/covers/product.svg"),

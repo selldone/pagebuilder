@@ -93,14 +93,14 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 
 export default {
   name: "LSectionImageThreeColumns",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
 
   components: {},
   cover: require("../../../assets/images/covers/three-columns.svg"),

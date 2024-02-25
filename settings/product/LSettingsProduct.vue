@@ -59,12 +59,13 @@
 
 <script>
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsProduct",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     ProductSelectBox,
@@ -92,7 +93,7 @@ export default {
   watch: {},
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsProduct",
 
       ({ el, target }) => {
@@ -128,13 +129,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_product_select = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsProduct");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsProduct");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

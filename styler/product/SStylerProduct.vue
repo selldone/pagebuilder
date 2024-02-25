@@ -20,7 +20,7 @@
     :is-visible="isVisible"
     :section="section"
     :target="target"
-    type="product"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -54,10 +54,9 @@
 </template>
 
 <script>
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 
 /**
  * v-styler:product
@@ -66,27 +65,15 @@ import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
 export default {
   name: "SStylerProduct",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
-
-    el: {
-      required: true,
-    },
-
     target: {
       required: true,
       type: Object,
-    },
-    section: {
-      type: Object,
-      required: true,
     },
 
     /**
@@ -103,15 +90,11 @@ export default {
 
   computed: {},
   watch: {
-    option() {
-      this.updatePopper();
-    },
     /**
      * Reset menu status when it's closed.
      */
     isVisible() {
       this.option = null;
-      this.updatePopper();
     },
   },
   beforeMount() {

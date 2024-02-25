@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) 2024. Selldone® Business OS™
+ *
+ * Author: M.Pajuhaan
+ * Web: https://selldone.com
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
+ * From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
+ * Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
+ * Our journey is not just about reaching a destination, but about creating a masterpiece.
+ * Tread carefully, for you're treading on dreams.
+ */
+
+import {BackgroundHelper} from "@app-page-builder/utils/background/BackgroundHelper";
+import {defineComponent, inject} from "vue";
+import SelldonePageBuilderCore from "@app-page-builder/index";
+import {Section} from "@app-page-builder/src/section/section";
+import {Background, Grid} from "@app-page-builder/src/types/types";
+
+const LMixinXComponent = defineComponent({
+  data: () => ({
+    $builder: null as SelldonePageBuilderCore | null,
+    $section: null as Section | null,
+  }),
+  beforeCreate() {
+    // Get builder from main page editor/viewer
+    this.$builder = inject("$builder");
+
+    // Get section from parent section
+    this.$section = inject("$section");
+
+    LOG(
+      "$builder",
+      this.$builder ? "✅" : "❌",
+      "$section",
+      this.$section ? "✅" : "❌",
+    );
+  },
+  updated() {
+    try {
+      if (typeof this.$el.querySelectorAll === "function")
+        Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
+          (el: any) => {
+            el.contentEditable = this.$builder.isEditing;
+          },
+        );
+    } catch (e) {
+      console.error("updated | x component", e, this);
+    }
+  },
+
+  //------------------------------------------------- New Common -------------------------------------------------
+
+  computed: {
+    SHOW_EDIT_TOOLS() {
+      return this.$builder.isEditing && !this.$builder.isHideExtra;
+    },
+
+
+  },
+
+  watch: {},
+
+  created() {},
+
+  methods: {
+    backgroundStyle(background: Background) {
+      if (!background) return null;
+
+      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+        background.bg_custom,
+        background.bg_gradient,
+        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
+        background.bg_size,
+        background.bg_repeat,
+        background.bg_color,
+        background.dark,
+        background.bg_position,
+      );
+    },
+
+    calcGridClasses(grid: Grid) {
+      return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
+        if (!grid[device]) {
+          return "";
+        }
+        const prefix = this.$builder.columnsPrefix[device];
+        return `${prefix}${grid[device]}`;
+      });
+    },
+  },
+});
+export default LMixinXComponent;
+
+function LOG(...text: any) {
+  // console.log("🪷 XMixin", ...text);
+}

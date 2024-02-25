@@ -13,9 +13,9 @@
  */
 
 import {App} from "vue";
-import SelldonePageBuilderCore from "./src";
+import SelldonePageBuilderCore from "./index";
 
-import "./sections/styles/_demo.scss";
+import "@app-page-builder/styles/page-builder.scss";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
 import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
 
@@ -29,14 +29,18 @@ import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGal
 
 import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
-import {builder} from "@app-page-builder/src/selldone-page-builder-core";
+import {builder} from "@app-page-builder/selldone-page-builder-core";
+import {Page} from "@core/models/shop/page/page.model";
 
 declare global {
   interface Window {}
 }
 
-export function SetupPageBuilder(app: App, options: builder.IOptions = {}) {
+export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
   console.log("⚽ 1. Setup Page builder");
+
+  if (!options)
+    throw new Error("Options are not set in the setup page builder!");
 
   if (options?.mode === "view") {
     // install the builder
@@ -56,7 +60,7 @@ export function SetupPageBuilder(app: App, options: builder.IOptions = {}) {
         "Edit mode. Invalid uploadImageUrl function in SetupPageBuilder(...,here)!",
       );
     } else {
-      const test = options.server.uploadImageUrl("page", { id: 0, shop_id: 0 });
+      const test = options.server.uploadImageUrl("page", { id: 0, shop_id: 0 } as Page);
       if (!test) {
         console.error(
           "Invalid uploadImageUrl! Generated test upload image path is " + test,

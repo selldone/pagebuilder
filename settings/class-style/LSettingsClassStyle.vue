@@ -1218,21 +1218,22 @@
 
 <script>
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import { ClassesHelper } from "@core/helper/style/Classes";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
 import SLandingStylePreview from "@app-page-builder/components/style/preview/SLandingStylePreview.vue";
 import SLandingStyleBorder from "@app-page-builder/components/style/border/SLandingStyleBorder.vue";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLandingStyleFilter.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
-import ShadowCollection from "../../src/enums/ShadowCollection";
+import ShadowCollection from "@app-page-builder/utils/enums/ShadowCollection";
 
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 const STYLE_TABS = [
   "size",
@@ -1247,7 +1248,7 @@ const STYLE_TABS = [
 
 export default {
   name: "LSettingsClassStyle",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
   components: {
     SSmartSwitch,
     SSmartToggle,
@@ -1505,7 +1506,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsClassStyle",
 
       ({ el_style, el_class, target, keyStyle, keyClass, options }) => {
@@ -1548,13 +1549,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_dialog_size = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsClassStyle");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsClassStyle");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

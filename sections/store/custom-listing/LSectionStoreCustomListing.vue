@@ -24,7 +24,7 @@
     :object="$sectionData"
     path="$sectionData"
   >
-    <x-custom-products-list :force-package="forcePackage">
+    <x-custom-products-list :object="$sectionData" :force-package="forcePackage">
       <template v-slot:folders="{ folders }">
         <component
           :is="gen(getCategoryCode(folder))"
@@ -65,17 +65,17 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
 
 export default {
   name: "LSectionStoreCustomListing",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
   components: {},
   cover: require("../../../assets/images/covers/products-list-custom.svg"),
 

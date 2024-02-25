@@ -12,23 +12,15 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {
-  ComponentInstance,
-  createApp,
-  defineComponent,
-  DirectiveBinding,
-  h,
-  ObjectDirective,
-  VNode,
-} from "vue";
-import { getTypeFromSchema, getTypeFromTagName } from "../src/util";
-import { installGlobalComponents } from "@components/components-mandetory";
-import { isObject, isString } from "lodash-es";
-import SelldonePageBuilderCore from "@app-page-builder/src";
-import { Section } from "@app-page-builder/src/section";
+import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
+import {getTypeFromSchema, getTypeFromTagName} from "../src/util";
+import {installGlobalComponents} from "@components/components-mandetory";
+import {isObject, isString} from "lodash-es";
+import SelldonePageBuilderCore from "@app-page-builder/index";
+import {Section} from "@app-page-builder/src/section/section";
 import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
 import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";
-import * as types from "@app-page-builder/src/types";
+import * as types from "@app-page-builder/src/types/types";
 import SStylerButton from "@app-page-builder/styler/button/SStylerButton.vue";
 import SStylerSection from "@app-page-builder/styler/section/SStylerSection.vue";
 import SStylerText from "@app-page-builder/styler/text/SStylerText.vue";
@@ -40,10 +32,30 @@ import SStylerProducts from "@app-page-builder/styler/products/SStylerProducts.v
 import SStylerSwiper from "@app-page-builder/styler/swiper/SStylerSwiper.vue";
 import SStylerBlogs from "@app-page-builder/styler/blogs/SStylerBlogs.vue";
 import SStylerMarquee from "@app-page-builder/styler/marquee/SStylerMarquee.vue";
+import SStylerGallery from "@app-page-builder/styler/gallery/SStylerGallery.vue";
 
 const DEBUG = false;
 
 export namespace StylerOptions {
+
+  export type Argument =
+      | 'buttons-row'
+      | 'button'
+      | 'row'
+      | 'section'
+      | 'text'
+      | 'column'
+      | 'grid'
+      | 'container'
+      | 'product'
+      | 'products'
+      | 'swiper'
+      | 'blogs'
+      | 'marquee'
+      | 'gallery'
+      ;
+
+
   export interface IButtonsRow {
     target: types.ButtonsRow;
     keyRow: string; //default: btn_row
@@ -178,6 +190,8 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerBlogs;
     } else if (argument === "marquee") {
       stylerComponent = SStylerMarquee;
+    } else if (argument === "gallery") {
+      stylerComponent = SStylerGallery;
     }
 
     const StylerComponent = defineComponent({
@@ -187,25 +201,26 @@ const StylerDirective: ObjectDirective<
       },
     });
 
+    const props = {
+      route: instance.$route,
+      el,
+      section: section,
+      type: argument,
+      name: expression,
+      bindingValue: binding.value,
+
+      builder: builder,
+      ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
+    };
+
     // Create a new Vue app with the SArticleAddonComparison component
     const vnode_styler = createApp({
-      render: () =>
-        h(StylerComponent, {
-          route: instance.$route,
-          el,
-          section: section,
-          type: argument,
-          name: expression,
-          bindingValue: binding.value,
-
-          builder: builder,
-          ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
-        }),
+      render: () => h(StylerComponent, props),
     });
 
     // Use Vuetify and i18n instances
     vnode_styler.use(window.$global_vuetify);
-    vnode_styler.use(instance.$i18n);
+    vnode_styler.use(instance.$i18n as any);
     vnode_styler.use(instance.$router);
     vnode_styler.use(instance.$store);
 
@@ -216,17 +231,7 @@ const StylerDirective: ObjectDirective<
       vnode_styler.mount(newNode);
     } catch (e) {
       console.log("binding value", binding.value);
-      console.log("props", {
-        route: instance.$route,
-        el,
-        section: section,
-        type: argument,
-        name: expression,
-        bindingValue: binding.value,
-
-        builder: builder,
-        ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
-      });
+      console.log("props", props);
 
       console.error("Styler mount error!", e);
       return;
@@ -249,9 +254,9 @@ const StylerDirective: ObjectDirective<
       console.log("Styler directive updated", binding.value, "el", el);
     }
     /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-                           console.log("Styler directive updated", binding.value, "el", el);
-                           Object.assign(el.$instance._component.props, binding.value);
-                         }*/
+                               console.log("Styler directive updated", binding.value, "el", el);
+                               Object.assign(el.$instance._component.props, binding.value);
+                             }*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");

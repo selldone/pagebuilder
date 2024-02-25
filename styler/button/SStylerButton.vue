@@ -21,7 +21,7 @@
     :section="section"
     :target="target"
     has-tracking
-    type="button"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -412,16 +412,15 @@
 </template>
 
 <script>
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import {
   PageBuilderColorsHelper,
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
-} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+} from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
@@ -440,7 +439,7 @@ const ButtonAlign = [
 export default {
   name: "SStylerButton",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerToolsColors,
@@ -449,23 +448,16 @@ export default {
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
 
-    el: {
-      required: true,
-    },
+
+
 
     target: {
       required: true,
       type: Object,
       // It's the value of v-styler:arg="value"
     },
-    section: {
-      type: Object,
-      required: true,
-    },
+
 
     /**
      * Set the location of the proper
@@ -554,15 +546,12 @@ export default {
     },
   },
   watch: {
-    option() {
-      this.updatePopper();
-    },
+
     /**
      * Reset menu status when it's closed.
      */
     isVisible() {
       this.option = null;
-      this.updatePopper();
     },
   },
   beforeMount() {

@@ -432,16 +432,16 @@ import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import { FONTS } from "@core/helper/font/FontLoader";
 
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsPageStyle",
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     SSmartSelect,
@@ -451,7 +451,12 @@ export default {
     BackgroundImageEditor,
   },
 
-  props: {},
+  props: {
+    builder: {
+      type: Object,
+      required: true,
+    },
+  },
   data: () => ({
     tab: null,
     style: null,
@@ -465,7 +470,7 @@ export default {
 
   computed: {
     upload_bg_url() {
-      return this.getPageBuilderUploadUrlImage();
+      return this.builder.getImageUploadUrl();
     },
 
     filtered_fonts() {
@@ -482,7 +487,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsPageStyle",
 
       ({ style, show, tab }) => {
@@ -577,22 +582,20 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_master_style = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsPageStyle");
+    EventBus.$off("show:LSettingsPageStyle");
 
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);
   },
 
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 

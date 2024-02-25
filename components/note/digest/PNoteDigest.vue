@@ -40,11 +40,11 @@
 
 <script>
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import { PageBuilderNoteMixin } from "@app-page-builder/mixins/PageBuilderNoteMixin";
+import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
 
 export default {
   name: "PNoteDigest",
-  mixins: [PageBuilderNoteMixin],
+  mixins: [LMixinNote],
 
   components: { PNoteBox },
   emits: ["delete"],

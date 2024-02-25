@@ -152,12 +152,11 @@
 
 <script>
 import { defineComponent } from "vue";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsHistory } from "@app-page-builder/mixins/history/LMixinsHistory";
+import { LMixinHistory } from "@app-page-builder/mixins/history/LMixinHistory";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
-  mixins: [PageBuilderMixin, LMixinsHistory],
+  mixins: [LMixinHistory],
 
   emits: ["update:pastHoverIndex"],
   props: {

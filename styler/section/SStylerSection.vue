@@ -21,7 +21,7 @@
     :section="section"
     :target="target"
     has-animation
-    type="section"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -177,7 +177,6 @@
             <template v-slot="{ isSelected, toggle }">
               <v-btn
                 :color="isSelected ? 'primary' : '#fff'"
-                flat
                 icon
                 style="background: transparent"
                 @click="toggle"
@@ -201,15 +200,14 @@
 </template>
 
 <script>
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import {
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
-} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+} from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
 const FrameStyles = [
@@ -231,7 +229,7 @@ const FrameStyles = [
 export default {
   name: "SStylerSection",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerToolsColors,
@@ -239,22 +237,13 @@ export default {
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
 
-    el: {
-      required: true,
-    },
 
     target: {
       required: true,
       type: Object,
     },
-    section: {
-      type: Object,
-      required: true,
-    },
+
 
     /**
      * Set the location of the proper
@@ -277,15 +266,12 @@ export default {
 
   computed: {},
   watch: {
-    option() {
-      this.updatePopper();
-    },
+
     /**
      * Reset menu status when it's closed.
      */
     isVisible() {
       this.option = null;
-      this.updatePopper();
     },
     /**
      * 🪱 Code health check!
@@ -352,11 +338,13 @@ export default {
     toggleDarkMode() {
       this.target.background.dark = !this.target.background.dark;
 
+
       // Force deep update:
 
       this.section.set(`$sectionData.background`, (background) => {
         background.dark = this.target.background.dark;
       });
+
     },
 
     changeBgStyle() {

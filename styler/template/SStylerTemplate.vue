@@ -146,16 +146,14 @@
 </template>
 
 <script>
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
-import { StylerHelper } from "@app-page-builder/src/helpers/StylerHelper";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
 
 export default {
   name: "SStylerTemplate",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin, LMixinsEvents],
+  mixins: [LMixinEvents, LMixinEvents],
 
   components: {},
   props: {
@@ -173,12 +171,6 @@ export default {
       required: true,
     },
     type: {
-      // depricated
-      type: String,
-      required: true,
-    },
-    name: {
-      // depricated
       type: String,
       required: true,
     },
@@ -209,13 +201,13 @@ export default {
     },
 
     animations() {
-      return StylerHelper.GetAnimations(this.target.classes);
+      return ClassesHelper.GetAnimations(this.target.classes);
     },
     hovers() {
-      return StylerHelper.GetHovers(this.target.classes);
+      return ClassesHelper.GetHovers(this.target.classes);
     },
     threshold() {
-      return StylerHelper.GetThreshold(this.target.style);
+      return ClassesHelper.GetThreshold(this.target.style);
     },
   },
   watch: {},
@@ -260,7 +252,7 @@ export default {
       }
 
       this.el.id = id ? id : "";
-      this.section.set(`${this.name}.id`, id);
+      this.target.id = id;
     },
 
     //――――――――――――――――――――――  Mouse Events ――――――――――――――――――――

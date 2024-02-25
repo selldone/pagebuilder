@@ -222,17 +222,18 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@core/helper/style/Classes";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
 
 import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
 import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsFrame",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {},
 
@@ -311,7 +312,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsFrame",
 
       ({ el, target, keyFrameCategory, keyFrameProduct }) => {
@@ -349,13 +350,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_frame = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsFrame");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsFrame");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

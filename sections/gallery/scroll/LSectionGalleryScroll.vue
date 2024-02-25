@@ -45,7 +45,7 @@
             $sectionData.slide.items[index].style,
           ]"
           class="container position-relative h-100"
-          clonable="true"
+          cloneable="true"
           @click="
             $builder.onClickClone($event, $sectionData.slide.items[index], [
               'classes',
@@ -55,13 +55,13 @@
           "
         >
           <!-- 📹 Background video -->
-          <video-background
+          <x-video-background
             v-if="$sectionData.slide.items[index]?.background?.bg_video"
             :video="
               getVideoUrl($sectionData.slide.items[index]?.background?.bg_video)
             "
           >
-          </video-background>
+          </x-video-background>
 
           <!-- ----------------- Image Layer ----------------- -->
 
@@ -188,13 +188,14 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
-import { Seeder } from "@app-page-builder/src/seeder";
-import XButton from "@app-page-builder/sections/components/XButton.vue";
-import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import * as types from "@app-page-builder/src/types/types";
+import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import XButton from "@app-page-builder/components/x/button/XButton.vue";
+import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
 
 const EFFECTS = [
   { title: "Slide", value: "slide" },
@@ -216,10 +217,11 @@ const ACTIVE_CENTER = [
 export default {
   name: "LSectionGalleryScroll",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
 
   components: {
-    VideoBackground,
+    XUploader,
+    XVideoBackground,
     XButton,
 
     Swiper,

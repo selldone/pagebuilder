@@ -34,7 +34,7 @@
             variant="text"
             @click="show_edit_layout = false"
           >
-            <v-icon class="me-1">close </v-icon>
+            <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -143,14 +143,15 @@
 </template>
 
 <script>
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
 
-import { ClassesHelper } from "@core/helper/style/Classes";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import { Seeder } from "@app-page-builder/src/seeder";
-import * as Types from "@app-page-builder/src/types";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import * as Types from "@app-page-builder/src/types/types";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 const LAYOUTS = [
   "x-layout-normal", // Column | Image + Title + Content
@@ -168,7 +169,7 @@ const LAYOUTS = [
 
 export default {
   name: "LSettingsColumn",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: { SSmartToggle },
 
@@ -215,7 +216,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsColumn",
 
       ({ el, target, gridPath }) => {
@@ -251,13 +252,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_edit_layout = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsColumn");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsColumn");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

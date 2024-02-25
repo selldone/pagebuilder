@@ -149,9 +149,8 @@
 </template>
 
 <script>
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import _, { isNumber } from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
 import SSettingToggle from "@app-page-builder/styler/settings/toggle/SSettingToggle.vue";
@@ -160,10 +159,12 @@ import SSettingTextInput from "@app-page-builder/styler/settings/text-input/SSet
 import SSettingNumberInput from "@app-page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingColor from "@app-page-builder/styler/settings/color/SSettingColor.vue";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsBlogs",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     SSettingColor,
@@ -250,7 +251,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsBlogs",
 
       ({ el, target, keyFilter }) => {
@@ -287,14 +288,14 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsBlogs");
+    EventBus.$off("show:LSettingsBlogs");
 
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

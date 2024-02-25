@@ -64,12 +64,13 @@
 
 <script>
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsProductsFilter",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     SPageProductsFilter,
@@ -103,7 +104,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsProductsFilter",
 
       ({ el, target, keyFilter }) => {
@@ -138,13 +139,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_product_filter = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsProductsFilter");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsProductsFilter");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

@@ -62,13 +62,14 @@
 </template>
 
 <script>
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsLink",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {},
 
@@ -100,7 +101,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsLink",
 
       ({ el, target, keyLink }) => {
@@ -137,14 +138,14 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_dialog = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsLink");
+    EventBus.$off("show:LSettingsLink");
 
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

@@ -15,11 +15,11 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section :object="$sectionData" path="$sectionData">
     <!-- 📹 Background video -->
-    <video-background
+    <x-video-background
       v-if="$sectionData.background?.bg_video"
       :video="getVideoUrl($sectionData.background.bg_video)"
     >
-    </video-background>
+    </x-video-background>
 
     <v-container
       v-styler:container="{ target: $sectionData.container, hasFluid: true }"
@@ -45,20 +45,20 @@
 </template>
 
 <script>
-import * as types from "../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import { ArticleTypes } from "@core/enums/article/ArticleTypes";
 import SArticleEditor from "@components/article/SArticleEditor.vue";
-import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 
 let KEEPER = {}; // Keep component instance for each id
 export default {
   name: "LSectionArticle",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
 
-  components: { VideoBackground, SArticleEditor },
+  components: { XVideoBackground, SArticleEditor },
   cover: require("../../assets/images/covers/article.svg"),
 
   group: "Text",

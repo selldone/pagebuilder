@@ -16,7 +16,7 @@
   <div class="">
     <!-- --------------------------------- Top Tools --------------------------------- -->
 
-    <s-landing-editor-top-menu
+    <l-page-editor-top-menu
       v-if="modelValue && inEditMode"
       :busySave="busySave"
       :inDesignTab="true"
@@ -28,9 +28,9 @@
       @click:save="onSave"
       @click:history="history_dialog = true"
     >
-    </s-landing-editor-top-menu>
+    </l-page-editor-top-menu>
 
-    <SPageEditor
+    <LPageEditor
       ref="vueBuilder"
       :dir="modelValue ? modelValue.direction : 'auto'"
       :isMenu="isMenu"
@@ -49,11 +49,12 @@
 </template>
 
 <script>
-import SLandingEditorTopMenu from "@app-page-builder/components/editor/top-menu/SLandingEditorTopMenu.vue";
+import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
+import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 
 export default {
   name: "SPageBuilderLight",
-  components: { SLandingEditorTopMenu },
+  components: { LPageEditor, LPageEditorTopMenu },
   emits: ["update:modelValue", "onSave"],
   props: {
     shop: { require: true, type: Object },

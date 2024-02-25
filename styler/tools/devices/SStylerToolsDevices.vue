@@ -147,13 +147,13 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
 export default defineComponent({
   name: "SStylerToolsDevices",
   components: { SStylerIcon },
-  mixins: [LMixinsEvents],
+  mixins: [LMixinEvents],
   emits: ["update:modelValue"],
   props: {
     modelValue: {},

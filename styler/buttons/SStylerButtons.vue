@@ -20,7 +20,7 @@
     :is-visible="isVisible"
     :section="section"
     :target="target"
-    type="buttons-row"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -118,40 +118,28 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types";
-import { Seeder } from "@app-page-builder/src/seeder";
-import ALIGN from "@app-page-builder/src/enums/ALIGN";
-import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import * as types from "@app-page-builder/src/types/types";
+import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import ALIGN from "@app-page-builder/utils/enums/ALIGN";
+import JUSTIFY from "@app-page-builder/utils/enums/JUSTIFY";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 
 export default {
   name: "SStylerButtons",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
-
-    el: {
-      required: true,
-    },
 
     target: {
       required: true,
       type: Object,
       // It's the value of v-styler:arg="value"
-    },
-    section: {
-      type: Object,
-      required: true,
     },
 
     /**
@@ -180,15 +168,12 @@ export default {
 
   computed: {},
   watch: {
-    show_align() {
-      this.updatePopper();
-    },
+
     /**
      * Reset menu status when it's closed.
      */
     isVisible() {
       this.show_align = false;
-      this.updatePopper();
     },
   },
   beforeCreate() {

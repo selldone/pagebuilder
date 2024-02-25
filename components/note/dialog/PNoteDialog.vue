@@ -93,12 +93,13 @@
 import SDenseImagesCirclesUsers from "@components/user/dense-circles/SDenseImagesCirclesUsers.vue";
 import SMentionableInput from "@components/ui/text/SMentionableInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import { PageBuilderNoteMixin } from "@app-page-builder/mixins/PageBuilderNoteMixin";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "PNoteDialog",
-  mixins: [PageBuilderNoteMixin, PageEventBusMixin],
+  mixins: [LMixinNote, LMixinEvents],
   components: { PNoteBox, SMentionableInput, SDenseImagesCirclesUsers },
 
   props: {
@@ -133,7 +134,7 @@ export default {
   watch: {},
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       this.EVENT_NAME_SHOW_NOTES_DIALOG,
 
       ({ notes, element_id, page_id, popup_id }) => {
@@ -170,7 +171,7 @@ export default {
     //――――――――――――――――――――――  END Editor key listener ――――――――――――――――――――
   },
   beforeUnmount() {
-    this.EventBus.$off(this.EVENT_NAME_SHOW_NOTES_DIALOG);
+    EventBus.$off(this.EVENT_NAME_SHOW_NOTES_DIALOG);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

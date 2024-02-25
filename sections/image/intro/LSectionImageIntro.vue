@@ -45,7 +45,7 @@
           :object="$sectionData.columns[index]"
           :path="`$sectionData.columns[${index}]`"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
-          clonable
+          cloneable
           initial-column-layout="x-layout-title-content"
         >
         </x-column-image-text>
@@ -56,15 +56,16 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
 
 export default {
   name: "LSectionImageIntro",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
-  components: {},
+  mixins: [LMixinSection],
+  components: { XUploader },
   cover: require("../../../assets/images/covers/social-2.svg"),
   group: "Image & Text",
   label: "Text, Image, Text",

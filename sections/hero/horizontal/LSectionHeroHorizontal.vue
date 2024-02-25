@@ -60,15 +60,16 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
 
 export default {
   name: "LSectionHeroHorizontal",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
-  components: {},
+  mixins: [LMixinSection],
+  components: { XUploader },
   cover: require("../../../assets/images/covers/hero-1.svg"),
   label: "Horizontal Hero",
   help: {

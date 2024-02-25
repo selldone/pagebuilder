@@ -52,15 +52,15 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import MarqueeSlider from "@components/ui/marquee/vue-marquee-slider.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 
 export default {
   name: "LSectionTextMarquee",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
   components: { MarqueeSlider },
   cover: require("../../../assets/images/covers/section-infinite-text.png"),
 

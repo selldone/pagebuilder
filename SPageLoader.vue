@@ -33,12 +33,12 @@
       <s-loading class="my-10" height="240px"></s-loading>
     </div>
 
-    <SPageRender
+    <LPageViewer
       v-if="json"
       :key="'page_' + page?.id"
       ref="page_render"
       :augment="augment"
-      :data="json"
+      :initialPageData="json"
       :style="background"
       style="min-height: 800px"
     />
@@ -50,7 +50,6 @@
     >
       <v-btn-toggle
         v-model="action"
-        borderless
         class="m-1 widget-toggle"
         density="compact"
         mandatory
@@ -86,10 +85,12 @@
 import debounce from "lodash/debounce";
 import * as h337 from "heatmap.js";
 import { opts } from "@components/plugins/vuetify/vuetify";
+import LPageViewer from "@app-page-builder/page/viewer/LPageViewer.vue";
+import {StorefrontSDK} from "@sdk-storefront/StorefrontSDK";
 
 export default {
   name: "SPageLoader",
-  components: {},
+  components: { LPageViewer },
   props: {
     forceFetchUrl: {
       // Set fetch url externally! Used in page builder widget!
@@ -161,16 +162,16 @@ export default {
     },
   },
 
-  created() {
-    this.fetchShopDataIfNeeded();
+  async created() {
+    await this.fetchShopDataIfNeeded();
     this.fetchPageData();
 
     if (this.enable_tracking) {
       this.catch_data.type = this.$vuetify.display.smAndDown
-        ? "mobile"
-        : this.$vuetify.display.mdAndDown
-          ? "tablet"
-          : "desktop";
+          ? "mobile"
+          : this.$vuetify.display.mdAndDown
+              ? "tablet"
+              : "desktop";
 
       this.handleDebouncedScroll = debounce(this.handleScroll, 100);
       window.addEventListener("scroll", this.handleDebouncedScroll);
@@ -202,9 +203,16 @@ export default {
       )
         return;
 
-      this.fetchCurrentAdminShop(
+    return   this.fetchCurrentAdminShop(
         this.$route.params.shop_id,
-        () => {},
+        (shop) => {
+          // ━━━ Storefront SDK (xapi,...) ━━━
+          try {
+            StorefrontSDK.Setup(shop.name); // Set up the Shop SDK. Used in product sections or another xapi calls in dashboard!
+          } catch (e) {
+            console.error(e);
+          }
+        },
         false,
         0,
         0,

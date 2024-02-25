@@ -32,7 +32,7 @@
     </v-fade-transition>
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <s-landing-editor-top-menu
+    <l-page-editor-top-menu
       v-if="page && inEditMode"
       :busySave="busy_save"
       :histories="histories"
@@ -48,7 +48,7 @@
       @click:auto-generate="autoGenerate"
       @click:prompt="show_prompt = !show_prompt"
     >
-    </s-landing-editor-top-menu>
+    </l-page-editor-top-menu>
 
     <v-expand-transition>
       <div v-if="show_prompt" class="pa-3 pa-sm-5">
@@ -123,7 +123,7 @@
     </v-expand-transition>
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Design ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <SPageEditor
+    <LPageEditor
       v-show="tab === 'design'"
       ref="vueBuilder"
       :ai-auto-fill-function="aiAutoFillFunction"
@@ -151,10 +151,10 @@
       <template v-slot:header>
         <slot name="header"></slot>
       </template>
-    </SPageEditor>
+    </LPageEditor>
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <setting-custom-page
+    <l-page-editor-setting
       v-if="page"
       v-show="tab === 'setting'"
       v-model:cluster-id="page.cluster_id"
@@ -165,20 +165,20 @@
       :is-official-page="isOfficialPage"
       :page="page"
       :shop="shop"
-    ></setting-custom-page>
+    ></l-page-editor-setting>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <s-page-builder-seo v-if="page" v-show="tab === 'seo'" :page="page" />
+    <l-page-editor-seo v-if="page" v-show="tab === 'seo'" :page="page" />
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <page-builder-users-behavior
+    <l-page-editor-statistics
       v-if="page && tab === 'behavior'"
       :page="page"
-    ></page-builder-users-behavior>
+    ></l-page-editor-statistics>
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Files ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <page-builder-files-list v-if="page?.id && tab === 'files'" :page="page" />
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+    <l-page-editor-files v-if="page?.id && tab === 'files'" :page="page" />
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
     <v-bottom-sheet
@@ -280,32 +280,33 @@
 </template>
 
 <script>
-import SPageBuilderSeo from "./src/seo/SPageBuilderSeo.vue";
-import SettingCustomPage from "@app-page-builder/src/setting/SettingCustomPage";
+import LPageEditorSeo from "@app-page-builder/page/editor/seo/LPageEditorSeo.vue";
+import LPageEditorSetting from "@app-page-builder/page/editor/setting/LPageEditorSetting.vue";
 
-import PageBuilderUsersBehavior from "@app-page-builder/src/statistics/PageBuilderUsersBehavior";
+import LPageEditorStatistics from "@app-page-builder/page/editor/statistics/LPageEditorStatistics.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
-import SLandingEditorTopMenu from "@app-page-builder/components/editor/top-menu/SLandingEditorTopMenu.vue";
+import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import { FontLoader } from "@core/helper/font/FontLoader";
-import PageBuilderFilesList from "@app-page-builder/src/files/PageBuilderFilesList.vue";
+import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
 import SSmartSuggestion from "@components/smart/suggestions/SSmartSuggestion.vue";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 
 export default {
   name: "SPageBuilder",
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
+    LPageEditor,
     SSmartSuggestion,
     AiModelSelect,
-    PageBuilderFilesList,
-    SLandingEditorTopMenu,
+    LPageEditorFiles,
+    LPageEditorTopMenu,
 
-    PageBuilderUsersBehavior,
-    SettingCustomPage,
-    SPageBuilderSeo,
+    LPageEditorStatistics,
+    LPageEditorSetting,
+    LPageEditorSeo,
   },
 
   props: {
@@ -385,8 +386,7 @@ export default {
     },
 
     upload_bg_url() {
-
-      return this.getPageBuilderUploadUrlImage();
+      return this.$builder.getImageUploadUrl();
     },
 
     page_view_url() {
@@ -427,12 +427,8 @@ export default {
 
     if (this.externalTab) this.tab = this.externalTab;
   },
-  mounted() {
-
-  },
-  beforeUnmount() {
-
-  },
+  mounted() {},
+  beforeUnmount() {},
   methods: {
     /*  updateGlobal() {
       this.$forceUpdate();
@@ -587,10 +583,10 @@ export default {
               );
 
               /*
-                   IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                    this.page = data.page;
-                   this.loadPageData();
-                    */
+                       IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                        this.page = data.page;
+                       this.loadPageData();
+                        */
             }
           })
           .catch((error) => {
@@ -638,18 +634,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                      this.$route.params.page_id = data.page.id;
-        */
+                          this.$route.params.page_id = data.page.id;
+            */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                      IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-        
-                      this.loadPageData();
-                       */
+                          IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+            
+                          this.loadPageData();
+                           */
             }
           })
           .catch((error) => {

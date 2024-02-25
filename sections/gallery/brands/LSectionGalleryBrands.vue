@@ -71,16 +71,6 @@
                 cover
               />
             </x-column>
-
-            <!-- ADD COLUMN -->
-            <!--  <v-col
-              v-if="SHOW_EDIT_TOOLS"
-              key="add"
-              class="add-col"
-              @click="addItemToArray($sectionData.columns, ItemType)"
-            >
-              <v-icon dark>add</v-icon>
-            </v-col>-->
           </x-row>
         </v-col>
       </x-row>
@@ -89,15 +79,16 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
 
 export default {
   name: "LSectionGalleryBrands",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
-  components: {},
+  mixins: [LMixinSection],
+  components: { XUploader },
   cover: require("../../../assets/images/covers/gallery-2.svg"),
   group: "Gallery",
   label: "Brands gallery",

@@ -116,23 +116,31 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
+/**
+ * <l-settings-image-layers>
+ */
 export default {
   name: "LSettingsImageLayers",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     BackgroundImageEditor,
   },
 
-  props: {},
+  props: {
+    builder: {
+      type: Object,
+      required: true,
+    },
+  },
   data: () => ({
     el: null,
     target: null,
@@ -157,7 +165,7 @@ export default {
 
   computed: {
     upload_bg_url() {
-      return this.getPageBuilderUploadUrlImage();
+      return this.builder.getImageUploadUrl();
     },
 
     bg_cal_prev() {
@@ -201,7 +209,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsImageLayers",
 
       ({ el, target, keySetting, src, updateCallback }) => {
@@ -240,14 +248,14 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_layers = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsImageLayers");
+    EventBus.$off("show:LSettingsImageLayers");
 
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

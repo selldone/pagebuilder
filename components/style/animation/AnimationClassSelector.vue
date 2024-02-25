@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@core/helper/style/Classes";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
 
 export default {
   name: "AnimationClassSelector",

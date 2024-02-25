@@ -135,14 +135,15 @@
 
 <script>
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsImageSize",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     SNumberDimensionInput,
@@ -204,7 +205,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsImageSize",
 
       ({ el, target, keySize, src, updateCallback }) => {
@@ -244,13 +245,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.dialog_resize = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsImageSize");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsImageSize");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

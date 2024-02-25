@@ -13,17 +13,9 @@
  */
 
 import getPath from "lodash/get";
-import * as types from "./types";
+import * as types from "@app-page-builder/src/types/types";
 import {isBoolean, isObject, isString} from "lodash-es";
 
-export function isParentTo(target: HTMLElement, parent: HTMLElement) {
-  let currentNode: ParentNode | null = target;
-  while (currentNode !== null) {
-    if (currentNode === parent) return true;
-    currentNode = currentNode.parentNode;
-  }
-  return false;
-}
 
 /**
  *
@@ -100,110 +92,4 @@ export function getTypeFromTagName(tagName: string) {
   }
 }
 
-export function cleanDOM(artboard: HTMLElement) {
-  const editables: HTMLElement[] = Array.from(
-    artboard.querySelectorAll(".is-editable"),
-  );
-  const uploaders: HTMLElement[] = Array.from(
-    artboard.querySelectorAll(".uploader"),
-  );
-  const stylers: HTMLElement[] = Array.from(
-    artboard.querySelectorAll(".styler"),
-  );
 
-  editables.forEach((el) => {
-    el.contentEditable = "inherit";
-    el.classList.remove("is-editable");
-  });
-
-  const editables2 = Array.from(artboard.querySelectorAll("[contenteditable]"));
-  editables2.forEach((el) => {
-    el.removeAttribute("contenteditable");
-  });
-
-  uploaders.forEach((el) => {
-    const input = el.querySelector(":scope > input");
-    const image = el.querySelector(":scope > img");
-
-    image?.classList.add("add-full-width");
-    el.classList.remove("uploader");
-
-    if (input) input.remove();
-  });
-  stylers.forEach((styler) => {
-    styler.remove();
-  });
-}
-
-//----------------------------------------------
-// Remove empty <br> :
-
-export function iterateOverSectionData(
-  data: { [key: string]: any },
-  callback: (text: any) => any,
-): any {
-  if (isBoolean(data)) return data; // Don't touch boolean values
-
-  if (!data) return null;
-
-  if (Array.isArray(data)) {
-    return data.map((v) => iterateOverSectionData(v, callback));
-  }
-  if (isObject(data)) {
-    const out: any = {};
-    Object.keys(data).forEach((key: string) => {
-      out[key] = iterateOverSectionData(data[key], callback);
-    });
-    return out;
-  }
-
-  return callback(data);
-}
-
-/**
- * Remove empty <br> data.
- * @param data
- * @returns {*|{}}
- */
-export function removeBRFromSectionData(data: { [key: string]: any }) {
-  // console.log('removeBR',data)
-
-  return iterateOverSectionData(data, (text: any) => {
-    if (isString(text) && text.trim() === "<br>") {
-      console.log("🌶 Remove empty tags", text);
-      return "";
-    }
-    return text;
-  });
-}
-
-/**
- * List of found fonts on the section.
- * @param data
- * @returns {*[]}
- */
-export function findAllFontsInSection(data: { [key: string]: any }) {
-  // console.log('removeBR',data)
-  const fonts: string[] = [];
-
-  iterateOverSectionData(data, (text: any) => {
-    if (isString(text)) {
-      const div = document.createElement("div");
-      div.innerHTML = text.trim();
-      $(div)
-        .find("*")
-        .each(function () {
-          const font = $(this)
-            .css("font-family")
-            .replace(/[`~!@#$%^&*()_|\-=?;:'",.<>\{\}\[\]\\\/]/gi, "");
-          if (font && !fonts.includes(font.trim())) {
-            fonts.push(font.trim());
-            // console.log("Find font =>", font);
-          }
-        });
-    }
-    return text;
-  });
-
-  return fonts;
-}

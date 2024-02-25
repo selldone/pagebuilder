@@ -30,7 +30,7 @@
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn size="x-large" variant="text" @click="show_dialog = false">
-            <v-icon class="me-1">close </v-icon>
+            <v-icon class="me-1">close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
         </div>
@@ -289,16 +289,17 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@core/helper/style/Classes";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
+import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import AnimationClassSelector from "@app-page-builder/components/style/animation/AnimationClassSelector.vue";
 import HoverClassSelector from "@app-page-builder/components/style/hover/HoverClassSelector.vue";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsAnimation",
-  mixins: [PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     HoverClassSelector,
@@ -380,7 +381,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsAnimation",
 
       ({ el_style, el_class, target, keyStyle, keyClass, options }) => {
@@ -423,13 +424,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_dialog = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsAnimation");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsAnimation");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);

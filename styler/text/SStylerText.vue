@@ -20,7 +20,7 @@
     :is-visible="isVisible"
     :section="section"
     :target="target"
-    type="text"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -431,12 +431,11 @@
 </template>
 
 <script>
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
 
 const TextAlign = [
   { val: "start", icon: "format_align_left", title: "Start" },
@@ -488,28 +487,18 @@ const TextGradients = [
 export default {
   name: "SStylerText",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerIcon,
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
 
-    el: {
-      required: true,
-    },
 
     target: {
       required: true,
       type: Object,
-    },
-    section: {
-      type: Object,
-      required: true,
     },
 
     keyText: {
@@ -573,7 +562,6 @@ export default {
   },
   watch: {
     option(option) {
-      this.updatePopper();
 
       // Save range selection:
       this.saveRangeSelected();
@@ -583,7 +571,6 @@ export default {
      */
     isVisible() {
       this.option = null;
-      this.updatePopper();
     },
   },
   beforeMount() {

@@ -20,7 +20,7 @@
     :is-visible="isVisible"
     :section="section"
     :target="target"
-    type="marquee"
+    :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
 
@@ -51,18 +51,9 @@
 </template>
 
 <script>
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
-import { LMixinsEvents } from "@app-page-builder/mixins/events/LMixinsEvents";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { StylerMixin } from "@app-page-builder/mixins/StylerMixin";
-import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
-import {
-  PageBuilderColorsHelper,
-  PLATE_DARK_VARS,
-  PLATE_LIGHT_VARS,
-} from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
-import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
+import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 
 /**
  * v-styler:marquee
@@ -70,28 +61,19 @@ import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToo
 export default {
   name: "SStylerMarquee",
 
-  mixins: [PageBuilderMixin, LMixinsEvents, StylerMixin],
+  mixins: [LMixinEvents, LMixinStyler],
 
   components: {
     SStylerTemplate,
   },
   props: {
-    builder: {
-      required: true,
-    },
 
-    el: {
-      required: true,
-    },
 
     target: {
       required: true,
       type: Object,
     },
-    section: {
-      type: Object,
-      required: true,
-    },
+
 
     /**
      * Set the location of the proper
@@ -112,15 +94,12 @@ export default {
 
   computed: {},
   watch: {
-    option() {
-      this.updatePopper();
-    },
+
     /**
      * Reset menu status when it's closed.
      */
     isVisible() {
       this.option = null;
-      this.updatePopper();
     },
   },
   beforeMount() {

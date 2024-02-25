@@ -13,46 +13,16 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" class="pa-0" path="$sectionData">
-    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃▃ Actions ▃▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-    <v-sheet
-      v-if="$builder.isEditing && !$builder.isHideExtra"
-      class="inline-editor-sheet"
-      color="#225082"
-      dark
-      @click.stop
-    >
-      <v-toolbar
-        class="overflow-x-auto thin-scroll"
-        color="#225082"
-        flat
-        height="84"
-      >
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn
-            class="rounded-lg tnt me-2"
-            color="#2196F3"
-            variant="flat"
-            @click.stop="removeLastSlide"
-          >
-            <v-icon start>backspace</v-icon>
-            Remove Last Slide
-          </v-btn>
-          <v-btn
-            class="rounded-lg tnt me-2"
-            color="#2196F3"
-            variant="flat"
-            @click.stop="addNewSlide"
-          >
-            <v-icon start>queue</v-icon>
-            Add New Slide
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-    </v-sheet>
-
+  <x-section
+    :object="$sectionData"
+    class="pa-0"
+    path="$sectionData"
+    v-styler:gallery="{
+      target: $sectionData,
+      keyColumns: 'columns',
+      columnStructure: columnStructure,
+    }"
+  >
     <h2
       v-styler:text="{ target: $sectionData, keyText: 'title' }"
       class="mb-5"
@@ -92,37 +62,55 @@
         >
         </x-uploader>
 
-        <p
-          v-if="$builder.isEditing || $sectionData.columns[index].title"
-          v-styler:text="{
-            target: $sectionData.columns[index],
-            keyText: 'title',
-          }"
-          :index="index"
-          v-html="
-            $sectionData.columns[index].title?.applyAugment(
-              augment,
-              $builder.isEditing,
-            )
-          "
-        />
+        <div class="g-content">
+          <h3
+            v-if="$builder.isEditing || $sectionData.columns[index].title"
+            class="g-title"
+            v-styler:text="{
+              target: $sectionData.columns[index],
+              keyText: 'title',
+            }"
+            v-html="
+              $sectionData.columns[index].title?.applyAugment(
+                augment,
+                $builder.isEditing,
+              )
+            "
+          />
+
+          <p
+            v-if="$builder.isEditing || $sectionData.columns[index].title"
+            class="g-subtitle"
+            v-styler:text="{
+              target: $sectionData.columns[index],
+              keyText: 'subtitle',
+            }"
+            v-html="
+              $sectionData.columns[index].subtitle?.applyAugment(
+                augment,
+                $builder.isEditing,
+              )
+            "
+          />
+        </div>
       </div>
     </div>
   </x-section>
 </template>
 
 <script>
-import * as types from "../../../src/types";
-import { LMixinsHistory } from "@app-page-builder/mixins/history/LMixinsHistory";
+import * as types from "@app-page-builder/src/types/types";
+import { LMixinHistory } from "@app-page-builder/mixins/history/LMixinHistory";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
 
 export default {
   name: "LSectionGalleryExpandable",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin, LMixinsHistory],
+  mixins: [LMixinSection, LMixinHistory],
 
-  components: {},
+  components: {XUploader},
   cover: require("../../../assets/images/covers/gallery-1.svg"),
   group: "Gallery",
   label: "Expandable Gallery",
@@ -174,31 +162,13 @@ export default {
     },
   },
   data: () => ({
-    ItemType: {
+    columnStructure: {
       title: types.Title,
       image: types.Image,
     },
   }),
 
-  methods: {
-    removeLastSlide() {
-      this.onSaveHistory(); // 📙 Save local history
-
-      this.openDangerAlert(
-        "Delete Last Slide",
-        "Are you certain you want to remove the final slide?",
-        "Yes, Delete now",
-        () => {
-          this.$sectionData.columns.pop();
-        },
-      );
-    },
-    addNewSlide() {
-      this.onSaveHistory(); // 📙 Save local history
-
-      this.addItemToArray(this.$sectionData.columns, this.ItemType);
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -226,7 +196,7 @@ export default {
   transition: 0.5s;
   margin: 0 2%;
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
-  line-height: 0;
+  position: relative;
 
   .gallery-image-item {
     overflow: hidden;
@@ -240,12 +210,27 @@ export default {
     }
   }
 
-  p {
-    font-size: 1.3rem;
-    display: block;
-    text-align: center;
-    height: 10vh;
-    line-height: 48px;
+  .g-content {
+    text-align: start;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    align-items: start;
+    justify-content: start;
+    line-height: normal;
+
+    .g-title {
+      margin-bottom: 12px;
+    }
+
+    .g-subtitle {
+    }
   }
 
   &.run-mode {

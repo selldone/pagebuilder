@@ -32,11 +32,11 @@
           class="position-relative"
         >
           <!-- 📹 Background video -->
-          <video-background
+          <x-video-background
             v-if="$sectionData.columns[0].background?.bg_video"
             :video="getVideoUrl($sectionData.columns[0].background.bg_video)"
           >
-          </video-background>
+          </x-video-background>
 
           <h1
             v-styler:text="{ target: $sectionData, keyText: 'title' }"
@@ -93,11 +93,11 @@
           class="position-relative"
         >
           <!-- 📹 Background video -->
-          <video-background
+          <x-video-background
             v-if="$sectionData.columns[1].background?.bg_video"
             :video="getVideoUrl($sectionData.columns[1].background.bg_video)"
           >
-          </video-background>
+          </x-video-background>
 
           <p
             v-styler:text="{ target: $sectionData, keyText: 'content2' }"
@@ -113,18 +113,18 @@
 </template>
 
 <script>
-import * as types from "../../../src/types";
+import * as types from "@app-page-builder/src/types/types";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
-import VideoBackground from "@app-page-builder/sections/components/VideoBackground.vue";
+import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import SectionMixin from "@app-page-builder/mixins/SectionMixin";
+import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 
 export default {
   name: "LSectionHeroSearch",
   directives: { styler: StylerDirective },
-  mixins: [SectionMixin],
+  mixins: [LMixinSection],
 
-  components: { VideoBackground, SStorefrontSearchBox },
+  components: { XVideoBackground, SStorefrontSearchBox },
   cover: require("../../../assets/images/covers/hero-search.svg"),
   group: "Hero",
   label: "Search Hero",

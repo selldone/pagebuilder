@@ -65,20 +65,20 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@core/helper/style/BackgroundHelper";
+import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
-import EventBusTriggers from "@core/enums/event-bus/EventBusTriggers";
-import { HighlightEditingElements } from "@app-page-builder/src/helpers/HighlightEditingElements";
-import { PageBuilderMixin } from "@app-page-builder/mixins/PageBuilderMixin";
+import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
 import _ from "lodash-es";
-import PageEventBusMixin from "@app-page-builder/mixins/PageEventBusMixin";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
-import { PageBuilderColorsHelper } from "@app-page-builder/src/helpers/PageBuilderColorsHelper";
+import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import {EventBus} from "@core/events/EventBus";
 
 export default {
   name: "LSettingsBackground",
 
-  mixins: [PageBuilderMixin, PageEventBusMixin],
+  mixins: [LMixinEvents],
 
   components: {
     SColorSelector,
@@ -122,10 +122,10 @@ export default {
     },
 
     upload_bg_url() {
-      return this.getPageBuilderUploadUrlImage();
+      return this.builder.getImageUploadUrl();
     },
     upload_video_url() {
-      return this.getPageBuilderUploadUrlVideo();
+      return this.builder.getVideoUploadUrl();
     },
     //-----------------------------------
     in_background() {
@@ -155,7 +155,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.EventBus.$on(
+    EventBus.$on(
       "show:LSettingsBackground",
 
       ({ el, target, keyBackground }) => {
@@ -192,13 +192,13 @@ export default {
     //――――――――――――――― Event Bus ――――――――――――――――
     //█████████████████████████████████████████████████████████████
     // Listen for show loading data from server
-    this.EventBus.$on(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS, () => {
+    EventBus.$on(LEventsName.PAGE_BUILDER_CLOSE_TOOLS, () => {
       this.show_edit_style = false;
     });
   },
   beforeUnmount() {
-    this.EventBus.$off("show:LSettingsBackground");
-    this.EventBus.$off(EventBusTriggers.PAGE_BUILDER_CLOSE_TOOLS);
+    EventBus.$off("show:LSettingsBackground");
+    EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);
