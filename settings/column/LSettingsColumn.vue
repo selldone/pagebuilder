@@ -144,11 +144,11 @@
 
 <script>
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as Types from "@app-page-builder/src/types/types";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
@@ -176,7 +176,7 @@ export default {
   props: {},
   data: () => ({
     LAYOUTS: LAYOUTS,
-    standard_classes: ClassesHelper.StandardClasses(),
+    standard_classes: LUtilsClasses.StandardClasses(),
 
     el: null,
     target: null,
@@ -197,8 +197,8 @@ export default {
   watch: {
     show_edit_layout(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
 
     lock(lock) {
@@ -208,7 +208,7 @@ export default {
 
     has_button(has) {
       if (has) {
-        this.target.button = Seeder.seed(Types.Button);
+        this.target.button = LUtilsSeeder.seed(Types.Button);
       } else {
         this.target.button = null;
       }

@@ -12,15 +12,15 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {BackgroundHelper} from "@app-page-builder/utils/background/BackgroundHelper";
+import {LUtilsBackground} from "@app-page-builder/utils/background/LUtilsBackground";
 import {defineComponent, inject} from "vue";
-import SelldonePageBuilderCore from "@app-page-builder/index";
+import Builder from "@app-page-builder/index";
 import {Section} from "@app-page-builder/src/section/section";
 import {Background, Grid} from "@app-page-builder/src/types/types";
 
 const LMixinXComponent = defineComponent({
   data: () => ({
-    $builder: null as SelldonePageBuilderCore | null,
+    $builder: null as Builder | null,
     $section: null as Section | null,
   }),
   beforeCreate() {
@@ -68,7 +68,7 @@ const LMixinXComponent = defineComponent({
     backgroundStyle(background: Background) {
       if (!background) return null;
 
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         background.bg_custom,
         background.bg_gradient,
         background.bg_image ? this.getShopImagePath(background.bg_image) : null,

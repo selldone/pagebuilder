@@ -92,7 +92,7 @@
 
 <script>
 import XButton from "@app-page-builder/components/x/button/XButton.vue";
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinXComponent from "@app-page-builder/mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
@@ -137,7 +137,7 @@ export default defineComponent({
     },
   },
   data: () => ({
-    standard_classes: ClassesHelper.StandardClasses(),
+    standard_classes: LUtilsClasses.StandardClasses(),
 
     LAYOUTS: LAYOUTS,
     selected_layout: null,

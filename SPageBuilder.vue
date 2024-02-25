@@ -130,7 +130,6 @@
       :dir="page ? page.direction : 'auto'"
       :hasSaveButton="isOfficialPage"
       :page="page"
-      :pageStyle="style"
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
       class="designer-container"
@@ -148,8 +147,8 @@
       @load:template="onSetPageBySelectTemplate"
       @update:preview="(_page) => $emit('update:preview', _page)"
     >
-      <template v-slot:header>
-        <slot name="header"></slot>
+      <template v-slot:header="{ builder }">
+        <slot name="header" :builder="builder"></slot>
       </template>
     </LPageEditor>
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -286,7 +285,6 @@ import LPageEditorSetting from "@app-page-builder/page/editor/setting/LPageEdito
 import LPageEditorStatistics from "@app-page-builder/page/editor/statistics/LPageEditorStatistics.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
-import { FontLoader } from "@core/helper/font/FontLoader";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
 import SSmartSuggestion from "@components/smart/suggestions/SSmartSuggestion.vue";
@@ -377,10 +375,6 @@ export default {
       return this.$route.params.page_id;
     },
 
-    style() {
-      return this.page?.content?.style;
-    },
-
     in_desig_tab() {
       return this.tab === "design";
     },
@@ -430,15 +424,6 @@ export default {
   mounted() {},
   beforeUnmount() {},
   methods: {
-    /*  updateGlobal() {
-      this.$forceUpdate();
-
-      this.$nextTick(function () {
-        this.$refs.vueBuilder.$forceUpdate();
-        this.$refs.vueBuilder.PageStyleCalc();
-      });
-    },*/
-
     getHistory(history_id) {
       this.busy_fetch = true;
       this.current_history_id = history_id;
@@ -511,9 +496,6 @@ export default {
       //const html_content = this.$refs.vueBuilder.getHtml();
       const html_content = ""; // no need anymore!
 
-      // Locally update style: (IMPORTANT)
-      content.style = this.style;
-
       this.save(content, html_content);
     },
 
@@ -583,10 +565,10 @@ export default {
               );
 
               /*
-                       IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                        this.page = data.page;
-                       this.loadPageData();
-                        */
+                         IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                          this.page = data.page;
+                         this.loadPageData();
+                          */
             }
           })
           .catch((error) => {
@@ -634,18 +616,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                          this.$route.params.page_id = data.page.id;
-            */
+                            this.$route.params.page_id = data.page.id;
+              */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                          IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-            
-                          this.loadPageData();
-                           */
+                            IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+              
+                            this.loadPageData();
+                             */
             }
           })
           .catch((error) => {
@@ -708,11 +690,7 @@ export default {
         });
     },
     loadPageData() {
-      this.$refs.vueBuilder.title = "Page builder | " + this.page.title + " 📐";
-
-      // console.log('this.page.content.style',this.style)
-      // Load fonts:
-      if (this.style) FontLoader.LoadFonts(this.style.fonts);
+      ///this.$refs.vueBuilder.title = "Page builder | " + this.page.title + " 📐";
     },
 
     autoGenerate() {

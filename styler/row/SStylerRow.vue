@@ -160,12 +160,12 @@
 </template>
 
 <script>
-import ALIGN from "@app-page-builder/utils/enums/ALIGN";
-import JUSTIFY from "@app-page-builder/utils/enums/JUSTIFY";
+import ALIGN from "@app-page-builder/src/enums/ALIGN";
+import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 
 export default {
   name: "SStylerRow",
@@ -274,7 +274,7 @@ export default {
      */
     addNewColumn() {
       console.log("addNewColumn", this.target[this.keyColumns]);
-      this.target[this.keyColumns].push(Seeder.seed(this.columnStructure));
+      this.target[this.keyColumns].push(LUtilsSeeder.seed(this.columnStructure));
     },
 
     toggleNoWrap() {

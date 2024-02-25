@@ -189,7 +189,7 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import XButton from "@app-page-builder/components/x/button/XButton.vue";
 import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -381,7 +381,7 @@ export default {
     },
 
     addSlide() {
-      this.$sectionData.slide.items.add(Seeder.seed(types.Slide));
+      this.$sectionData.slide.items.add(LUtilsSeeder.seed(types.Slide));
       this.$refs.swiperTop.$swiper.update();
       this.$nextTick(() => {
         this.$refs.swiperTop.$swiper.slideTo(

@@ -222,12 +222,12 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 
 import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
 import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
 
@@ -247,7 +247,7 @@ export default {
 
     tab: 0,
 
-    standard_classes: ClassesHelper.StandardClasses(),
+    standard_classes: LUtilsClasses.StandardClasses(),
 
     el: null,
     target: null,
@@ -306,8 +306,8 @@ export default {
   watch: {
     dialog_frame(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
   },
   created() {},

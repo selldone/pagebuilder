@@ -14,15 +14,15 @@
 
 import {Page} from "@core/models/shop/page/page.model";
 
-export class Migration {
+export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
-    Migration.MigrateClasses(obj);
+    LUtilsMigration.MigrateClasses(obj);
 
     obj.sections?.forEach((section: any) => {
-      section.name = Migration.MigrateSectionName(section.name);
+      section.name = LUtilsMigration.MigrateSectionName(section.name);
     });
 
-    obj = Migration.MigrateKeys(obj);
+    obj = LUtilsMigration.MigrateKeys(obj);
 
     return obj;
   };

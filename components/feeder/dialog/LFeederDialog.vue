@@ -356,13 +356,13 @@
 
 <script>
 import LFeederColumn from "@app-page-builder/components/feeder/column/LFeederColumn.vue";
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import LFeederAlign from "@app-page-builder/components/feeder/align/LFeederAlign.vue";
 import LFeederJustify from "@app-page-builder/components/feeder/justify/LFeederJustify.vue";
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import { Button } from "@app-page-builder/src/types/types";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
@@ -441,7 +441,7 @@ export default {
     backgroundStyle(background) {
       if (!background) return null;
 
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         background.bg_custom,
         background.bg_gradient,
         background.bg_image ? this.getShopImagePath(background.bg_image) : null,
@@ -454,7 +454,7 @@ export default {
     },
 
     addButton() {
-      this.section_data.buttons.push(Seeder.seed(Button));
+      this.section_data.buttons.push(LUtilsSeeder.seed(Button));
     },
   },
 };

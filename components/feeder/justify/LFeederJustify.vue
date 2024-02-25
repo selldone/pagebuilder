@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import JUSTIFY from "@app-page-builder/utils/enums/JUSTIFY";
+import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 
 export default {
   name: "LFeederJustify",

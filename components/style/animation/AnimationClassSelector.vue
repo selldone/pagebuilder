@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 
 export default {
   name: "AnimationClassSelector",
@@ -58,7 +58,7 @@ export default {
     modelValue: {},
   },
   data: () => ({
-    animationClasses: ClassesHelper.AnimationsClasses(),
+    animationClasses: LUtilsClasses.AnimationsClasses(),
   }),
 };
 </script>

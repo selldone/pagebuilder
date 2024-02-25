@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ALIGN from "@app-page-builder/utils/enums/ALIGN";
+import ALIGN from "@app-page-builder/src/enums/ALIGN";
 
 export default {
   name: "LFeederAlign",

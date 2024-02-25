@@ -207,7 +207,7 @@ import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import {
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
-} from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+} from "@app-page-builder/utils/colors/LUtilsColors";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
 const FrameStyles = [

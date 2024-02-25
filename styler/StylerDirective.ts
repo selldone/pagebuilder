@@ -13,10 +13,9 @@
  */
 
 import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
-import {getTypeFromSchema, getTypeFromTagName} from "../src/util";
 import {installGlobalComponents} from "@components/components-mandetory";
 import {isObject, isString} from "lodash-es";
-import SelldonePageBuilderCore from "@app-page-builder/index";
+import Builder from "@app-page-builder/index";
 import {Section} from "@app-page-builder/src/section/section";
 import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
 import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";
@@ -37,24 +36,21 @@ import SStylerGallery from "@app-page-builder/styler/gallery/SStylerGallery.vue"
 const DEBUG = false;
 
 export namespace StylerOptions {
-
   export type Argument =
-      | 'buttons-row'
-      | 'button'
-      | 'row'
-      | 'section'
-      | 'text'
-      | 'column'
-      | 'grid'
-      | 'container'
-      | 'product'
-      | 'products'
-      | 'swiper'
-      | 'blogs'
-      | 'marquee'
-      | 'gallery'
-      ;
-
+    | "buttons-row"
+    | "button"
+    | "row"
+    | "section"
+    | "text"
+    | "column"
+    | "grid"
+    | "container"
+    | "product"
+    | "products"
+    | "swiper"
+    | "blogs"
+    | "marquee"
+    | "gallery";
 
   export interface IButtonsRow {
     target: types.ButtonsRow;
@@ -99,12 +95,12 @@ const StylerDirective: ObjectDirective<
     vnode: VNode,
   ) {
     const instance = binding.instance as ComponentInstance<{
-      $builder: SelldonePageBuilderCore;
+      $builder: Builder;
       $section: Section;
     }>;
 
     // Get builder from main page editor/viewer
-    const builder: SelldonePageBuilderCore = instance.$builder;
+    const builder: Builder = instance.$builder;
 
     // Get section from parent section
     const section: Section = instance.$section;
@@ -156,10 +152,7 @@ const StylerDirective: ObjectDirective<
 
     // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
 
-    const argument =
-      binding.arg ||
-      getTypeFromSchema(expression, section.schema) ||
-      getTypeFromTagName(el.tagName);
+    const argument = binding.arg;
 
     // Create and mount the Styler component
     let stylerComponent = null;
@@ -254,9 +247,9 @@ const StylerDirective: ObjectDirective<
       console.log("Styler directive updated", binding.value, "el", el);
     }
     /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-                               console.log("Styler directive updated", binding.value, "el", el);
-                               Object.assign(el.$instance._component.props, binding.value);
-                             }*/
+                                   console.log("Styler directive updated", binding.value, "el", el);
+                                   Object.assign(el.$instance._component.props, binding.value);
+                                 }*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");

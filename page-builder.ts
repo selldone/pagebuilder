@@ -13,7 +13,7 @@
  */
 
 import {App} from "vue";
-import SelldonePageBuilderCore from "./index";
+import Builder from "./index";
 
 import "@app-page-builder/styles/page-builder.scss";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
@@ -29,7 +29,7 @@ import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGal
 
 import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
-import {builder} from "@app-page-builder/selldone-page-builder-core";
+import {builder} from "@app-page-builder/Builder";
 import {Page} from "@core/models/shop/page/page.model";
 
 declare global {
@@ -44,7 +44,7 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
 
   if (options?.mode === "view") {
     // install the builder
-    app.use(SelldonePageBuilderCore);
+    app.use(Builder);
   } else if (options?.mode === "edit") {
     if (!options.server) {
       throw new Error(
@@ -72,7 +72,7 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
     if (!options.themes) options.themes = SampleThemes;
 
     // install the builder
-    app.use(SelldonePageBuilderCore, options);
+    app.use(Builder, options);
   } else {
     console.error(
       "Invalid page builder initial mode! Use 'edit' or 'view'!",

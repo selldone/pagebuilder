@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class PageBuilderColorsHelper {
+export class LUtilsColors {
   static PLATE_LIGHT_1 = "#70557e";
   static PLATE_DARK_1 = "#3a2c41"; // samin    colorSamin
 

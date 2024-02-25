@@ -219,7 +219,7 @@ export const CssFiltersGallery = [
   },
 ];
 
-export class CssFilter {
+export class LUtilsFilter {
   static CalcFilter(filter) {
     if (!filter) return null;
 

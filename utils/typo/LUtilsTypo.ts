@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class PageBuilderTypoHelper {
+export class LUtilsTypo {
   static H1_SIZE_DEFAULT = "2em";
   static H2_SIZE_DEFAULT = "1.5em";
   static H3_SIZE_DEFAULT = "1.17em";

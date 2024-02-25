@@ -117,6 +117,9 @@
               >Customize the header menu on the pages and create fancy looks.
             </v-list-subheader>
 
+
+            <s-setting-color v-model="style.header_color" title="Header Color" icon="palette" clearable></s-setting-color>
+
             <s-smart-select
               v-model="style.header_mode"
               :items="[
@@ -434,16 +437,18 @@ import { FONTS } from "@core/helper/font/FontLoader";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import SSmartSelect from "@components/smart/SSmartSelect.vue";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
+import SSettingColor from "@app-page-builder/styler/settings/color/SSettingColor.vue";
 
 export default {
   name: "LSettingsPageStyle",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingColor,
     SSmartSelect,
     SSmartSwitch,
 
@@ -499,64 +504,64 @@ export default {
         this.tab = ["background", "menu"].indexOf(tab);
 
         if (!style.plate_light_1)
-          style.plate_light_1 = PageBuilderColorsHelper.PLATE_LIGHT_1;
+          style.plate_light_1 = LUtilsColors.PLATE_LIGHT_1;
         if (!style.plate_dark_1)
-          style.plate_dark_1 = PageBuilderColorsHelper.PLATE_DARK_1;
+          style.plate_dark_1 = LUtilsColors.PLATE_DARK_1;
 
         if (!style.plate_light_2)
-          style.plate_light_2 = PageBuilderColorsHelper.PLATE_LIGHT_2;
+          style.plate_light_2 = LUtilsColors.PLATE_LIGHT_2;
         if (!style.plate_dark_2)
-          style.plate_dark_2 = PageBuilderColorsHelper.PLATE_DARK_2;
+          style.plate_dark_2 = LUtilsColors.PLATE_DARK_2;
 
         if (!style.plate_light_3)
-          style.plate_light_3 = PageBuilderColorsHelper.PLATE_LIGHT_3;
+          style.plate_light_3 = LUtilsColors.PLATE_LIGHT_3;
         if (!style.plate_dark_3)
-          style.plate_dark_3 = PageBuilderColorsHelper.PLATE_DARK_3;
+          style.plate_dark_3 = LUtilsColors.PLATE_DARK_3;
 
         if (!style.plate_light_4)
-          style.plate_light_4 = PageBuilderColorsHelper.PLATE_LIGHT_4;
+          style.plate_light_4 = LUtilsColors.PLATE_LIGHT_4;
         if (!style.plate_dark_4)
-          style.plate_dark_4 = PageBuilderColorsHelper.PLATE_DARK_4;
+          style.plate_dark_4 = LUtilsColors.PLATE_DARK_4;
 
         if (!style.plate_light_5)
-          style.plate_light_5 = PageBuilderColorsHelper.PLATE_LIGHT_5;
+          style.plate_light_5 = LUtilsColors.PLATE_LIGHT_5;
         if (!style.plate_dark_5)
-          style.plate_dark_5 = PageBuilderColorsHelper.PLATE_DARK_5;
+          style.plate_dark_5 = LUtilsColors.PLATE_DARK_5;
 
         if (!style.plate_light_6)
-          style.plate_light_6 = PageBuilderColorsHelper.PLATE_LIGHT_6;
+          style.plate_light_6 = LUtilsColors.PLATE_LIGHT_6;
         if (!style.plate_dark_6)
-          style.plate_dark_6 = PageBuilderColorsHelper.PLATE_DARK_6;
+          style.plate_dark_6 = LUtilsColors.PLATE_DARK_6;
 
         if (!style.plate_light_7)
-          style.plate_light_7 = PageBuilderColorsHelper.PLATE_LIGHT_7;
+          style.plate_light_7 = LUtilsColors.PLATE_LIGHT_7;
         if (!style.plate_dark_7)
-          style.plate_dark_7 = PageBuilderColorsHelper.PLATE_DARK_7;
+          style.plate_dark_7 = LUtilsColors.PLATE_DARK_7;
 
         if (!style.plate_light_8)
-          style.plate_light_8 = PageBuilderColorsHelper.PLATE_LIGHT_8;
+          style.plate_light_8 = LUtilsColors.PLATE_LIGHT_8;
         if (!style.plate_dark_8)
-          style.plate_dark_8 = PageBuilderColorsHelper.PLATE_DARK_8;
+          style.plate_dark_8 = LUtilsColors.PLATE_DARK_8;
 
         if (!style.plate_light_9)
-          style.plate_light_9 = PageBuilderColorsHelper.PLATE_LIGHT_9;
+          style.plate_light_9 = LUtilsColors.PLATE_LIGHT_9;
         if (!style.plate_dark_9)
-          style.plate_dark_9 = PageBuilderColorsHelper.PLATE_DARK_9;
+          style.plate_dark_9 = LUtilsColors.PLATE_DARK_9;
 
         if (!style.plate_light_10)
-          style.plate_light_10 = PageBuilderColorsHelper.PLATE_LIGHT_10;
+          style.plate_light_10 = LUtilsColors.PLATE_LIGHT_10;
         if (!style.plate_dark_10)
-          style.plate_dark_10 = PageBuilderColorsHelper.PLATE_DARK_10;
+          style.plate_dark_10 = LUtilsColors.PLATE_DARK_10;
 
         if (!style.plate_light_11)
-          style.plate_light_11 = PageBuilderColorsHelper.PLATE_LIGHT_11;
+          style.plate_light_11 = LUtilsColors.PLATE_LIGHT_11;
         if (!style.plate_dark_11)
-          style.plate_dark_11 = PageBuilderColorsHelper.PLATE_DARK_11;
+          style.plate_dark_11 = LUtilsColors.PLATE_DARK_11;
 
         if (!style.plate_light_12)
-          style.plate_light_12 = PageBuilderColorsHelper.PLATE_LIGHT_12;
+          style.plate_light_12 = LUtilsColors.PLATE_LIGHT_12;
         if (!style.plate_dark_12)
-          style.plate_dark_12 = PageBuilderColorsHelper.PLATE_DARK_12;
+          style.plate_dark_12 = LUtilsColors.PLATE_DARK_12;
       },
     );
 

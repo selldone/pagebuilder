@@ -12,10 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import SelldonePageBuilderCore from "./selldone-page-builder-core";
+import Builder from "./Builder";
 import * as types from "@app-page-builder/src/types/types";
 
-SelldonePageBuilderCore.version = "__VERSION__";
-SelldonePageBuilderCore.types = types;
+Builder.version = "__VERSION__";
+Builder.types = types;
 
-export default SelldonePageBuilderCore;
+export default Builder;

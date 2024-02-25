@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 
 export default {
   name: "HoverClassSelector",
@@ -64,7 +64,7 @@ export default {
     },
   },
   data: () => ({
-    hoversClasses: ClassesHelper.HoversClasses(),
+    hoversClasses: LUtilsClasses.HoversClasses(),
   }),
 };
 </script>

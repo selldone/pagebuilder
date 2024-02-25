@@ -51,7 +51,7 @@
 <script>
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import LFeederInput from "@app-page-builder/components/feeder/input/LFeederInput.vue";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
 
@@ -80,8 +80,8 @@ export default {
   watch: {
     dialog(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
   },
   created() {},

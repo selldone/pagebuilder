@@ -14,9 +14,9 @@
 
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
-import {Seeder} from "../../utils/seeder/seeder";
+import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
 import {App} from "vue";
-import {isBoolean, isObject} from "lodash-es";
+import {isString} from "lodash-es";
 import {LUtilsObject} from "@app-page-builder/utils/object/LUtilsObject";
 
 const DEBUG = false;
@@ -72,7 +72,7 @@ export class Section implements Section.ISection {
     options = Object.assign({}, options);
     this.name = options.name;
     this.schema = options.schema;
-    this.data = options.data || Seeder.seed(options.schema);
+    this.data = options.data || LUtilsSeeder.seed(options.schema);
     this.stylers = [];
 
     this.uid = options.uid;
@@ -164,8 +164,6 @@ export class Section implements Section.ISection {
       return text;
     });
   }
-
-
 }
 
 function LOG(...text: any) {

@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { CssFilter, CssFiltersGallery } from "@app-page-builder/utils/filter/CssFilters";
+import { LUtilsFilter, CssFiltersGallery } from "@app-page-builder/utils/filter/LUtilsFilter";
 
 export default {
   name: "SLandingStyleFilter",
@@ -205,7 +205,7 @@ export default {
     },
 
     calcFilter(filter) {
-      return CssFilter.CalcFilter(filter);
+      return LUtilsFilter.CalcFilter(filter);
     },
   },
 };

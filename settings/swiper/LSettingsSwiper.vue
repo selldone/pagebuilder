@@ -200,8 +200,8 @@
 
 <script>
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as types from "@app-page-builder/src/types/types";
 import { StripTags } from "@core/helper/html/HtmlHelper";
 import SImageUploader from "@components/uploader/SImageUploader.vue";
@@ -288,8 +288,8 @@ export default {
   watch: {
     show_edit_slide(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
 
     lock(lock) {
@@ -367,7 +367,7 @@ export default {
     //----------------------------------------------------------------------------
 
     addSlide() {
-      this.target[this.keySlide].items.push(Seeder.seed(types.Slide));
+      this.target[this.keySlide].items.push(LUtilsSeeder.seed(types.Slide));
       this.refresh();
     },
 

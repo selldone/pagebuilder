@@ -417,10 +417,10 @@ import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.v
 import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 import {
-  PageBuilderColorsHelper,
+  LUtilsColors,
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
-} from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+} from "@app-page-builder/utils/colors/LUtilsColors";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
@@ -524,17 +524,17 @@ export default {
   computed: {
     TEXT_COLORS() {
       return [
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 1),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 2),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 3),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 4),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 5),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 6),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 7),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 8),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 9),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 10),
-        PageBuilderColorsHelper.GetColorDark(this.$builder.style, 11),
+        LUtilsColors.GetColorDark(this.$builder.style, 1),
+        LUtilsColors.GetColorDark(this.$builder.style, 2),
+        LUtilsColors.GetColorDark(this.$builder.style, 3),
+        LUtilsColors.GetColorDark(this.$builder.style, 4),
+        LUtilsColors.GetColorDark(this.$builder.style, 5),
+        LUtilsColors.GetColorDark(this.$builder.style, 6),
+        LUtilsColors.GetColorDark(this.$builder.style, 7),
+        LUtilsColors.GetColorDark(this.$builder.style, 8),
+        LUtilsColors.GetColorDark(this.$builder.style, 9),
+        LUtilsColors.GetColorDark(this.$builder.style, 10),
+        LUtilsColors.GetColorDark(this.$builder.style, 11),
 
         // #FFFFFF not work! bug in execute foreground!
         "transparent",

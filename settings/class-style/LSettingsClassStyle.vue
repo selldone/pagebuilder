@@ -1218,20 +1218,20 @@
 
 <script>
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import SLandingStylePreview from "@app-page-builder/components/style/preview/SLandingStylePreview.vue";
 import SLandingStyleBorder from "@app-page-builder/components/style/border/SLandingStyleBorder.vue";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLandingStyleFilter.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
-import ShadowCollection from "@app-page-builder/utils/enums/ShadowCollection";
+import ShadowCollection from "@app-page-builder/src/enums/ShadowCollection";
 
 import SSmartToggle from "@components/smart/SSmartToggle.vue";
 import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
 
@@ -1278,7 +1278,7 @@ export default {
 
     Selected_tab: null,
 
-    standard_classes: ClassesHelper.StandardClasses(),
+    standard_classes: LUtilsClasses.StandardClasses(),
     in_classes: null,
 
     in_width: null,
@@ -1326,7 +1326,7 @@ export default {
 
   computed: {
     global_variables() {
-      return PageBuilderColorsHelper.GenerateColorsStyle(this.builder.style);
+      return LUtilsColors.GenerateColorsStyle(this.builder.style);
     },
 
     available_tabs() {
@@ -1500,8 +1500,8 @@ export default {
 
     show_dialog_size(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el_class) HighlightEditingElements.Activate(this.el_class);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el_class) LUtilsHighlight.Activate(this.el_class);
     },
   },
   created() {},

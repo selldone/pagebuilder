@@ -49,14 +49,14 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import { FontLoader } from "@core/helper/font/FontLoader";
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
-import { PageBuilderTypoHelper } from "@app-page-builder/utils/typo/PageBuilderTypoHelper";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
-import SelldonePageBuilderCore from "@app-page-builder/index";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
+import Builder from "@app-page-builder/index";
 import {provide} from "vue";
-import {cleanDOM} from "@app-page-builder/utils/html/LUtilHtml";
+import {cleanDOM} from "@app-page-builder/utils/html/LUtilsHtml";
 
 export default {
   name: "LPageViewer",
@@ -73,8 +73,8 @@ export default {
     },
   },
   data: () => ({
-    PageBuilderTypoHelper: PageBuilderTypoHelper,
-    PageBuilderColorsHelper: PageBuilderColorsHelper,
+    PageBuilderTypoHelper: LUtilsTypo,
+    PageBuilderColorsHelper: LUtilsColors,
   }),
 
   computed: {
@@ -82,7 +82,7 @@ export default {
       return this.initialPageData.style ? this.initialPageData.style : {};
     },
     CUSTOM_PAGE_STYLE() {
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         this.style.bg_custom,
         this.style.bg_gradient,
         this.style.bg_image ? this.getShopImagePath(this.style.bg_image) : null,
@@ -102,14 +102,13 @@ export default {
   },
   beforeCreate() {
     // Initialize builder
-    const builder = SelldonePageBuilderCore.newInstance()
+    const builder = Builder.newInstance()
     provide("$builder", builder);
     this.$builder = builder;
   },
 
   created() {
-    // Load fonts:
-    if (this.style) FontLoader.LoadFonts(this.style.fonts);
+
 
     console.style("<b>🪐 Render page</b>");
 
@@ -128,7 +127,7 @@ export default {
   methods: {
     initAnimations(target) {
       this.$nextTick(() => {
-        let classSelector = ClassesHelper.AnimationsClasses()
+        let classSelector = LUtilsClasses.AnimationsClasses()
           .map((c) => "." + c)
           .join(", ");
 
@@ -187,7 +186,7 @@ export default {
 
       // get animation classes
       let animation_classes = $.grep(classLists, function (className) {
-        return ClassesHelper.AnimationsClasses().includes(className);
+        return LUtilsClasses.AnimationsClasses().includes(className);
       });
 
       //if (animation_classes.length) console.log("🎠 Animation", animation_classes);

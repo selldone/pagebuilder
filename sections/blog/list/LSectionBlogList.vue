@@ -36,14 +36,11 @@
       v-html="$sectionData.text"
     />
 
-    <v-progress-circular
-      v-if="busy"
-      color="#999"
-      indeterminate
-      rotate=""
-    ></v-progress-circular>
-
-    <v-container :fluid="$sectionData.row ? $sectionData.row.fluid : false">
+    <v-container
+      :fluid="$sectionData.row ? $sectionData.row.fluid : false"
+      class="blur-animate"
+      :class="{ blurred: busy }"
+    >
       <v-row
         v-styler:grid="{ target: $sectionData }"
         v-styler:row="{
@@ -77,6 +74,12 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-progress-circular
+      v-if="busy"
+      color="#999"
+      indeterminate
+      class="center-absolute"
+    ></v-progress-circular>
   </x-section>
 </template>
 
@@ -159,17 +162,18 @@ export default {
 
       this.busy = true;
 
+      const params = {
+        tags: filter.tags,
+
+        offset: filter.offset,
+        limit: filter.limit,
+        sortBy: filter.sortBy,
+        sortDesc: filter.sortDesc,
+        search: this.isString(filter.search) ? filter.search : null, // Solve return function!
+      };
       axios
         .get(window.XAPI.GET_SHOP_BLOGS(this.getCurrentShopName()), {
-          params: {
-            tags: filter.tags,
-
-            offset: filter.offset,
-            limit: filter.limit,
-            sortBy: filter.sortBy,
-            sortDesc: filter.sortDesc,
-            search: this.isString(filter.search) ? filter.search : null, // Solve return function!
-          },
+          params: params,
         })
         .then(({ data }) => {
           if (!data.error) {

@@ -69,7 +69,7 @@ const HOVER_CLASSES = [
   "hover-invert-inv",
 ];
 
-export class ClassesHelper {
+export class LUtilsClasses {
   static AnimationsClasses() {
     return ANIMATION_CLASSES;
   }
@@ -176,37 +176,37 @@ export class ClassesHelper {
     return out;
   }
 
-    /**
-     * return just hover classes from classes of  landing component
-     * @param classes
-     * @constructor
-     */
+  /**
+   * return just hover classes from classes of  landing component
+   * @param classes
+   * @constructor
+   */
   static GetHovers(classes): string[] {
     if (!classes || !Array.isArray(classes)) return [];
 
     return classes
-      .filter((x) => ClassesHelper.HoversClasses().includes(x))
+      .filter((x) => LUtilsClasses.HoversClasses().includes(x))
       .unique();
   }
 
-    /**
-     * Return just animation classes from classes of  landing component
-     * @param classes
-     * @constructor
-     */
+  /**
+   * Return just animation classes from classes of  landing component
+   * @param classes
+   * @constructor
+   */
   static GetAnimations(classes): string[] {
     if (!classes || !Array.isArray(classes)) return [];
 
     return classes
-      .filter((x) => ClassesHelper.AnimationsClasses().includes(x))
+      .filter((x) => LUtilsClasses.AnimationsClasses().includes(x))
       .unique();
   }
 
-    /**
-     * Get threshould from style of landing component
-     * @param style
-     * @constructor
-     */
+  /**
+   * Get threshould from style of landing component
+   * @param style
+   * @constructor
+   */
 
   static GetThreshold(style): number {
     return style?.threshold;

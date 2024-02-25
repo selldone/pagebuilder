@@ -390,7 +390,6 @@ export default {
 
       try {
         this.fonts = LUtilsFont.FindAllFontsInSection(JSON.parse(this.section));
-        //console.log("Fonts ---->", this.fonts);
         // Load fonts:
         FontLoader.LoadFonts(this.fonts);
       } catch (e) {

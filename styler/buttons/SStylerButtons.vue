@@ -119,9 +119,9 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
-import ALIGN from "@app-page-builder/utils/enums/ALIGN";
-import JUSTIFY from "@app-page-builder/utils/enums/JUSTIFY";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
+import ALIGN from "@app-page-builder/src/enums/ALIGN";
+import JUSTIFY from "@app-page-builder/src/enums/JUSTIFY";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
@@ -195,7 +195,7 @@ export default {
      * XButtons | Add button
      */
     addNewButton() {
-      this.target[this.keyButtons].push(Seeder.seed(types.Button));
+      this.target[this.keyButtons].push(LUtilsSeeder.seed(types.Button));
     },
   },
 };

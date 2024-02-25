@@ -136,7 +136,7 @@
 <script>
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
@@ -199,8 +199,8 @@ export default {
 
     dialog_resize(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
   },
   created() {},

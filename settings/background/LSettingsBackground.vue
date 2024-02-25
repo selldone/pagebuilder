@@ -65,13 +65,13 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
 
@@ -118,7 +118,7 @@ export default {
 
   computed: {
     global_variables() {
-      return PageBuilderColorsHelper.GenerateColorsStyle(this.builder.style);
+      return LUtilsColors.GenerateColorsStyle(this.builder.style);
     },
 
     upload_bg_url() {
@@ -149,8 +149,8 @@ export default {
 
     show_edit_style(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
   },
   created() {},
@@ -243,7 +243,7 @@ export default {
 
       const background = this.target[this.keyBackground];
 
-      const style = BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      const style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
         background.bg_custom,
         background.bg_gradient,
         background.bg_image ? this.getShopImagePath(background.bg_image) : null,

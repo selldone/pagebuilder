@@ -340,7 +340,7 @@
 <script>
 import SImageUploader from "@components/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 
 import SVideoUploader from "@components/uploader/SVideoUploader.vue";
@@ -462,7 +462,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   computed: {
     final_bg_styles() {
       // console.log("final_bg_styles", this.bgCustom, this.bgGradient);
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         this.bgCustom,
         this.bgGradient,
         this.bgImage ? this.getShopImagePath(this.bgImage) : null,
@@ -491,7 +491,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
       this.onChange();
     },
     safeBg(style) {
-      return BackgroundHelper.GetBackgroundSafeStyle(style);
+      return LUtilsBackground.GetBackgroundSafeStyle(style);
     },
     setBgSize() {
       if (this.size_w && this.size_h)

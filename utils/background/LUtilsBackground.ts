@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class BackgroundHelper {
+export class LUtilsBackground {
   static CreateCompleteBackgroundStyleObject(
     bgCustom?: string,
     bgGradient?: string[],

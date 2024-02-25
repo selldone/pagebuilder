@@ -95,8 +95,7 @@
                 <hr />
                 <v-btn
                   :color="show_classes ? '#512DA8' : undefined"
-                  caption="Class"
-                  class="sub-caption mb-3"
+                  class="mb-3"
                   icon
                   variant="text"
                   @click="
@@ -105,11 +104,16 @@
                   "
                 >
                   <v-icon>architecture</v-icon>
+                  <v-tooltip
+                    content-class="bg-deep-purple-accent-3"
+                    activator="parent"
+                    location="right"
+                    >Show Classes
+                  </v-tooltip>
                 </v-btn>
                 <v-btn
                   :color="show_styles ? '#512DA8' : undefined"
-                  caption="Style"
-                  class="sub-caption mb-3"
+                  class="mb-3"
                   icon
                   variant="text"
                   @click="
@@ -118,6 +122,12 @@
                   "
                 >
                   <v-icon>format_paint</v-icon>
+                  <v-tooltip
+                    content-class="bg-deep-purple-accent-3"
+                    activator="parent"
+                    location="right"
+                    >Show Style
+                  </v-tooltip>
                 </v-btn>
               </div>
             </v-expand-transition>
@@ -356,13 +366,17 @@
             :style="[
               {
                 '--bg-color':
-                  pageStyle && pageStyle.bg_color ? pageStyle.bg_color : '#fff',
+                  builder.style && builder.style.bg_color
+                    ? builder.style.bg_color
+                    : '#fff',
                 fontFamily:
-                  pageStyle && pageStyle.font ? pageStyle.font : undefined,
+                  builder.style && builder.style.font
+                    ? builder.style.font
+                    : undefined,
               },
               {
-                '--background': pageStyle?.bg_color
-                  ? pageStyle.bg_color
+                '--background': builder.style?.bg_color
+                  ? builder.style.bg_color
                   : '#fff' /*IMPORTANT! Used by shop dynamic css. e.g. fade scrolls*/,
               },
             ]"
@@ -370,15 +384,15 @@
           >
             <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
             <div key="header-demo">
-              <slot name="header"></slot>
+              <slot name="header" :builder="builder"></slot>
             </div>
 
             <div
               ref="pagecontent"
               :class="{ 'min-height-80vh': $builder.isEditing }"
               :style="[
-                PageBuilderTypoHelper.GenerateTypoStyle(pageStyle),
-                PageBuilderColorsHelper.GenerateColorsStyle(pageStyle),
+                PageBuilderTypoHelper.GenerateTypoStyle(builder.style),
+                PageBuilderColorsHelper.GenerateColorsStyle(builder.style),
               ]"
               class="page-content"
               @click="handleClickOnSections"
@@ -688,7 +702,7 @@
 import Sortable from "sortablejs";
 import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
 
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import LSettingsPageStyle from "@app-page-builder/settings/page/style/LSettingsPageStyle.vue";
 import LSettingsClassStyle from "@app-page-builder/settings/class-style/LSettingsClassStyle.vue";
 import LSettingsBlogs from "@app-page-builder/settings/blogs/LSettingsBlogs.vue";
@@ -697,20 +711,20 @@ import LFeederDialog from "@app-page-builder/components/feeder/dialog/LFeederDia
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import LSettingsSwiper from "@app-page-builder/settings/swiper/LSettingsSwiper.vue";
 import LSettingsPageTypography from "@app-page-builder/settings/page/typography/LSettingsPageTypography.vue";
-import { PageBuilderTypoHelper } from "@app-page-builder/utils/typo/PageBuilderTypoHelper";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import LSettingsMarquee from "@app-page-builder/settings/marquee/LSettingsMarquee.vue";
 import PNoteDigest from "@app-page-builder/components/note/digest/PNoteDigest.vue";
 import LTemplatesList from "@app-page-builder/components/templates/list/LTemplatesList.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
 import SLandingEditorComponentsMenu from "@app-page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
 import SLandingSectionSideBar from "@app-page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
 import { LMixinHistory } from "@app-page-builder/mixins/history/LMixinHistory";
 import { defineComponent, provide } from "vue";
-import { Migration } from "@app-page-builder/utils/migration/MigrateFromOldVersion";
+import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
 import LSettingsProduct from "@app-page-builder/settings/product/LSettingsProduct.vue";
 import LSettingsBackground from "@app-page-builder/settings/background/LSettingsBackground.vue";
 import LSettingsProductsFilter from "@app-page-builder/settings/products-filter/LSettingsProductsFilter.vue";
@@ -726,7 +740,7 @@ import { FontLoader } from "@core/helper/font/FontLoader";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { EventBus } from "@core/events/EventBus";
 import LSettingsGallery from "@app-page-builder/settings/gallery/LSettingsGallery.vue";
-import SelldonePageBuilderCore from "@app-page-builder/index";
+import Builder from "@app-page-builder/index";
 import { LUtilsFont } from "@app-page-builder/utils/font/LUtilsFont";
 
 const DEBUG = false;
@@ -788,7 +802,6 @@ export default defineComponent({
       default: "desktop", // desktop   tablet   mobile
     },
     page: {},
-    pageStyle: {}, // Solver eal time update issue!
 
     shop: {
       required: false,
@@ -808,8 +821,8 @@ export default defineComponent({
   },
   data() {
     return {
-      PageBuilderTypoHelper: PageBuilderTypoHelper,
-      PageBuilderColorsHelper: PageBuilderColorsHelper,
+      PageBuilderTypoHelper: LUtilsTypo,
+      PageBuilderColorsHelper: LUtilsColors,
 
       //----------------------------
 
@@ -839,9 +852,6 @@ export default defineComponent({
       scrollTop: 0,
 
       //-------------------
-      CUSTOM_PAGE_STYLE: null,
-
-      //-------------------
       render_mode: null,
       show_classes: false,
       show_styles: false,
@@ -869,6 +879,26 @@ export default defineComponent({
   },
 
   computed: {
+    /**
+     * External function call. (don't change it!)
+     *
+     * @constructor
+     */
+    CUSTOM_PAGE_STYLE() {
+      if (!this.builder.style) return null; // Fix bugs
+
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
+        this.builder.style.bg_custom,
+        this.builder.style.bg_gradient,
+        this.builder.style.bg_image
+          ? this.getShopImagePath(this.builder.style.bg_image)
+          : null,
+        this.builder.style.bg_size,
+        this.builder.style.bg_repeat,
+        this.builder.style.bg_color,
+      );
+    },
+
     load_percent() {
       return (100 * this.delay_load) / this.sections_length;
     },
@@ -918,13 +948,6 @@ export default defineComponent({
       this.setModelInBuilder();
     },
 
-    pageStyle: {
-      deep: true,
-      handler() {
-        this.PageStyleCalc();
-      },
-    },
-
     "$builder.sections": {
       deep: true,
       handler(sections) {
@@ -942,7 +965,7 @@ export default defineComponent({
               name: s.name,
               data: s.data,
             })),
-            style: this.pageStyle,
+            style: this.builder.style,
           },
         };
         this.$emit("update:preview", _page);
@@ -967,7 +990,7 @@ export default defineComponent({
 
   beforeCreate() {
     // Initialize builder
-    const builder = SelldonePageBuilderCore.newInstance();
+    const builder = Builder.newInstance();
     provide("$builder", builder);
     this.$builder = builder;
   },
@@ -1291,29 +1314,6 @@ export default defineComponent({
       return rect.height > 0;
     },
 
-    /**
-     * External function call. (don't change it!)
-     *
-     * @constructor
-     */
-    PageStyleCalc() {
-      if (!this.pageStyle) return; // Fix bugs
-
-      this.CUSTOM_PAGE_STYLE =
-        BackgroundHelper.CreateCompleteBackgroundStyleObject(
-          this.pageStyle.bg_custom,
-          this.pageStyle.bg_gradient,
-          this.pageStyle.bg_image
-            ? this.getShopImagePath(this.pageStyle.bg_image)
-            : null,
-          this.pageStyle.bg_size,
-          this.pageStyle.bg_repeat,
-          this.pageStyle.bg_color,
-        );
-
-      //console.log('Calculate page style!', this.CUSTOM_PAGE_STYLE);
-    },
-
     //-----------------------------------
 
     calcMaxH() {
@@ -1448,19 +1448,19 @@ export default defineComponent({
 
       // Set initial fonts size:
       if (!this.isValidFontSize(data.style.h1_size))
-        data.style.h1_size = PageBuilderTypoHelper.H1_SIZE_DEFAULT;
+        data.style.h1_size = LUtilsTypo.H1_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.h2_size))
-        data.style.h2_size = PageBuilderTypoHelper.H2_SIZE_DEFAULT;
+        data.style.h2_size = LUtilsTypo.H2_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.h3_size))
-        data.style.h3_size = PageBuilderTypoHelper.H3_SIZE_DEFAULT;
+        data.style.h3_size = LUtilsTypo.H3_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.h4_size))
-        data.style.h4_size = PageBuilderTypoHelper.H4_SIZE_DEFAULT;
+        data.style.h4_size = LUtilsTypo.H4_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.h5_size))
-        data.style.h5_size = PageBuilderTypoHelper.H5_SIZE_DEFAULT;
+        data.style.h5_size = LUtilsTypo.H5_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.h6_size))
-        data.style.h6_size = PageBuilderTypoHelper.H6_SIZE_DEFAULT;
+        data.style.h6_size = LUtilsTypo.H6_SIZE_DEFAULT;
       if (!this.isValidFontSize(data.style.p_size))
-        data.style.p_size = PageBuilderTypoHelper.P_SIZE_DEFAULT;
+        data.style.p_size = LUtilsTypo.P_SIZE_DEFAULT;
 
       // ---------------------------------------*******************-------------------------------------
 
@@ -1524,7 +1524,7 @@ export default defineComponent({
 
       // get components data
       components = Object.keys(this.$builder.components).map((name) => {
-        name = Migration.MigrateSectionName(name);
+        name = LUtilsMigration.MigrateSectionName(name);
         const component = this.$builder.components[name];
         return {
           name: name,
@@ -1645,9 +1645,7 @@ export default defineComponent({
     },
 
     handleClickOnSections(event) {
-      if (
-        !HighlightEditingElements.IsChildOfHighlightActiveEditing(event.target)
-      )
+      if (!LUtilsHighlight.IsChildOfHighlightActiveEditing(event.target))
         EventBus.$emit(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
     },
 
@@ -1664,6 +1662,10 @@ export default defineComponent({
 
         if (!builder.style.fonts || !Array.isArray(builder.style.fonts))
           builder.style.fonts = [];
+
+        console.log("👢 builder.style ---->", builder.style);
+        console.log("👢 this.fonts ---->", this.fonts);
+
         this.fonts.forEach((font) => {
           if (!builder.style.fonts.includes(font)) {
             builder.style.fonts.push(font);

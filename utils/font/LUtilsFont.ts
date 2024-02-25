@@ -12,15 +12,18 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {LUtilsObject} from "@app-page-builder/utils/object/LUtilsObject";
+import {isString} from "lodash-es";
+
 export class LUtilsFont {
   /**
    * List of found fonts on the section.
    * @returns {*[]}
    */
-  public static FindAllFontsInSection() {
+  public static FindAllFontsInSection(data: Record<string, any>) {
     const fonts: string[] = [];
 
-    LUtilsObject.IterateOverSectionData(this.data, (text: any) => {
+    LUtilsObject.IterateOverSectionData(data, (text: any) => {
       if (isString(text)) {
         const div = document.createElement("div");
         div.innerHTML = text.trim();
@@ -32,7 +35,6 @@ export class LUtilsFont {
               .replace(/[`~!@#$%^&*()_|\-=?;:'",.<>\{\}\[\]\\\/]/gi, "");
             if (font && !fonts.includes(font.trim())) {
               fonts.push(font.trim());
-              // console.log("Find font =>", font);
             }
           });
       }

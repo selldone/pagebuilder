@@ -116,9 +116,9 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { HighlightEditingElements } from "@app-page-builder/utils/highligh/HighlightEditingElements";
+import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
@@ -171,7 +171,7 @@ export default {
     bg_cal_prev() {
       const bg = this.bg;
       if (!bg) return null;
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         bg.bg_custom,
         bg.bg_gradient,
         this.bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
@@ -183,7 +183,7 @@ export default {
     fg_cal_prev() {
       const fg = this.fg;
       if (!fg) return null;
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         fg.bg_custom,
         fg.bg_gradient,
         this.fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
@@ -203,8 +203,8 @@ export default {
 
     dialog_layers(dialog) {
       // Keep highlight active element:
-      if (!dialog) HighlightEditingElements.RemoveAllElementFocusEditing();
-      else if (this.el) HighlightEditingElements.Activate(this.el);
+      if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
+      else if (this.el) LUtilsHighlight.Activate(this.el);
     },
   },
   created() {},

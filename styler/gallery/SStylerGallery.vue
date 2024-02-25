@@ -73,7 +73,7 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import { Seeder } from "@app-page-builder/utils/seeder/seeder";
+import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
@@ -144,7 +144,7 @@ export default {
     },
 
     addNewSlide() {
-      this.target[this.keyColumns].push(Seeder.seed(this.columnStructure));
+      this.target[this.keyColumns].push(LUtilsSeeder.seed(this.columnStructure));
     },
   },
 };

@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class HighlightEditingElements {
+export class LUtilsHighlight {
   static ELEMENT_FOCUS_EDITING_CLASS = "element-focus-editing";
 
   static RemoveAllElementFocusEditing() {

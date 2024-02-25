@@ -50,12 +50,13 @@ import LSectionHeroSearch from "@app-page-builder/sections/hero/search/LSectionH
 import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
 import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
-import {Migration} from "@app-page-builder/utils/migration/MigrateFromOldVersion";
+import {LUtilsMigration} from "@app-page-builder/utils/migration/LUtilsMigration";
 import {isFunction, isObject} from "lodash-es";
 import {Popup} from "@core/models/shop/popup/popup.model";
 import {SvgFilters} from "@app-page-builder/utils/filter/svg-filters/SvgFilters";
+import {FontLoader} from "@core/helper/font/FontLoader";
 
-const DEBUG = false;
+const DEBUG = true;
 
 export namespace builder {
   export interface IOptions {
@@ -116,7 +117,7 @@ const BUILDER_OPTIONS: builder.IOptions = {
   },
 };
 
-class SelldonePageBuilderCore {
+class Builder {
   // Assigned from options:
   public title: string;
   public sections: Section[];
@@ -147,11 +148,11 @@ class SelldonePageBuilderCore {
    * Create a new instance of the page builder.
    */
   public static newInstance() {
-    const core_instance = new SelldonePageBuilderCore(
+    const core_instance = new Builder(
       Object.assign({}, BUILDER_OPTIONS, this.options),
     );
     // Initialize builder
-    return reactive(new SelldonePageBuilderCore(core_instance));
+    return reactive(new Builder(core_instance));
   }
 
   constructor(options: builder.IOptions) {
@@ -219,7 +220,7 @@ class SelldonePageBuilderCore {
         force_set_new_uid,
       );
 
-    options.name = Migration.MigrateSectionName(options.name);
+    options.name = LUtilsMigration.MigrateSectionName(options.name);
     if (!this.components[options.name]) {
       throw new Error(
         `Component [<b>${options.name}</b>] not found! The section name is invalid! Maybe it's removed from the page builder.`,
@@ -384,9 +385,12 @@ class SelldonePageBuilderCore {
   setContent(data: Page.IContent, from_theme: boolean = false) {
     LOG("⚽ Set -----> data", data);
 
-    data = Migration.MigratePageContent(data);
+    data = LUtilsMigration.MigratePageContent(data);
 
     this.style = data.style;
+
+    // Load fonts:
+    if (data.style?.fonts) FontLoader.LoadFonts(data.style.fonts);
 
     this.title = data.title !== undefined ? data.title : this.title;
 
@@ -432,6 +436,7 @@ class SelldonePageBuilderCore {
       Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
     });
 
+    console.log('👢 Style on save ',this.style)
     return {
       title: this.title,
       sections: this.sections.map((s) => ({
@@ -558,7 +563,7 @@ function initializeXComponents(app: App) {
   });
 }
 
-export default SelldonePageBuilderCore;
+export default Builder;
 
 function LOG(...text: any) {
   if (DEBUG) console.log("🪷 Core", ...text);

@@ -277,8 +277,8 @@ import { FontLoader, FONTS } from "@core/helper/font/FontLoader";
 
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import { PageBuilderTypoHelper } from "@app-page-builder/utils/typo/PageBuilderTypoHelper";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
 
@@ -299,8 +299,8 @@ export default {
     },
   },
   data: () => ({
-    PageBuilderTypoHelper: PageBuilderTypoHelper,
-    PageBuilderColorsHelper: PageBuilderColorsHelper,
+    PageBuilderTypoHelper: LUtilsTypo,
+    PageBuilderColorsHelper: LUtilsColors,
 
     tab: null,
     style: null,

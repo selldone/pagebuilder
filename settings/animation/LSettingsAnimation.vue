@@ -289,7 +289,7 @@
 </template>
 
 <script>
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import _ from "lodash-es";
 import AnimationClassSelector from "@app-page-builder/components/style/animation/AnimationClassSelector.vue";
@@ -308,8 +308,8 @@ export default {
 
   props: {},
   data: () => ({
-    animationClasses: ClassesHelper.AnimationsClasses(),
-    hoversClasses: ClassesHelper.HoversClasses(),
+    animationClasses: LUtilsClasses.AnimationsClasses(),
+    hoversClasses: LUtilsClasses.HoversClasses(),
 
     el_style: null,
     el_class: null,

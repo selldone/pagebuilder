@@ -146,9 +146,9 @@
 </template>
 
 <script>
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 
 export default {
   name: "SStylerTemplate",
@@ -184,7 +184,7 @@ export default {
     hasTracking: Boolean,
   },
   data: () => ({
-    PageBuilderColorsHelper: PageBuilderColorsHelper,
+    PageBuilderColorsHelper: LUtilsColors,
 
     element_id: null,
   }),
@@ -201,13 +201,13 @@ export default {
     },
 
     animations() {
-      return ClassesHelper.GetAnimations(this.target.classes);
+      return LUtilsClasses.GetAnimations(this.target.classes);
     },
     hovers() {
-      return ClassesHelper.GetHovers(this.target.classes);
+      return LUtilsClasses.GetHovers(this.target.classes);
     },
     threshold() {
-      return ClassesHelper.GetThreshold(this.target.style);
+      return LUtilsClasses.GetThreshold(this.target.style);
     },
   },
   watch: {},

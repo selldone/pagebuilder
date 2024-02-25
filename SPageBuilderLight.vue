@@ -36,7 +36,6 @@
       :isMenu="isMenu"
       :isPopup="isPopup"
       :page="modelValue"
-      :pageStyle="style"
       :shop="shop"
       :showIntro="show_intro"
       class="designer-container"
@@ -81,13 +80,7 @@ export default {
   }),
 
   computed: {
-    style() {
-      return (
-        this.modelValue &&
-        this.modelValue.content &&
-        this.modelValue.content.style
-      );
-    },
+
 
     show_intro() {
       return this.isPopup && this.$route.params.popup_id === "new";
@@ -120,7 +113,6 @@ export default {
     onSave() {
       const content = this.$refs.vueBuilder.getJson();
 
-      content.style = this.style;
 
       this.modelValue.content = content;
 

@@ -124,8 +124,8 @@ const SeederRepository: Map<string, any> = new Map([
     types.Container.name,
     () => ({
       fluid: false,
-      classes: Seeder.seed(types.ClassList),
-      style: Seeder.seed(types.Style),
+      classes: LUtilsSeeder.seed(types.ClassList),
+      style: LUtilsSeeder.seed(types.Style),
     }),
   ],
 
@@ -147,9 +147,9 @@ const SeederRepository: Map<string, any> = new Map([
     () => ({
       title: "Title",
       subtitle: "Some messages...",
-      image: Seeder.seed(types.Image),
-      row: Seeder.seed(types.Row) /*Align message!*/,
-      container: Seeder.seed(types.Container),
+      image: LUtilsSeeder.seed(types.Image),
+      row: LUtilsSeeder.seed(types.Row) /*Align message!*/,
+      container: LUtilsSeeder.seed(types.Container),
       // Thumbs:
       thumb_title: "Title",
       thumb_subtitle: "Sub title...",
@@ -191,7 +191,7 @@ const SeederRepository: Map<string, any> = new Map([
       success_msg:
         "Thank you, we have received your email address for our newsletter.",
 
-      input: Seeder.seed(types.Input),
+      input: LUtilsSeeder.seed(types.Input),
 
       success_dialog: {
         title: "Thanks",
@@ -216,7 +216,7 @@ const SeederRepository: Map<string, any> = new Map([
   ],
 ]);
 
-export class Seeder {
+export class LUtilsSeeder {
   // Seeds values using a schema.
   /**
    * Recursively seeds a given schema, transforming it based on predefined rules or data mappings.
@@ -240,7 +240,7 @@ export class Seeder {
       );
 
     if (Array.isArray(schema)) {
-      return schema.map((s) => Seeder.seed(s));
+      return schema.map((s) => LUtilsSeeder.seed(s));
     } else if (isFunction(schema)) {
       const value = SeederRepository.get(schema?.name);
       if (value !== undefined) {
@@ -252,7 +252,7 @@ export class Seeder {
     } else if (isObject(schema)) {
       return Object.keys(schema).reduce(
         (values, key) => {
-          values[key] = Seeder.seed(schema[key]);
+          values[key] = LUtilsSeeder.seed(schema[key]);
           return values;
         },
         {} as Record<string, any>,

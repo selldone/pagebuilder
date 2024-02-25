@@ -13,9 +13,47 @@
   -->
 
 <template>
+  <v-sheet v-if="show_heat_map" class="p-3 border-bottom">
+    <v-row no-gutters>
+      <v-btn-toggle
+        v-model="action"
+        class="ma-1"
+        mandatory
+        selected-class="blue-flat"
+      >
+        <v-btn value="move">
+          <v-icon start>mouse</v-icon>
+          Move
+        </v-btn>
+        <v-btn value="click">
+          <v-icon start>touch_app</v-icon>
+
+          Click
+        </v-btn>
+        <v-btn value="scroll">
+          <v-icon start>unfold_more</v-icon>
+
+          Scroll
+        </v-btn>
+      </v-btn-toggle>
+      <v-spacer></v-spacer>
+
+      <v-btn
+        class="ma-1"
+        :href="window.location.href"
+        target="_blank"
+        variant="text"
+      >
+        <v-icon start>open_in_new</v-icon>
+        Open full page
+      </v-btn>
+    </v-row>
+  </v-sheet>
+
   <div
     id="page-builder"
     ref="page_render_container"
+    v-bind="$attrs"
     v-resize="onResize"
     :dir="direction"
     class="page-builder"
@@ -42,55 +80,19 @@
       :style="background"
       style="min-height: 800px"
     />
-
-    <div
-      v-if="show_heat_map"
-      class="widget p-3 s--shadow-no-padding font-weight-bold"
-      style="position: fixed; top: 12px; left: 16px"
-    >
-      <v-btn-toggle
-        v-model="action"
-        class="m-1 widget-toggle"
-        density="compact"
-        mandatory
-        selected-class="blue-flat"
-      >
-        <v-btn value="move">
-          <v-icon class="me-1">mouse</v-icon>
-          Move
-        </v-btn>
-        <v-btn value="click">
-          <v-icon class="me-1">touch_app</v-icon>
-
-          Click
-        </v-btn>
-        <v-btn value="scroll">
-          <v-icon class="me-1">unfold_more</v-icon>
-
-          Scroll
-        </v-btn>
-      </v-btn-toggle>
-
-      <div class="mt-2 widget-buttons">
-        <v-btn :href="window.location.href" target="_blank" variant="text">
-          <v-icon class="me-1">open_in_new</v-icon>
-          Open full page
-        </v-btn>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import debounce from "lodash/debounce";
 import * as h337 from "heatmap.js";
-import { opts } from "@components/plugins/vuetify/vuetify";
 import LPageViewer from "@app-page-builder/page/viewer/LPageViewer.vue";
-import {StorefrontSDK} from "@sdk-storefront/StorefrontSDK";
+import { StorefrontSDK } from "@sdk-storefront/StorefrontSDK";
 
 export default {
   name: "SPageLoader",
   components: { LPageViewer },
+  emits: ["update:page", "update:menu-transparent", "update:header-mode", "update:header-color", "update:menu-dark"],
   props: {
     forceFetchUrl: {
       // Set fetch url externally! Used in page builder widget!
@@ -144,6 +146,9 @@ export default {
     header_mode() {
       return this.page?.content?.style?.header_mode;
     },
+    header_color() {
+      return this.page?.content?.style?.header_color;
+    },
 
     menu_dark() {
       return this.page?.content?.style?.menu_dark;
@@ -168,10 +173,10 @@ export default {
 
     if (this.enable_tracking) {
       this.catch_data.type = this.$vuetify.display.smAndDown
-          ? "mobile"
-          : this.$vuetify.display.mdAndDown
-              ? "tablet"
-              : "desktop";
+        ? "mobile"
+        : this.$vuetify.display.mdAndDown
+          ? "tablet"
+          : "desktop";
 
       this.handleDebouncedScroll = debounce(this.handleScroll, 100);
       window.addEventListener("scroll", this.handleDebouncedScroll);
@@ -203,7 +208,7 @@ export default {
       )
         return;
 
-    return   this.fetchCurrentAdminShop(
+      return this.fetchCurrentAdminShop(
         this.$route.params.shop_id,
         (shop) => {
           // ━━━ Storefront SDK (xapi,...) ━━━
@@ -417,6 +422,10 @@ export default {
       this.$emit("update:page", this.page);
       this.$emit("update:menu-transparent", this.menu_transparent);
       this.$emit("update:header-mode", this.header_mode);
+      this.$emit("update:header-color", this.header_color);
+
+
+
 
       if (this.menu_dark !== null || this.menu_dark !== undefined) {
         this.$emit("update:menu-dark", this.menu_dark);

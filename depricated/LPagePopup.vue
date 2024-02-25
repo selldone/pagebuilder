@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
-import { PageBuilderTypoHelper } from "@app-page-builder/utils/typo/PageBuilderTypoHelper";
-import { PageBuilderColorsHelper } from "@app-page-builder/utils/colors/PageBuilderColorsHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
+import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
+import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { FontLoader } from "@core/helper/font/FontLoader";
-import {cleanDOM} from "@app-page-builder/utils/html/LUtilHtml";
+import {cleanDOM} from "@app-page-builder/utils/html/LUtilsHtml";
 
 export default {
   name: "LPagePopup",
@@ -66,15 +66,15 @@ export default {
     },
   },
   data: () => ({
-    PageBuilderTypoHelper: PageBuilderTypoHelper,
-    PageBuilderColorsHelper: PageBuilderColorsHelper,
+    PageBuilderTypoHelper: LUtilsTypo,
+    PageBuilderColorsHelper: LUtilsColors,
   }),
   computed: {
     style() {
       return this.data.style ? this.data.style : {};
     },
     CUSTOM_PAGE_STYLE() {
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         this.style.bg_custom,
         this.style.bg_gradient,
         this.style.bg_image ? this.getShopImagePath(this.style.bg_image) : null,

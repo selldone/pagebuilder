@@ -14,7 +14,7 @@
 
 import {defineComponent, inject} from "vue";
 import _ from "lodash-es";
-import SelldonePageBuilderCore from "@app-page-builder/index";
+import Builder from "@app-page-builder/index";
 import {Section} from "@app-page-builder/src/section/section";
 
 const DEBUG = false;
@@ -25,7 +25,7 @@ export const LMixinHistory = defineComponent({
       builder: this.$builder
         ? this
             .$builder /*In main page editor we have no access to provider, so we set $builder in data.*/
-        : (inject("$builder") as SelldonePageBuilderCore),
+        : (inject("$builder") as Builder),
     };
   },
   mounted() {},
@@ -129,7 +129,7 @@ export const LMixinHistory = defineComponent({
     //――――――――――――――――――――――  History > Save ――――――――――――――――――――
 
     onSaveHistory() {
-      const builder = this.builder as SelldonePageBuilderCore;
+      const builder = this.builder as Builder;
       if (DEBUG)
         console.log(
           "📤 On Save History",

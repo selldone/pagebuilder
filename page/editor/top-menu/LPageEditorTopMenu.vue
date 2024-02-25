@@ -218,7 +218,7 @@
           icon
           stacked
           @click.stop="
-            ShowLSettingsPageStyle(style, !landing_show_page_style)
+            ShowLSettingsPageStyle(pageBuilder.$builder.style, !landing_show_page_style)
           "
         >
           <v-icon>format_paint</v-icon>
@@ -662,7 +662,7 @@ import { SetupService } from "@core/server/SetupService";
 import SDropZone from "@components/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { Migration } from "@app-page-builder/utils/migration/MigrateFromOldVersion";
+import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
 import SDenseImagesCirclesUsers from "@components/user/dense-circles/SDenseImagesCirclesUsers.vue";
 
 const ShortKeys = {
@@ -734,9 +734,7 @@ export default {
   },
 
   computed: {
-    style() {
-      return this.page.content.style;
-    },
+
 
     landing_show_page_style() {
       return this.$store.getters.getLandingShowPageStyle;
@@ -810,7 +808,7 @@ export default {
           }
 
           // Migrate from old version:
-          template.content = Migration.MigratePageContent(template.content);
+          template.content = LUtilsMigration.MigratePageContent(template.content);
 
           const components = this.pageBuilder.$builder.components;
 
@@ -842,7 +840,7 @@ export default {
 
           this.pageBuilder.setPage(this.page.content);
 
-          this.pageBuilder.title = "Page builder | " + this.page.title + " 📐";
+          /////this.pageBuilder.title = "Page builder | " + this.page.title + " 📐";
 
           //   this.$emit('request:loadData',this.page);
 

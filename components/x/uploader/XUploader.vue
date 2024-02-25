@@ -430,11 +430,11 @@
 </template>
 
 <script lang="ts">
-import { BackgroundHelper } from "@app-page-builder/utils/background/BackgroundHelper";
+import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import { defineComponent } from "vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import DataXDirective from "@app-page-builder/directives/DataXDirective";
-import { ClassesHelper } from "@app-page-builder/utils/classes/Classes";
+import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -622,7 +622,7 @@ export const XUploader = defineComponent({
     bg_cal() {
       const bg = this.setting.bg;
       if (!bg) return null;
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         bg.bg_custom,
         bg.bg_gradient,
         bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
@@ -634,7 +634,7 @@ export const XUploader = defineComponent({
     fg_cal() {
       const fg = this.setting.fg;
       if (!fg) return null;
-      return BackgroundHelper.CreateCompleteBackgroundStyleObject(
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
         fg.bg_custom,
         fg.bg_gradient,
         fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
@@ -649,13 +649,13 @@ export const XUploader = defineComponent({
     },
 
     animations() {
-      return ClassesHelper.GetAnimations(this.classes);
+      return LUtilsClasses.GetAnimations(this.classes);
     },
     hovers() {
-      return ClassesHelper.GetHovers(this.classes);
+      return LUtilsClasses.GetHovers(this.classes);
     },
     threshold() {
-      return ClassesHelper.GetThreshold(this.styles);
+      return LUtilsClasses.GetThreshold(this.styles);
     },
   },
   watch: {
