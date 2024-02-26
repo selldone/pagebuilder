@@ -23,7 +23,7 @@
     <!-- ------------------------------------- Themes ------------------------------------------>
 
     <l-templates-list
-      v-if="showIntro && !$builder.sections.length"
+      v-if="show_templates"
       :themes="themes"
       has-header
       @select:raw-theme="(_raw) => addTheme(_raw)"
@@ -32,14 +32,15 @@
 
     <!-- ████████████████████████ Editor ████████████████████████ -->
     <div
-      :class="{ hidden: showIntro && !$builder.sections.length }"
+      :class="{ hidden: show_templates }"
       :style="{ 'max-height': max_h }"
-      class="overflow-y-hidden"
+      class="designer-container"
       @mouseup="
         $builder.isEditing && components && components.length
           ? onSaveHistory()
           : undefined
       "
+
     >
       <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
 
@@ -683,12 +684,12 @@
     <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
     <l-page-editor-components-menu
-      v-if="inEditMode"
+      v-if="inEditMode && !show_templates"
       :scale-down-mode="scale_down"
     >
     </l-page-editor-components-menu>
 
-    <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
+    <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
     <l-feeder-dialog
       v-if="selected_section && selected_component"
       v-model="dialog_feeder"
@@ -897,6 +898,11 @@ export default defineComponent({
         this.builder.style.bg_repeat,
         this.builder.style.bg_color,
       );
+    },
+
+
+    show_templates(){
+      return this.showIntro && !this.$builder.sections.length
     },
 
     load_percent() {
@@ -2719,4 +2725,7 @@ label {
     }
   }
 }
+
+
+
 </style>

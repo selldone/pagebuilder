@@ -15,20 +15,14 @@
 <template>
   <v-card
     v-if="blur"
-    class="x--page-builder-templates d-flex align-center justify-center pa-3 text-h2 font-weight-thin text-muted"
+    class="x--page-builder-templates d-flex align-center justify-center pa-3 text-h2 font-weight-thin text-muted overflow-hidden"
     min-height="60vh"
     style="--background: #fff"
   >
     Loading Template...
   </v-card>
   <v-card v-else class="x--page-builder-templates" flat>
-    <v-app-bar color="transparent" flat>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-spacer></v-spacer>
-    </v-app-bar>
-
-    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10">
+    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10 pt-12">
       <h1 class="text-h3 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
@@ -51,30 +45,27 @@
         v-model="drawer"
         :temporary="$vuetify.display.mdAndDown"
         absolute
-        class="drawer"
       >
-        <v-list density="compact" nav>
-          <v-list-item
-            v-for="item in categories"
-            :key="item.code"
-            link
-            @click="
-              selected_category = item.code;
-              drawer = !$vuetify.display.mdAndDown;
-            "
-          >
-            <template v-slot:prepend>
-              <v-icon color="amber"
-                >{{
-                  item.code === selected_category
-                    ? "fa:fas fa-folder-open"
-                    : "fa:fas fa-folder"
-                }}
-              </v-icon>
-            </template>
-            <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <v-list-item
+          v-for="item in categories"
+          :key="item.code"
+          link
+          @click="
+            selected_category = item.code;
+            drawer = !$vuetify.display.mdAndDown;
+          "
+        >
+          <template v-slot:prepend>
+            <v-icon color="amber"
+              >{{
+                item.code === selected_category
+                  ? "fa:fas fa-folder-open"
+                  : "fa:fas fa-folder"
+              }}
+            </v-icon>
+          </template>
+          <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+        </v-list-item>
       </v-navigation-drawer>
 
       <v-card-text
@@ -83,7 +74,17 @@
         }"
         class="mt-2 pb-16"
       >
-        <div>
+        <div class="mb-3 d-flex align-center">
+          <v-btn
+            v-if="$vuetify.display.mdAndDown"
+            @click.stop="drawer = !drawer"
+            variant="text"
+            class="me-3"
+            icon
+          >
+            <v-icon>menu</v-icon>
+          </v-btn>
+
           <v-text-field
             v-model="search"
             :label="$t('global.commons.search')"
@@ -95,14 +96,12 @@
             variant="plain"
           ></v-text-field>
         </div>
-        <template v-if="themes && selected_category === 'raw'">
-          <v-fade-transition
-            class="align-items-center justify-start"
-            group
-            hide-on-leave
-            row
-            tag="v-row"
-          >
+        <v-row
+          v-if="themes && selected_category === 'raw'"
+          justify="start"
+          align="center"
+        >
+          <v-fade-transition group hide-on-leave>
             <v-col
               v-for="(theme, index) in themes"
               :key="'raw-' + index"
@@ -112,14 +111,22 @@
               sm="6"
             >
               <v-card
-                class="widget-hover rounded-2rem widget border overflow-hidden"
+                class="rounded-2rem position-relative border overflow-hidden pa-4"
+                color="#333"
+                variant="outlined"
                 @click="selectRawTheme(theme)"
               >
-                <v-img :src="theme.image" aspect-ratio="1" class="rounded-2rem">
+                <v-img
+                  :src="theme.image"
+                  aspect-ratio="1"
+                  class="rounded-2rem"
+                  cover
+                >
                   <v-chip
                     class="ma-3 absolute-bottom-end"
                     color="amber"
                     size="small"
+                    variant="flat"
                     >raw
                   </v-chip>
                 </v-img>
@@ -129,16 +136,10 @@
               </v-card>
             </v-col>
           </v-fade-transition>
-        </template>
+        </v-row>
 
-        <template v-else>
-          <v-fade-transition
-            class="align-items-center justify-start"
-            group
-            hide-on-leave
-            row
-            tag="v-row"
-          >
+        <v-row v-else justify="start" align="center">
+          <v-fade-transition group hide-on-leave>
             <v-col v-if="page_count > 1" key="p" cols="12">
               <v-pagination
                 v-model="page"
@@ -165,7 +166,7 @@
               ></l-template-card>
             </v-col>
           </v-fade-transition>
-        </template>
+        </v-row>
       </v-card-text>
     </div>
   </v-card>
@@ -327,11 +328,7 @@ export default {
 .x--page-builder-templates {
   overflow: hidden;
   text-align: start;
-  border-radius: 12px;
-
-  .drawer {
-    // z-index: 99;
-  }
+  border-radius: 26px;
 
   .drawer-open-margin {
     padding-left: 280px;

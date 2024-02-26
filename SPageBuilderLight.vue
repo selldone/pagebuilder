@@ -38,7 +38,6 @@
       :page="modelValue"
       :shop="shop"
       :showIntro="show_intro"
-      class="designer-container"
       @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"
       @scale="(val) => (scale = val)"

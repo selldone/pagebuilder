@@ -26,6 +26,7 @@
     class="x-page-builder-options-slider"
     color="#1e1e1e"
     temporary
+    touchless
   >
     <v-card
       class="text-start d-flex flex-column"

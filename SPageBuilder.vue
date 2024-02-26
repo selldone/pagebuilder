@@ -13,11 +13,11 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div class="">
+  <div v-bind="$attrs">
     <v-fade-transition>
       <div
         v-if="(inPageEditMode && !page) || busy_fetch"
-        class="center-fix loading-view-rect-center s--shadow-with-padding"
+        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
         style="z-index: 99999"
       >
         <v-progress-circular
@@ -132,8 +132,7 @@
       :page="page"
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
-      class="designer-container"
-      style="border-radius: 0 0 26px 26px"
+
       @changeMode="(val) => (inEditMode = val)"
       @historyOpen="history_dialog = true"
       @openSeo="sheet_seo = true"
@@ -151,9 +150,13 @@
         <slot name="header" :builder="builder"></slot>
       </template>
     </LPageEditor>
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-page-editor-setting
+  </div>
+
+
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+  <l-page-editor-setting
       v-if="page"
       v-show="tab === 'setting'"
       v-model:cluster-id="page.cluster_id"
@@ -164,118 +167,117 @@
       :is-official-page="isOfficialPage"
       :page="page"
       :shop="shop"
-    ></l-page-editor-setting>
+  ></l-page-editor-setting>
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <l-page-editor-seo v-if="page" v-show="tab === 'seo'" :page="page" />
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+  <l-page-editor-seo v-if="page" v-show="tab === 'seo'" :page="page" />
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-page-editor-statistics
+  <l-page-editor-statistics
       v-if="page && tab === 'behavior'"
       :page="page"
-    ></l-page-editor-statistics>
+  ></l-page-editor-statistics>
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <l-page-editor-files v-if="page?.id && tab === 'files'" :page="page" />
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+  <l-page-editor-files v-if="page?.id && tab === 'files'" :page="page" />
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <v-bottom-sheet
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+  <v-bottom-sheet
       v-if="page"
       v-model="history_dialog"
       content-class="rounded-t-xl"
       inset
       max-width="840px"
       scrollable
-    >
-      <v-card class="position-relative rounded-t-xl" rounded="0">
-        <v-progress-linear
+  >
+    <v-card class="position-relative rounded-t-xl" rounded="0">
+      <v-progress-linear
           v-if="busy_fetch"
           class="loader-to-bar"
           indeterminate
-        ></v-progress-linear>
-        <v-card-title>
-          <p class="ma-auto dialog-title text-start">
-            <v-icon class="me-2" color="#111">history</v-icon>
-            {{ $t("page_builder.history.title") }}
-          </p>
-        </v-card-title>
+      ></v-progress-linear>
+      <v-card-title>
+        <p class="ma-auto dialog-title text-start">
+          <v-icon class="me-2" color="#111">history</v-icon>
+          {{ $t("page_builder.history.title") }}
+        </p>
+      </v-card-title>
 
-        <v-card-text>
-          <v-list class="text-start border-between-vertical" density="compact">
-            <v-list-item
+      <v-card-text>
+        <v-list class="text-start border-between-vertical" density="compact">
+          <v-list-item
               class="-h-item"
               lines="two"
               prepend-icon="settings_backup_restore"
               ripple
               @click="fetchPageData()"
-            >
-              <v-list-item-title> Restore last saved page</v-list-item-title>
-              <v-list-item-subtitle
-                >{{ getFromNowString(page.updated_at) }}
-              </v-list-item-subtitle>
-            </v-list-item>
+          >
+            <v-list-item-title> Restore last saved page</v-list-item-title>
+            <v-list-item-subtitle
+            >{{ getFromNowString(page.updated_at) }}
+            </v-list-item-subtitle>
+          </v-list-item>
 
-            <v-list-item
+          <v-list-item
               v-for="history in histories"
               :key="history.id"
               class="-h-item"
               lines="two"
               ripple
               @click="getHistory(history.id)"
-            >
-              <template v-slot:prepend>
-                <v-icon
+          >
+            <template v-slot:prepend>
+              <v-icon
                   :color="
                     current_history_id === history.id ? 'primary' : '#111'
                   "
-                  >{{
-                    current_history_id === history.id
+              >{{
+                  current_history_id === history.id
                       ? "circle"
                       : "panorama_fish_eye"
-                  }}
-                </v-icon>
-              </template>
+                }}
+              </v-icon>
+            </template>
 
-              <v-list-item-title>
-                {{ getLocalTimeString(history.created_at) }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                <v-avatar
+            <v-list-item-title>
+              {{ getLocalTimeString(history.created_at) }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <v-avatar
                   v-if="history.user_id"
                   :size="28"
                   class="avatar-gradient -thin -user me-2 hover-scale"
-                >
-                  <v-img :src="getUserAvatar(history.user_id)" />
-                </v-avatar>
+              >
+                <v-img :src="getUserAvatar(history.user_id)" />
+              </v-avatar>
 
-                {{ getFromNowString(history.created_at) }}
-              </v-list-item-subtitle>
+              {{ getFromNowString(history.created_at) }}
+            </v-list-item-subtitle>
 
-              <template v-slot:append>
-                <v-list-item-action end>
-                  <small>{{
+            <template v-slot:append>
+              <v-list-item-action end>
+                <small>{{
                     history.persistent ? "persistent" : "temporary"
                   }}</small>
-                  <v-btn
+                <v-btn
                     icon
                     variant="text"
                     @click="togglePersistent(history)"
                     @click.stop
-                  >
-                    <v-icon v-if="history.persistent" color="yellow-darken-2">
-                      star
-                    </v-icon>
-                    <v-icon v-else color="grey-lighten-1">star_border</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card-text>
-      </v-card>
-    </v-bottom-sheet>
-  </div>
+                >
+                  <v-icon v-if="history.persistent" color="yellow-darken-2">
+                    star
+                  </v-icon>
+                  <v-icon v-else color="grey-lighten-1">star_border</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </template>
+          </v-list-item>
+        </v-list>
+      </v-card-text>
+    </v-card>
+  </v-bottom-sheet>
 </template>
 
 <script>

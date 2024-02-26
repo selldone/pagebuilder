@@ -1772,7 +1772,7 @@ export default {
           delete style[k];
         }
       });
-      console.log("Element style -->  ", style);
+      //console.log("Element style -->  ", style);
 
       //  style = Object.assign(style, filtered_style);
 
@@ -1806,7 +1806,7 @@ export default {
       this.el_class.classList.remove(...deletes);
       this.el_class.classList.add(...adds);
 
-      console.log("Element classes -->  ", this.in_classes);
+      ///console.log("Element classes -->  ", this.in_classes);
 
       this.target[this.keyClass] = this.in_classes; // Save data in section!
     },

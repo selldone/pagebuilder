@@ -21,8 +21,10 @@
     :min-width="show_deploy_button ? 360 : undefined"
     :ripple="!show_deploy_button"
     :to="need_become_premium ? undefined : to"
-    class="rounded-2rem widget position-relative border overflow-hidden"
+    class="rounded-2rem position-relative border overflow-hidden pa-4"
     @click="need_become_premium ? showNeedSubscribePremium() : $emit('click')"
+    color="#333"
+    variant="outlined"
   >
     <v-img
       :src="getShopImagePath(template.image)"
@@ -35,14 +37,14 @@
           v-if="template.premium"
           class="ma-1"
           color="#673AB7"
-          size="small"
+          size="small" variant="flat"
           title="This template is accessible exclusively for premium users who have subscribed to premium content."
         >
-          <v-icon size="small" start>auto_awesome</v-icon>
+          <v-icon  start>auto_awesome</v-icon>
           premium
         </v-chip>
-        <v-chip v-if="template.hot" class="ma-1" color="#D32F2F" size="small">
-          <v-icon size="small" start>local_fire_department</v-icon>
+        <v-chip v-if="template.hot" class="ma-1" color="#D32F2F" size="small" variant="flat">
+          <v-icon start>local_fire_department</v-icon>
           hot
         </v-chip>
       </div>
@@ -136,17 +138,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.x--page-builder-templates {
-  overflow: hidden;
-  text-align: start;
-  border-radius: 12px;
 
-  .drawer {
-    // z-index: 99;
-  }
-
-  .drawer-open-margin {
-    padding-left: 280px;
-  }
-}
 </style>
