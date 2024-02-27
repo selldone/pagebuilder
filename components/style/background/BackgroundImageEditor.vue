@@ -245,9 +245,9 @@
             <div class="text-center mb-2">Background position</div>
             <v-row dense style="font-size: 8px">
               <v-col v-for="pos in BackgroundPositions" :key="pos" cols="4">
-                <v-item v-slot="{ active, toggle }" :value="pos">
+                <v-item v-slot="{ isSelected, toggle }" :value="pos">
                   <v-card
-                    :color="active ? 'blue' : ''"
+                    :color="isSelected ? 'blue' : ''"
                     :height="64"
                     :width="64"
                     class="d-flex align-center justify-center ma-auto"

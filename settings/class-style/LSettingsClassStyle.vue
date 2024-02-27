@@ -809,7 +809,7 @@
                   <v-container>
                     <v-row align="center" justify="center">
                       <v-col v-for="(item, i) in ShadowCollection" :key="i">
-                        <v-item v-slot="{ active, toggle }" :value="item">
+                        <v-item v-slot="{ isSelected, toggle }" :value="item">
                           <v-card
                             :style="`box-shadow:${item}`"
                             class="d-flex align-center"
@@ -820,7 +820,7 @@
                           >
                             <v-scroll-y-transition>
                               <div
-                                v-if="active"
+                                v-if="isSelected"
                                 class="flex-grow-1 text-center"
                               >
                                 <v-icon color="success" size="large"
