@@ -43,7 +43,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Add New Slide
           </v-tooltip>
@@ -57,7 +57,7 @@
           <v-icon color="#CDDC39" dark size="20">add_photo_alternate</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Add New Slide
           </v-tooltip>

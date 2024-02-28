@@ -44,7 +44,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Align & Justify buttons
           </v-tooltip>
@@ -58,7 +58,7 @@
           <v-icon color="#CDDC39" dark size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Add new button
           </v-tooltip>
@@ -87,7 +87,7 @@
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
               >{{ it.title }}
             </v-tooltip>
@@ -106,7 +106,7 @@
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
               >{{ it.title }}
             </v-tooltip>

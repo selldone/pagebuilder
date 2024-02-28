@@ -44,7 +44,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Align & Justify Columns
           </v-tooltip>
@@ -60,7 +60,7 @@
           </v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Wrap / Nowrap
 
@@ -86,7 +86,7 @@
           </v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Fluid / Limit Width
           </v-tooltip>
@@ -100,7 +100,7 @@
           <v-icon color="#CDDC39" dark size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Add New Column
           </v-tooltip>
@@ -129,7 +129,7 @@
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
               >{{ it.title }}
             </v-tooltip>
@@ -148,7 +148,7 @@
             <v-tooltip
               v-if="it.title"
               activator="parent"
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
               >{{ it.title }}
             </v-tooltip>

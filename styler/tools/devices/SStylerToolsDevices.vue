@@ -30,7 +30,7 @@
       <v-tooltip
         activator="parent"
         attach
-        content-class="bg-black white--text"
+        content-class="bg-black text-white"
         location="bottom"
       >
         Mobile
@@ -63,7 +63,7 @@
       <v-tooltip
         activator="parent"
         attach
-        content-class="bg-black white--text"
+        content-class="bg-black text-white"
         location="bottom"
       >
         Tablet
@@ -96,7 +96,7 @@
       <v-tooltip
         activator="parent"
         attach
-        content-class="bg-black white--text"
+        content-class="bg-black text-white"
         location="bottom"
       >
         Desktop
@@ -129,7 +129,7 @@
       <v-tooltip
         activator="parent"
         attach
-        content-class="bg-black white--text"
+        content-class="bg-black text-white"
         location="bottom"
       >
         Widescreen

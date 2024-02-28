@@ -37,7 +37,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Blog Filter

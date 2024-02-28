@@ -57,7 +57,7 @@
           <v-icon dark size="20">movie_filter</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text text-start"
+            content-class="bg-black text-white text-start"
             location="bottom"
             max-width="360"
           >
@@ -112,7 +112,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text text-start"
+            content-class="bg-black text-white text-start"
             location="bottom"
             max-width="360"
           >
@@ -607,11 +607,11 @@ input[type="number"]::-webkit-outer-spin-button {
     background: rgba(38, 38, 38, 0.87);
     flex-grow: 1;
 
-    &.white--text {
+    &.text-white {
       background: rgba(38, 38, 38, 0.87);
     }
 
-    &.black--text {
+    &.text-black {
       background: rgba(255, 255, 255, 0.87);
     }
   }

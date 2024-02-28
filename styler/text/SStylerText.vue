@@ -49,7 +49,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Link
@@ -76,7 +76,7 @@
             <v-tooltip
               activator="parent"
               attach
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
             >
               Color
@@ -108,7 +108,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Font
@@ -133,7 +133,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Align
@@ -149,7 +149,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Style
@@ -164,7 +164,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Gradient
@@ -289,7 +289,7 @@
               <v-tooltip
                 activator="parent"
                 attach
-                content-class="bg-black white--text"
+                content-class="bg-black text-white"
                 location="bottom"
               >
                 {{ it.title }}
@@ -403,7 +403,7 @@
 
               <v-tooltip
                 activator="parent"
-                content-class="bg-black white--text text-start"
+                content-class="bg-black text-white text-start"
                 location="bottom"
               >
                 <span :class="{ 'font-weight-bold': text_gradient_mode }"

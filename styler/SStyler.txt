@@ -2356,11 +2356,11 @@ input[type="number"]::-webkit-outer-spin-button {
     background: rgba(38, 38, 38, 0.87);
     flex-grow: 1;
 
-    &.white--text {
+    &.text-white {
       background: rgba(38, 38, 38, 0.87);
     }
 
-    &.black--text {
+    &.text-black {
       background: rgba(255, 255, 255, 0.87);
     }
   }

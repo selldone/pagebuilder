@@ -40,7 +40,7 @@
             <v-tooltip
               activator="parent"
               attach
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
             >
               Delete Column
@@ -59,7 +59,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Customize Layout
@@ -76,7 +76,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Size & Class
@@ -92,7 +92,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Background Image / Video / Pattern

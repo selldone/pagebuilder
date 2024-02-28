@@ -24,7 +24,7 @@
         />
         <v-tooltip
           activator="parent"
-          content-class="bg-black white--text"
+          content-class="bg-black text-white"
           location="bottom"
           >{{ color_plate }}
         </v-tooltip>
@@ -41,7 +41,7 @@
 
         <v-tooltip
           activator="parent"
-          content-class="bg-black white--text"
+          content-class="bg-black text-white"
           location="bottom"
           >Set Custom Color
         </v-tooltip>
@@ -58,7 +58,7 @@
 
         <v-tooltip
           activator="parent"
-          content-class="bg-black white--text"
+          content-class="bg-black text-white"
           location="bottom"
           >Clear Color
         </v-tooltip>

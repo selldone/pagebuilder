@@ -38,7 +38,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Classes & Style
@@ -55,7 +55,7 @@
         <v-tooltip
           activator="parent"
           attach
-          content-class="bg-black white--text"
+          content-class="bg-black text-white"
           location="bottom"
           max-width="320"
           >Background Image / Video / Pattern<br />
@@ -79,7 +79,7 @@
           <SStylerIcon name="palettes" />
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Background Color
@@ -92,7 +92,7 @@
           <v-icon dark size="20">style</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Frame Shape
@@ -107,7 +107,7 @@
           <SStylerIcon name="trash" />
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Delete Section
@@ -141,7 +141,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Dark / Light Mode

@@ -39,7 +39,7 @@
 
             <v-tooltip
               activator="parent"
-              content-class="bg-black white--text"
+              content-class="bg-black text-white"
               location="bottom"
               >Delete button
             </v-tooltip>
@@ -57,7 +57,7 @@
           <v-tooltip
             activator="parent"
             attach
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Background
@@ -78,7 +78,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Set link
 
@@ -95,7 +95,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Shape and style
           </v-tooltip>
@@ -107,7 +107,7 @@
           <v-icon size="20">straighten</v-icon>
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             >Button size
           </v-tooltip>
@@ -121,7 +121,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Select text and to change the color
@@ -135,7 +135,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Change font
@@ -156,7 +156,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
             max-width="320"
             >Change text align

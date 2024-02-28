@@ -87,8 +87,8 @@ export class LUtilsClasses {
     out.push(
       ...[
         "overflow-hidden",
-        "white--text",
-        "black--text",
+        "text-white",
+        "text-black",
         "text-white",
         "blockquote",
         "text-h1",

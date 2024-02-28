@@ -37,7 +37,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text"
+            content-class="bg-black text-white"
             location="bottom"
           >
             Slides Setting
@@ -53,7 +53,7 @@
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black white--text  text-start small"
+            content-class="bg-black text-white  text-start small"
             location="bottom"
             max-width="360"
           >
