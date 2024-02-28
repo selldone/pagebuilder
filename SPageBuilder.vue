@@ -127,7 +127,6 @@
       v-show="tab === 'design'"
       ref="vueBuilder"
       :ai-auto-fill-function="aiAutoFillFunction"
-      :dir="page ? page.direction : 'auto'"
       :hasSaveButton="isOfficialPage"
       :page="page"
       :shop="shop"

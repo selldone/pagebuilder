@@ -32,7 +32,6 @@
 
     <LPageEditor
       ref="vueBuilder"
-      :dir="modelValue ? modelValue.direction : 'auto'"
       :isMenu="isMenu"
       :isPopup="isPopup"
       :page="modelValue"

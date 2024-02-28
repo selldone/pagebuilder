@@ -13,6 +13,7 @@
   -->
 
 <template>
+  <v-locale-provider :rtl="page?.direction === 'rtl'">
   <v-sheet v-if="show_heat_map" class="p-3 border-bottom">
     <v-row no-gutters>
       <v-btn-toggle
@@ -81,6 +82,7 @@
       style="min-height: 800px"
     />
   </div>
+  </v-locale-provider>
 </template>
 
 <script>
