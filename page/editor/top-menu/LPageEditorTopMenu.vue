@@ -14,6 +14,7 @@
 
 <template>
   <v-toolbar
+      v-if="pageBuilder"
     v-intersect="
       (isIntersecting) => {
         visible_to_user = isIntersecting;
