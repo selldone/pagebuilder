@@ -45,20 +45,20 @@
         <v-list-subheader
           >Choose a single product to feature on the homepage.
         </v-list-subheader>
-        <product-select-box
+        <b-products-select-box
           v-model="target.id"
           :shop="getShop()"
           class="my-5"
           single-product-select
         >
-        </product-select-box>
+        </b-products-select-box>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
+import BProductsSelectBox from "@components/backoffice/product/select-box/BProductsSelectBox.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
@@ -68,7 +68,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    ProductSelectBox,
+    BProductsSelectBox,
   },
 
   props: {},

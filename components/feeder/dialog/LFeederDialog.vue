@@ -91,7 +91,7 @@
           >
             <template v-slot:message>
               <s-backoffice-augment-keys-finder
-                :value="section_data.title"
+                :model-value="section_data.title"
               ></s-backoffice-augment-keys-finder>
             </template>
           </v-textarea>
@@ -105,7 +105,7 @@
           >
             <template v-slot:message>
               <s-backoffice-augment-keys-finder
-                :value="section_data.content"
+                :model-value="section_data.content"
               ></s-backoffice-augment-keys-finder>
             </template>
           </v-textarea>
@@ -225,7 +225,7 @@
             section.
           </v-list-subheader>
 
-          <product-select-box
+          <b-products-select-box
             :model-value="section_data.product_info.id"
             :shop="getShop()"
             single-product-select
@@ -239,7 +239,7 @@
               }
             "
           >
-          </product-select-box>
+          </b-products-select-box>
         </div>
 
         <!-- ████████████████████ Products & Categories ████████████████████ -->
@@ -365,7 +365,7 @@ import { Button } from "@app-page-builder/src/types/types";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
-import ProductSelectBox from "@components/product/input/ProductSelectBox.vue";
+import BProductsSelectBox from "@components/backoffice/product/select-box/BProductsSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import LFeederNewsletter from "@app-page-builder/components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
@@ -381,7 +381,7 @@ export default {
     LFeederImage,
     LFeederNewsletter,
     SPageProductsFilter,
-    ProductSelectBox,
+    BProductsSelectBox,
     SStorefrontSearchBox,
     SColorSelector,
     SValueDashed,
