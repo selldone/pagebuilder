@@ -72,7 +72,7 @@
 
       <v-list-subheader></v-list-subheader>
 
-      <google-search-preview
+      <b-google-preview
         :description="page.description"
         :title="page.title"
         :url="`.../pages/${page.name}`"
@@ -82,12 +82,12 @@
 </template>
 
 <script>
-import GoogleSearchPreview from "@app-backoffice/components/seo/GoogleSearchPreview.vue";
+import BGooglePreview from "@app-backoffice/components/google/preview/BGooglePreview.vue";
 import ScoreIndicator from "@components/ui/progress/score-indicator/ScoreIndicator.vue";
 
 export default {
   name: "LPageEditorSeo",
-  components: { ScoreIndicator, GoogleSearchPreview },
+  components: { ScoreIndicator, BGooglePreview },
   props: {
     page: {},
   },
