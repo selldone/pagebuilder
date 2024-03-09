@@ -29,7 +29,7 @@
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
-      <s-storefront-products-listing
+      <s-products-listing
         v-styler:row="rowBinding"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :force-mode-view="mode_view"
@@ -39,7 +39,7 @@
         :view-only="$builder.isEditing"
         landing-page-mode
         silent
-      ></s-storefront-products-listing>
+      ></s-products-listing>
 
       <p
         v-styler:text="{ target: $sectionData, keyText: 'text' }"
@@ -52,7 +52,7 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import SStorefrontProductsListing from "@components/storefront/products-listing/SStorefrontProductsListing.vue";
+import SProductsListing from "@components/storefront/products/listing/SProductsListing.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
@@ -63,7 +63,7 @@ export default {
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { SStorefrontProductsListing },
+  components: { SProductsListing },
   cover: require("../../../assets/images/covers/products.svg"),
 
   group: "Products",

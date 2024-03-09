@@ -18,7 +18,7 @@
     :object="$sectionData"
     path="$sectionData"
   >
-    <s-shop-product-main-card
+    <s-product-overview
       v-if="product"
       :hss-sticky-but-button="false"
       :product="product"
@@ -27,7 +27,7 @@
       show-cover
       style="max-width: 1650px; font-size: 14px"
     />
-    <product-info-loading-view v-else-if="busy"></product-info-loading-view>
+    <s-product-overview-loading v-else-if="busy"></s-product-overview-loading>
 
     <div
       v-else-if="$builder.isEditing && !$builder.isHideExtra"
@@ -46,8 +46,8 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import SShopProductMainCard from "@components/product/info/SShopProductMainCard.vue";
-import ProductInfoLoadingView from "@components/product/loading/ProductInfoLoadingView.vue";
+import SProductOverview from "@components/product/overview/SProductOverview.vue";
+import SProductOverviewLoading from "@components/product/overview/loading/SProductOverviewLoading.vue";
 import { GtagEcommerce } from "@components/plugins/gtag/GtagEcommerce";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
@@ -58,7 +58,7 @@ export default {
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { ProductInfoLoadingView, SShopProductMainCard },
+  components: { SProductOverviewLoading, SProductOverview },
   cover: require("../../../assets/images/covers/product.svg"),
 
   group: "Products",

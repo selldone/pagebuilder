@@ -35,7 +35,7 @@
         <template v-slot:append-inner>
           <score-indicator
             :value="$SEO.GetPageTitleScore(page.description)"
-            class="mt-n1"
+
           ></score-indicator>
         </template>
       </v-text-field>
@@ -51,7 +51,7 @@
         <template v-slot:append-inner>
           <score-indicator
             :value="$SEO.GetPageDescription(page.description)"
-            class="mt-n1"
+
           ></score-indicator>
         </template>
       </v-textarea>
