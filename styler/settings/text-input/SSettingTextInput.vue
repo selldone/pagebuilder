@@ -29,11 +29,14 @@
       color="#1976D2"
       density="compact"
       hide-details
-      placeholder="Enter..."
+      :placeholder="placeholder"
       single-line
       style="min-width: 200px"
       variant="plain"
       @update:model-value="(val) => setValue(val)"
+      :messages="messages?messages:''"
+      :rules="rules"
+      :counter="counter"
     >
     </v-text-field>
   </v-list-item>
@@ -44,6 +47,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SSettingTextInput",
+
   props: {
     modelValue: {
       type: Boolean,
@@ -58,6 +62,13 @@ export default defineComponent({
     },
     disabled: Boolean,
     clearable: Boolean,
+    messages:{},
+    placeholder:{
+      default:'Enter...'
+    },
+    rules:{},
+    counter:{},
+
   },
   computed: {},
   data() {

@@ -20,7 +20,7 @@
         visible_to_user = isIntersecting;
       }
     "
-    class="s--landing-menus-top-tools border-bottom"
+    class="s--landing-menus-top-tools border-bottom overflow-auto"
     color="#fff"
     flat
     v-bind="$attrs"

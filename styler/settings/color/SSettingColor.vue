@@ -24,6 +24,7 @@
       <s-color-selector
         :model-value="modelValue"
         :nullable="clearable"
+        :dialog-title="title"
         @update:model-value="setValue"
       ></s-color-selector>
     </template>
