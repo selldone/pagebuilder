@@ -22,7 +22,7 @@
     Loading Template...
   </v-card>
   <v-card v-else class="x--page-builder-templates" flat>
-    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10 pt-12">
+    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10">
       <h1 class="text-h3 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
@@ -40,10 +40,11 @@
 
     <s-progress-loading v-if="busy_fetch"></s-progress-loading>
 
-    <div class="position-relative min-height-60vh">
+    <div class="position-relative min-height-60vh d-flex align-start pb-16">
       <v-navigation-drawer
+        v-if="$vuetify.display.mdAndDown"
         v-model="drawer"
-        :temporary="$vuetify.display.mdAndDown"
+        temporary
         absolute
       >
         <v-list-item
@@ -68,12 +69,30 @@
         </v-list-item>
       </v-navigation-drawer>
 
-      <v-card-text
-        :class="{
-          'drawer-open-margin': !$vuetify.display.mdAndDown && drawer,
-        }"
-        class="mt-2 pb-16"
-      >
+      <v-list v-else min-width="280"  max-width="280">
+        <v-list-item
+          v-for="item in categories"
+          :key="item.code"
+          link
+          @click="
+            selected_category = item.code;
+            drawer = !$vuetify.display.mdAndDown;
+          "
+        >
+          <template v-slot:prepend>
+            <v-icon color="amber"
+              >{{
+                item.code === selected_category
+                  ? "fa:fas fa-folder-open"
+                  : "fa:fas fa-folder"
+              }}
+            </v-icon>
+          </template>
+          <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+
+      <v-card-text class="mt-2 pb-16 flex-grow-1">
         <div class="mb-3 d-flex align-center">
           <v-btn
             v-if="$vuetify.display.mdAndDown"
@@ -162,7 +181,7 @@
               <l-template-card
                 :loading="busy_get_template === item.id"
                 :template="item"
-                @click="$route.params.shop_id ? loadTemplate(item) : undefined"
+                @select="$route.params.shop_id ? loadTemplate(item) : undefined"
               ></l-template-card>
             </v-col>
           </v-fade-transition>
@@ -176,6 +195,9 @@
 import LTemplateCard from "@app-page-builder/components/templates/card/LTemplateCard.vue";
 import _ from "lodash-es";
 
+/**
+ * <l-templates-list>
+ */
 export default {
   name: "LTemplatesList",
   components: { LTemplateCard },
@@ -329,9 +351,5 @@ export default {
   overflow: hidden;
   text-align: start;
   border-radius: 26px;
-
-  .drawer-open-margin {
-    padding-left: 280px;
-  }
 }
 </style>

@@ -59,7 +59,6 @@
     "
     class="x--button tnt -trackable"
     v-html="btnData.content?.applyAugment(augment, editing)"
-    @click.stop="$emit('click')"
   >
   </v-btn>
 </template>

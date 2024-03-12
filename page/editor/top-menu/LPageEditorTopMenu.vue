@@ -24,6 +24,7 @@
     color="#fff"
     flat
     v-bind="$attrs"
+      height="auto"
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
@@ -35,6 +36,7 @@
         variant="flat"
         width="84"
         @click="$emit('click:save')"
+        class="ma-2 rounded-xl"
       >
         <v-icon>{{ saveIcon }}</v-icon>
         <span class="small mt-1 tnt">{{ $t("global.actions.save") }}</span>
@@ -869,6 +871,9 @@ export default {
       width: auto;
       min-width: 48px !important;
     }
+  }
+  ::v-deep(.v-toolbar__content){
+    padding: 0 !important;
   }
 }
 

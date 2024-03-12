@@ -49,9 +49,7 @@
       @click:prompt="show_prompt = !show_prompt"
     >
     </l-page-editor-top-menu>
-    <v-sheet v-else class="bg-gray" height="64"  style="border-radius: 26px 26px 0 0">
-
-    </v-sheet>
+    <v-sheet v-else height="64" style="border-radius: 26px 26px 0 0"> </v-sheet>
 
     <v-expand-transition>
       <div v-if="show_prompt" class="pa-3 pa-sm-5">
@@ -134,7 +132,6 @@
       :page="page"
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
-
       @changeMode="(val) => (inEditMode = val)"
       @historyOpen="history_dialog = true"
       @openSeo="sheet_seo = true"
@@ -152,23 +149,21 @@
         <slot name="header" :builder="builder"></slot>
       </template>
     </LPageEditor>
-
   </div>
-
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-setting
-      v-if="page"
-      v-show="tab === 'setting'"
-      v-model:cluster-id="page.cluster_id"
-      v-model:color="page.color"
-      v-model:direction="page.direction"
-      v-model:name="page.name"
-      v-model:note="page.note"
-      :is-official-page="isOfficialPage"
-      :page="page"
-      :shop="shop"
+    v-if="page"
+    v-show="tab === 'setting'"
+    v-model:cluster-id="page.cluster_id"
+    v-model:color="page.color"
+    v-model:direction="page.direction"
+    v-model:name="page.name"
+    v-model:note="page.note"
+    :is-official-page="isOfficialPage"
+    :page="page"
+    :shop="shop"
   ></l-page-editor-setting>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -177,8 +172,8 @@
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-statistics
-      v-if="page && tab === 'behavior'"
-      :page="page"
+    v-if="page && tab === 'behavior'"
+    :page="page"
   ></l-page-editor-statistics>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -186,18 +181,18 @@
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
   <v-bottom-sheet
-      v-if="page"
-      v-model="history_dialog"
-      content-class="rounded-t-xl"
-      inset
-      max-width="840px"
-      scrollable
+    v-if="page"
+    v-model="history_dialog"
+    content-class="rounded-t-xl"
+    inset
+    max-width="840px"
+    scrollable
   >
     <v-card class="position-relative rounded-t-xl" rounded="0">
       <v-progress-linear
-          v-if="busy_fetch"
-          class="loader-to-bar"
-          indeterminate
+        v-if="busy_fetch"
+        class="loader-to-bar"
+        indeterminate
       ></v-progress-linear>
       <v-card-title>
         <p class="ma-auto dialog-title text-start">
@@ -209,35 +204,33 @@
       <v-card-text>
         <v-list class="text-start border-between-vertical" density="compact">
           <v-list-item
-              class="-h-item"
-              lines="two"
-              prepend-icon="settings_backup_restore"
-              ripple
-              @click="fetchPageData()"
+            class="-h-item"
+            lines="two"
+            prepend-icon="settings_backup_restore"
+            ripple
+            @click="fetchPageData()"
           >
             <v-list-item-title> Restore last saved page</v-list-item-title>
-            <v-list-item-subtitle
-            >{{ getFromNowString(page.updated_at) }}
+            <v-list-item-subtitle class="op-1-0"
+              >{{ getFromNowString(page.updated_at) }}
             </v-list-item-subtitle>
           </v-list-item>
 
           <v-list-item
-              v-for="history in histories"
-              :key="history.id"
-              class="-h-item"
-              lines="two"
-              ripple
-              @click="getHistory(history.id)"
+            v-for="history in histories"
+            :key="history.id"
+            class="-h-item"
+            lines="two"
+            ripple
+            @click="getHistory(history.id)"
           >
             <template v-slot:prepend>
               <v-icon
-                  :color="
-                    current_history_id === history.id ? 'primary' : '#111'
-                  "
-              >{{
+                :color="current_history_id === history.id ? 'primary' : '#111'"
+                >{{
                   current_history_id === history.id
-                      ? "circle"
-                      : "panorama_fish_eye"
+                    ? "circle"
+                    : "panorama_fish_eye"
                 }}
               </v-icon>
             </template>
@@ -245,11 +238,11 @@
             <v-list-item-title>
               {{ getLocalTimeString(history.created_at) }}
             </v-list-item-title>
-            <v-list-item-subtitle>
+            <v-list-item-subtitle class="op-1-0">
               <v-avatar
-                  v-if="history.user_id"
-                  :size="28"
-                  class="avatar-gradient -thin -user me-2 hover-scale"
+                v-if="history.user_id"
+                :size="28"
+                class="avatar-gradient -thin -user me-2 hover-scale"
               >
                 <v-img :src="getUserAvatar(history.user_id)" />
               </v-avatar>
@@ -260,13 +253,13 @@
             <template v-slot:append>
               <v-list-item-action end>
                 <small>{{
-                    history.persistent ? "persistent" : "temporary"
-                  }}</small>
+                  history.persistent ? "persistent" : "temporary"
+                }}</small>
                 <v-btn
-                    icon
-                    variant="text"
-                    @click="togglePersistent(history)"
-                    @click.stop
+                  icon
+                  variant="text"
+                  @click="togglePersistent(history)"
+                  @click.stop
                 >
                   <v-icon v-if="history.persistent" color="yellow-darken-2">
                     star
@@ -569,10 +562,10 @@ export default {
               );
 
               /*
-                         IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                          this.page = data.page;
-                         this.loadPageData();
-                          */
+                           IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                            this.page = data.page;
+                           this.loadPageData();
+                            */
             }
           })
           .catch((error) => {
@@ -620,18 +613,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                            this.$route.params.page_id = data.page.id;
-              */
+                              this.$route.params.page_id = data.page.id;
+                */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                            IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-              
-                            this.loadPageData();
-                             */
+                              IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                
+                              this.loadPageData();
+                               */
             }
           })
           .catch((error) => {
