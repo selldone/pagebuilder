@@ -365,7 +365,7 @@ import { Button } from "@app-page-builder/src/types/types";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
-import BProductsSelectBox from "@components/backoffice/product/select-box/BProductsSelectBox.vue";
+import BProductsSelectBox from "@app-backoffice/components/product/select-box/BProductsSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import LFeederNewsletter from "@app-page-builder/components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
