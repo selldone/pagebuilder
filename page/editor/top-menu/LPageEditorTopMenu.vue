@@ -368,7 +368,7 @@
                   :height="24"
                   :width="24"
                   class="mx-1"
-                  src="../../../../../Components/assets/icons/ci-logo.png"
+                  src="@components/assets/icons/ci-logo.png"
                 />left side of the section.
               </li>
             </ol>

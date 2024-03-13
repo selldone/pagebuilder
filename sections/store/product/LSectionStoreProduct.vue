@@ -36,7 +36,7 @@
       <img
         class="m-3"
         height="96"
-        src="../../../../../Components/assets/icons/product-comparison.svg"
+        src="@components/assets/icons/product-comparison.svg"
         width="96"
       />
       <p class="text-h2">Select a product</p>
