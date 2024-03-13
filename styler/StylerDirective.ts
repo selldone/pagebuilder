@@ -116,6 +116,8 @@ const StylerDirective: ObjectDirective<
       builder ? "✅" : "❌",
       "section",
       section ? "✅" : "❌",
+      "isEditing",
+      builder?.isEditing ? "✅" : "❌",
     );
 
     const isEditing = builder.isEditing;
@@ -239,19 +241,15 @@ const StylerDirective: ObjectDirective<
 
   updated(
     el: HTMLElement & { $section?: Section },
-    binding: DirectiveBinding,
+    binding: DirectiveBinding & { $builder?: Builder },
     vnode: VNode,
   ) {
     // Check if binding.value has changed
     if (DEBUG && binding.oldValue !== binding.value) {
       console.log("Styler directive updated", binding.value, "el", el);
     }
-    /* if (isObject(binding.value) && binding.oldValue !== binding.value) {
-                                   console.log("Styler directive updated", binding.value, "el", el);
-                                   Object.assign(el.$instance._component.props, binding.value);
-                                 }*/
-
-    if (!el.classList.contains("is-editable")) {
+    // Set is-editable class in editing mode:
+    if (binding?.$builder?.isEditing && !el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
   },

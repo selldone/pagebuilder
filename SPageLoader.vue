@@ -14,74 +14,74 @@
 
 <template>
   <v-locale-provider :rtl="page?.direction === 'rtl'">
-  <v-sheet v-if="show_heat_map" class="p-3 border-bottom">
-    <v-row no-gutters>
-      <v-btn-toggle
-        v-model="action"
-        class="ma-1"
-        mandatory
-        selected-class="blue-flat"
-      >
-        <v-btn value="move">
-          <v-icon start>mouse</v-icon>
-          Move
+    <v-sheet v-if="show_heat_map" class="p-3 border-bottom">
+      <v-row no-gutters>
+        <v-btn-toggle
+          v-model="action"
+          class="ma-1"
+          mandatory
+          selected-class="blue-flat"
+        >
+          <v-btn value="move">
+            <v-icon start>mouse</v-icon>
+            Move
+          </v-btn>
+          <v-btn value="click">
+            <v-icon start>touch_app</v-icon>
+
+            Click
+          </v-btn>
+          <v-btn value="scroll">
+            <v-icon start>unfold_more</v-icon>
+
+            Scroll
+          </v-btn>
+        </v-btn-toggle>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          class="ma-1"
+          :href="window.location.href"
+          target="_blank"
+          variant="text"
+        >
+          <v-icon start>open_in_new</v-icon>
+          Open full page
         </v-btn>
-        <v-btn value="click">
-          <v-icon start>touch_app</v-icon>
+      </v-row>
+    </v-sheet>
 
-          Click
-        </v-btn>
-        <v-btn value="scroll">
-          <v-icon start>unfold_more</v-icon>
+    <div
+      id="page-builder"
+      ref="page_render_container"
+      v-bind="$attrs"
+      v-resize="onResize"
+      :dir="direction"
+      class="page-builder"
+      style="background-color: #fff"
+      @click="handleMouseClick"
+      @mousemove="handleDebouncedMouseMove"
+    >
+      <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ Top Shop Menu ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
+      <div :class="{ 'top-abs': menu_transparent }">
+        <slot name="header"></slot>
+      </div>
+      <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
-          Scroll
-        </v-btn>
-      </v-btn-toggle>
-      <v-spacer></v-spacer>
+      <div v-if="busy" class="min-height-80vh">
+        <s-loading class="my-10" height="240px"></s-loading>
+      </div>
 
-      <v-btn
-        class="ma-1"
-        :href="window.location.href"
-        target="_blank"
-        variant="text"
-      >
-        <v-icon start>open_in_new</v-icon>
-        Open full page
-      </v-btn>
-    </v-row>
-  </v-sheet>
-
-  <div
-    id="page-builder"
-    ref="page_render_container"
-    v-bind="$attrs"
-    v-resize="onResize"
-    :dir="direction"
-    class="page-builder"
-    style="background-color: #fff"
-    @click="handleMouseClick"
-    @mousemove="handleDebouncedMouseMove"
-  >
-    <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ Top Shop Menu ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
-    <div :class="{ 'top-abs': menu_transparent }">
-      <slot name="header"></slot>
+      <LPageViewer
+        v-if="json"
+        :key="'page_' + page?.id"
+        ref="page_render"
+        :augment="augment"
+        :initialPageData="json"
+        :style="background"
+        style="min-height: 800px"
+      />
     </div>
-    <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
-
-    <div v-if="busy" class="min-height-80vh">
-      <s-loading class="my-10" height="240px"></s-loading>
-    </div>
-
-    <LPageViewer
-      v-if="json"
-      :key="'page_' + page?.id"
-      ref="page_render"
-      :augment="augment"
-      :initialPageData="json"
-      :style="background"
-      style="min-height: 800px"
-    />
-  </div>
   </v-locale-provider>
 </template>
 
@@ -94,7 +94,13 @@ import { StorefrontSDK } from "@sdk-storefront/StorefrontSDK";
 export default {
   name: "SPageLoader",
   components: { LPageViewer },
-  emits: ["update:page", "update:menu-transparent", "update:header-mode", "update:header-color", "update:menu-dark"],
+  emits: [
+    "update:page",
+    "update:menu-transparent",
+    "update:header-mode",
+    "update:header-color",
+    "update:menu-dark",
+  ],
   props: {
     forceFetchUrl: {
       // Set fetch url externally! Used in page builder widget!
@@ -298,6 +304,7 @@ export default {
           radius: 150,
           blur: 0.7,
           backgroundColor: "rgba(0, 0, 0, 0)",
+          scaleRadius: true,
         });
       }
 
@@ -426,9 +433,6 @@ export default {
       this.$emit("update:header-mode", this.header_mode);
       this.$emit("update:header-color", this.header_color);
 
-
-
-
       if (this.menu_dark !== null || this.menu_dark !== undefined) {
         this.$emit("update:menu-dark", this.menu_dark);
       }
@@ -491,7 +495,7 @@ export default {
       axios
         .get(window.XAPI.GET_PAGE_STATISTIC(this.shop_name, this.page.id), {
           params: {
-            data: this.catch_data,
+            data: JSON.stringify(this.catch_data),
           },
         })
         .then(({ data }) => {

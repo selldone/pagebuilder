@@ -80,6 +80,13 @@ export namespace builder {
     model?: IModel;
   }
 
+  export interface IState {
+    isEditing: boolean;
+    isHideExtra: boolean;
+    isSorting: boolean;
+    isRendered: boolean;
+  }
+
   export type IModel = Page | Popup | ShopMenu;
 
   export type Mode = "edit" | "view";
@@ -147,15 +154,32 @@ class Builder {
   /**
    * Create a new instance of the page builder.
    */
-  public static newInstance() {
+  public static newInstance(
+    options: Partial<builder.IOptions>,
+    state: Partial<builder.IState> = {},
+  ) {
     const core_instance = new Builder(
-      Object.assign({}, BUILDER_OPTIONS, this.options),
+      Object.assign(
+        {},
+        BUILDER_OPTIONS,
+        this.options ? this.options : {},
+        options ? options : {},
+      ),
+      Object.assign(
+        {
+          isEditing: true,
+          isHideExtra: false,
+          isSorting: false,
+          isRendered: false,
+        },
+        state,
+      ),
     );
     // Initialize builder
-    return reactive(new Builder(core_instance));
+    return reactive(core_instance);
   }
 
-  constructor(options: builder.IOptions) {
+  constructor(options: builder.IOptions, state: builder.IState) {
     LOG("⚽ 3. Constructor > Create page builder instance", "options", options);
 
     // Assigned from option:
@@ -170,22 +194,28 @@ class Builder {
     this.isAnimation = false; // In animation editing mode
     this.isTracking = false; // In tracking editing mode
 
-    this.isEditing = true;
-    this.isHideExtra = false; // Hide add buttons and empty texts (Only in edit mode)
-    this.isSorting = false;
-    this.isRendered = false;
+    this.isEditing = state.isEditing;
+    this.isHideExtra = state.isHideExtra; // Hide add buttons and empty texts (Only in edit mode)
+    this.isSorting = state.isSorting;
+    this.isRendered = state.isRendered;
 
     this.components = Components;
 
     //----------------- Clone Style ------------------
     this.cloneStyle = false;
     this.cloneObject = null;
+
+    if (this.isEditing && this.isRendered) {
+      console.error(
+        "Invalid state! isEditing and isRendered can not be true at the same time!",
+      );
+    }
   }
 
   /**
    * Options for the builder.
    */
-  static options = null;
+  static options: Partial<builder.IOptions> | null = null;
 
   static install(app: App, options: Partial<builder.IOptions> = {}) {
     this.options = options;
@@ -436,7 +466,7 @@ class Builder {
       Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
     });
 
-    console.log('👢 Style on save ',this.style)
+    console.log("👢 Style on save ", this.style);
     return {
       title: this.title,
       sections: this.sections.map((s) => ({

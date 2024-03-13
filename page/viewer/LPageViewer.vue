@@ -50,13 +50,12 @@
 
 <script>
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import { FontLoader } from "@core/helper/font/FontLoader";
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import Builder from "@app-page-builder/index";
-import {provide} from "vue";
-import {cleanDOM} from "@app-page-builder/utils/html/LUtilsHtml";
+import { provide } from "vue";
+import { cleanDOM } from "@app-page-builder/utils/html/LUtilsHtml";
 
 export default {
   name: "LPageViewer",
@@ -94,26 +93,24 @@ export default {
   },
   watch: {
     initialPageData() {
-      this.$builder.isEditing = false;
-      this.$builder.isRendered = true;
       this.$builder.setContent(this.initialPageData);
       //-------------------
     },
   },
   beforeCreate() {
     // Initialize builder
-    const builder = Builder.newInstance()
+    const builder = Builder.newInstance(null, {
+      isEditing: false,
+      isRendered: true,
+    });
     provide("$builder", builder);
     this.$builder = builder;
+
+    // console.log("Initialize page builder instance", "edit", builder.isEditing, "render", builder.isRendered, builder,);
   },
 
   created() {
-
-
     console.style("<b>🪐 Render page</b>");
-
-    this.$builder.isEditing = false;
-    this.$builder.isRendered = true;
     this.$builder.setContent(this.initialPageData);
   },
 
@@ -208,6 +205,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

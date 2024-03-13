@@ -33,12 +33,13 @@
         :color="saveColor"
         :loading="busySave"
         stacked
-        variant="flat"
+        variant="elevated"
         width="84"
         @click="$emit('click:save')"
-        class="ma-2 rounded-xl"
+        class="ma-1 rounded-xl"
+        min-height="56"
       >
-        <v-icon>{{ saveIcon }}</v-icon>
+        <v-icon size="20">{{ saveIcon }}</v-icon>
         <span class="small mt-1 tnt">{{ $t("global.actions.save") }}</span>
       </v-btn>
 
