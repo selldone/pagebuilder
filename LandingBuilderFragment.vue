@@ -50,7 +50,7 @@ import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEdit
 import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 
 export default {
-  name: "SPageBuilderLight",
+  name: "LandingBuilderFragment",
   components: { LPageEditor, LPageEditorTopMenu },
   emits: ["update:modelValue", "onSave"],
   props: {
@@ -78,8 +78,6 @@ export default {
   }),
 
   computed: {
-
-
     show_intro() {
       return this.isPopup && this.$route.params.popup_id === "new";
     },
@@ -110,7 +108,6 @@ export default {
   methods: {
     onSave() {
       const content = this.$refs.vueBuilder.getJson();
-
 
       this.modelValue.content = content;
 

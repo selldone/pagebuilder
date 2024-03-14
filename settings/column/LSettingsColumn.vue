@@ -147,7 +147,7 @@ import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
-import SSmartToggle from "@components/smart/SSmartToggle.vue";
+import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as Types from "@app-page-builder/src/types/types";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

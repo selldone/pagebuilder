@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import SDenseImagesCirclesUsers from "@components/user/dense-circles/SDenseImagesCirclesUsers.vue";
+import SDenseImagesCirclesUsers from "@components/ui/dense-circles/SDenseImagesCirclesUsers.vue";
 import SMentionableInput from "@components/ui/text/SMentionableInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";

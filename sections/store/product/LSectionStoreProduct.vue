@@ -46,8 +46,8 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import SProductOverview from "@components/product/overview/SProductOverview.vue";
-import SProductOverviewLoading from "@components/product/overview/loading/SProductOverviewLoading.vue";
+import SProductOverview from "@components/storefront/overview/SProductOverview.vue";
+import SProductOverviewLoading from "@components/storefront/overview/loading/SProductOverviewLoading.vue";
 import { GtagEcommerce } from "@components/plugins/gtag/GtagEcommerce";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";

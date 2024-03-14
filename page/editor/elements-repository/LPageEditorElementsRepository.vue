@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import SImageUploader from "@components/uploader/SImageUploader.vue";
+import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import { FontLoader } from "@core/helper/font/FontLoader";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

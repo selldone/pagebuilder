@@ -91,8 +91,11 @@ import * as h337 from "heatmap.js";
 import LPageViewer from "@app-page-builder/page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@sdk-storefront/StorefrontSDK";
 
+/**
+ * <landing-render>
+ */
 export default {
-  name: "SPageLoader",
+  name: "LandingRender",
   components: { LPageViewer },
   emits: [
     "update:page",

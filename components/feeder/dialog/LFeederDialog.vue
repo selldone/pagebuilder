@@ -90,9 +90,9 @@
             variant="underlined"
           >
             <template v-slot:message>
-              <s-backoffice-augment-keys-finder
+              <l-augment-finder
                 :model-value="section_data.title"
-              ></s-backoffice-augment-keys-finder>
+              ></l-augment-finder>
             </template>
           </v-textarea>
           <v-textarea
@@ -104,9 +104,9 @@
             variant="underlined"
           >
             <template v-slot:message>
-              <s-backoffice-augment-keys-finder
+              <l-augment-finder
                 :model-value="section_data.content"
-              ></s-backoffice-augment-keys-finder>
+              ></l-augment-finder>
             </template>
           </v-textarea>
         </div>
@@ -357,10 +357,10 @@
 <script>
 import LFeederColumn from "@app-page-builder/components/feeder/column/LFeederColumn.vue";
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
+import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
 import LFeederAlign from "@app-page-builder/components/feeder/align/LFeederAlign.vue";
 import LFeederJustify from "@app-page-builder/components/feeder/justify/LFeederJustify.vue";
-import SSmartToggle from "@components/smart/SSmartToggle.vue";
+import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
 import { Button } from "@app-page-builder/src/types/types";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
@@ -369,7 +369,7 @@ import BProductsSelectBox from "@app-backoffice/components/product/select-box/BP
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import LFeederNewsletter from "@app-page-builder/components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
-import SBackofficeAugmentKeysFinder from "@components/backoffice/augment/SBackofficeAugmentKeysFinder.vue";
+import LAugmentFinder from "@app-page-builder/components/augment/finder/LAugmentFinder.vue";
 import SValueDashed from "@components/ui/text/SValueDashed.vue";
 import {LMixinEvents} from "@app-page-builder/mixins/events/LMixinEvents";
 
@@ -377,7 +377,7 @@ export default {
   name: "LFeederDialog",
   mixins:[LMixinEvents],
   components: {
-    SBackofficeAugmentKeysFinder,
+    LAugmentFinder,
     LFeederImage,
     LFeederNewsletter,
     SPageProductsFilter,

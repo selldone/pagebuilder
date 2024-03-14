@@ -180,11 +180,11 @@
 </template>
 
 <script>
-import SImageUploader from "@components/uploader/SImageUploader.vue";
+import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
-import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
-import SSmartCheckVerifyAction from "@components/smart/SSmartCheckVerifyAction.vue";
-import BClusterInput from "@components/backoffice/cluster/BClusterInput.vue";
+import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
+import SSmartCheckVerifyAction from "@components/ui/smart/SSmartCheckVerifyAction.vue";
+import BClusterInput from "@app-backoffice/components/cluster/input/BClusterInput.vue";
 
 export default {
   name: "LPageEditorSetting",

@@ -284,12 +284,15 @@ import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
-import SSmartSuggestion from "@components/smart/suggestions/SSmartSuggestion.vue";
+import SSmartSuggestion from "@components/ui/smart/suggestions/SSmartSuggestion.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 
+/**
+ * <landing-builder>
+ */
 export default {
-  name: "SPageBuilder",
+  name: "LandingBuilder",
   mixins: [LMixinEvents],
 
   components: {

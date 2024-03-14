@@ -663,11 +663,11 @@
 
 <script>
 import { SetupService } from "@core/server/SetupService";
-import SDropZone from "@components/uploader/SDropZone.vue";
+import SDropZone from "@components/ui/uploader/SDropZone.vue";
 import AiButton from "@components/ui/button/ai/AiButton.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
-import SDenseImagesCirclesUsers from "@components/user/dense-circles/SDenseImagesCirclesUsers.vue";
+import SDenseImagesCirclesUsers from "@components/ui/dense-circles/SDenseImagesCirclesUsers.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",

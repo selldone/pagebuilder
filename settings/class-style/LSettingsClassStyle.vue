@@ -1226,8 +1226,8 @@ import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLand
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import ShadowCollection from "@app-page-builder/src/enums/ShadowCollection";
 
-import SSmartToggle from "@components/smart/SSmartToggle.vue";
-import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
+import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
+import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";

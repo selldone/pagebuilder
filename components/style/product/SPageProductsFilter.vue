@@ -219,7 +219,7 @@
           </v-icon>
         </li>
       </ul>
-      <b-shop-category-input
+      <b-category-input
         v-if="hasCategoriesFilter"
         v-model="categories_value"
         chips
@@ -230,7 +230,7 @@
         persistent-placeholder
         placeholder="Root / Leave it empty to display items in the root."
       >
-      </b-shop-category-input>
+      </b-category-input>
     </div>
 
     <!-- ████████████████████ Tags ████████████████████ -->
@@ -359,20 +359,20 @@
 </template>
 
 <script>
-import SProductsSortView from "@components/product/sort/SProductsSortView.vue";
+import SProductsSortView from "@components/storefront/product/sort/SProductsSortView.vue";
 import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
-import BShopCategoryInput from "@components/backoffice/shop/category/input/BShopCategoryInput.vue";
-import BVendorInput from "@components/backoffice/vendor/input/BVendorInput.vue";
+import BCategoryInput from "@app-backoffice/components/category/input/BCategoryInput.vue";
+import BVendorInput from "@app-backoffice/components/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@core/enums/shop/BusinessModel";
-import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
+import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
 
 export default {
   name: "SPageProductsFilter",
   components: {
     SSmartSwitch,
     BVendorInput,
-    BShopCategoryInput,
+    BCategoryInput,
     SNumberInput,
     SProductsSortView,
   },

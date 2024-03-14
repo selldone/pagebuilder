@@ -434,9 +434,9 @@
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
 import { FONTS } from "@core/helper/font/FontLoader";
 
-import SSmartSwitch from "@components/smart/SSmartSwitch.vue";
+import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import SSmartSelect from "@components/smart/SSmartSelect.vue";
+import SSmartSelect from "@components/ui/smart/SSmartSelect.vue";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

@@ -140,7 +140,7 @@
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
-import SSmartToggle from "@components/smart/SSmartToggle.vue";
+import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";

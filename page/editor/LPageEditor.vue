@@ -40,6 +40,7 @@
           ? onSaveHistory()
           : undefined
       "
+      @mousemove="(e) => (lastCursorY = e.clientY)"
     >
       <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
 
@@ -242,7 +243,7 @@
               </template>
               <b class="d-block">Animation View</b>
               <div>
-                <v-icon class="me-1" dark size="small">animation</v-icon>
+                <v-icon class="me-1" size="small">animation</v-icon>
                 To configure animation and user interactions such as mouse hover
                 transitions, you can check out the blueprint and the minimalist
                 view of the page.
@@ -280,7 +281,7 @@
               </template>
               <b class="d-block">Tracking View</b>
               <div>
-                <v-icon class="me-1" dark size="small">highlight_alt</v-icon>
+                <v-icon class="me-1" size="small">highlight_alt</v-icon>
                 This view mode presents a simplified display of the page,
                 allowing the allocation of tracking IDs to actions (buttons)
                 that can be utilized in Google Tag Manager and other tracking
@@ -333,9 +334,7 @@
               </template>
               <b class="d-block">View Mode</b>
               <div>
-                <v-icon class="me-1" dark size="small"
-                  >center_focus_weak
-                </v-icon>
+                <v-icon class="me-1" size="small">center_focus_weak </v-icon>
                 Make fullscreen/compact view mode.
               </div>
               <div>
@@ -830,6 +829,7 @@ export default defineComponent({
   },
   data() {
     return {
+      lastCursorY: 0,
       PageBuilderTypoHelper: LUtilsTypo,
       PageBuilderColorsHelper: LUtilsColors,
 
@@ -1101,32 +1101,51 @@ export default defineComponent({
 
       // Toggle scale mode:
       if (event.code === "Tab" /*&& !event.target.isContentEditable*/) {
-        function calculateScroll(multiple) {
+        //console.log("this.lastCursorY", this.lastCursorY);
+
+        event.preventDefault(); // Prevent the default Tab behavior
+
+        const scaleDown = !this.listShown; // Determine if we need to scale down or up
+
+        // Function to capture the cursor's Y position on the screen
+        const cursorYPosition =
+          this.lastCursorY + (scaleDown ? -300 : -300); /*Top header height*/
+
+        // Calculate the new scroll position to maintain focus around the cursor position
+        function calculateScroll(multiple, cursorY) {
+          const viewportHeight = window.innerHeight;
+          // Calculate the proportional distance of the cursor from the top of the viewport
+          const cursorProportionFromTop = cursorY / viewportHeight;
+          // Adjust scroll position based on scale and cursor's proportion from the top
           return (
-            200 /*Top fixed high approximately!*/ +
-            (window.scrollY - 200) * multiple
+            (window.scrollY + cursorProportionFromTop * viewportHeight) *
+              multiple -
+            cursorY
           );
         }
 
-        // Call the function to perform the scroll (Must view scale completed!)
+        // Determine the new scale value and calculate the scroll adjustment
+        // Adjust the '200' and other fixed values as needed for your specific layout
+        const scrollPosition = calculateScroll(
+          scaleDown ? 0.5 : 2,
+          cursorYPosition,
+        );
 
-        const go_to_scale_down = !this.listShown;
-        const scroll = calculateScroll(go_to_scale_down ? 0.5 : 2);
+        // Toggle the visibility of the list or perform the scaling operation
+        this.toggleListVisibility();
 
+        // Delay the scrolling to allow the scaling animation to complete
         _.delay(
           () => {
             this.$nextTick(() => {
               window.scrollTo({
-                top: scroll,
-                // behavior: "smooth", // Optional: for smooth scrolling
+                top: Math.max(0, scrollPosition), // Ensure the scroll position does not go below 0
+                behavior: "smooth", // Enable smooth scrolling
               });
             });
           },
-          go_to_scale_down ? 0 : 350,
-        ); // In scale up mode we need to wait to all view being scaled and scroll be available!
-
-        this.toggleListVisibility();
-        event.preventDefault();
+          scaleDown ? 0 : 100,
+        ); // Delay for scaling up, immediate for scaling down
       }
 
       if (event.target.isContentEditable) {

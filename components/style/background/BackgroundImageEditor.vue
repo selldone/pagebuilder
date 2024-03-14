@@ -338,12 +338,12 @@
 </template>
 
 <script>
-import SImageUploader from "@components/uploader/SImageUploader.vue";
+import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
 
-import SVideoUploader from "@components/uploader/SVideoUploader.vue";
+import SVideoUploader from "@components/ui/uploader/SVideoUploader.vue";
 import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
 import SFadeScroll from "@components/ui/fade-scroll/SFadeScroll.vue";
 

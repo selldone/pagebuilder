@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2024. Selldone® Business OS™
+  - Copyright (c) 2023. Selldone® Business OS™
   -
   - Author: M.Pajuhaan
   - Web: https://selldone.com
@@ -13,27 +13,42 @@
   -->
 
 <template>
-  <product-variants-view v-if="variants" :small="small" :variants="variants">
-  </product-variants-view>
+  <s-fade-scroll class="text-start">
+    <div class="d-flex" title="Dynamic values auto fill by augmentation.">
+      <v-chip v-for="it in array" :key="it" class="me-1" label size="x-small"
+        >{{ it }}
+      </v-chip>
+    </div>
+  </s-fade-scroll>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import ProductVariantsView from "@components/storefront/product/variant/ProductVariantsView.vue";
+import SFadeScroll from "@components/ui/fade-scroll/SFadeScroll.vue";
 
-export default defineComponent({
-  name: "XVariants",
-  components: { ProductVariantsView },
+export default {
+  name: "LAugmentFinder",
+  components: { SFadeScroll },
   props: {
-    small: {
-      type: Boolean,
-      default: false,
-    },
-    variants: {
-      type: Object,
+    modelValue: {},
+  },
+
+  data: function () {
+    return {
+      show_add: false,
+    };
+  },
+  computed: {
+    array() {
+      return this.modelValue?.findAllDynamicAugmentKeys().unique(); // Find all {{key}}
     },
   },
-});
+
+  watch: {},
+
+  created() {},
+
+  methods: {},
+};
 </script>
 
 <style lang="scss" scoped></style>
