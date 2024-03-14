@@ -55,14 +55,14 @@
       <div v-if="show_prompt" class="pa-3 pa-sm-5">
         <div class="d-flex">
           <v-spacer></v-spacer>
-          <ai-model-select
+          <b-ai-model-input
             v-model="ai_model"
             class="max-w-300"
             hide-details
             label="label"
             variant="outlined"
           >
-          </ai-model-select>
+          </b-ai-model-input>
         </div>
 
         <v-textarea
@@ -283,7 +283,7 @@ import LPageEditorStatistics from "@app-page-builder/page/editor/statistics/LPag
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
-import AiModelSelect from "@app-backoffice/components/ai/AiModelSelect.vue";
+import BAiModelInput from "@app-backoffice/components/ai/model/input/BAiModelInput.vue";
 import SSmartSuggestion from "@components/ui/smart/suggestions/SSmartSuggestion.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
@@ -298,7 +298,7 @@ export default {
   components: {
     LPageEditor,
     SSmartSuggestion,
-    AiModelSelect,
+    BAiModelInput,
     LPageEditorFiles,
     LPageEditorTopMenu,
 
