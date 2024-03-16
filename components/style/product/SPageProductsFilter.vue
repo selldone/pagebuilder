@@ -33,6 +33,7 @@
         class="mx-2 overflow-auto"
         has-view-mode
         two-line
+
       />
     </div>
 

@@ -73,7 +73,7 @@
             @uploaded="refreshAnimation"
           >
             <template v-slot="{ src }">
-              <s-lottie
+              <u-lottie
                 v-if="show_lottie_view"
                 :options="{
                   path: getShopJsonPath(src),

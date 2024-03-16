@@ -21,9 +21,11 @@
     "
     class="x-page-builder-options-slider"
     color="#1e1e1e"
+    style="--background:#1e1e1e"
     location="right"
     temporary
     theme="dark"
+
   >
     <v-card class="text-start" flat>
       <v-card-actions>

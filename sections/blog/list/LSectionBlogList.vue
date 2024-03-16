@@ -62,7 +62,7 @@
           :style="{ 'animation-delay': 300 + i * 100 + 'ms' }"
           class="fadeInUp v-col"
         >
-          <s-shop-blog-card
+          <s-blog-card
             :article="article"
             :color="card_style?.color"
             :dark="card_style?.dark"
@@ -70,7 +70,7 @@
             :rounded="card_style?.rounded"
             :style="{ pointerEvents: $builder.isEditing ? 'none' : 'unset' }"
             :view-only="$builder.isEditing"
-          ></s-shop-blog-card>
+          ></s-blog-card>
         </v-col>
       </v-row>
     </v-container>
@@ -86,7 +86,7 @@
 <script>
 import * as types from "@app-page-builder/src/types/types";
 
-import SShopBlogCard from "@components/storefront/blog/SShopBlogCard.vue";
+import SBlogCard from "@components/storefront/blog/card/SBlogCard.vue";
 import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
@@ -96,7 +96,7 @@ export default {
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { XVideoBackground, SShopBlogCard },
+  components: { XVideoBackground, SBlogCard },
   cover: require("../../../assets/images/covers/blogs.svg"),
 
   group: "Blogs",
