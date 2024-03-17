@@ -117,7 +117,7 @@
         >{{ $t("styler.products.select_categories") }}
       </v-list-subheader>
 
-      <s-smart-switch
+      <u-smart-switch
         v-model="surrounded"
         :dark="dark"
         class="my-3"
@@ -126,7 +126,7 @@
         true-icon="deselect"
         true-title="Show only selected categories."
       >
-      </s-smart-switch>
+      </u-smart-switch>
 
       <ul v-if="surrounded" class="text-start mb-5">
         <li>
@@ -328,7 +328,7 @@
         icon="margin"
       ></s-widget-header>
 
-      <s-number-input
+      <u-number-input
         v-if="!categories_only"
         v-model="products_count"
         :label="$t('styler.products.limit')"
@@ -339,9 +339,9 @@
         class="my-6 max-width-field mx-auto"
         show-buttons
         suffix="items"
-      ></s-number-input>
+      ></u-number-input>
 
-      <s-number-input
+      <u-number-input
         v-if="!products_only"
         v-model="categories_count"
         :label="$t('styler.products.categories_limit')"
@@ -354,27 +354,27 @@
         placeholder="No limit"
         show-buttons
         suffix="items"
-      ></s-number-input>
+      ></u-number-input>
     </div>
   </div>
 </template>
 
 <script>
 import SProductsSortView from "@components/storefront/product/sort/SProductsSortView.vue";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 import { ModeView } from "@core/enums/shop/ModeView";
 import BCategoryInput from "@app-backoffice/components/category/input/BCategoryInput.vue";
 import BVendorInput from "@app-backoffice/components/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@core/enums/shop/BusinessModel";
-import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
+import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
 
 export default {
   name: "SPageProductsFilter",
   components: {
-    SSmartSwitch,
+    USmartSwitch,
     BVendorInput,
     BCategoryInput,
-    SNumberInput,
+    UNumberInput,
     SProductsSortView,
   },
 

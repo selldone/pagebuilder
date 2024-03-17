@@ -57,7 +57,7 @@
             <span class="small">Background Preview</span>
           </v-sheet>
 
-          <s-smart-switch
+          <u-smart-switch
             v-model="section_data.background.dark"
             class="my-3"
             false-description="Use this when you want the default text color to be black."
@@ -67,7 +67,7 @@
             true-icon="dark_mode"
             true-title="Dark Mode"
           >
-          </s-smart-switch>
+          </u-smart-switch>
         </div>
 
         <!-- ████████████████████ Main Title / Content ████████████████████ -->
@@ -184,34 +184,34 @@
 
           <s-value-dashed>
             <template v-slot:label>Search Box</template>
-            <s-color-selector
+            <u-color-selector
               v-model="section_data.search.color"
               nullable
-            ></s-color-selector>
+            ></u-color-selector>
           </s-value-dashed>
 
-          <s-smart-toggle
+          <u-smart-toggle
             v-model="section_data.search.dark"
             true-description="Configure this setting if the search box has a dark background."
             true-title="Dark Mode"
-          ></s-smart-toggle>
-          <s-smart-toggle
+          ></u-smart-toggle>
+          <u-smart-toggle
             v-model="section_data.search.filled"
             true-description="The search box was filled with a background."
             true-title="Filled"
-          ></s-smart-toggle>
+          ></u-smart-toggle>
 
-          <s-smart-toggle
+          <u-smart-toggle
             v-model="section_data.search.solo"
             true-description="In solo mode, a box is accentuated by a shadow for emphasis."
             true-title="Solo"
-          ></s-smart-toggle>
+          ></u-smart-toggle>
 
-          <s-smart-toggle
+          <u-smart-toggle
             v-model="section_data.search.flat"
             true-description="When set to solo mode, the search box becomes flat."
             true-title="Flat"
-          ></s-smart-toggle>
+          ></u-smart-toggle>
         </div>
 
         <!-- ████████████████████ Product ████████████████████ -->
@@ -275,14 +275,14 @@
 
           <l-feeder-align v-model="section_data.row.align"></l-feeder-align>
           <l-feeder-justify v-model="section_data.row.justify"></l-feeder-justify>
-          <s-smart-toggle
+          <u-smart-toggle
             v-model="section_data.row.fluid"
             false-description="The container possesses a restricted width."
             false-icon="compare_arrows"
             true-description="The container spans the full width."
             true-icon="swap_horiz"
             true-title="Fill width"
-          ></s-smart-toggle>
+          ></u-smart-toggle>
         </div>
 
         <!-- ████████████████████ Column ████████████████████ -->
@@ -357,13 +357,13 @@
 <script>
 import LFeederColumn from "@app-page-builder/components/feeder/column/LFeederColumn.vue";
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
+import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
 import LFeederAlign from "@app-page-builder/components/feeder/align/LFeederAlign.vue";
 import LFeederJustify from "@app-page-builder/components/feeder/justify/LFeederJustify.vue";
-import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
+import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
 import { Button } from "@app-page-builder/src/types/types";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
 import BProductsSelectBox from "@app-backoffice/components/product/select-box/BProductsSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
@@ -383,12 +383,12 @@ export default {
     SPageProductsFilter,
     BProductsSelectBox,
     SStorefrontSearchBox,
-    SColorSelector,
+    UColorSelector,
     SValueDashed,
-    SSmartToggle,
+    USmartToggle,
     LFeederJustify,
     LFeederAlign,
-    SSmartSwitch,
+    USmartSwitch,
     LFeederColumn,
   },
 

@@ -70,18 +70,18 @@
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="w"
               dense
               label="Width"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="h"
               dense
               label="Height"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
         </v-row>
 
@@ -92,18 +92,18 @@
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="min_w"
               dense
               label="Min Width"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="min_h"
               dense
               label="Min Height"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
         </v-row>
 
@@ -114,18 +114,18 @@
 
         <v-row class="max-w-640 mx-auto">
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="max_w"
               dense
               label="Max Width"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
           <v-col cols="12" sm="6">
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="max_h"
               dense
               label="Max Height"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
           </v-col>
         </v-row>
       </v-card-text>
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
@@ -146,7 +146,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SNumberDimensionInput,
+    UDimensionInput,
   },
 
   props: {},

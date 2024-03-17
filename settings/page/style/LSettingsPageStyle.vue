@@ -67,7 +67,7 @@
             ></s-widget-header>
             <v-list-subheader>Page background color.</v-list-subheader>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.bg_color"
               :title="$t('page_builder.setting.bg_color_input')"
               class="mb-5"
@@ -75,7 +75,7 @@
               dark
               nullable
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
             <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
@@ -120,7 +120,7 @@
 
             <s-setting-color v-model="style.header_color" title="Header Color" icon="palette" clearable></s-setting-color>
 
-            <s-smart-select
+            <u-smart-select
               v-model="style.header_mode"
               :items="[
                 {
@@ -157,9 +157,9 @@
                     style.menu_transparent = true; /*Always should be transparent*/
                 }
               "
-            ></s-smart-select>
+            ></u-smart-select>
 
-            <s-smart-switch
+            <u-smart-switch
               v-model="style.menu_transparent"
               :disabled="style.header_mode === 'overlay'"
               class="my-3"
@@ -171,9 +171,9 @@
               true-icon="invert_colors_off"
               true-title="Transparent Background"
               @change="$forceUpdate()"
-            ></s-smart-switch>
+            ></u-smart-switch>
 
-            <s-smart-switch
+            <u-smart-switch
               v-model="style.menu_dark"
               class="my-3"
               clearable
@@ -185,7 +185,7 @@
               true-description="The text in the header section will be white."
               true-icon="dark_mode"
               true-title="Dark Mode"
-            ></s-smart-switch>
+            ></u-smart-switch>
           </v-expansion-panel-text>
         </v-expansion-panel>
 
@@ -208,220 +208,220 @@
             </v-list-subheader>
 
             <!-- Class: is-samin  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_1"
               dark
               nullable
               title="Light Color 1"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_1"
               dark
               nullable
               title="Dark Color 1"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-red  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_2"
               dark
               nullable
               title="Light Color 2"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_2"
               dark
               nullable
               title="Dark Color 2"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-black  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_3"
               dark
               nullable
               title="Light Color 3"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_3"
               dark
               nullable
               title="Dark Color 3"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-green  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_4"
               dark
               nullable
               title="Light Color 4"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_4"
               dark
               nullable
               title="Dark Color 4"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
             <hr />
 
             <!-- Class: is-blue  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_5"
               dark
               nullable
               title="Light Color 5"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_5"
               dark
               nullable
               title="Dark Color 5"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-white  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_6"
               dark
               nullable
               title="Light Color 6"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_6"
               dark
               nullable
               title="Dark Color 6"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-deep-purple  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_7"
               dark
               nullable
               title="Light Color 7"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_7"
               dark
               nullable
               title="Dark Color 7"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-teal  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_8"
               dark
               nullable
               title="Light Color 8"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_8"
               dark
               nullable
               title="Dark Color 8"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-cyan  -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_9"
               dark
               nullable
               title="Light Color 9"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_9"
               dark
               nullable
               title="Dark Color 9"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-amber -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_10"
               dark
               nullable
               title="Light Color 10"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_10"
               dark
               nullable
               title="Dark Color 10"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-pink -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_11"
               dark
               nullable
               title="Light Color 11"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_11"
               dark
               nullable
               title="Dark Color 11"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
 
             <!-- Class: is-blue-grey -->
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_light_12"
               dark
               nullable
               title="Light Color 12"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
 
-            <s-color-selector
+            <u-color-selector
               v-model="style.plate_dark_12"
               dark
               nullable
               title="Dark Color 12"
               @change="$forceUpdate()"
-            ></s-color-selector>
+            ></u-color-selector>
             <hr />
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -431,12 +431,12 @@
 </template>
 
 <script>
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import { FONTS } from "@core/helper/font/FontLoader";
 
-import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
+import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import SSmartSelect from "@components/ui/smart/SSmartSelect.vue";
+import USmartSelect from "@components/ui/smart/select/USmartSelect.vue";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
@@ -449,10 +449,10 @@ export default {
 
   components: {
     SSettingColor,
-    SSmartSelect,
-    SSmartSwitch,
+    USmartSelect,
+    USmartSwitch,
 
-    SColorSelector,
+    UColorSelector,
     BackgroundImageEditor,
   },
 

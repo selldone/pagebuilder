@@ -21,23 +21,23 @@
     density="compact"
   >
     <template v-slot:append>
-      <s-color-selector
+      <u-color-selector
         :model-value="modelValue"
         :nullable="clearable"
         :dialog-title="title"
         @update:model-value="setValue"
-      ></s-color-selector>
+      ></u-color-selector>
     </template>
   </v-list-item>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 
 export default defineComponent({
   name: "SSettingColor",
-  components: { SColorSelector },
+  components: { UColorSelector },
   props: {
     modelValue: {
       type: Boolean,

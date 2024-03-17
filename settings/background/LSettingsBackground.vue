@@ -36,13 +36,13 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre" class="pb-16">
-        <s-color-selector v-model="bg_color" nullable title="Background color">
+        <u-color-selector v-model="bg_color" nullable title="Background color">
           <template v-slot:append-title>
             <v-chip v-if="bg_color" class="ma-1" label size="x-small"
               >{{ bg_color }}
             </v-chip>
           </template>
-        </s-color-selector>
+        </u-color-selector>
         <background-image-editor
           v-model:bg-image="bg_image"
           v-model:bgCustom="bg_custom"
@@ -66,7 +66,7 @@
 
 <script>
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
@@ -81,7 +81,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SColorSelector,
+    UColorSelector,
     BackgroundImageEditor,
   },
 

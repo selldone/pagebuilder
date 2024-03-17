@@ -43,7 +43,7 @@
         <v-expansion-panel>
           <v-expansion-panel-title>
             <div>
-              <v-icon class="me-1" dark>inventory</v-icon>
+              <v-icon class="me-1" >inventory</v-icon>
               Product Frame
             </div>
           </v-expansion-panel-title>
@@ -131,7 +131,7 @@
         <v-expansion-panel>
           <v-expansion-panel-title>
             <div>
-              <v-icon class="me-1" dark>folder</v-icon>
+              <v-icon class="me-1">folder</v-icon>
               Category Frame
             </div>
           </v-expansion-panel-title>
@@ -282,11 +282,11 @@ export default {
       "{product.dis_start}": "Product discount start date.",
       "{product.dis_end}": "Product discount end date.",
 
-      '<rating value="{product.rate}"></rating>':
+      '<x-rating value="{product.rate}"></x-rating>':
         "Show rating of the product ★★★★☆.",
-      '<variants class="my-2" center="true" small="true"></variants>':
+      '<x-variants class="my-2" center="true" small="true"></x-variants>':
         "Show variants.",
-      '<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>':
+      '<x-count-down class="my-2" end="{product.dis_end}"></x-count-down>':
         "Show discount count down.",
     },
     category_codes: {

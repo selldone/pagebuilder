@@ -73,9 +73,9 @@
 
             <div v-if="histories_users">
               <small class="d-block mt-2">Contributors</small>
-              <s-dense-images-circles-users
+              <u-dense-circles-users
                 :ids="histories_users"
-              ></s-dense-images-circles-users>
+              ></u-dense-circles-users>
             </div>
           </v-tooltip>
         </v-btn>
@@ -341,7 +341,7 @@
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <ai-button
+        <u-button-ai-small
           v-if="hasAiButton"
           :tooltip="null"
           @click="$emit('click:prompt')"
@@ -374,7 +374,7 @@
               </li>
             </ol>
           </v-tooltip>
-        </ai-button>
+        </u-button-ai-small>
       </template>
       <v-divider class="m-0" vertical></v-divider>
 
@@ -664,10 +664,10 @@
 <script>
 import { SetupService } from "@core/server/SetupService";
 import SDropZone from "@components/ui/uploader/SDropZone.vue";
-import AiButton from "@components/ui/button/ai/AiButton.vue";
+import UButtonAiSmall from "@components/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
-import SDenseImagesCirclesUsers from "@components/ui/dense-circles/SDenseImagesCirclesUsers.vue";
+import UDenseCirclesUsers from "@components/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -689,7 +689,7 @@ const ShortKeys = {
 export default {
   name: "LPageEditorTopMenu",
 
-  components: { SDenseImagesCirclesUsers, AiButton, SDropZone },
+  components: { UDenseCirclesUsers, UButtonAiSmall, SDropZone },
   mixins: [LMixinEvents],
   props: {
     shop: {

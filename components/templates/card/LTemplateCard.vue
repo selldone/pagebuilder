@@ -56,7 +56,7 @@
         </v-chip>
       </div>
     </v-img>
-    <s-progress-loading v-if="loading"></s-progress-loading>
+    <u-loading-progress v-if="loading"></u-loading-progress>
     <v-card-title>
       {{ template.name }}
     </v-card-title>

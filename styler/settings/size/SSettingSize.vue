@@ -21,7 +21,7 @@
     density="compact"
   >
     <template v-slot:append>
-      <s-number-dimension-input
+      <u-dimension-input
         :disabled="disabled"
         :model-value="modelValue"
         dense
@@ -29,18 +29,18 @@
         style="min-width: 200px"
         variant="plain"
         @update:model-value="setValue"
-      ></s-number-dimension-input>
+      ></u-dimension-input>
     </template>
   </v-list-item>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 
 export default defineComponent({
   name: "SSettingSize",
-  components: { SNumberDimensionInput },
+  components: { UDimensionInput },
   props: {
     modelValue: {
       type: Boolean,

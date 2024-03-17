@@ -69,7 +69,7 @@
       <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
       <div v-if="busy" class="min-height-80vh">
-        <s-loading class="my-10" height="240px"></s-loading>
+        <u-loading-ellipsis class="my-10" height="240px"></u-loading-ellipsis>
       </div>
 
       <LPageViewer

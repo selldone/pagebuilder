@@ -22,7 +22,7 @@
     density="compact"
   >
     <template v-slot:append>
-      <s-number-input
+      <u-number-input
         :disabled="disabled"
         :max="max"
         :min="min"
@@ -35,7 +35,7 @@
         variant="plain"
         @update:model-value="(val) => setValue(val)"
         @click.stop
-      ></s-number-input>
+      ></u-number-input>
       <small v-if="suffix" class="ms-1">{{ suffix }}</small>
     </template>
     <v-slider
@@ -56,11 +56,11 @@
 
 <script>
 import { defineComponent } from "vue";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 
 export default defineComponent({
   name: "SSettingSlider",
-  components: { SNumberInput },
+  components: { UNumberInput },
   props: {
     modelValue: {
       type: Boolean,

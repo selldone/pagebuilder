@@ -17,7 +17,7 @@
     <div :style="{ background: gradient }" class="gradient-view"></div>
     <div class="container">
       <v-fade-transition class="row m-1" group tag="div">
-        <s-color-selector
+        <u-color-selector
           v-for="(color, index) in modelValue"
           :key="index"
           v-model="modelValue[index]"
@@ -25,7 +25,7 @@
           @update:modelValue="onChange()"
         >
           lens
-        </s-color-selector>
+        </u-color-selector>
       </v-fade-transition>
 
       <div class="px-2">
@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 
 export default {
   name: "GradientBuilder",
-  components: { SColorSelector },
+  components: { UColorSelector },
   emits: ["update:modelValue", "change"],
   props: {
     modelValue: {

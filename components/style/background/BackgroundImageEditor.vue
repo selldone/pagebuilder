@@ -303,17 +303,17 @@
           ><span class="small">Custom background size</span>
         </v-card-title>
         <v-card-text>
-          <s-number-dimension-input
+          <u-dimension-input
             v-model="size_w"
             dense
             label="Background width"
-          ></s-number-dimension-input>
+          ></u-dimension-input>
 
-          <s-number-dimension-input
+          <u-dimension-input
             v-model="size_h"
             dense
             label="Background height"
-          ></s-number-dimension-input>
+          ></u-dimension-input>
         </v-card-text>
         <v-card-actions>
           <div class="widget-buttons">
@@ -341,7 +341,7 @@
 import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 
 import SVideoUploader from "@components/ui/uploader/SVideoUploader.vue";
 import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
@@ -354,7 +354,7 @@ export default {
     SSettingGroup,
     SVideoUploader,
 
-    SNumberDimensionInput,
+    UDimensionInput,
     GradientBuilder,
     SImageUploader,
   },

@@ -13,16 +13,16 @@
   -->
 
 <template>
-  <s-count-down v-if="end" :end="end.convertToLocalDate()"></s-count-down>
+  <u-count-down v-if="end" :end="end.convertToLocalDate()"></u-count-down>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import SCountDown from "@components/ui/count-down/SCountDown.vue";
+import UCountDown from "@components/ui/count-down/UCountDown.vue";
 
 export default defineComponent({
   name: "XCountDown",
-  components: { SCountDown },
+  components: { UCountDown },
   props: {
     end: {},
   },

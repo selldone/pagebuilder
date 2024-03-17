@@ -14,7 +14,7 @@
 
 <template>
   <div class="p-2">
-    <s-progress-loading v-if="busy"></s-progress-loading>
+    <u-loading-progress v-if="busy"></u-loading-progress>
     <v-container fluid>
       <v-row>
         <v-col

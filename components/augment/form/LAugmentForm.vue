@@ -109,7 +109,7 @@
       </template>
     </v-table>
 
-    <s-progress-loading v-if="loading" relative></s-progress-loading>
+    <u-loading-progress v-if="loading" relative></u-loading-progress>
 
     <v-bottom-sheet
       v-model="show_add"

@@ -32,7 +32,7 @@
     class="-x-infinite-sec"
     path="$sectionData"
   >
-    <marquee-slider
+    <u-marquee
       :id="marquee_id"
       :duration="
         $sectionData.text_loop?.duration
@@ -47,13 +47,13 @@
         class="-x-infinite-content"
         v-html="$sectionData.text_loop?.html"
       ></div>
-    </marquee-slider>
+    </u-marquee>
   </x-section>
 </template>
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import MarqueeSlider from "@components/ui/marquee/vue-marquee-slider.vue";
+import UMarquee from "@components/ui/marquee/UMarquee.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 
@@ -61,7 +61,7 @@ export default {
   name: "LSectionTextMarquee",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: { MarqueeSlider },
+  components: { UMarquee },
   cover: require("../../../assets/images/covers/section-infinite-text.png"),
 
   group: "Text",
@@ -100,7 +100,7 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
 }
 

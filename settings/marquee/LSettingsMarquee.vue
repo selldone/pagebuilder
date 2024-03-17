@@ -75,27 +75,27 @@
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <s-number-dimension-input
+              <u-dimension-input
                 v-model="text_loop.font_size"
                 class="my-3"
                 label="Font Size"
-              ></s-number-dimension-input>
+              ></u-dimension-input>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <s-color-selector
+              <u-color-selector
                 v-model="text_loop.font_color"
                 class="my-3"
                 title="Font Color"
-              ></s-color-selector>
+              ></u-color-selector>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <s-number-dimension-input
+              <u-dimension-input
                 v-model="text_loop.height"
                 class="my-3"
                 label="Height"
-              ></s-number-dimension-input>
+              ></u-dimension-input>
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -123,11 +123,11 @@
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Reverse ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <s-smart-toggle
+              <u-smart-toggle
                 v-model="text_loop.reverse"
                 class="my-3"
                 true-title="Reverse animation"
-              ></s-smart-toggle>
+              ></u-smart-toggle>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -138,9 +138,9 @@
 
 <script>
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
-import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import {EventBus} from "@core/events/EventBus";
@@ -150,9 +150,9 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SSmartToggle,
-    SColorSelector,
-    SNumberDimensionInput,
+    USmartToggle,
+    UColorSelector,
+    UDimensionInput,
   },
 
   props: {},

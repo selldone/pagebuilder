@@ -120,14 +120,14 @@
           </v-slide-y-transition>
         </v-btn>
 
-        <s-color-selector
+        <u-color-selector
           v-model="page_style.header_color"
           end
           class="ma-2"
           :size="36"
           nullable
           >circle
-        </s-color-selector>
+        </u-color-selector>
       </div>
     </v-menu>
   </div>
@@ -138,12 +138,12 @@ import { defineComponent } from "vue";
 import SStorefrontTopMenu from "@components/storefront/menu/header/SStorefrontTopMenu.vue";
 import SHeaderSectionLogo from "@components/storefront/header/section/logo/SHeaderSectionLogo.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 
 export default defineComponent({
   name: "LStoreTopBarPreview",
   mixins: [LMixinEvents],
-  components: { SColorSelector, SHeaderSectionLogo, SStorefrontTopMenu },
+  components: { UColorSelector, SHeaderSectionLogo, SStorefrontTopMenu },
   props: {
     shop: {
       type: Object,

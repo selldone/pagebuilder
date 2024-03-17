@@ -81,12 +81,12 @@
         >
         </v-textarea>
 
-        <s-smart-suggestion
+        <u-smart-suggestion
           :samples="prompt_samples"
           class="mt-2 mb-4"
           @select="(v) => (prompt = v)"
         >
-        </s-smart-suggestion>
+        </u-smart-suggestion>
 
         <ol class="my-3 text-start">
           <li>
@@ -284,7 +284,7 @@ import { standardDesignColor } from "@core/helper/color/ColorGenerator";
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import BAiModelInput from "@app-backoffice/components/ai/model/input/BAiModelInput.vue";
-import SSmartSuggestion from "@components/ui/smart/suggestions/SSmartSuggestion.vue";
+import USmartSuggestion from "@components/ui/smart/suggestion/USmartSuggestion.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 
@@ -297,7 +297,7 @@ export default {
 
   components: {
     LPageEditor,
-    SSmartSuggestion,
+    USmartSuggestion,
     BAiModelInput,
     LPageEditorFiles,
     LPageEditorTopMenu,

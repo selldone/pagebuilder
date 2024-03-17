@@ -301,7 +301,7 @@
                   <v-icon start>layers_clear</v-icon>
                   Set elevation
                 </v-btn>
-                <s-number-input
+                <u-number-input
                   v-model="target.elevation"
                   :max="24"
                   :min="0"
@@ -309,7 +309,7 @@
                   e-else
                   label="Elevation"
                   @clear="target.elevation === null"
-                ></s-number-input>
+                ></u-number-input>
               </v-slide-y-transition>
             </v-col>
           </v-row>
@@ -421,7 +421,7 @@ import {
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
 } from "@app-page-builder/utils/colors/LUtilsColors";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
 const TextAlign = [
@@ -443,7 +443,7 @@ export default {
 
   components: {
     SStylerToolsColors,
-    SNumberInput,
+    UNumberInput,
     SStylerIcon,
     SStylerTemplate,
   },

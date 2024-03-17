@@ -19,7 +19,7 @@
   >
     <v-list-item :prepend-icon="icon" :title="title" density="compact">
       <template v-slot:append>
-        <s-number-input
+        <u-number-input
           :clearable="clearable"
           :max="max"
           :min="min"
@@ -31,7 +31,7 @@
           variant="plain"
           @update:model-value="(val) => setValue(val)"
         >
-        </s-number-input>
+        </u-number-input>
       </template>
     </v-list-item>
     <div>
@@ -42,11 +42,11 @@
 
 <script>
 import { defineComponent } from "vue";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 
 export default defineComponent({
   name: "SSettingNumberInput",
-  components: { SNumberInput },
+  components: { UNumberInput },
   props: {
     modelValue: {
       type: Boolean,

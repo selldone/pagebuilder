@@ -43,7 +43,7 @@
         }}</span>
       </p>
 
-      <s-smart-switch
+      <u-smart-switch
         v-model="page.published"
         :false-title="$t('global.commons.draft')"
         :true-title="$t('global.commons.published')"
@@ -54,7 +54,7 @@
         true-description="This page is accessible to the public."
         true-icon="public"
       >
-      </s-smart-switch>
+      </u-smart-switch>
     </div>
 
     <!-- ---------------------- Label ---------------------- -->
@@ -157,10 +157,10 @@
         </div>
       </v-list-subheader>
 
-      <s-smart-check-verify-action
+      <u-smart-verify
         v-model="verify_delete"
         color="red"
-      ></s-smart-check-verify-action>
+      ></u-smart-verify>
 
       <div class="widget-buttons">
         <v-btn
@@ -182,16 +182,16 @@
 <script>
 import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@core/helper/color/ColorGenerator";
-import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
-import SSmartCheckVerifyAction from "@components/ui/smart/SSmartCheckVerifyAction.vue";
+import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
+import USmartVerify from "@components/ui/smart/verify/USmartVerify.vue";
 import BClusterInput from "@app-backoffice/components/cluster/input/BClusterInput.vue";
 
 export default {
   name: "LPageEditorSetting",
   components: {
     BClusterInput,
-    SSmartCheckVerifyAction,
-    SSmartSwitch,
+    USmartVerify,
+    USmartSwitch,
     SImageUploader,
   },
   props: {

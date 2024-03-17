@@ -99,7 +99,7 @@
               automatically on your custom page.
             </v-list-subheader>
 
-            <s-progress-loading v-if="busy_scripts"></s-progress-loading>
+            <u-loading-progress v-if="busy_scripts"></u-loading-progress>
             <v-list class="border-between-vertical bg-transparent">
               <v-list-item v-for="item in scripts_list" :key="item.url">
                 <template v-slot:prepend>

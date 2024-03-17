@@ -170,7 +170,7 @@
               calibrate font size based on the custom font.
             </v-list-subheader>
 
-            <s-number-input
+            <u-number-input
               v-model="style.font_size"
               :max="100"
               :min="10"
@@ -179,7 +179,7 @@
               show-buttons
               suffix="px"
               @change="$forceUpdate()"
-            ></s-number-input>
+            ></u-number-input>
 
             <s-widget-header
               class="mt-5"
@@ -188,57 +188,57 @@
             ></s-widget-header>
             <v-list-subheader></v-list-subheader>
 
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="style.h1_size"
               clearable
               label="H1 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
-            <s-number-dimension-input
+            ></u-dimension-input>
+            <u-dimension-input
               v-model="style.h2_size"
               clearable
               label="H2 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
 
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="style.h3_size"
               clearable
               label="H3 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
 
-            <s-number-dimension-input
+            <u-dimension-input
               v-model="style.h4_size"
               clearable
               label="H4 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
-            <s-number-dimension-input
+            ></u-dimension-input>
+            <u-dimension-input
               v-model="style.h5_size"
               clearable
               label="H5 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
-            <s-number-dimension-input
+            ></u-dimension-input>
+            <u-dimension-input
               v-model="style.h6_size"
               clearable
               label="H6 Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
-            <s-number-dimension-input
+            ></u-dimension-input>
+            <u-dimension-input
               v-model="style.p_size"
               clearable
               label="P Size"
               lock
               @change="onChange"
-            ></s-number-dimension-input>
+            ></u-dimension-input>
 
             <div
               :style="[
@@ -272,11 +272,11 @@
 </template>
 
 <script>
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 import { FontLoader, FONTS } from "@core/helper/font/FontLoader";
 
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
@@ -287,9 +287,9 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SNumberDimensionInput,
+    UDimensionInput,
 
-    SNumberInput,
+    UNumberInput,
   },
   emits: ["change"],
   props: {

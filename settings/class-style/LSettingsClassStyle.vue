@@ -144,20 +144,20 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_width"
                     :hint="size_hint"
                     clearable
                     label="Width"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_height"
                     :hint="size_hint"
                     clearable
                     label="Height"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
 
@@ -171,20 +171,20 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_minWidth"
                     :hint="size_hint"
                     clearable
                     label="Minimum Width"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_minHeight"
                     :hint="size_hint"
                     clearable
                     label="Minimum Height"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
 
@@ -198,20 +198,20 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_maxWidth"
                     :hint="size_hint"
                     clearable
                     label="Maximum Width"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_maxHeight"
                     :hint="size_hint"
                     clearable
                     label="Maximum Height"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
 
@@ -300,36 +300,36 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_paddingLeft"
                     :hint="size_hint"
                     clearable
                     label="Padding left"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_paddingRight"
                     :hint="size_hint"
                     clearable
                     label="Padding right"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_paddingTop"
                     :hint="size_hint"
                     clearable
                     label="Padding top"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_paddingBottom"
                     :hint="size_hint"
                     clearable
                     label="Padding bottom"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
             </div>
@@ -404,37 +404,37 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_marginLeft"
                     :hint="size_hint"
                     clearable
                     label="Margin left"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_marginRight"
                     :hint="size_hint"
                     clearable
                     label="Margin right"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_marginTop"
                     :hint="size_hint"
                     clearable
                     label="Margin top"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_marginBottom"
                     :hint="size_hint"
                     clearable
                     label="Margin bottom"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
             </div>
@@ -536,20 +536,20 @@
 
               <v-row class="max-w-640 mx-auto">
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="in_borderRadius"
                     :hint="size_hint"
                     clearable
                     label="Border radius"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <s-smart-toggle
+                  <u-smart-toggle
                     v-model="borders_same"
                     dark
                     true-title="All same"
                   >
-                  </s-smart-toggle>
+                  </u-smart-toggle>
                 </v-col>
               </v-row>
 
@@ -777,7 +777,7 @@
                     thumb-label="always"
                   ></v-slider>
 
-                  <s-smart-switch
+                  <u-smart-switch
                     v-model="shadow.i"
                     class="my-5"
                     dark
@@ -786,17 +786,17 @@
                     inset
                     true-icon="curtains"
                     true-title="Inset shadow"
-                  ></s-smart-switch>
+                  ></u-smart-switch>
 
                   <s-widget-header
                     icon="format_color_fill"
                     title="Color"
                   ></s-widget-header>
 
-                  <s-color-selector
+                  <u-color-selector
                     v-model="shadow.c"
                     title="Shadow Color"
-                  ></s-color-selector>
+                  ></u-color-selector>
                 </div>
 
                 <!-- Select shadow collection (default) -->
@@ -1056,40 +1056,40 @@
 
               <v-row>
                 <v-col cols="12" md="3" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.rotate"
                     :max="360"
                     :min="-360"
                     label="Rotate"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.rotateX"
                     :max="360"
                     :min="-360"
                     label="Rotate X"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.rotateY"
                     :max="360"
                     :min="-360"
                     label="Rotate Y"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.rotateZ"
                     :max="360"
                     :min="-360"
                     label="Rotate Z"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
               </v-row>
 
@@ -1105,25 +1105,25 @@
 
               <v-row>
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="transform.translateX"
                     clearable
                     label="Translate X"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="transform.translateY"
                     clearable
                     label="Translate y"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="transform.translateZ"
                     clearable
                     label="Translate z"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
 
@@ -1135,7 +1135,7 @@
 
               <v-row>
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.scaleX"
                     :decimal="1"
                     :max="10"
@@ -1143,11 +1143,11 @@
                     :step="0.1"
                     clearable
                     label="Scale X"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
 
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.scaleY"
                     :decimal="1"
                     :max="10"
@@ -1155,11 +1155,11 @@
                     :step="0.1"
                     clearable
                     label="Scale Y"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
 
                 <v-col cols="12" md="4" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.scaleZ"
                     :decimal="1"
                     :max="10"
@@ -1167,17 +1167,17 @@
                     :step="0.1"
                     clearable
                     label="Scale Z"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
               </v-row>
 
               <v-row>
                 <v-col cols="12" sm="6">
-                  <s-number-dimension-input
+                  <u-dimension-input
                     v-model="transform.perspective"
                     clearable
                     label="Perspective"
-                  ></s-number-dimension-input>
+                  ></u-dimension-input>
                 </v-col>
               </v-row>
               <s-widget-header icon="360" title="Skew"></s-widget-header>
@@ -1189,23 +1189,23 @@
 
               <v-row>
                 <v-col cols="12" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.skewX"
                     :max="360"
                     :min="-360"
                     label="Skew Y"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                  <s-number-input
+                  <u-number-input
                     v-model="transform.skewY"
                     :max="360"
                     :min="-360"
                     label="Skew Y"
                     suffix="deg"
-                  ></s-number-input>
+                  ></u-number-input>
                 </v-col>
               </v-row>
             </div>
@@ -1217,17 +1217,17 @@
 </template>
 
 <script>
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import SLandingStylePreview from "@app-page-builder/components/style/preview/SLandingStylePreview.vue";
 import SLandingStyleBorder from "@app-page-builder/components/style/border/SLandingStyleBorder.vue";
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLandingStyleFilter.vue";
-import SNumberInput from "@components/ui/input/number/SNumberInput.vue";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 import ShadowCollection from "@app-page-builder/src/enums/ShadowCollection";
 
-import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
-import SSmartSwitch from "@components/ui/smart/SSmartSwitch.vue";
+import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
+import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
@@ -1250,15 +1250,15 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
-    SSmartSwitch,
-    SSmartToggle,
+    USmartSwitch,
+    USmartToggle,
 
-    SNumberInput,
+    UNumberInput,
     SLandingStyleFilter,
-    SColorSelector,
+    UColorSelector,
     SLandingStyleBorder,
     SLandingStylePreview,
-    SNumberDimensionInput,
+    UDimensionInput,
   },
 
   props: {

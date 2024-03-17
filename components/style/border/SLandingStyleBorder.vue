@@ -15,14 +15,14 @@
 <template>
   <div class="d-flex align-center">
     <b class="me-2 min-width-100">{{ label }}</b>
-    <s-number-dimension-input
+    <u-dimension-input
       v-model="width"
       class="flex-grow-1"
       hide-details
       label="Width"
       variant="underlined"
       @change="updateOut"
-    ></s-number-dimension-input>
+    ></u-dimension-input>
     <v-select
       v-model="type"
       :items="items"
@@ -33,22 +33,22 @@
       variant="underlined"
       @update:model-value="updateOut"
     ></v-select>
-    <s-color-selector
+    <u-color-selector
       v-model="color"
       class="flex-grow-0 ms-2"
       mode="rgba"
       @change="updateOut"
-    ></s-color-selector>
+    ></u-color-selector>
   </div>
 </template>
 
 <script>
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
-import SNumberDimensionInput from "@components/ui/dimension/SNumberDimensionInput.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 
 export default {
   name: "SLandingStyleBorder",
-  components: { SNumberDimensionInput, SColorSelector },
+  components: { UDimensionInput, UColorSelector },
   emits: ["update:modelValue"],
   props: {
     modelValue: {},

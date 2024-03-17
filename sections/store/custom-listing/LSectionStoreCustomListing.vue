@@ -74,7 +74,6 @@ import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
-import SCountDown from "@components/ui/count-down/SCountDown.vue";
 
 export default {
   name: "LSectionStoreCustomListing",
@@ -151,15 +150,6 @@ export default {
       this.augment,
       this.$builder.isEditing,
     );
-
-    // Set dynamic values for filter:
-    /* if (Array.isArray(this.forcePackage?.tags)) {
-       this.forcePackage.tags = this.forcePackage.tags.map((x) =>
-         this.isString(x)
-           ? x.applyAugment(this.augment, this.$builder.isEditing)
-           : x,
-       );
-     }*/
   },
 
   mounted() {},
@@ -168,7 +158,7 @@ export default {
     gen(html) {
       return defineComponent({
         template: html,
-        components: { SCountDown }, // Register local custom components
+        components: {}, // Register local custom components
       });
     },
 

@@ -146,30 +146,30 @@
       Filled
     </v-btn>
 
-    <s-color-selector
+    <u-color-selector
       v-model="modelValue.color"
       class="my-3"
       nullable
       title="Color"
       @change="$emit('change', modelValue)"
-    ></s-color-selector>
+    ></u-color-selector>
 
-    <s-color-selector
+    <u-color-selector
       v-model="modelValue.backgroundColor"
       class="my-3"
       nullable
       title="Background color"
       @change="$emit('change', modelValue)"
-    ></s-color-selector>
+    ></u-color-selector>
   </div>
 </template>
 
 <script>
-import SColorSelector from "@components/ui/color/selector/SColorSelector.vue";
+import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 
 export default {
   name: "LFeederInput",
-  components: { SColorSelector },
+  components: { UColorSelector },
   emits: ["change"],
 
   props: {

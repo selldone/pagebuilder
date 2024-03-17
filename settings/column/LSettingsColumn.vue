@@ -128,7 +128,7 @@
             it.
           </v-list-subheader>
         </s-widget-header>
-        <s-smart-toggle
+        <u-smart-toggle
           v-model="has_button"
           class="my-3"
           dark
@@ -136,7 +136,7 @@
           true-icon="call_to_action"
           true-title="Has Button"
         >
-        </s-smart-toggle>
+        </u-smart-toggle>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
@@ -147,7 +147,7 @@ import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
-import SSmartToggle from "@components/ui/smart/SSmartToggle.vue";
+import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as Types from "@app-page-builder/src/types/types";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
@@ -171,7 +171,7 @@ export default {
   name: "LSettingsColumn",
   mixins: [LMixinEvents],
 
-  components: { SSmartToggle },
+  components: { USmartToggle },
 
   props: {},
   data: () => ({

@@ -59,11 +59,11 @@
           class="mb-2"
         ></s-mentionable-input>
 
-        <s-dense-images-circles-users
+        <u-dense-circles-users
           v-if="mentions && mentions.users"
           :ids="mentions.users"
           :size="32"
-        ></s-dense-images-circles-users>
+        ></u-dense-circles-users>
 
         <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import SDenseImagesCirclesUsers from "@components/ui/dense-circles/SDenseImagesCirclesUsers.vue";
+import UDenseCirclesUsers from "@components/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import SMentionableInput from "@components/ui/text/SMentionableInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
@@ -101,7 +101,7 @@ import {EventBus} from "@core/events/EventBus";
 export default {
   name: "PNoteDialog",
   mixins: [LMixinNote, LMixinEvents],
-  components: { PNoteBox, SMentionableInput, SDenseImagesCirclesUsers },
+  components: { PNoteBox, SMentionableInput, UDenseCirclesUsers },
 
   props: {
     shop: {

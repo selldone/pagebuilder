@@ -33,10 +33,10 @@
         variant="underlined"
       >
         <template v-slot:append-inner>
-          <score-indicator
+          <u-progress-score
             :value="$SEO.GetPageTitleScore(page.description)"
 
-          ></score-indicator>
+          ></u-progress-score>
         </template>
       </v-text-field>
 
@@ -49,10 +49,10 @@
         variant="underlined"
       >
         <template v-slot:append-inner>
-          <score-indicator
+          <u-progress-score
             :value="$SEO.GetPageDescription(page.description)"
 
-          ></score-indicator>
+          ></u-progress-score>
         </template>
       </v-textarea>
 
@@ -83,11 +83,11 @@
 
 <script>
 import BGooglePreview from "@app-backoffice/components/google/preview/BGooglePreview.vue";
-import ScoreIndicator from "@components/ui/progress/score-indicator/ScoreIndicator.vue";
+import UProgressScore from "@components/ui/progress/score/UProgressScore.vue";
 
 export default {
   name: "LPageEditorSeo",
-  components: { ScoreIndicator, BGooglePreview },
+  components: { UProgressScore, BGooglePreview },
   props: {
     page: {},
   },

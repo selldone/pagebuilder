@@ -19,15 +19,15 @@ export default {
                     <div class="card-body mt-2 pb-3">
                         <h5 class="card-title single-line">{product.title}</h5>
 
-<variants class="my-2"></variants>
+<x-variants class="my-2"></x-variants>
 
                         <p class="card-text">Price: {product.final_price}</p>
-<rating class="mb-2" value="{product.rate}"></rating>
+<x-rating class="mb-2" value="{product.rate}"></x-rating>
 
                     </div>
 
 <div class="flex-grow-1"></div>
-<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>
+<x-count-down class="my-2" end="{product.dis_end}"></x-count-down>
 
                         <a href="{url}" class="btn btn-primary" target="_blank">Buy Now</a>
 
@@ -42,13 +42,13 @@ export default {
 
 
                         <p class="card-text text-h4">{product.final_price}</p>
-<rating class="mb-2" value="{product.rate}"></rating>
+<x-rating class="mb-2" value="{product.rate}"></x-rating>
 
                     </div>
 
 <div class="flex-grow-1"></div>
-<s-count-down class="my-2" end="{product.dis_end}"></s-count-down>
-<variants class="my-2"></variants>
+<x-count-down class="my-2" end="{product.dis_end}"></x-count-down>
+<x-variants class="my-2"></x-variants>
 
 <a href="{url}" class="btn btn-primary" target="_blank" style="padding: 12px 16px;background: #222;color: #fff;border-radius: 12px;">Buy Now</a>
 
