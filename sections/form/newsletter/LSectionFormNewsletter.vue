@@ -60,7 +60,10 @@
           <v-expand-transition>
             <div v-if="success" key="1">
               <p
-                v-styler:text="$sectionData.newsletter.success_msg"
+                v-styler:text="{
+                target:$sectionData.newsletter,
+                keyText: 'success_msg',
+                }"
                 class="my-4"
                 v-html="
                   $sectionData.newsletter.success_msg?.applyAugment(
@@ -99,7 +102,7 @@
                         ? 'filled'
                         : undefined
                 "
-                class="max-w-400 mx-auto"
+                class="x--input max-w-400 mx-auto"
               ></v-text-field>
 
               <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -129,19 +132,21 @@
 
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Edit Menu ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
-          <div
+          <v-sheet
             v-if="$builder.isEditing && !$builder.isHideExtra"
-            class="inline-editor-sheet absolute-top-end op-0-3 op1h"
+            class="inline-editor-sheet absolute-bottom-end op-0-3 op1h"
+            theme="dark"
           >
             <v-btn
               class="tnt ma-1"
               variant="outlined"
               @click.stop="toggleMode()"
+
             >
               <v-icon start>flip_camera_android</v-icon>
               {{ success ? "Show form" : "Show success" }}
             </v-btn>
-          </div>
+          </v-sheet>
         </x-column>
       </x-row>
     </x-container>

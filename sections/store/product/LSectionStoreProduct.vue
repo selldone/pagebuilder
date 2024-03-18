@@ -23,7 +23,7 @@
       :hss-sticky-but-button="false"
       :product="product"
       can-buy
-      class="product-view mx-auto text-start"
+      class="x--product-view mx-auto text-start"
       show-cover
       style="max-width: 1650px; font-size: 14px"
     />
@@ -152,13 +152,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.product-view {
+.x--product-view {
   // max-width: 1720px;
   margin: auto;
 }
 
 ::v-deep(.is-editable) {
-  .product-view {
+  .x--product-view {
     a {
       pointer-events: none !important;
       user-select: none !important;
@@ -169,7 +169,7 @@ export default {
 
 <style lang="scss">
 .is-editable {
-  .product-view {
+  .x--product-view {
     a,
     button {
       pointer-events: none !important;

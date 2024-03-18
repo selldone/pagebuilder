@@ -1144,7 +1144,7 @@ export default defineComponent({
               });
             });
           },
-          scaleDown ? 0 : 100,
+          scaleDown ? 500 : 300,
         ); // Delay for scaling up, immediate for scaling down
       }
 
@@ -2449,7 +2449,7 @@ label {
         }
 
         // Product:
-        .product-view {
+        .x--product-view {
           pointer-events: var(--ban-pointer-event);
           position: relative;
 
@@ -2480,68 +2480,22 @@ label {
             border-radius: 8px;
             border: solid var(--solid-bg-color-dark);
           }
-        }
-
-        // Products & Categories:
-        .products-container {
-          .products-layout {
-            > .flex,
-            .card-item-new {
-              pointer-events: var(--ban-pointer-event);
-              position: relative;
-
-              &:after {
-                font-family: "fontawesome";
-                content: "\f115";
-                font-size: 3rem;
-                color: #fff;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                position: absolute;
-                background: repeating-linear-gradient(
-                  45deg,
-                  var(--solid-bg-color),
-                  var(--solid-bg-color) 10px,
-                  var(--solid-bg-color-dark) 10px,
-                  var(--solid-bg-color-dark) 20px
-                );
-                left: 2%;
-                top: 2%;
-                width: 96%;
-                height: 96%;
-                z-index: 100;
-
-                border-radius: 8px;
-                border: solid var(--solid-bg-color-dark);
-              }
-
-              // end after
-
-              > div {
-                // Content of card:
-                opacity: 0 !important;
-              }
-            }
-
-            // end div
-
-            > .card-item-new {
-              &:after {
-                content: "\f291" !important;
-              }
-            }
+          & > * {
+            opacity: 0;
           }
-
-          // end products-layout
         }
+
+
+
 
         // Article: (Or blogs)
         .s--article-editor-container,
-        .blog-card {
+        .s--shop-blog-card,.x--category-frame,.x--product-frame,.x--input,
+        .s--category-card,.s--product-card{
           pointer-events: var(--ban-pointer-event);
           position: relative;
+
+          background: none !important;
 
           &:after {
             font-family: "fontawesome";
@@ -2570,13 +2524,41 @@ label {
             border-radius: 8px;
             border: solid var(--solid-bg-color-dark);
           }
-        }
 
-        // Blogs:
-        .blog-card {
-          &:after {
+          & > * {
+            opacity: 0;
           }
         }
+
+
+        .x--category-frame{
+          &:after {
+            content: "\f07b" !important;
+          }
+        }
+        .x--product-frame{
+          &:after {
+            content: "\e4c7" !important;
+          }
+        }
+        .x--input{
+          &:after {
+            content: "\f11c" !important;
+            font-size: 3rem;
+          }
+        }
+        .s--category-card{
+          &:after {
+            content: "\f07b" !important;
+          }
+        }
+        .s--product-card{
+          &:after {
+            content: "\e4c7" !important;
+          }
+        }
+
+
       }
 
       // End section

@@ -14,7 +14,7 @@
 
 <template>
   <v-toolbar
-      v-if="pageBuilder"
+    v-if="pageBuilder"
     v-intersect="
       (isIntersecting) => {
         visible_to_user = isIntersecting;
@@ -24,7 +24,7 @@
     color="#fff"
     flat
     v-bind="$attrs"
-      height="auto"
+    height="auto"
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
@@ -222,7 +222,10 @@
           icon
           stacked
           @click.stop="
-            ShowLSettingsPageStyle(pageBuilder.$builder.style, !landing_show_page_style)
+            ShowLSettingsPageStyle(
+              pageBuilder.$builder.style,
+              !landing_show_page_style,
+            )
           "
         >
           <v-icon>format_paint</v-icon>
@@ -508,8 +511,9 @@
     :scrim="false"
     color="#1e1e1e"
     dark
+
   >
-    <v-card class="text-start" flat>
+    <v-card class="text-start" flat rounded="xl">
       <v-card-title></v-card-title>
       <v-card-text>
         <s-widget-header icon="input" title="Import Design File">
@@ -738,8 +742,6 @@ export default {
   },
 
   computed: {
-
-
     landing_show_page_style() {
       return this.$store.getters.getLandingShowPageStyle;
     },
@@ -763,6 +765,12 @@ export default {
 
     visible_to_user: false,
   }),
+
+  watch: {
+    show_import(val) {
+      this.BlurApp(val);
+    },
+  },
 
   methods: {
     toggleLandingShowElementsRepository() {
@@ -812,7 +820,9 @@ export default {
           }
 
           // Migrate from old version:
-          template.content = LUtilsMigration.MigratePageContent(template.content);
+          template.content = LUtilsMigration.MigratePageContent(
+            template.content,
+          );
 
           const components = this.pageBuilder.$builder.components;
 
@@ -873,7 +883,8 @@ export default {
       min-width: 48px !important;
     }
   }
-  ::v-deep(.v-toolbar__content){
+
+  ::v-deep(.v-toolbar__content) {
     padding: 0 !important;
   }
 }

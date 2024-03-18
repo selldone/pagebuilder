@@ -34,6 +34,7 @@
           v-for="folder in folders"
           :key="'f' + folder.id"
           :category-id="folder.id"
+          class="x--category-frame"
           :class="[
             $sectionData.frame_category?.classes,
             {
@@ -51,6 +52,7 @@
           :is="gen(getProductCode(product))"
           v-for="product in products"
           :key="'p' + product.id"
+          class="x--product-frame"
           :class="[
             $sectionData.frame_product?.classes,
             {
