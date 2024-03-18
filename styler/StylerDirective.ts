@@ -208,7 +208,7 @@ const StylerDirective: ObjectDirective<
       ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
     };
 
-    // Create a new Vue app with the SArticleAddonComparison component
+    // Create a new Vue app with the AAddonComparison component
     const vnode_styler = createApp({
       render: () => h(StylerComponent, props),
     });
