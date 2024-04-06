@@ -82,7 +82,7 @@
           title="Custom style"
         >
           <v-list-item prepend-icon="texture">
-            <s-fade-scroll>
+            <u-fade-scroll>
               <div class="d-flex align-center">
                 <v-btn
                   v-for="item in BgImageStyles"
@@ -98,7 +98,7 @@
                   <v-avatar :style="safeBg(item)" size="26"></v-avatar>
                 </v-btn>
               </div>
-            </s-fade-scroll>
+            </u-fade-scroll>
           </v-list-item>
           <v-list-item prepend-icon="css">
             <v-textarea
@@ -345,12 +345,12 @@ import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue"
 
 import SVideoUploader from "@components/ui/uploader/SVideoUploader.vue";
 import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
-import SFadeScroll from "@components/ui/fade-scroll/SFadeScroll.vue";
+import UFadeScroll from "@components/ui/fade-scroll/UFadeScroll.vue";
 
 export default {
   name: "BackgroundImageEditor",
   components: {
-    SFadeScroll,
+    UFadeScroll,
     SSettingGroup,
     SVideoUploader,
 

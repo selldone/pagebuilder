@@ -13,21 +13,21 @@
   -->
 
 <template>
-  <s-fade-scroll class="text-start">
+  <u-fade-scroll class="text-start">
     <div class="d-flex" title="Dynamic values auto fill by augmentation.">
       <v-chip v-for="it in array" :key="it" class="me-1" label size="x-small"
         >{{ it }}
       </v-chip>
     </div>
-  </s-fade-scroll>
+  </u-fade-scroll>
 </template>
 
 <script>
-import SFadeScroll from "@components/ui/fade-scroll/SFadeScroll.vue";
+import UFadeScroll from "@components/ui/fade-scroll/UFadeScroll.vue";
 
 export default {
   name: "LAugmentFinder",
-  components: { SFadeScroll },
+  components: { UFadeScroll },
   props: {
     modelValue: {},
   },
