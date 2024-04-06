@@ -182,13 +182,13 @@
             readonly
           ></s-storefront-search-box>
 
-          <s-value-dashed>
+          <u-text-value-dashed>
             <template v-slot:label>Search Box</template>
             <u-color-selector
               v-model="section_data.search.color"
               nullable
             ></u-color-selector>
-          </s-value-dashed>
+          </u-text-value-dashed>
 
           <u-smart-toggle
             v-model="section_data.search.dark"
@@ -370,7 +370,7 @@ import SPageProductsFilter from "@app-page-builder/components/style/product/SPag
 import LFeederNewsletter from "@app-page-builder/components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
 import LAugmentFinder from "@app-page-builder/components/augment/finder/LAugmentFinder.vue";
-import SValueDashed from "@components/ui/text/SValueDashed.vue";
+import UTextValueDashed from "@components/ui/text/value-dashed/UTextValueDashed.vue";
 import {LMixinEvents} from "@app-page-builder/mixins/events/LMixinEvents";
 
 export default {
@@ -384,7 +384,7 @@ export default {
     BProductsSelectBox,
     SStorefrontSearchBox,
     UColorSelector,
-    SValueDashed,
+    UTextValueDashed,
     USmartToggle,
     LFeederJustify,
     LFeederAlign,

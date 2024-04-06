@@ -50,14 +50,14 @@
 
       <v-spacer></v-spacer>
       <div class="pa-2 flex-grow-0">
-        <s-mentionable-input
+        <u-text-mention-input
           v-model="message"
           v-model:mentions="mentions"
           :label="$t('order_timeline.message_input')"
           :shop-id="shop.id"
           auto-grow
           class="mb-2"
-        ></s-mentionable-input>
+        ></u-text-mention-input>
 
         <u-dense-circles-users
           v-if="mentions && mentions.users"
@@ -92,7 +92,7 @@
 
 <script>
 import UDenseCirclesUsers from "@components/ui/dense-circles/users/UDenseCirclesUsers.vue";
-import SMentionableInput from "@components/ui/text/SMentionableInput.vue";
+import UTextMentionInput from "@components/ui/text/mention-input/UTextMentionInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
@@ -101,7 +101,7 @@ import {EventBus} from "@core/events/EventBus";
 export default {
   name: "PNoteDialog",
   mixins: [LMixinNote, LMixinEvents],
-  components: { PNoteBox, SMentionableInput, UDenseCirclesUsers },
+  components: { PNoteBox, UTextMentionInput, UDenseCirclesUsers },
 
   props: {
     shop: {
