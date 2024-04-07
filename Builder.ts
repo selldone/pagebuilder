@@ -559,7 +559,8 @@ const SectionComponents: any[] = [
 function initializeSections(app: App) {
 
   SectionComponents.forEach((_component) => {
-    console.log("🔧", _component, _component?.name, "Install");
+    // console.log("🔧", _component, _component?.name, "Install");
+
     if (_component) {
       Components[_component.name] = _component;
       app.component(_component.name, _component);
