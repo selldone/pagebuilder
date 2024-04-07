@@ -15,18 +15,16 @@
 <template>
   <div class="">
     <!-- --------------------------------- Top Tools --------------------------------- -->
-
     <l-page-editor-top-menu
-      v-if="modelValue && inEditMode"
+      v-if="modelValue && inEditMode && ref_builder"
       :busySave="busySave"
       :inDesignTab="true"
       :page="modelValue"
-      :pageBuilder="$refs.vueBuilder"
+      :pageBuilder="ref_builder"
       :save-color="isMenu ? 'blue' : 'green'"
       :save-icon="isMenu ? 'check' : 'save'"
       class="toolbar-top-rounded"
       @click:save="onSave"
-      @click:history="history_dialog = true"
     >
     </l-page-editor-top-menu>
 
@@ -75,6 +73,8 @@ export default {
     inEditMode: false, // Set after page builder initialize! important in access by $refs!
 
     scale: false,
+
+    ref_builder:null,
   }),
 
   computed: {
@@ -103,6 +103,10 @@ export default {
     } else {
       this.$refs.vueBuilder.setPage(this.modelValue.content);
     }
+
+    this.$nextTick(() => {
+     this.ref_builder=this.$refs.vueBuilder
+    });
   },
 
   methods: {

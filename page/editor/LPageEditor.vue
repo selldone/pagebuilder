@@ -206,7 +206,7 @@
               </template>
               <b class="d-block">Normal View</b>
               <div>
-                <v-icon class="me-1" dark size="small">design_services</v-icon>
+                <v-icon class="me-1" size="small">design_services</v-icon>
                 You can access all the elements and editing tools required to
                 modify the content and layout of the landing page.
               </div>
@@ -288,8 +288,17 @@
                 applications.
               </div>
             </v-tooltip>
-
+            <div v-if="isMenu" class="flex-grow-1 text-start text-muted px-2">
+              Menu
+            </div>
+            <div
+              v-else-if="isPopup"
+              class="flex-grow-1 text-start text-muted px-2"
+            >
+              Popup
+            </div>
             <v-text-field
+              v-else
               v-model="page.name"
               :density="$vuetify.display.smAndDown ? 'compact' : undefined"
               :disabled="isPopup"
@@ -334,7 +343,7 @@
               </template>
               <b class="d-block">View Mode</b>
               <div>
-                <v-icon class="me-1" size="small">center_focus_weak </v-icon>
+                <v-icon class="me-1" size="small">center_focus_weak</v-icon>
                 Make fullscreen/compact view mode.
               </div>
               <div>
@@ -784,6 +793,7 @@ export default defineComponent({
 
     SStylerIcon,
   },
+  emits: ["update:preview", "changeMode", "scale", "saved",'load:template'],
   props: {
     showIntro: {
       type: Boolean,
@@ -2480,18 +2490,20 @@ label {
             border-radius: 8px;
             border: solid var(--solid-bg-color-dark);
           }
+
           & > * {
             opacity: 0;
           }
         }
 
-
-
-
         // Article: (Or blogs)
         .s--article-editor-container,
-        .s--shop-blog-card,.x--category-frame,.x--product-frame,.x--input,
-        .s--category-card,.s--product-card{
+        .s--shop-blog-card,
+        .x--category-frame,
+        .x--product-frame,
+        .x--input,
+        .s--category-card,
+        .s--product-card {
           pointer-events: var(--ban-pointer-event);
           position: relative;
 
@@ -2530,35 +2542,36 @@ label {
           }
         }
 
-
-        .x--category-frame{
+        .x--category-frame {
           &:after {
             content: "\f07b" !important;
           }
         }
-        .x--product-frame{
+
+        .x--product-frame {
           &:after {
             content: "\e4c7" !important;
           }
         }
-        .x--input{
+
+        .x--input {
           &:after {
             content: "\f11c" !important;
             font-size: 3rem;
           }
         }
-        .s--category-card{
+
+        .s--category-card {
           &:after {
             content: "\f07b" !important;
           }
         }
-        .s--product-card{
+
+        .s--product-card {
           &:after {
             content: "\e4c7" !important;
           }
         }
-
-
       }
 
       // End section
@@ -2688,7 +2701,7 @@ label {
   }
 
   &.-single {
-    --margin-left-bar: -45px;
+    --margin-left-bar: -8px;
   }
 
   &.-double {

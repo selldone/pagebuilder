@@ -133,8 +133,6 @@
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
       @changeMode="(val) => (inEditMode = val)"
-      @historyOpen="history_dialog = true"
-      @openSeo="sheet_seo = true"
       @saved="onSave"
       @scale="
         (val) => {
