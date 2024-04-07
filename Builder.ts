@@ -221,8 +221,8 @@ class Builder {
     this.options = options;
     LOG("⚽ 2. Start Install...");
 
-    initializeSections(app);
     initializeXComponents(app);
+    initializeSections(app);
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
@@ -525,41 +525,48 @@ class Builder {
   }
 }
 
+const SectionComponents: any[] = [
+  LSectionHeroHorizontal,
+  LSectionHeroVertical,
+  LSectionHeroLottie,
+  Section2TextColumns,
+  LSectionTextThreeColumns,
+  LSectionTextNumbers,
+  LSectionImageIntro,
+  LSectionImageFeatures,
+  LSectionImageSocials,
+  LSectionTextMarquee,
+  LSectionGalleryExpandable,
+  LSectionGalleryBrands,
+  LSectionStoreListing,
+  LSectionStoreProduct,
+  LSectionStoreCustomListing,
+  LSectionArticle,
+  LSectionHtml,
+  LSectionGallerySwiper,
+  LSectionGalleryScroll,
+  LSectionFormNewsletter,
+  LSectionImageTwoColumns,
+  LSectionImageThreeColumns,
+  LSectionImageCards,
+  LSectionBlogList,
+  LSectionHeroSearch,
+];
+
 /**
  * Adds a component section to the builder and arguments it with the styler.
  */
 function initializeSections(app: App) {
-  const components: any[] = [
-    LSectionHeroHorizontal,
-    LSectionHeroVertical,
-    LSectionHeroLottie,
-    Section2TextColumns,
-    LSectionTextThreeColumns,
-    LSectionTextNumbers,
-    LSectionImageIntro,
-    LSectionImageFeatures,
-    LSectionImageSocials,
-    LSectionTextMarquee,
-    LSectionGalleryExpandable,
-    LSectionGalleryBrands,
-    LSectionStoreListing,
-    LSectionStoreProduct,
-    LSectionStoreCustomListing,
-    LSectionArticle,
-    LSectionHtml,
-    LSectionGallerySwiper,
-    LSectionGalleryScroll,
-    LSectionFormNewsletter,
-    LSectionImageTwoColumns,
-    LSectionImageThreeColumns,
-    LSectionImageCards,
-    LSectionBlogList,
-    LSectionHeroSearch,
-  ];
 
-  components.forEach((_component) => {
-    Components[_component.name] = _component;
-    app.component(_component.name, _component);
+  SectionComponents.forEach((_component) => {
+    console.log("🔧", _component, _component?.name, "Install");
+    if (_component) {
+      Components[_component.name] = _component;
+      app.component(_component.name, _component);
+    } else
+      console.error(
+        "🔧 A Section Component not fount in the source code of page builder! It's a build problem!,",
+      );
   });
 
   // reset to prevent duplications.
@@ -570,26 +577,38 @@ function initializeSections(app: App) {
   );
 }
 
+const XComponents: any[] = [
+  XColumnImageText,
+  XRow,
+  XColumn,
+  XSection,
+  XContainer,
+  XButtons,
+  XCustomProductsList,
+];
+
 /**
  * Initialize especial components
  */
 function initializeXComponents(app: App) {
-  const components: any[] = [
-    XColumnImageText,
-    XRow,
-    XColumn,
-    XSection,
-    XContainer,
-    XButtons,
-    XCustomProductsList,
-  ];
 
-  components.forEach((_component) => {
-    app.component(_component.name, _component);
+  XComponents.forEach((_component) => {
+    if (_component) {
+      app.component(_component.name, _component);
+    } else
+      console.error(
+        "🔧 A XComponent not fount in the source code of page builder! It's a build problem!,",
+      );
   });
   const components_fix: any[] = [XVariants, XCountDown, XRating];
   components_fix.forEach((_component) => {
-    app.component(_component.name, _component);
+    if (_component) {
+      app.component(_component.name, _component);
+    }
+    else
+      console.error(
+        "🔧 A XComponent not fount in the source code of page builder! It's a build problem!,",
+      );
   });
 }
 

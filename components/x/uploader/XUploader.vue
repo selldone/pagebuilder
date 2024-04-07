@@ -17,7 +17,7 @@
 
   <v-menu
     v-if="has_edit_toolbar || has_animate_toolbar"
-    :activator="$refs.i_image as HTMLElement"
+    :activator="$refs.i_image"
     :close-on-content-click="false"
     :open-delay="0"
     location="top"
@@ -429,7 +429,7 @@
   </component>
 </template>
 
-<script lang="ts">
+<script>
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import { defineComponent } from "vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
@@ -451,7 +451,7 @@ const FLOATS = [
   { val: "end", title: "End", icon: "last_page" },
 ];
 
-export const XUploader = defineComponent({
+export default defineComponent({
   name: "XUploader",
   mixins: [LMixinEvents],
   directives: {
@@ -854,7 +854,7 @@ export const XUploader = defineComponent({
     },
   },
 });
-export default XUploader;
+
 </script>
 
 <style lang="scss" scoped>
