@@ -1391,7 +1391,7 @@ export default defineComponent({
 
           if (t.isString(val)) {
             // Purify if past from word:
-            if (val.includes("<!--")) {
+            if (val.includes("<!"+"--")) {
               // Remove comments:
               let corrected = val.replace(/<!--.*?-->/gs, "");
               // Remove classes:

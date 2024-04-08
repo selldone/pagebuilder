@@ -221,8 +221,8 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 10%;
-    align-items: start;
-    justify-content: start;
+    align-items: flex-start;
+    justify-content: flex-start;
     line-height: normal;
 
     .g-title {
