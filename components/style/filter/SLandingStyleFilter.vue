@@ -58,12 +58,12 @@
           <v-item
             v-for="(it, index) in presets"
             :key="index"
-            v-slot="{ active, toggle }"
+            v-slot="{ isSelected, toggle }"
             :value="it.value"
           >
             <v-card
-              :color="active ? 'blue' : ''"
-              :elevation="active ? 10 : 0"
+              :color="isSelected ? 'blue' : ''"
+              :elevation="isSelected ? 10 : 0"
               class="p-1 rounded-18px overflow-hidden m-1 position-relative"
               flat
               @click="toggle"

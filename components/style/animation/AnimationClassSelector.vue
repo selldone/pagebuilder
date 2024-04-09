@@ -22,12 +22,12 @@
         <v-item
           v-for="(item, index) in animationClasses"
           :key="index"
-          v-slot="{ active, toggle }"
+          v-slot="{ isSelected, toggle }"
           :value="item"
         >
           <v-card
-            :color="active ? 'amber' : ''"
-            :elevation="active ? 10 : 0"
+            :color="isSelected ? 'amber' : ''"
+            :elevation="isSelected ? 10 : 0"
             class="p-1 rounded-18px overflow-hidden m-1 position-relative d-flex align-center justify-center"
             flat
             height="72"

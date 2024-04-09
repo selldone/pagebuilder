@@ -23,8 +23,8 @@
       :pageBuilder="ref_builder"
       :save-color="isMenu ? 'blue' : 'green'"
       :save-icon="isMenu ? 'check' : 'save'"
-      class="toolbar-top-rounded"
       @click:save="onSave"
+      style="border-radius: 26px 26px 0 0"
     >
     </l-page-editor-top-menu>
 
