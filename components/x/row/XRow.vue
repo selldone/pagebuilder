@@ -15,6 +15,7 @@
 <template>
   <v-row
     v-styler:row="rowBinding"
+    :align-content="object.row ? object.row.align : 'center'"
     :align="object.row ? object.row.align : 'center'"
     :class="{ '-no-wrap': hasWrap && object.row?.no_wrap }"
     :justify="object.row ? object.row.justify : 'space-around'"

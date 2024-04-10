@@ -17,7 +17,6 @@
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
-        class="min-h-100"
         has-arrangement
         has-fluid
         path="$sectionData"

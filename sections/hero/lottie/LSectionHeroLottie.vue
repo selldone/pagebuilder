@@ -18,7 +18,6 @@
       <x-row
         v-if="$sectionData.columns"
         :object="$sectionData"
-        class="min-h-100"
         has-arrangement
         has-fluid
         path="$sectionData"

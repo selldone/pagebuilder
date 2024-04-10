@@ -17,10 +17,8 @@
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
-        class="min-h-100"
         has-arrangement
         has-fluid
-        path="$sectionData"
       >
         <v-col
           v-styler:column="{ target: $sectionData.columns[0] }"

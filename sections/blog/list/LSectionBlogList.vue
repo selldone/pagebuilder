@@ -50,7 +50,6 @@
         }"
         :align="$sectionData.row ? $sectionData.row.align : 'stretch'"
         :justify="$sectionData.row ? $sectionData.row.justify : 'space-around'"
-        class="min-h-100"
       >
         <v-col
           v-for="(article, i) in articles"
