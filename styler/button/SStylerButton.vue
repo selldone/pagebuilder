@@ -595,10 +595,10 @@ export default {
 
       //console.log("updateOption", option);
       this.option = option;
-      this.$nextTick(() => {
+      /*this.$nextTick(() => {
         this.checkProper();
         this.popper.update();
-      });
+      });*/
     },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Text Align ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
