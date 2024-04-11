@@ -267,6 +267,8 @@ import * as types from "@app-page-builder/src/types/types";
 import XButton from "@app-page-builder/components/x/button/XButton.vue";
 import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+// Import Swiper styles
+import 'swiper/css';
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import {

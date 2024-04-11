@@ -21,7 +21,7 @@
         'px',
     }"
     class="position-relative"
-    style="transition: all 0.4s; z-index: 1"
+    style="transition: all 0.4s; z-index: 10"
   >
     <div
       style="position: absolute; left: 0; right: 0; top: 0"
@@ -163,13 +163,7 @@ export default defineComponent({
     header_color() {
       return this.page_style.header_color
         ? this.page_style.header_color
-        : this.page_style?.header_mode === "overlay"
-          ? "transparent"
-          : this.page_style?.menu_dark
-            ? this.shop.theme?.color_deep_dark
-              ? this.shop.theme.color_deep_dark
-              : "#000"
-            : "#fff";
+        : "transparent";
     },
   },
   watch: {
