@@ -49,7 +49,7 @@
       @click:prompt="show_prompt = !show_prompt"
     >
     </l-page-editor-top-menu>
-    <v-sheet v-else height="64" style="border-radius: 26px 26px 0 0"> </v-sheet>
+    <v-sheet v-else-if="page" height="64" style="border-radius: 26px 26px 0 0"> </v-sheet>
 
     <v-expand-transition>
       <div v-if="show_prompt" class="pa-3 pa-sm-5">

@@ -22,7 +22,7 @@
     Loading Template...
   </v-card>
   <v-card v-else class="x--page-builder-templates" flat>
-    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10">
+    <div v-if="hasHeader" class="px-2 px-sm-5 px-md-10 py-5">
       <h1 class="text-h3 font-weight-bold mb-2">
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img

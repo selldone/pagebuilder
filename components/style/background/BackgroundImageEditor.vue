@@ -172,6 +172,7 @@
             max-file-size="2MB"
             @onClear="$emit('update:bgImage', null)"
             @new-path="handleProcessFile"
+            label="Background Image"
         >
         </s-image-uploader>
 
@@ -290,6 +291,7 @@
           max-file-size="8MB"
           @onClear="$emit('update:bgVideo', null)"
           @new-path="handleProcessVideo"
+          label="Background Video"
         >
         </s-video-uploader>
       </v-window-item>
