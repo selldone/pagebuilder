@@ -15,7 +15,7 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
     v-styler:marquee="{
-      target: $sectionData.text_loop,
+      target: $sectionData,
       keyMarquee: 'text_loop',
     }"
     :object="$sectionData"
@@ -42,6 +42,13 @@
       :reverse="!!$sectionData.text_loop?.reverse"
       auto-width
       style="min-width: 100%"
+      :key="$sectionData.text_loop?.html?.length+'-'+$sectionData.text_loop?.repeat+'-'+$sectionData.text_loop?.space"
+      :repeat="
+        $sectionData.text_loop?.repeat ? $sectionData.text_loop?.repeat : 10
+      "
+      :space="
+        $sectionData.text_loop?.space ? $sectionData.text_loop?.space : 200
+      "
     >
       <div
         class="-x-infinite-content"
@@ -106,7 +113,7 @@ export default {
 
 .-x-infinite-content {
   white-space: nowrap;
-  font-size: var(--font-size);
-  color: var(--font-color);
+  font-size: var(--font-size) !important;
+  color: var(--font-color) !important;
 }
 </style>

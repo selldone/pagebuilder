@@ -55,6 +55,7 @@
               <v-textarea
                 v-model="text_loop.html"
                 placeholder="Write a text or html code here..."
+                variant="outlined"
               >
               </v-textarea>
             </v-expansion-panel-text>
@@ -73,14 +74,6 @@
             <v-expansion-panel-text>
               <v-list-subheader>Customize text style.</v-list-subheader>
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
-
-              <u-dimension-input
-                v-model="text_loop.font_size"
-                class="my-3"
-                label="Font Size"
-              ></u-dimension-input>
-
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-color-selector
@@ -89,6 +82,14 @@
                 title="Font Color"
               ></u-color-selector>
 
+              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+              <u-dimension-input
+                v-model="text_loop.font_size"
+                class="my-3"
+                label="Font Size"
+              ></u-dimension-input>
+
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-dimension-input
@@ -96,6 +97,21 @@
                 class="my-3"
                 label="Height"
               ></u-dimension-input>
+
+
+              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+              <u-number-input
+                  v-model="text_loop.space"
+                  class="my-3"
+                  :min="1"
+                  label="Space"
+                  placeholder="Default is 200"
+                  variant="underlined"
+                  messages="Distance between items in pixels."
+              ></u-number-input>
+
+
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -119,14 +135,26 @@
                 class="my-3"
                 label="Duration"
                 placeholder="ex. 10s or 10000ms"
+                variant="underlined"
               ></v-text-field>
+
+              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+              <u-number-input
+                v-model="text_loop.repeat"
+                class="my-3"
+                :min="1"
+                label="Repeat Count"
+                placeholder="Default is 10"
+                variant="underlined"
+              ></u-number-input>
 
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Reverse ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-smart-toggle
                 v-model="text_loop.reverse"
                 class="my-3"
-                true-title="Reverse animation"
+                true-title="Reverse Animation"
               ></u-smart-toggle>
             </v-expansion-panel-text>
           </v-expansion-panel>
@@ -143,13 +171,15 @@ import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import { EventBus } from "@core/events/EventBus";
+import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 
 export default {
   name: "LSettingsMarquee",
   mixins: [LMixinEvents],
 
   components: {
+    UNumberInput,
     USmartToggle,
     UColorSelector,
     UDimensionInput,
@@ -246,6 +276,10 @@ export default {
           color: null,
         };
       }
+
+      // Load default values:
+      if(!this.text_loop.space)this.text_loop.space=200;
+      if(!this.text_loop.repeat)this.text_loop.repeat=10;
 
       this.dialog = true;
       this.$nextTick(() => {

@@ -23,9 +23,43 @@
 
     <swiper
       v-if="showSlider"
-      ref="swiperTop"
-      :options="swiperTop"
-      @slideChange="realIndex = $refs.swiperTop.$swiper.realIndex"
+      :allow-touch-move="allow_touch_move"
+      :auto-height="
+        SLIDE_DATA.autoHeight !== undefined ? SLIDE_DATA.autoHeight : false
+      "
+      :autoplay="autoplay"
+      :centered-slides="SLIDE_DATA.centeredSlides"
+      :cubeEffect="{
+        shadow: true,
+        slideShadows: true,
+        shadowOffset: 20,
+        shadowScale: 0.94,
+      }"
+      :direction="SLIDE_DATA.direction ? SLIDE_DATA.direction : 'horizontal'"
+      :effect="SLIDE_DATA.effect"
+      :grab-cursor="SLIDE_DATA.grabCursor"
+      :grid="SLIDE_DATA.grid"
+      :height="SLIDE_DATA.height"
+      :initial-slide="SLIDE_DATA.initialSlide"
+      :keyboard="keyboard"
+      :loop="SLIDE_DATA.loop"
+      :modules="modules"
+      :navigation="navigation"
+      :pagination="pagination"
+      :slides-per-group="
+        SLIDE_DATA.slidesPerGroup !== 'auto' ? SLIDE_DATA.slidesPerGroup : 1
+      "
+      :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
+      :slides-per-view="calcSlidesPerView()"
+      :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
+      :style="{ height: SLIDE_DATA.height }"
+      :slide-to-clicked-slide="!$section.lock"
+      @realIndexChange="(s) => (realIndex = s.realIndex)"
+      @swiper="
+        (swiper) => {
+          mainSwiper = swiper;
+        }
+      "
     >
       <swiper-slide
         v-for="(slide, index) in $sectionData.slide.items"
@@ -38,13 +72,16 @@
           :class="[
             $sectionData.slide.items[index].classes,
             realIndex === index ? $sectionData.slide.active : null,
+            {
+              'w-100':$sectionData.slide.items[index].fluid
+            }
           ]"
           :index="index"
           :style="[
             backgroundStyle($sectionData.slide.items[index].background),
             $sectionData.slide.items[index].style,
           ]"
-          class="container position-relative h-100"
+
           cloneable="true"
           @click="
             $builder.onClickClone($event, $sectionData.slide.items[index], [
@@ -137,6 +174,7 @@
                   );
                   $forceUpdate();
                 "
+                color="#fff"
               >
                 <v-icon color="success" start>add</v-icon>
                 Add Action
@@ -151,24 +189,12 @@
                   $sectionData.slide.items[index].button = null;
                   $forceUpdate();
                 "
+                color="#fff"
               >
                 <v-icon color="red" start>close</v-icon>
                 Remove Action
               </v-btn>
             </v-slide-x-reverse-transition>
-            <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ End Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-
-            <v-btn
-              v-if="$builder.isEditing && !$builder.isHideExtra"
-              class="tnt ma-1"
-              dark
-              style="z-index: 100"
-              variant="outlined"
-              @click.stop="removeSlide(index)"
-            >
-              <v-icon color="red" start>close</v-icon>
-              Delete Slide
-            </v-btn>
           </v-sheet>
         </div>
       </swiper-slide>
@@ -189,30 +215,33 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import XButton from "@app-page-builder/components/x/button/XButton.vue";
 import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
-
-const EFFECTS = [
-  { title: "Slide", value: "slide" },
-  { title: "Fade", value: "fade" },
-  { title: "Cube", value: "cube" },
-  { title: "Coverflow", value: "coverflow" },
-  { title: "Flip", value: "flip" },
-  // {title:'Creative',value:'creative'},
-  { title: "Cards", value: "cards" },
-];
-
-const ACTIVE_CENTER = [
-  { title: "None", value: null },
-  { title: "Elevation", value: "slide-elevation" },
-  { title: "Bordered", value: "slide-bordered" },
-  { title: "Slide Up", value: "slide-up" },
-];
+import {
+  Autoplay,
+  Controller,
+  EffectCards,
+  EffectCoverflow,
+  EffectCreative,
+  EffectCube,
+  EffectFade,
+  EffectFlip,
+  FreeMode,
+  Grid,
+  Keyboard,
+  Mousewheel,
+  Navigation,
+  Pagination,
+  Parallax,
+  Scrollbar,
+  Thumbs,
+  Virtual,
+  Zoom,
+} from "swiper/modules";
 
 export default {
   name: "LSectionGalleryScroll",
@@ -269,82 +298,116 @@ export default {
   },
 
   data: () => ({
-    EFFECTS: EFFECTS,
-    ACTIVE_CENTER: ACTIVE_CENTER,
+    types: types,
+
+    modules: [
+      // Effect modules
+      EffectFade, // Fade Effect module
+      EffectCube, // Cube Effect module
+      EffectFlip, // Flip Effect module
+      EffectCoverflow, // Coverflow Effect module
+      EffectCards, // Cards Effect module
+      EffectCreative, // Creative Effect module
+
+      // Navigation modules
+      Navigation, // Navigation module
+      Pagination, // Pagination module
+      Scrollbar, // Scrollbar module
+      Thumbs, // Thumbs module
+
+      // Control modules
+      Keyboard, // Keyboard Control module
+      Mousewheel, // Mousewheel Control module
+      Controller, // Controller module
+
+      // Advanced functionality modules
+      Virtual, // Virtual Slides module
+      Parallax, // Parallax module
+      FreeMode, // Free Mode module
+      Grid, // Grid module
+      //  Manipulation, // Slides manipulation module (only for Core version)
+      Zoom, // Zoom module
+
+      // Accessibility & Usability modules
+      //   A11y, // Accessibility module
+      //   History, // History Navigation module
+      //    HashNavigation, // Hash Navigation module
+      Autoplay, // Autoplay module
+    ],
 
     showSlider: true,
 
-    swiperTop: {},
-
     realIndex: 0,
+
+    mainSwiper: null,
   }),
 
-  computed: {},
+  computed: {
+    allow_touch_move() {
+      return !this.$builder.isEditing || !this.$section.lock;
+    },
+    SLIDE_DATA() {
+      return this.$sectionData.slide;
+    },
+
+    autoplay() {
+      return !this.$builder.isEditing && this.SLIDE_DATA.autoplay?.enable
+        ? {
+            enabled: true,
+            delay: this.SLIDE_DATA.autoplay.delay,
+            disableOnInteraction:
+              !!this.SLIDE_DATA.autoplay.disableOnInteraction,
+            pauseOnMouseEnter: !!this.SLIDE_DATA.autoplay.pauseOnMouseEnter,
+            reverseDirection: !!this.SLIDE_DATA.autoplay.reverseDirection,
+            stopOnLastSlide: !!this.SLIDE_DATA.autoplay.stopOnLastSlide,
+          }
+        : undefined;
+    },
+
+    navigation() {
+      return this.SLIDE_DATA.navigation?.enable
+        ? {
+            enabled: true,
+          }
+        : false;
+    },
+
+    pagination() {
+      return this.SLIDE_DATA.pagination?.enable
+        ? {
+            enabled: this.SLIDE_DATA.pagination.enable,
+            type: this.SLIDE_DATA.pagination.type,
+            hideOnClick: this.SLIDE_DATA.pagination.hideOnClick,
+            dynamicBullets: this.SLIDE_DATA.pagination.dynamicBullets,
+            dynamicMainBullets: this.SLIDE_DATA.pagination.dynamicMainBullets,
+          }
+        : undefined;
+    },
+
+    keyboard() {
+      return this.SLIDE_DATA.keyboard?.enable
+        ? {
+            enabled: true,
+            onlyInViewport: this.SLIDE_DATA.keyboard.onlyInViewport,
+            pageUpDown: this.SLIDE_DATA.keyboard.pageUpDown,
+          }
+        : undefined;
+    },
+  },
 
   watch: {},
 
   created() {
-    //  this.$section.__refreshCallback = this.refresh; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
-    this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+    //this.$section.lock = true; // initial temporary elements in section to be accessible on GlobalSlideShowEditorDialog
+
     this.$section.__goToSlide = (index) => {
-      this.$refs.swiperTop?.$swiper?.slideTo(index);
+      this.mainSwiper.slideTo(index);
     };
-
-    this.init();
   },
 
-  mounted() {
-    this.refresh();
-  },
+  mounted() {},
 
   methods: {
-    // Computed values not call!
-    init() {
-      this.swiperTop = {
-        allowTouchMove: !this.$builder.isEditing || !this.$section.lock,
-        //  allowSlideNext: true,
-        //   allowSlidePrev: true,
-        autoHeight: true,
-        direction: this.$sectionData.slide.vertical ? "vertical" : "horizontal",
-
-        loop: !this.$builder.isEditing && this.$sectionData.slide.loop, // Not loop on edit mode!
-        loopedSlides: this.$sectionData.slide.items.length, // looped slides should be the same
-
-        //loopedSlides: "auto", // conflict with loop!
-        centeredSlides: true,
-        keyboard: {
-          enabled: true,
-        },
-
-        slidesPerView: this.calcSlidesPerView(),
-        spaceBetween: this.$sectionData.slide.spaceBetween
-          ? this.$sectionData.slide.spaceBetween
-          : 0,
-
-        effect: this.$sectionData.slide.effect,
-
-        pagination: {
-          el: ".swiper-pagination",
-          type: this.$sectionData.slide.pagination, // 'bullets' | 'fraction' | 'progressbar' | 'custom'
-          dynamicBullets: true,
-          clickable: true,
-        },
-        navigation: this.$sectionData.slide.navigation
-          ? {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }
-          : false,
-
-        autoplay:
-          !this.$builder.isEditing && this.$sectionData.slide.autoplay
-            ? {
-                delay: 7000,
-              }
-            : false,
-      };
-    },
-
     calcSlidesPerView() {
       if (
         !this.$sectionData.slide.slidesPerView ||
@@ -358,76 +421,6 @@ export default {
       else if (this.$vuetify.display.sm)
         return Math.min(this.$sectionData.slide.slidesPerView, 2);
       return 1;
-    },
-
-    refresh() {
-      this.init();
-      const current_slide = this.$refs.swiperTop.$swiper.realIndex;
-
-      this.$nextTick(() => {
-        // Force apply change to computed options.
-        this.showSlider = false;
-        this.$nextTick(() => {
-          this.showSlider = true;
-          this.$nextTick(() => {
-            // Go current index:
-            this.$refs.swiperTop.$swiper.slideToLoop(current_slide, 0);
-            this.$nextTick(() => {
-              this.$forceUpdate();
-            });
-          });
-        });
-      });
-    },
-
-    addSlide() {
-      this.$sectionData.slide.items.add(LUtilsSeeder.seed(types.Slide));
-      this.$refs.swiperTop.$swiper.update();
-      this.$nextTick(() => {
-        this.$refs.swiperTop.$swiper.slideTo(
-          this.$sectionData.slide.items.length - 1,
-        );
-      });
-    },
-    removeSlide(index) {
-      this.openDeleteAlert(() => {
-        this.$sectionData.slide.items.splice(index, 1);
-        this.$refs.swiperTop.$swiper.update();
-        this.refresh();
-      });
-    },
-
-    toggleLoop() {
-      this.$sectionData.slide.loop = !this.$sectionData.slide.loop;
-      this.refresh();
-    },
-
-    toggleNavigation() {
-      this.$sectionData.slide.navigation = !this.$sectionData.slide.navigation;
-      this.refresh();
-    },
-
-    togglePagination() {
-      this.$sectionData.slide.pagination =
-        this.$sectionData.slide.pagination === "bullets"
-          ? "fraction"
-          : this.$sectionData.slide.pagination === "fraction"
-            ? "progressbar"
-            : this.$sectionData.slide.pagination === "progressbar"
-              ? "custom"
-              : "bullets";
-
-      this.refresh();
-    },
-
-    toggleDirection() {
-      this.$sectionData.slide.vertical = !this.$sectionData.slide.vertical;
-      this.refresh();
-    },
-
-    toggleAutoplay() {
-      this.$sectionData.slide.autoplay = !this.$sectionData.slide.autoplay;
-      this.refresh();
     },
   },
 };

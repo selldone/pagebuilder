@@ -212,6 +212,8 @@ const SeederRepository: Map<string, any> = new Map([
       height: "24px",
       duration: "10s",
       color: null,
+      space:200,
+      repeat:10
     }),
   ],
 ]);
