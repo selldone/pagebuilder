@@ -17,7 +17,7 @@
     v-styler:swiper="{ target: $sectionData, keySlide: 'slide' }"
     :object="$sectionData"
     class="p-0"
-    path="$sectionData"
+
   >
     <!-- --------------------------------------------------------------------------------------------------------- -->
 
@@ -112,7 +112,7 @@
               min_h: '20px',
               min_w: '20px',
             }"
-            :path="`$sectionData.slide.items[${index}].image`"
+
             contain
           />
 

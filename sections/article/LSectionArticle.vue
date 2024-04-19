@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <!-- 📹 Background video -->
     <x-video-background
       v-if="$sectionData.background?.bg_video"

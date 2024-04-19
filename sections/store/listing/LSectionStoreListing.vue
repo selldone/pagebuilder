@@ -16,12 +16,12 @@
   <x-section
     v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
     :object="$sectionData"
-    path="$sectionData"
+
   >
     <x-container
       :object="$sectionData"
       max-width-normal="1550px"
-      path="$sectionData"
+
     >
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'title' }"

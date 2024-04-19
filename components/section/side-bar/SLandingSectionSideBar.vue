@@ -17,9 +17,10 @@
     :class="{
       '-copy': copy_hover,
       '-delete': delete_hover,
-      '-row': ['infinite-stream'].includes(section.name),
+      '-row': ['LSectionTextMarquee'].includes(section.name) || el_height<200,
     }"
     class="side-section"
+    v-size="({height})=>{el_height=height}"
   >
     <!-- ▃▃▃▃▃▃▃▃▃▃ Copy ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -179,6 +180,7 @@ export default defineComponent({
     return {
       copy_hover: false,
       delete_hover: false,
+      el_height:0,
     };
   },
 
@@ -202,9 +204,9 @@ export default defineComponent({
 
   &.-row {
     flex-direction: row;
-    left: -224px;
-    width: 200px;
-    top: 0;
+    left: -262px;
+    width: 250px;
+    top: -20px;
   }
 
   &:before {

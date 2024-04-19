@@ -304,7 +304,7 @@ export default {
     LPageEditorSetting,
     LPageEditorSeo,
   },
-
+emits: ["update:page", "update:externalTab", "update", "create", "scale","update:preview"],
   props: {
     shop: {
       required: false,

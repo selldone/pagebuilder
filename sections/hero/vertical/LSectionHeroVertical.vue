@@ -13,13 +13,13 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
         has-arrangement
         has-fluid
-        path="$sectionData"
+
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
@@ -48,7 +48,7 @@
           <x-buttons
             :augment="augment"
             :object="$sectionData"
-            path="$sectionData"
+
           ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>

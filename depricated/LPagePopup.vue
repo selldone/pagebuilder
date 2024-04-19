@@ -34,10 +34,11 @@
     class="page-content"
   >
     <component
-      :is="section.name"
       v-for="section in $builder.sections"
-      :id="section.uid"
       :key="section.uid"
+      :is="section.name"
+      :sectionData="section.data"
+      :id="section.uid"
       :style="section.get('$sectionData.style')"
     />
     <!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
@@ -49,7 +50,7 @@ import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackg
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { FontLoader } from "@core/helper/font/FontLoader";
-import {cleanDOM} from "@app-page-builder/utils/html/LUtilsHtml";
+import { cleanDOM } from "@app-page-builder/utils/html/LUtilsHtml";
 
 export default {
   name: "LPagePopup",

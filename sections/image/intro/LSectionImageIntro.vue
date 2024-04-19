@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'title' }"
@@ -25,7 +25,7 @@
         v-model="$sectionData.image"
         :augment="augment"
         :initial-size="{ max_w: 600, max_h: 600 }"
-        :path="`$sectionData.image`"
+
         class="fadeIn delay_300"
         rounded
       />
@@ -35,7 +35,7 @@
         add-column
         has-arrangement
         has-fluid
-        path="$sectionData"
+
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
@@ -43,7 +43,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="$sectionData.columns[index]"
-          :path="`$sectionData.columns[${index}]`"
+
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-title-content"

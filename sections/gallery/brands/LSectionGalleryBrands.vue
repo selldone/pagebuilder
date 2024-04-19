@@ -16,13 +16,13 @@
   xmlns:v-slot="http://www.w3.org/1999/XSL/Transform"
   xmlns:v-styler="http://www.w3.org/1999/xhtml"
 >
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
         has-arrangement
         has-fluid
-        path="$sectionData"
+
       >
         <v-col cols="12" md="4" sm="6">
           <h2
@@ -43,7 +43,7 @@
           <x-buttons
             :augment="augment"
             :object="$sectionData"
-            path="$sectionData"
+
           ></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </v-col>
@@ -53,21 +53,21 @@
             :object="$sectionData"
             add-column
             has-arrangement
-            path="$sectionData"
+
             ><!-- Only addable can remove col-->
 
             <x-column
               v-for="(col, index) in $sectionData.columns"
               :key="`${index}-${$sectionData.columns.length}`"
               :object="col"
-              :path="`$sectionData.columns[${index}]`"
+
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
               <x-uploader
                 v-model="col.image"
                 :augment="augment"
                 :initialSize="null"
-                :path="`$sectionData.columns[${index}].image`"
+
                 cover
               />
             </x-column>

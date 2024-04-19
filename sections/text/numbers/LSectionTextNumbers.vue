@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'header' }"
@@ -28,7 +28,7 @@
         has-arrangement
         has-fluid
         has-wrap
-        path="$sectionData"
+
         ><!-- Only addable can remove col-->
 
         <!-- ██████████████████████ Columns ██████████████████████ -->
@@ -37,7 +37,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="$sectionData.columns[index]"
-          :path="`$sectionData.columns[${index}]`"
+
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           cloneable
           content-class="text-h1"

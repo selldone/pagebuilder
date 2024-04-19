@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <h3
         v-styler:text="{ target: $sectionData, keyText: 'title' }"
@@ -31,7 +31,6 @@
       <x-buttons
         :augment="augment"
         :object="$sectionData"
-        path="$sectionData"
       ></x-buttons>
       <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
@@ -42,7 +41,7 @@
         has-arrangement
         has-fluid
         has-wrap
-        path="$sectionData"
+
       >
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
@@ -50,7 +49,6 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="$sectionData.columns[index]"
-          :path="`$sectionData.columns[${index}]`"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           initial-column-layout="x-layout-middle"
         >

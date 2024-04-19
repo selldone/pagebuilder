@@ -30,7 +30,7 @@
       '--font-color': $sectionData.text_loop?.font_color,
     }"
     class="-x-infinite-sec"
-    path="$sectionData"
+
   >
     <u-marquee
       :id="marquee_id"

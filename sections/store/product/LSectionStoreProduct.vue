@@ -16,7 +16,7 @@
   <x-section
     v-styler:product="{ target: $sectionData.product_info }"
     :object="$sectionData"
-    path="$sectionData"
+
   >
     <s-product-overview
       v-if="product"

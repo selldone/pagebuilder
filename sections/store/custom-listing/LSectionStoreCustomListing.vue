@@ -22,7 +22,7 @@
       custom: true,
     }"
     :object="$sectionData"
-    path="$sectionData"
+
   >
     <x-custom-products-list
       :object="$sectionData"

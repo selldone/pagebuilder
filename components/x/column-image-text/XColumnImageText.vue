@@ -16,7 +16,6 @@
   <v-col :class="[calcGridClasses(object.grid)]" class="position-relative pa-0">
     <x-column
       :object="object"
-      :path="path"
       :removeColumn="removeColumn"
       cloneable
       has-custom-layout
@@ -42,7 +41,6 @@
           v-model="object.image"
           :augment="augment"
           :initialClasses="['mx-auto', 'my-2']"
-          :path="`${path}.image`"
           class="--image"
           contain
         />
@@ -120,7 +118,6 @@ export default defineComponent({
 
   props: {
     object: { required: true },
-    path: { required: true },
     initialColumnLayout: { default: "x-layout-normal" },
     contentClass: {
       /*Permanent class for content*/

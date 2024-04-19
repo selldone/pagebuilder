@@ -21,7 +21,6 @@
         <x-column
           :object="$sectionData.columns[0]"
           class="position-relative"
-          path="$sectionData.columns[0]"
         >
           <h1
             v-styler:text="{ target: $sectionData, keyText: 'title' }"

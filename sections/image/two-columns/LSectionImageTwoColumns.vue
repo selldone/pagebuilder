@@ -13,13 +13,13 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" path="$sectionData">
+  <x-section :object="$sectionData" >
     <x-container :object="$sectionData">
       <x-row
         :object="$sectionData"
         has-arrangement
         has-fluid
-        path="$sectionData"
+
       >
         <!-- ██████████████████████ Column A ██████████████████████ -->
         <x-column :object="$sectionData.columnA" path="$sectionData.columnA">
@@ -36,7 +36,7 @@
               :key="`${index}-${$sectionData.columnA.length}`"
               :augment="augment"
               :object="$sectionData.columnA.columns[index]"
-              :path="`$sectionData.columnA.columns[${index}]`"
+
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
@@ -59,7 +59,7 @@
               :key="`${index}-${$sectionData.columnB.length}`"
               :augment="augment"
               :object="$sectionData.columnB.columns[index]"
-              :path="`$sectionData.columnB.columns[${index}]`"
+
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>

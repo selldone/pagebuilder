@@ -484,6 +484,7 @@
                       <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                       <component
                         :is="section.name"
+                        :sectionData="section.data"
                         v-if="delay_load > index"
                         :id="section.uid"
                         :ref="'SECTION_' + section.uid"
@@ -493,6 +494,7 @@
 
                           'ignore-elements': !$builder.isSorting,
                           pen: drop_section,
+                          'hover-z-10':$builder.isEditing
                         }"
                         :style="section.get('$sectionData.style')"
                       />
@@ -2035,6 +2037,13 @@ label {
   div {
     pointer-events: none;
     animation: none !important;
+  }
+
+}
+
+.hover-z-10{
+  &:hover{
+    z-index: 10;
   }
 }
 

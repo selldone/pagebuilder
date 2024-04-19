@@ -16,7 +16,7 @@
   <x-section
     :object="$sectionData"
     class="pa-0"
-    path="$sectionData"
+
     v-styler:gallery="{
       target: $sectionData,
       keyColumns: 'columns',
@@ -37,7 +37,7 @@
     <x-buttons
       :augment="augment"
       :object="$sectionData"
-      path="$sectionData"
+
     ></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
@@ -56,7 +56,7 @@
             '-caption': $builder.isEditing || $sectionData.columns[index].title,
             '-editing': $builder.isEditing,
           }"
-          :path="`$sectionData.columns[${index}].image`"
+
           class="gallery-image-item"
           cover
         >

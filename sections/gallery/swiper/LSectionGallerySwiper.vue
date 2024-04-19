@@ -22,7 +22,7 @@
     }"
     :object="$sectionData"
     class="pa-0"
-    path="$sectionData"
+
   >
     <!-- ████████████████████████ Main ████████████████████████ -->
     <swiper
@@ -82,7 +82,7 @@
             v-model="_slide.image"
             :augment="augment"
             :class="{ pen: !$section.lock }"
-            :path="`$sectionData.slide.items[${index}].image`"
+
             style="min-height: 100%; min-width: 100%; max-height: 100%"
           />
 

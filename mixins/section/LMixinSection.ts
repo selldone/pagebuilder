@@ -28,6 +28,9 @@ interface DataProps {
 }
 
 const LMixinSection = defineComponent({
+  props:{
+    sectionData:{}
+  },
   data(): DataProps {
     return {
       $builder: null,
@@ -76,18 +79,18 @@ const LMixinSection = defineComponent({
       // 1. Remove main style:
       if (
         (this.$section as Section).data.style &&
-        !Array.isArray(this.$section.data.style)
+        !Array.isArray(this.sectionData.style)
       )
-        removeUnsetStyles(this.$section.data.style);
+        removeUnsetStyles(this.sectionData.style);
 
       // 2. Remove columns style:
-      if (this.$section.data.columns)
+      if (this.sectionData.columns)
         (this.$section as Section).data.columns.forEach((col: Column) => {
           if (col.style && !Array.isArray(col.style))
             removeUnsetStyles(col.style);
         });
-
-      return this.$section.data;
+      // console.log("$sectionData Updated:",this.sectionData);
+      return this.sectionData;
     },
 
     /**

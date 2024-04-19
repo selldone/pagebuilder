@@ -40,6 +40,7 @@
       :is="section.name"
       :id="section.uid"
       :augment="augment"
+      :sectionData="section.data"
       :style="section.get('$sectionData.style')"
     />
 
@@ -94,7 +95,6 @@ export default {
   watch: {
     initialPageData() {
       this.$builder.setContent(this.initialPageData);
-      //-------------------
     },
   },
   beforeCreate() {
