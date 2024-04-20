@@ -1437,7 +1437,7 @@ export default defineComponent({
       // Fix BUG direction change by vuetify!
       this.$nextTick(() => {
         //console.log("Set Direction addSection > Fix", this.getCurrentLanguage().dir);
-        //this.$vuetify.rtl = this.getCurrentLanguage().dir === "rtl";
+        //this.$vuetify.locale.isRtl = this.getCurrentLanguage().dir === "rtl";
       });
 
       this.onSaveHistory();
