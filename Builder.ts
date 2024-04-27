@@ -429,24 +429,23 @@ class Builder {
     this.historyIndex = 0;
 
     if (data.sections && Array.isArray(data.sections)) {
-      this.sections = data.sections.map((section) => {
-        if (!this.components[section.name]) {
-          console.error(
-            "Component not found",
-            section.name,
-            this.components[section.name],
-          );
-        }
+      this.sections = data.sections
+        .map((section) => {
+          if (!this.components[section.name]) {
+            console.error("Component not found", section.name);
+            return null;
+          }
 
-        const sectionData = {
-          name: section.name,
-          uid: section.uid,
-          data: from_theme ? null : section.data,
-          schema: this.components[section.name].$schema, // We do not save schema in page json data!
-        };
+          const sectionData = {
+            name: section.name,
+            uid: section.uid,
+            data: from_theme ? null : section.data,
+            schema: this.components[section.name].$schema, // We do not save schema in page json data!
+          };
 
-        return new Section(sectionData);
-      });
+          return new Section(sectionData);
+        })
+        .filter((s) => !!s) as Section[];
     }
   }
 
@@ -557,7 +556,6 @@ const SectionComponents: any[] = [
  * Adds a component section to the builder and arguments it with the styler.
  */
 function initializeSections(app: App) {
-
   SectionComponents.forEach((_component) => {
     // console.log("🔧", _component, _component?.name, "Install");
 
@@ -592,7 +590,6 @@ const XComponents: any[] = [
  * Initialize especial components
  */
 function initializeXComponents(app: App) {
-
   XComponents.forEach((_component) => {
     if (_component) {
       app.component(_component.name, _component);
@@ -605,8 +602,7 @@ function initializeXComponents(app: App) {
   components_fix.forEach((_component) => {
     if (_component) {
       app.component(_component.name, _component);
-    }
-    else
+    } else
       console.error(
         "🔧 A XComponent not fount in the source code of page builder! It's a build problem!,",
       );
