@@ -431,6 +431,7 @@ class Builder {
     if (data.sections && Array.isArray(data.sections)) {
       this.sections = data.sections
         .map((section) => {
+          console.debug("Add section > ", section);
           if (!this.components[section.name]) {
             console.error("Component not found", section.name);
             return null;
@@ -440,7 +441,7 @@ class Builder {
             name: section.name,
             uid: section.uid,
             data: from_theme ? null : section.data,
-            schema: this.components[section.name].$schema, // We do not save schema in page json data!
+            schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
           };
 
           return new Section(sectionData);
