@@ -29,7 +29,7 @@
     <v-text-field
       v-model="modelValue.src"
       :append-inner-icon="lock ? 'lock' : 'lock_open'"
-      :disabled="lock"
+      :readonly="lock"
       label="Image path"
       messages="You can input an image URL or a dynamic value like { { key } }. This dynamic value can even be part of a complete URL."
       variant="underlined"
