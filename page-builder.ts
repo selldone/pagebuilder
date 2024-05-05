@@ -13,7 +13,7 @@
  */
 
 import {App} from "vue";
-import Builder from "./index";
+import Builder from "./Builder";
 
 import "@app-page-builder/styles/page-builder.scss";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";

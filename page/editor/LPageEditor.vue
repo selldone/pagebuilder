@@ -759,7 +759,7 @@ import { FontLoader } from "@core/helper/font/FontLoader";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { EventBus } from "@core/events/EventBus";
 import LSettingsGallery from "@app-page-builder/settings/gallery/LSettingsGallery.vue";
-import Builder from "@app-page-builder/index";
+import Builder from "@app-page-builder/Builder.ts";
 import { LUtilsFont } from "@app-page-builder/utils/font/LUtilsFont";
 
 const DEBUG = false;

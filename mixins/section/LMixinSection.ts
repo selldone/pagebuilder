@@ -18,7 +18,7 @@ import * as types from "@app-page-builder/src/types/types";
 import {Background, Column, Grid} from "@app-page-builder/src/types/types";
 import {defineComponent, inject, provide} from "vue";
 import {Section} from "@app-page-builder/src/section/section";
-import Builder from "@app-page-builder/index";
+import Builder from "@app-page-builder/Builder.ts";
 
 const DEBUG = false;
 

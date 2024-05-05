@@ -124,7 +124,12 @@ const BUILDER_OPTIONS: builder.IOptions = {
   },
 };
 
-class Builder {
+import * as types from "@app-page-builder/src/types/types";
+
+
+export class Builder {
+  types = types;
+
   // Assigned from options:
   public title: string;
   public sections: Section[];
@@ -431,7 +436,7 @@ class Builder {
     if (data.sections && Array.isArray(data.sections)) {
       this.sections = data.sections
         .map((section) => {
-          console.debug("Add section > ", section);
+          //console.debug("Add section > ", section);
           if (!this.components[section.name]) {
             console.error("Component not found", section.name);
             return null;

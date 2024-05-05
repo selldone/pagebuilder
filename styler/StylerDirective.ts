@@ -15,7 +15,7 @@
 import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
 import {installGlobalComponents} from "@components/components-mandetory";
 import {isObject, isString} from "lodash-es";
-import Builder from "@app-page-builder/index";
+import Builder from "@app-page-builder/Builder.ts";
 import {Section} from "@app-page-builder/src/section/section";
 import SStylerButtons from "@app-page-builder/styler/buttons/SStylerButtons.vue";
 import SStylerRow from "@app-page-builder/styler/row/SStylerRow.vue";

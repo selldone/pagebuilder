@@ -14,7 +14,7 @@
 
 import {LUtilsBackground} from "@app-page-builder/utils/background/LUtilsBackground";
 import {defineComponent, inject} from "vue";
-import Builder from "@app-page-builder/index";
+import Builder from "@app-page-builder/Builder.ts";
 import {Section} from "@app-page-builder/src/section/section";
 import {Background, Grid} from "@app-page-builder/src/types/types";
 

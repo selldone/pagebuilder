@@ -54,7 +54,7 @@ import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackg
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import Builder from "@app-page-builder/index";
+import Builder from "@app-page-builder/Builder.ts";
 import { provide } from "vue";
 import { cleanDOM } from "@app-page-builder/utils/html/LUtilsHtml";
 
