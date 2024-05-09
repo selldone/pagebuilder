@@ -15,16 +15,17 @@
 <template>
   <v-card
     :class="{
-      'widget-hover pp': !show_deploy_button /*We are in teh shop!*/,
+      'widget-hover pp': clickable /*We are in teh shop!*/,
     }"
     :disabled="!!loading"
     :min-width="show_deploy_button ? 360 : undefined"
-    :ripple="!show_deploy_button"
+    :ripple="clickable"
     :to="need_become_premium ? undefined : to"
-    class="rounded-2rem position-relative border overflow-hidden pa-4"
+    class="rounded-2rem position-relative border overflow-hidden pa-2"
     @click="need_become_premium ? showNeedSubscribePremium() : $emit('select')"
     color="#333"
     variant="outlined"
+    :style="!clickable && !to ? 'cursor: initial' : undefined"
   >
     <v-img
       :src="getShopImagePath(template.image)"
@@ -70,7 +71,7 @@
           variant="outlined"
           @click.stop
           >Preview
-          <v-icon class="ms-1" size="small">open_in_new</v-icon>
+          <v-icon end>open_in_new</v-icon>
         </v-btn>
 
         <v-btn
@@ -79,23 +80,23 @@
             !need_become_premium /*We are in the templates page of selldone*/
           "
           :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
-          color="success"
+          color="#000"
           size="x-large"
           target="_blank"
-          variant="flat"
+          variant="elevated"
         >
-          <v-icon class="me-1" size="small">upload_file</v-icon>
+          <v-icon start>upload_file</v-icon>
           Deploy Now
         </v-btn>
 
         <v-btn
           v-if="show_deploy_button && need_become_premium"
-          color="primary"
+          color="#000"
           size="x-large"
-          variant="flat"
+          variant="elevated"
           @click="showNeedSubscribePremium()"
         >
-          <v-icon class="me-1">auto_awesome</v-icon>
+          <v-icon start>auto_awesome</v-icon>
           Become Premium
         </v-btn>
       </div>
@@ -116,6 +117,8 @@ export default {
     to: {},
 
     loading: {},
+
+    clickable: Boolean,
   },
   data() {
     return {};
