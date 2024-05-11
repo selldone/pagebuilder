@@ -666,7 +666,7 @@
 </template>
 
 <script>
-import { SetupService } from "@core/server/SetupService";
+import { SetupService } from "@selldone/core-js/server/SetupService";
 import SDropZone from "@components/ui/uploader/SDropZone.vue";
 import UButtonAiSmall from "@components/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

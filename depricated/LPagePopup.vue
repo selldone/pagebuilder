@@ -49,7 +49,7 @@
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import { FontLoader } from "@core/helper/font/FontLoader";
+import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { cleanDOM } from "@app-page-builder/utils/html/LUtilsHtml";
 
 export default {

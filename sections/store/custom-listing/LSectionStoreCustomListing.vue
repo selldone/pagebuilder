@@ -75,7 +75,7 @@ import * as types from "@app-page-builder/src/types/types";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
-import { ApplyAugmentToObject } from "@core/prototypes/ObjectPrototypes";
+import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/ObjectPrototypes";
 
 export default {
   name: "LSectionStoreCustomListing",

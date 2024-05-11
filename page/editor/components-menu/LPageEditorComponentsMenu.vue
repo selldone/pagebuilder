@@ -116,7 +116,7 @@
 <script>
 import { defineComponent } from "vue";
 import Sortable from "sortablejs";
-import { VideoHelper } from "@core/helper/video/VideoHelper";
+import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
 
 export default defineComponent({
   name: "SLandingEditorComponentsMenu",

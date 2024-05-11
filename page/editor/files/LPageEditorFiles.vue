@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { VideoHelper } from "@core/helper/video/VideoHelper";
+import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
 
 export default {
   name: "LPageEditorFiles",

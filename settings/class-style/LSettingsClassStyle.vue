@@ -1233,7 +1233,7 @@ import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighligh
 import _ from "lodash-es";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 const STYLE_TABS = [
   "size",

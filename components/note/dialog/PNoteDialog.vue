@@ -96,7 +96,7 @@ import UTextMentionInput from "@components/ui/text/mention-input/UTextMentionInp
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "PNoteDialog",

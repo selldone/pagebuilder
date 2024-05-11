@@ -160,7 +160,7 @@ import SSettingNumberInput from "@app-page-builder/styler/settings/number-input/
 import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingColor from "@app-page-builder/styler/settings/color/SSettingColor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsBlogs",

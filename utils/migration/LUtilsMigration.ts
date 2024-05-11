@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {Page} from "@core/models/shop/page/page.model";
+import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {

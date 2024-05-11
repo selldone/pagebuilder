@@ -273,14 +273,14 @@
 
 <script>
 import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
-import { FontLoader, FONTS } from "@core/helper/font/FontLoader";
+import { FontLoader, FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsPageTypography",

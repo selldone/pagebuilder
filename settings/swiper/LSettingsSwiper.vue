@@ -203,7 +203,7 @@ import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as types from "@app-page-builder/src/types/types";
-import { StripTags } from "@core/helper/html/HtmlHelper";
+import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
 import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
 import _ from "lodash-es";
 import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
@@ -224,7 +224,7 @@ import OSwiperGrid from "@app-page-builder/settings/swiper/items/Grid/OSwiperGri
 import OSwiperSlidesPerGroup from "@app-page-builder/settings/swiper/items/SlidesPerGroup/OSwiperSlidesPerGroup.vue";
 import OSwiperSlidesPerView from "@app-page-builder/settings/swiper/items/SlidesPerView/OSwiperSlidesPerView.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsSwiper",

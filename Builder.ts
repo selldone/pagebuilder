@@ -21,7 +21,7 @@ import XSection from "@app-page-builder/components/x/section/XSection.vue";
 import XContainer from "@app-page-builder/components/x/container/XContainer.vue";
 import XButtons from "@app-page-builder/components/x/buttons/XButtons.vue";
 import XCustomProductsList from "@app-page-builder/components/x/products-list/XCustomProductsList.vue";
-import {Page} from "@core/models/shop/page/page.model";
+import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import LSectionHeroHorizontal from "@app-page-builder/sections/hero/horizontal/LSectionHeroHorizontal.vue";
 import LSectionHeroVertical from "@app-page-builder/sections/hero/vertical/LSectionHeroVertical.vue";
 import LSectionHeroLottie from "@app-page-builder/sections/hero/lottie/LSectionHeroLottie.vue";
@@ -52,9 +52,9 @@ import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue
 import XRating from "@app-page-builder/components/x/rating/XRating.vue";
 import {LUtilsMigration} from "@app-page-builder/utils/migration/LUtilsMigration";
 import {isFunction, isObject} from "lodash-es";
-import {Popup} from "@core/models/shop/popup/popup.model";
+import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
 import {SvgFilters} from "@app-page-builder/utils/filter/svg-filters/SvgFilters";
-import {FontLoader} from "@core/helper/font/FontLoader";
+import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 
 const DEBUG = true;
 

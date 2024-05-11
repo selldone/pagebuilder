@@ -362,10 +362,10 @@
 <script>
 import SProductsSortView from "@components/storefront/product/sort/SProductsSortView.vue";
 import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
-import { ModeView } from "@core/enums/shop/ModeView";
+import { ModeView } from "@selldone/core-js/enums/shop/ModeView";
 import BCategoryInput from "@app-backoffice/components/category/input/BCategoryInput.vue";
 import BVendorInput from "@app-backoffice/components/vendor/input/BVendorInput.vue";
-import { BusinessModel } from "@core/enums/shop/BusinessModel";
+import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
 import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
 
 export default {

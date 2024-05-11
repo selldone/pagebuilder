@@ -224,10 +224,10 @@
 
 <script>
 import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
-import { FontLoader } from "@core/helper/font/FontLoader";
+import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { EventBus } from "@core/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 import { LUtilsFont } from "@app-page-builder/utils/font/LUtilsFont";
 
 export default {

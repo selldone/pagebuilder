@@ -30,7 +30,7 @@ import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGal
 import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
 import {builder} from "@app-page-builder/Builder";
-import {Page} from "@core/models/shop/page/page.model";
+import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
 declare global {
   interface Window {}

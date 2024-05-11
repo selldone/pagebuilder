@@ -278,7 +278,7 @@ import LPageEditorSeo from "@app-page-builder/page/editor/seo/LPageEditorSeo.vue
 import LPageEditorSetting from "@app-page-builder/page/editor/setting/LPageEditorSetting.vue";
 
 import LPageEditorStatistics from "@app-page-builder/page/editor/statistics/LPageEditorStatistics.vue";
-import { standardDesignColor } from "@core/helper/color/ColorGenerator";
+import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator";
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import BAiModelInput from "@app-backoffice/components/ai/model/input/BAiModelInput.vue";

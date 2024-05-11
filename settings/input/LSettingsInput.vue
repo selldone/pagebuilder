@@ -53,7 +53,7 @@ import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import LFeederInput from "@app-page-builder/components/feeder/input/LFeederInput.vue";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsInput",

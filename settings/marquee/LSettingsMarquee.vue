@@ -171,7 +171,7 @@ import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
 import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { EventBus } from "@core/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
 
 export default {

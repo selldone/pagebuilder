@@ -295,7 +295,7 @@ import _ from "lodash-es";
 import AnimationClassSelector from "@app-page-builder/components/style/animation/AnimationClassSelector.vue";
 import HoverClassSelector from "@app-page-builder/components/style/hover/HoverClassSelector.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import {EventBus} from "@core/events/EventBus";
+import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsAnimation",
