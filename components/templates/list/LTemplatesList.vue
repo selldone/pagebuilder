@@ -193,7 +193,7 @@
 </template>
 
 <script>
-import LTemplateCard from "@app-page-builder/components/templates/card/LTemplateCard.vue";
+import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
 import _ from "lodash-es";
 
 /**

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 
 export default {
   name: "AnimationClassSelector",

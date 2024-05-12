@@ -342,11 +342,11 @@
 <script>
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
-import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
+import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 
 import SVideoUploader from "@selldone/components-vue/ui/uploader/SVideoUploader.vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingGroup from "../../../styler/settings/group/SSettingGroup.vue";
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
 
 export default {

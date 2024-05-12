@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinXComponent from "@app-page-builder/mixins/x-component/LMixinXComponent";
-import DataXDirective from "@app-page-builder/directives/DataXDirective";
+import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
+import DataXDirective from "../../../directives/DataXDirective";
 
 export default {
   name: "XSection",

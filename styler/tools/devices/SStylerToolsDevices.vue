@@ -147,8 +147,8 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
+import SStylerIcon from "../../../styler/icon/SStylerIcon.vue";
 
 export default defineComponent({
   name: "SStylerToolsDevices",

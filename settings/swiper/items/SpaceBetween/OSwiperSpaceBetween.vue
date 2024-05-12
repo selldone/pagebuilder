@@ -26,7 +26,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSlider from "@app-page-builder/styler/settings/slider/SSettingSlider.vue";
+import SSettingSlider from "../../../../styler/settings/slider/SSettingSlider.vue";
 
 export default defineComponent({
   name: "OSwiperSpaceBetween",

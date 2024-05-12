@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
-import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
+import PNoteBox from "../../../components/note/box/PNoteBox.vue";
+import { LMixinNote } from "../../../mixins/note/LMixinNote";
 
 export default {
   name: "PNoteDigest",

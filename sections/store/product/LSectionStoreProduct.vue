@@ -45,12 +45,12 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
+import * as types from "../../../src/types/types";
 import SProductOverview from "@selldone/components-vue/storefront/overview/SProductOverview.vue";
 import SProductOverviewLoading from "@selldone/components-vue/storefront/overview/loading/SProductOverviewLoading.vue";
 import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommerce";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinSection from "../../../mixins/section/LMixinSection";
 import { isObject } from "lodash-es";
 
 export default {

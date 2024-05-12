@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import BProductsSelectBox from "@app-backoffice/components/product/select-box/BProductsSelectBox.vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import BProductsSelectBox from "@selldone/components-vue/backoffice/product/select-box/BProductsSelectBox.vue";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

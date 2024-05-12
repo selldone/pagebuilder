@@ -24,8 +24,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
+import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 
 export default defineComponent({
   name: "OSwiperEffect",

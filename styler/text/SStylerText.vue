@@ -431,11 +431,11 @@
 </template>
 
 <script>
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
-import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
+import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
+import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import SStylerIcon from "../../styler/icon/SStylerIcon.vue";
+import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 
 const TextAlign = [
   { val: "start", icon: "format_align_left", title: "Start" },

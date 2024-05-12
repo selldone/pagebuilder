@@ -143,14 +143,14 @@
 </template>
 
 <script>
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
-import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
-import * as Types from "@app-page-builder/src/types/types";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
+import * as Types from "../../src/types/types";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 const LAYOUTS = [

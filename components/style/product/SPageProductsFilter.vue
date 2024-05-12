@@ -363,8 +363,8 @@
 import SProductsSortView from "@selldone/components-vue/storefront/product/sort/SProductsSortView.vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView";
-import BCategoryInput from "@app-backoffice/components/category/input/BCategoryInput.vue";
-import BVendorInput from "@app-backoffice/components/vendor/input/BVendorInput.vue";
+import BCategoryInput from "@selldone/components-vue/backoffice/category/input/BCategoryInput.vue";
+import BVendorInput from "@selldone/components-vue/backoffice/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 

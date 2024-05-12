@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import LFeederGrid from "@app-page-builder/components/feeder/grid/LFeederGrid.vue";
-import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
+import LFeederGrid from "../../../components/feeder/grid/LFeederGrid.vue";
+import LFeederImage from "../../../components/feeder/image/LFeederImage.vue";
 
 export default {
   name: "LFeederColumn",

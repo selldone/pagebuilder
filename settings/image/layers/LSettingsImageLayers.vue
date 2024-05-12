@@ -116,11 +116,11 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
-import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
+import LEventsName from "../../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
+import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 /**

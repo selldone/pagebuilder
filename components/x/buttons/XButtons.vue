@@ -61,9 +61,9 @@
 </template>
 
 <script>
-import XButton from "@app-page-builder/components/x/button/XButton.vue";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinXComponent from "@app-page-builder/mixins/x-component/LMixinXComponent";
+import XButton from "../../../components/x/button/XButton.vue";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 
 export default defineComponent({

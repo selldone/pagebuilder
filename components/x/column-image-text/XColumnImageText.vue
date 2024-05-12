@@ -89,12 +89,12 @@
 </template>
 
 <script>
-import XButton from "@app-page-builder/components/x/button/XButton.vue";
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinXComponent from "@app-page-builder/mixins/x-component/LMixinXComponent";
+import XButton from "../../../components/x/button/XButton.vue";
+import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
+import XUploader from "../../../components/x/uploader/XUploader.vue";
 
 const LAYOUTS = [
   "x-layout-normal", // Column | Image + Title + Content

@@ -222,13 +222,13 @@
 </template>
 
 <script>
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 
-import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
-import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
+import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

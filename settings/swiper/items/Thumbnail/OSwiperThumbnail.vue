@@ -45,11 +45,11 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
-import { ThumbnailType } from "@app-page-builder/settings/swiper/enums/ThumbnailEnums";
-import { CenterSlideEffect } from "@app-page-builder/settings/swiper/enums/CneterSlideEnums";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
+import { ThumbnailType } from "../../../../settings/swiper/enums/ThumbnailEnums";
+import { CenterSlideEffect } from "../../../../settings/swiper/enums/CneterSlideEnums";
 
 export default defineComponent({
   name: "OSwiperThumbnail",

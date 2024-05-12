@@ -29,7 +29,8 @@
     "axios": "^1.6.8",
     "lodash-es": "^4.17.21",
     "vue": "^3.4.27",
-    "vuetify": "^3.6.4"
+    "vuetify": "^3.6.4",
+    "@floating-ui/dom": "^1.6.5"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",

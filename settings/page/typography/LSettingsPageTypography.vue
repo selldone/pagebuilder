@@ -275,11 +275,11 @@
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import { FontLoader, FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import LEventsName from "../../../mixins/events/name/LEventsName";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
-import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LUtilsTypo } from "../../../utils/typo/LUtilsTypo";
+import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

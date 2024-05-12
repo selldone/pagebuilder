@@ -13,11 +13,11 @@
  */
 
 import {defineComponent} from "vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import LEventsName from "../../mixins/events/name/LEventsName";
 import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui/dom";
-import {LMixinEvents} from "@app-page-builder/mixins/events/LMixinEvents";
+import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
-import {isParentTo} from "@app-page-builder/utils/html/LUtilsHtml";
+import {isParentTo} from "../../utils/html/LUtilsHtml";
 
 const DEBUG = false;
 

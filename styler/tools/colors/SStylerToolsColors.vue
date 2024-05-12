@@ -68,7 +68,7 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 
 export default defineComponent({
   name: "SStylerToolsColors",

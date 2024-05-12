@@ -184,7 +184,7 @@ import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import USmartVerify from "@selldone/components-vue/ui/smart/verify/USmartVerify.vue";
-import BClusterInput from "@app-backoffice/components/cluster/input/BClusterInput.vue";
+import BClusterInput from "@selldone/components-vue/backoffice/cluster/input/BClusterInput.vue";
 
 export default {
   name: "LPageEditorSetting",

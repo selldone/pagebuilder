@@ -17,7 +17,7 @@ import toPath from "lodash-es/toPath";
 import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
 import {App} from "vue";
 import {isString} from "lodash-es";
-import {LUtilsObject} from "@app-page-builder/utils/object/LUtilsObject";
+import {LUtilsObject} from "../../utils/object/LUtilsObject";
 
 const DEBUG = false;
 export namespace Section {

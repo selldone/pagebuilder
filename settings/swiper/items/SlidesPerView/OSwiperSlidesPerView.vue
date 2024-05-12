@@ -65,8 +65,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingNumberSelect from "@app-page-builder/styler/settings/number-select/SSettingNumberSelect.vue";
-import SSettingExpandable from "@app-page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
+import SSettingExpandable from "../../../../styler/settings/expandable/SSettingExpandable.vue";
 
 export default defineComponent({
   name: "OSwiperSlidesPerView",

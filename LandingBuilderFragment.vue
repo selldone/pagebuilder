@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
-import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
+import LPageEditorTopMenu from "./page/editor/top-menu/LPageEditorTopMenu.vue";
+import LPageEditor from "./page/editor/LPageEditor.vue";
 
 export default {
   name: "LandingBuilderFragment",

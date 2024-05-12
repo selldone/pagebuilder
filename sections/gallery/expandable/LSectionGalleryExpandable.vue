@@ -99,11 +99,11 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
-import { LMixinHistory } from "@app-page-builder/mixins/history/LMixinHistory";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
-import XUploader from "@app-page-builder/components/x/uploader/XUploader.vue";
+import * as types from "../../../src/types/types";
+import { LMixinHistory } from "../../../mixins/history/LMixinHistory";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinSection from "../../../mixins/section/LMixinSection";
+import XUploader from "../../../components/x/uploader/XUploader.vue";
 
 export default {
   name: "LSectionGalleryExpandable",

@@ -274,17 +274,18 @@
 </template>
 
 <script>
-import LPageEditorSeo from "@app-page-builder/page/editor/seo/LPageEditorSeo.vue";
-import LPageEditorSetting from "@app-page-builder/page/editor/setting/LPageEditorSetting.vue";
+import LPageEditorSeo from "./page/editor/seo/LPageEditorSeo.vue";
+import LPageEditorSetting from "./page/editor/setting/LPageEditorSetting.vue";
 
-import LPageEditorStatistics from "@app-page-builder/page/editor/statistics/LPageEditorStatistics.vue";
+import LPageEditorStatistics from "./page/editor/statistics/LPageEditorStatistics.vue";
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator";
-import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
-import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
-import BAiModelInput from "@app-backoffice/components/ai/model/input/BAiModelInput.vue";
+import LPageEditorTopMenu from "./page/editor/top-menu/LPageEditorTopMenu.vue";
+import LPageEditorFiles from "./page/editor/files/LPageEditorFiles.vue";
+import BAiModelInput from "@selldone/components-vue/backoffice/ai/model/input/BAiModelInput.vue";
+
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
+import { LMixinEvents } from "./mixins/events/LMixinEvents";
+import LPageEditor from "./page/editor/LPageEditor.vue";
 
 /**
  * <landing-builder>

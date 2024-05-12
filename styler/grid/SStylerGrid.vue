@@ -76,10 +76,10 @@
 </template>
 
 <script>
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
-import SStylerToolsDevices from "@app-page-builder/styler/tools/devices/SStylerToolsDevices.vue";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
+import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
+import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import SStylerToolsDevices from "../../styler/tools/devices/SStylerToolsDevices.vue";
 
 /**
  * v-styler:grid

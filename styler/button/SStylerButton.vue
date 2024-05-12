@@ -412,17 +412,17 @@
 </template>
 
 <script>
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
-import SStylerIcon from "@app-page-builder/styler/icon/SStylerIcon.vue";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
+import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
+import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import SStylerIcon from "../../styler/icon/SStylerIcon.vue";
 import {
   LUtilsColors,
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
-} from "@app-page-builder/utils/colors/LUtilsColors";
+} from "../../utils/colors/LUtilsColors";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
-import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
+import SStylerToolsColors from "../../styler/tools/colors/SStylerToolsColors.vue";
 
 const TextAlign = [
   { val: "left", icon: "format_align_left" },

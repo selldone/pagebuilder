@@ -14,9 +14,9 @@
 
 import {defineComponent} from "vue";
 import {EventBus} from "@selldone/core-js/events/EventBus";
-import {Section} from "@app-page-builder/src/section/section";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import {StylerOptions} from "@app-page-builder/styler/StylerDirective";
+import {Section} from "../../src/section/section";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import {StylerOptions} from "../../styler/StylerDirective";
 
 export const LMixinEvents = defineComponent({
   data() {

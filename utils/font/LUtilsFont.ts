@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LUtilsObject} from "@app-page-builder/utils/object/LUtilsObject";
+import {LUtilsObject} from "../../utils/object/LUtilsObject";
 import {isString} from "lodash-es";
 
 export class LUtilsFont {

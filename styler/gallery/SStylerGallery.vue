@@ -72,11 +72,11 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
-import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import SStylerTemplate from "@app-page-builder/styler/template/SStylerTemplate.vue";
-import { LMixinStyler } from "@app-page-builder/mixins/styler/LMixinStyler";
+import * as types from "../../src/types/types";
+import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
+import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
+import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 
 export default {
   name: "SStylerGallery",

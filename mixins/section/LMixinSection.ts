@@ -12,13 +12,13 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LUtilsBackground} from "@app-page-builder/utils/background/LUtilsBackground";
+import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
 import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
-import * as types from "@app-page-builder/src/types/types";
-import {Background, Column, Grid} from "@app-page-builder/src/types/types";
+import * as types from "../../src/types/types";
+import {Background, Column, Grid} from "../../src/types/types";
 import {defineComponent, inject, provide} from "vue";
-import {Section} from "@app-page-builder/src/section/section";
-import Builder from "@app-page-builder/Builder.ts";
+import {Section} from "../../src/section/section";
+import Builder from "../../Builder.ts";
 
 const DEBUG = false;
 

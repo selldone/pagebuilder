@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import LFeederResponsibility from "@app-page-builder/components/feeder/responsibility/LFeederResponsibility.vue";
+import LFeederResponsibility from "../../../components/feeder/responsibility/LFeederResponsibility.vue";
 
 export default {
   name: "LFeederGrid",

@@ -18,7 +18,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 
 export default defineComponent({
   name: "OSwiperLoop",

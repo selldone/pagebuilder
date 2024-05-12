@@ -56,9 +56,9 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingSlider from "@app-page-builder/styler/settings/slider/SSettingSlider.vue";
+import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import SSettingSlider from "../../../../styler/settings/slider/SSettingSlider.vue";
 
 export default defineComponent({
   name: "OSwiperAutoPlay",

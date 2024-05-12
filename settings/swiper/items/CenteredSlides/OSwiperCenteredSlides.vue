@@ -38,10 +38,10 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingExpandable from "@app-page-builder/styler/settings/expandable/SSettingExpandable.vue";
-import { CenterSlideEffect } from "@app-page-builder/settings/swiper/enums/CneterSlideEnums";
-import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import SSettingExpandable from "../../../../styler/settings/expandable/SSettingExpandable.vue";
+import { CenterSlideEffect } from "../../../../settings/swiper/enums/CneterSlideEnums";
+import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 
 export default defineComponent({
   name: "OSwiperCenteredSlides",

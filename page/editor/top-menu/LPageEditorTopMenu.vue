@@ -669,8 +669,8 @@
 import { SetupService } from "@selldone/core-js/server/SetupService";
 import SDropZone from "@selldone/components-vue/ui/uploader/SDropZone.vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
+import { LUtilsMigration } from "../../../utils/migration/LUtilsMigration";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 const ShortKeys = {

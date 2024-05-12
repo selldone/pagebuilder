@@ -25,7 +25,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingNumberSelect from "@app-page-builder/styler/settings/number-select/SSettingNumberSelect.vue";
+import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
 
 export default defineComponent({
   name: "OSwiperGrid",

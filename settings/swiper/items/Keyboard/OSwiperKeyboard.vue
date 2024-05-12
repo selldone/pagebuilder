@@ -37,8 +37,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 
 export default defineComponent({
   name: "OSwiperKeyboard",

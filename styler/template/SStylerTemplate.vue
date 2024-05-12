@@ -146,9 +146,9 @@
 </template>
 
 <script>
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LUtilsColors } from "../../utils/colors/LUtilsColors";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
+import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 
 export default {
   name: "SStylerTemplate",

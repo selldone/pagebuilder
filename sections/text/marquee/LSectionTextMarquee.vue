@@ -59,10 +59,10 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
+import * as types from "../../../src/types/types";
 import UMarquee from "@selldone/components-vue/ui/marquee/UMarquee.vue";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinSection from "../../../mixins/section/LMixinSection";
 
 export default {
   name: "LSectionTextMarquee",

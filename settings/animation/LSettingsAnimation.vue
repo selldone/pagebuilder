@@ -289,12 +289,12 @@
 </template>
 
 <script>
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
+import LEventsName from "../../mixins/events/name/LEventsName";
 import _ from "lodash-es";
-import AnimationClassSelector from "@app-page-builder/components/style/animation/AnimationClassSelector.vue";
-import HoverClassSelector from "@app-page-builder/components/style/hover/HoverClassSelector.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import AnimationClassSelector from "../../components/style/animation/AnimationClassSelector.vue";
+import HoverClassSelector from "../../components/style/hover/HoverClassSelector.vue";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

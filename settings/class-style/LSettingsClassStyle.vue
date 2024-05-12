@@ -1218,21 +1218,21 @@
 
 <script>
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
-import SLandingStylePreview from "@app-page-builder/components/style/preview/SLandingStylePreview.vue";
-import SLandingStyleBorder from "@app-page-builder/components/style/border/SLandingStyleBorder.vue";
+import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
+import SLandingStylePreview from "../../components/style/preview/SLandingStylePreview.vue";
+import SLandingStyleBorder from "../../components/style/border/SLandingStyleBorder.vue";
 import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
-import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLandingStyleFilter.vue";
+import SLandingStyleFilter from "../../components/style/filter/SLandingStyleFilter.vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
-import ShadowCollection from "@app-page-builder/src/enums/ShadowCollection";
+import ShadowCollection from "../../src/enums/ShadowCollection";
 
 import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LUtilsColors } from "../../utils/colors/LUtilsColors";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 const STYLE_TABS = [

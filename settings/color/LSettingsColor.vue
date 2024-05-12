@@ -63,10 +63,10 @@
 </template>
 
 <script>
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

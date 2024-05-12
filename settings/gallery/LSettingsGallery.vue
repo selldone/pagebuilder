@@ -113,13 +113,13 @@
 </template>
 
 <script>
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
-import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
-import * as types from "@app-page-builder/src/types/types";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
+import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
+import * as types from "../../src/types/types";
 import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {

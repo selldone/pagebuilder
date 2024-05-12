@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
+import { LUtilsBackground } from "../utils/background/LUtilsBackground";
+import { LUtilsTypo } from "../utils/typo/LUtilsTypo";
+import { LUtilsColors } from "../utils/colors/LUtilsColors";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
-import { cleanDOM } from "@app-page-builder/utils/html/LUtilsHtml";
+import { cleanDOM } from "../utils/html/LUtilsHtml";
 
 export default {
   name: "LPagePopup",

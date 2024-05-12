@@ -149,17 +149,17 @@
 </template>
 
 <script>
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import LEventsName from "../../mixins/events/name/LEventsName";
 import _, { isNumber } from "lodash-es";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";
-import SSettingToggle from "@app-page-builder/styler/settings/toggle/SSettingToggle.vue";
-import SSettingCombobox from "@app-page-builder/styler/settings/combobox/SSettingCombobox.vue";
-import SSettingTextInput from "@app-page-builder/styler/settings/text-input/SSettingTextInput.vue";
-import SSettingNumberInput from "@app-page-builder/styler/settings/number-input/SSettingNumberInput.vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingColor from "@app-page-builder/styler/settings/color/SSettingColor.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import SSettingGroup from "../../styler/settings/group/SSettingGroup.vue";
+import SSettingSelect from "../../styler/settings/select/SSettingSelect.vue";
+import SSettingToggle from "../../styler/settings/toggle/SSettingToggle.vue";
+import SSettingCombobox from "../../styler/settings/combobox/SSettingCombobox.vue";
+import SSettingTextInput from "../../styler/settings/text-input/SSettingTextInput.vue";
+import SSettingNumberInput from "../../styler/settings/number-input/SSettingNumberInput.vue";
+import SSettingSwitch from "../../styler/settings/switch/SSettingSwitch.vue";
+import SSettingColor from "../../styler/settings/color/SSettingColor.vue";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

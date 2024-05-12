@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { LUtilsFilter, CssFiltersGallery } from "@app-page-builder/utils/filter/LUtilsFilter";
+import { LUtilsFilter, CssFiltersGallery } from "../../../utils/filter/LUtilsFilter";
 
 export default {
   name: "SLandingStyleFilter",

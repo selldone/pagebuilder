@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinXComponent from "@app-page-builder/mixins/x-component/LMixinXComponent";
+import * as types from "../../../src/types/types";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 
 export default defineComponent({

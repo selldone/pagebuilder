@@ -14,8 +14,8 @@
 
 import {defineComponent, inject} from "vue";
 import _ from "lodash-es";
-import Builder from "@app-page-builder/Builder.ts";
-import {Section} from "@app-page-builder/src/section/section";
+import Builder from "../../Builder.ts";
+import {Section} from "../../src/section/section";
 
 const DEBUG = false;
 

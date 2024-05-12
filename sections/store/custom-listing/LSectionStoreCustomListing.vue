@@ -70,11 +70,11 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
+import * as types from "../../../src/types/types";
 
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import StylerDirective from "../../../styler/StylerDirective";
+import LMixinSection from "../../../mixins/section/LMixinSection";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/ObjectPrototypes";
 
 export default {

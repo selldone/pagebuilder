@@ -12,9 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import * as types from "@app-page-builder/src/types/types";
-import ProductFramesSample from "@app-page-builder/sections/store/custom-listing/frames/ProductFramesSample";
-import CategoryFramesSample from "@app-page-builder/sections/store/custom-listing/frames/CategoryFramesSample";
+import * as types from "../../src/types/types";
+import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
+import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
 
 const DEBUG = false;

@@ -226,9 +226,9 @@
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import _ from "lodash-es";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import { LUtilsFont } from "@app-page-builder/utils/font/LUtilsFont";
+import { LUtilsFont } from "../../../utils/font/LUtilsFont";
 
 export default {
   name: "LPageEditorComponentsMenu",

@@ -435,13 +435,13 @@ import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSel
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
+import LEventsName from "../../../mixins/events/name/LEventsName";
 import USmartSelect from "@selldone/components-vue/ui/smart/select/USmartSelect.vue";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
+import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
-import SSettingColor from "@app-page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingColor from "../../../styler/settings/color/SSettingColor.vue";
 
 export default {
   name: "LSettingsPageStyle",

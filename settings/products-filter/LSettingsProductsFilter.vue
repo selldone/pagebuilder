@@ -65,9 +65,9 @@
 </template>
 
 <script>
-import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import SPageProductsFilter from "../../components/style/product/SPageProductsFilter.vue";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

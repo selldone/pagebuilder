@@ -12,11 +12,11 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LUtilsBackground} from "@app-page-builder/utils/background/LUtilsBackground";
+import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
 import {defineComponent, inject} from "vue";
-import Builder from "@app-page-builder/Builder.ts";
-import {Section} from "@app-page-builder/src/section/section";
-import {Background, Grid} from "@app-page-builder/src/types/types";
+import Builder from "../../Builder.ts";
+import {Section} from "../../src/section/section";
+import {Background, Grid} from "../../src/types/types";
 
 const LMixinXComponent = defineComponent({
   data: () => ({

@@ -153,7 +153,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { LMixinHistory } from "@app-page-builder/mixins/history/LMixinHistory";
+import { LMixinHistory } from "../../../mixins/history/LMixinHistory";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",

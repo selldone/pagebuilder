@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
+import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
 import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
-import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
+import LEventsName from "../../mixins/events/name/LEventsName";
+import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
-import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
-import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
+import BackgroundImageEditor from "../../components/style/background/BackgroundImageEditor.vue";
+import { LUtilsColors } from "../../utils/colors/LUtilsColors";
+import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export default {

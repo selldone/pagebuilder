@@ -137,10 +137,10 @@
 </template>
 
 <script>
-import * as types from "@app-page-builder/src/types/types";
-import XVideoBackground from "@app-page-builder/components/x/video-background/XVideoBackground.vue";
-import StylerDirective from "@app-page-builder/styler/StylerDirective";
-import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
+import * as types from "../../src/types/types";
+import XVideoBackground from "../../components/x/video-background/XVideoBackground.vue";
+import StylerDirective from "../../styler/StylerDirective";
+import LMixinSection from "../../mixins/section/LMixinSection";
 import {PrismEditor} from "vue-prism-editor";
 
 export default {

@@ -15,21 +15,21 @@
 import {App} from "vue";
 import Builder from "./Builder";
 
-import "@app-page-builder/styles/page-builder.scss";
+import "./styles/page-builder.scss";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
 import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
 
 import Section2TextColumns from "./sections/text/two-columns/LSectionTextTwoColumns.vue";
 import LSectionTextThreeColumns from "./sections/text/three-columns/LSectionTextThreeColumns.vue";
 import LSectionTextNumbers from "./sections/text/numbers/LSectionTextNumbers.vue";
-import LSectionImageFeatures from "@app-page-builder/sections/image/features/LSectionImageFeatures.vue";
-import LSectionImageSocials from "@app-page-builder/sections/image/socials/LSectionImageSocials.vue";
+import LSectionImageFeatures from "./sections/image/features/LSectionImageFeatures.vue";
+import LSectionImageSocials from "./sections/image/socials/LSectionImageSocials.vue";
 
 import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGalleryExpandable.vue";
 
 import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
-import {builder} from "@app-page-builder/Builder";
+import {builder} from "./Builder";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
 declare global {

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import LFeederInput from "@app-page-builder/components/feeder/input/LFeederInput.vue";
+import LFeederInput from "../../../components/feeder/input/LFeederInput.vue";
 
 export default {
   name: "LFeederNewsletter",

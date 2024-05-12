@@ -29,9 +29,9 @@
 
 <script>
 import { defineComponent } from "vue";
-import SSettingGroup from "@app-page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSize from "@app-page-builder/styler/settings/size/SSettingSize.vue";
-import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
+import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import SSettingSize from "../../../../styler/settings/size/SSettingSize.vue";
+import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 
 export default defineComponent({
   name: "OSwiperSize",

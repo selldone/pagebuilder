@@ -359,7 +359,7 @@
       "
       :src="
         is_dynamic_value && $builder.isEditing
-          ? require('@app-page-builder/components/x/uploader/assets/dynamic-image-placeholder.png')
+          ? require('../../../components/x/uploader/assets/dynamic-image-placeholder.png')
           : blobUrl
             ? blobUrl
             : getShopImagePath(src)
@@ -430,11 +430,11 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
+import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import { defineComponent } from "vue";
-import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import DataXDirective from "@app-page-builder/directives/DataXDirective";
-import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
+import DataXDirective from "../../../directives/DataXDirective";
+import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },

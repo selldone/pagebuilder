@@ -14,7 +14,7 @@
 
 import {defineComponent} from "vue";
 import type {Note} from "@selldone/core-js/models/shop/note/note.model";
-import {LMixinEvents} from "@app-page-builder/mixins/events/LMixinEvents";
+import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
 export const LMixinNote = defineComponent({

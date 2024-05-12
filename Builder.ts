@@ -14,46 +14,46 @@
 
 import {Section} from "./src/section/section";
 import {App, reactive} from "vue";
-import XColumnImageText from "@app-page-builder/components/x/column-image-text/XColumnImageText.vue";
-import XRow from "@app-page-builder/components/x/row/XRow.vue";
-import XColumn from "@app-page-builder/components/x/column/XColumn.vue";
-import XSection from "@app-page-builder/components/x/section/XSection.vue";
-import XContainer from "@app-page-builder/components/x/container/XContainer.vue";
-import XButtons from "@app-page-builder/components/x/buttons/XButtons.vue";
-import XCustomProductsList from "@app-page-builder/components/x/products-list/XCustomProductsList.vue";
+import XColumnImageText from "./components/x/column-image-text/XColumnImageText.vue";
+import XRow from "./components/x/row/XRow.vue";
+import XColumn from "./components/x/column/XColumn.vue";
+import XSection from "./components/x/section/XSection.vue";
+import XContainer from "./components/x/container/XContainer.vue";
+import XButtons from "./components/x/buttons/XButtons.vue";
+import XCustomProductsList from "./components/x/products-list/XCustomProductsList.vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
-import LSectionHeroHorizontal from "@app-page-builder/sections/hero/horizontal/LSectionHeroHorizontal.vue";
-import LSectionHeroVertical from "@app-page-builder/sections/hero/vertical/LSectionHeroVertical.vue";
-import LSectionHeroLottie from "@app-page-builder/sections/hero/lottie/LSectionHeroLottie.vue";
-import Section2TextColumns from "@app-page-builder/sections/text/two-columns/LSectionTextTwoColumns.vue";
-import LSectionTextThreeColumns from "@app-page-builder/sections/text/three-columns/LSectionTextThreeColumns.vue";
-import LSectionTextNumbers from "@app-page-builder/sections/text/numbers/LSectionTextNumbers.vue";
-import LSectionImageIntro from "@app-page-builder/sections/image/intro/LSectionImageIntro.vue";
-import LSectionImageFeatures from "@app-page-builder/sections/image/features/LSectionImageFeatures.vue";
-import LSectionImageSocials from "@app-page-builder/sections/image/socials/LSectionImageSocials.vue";
-import LSectionTextMarquee from "@app-page-builder/sections/text/marquee/LSectionTextMarquee.vue";
-import LSectionGalleryExpandable from "@app-page-builder/sections/gallery/expandable/LSectionGalleryExpandable.vue";
-import LSectionGalleryBrands from "@app-page-builder/sections/gallery/brands/LSectionGalleryBrands.vue";
-import LSectionStoreListing from "@app-page-builder/sections/store/listing/LSectionStoreListing.vue";
-import LSectionStoreProduct from "@app-page-builder/sections/store/product/LSectionStoreProduct.vue";
-import LSectionStoreCustomListing from "@app-page-builder/sections/store/custom-listing/LSectionStoreCustomListing.vue";
-import LSectionArticle from "@app-page-builder/sections/article/LSectionArticle.vue";
-import LSectionHtml from "@app-page-builder/sections/html/LSectionHtml.vue";
-import LSectionGallerySwiper from "@app-page-builder/sections/gallery/swiper/LSectionGallerySwiper.vue";
-import LSectionGalleryScroll from "@app-page-builder/sections/gallery/scroll/LSectionGalleryScroll.vue";
-import LSectionFormNewsletter from "@app-page-builder/sections/form/newsletter/LSectionFormNewsletter.vue";
-import LSectionImageTwoColumns from "@app-page-builder/sections/image/two-columns/LSectionImageTwoColumns.vue";
-import LSectionImageThreeColumns from "@app-page-builder/sections/image/three-columns/LSectionImageThreeColumns.vue";
-import LSectionImageCards from "@app-page-builder/sections/image/cards/LSectionImageCards.vue";
-import LSectionBlogList from "@app-page-builder/sections/blog/list/LSectionBlogList.vue";
-import LSectionHeroSearch from "@app-page-builder/sections/hero/search/LSectionHeroSearch.vue";
-import XVariants from "@app-page-builder/components/x/variants/XVariants.vue";
-import XCountDown from "@app-page-builder/components/x/count-down/XCountDown.vue";
-import XRating from "@app-page-builder/components/x/rating/XRating.vue";
-import {LUtilsMigration} from "@app-page-builder/utils/migration/LUtilsMigration";
+import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
+import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
+import LSectionHeroLottie from "./sections/hero/lottie/LSectionHeroLottie.vue";
+import Section2TextColumns from "./sections/text/two-columns/LSectionTextTwoColumns.vue";
+import LSectionTextThreeColumns from "./sections/text/three-columns/LSectionTextThreeColumns.vue";
+import LSectionTextNumbers from "./sections/text/numbers/LSectionTextNumbers.vue";
+import LSectionImageIntro from "./sections/image/intro/LSectionImageIntro.vue";
+import LSectionImageFeatures from "./sections/image/features/LSectionImageFeatures.vue";
+import LSectionImageSocials from "./sections/image/socials/LSectionImageSocials.vue";
+import LSectionTextMarquee from "./sections/text/marquee/LSectionTextMarquee.vue";
+import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGalleryExpandable.vue";
+import LSectionGalleryBrands from "./sections/gallery/brands/LSectionGalleryBrands.vue";
+import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
+import LSectionStoreProduct from "./sections/store/product/LSectionStoreProduct.vue";
+import LSectionStoreCustomListing from "./sections/store/custom-listing/LSectionStoreCustomListing.vue";
+import LSectionArticle from "./sections/article/LSectionArticle.vue";
+import LSectionHtml from "./sections/html/LSectionHtml.vue";
+import LSectionGallerySwiper from "./sections/gallery/swiper/LSectionGallerySwiper.vue";
+import LSectionGalleryScroll from "./sections/gallery/scroll/LSectionGalleryScroll.vue";
+import LSectionFormNewsletter from "./sections/form/newsletter/LSectionFormNewsletter.vue";
+import LSectionImageTwoColumns from "./sections/image/two-columns/LSectionImageTwoColumns.vue";
+import LSectionImageThreeColumns from "./sections/image/three-columns/LSectionImageThreeColumns.vue";
+import LSectionImageCards from "./sections/image/cards/LSectionImageCards.vue";
+import LSectionBlogList from "./sections/blog/list/LSectionBlogList.vue";
+import LSectionHeroSearch from "./sections/hero/search/LSectionHeroSearch.vue";
+import XVariants from "./components/x/variants/XVariants.vue";
+import XCountDown from "./components/x/count-down/XCountDown.vue";
+import XRating from "./components/x/rating/XRating.vue";
+import {LUtilsMigration} from "./utils/migration/LUtilsMigration";
 import {isFunction, isObject} from "lodash-es";
 import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
-import {SvgFilters} from "@app-page-builder/utils/filter/svg-filters/SvgFilters";
+import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 
 const DEBUG = true;
@@ -124,7 +124,7 @@ const BUILDER_OPTIONS: builder.IOptions = {
   },
 };
 
-import * as types from "@app-page-builder/src/types/types";
+import * as types from "./src/types/types";
 
 
 export class Builder {
