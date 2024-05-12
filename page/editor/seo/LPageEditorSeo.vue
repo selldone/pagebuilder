@@ -83,7 +83,7 @@
 
 <script>
 import BGooglePreview from "@app-backoffice/components/google/preview/BGooglePreview.vue";
-import UProgressScore from "@components/ui/progress/score/UProgressScore.vue";
+import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgressScore.vue";
 
 export default {
   name: "LPageEditorSeo",

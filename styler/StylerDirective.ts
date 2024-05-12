@@ -13,7 +13,7 @@
  */
 
 import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
-import {installGlobalComponents} from "@components/components-mandetory";
+import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
 import {isObject, isString} from "lodash-es";
 import Builder from "@app-page-builder/Builder.ts";
 import {Section} from "@app-page-builder/src/section/section";

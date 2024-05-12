@@ -66,7 +66,7 @@
 
 <script>
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";

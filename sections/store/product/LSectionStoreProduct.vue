@@ -36,7 +36,7 @@
       <img
         class="m-3"
         height="96"
-        src="@components/assets/icons/product-comparison.svg"
+        src="@selldone/components-vue/assets/icons/product-comparison.svg"
         width="96"
       />
       <p class="text-h2">Select a product</p>
@@ -46,9 +46,9 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import SProductOverview from "@components/storefront/overview/SProductOverview.vue";
-import SProductOverviewLoading from "@components/storefront/overview/loading/SProductOverviewLoading.vue";
-import { GtagEcommerce } from "@components/plugins/gtag/GtagEcommerce";
+import SProductOverview from "@selldone/components-vue/storefront/overview/SProductOverview.vue";
+import SProductOverviewLoading from "@selldone/components-vue/storefront/overview/loading/SProductOverviewLoading.vue";
+import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommerce";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 import { isObject } from "lodash-es";

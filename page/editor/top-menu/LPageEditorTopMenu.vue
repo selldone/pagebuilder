@@ -372,7 +372,7 @@
                   :height="24"
                   :width="24"
                   class="mx-1"
-                  src="@components/assets/icons/ci-logo.png"
+                  src="@selldone/components-vue/assets/icons/ci-logo.png"
                 />left side of the section.
               </li>
             </ol>
@@ -667,11 +667,11 @@
 
 <script>
 import { SetupService } from "@selldone/core-js/server/SetupService";
-import SDropZone from "@components/ui/uploader/SDropZone.vue";
-import UButtonAiSmall from "@components/ui/button/ai/small/UButtonAiSmall.vue";
+import SDropZone from "@selldone/components-vue/ui/uploader/SDropZone.vue";
+import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { LUtilsMigration } from "@app-page-builder/utils/migration/LUtilsMigration";
-import UDenseCirclesUsers from "@components/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",

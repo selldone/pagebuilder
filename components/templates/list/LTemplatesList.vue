@@ -27,7 +27,7 @@
         <span class="app-box me-1" style="--bapp-size: 48px"
           ><img
             height="55%"
-            src="@components/assets/selldone-logo/selldone-gradient-purple.svg"
+            src="@selldone/components-vue/assets/selldone-logo/selldone-gradient-purple.svg"
             width="55%"
         /></span>
 

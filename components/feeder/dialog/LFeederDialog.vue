@@ -357,20 +357,20 @@
 <script>
 import LFeederColumn from "@app-page-builder/components/feeder/column/LFeederColumn.vue";
 import { LUtilsBackground } from "@app-page-builder/utils/background/LUtilsBackground";
-import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
+import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LFeederAlign from "@app-page-builder/components/feeder/align/LFeederAlign.vue";
 import LFeederJustify from "@app-page-builder/components/feeder/justify/LFeederJustify.vue";
-import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
+import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
 import { Button } from "@app-page-builder/src/types/types";
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
-import SStorefrontSearchBox from "@components/storefront/search/SStorefrontSearchBox.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
+import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
 import BProductsSelectBox from "@app-backoffice/components/product/select-box/BProductsSelectBox.vue";
 import SPageProductsFilter from "@app-page-builder/components/style/product/SPageProductsFilter.vue";
 import LFeederNewsletter from "@app-page-builder/components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "@app-page-builder/components/feeder/image/LFeederImage.vue";
 import LAugmentFinder from "@app-page-builder/components/augment/finder/LAugmentFinder.vue";
-import UTextValueDashed from "@components/ui/text/value-dashed/UTextValueDashed.vue";
+import UTextValueDashed from "@selldone/components-vue/ui/text/value-dashed/UTextValueDashed.vue";
 import {LMixinEvents} from "@app-page-builder/mixins/events/LMixinEvents";
 
 export default {

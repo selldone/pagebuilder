@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
+import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";

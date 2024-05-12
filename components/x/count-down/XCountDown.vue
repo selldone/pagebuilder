@@ -18,7 +18,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import UCountDown from "@components/ui/count-down/UCountDown.vue";
+import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
 
 export default defineComponent({
   name: "XCountDown",

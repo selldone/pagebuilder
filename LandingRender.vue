@@ -89,7 +89,7 @@
 import debounce from "lodash/debounce";
 import * as h337 from "heatmap.js";
 import LPageViewer from "@app-page-builder/page/viewer/LPageViewer.vue";
-import { StorefrontSDK } from "@sdk-storefront/StorefrontSDK";
+import { StorefrontSDK } from "@selldone/sdk-storefront";
 
 /**
  * <landing-render>

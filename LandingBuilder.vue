@@ -282,7 +282,7 @@ import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerat
 import LPageEditorTopMenu from "@app-page-builder/page/editor/top-menu/LPageEditorTopMenu.vue";
 import LPageEditorFiles from "@app-page-builder/page/editor/files/LPageEditorFiles.vue";
 import BAiModelInput from "@app-backoffice/components/ai/model/input/BAiModelInput.vue";
-import USmartSuggestion from "@components/ui/smart/suggestion/USmartSuggestion.vue";
+import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import LPageEditor from "@app-page-builder/page/editor/LPageEditor.vue";
 

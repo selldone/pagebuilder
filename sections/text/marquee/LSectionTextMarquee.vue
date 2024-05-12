@@ -60,7 +60,7 @@
 
 <script>
 import * as types from "@app-page-builder/src/types/types";
-import UMarquee from "@components/ui/marquee/UMarquee.vue";
+import UMarquee from "@selldone/components-vue/ui/marquee/UMarquee.vue";
 import StylerDirective from "@app-page-builder/styler/StylerDirective";
 import LMixinSection from "@app-page-builder/mixins/section/LMixinSection";
 

@@ -1217,17 +1217,17 @@
 </template>
 
 <script>
-import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
+import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 import { LUtilsClasses } from "@app-page-builder/utils/classes/LUtilsClasses";
 import SLandingStylePreview from "@app-page-builder/components/style/preview/SLandingStylePreview.vue";
 import SLandingStyleBorder from "@app-page-builder/components/style/border/SLandingStyleBorder.vue";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import SLandingStyleFilter from "@app-page-builder/components/style/filter/SLandingStyleFilter.vue";
-import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
+import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import ShadowCollection from "@app-page-builder/src/enums/ShadowCollection";
 
-import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
-import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
+import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
+import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";

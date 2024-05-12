@@ -727,7 +727,7 @@ import LSettingsClassStyle from "@app-page-builder/settings/class-style/LSetting
 import LSettingsBlogs from "@app-page-builder/settings/blogs/LSettingsBlogs.vue";
 import LPageEditorComponentsMenu from "@app-page-builder/page/editor/elements-repository/LPageEditorElementsRepository.vue";
 import LFeederDialog from "@app-page-builder/components/feeder/dialog/LFeederDialog.vue";
-import UButtonAiSmall from "@components/ui/button/ai/small/UButtonAiSmall.vue";
+import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import LSettingsSwiper from "@app-page-builder/settings/swiper/LSettingsSwiper.vue";
 import LSettingsPageTypography from "@app-page-builder/settings/page/typography/LSettingsPageTypography.vue";
 import { LUtilsTypo } from "@app-page-builder/utils/typo/LUtilsTypo";

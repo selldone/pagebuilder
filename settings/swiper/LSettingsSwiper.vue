@@ -204,7 +204,7 @@ import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighligh
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as types from "@app-page-builder/src/types/types";
 import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
-import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
+import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import _ from "lodash-es";
 import SSettingSwitch from "@app-page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingSelect from "@app-page-builder/styler/settings/select/SSettingSelect.vue";

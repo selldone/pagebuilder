@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
-import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
+import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 
 export default {
   name: "SLandingStyleBorder",

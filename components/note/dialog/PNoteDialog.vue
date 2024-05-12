@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import UDenseCirclesUsers from "@components/ui/dense-circles/users/UDenseCirclesUsers.vue";
-import UTextMentionInput from "@components/ui/text/mention-input/UTextMentionInput.vue";
+import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import UTextMentionInput from "@selldone/components-vue/ui/text/mention-input/UTextMentionInput.vue";
 import PNoteBox from "@app-page-builder/components/note/box/PNoteBox.vue";
 import { LMixinNote } from "@app-page-builder/mixins/note/LMixinNote";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

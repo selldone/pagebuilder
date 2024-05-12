@@ -166,13 +166,13 @@
 
 <script>
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
-import USmartToggle from "@components/ui/smart/toggle/USmartToggle.vue";
+import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
+import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
 import _ from "lodash-es";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
+import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 
 export default {
   name: "LSettingsMarquee",

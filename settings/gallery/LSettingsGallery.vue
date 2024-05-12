@@ -118,7 +118,7 @@ import { LUtilsHighlight } from "@app-page-builder/utils/highligh/LUtilsHighligh
 import { LUtilsSeeder } from "@app-page-builder/utils/seeder/LUtilsSeeder";
 import * as types from "@app-page-builder/src/types/types";
 import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
-import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
+import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 

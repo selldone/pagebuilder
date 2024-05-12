@@ -236,7 +236,7 @@
 </template>
 
 <script>
-import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
+import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 
 export default {
   name: "LAugmentForm",

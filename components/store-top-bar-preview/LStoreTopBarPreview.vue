@@ -135,10 +135,10 @@
 
 <script>
 import { defineComponent } from "vue";
-import SStorefrontTopMenu from "@components/storefront/menu/header/SStorefrontTopMenu.vue";
-import SHeaderSectionLogo from "@components/storefront/header/section/logo/SHeaderSectionLogo.vue";
+import SStorefrontTopMenu from "@selldone/components-vue/storefront/menu/header/SStorefrontTopMenu.vue";
+import SHeaderSectionLogo from "@selldone/components-vue/storefront/header/section/logo/SHeaderSectionLogo.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 
 export default defineComponent({
   name: "LStoreTopBarPreview",

@@ -56,7 +56,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
+import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 
 export default defineComponent({
   name: "SSettingSlider",

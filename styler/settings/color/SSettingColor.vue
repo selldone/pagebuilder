@@ -33,7 +33,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 
 export default defineComponent({
   name: "SSettingColor",

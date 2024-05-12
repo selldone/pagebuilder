@@ -431,12 +431,12 @@
 </template>
 
 <script>
-import UColorSelector from "@components/ui/color/selector/UColorSelector.vue";
+import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
-import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
+import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "@app-page-builder/mixins/events/name/LEventsName";
-import USmartSelect from "@components/ui/smart/select/USmartSelect.vue";
+import USmartSelect from "@selldone/components-vue/ui/smart/select/USmartSelect.vue";
 import { LUtilsColors } from "@app-page-builder/utils/colors/LUtilsColors";
 import BackgroundImageEditor from "@app-page-builder/components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "@app-page-builder/mixins/events/LMixinEvents";

@@ -36,7 +36,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import UDimensionInput from "@components/ui/dimension/input/UDimensionInput.vue";
+import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 
 export default defineComponent({
   name: "SSettingSize",

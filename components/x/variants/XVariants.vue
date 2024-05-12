@@ -19,7 +19,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import ProductVariantsView from "@components/storefront/product/variant/ProductVariantsView.vue";
+import ProductVariantsView from "@selldone/components-vue/storefront/product/variant/ProductVariantsView.vue";
 
 export default defineComponent({
   name: "XVariants",

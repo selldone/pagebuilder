@@ -180,10 +180,10 @@
 </template>
 
 <script>
-import SImageUploader from "@components/ui/uploader/SImageUploader.vue";
+import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator";
-import USmartSwitch from "@components/ui/smart/switch/USmartSwitch.vue";
-import USmartVerify from "@components/ui/smart/verify/USmartVerify.vue";
+import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
+import USmartVerify from "@selldone/components-vue/ui/smart/verify/USmartVerify.vue";
 import BClusterInput from "@app-backoffice/components/cluster/input/BClusterInput.vue";
 
 export default {

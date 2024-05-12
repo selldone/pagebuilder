@@ -421,7 +421,7 @@ import {
   PLATE_DARK_VARS,
   PLATE_LIGHT_VARS,
 } from "@app-page-builder/utils/colors/LUtilsColors";
-import UNumberInput from "@components/ui/number/input/UNumberInput.vue";
+import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import SStylerToolsColors from "@app-page-builder/styler/tools/colors/SStylerToolsColors.vue";
 
 const TextAlign = [
