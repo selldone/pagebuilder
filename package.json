@@ -1,0 +1,48 @@
+{
+  "name": "@selldone/page-builder",
+  "version": "1.0.2",
+  "private": false,
+  "type": "module",
+  "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://selldone.com)",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "tsc --build --clean",
+    "publish": "npm publish --access public"
+  },
+
+  "bugs": {
+    "url": "https://github.com/selldone/pagebuilder/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selldone/pagebuilder.git"
+  },
+  "homepage": "https://selldone.com",
+  "license": "MIT",
+
+  "dependencies": {
+    "@selldone/core-js": "^1.0.0",
+    "@selldone/sdk-storefront": "^1.0.0",
+    "@selldone/components-vue": "^1.0.0",
+
+    "axios": "^1.6.8",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.4.27",
+    "vuetify": "^3.6.4"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-prettier": "^5.1.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "eslint-plugin-vuetify": "^2.4.0"
+  }
+}

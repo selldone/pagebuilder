@@ -1,11 +1,81 @@
 ![Selldone Official Page Builder App](_docs/images/banner-page-builder-app.jpg)
 
+<a href="https://www.npmjs.com/package/@selldone/page-builder"><img src="https://img.shields.io/npm/v/@selldone/page-builder.svg?sanitize=true" alt="Version"></a>
+
+
 # Selldone ® Business OS | Open Source Page Builder
 
 * **Mode:** 🌍 Public
 * **Project Type:** Vue Components Library
 
 🛍️ Go to the [**Full Storefront Project ▶**](https://github.com/selldone/storefront)
+
+
+
+## Installation
+
+To install Selldone Core in your project, use the following command:
+
+
+```bash
+npm install @selldone/page-builder
+```
+```bash
+yarn add @selldone/page-builder
+```
+
+## Usage
+
+Here's a basic example to get you started:
+
+```javascript
+import {SetupPageBuilder} from "@selldone/page-builder";
+
+//――――――――― Page Builder (View Mode) ―――――――――
+
+SetupPageBuilder(app, { mode: "view" });
+
+// or
+
+//――――――――― Page Builder (Edit Mode) ―――――――――
+SetupPageBuilder(app, {
+   mode: "edit",
+   server: {
+      uploadImageUrl: (type, model) => {
+         if (type === "page") {
+            // Shop landing pages:
+            return window.API.POST_UPLOAD_PAGE_IMAGE(model.shop_id, model.id);
+         } else if (type === "menu") {
+            // Shop custom page for menus:
+            return window.API.POST_UPLOAD_PAGE_IMAGE(model.shop_id, "default"); // Save in default (For menus / notifications custom page design)
+         } else if (type === "popup") {
+            // Shop popups:
+            return window.API.POST_UPLOAD_POPUP_IMAGE(model.shop_id, model.id);
+         }
+         return null;
+      },
+
+      uploadVideoUrl: (type, model) => {
+         if (type === "page") {
+            // Shop landing pages:
+            return window.API.POST_UPLOAD_PAGE_VIDEO(model.shop_id, model.id);
+         } else if (type === "menu") {
+            // Shop custom page for menus:
+            return window.API.POST_UPLOAD_PAGE_VIDEO(model.shop_id, "default"); // Save in default (For menus / notifications custom page design)
+         } else if (type === "popup") {
+            // Shop popups:
+            return null;
+         }
+         return null;
+      },
+   },
+});
+```
+
+
+
+
+
 
 Selldone's Page Builder is a cutting-edge tool designed for ease of use and professional output, requiring no coding
 skills or additional plugins. It's a modern solution that empowers users to create visually stunning, responsive
