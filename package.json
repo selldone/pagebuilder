@@ -1,6 +1,6 @@
 {
   "name": "@selldone/page-builder",
-  "version": "1.0.3",
+  "version": "1.5.14",
   "private": false,
   "type": "module",
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://selldone.com)",
@@ -19,7 +19,6 @@
     "url": "git+https://github.com/selldone/pagebuilder.git"
   },
   "homepage": "https://selldone.com",
-  "license": "MIT",
 
   "dependencies": {
     "@selldone/core-js": "^1.0.0",
