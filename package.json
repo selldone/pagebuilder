@@ -1,6 +1,6 @@
 {
   "name": "@selldone/page-builder",
-  "version": "1.5.15-3",
+  "version": "1.5.15-7",
   "private": false,
   "type": "module",
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://selldone.com)",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "tsc --build --clean",
-    "publish": "npm publish --access public"
+    "publish-npm": "npm publish --access public"
   },
 
   "bugs": {
@@ -29,7 +29,9 @@
     "lodash-es": "^4.17.21",
     "vue": "^3.4.27",
     "vuetify": "^3.6.6",
-    "@floating-ui/dom": "^1.6.5"
+    "@floating-ui/dom": "^1.6.5",
+    "sortablejs": "^1.15.2",
+    "heatmap.js": "^2.0.5"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",

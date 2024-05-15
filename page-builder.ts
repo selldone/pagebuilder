@@ -32,9 +32,9 @@ import {isFunction} from "lodash-es";
 import {builder} from "./Builder";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
-declare global {
-  interface Window {}
-}
+import brandingImage from "./assets/images/themes/branding.jpg";
+import campaignImage from "./assets/images/themes/campaign.jpg";
+import productsImage from "./assets/images/themes/products.jpg";
 
 export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
   console.log("⚽ 1. Setup Page builder");
@@ -90,7 +90,7 @@ const SampleThemes = [
       LSectionTextNumbers,
       LSectionImageFeatures,
     ],
-    image: require("./assets/images/themes/branding.jpg"),
+    image: brandingImage,
   },
   {
     name: "Campaign",
@@ -100,7 +100,7 @@ const SampleThemes = [
       LSectionImageFeatures,
       LSectionImageSocials,
     ],
-    image: require("./assets/images/themes/campaign.jpg"),
+    image: campaignImage,
   },
   {
     name: "Products",
@@ -112,6 +112,6 @@ const SampleThemes = [
       LSectionGalleryExpandable,
       Section2TextColumns,
     ],
-    image: require("./assets/images/themes/products.jpg"),
+    image: productsImage,
   },
 ];

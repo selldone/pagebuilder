@@ -16,22 +16,27 @@ import * as types from "../../src/types/types";
 import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
 import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
+import avatarImage from "../../assets/images/samples/empty-photo-1.svg";
+import logoImage from "../../assets/images/samples/empty-photo-2.svg";
+import sampleImage from "../../assets/images/samples/empty-photo-3.svg";
+
+
 
 const DEBUG = false;
 
-const SeederRepository: Map<string, any> = new Map([
+const SeederRepository: Map<string, any> = new Map<string, any>([
   [types.Title.name, "Lorem ipsum dolor sit amet"],
   [
     types.Text.name,
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   ],
-  [types.Avatar.name, require("../../assets/images/samples/empty-photo-1.svg")],
-  [types.Logo.name, require("../../assets/images/samples/empty-photo-2.svg")],
+  [types.Avatar.name, avatarImage],
+  [types.Logo.name, logoImage],
   [types.Link.name, ""],
   [
     types.Image.name,
     () => ({
-      src: require("../../assets/images/samples/empty-photo-3.svg"),
+      src: sampleImage,
       setting: { contain: false, aspect: 1 },
     }),
   ],

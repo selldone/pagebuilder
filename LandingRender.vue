@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import debounce from "lodash/debounce";
+import debounce from "lodash-es/debounce";
 import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
