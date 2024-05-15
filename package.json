@@ -1,6 +1,6 @@
 {
   "name": "@selldone/page-builder",
-  "version": "1.5.14",
+  "version": "1.5.15",
   "private": false,
   "type": "module",
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://selldone.com)",
@@ -21,14 +21,14 @@
   "homepage": "https://selldone.com",
 
   "dependencies": {
-    "@selldone/core-js": "^1.0.0",
-    "@selldone/sdk-storefront": "^1.0.0",
-    "@selldone/components-vue": "^1.0.0",
+    "@selldone/core-js": "latest",
+    "@selldone/sdk-storefront": "latest",
+    "@selldone/components-vue": "latest",
 
     "axios": "^1.6.8",
     "lodash-es": "^4.17.21",
     "vue": "^3.4.27",
-    "vuetify": "^3.6.4",
+    "vuetify": "^3.6.6",
     "@floating-ui/dom": "^1.6.5"
   },
   "devDependencies": {
