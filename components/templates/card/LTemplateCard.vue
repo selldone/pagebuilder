@@ -70,7 +70,7 @@
           target="_blank"
           variant="outlined"
           @click.stop
-          >Preview
+          >{{$t('global.commons.preview')}}
           <v-icon end>open_in_new</v-icon>
         </v-btn>
 
@@ -86,7 +86,8 @@
           variant="elevated"
         >
           <v-icon start>upload_file</v-icon>
-          Deploy Now
+
+          {{$t('global.actions.deploy_now')}}
         </v-btn>
 
         <v-btn
@@ -97,7 +98,8 @@
           @click="showNeedSubscribePremium()"
         >
           <v-icon start>auto_awesome</v-icon>
-          Become Premium
+
+          {{$t('global.actions.become_premium')}}
         </v-btn>
       </div>
     </v-card-actions>
