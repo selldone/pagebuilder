@@ -179,13 +179,11 @@
                     onFrameCodeChange();
                   }
                 "
+                :item-title="(item) => getName(item)"
+                :item-value="(item) => item"
+
               >
-                <template v-slot:selection="{ item }">
-                  {{ getName(item) }}
-                </template>
-                <template v-slot:item="{ item }">
-                  {{ getName(item) }}
-                </template>
+
               </v-select>
             </div>
 
