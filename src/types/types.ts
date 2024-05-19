@@ -12,7 +12,6 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-
 export class Avatar {}
 
 export class Title {}
@@ -158,5 +157,3 @@ export class ButtonsRow {
     this.buttons = [];
   }
 }
-
-

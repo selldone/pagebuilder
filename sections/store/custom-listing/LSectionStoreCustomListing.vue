@@ -22,7 +22,6 @@
       custom: true,
     }"
     :object="$sectionData"
-
   >
     <x-custom-products-list
       :object="$sectionData"

@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+  <x-section :object="$sectionData" class="pa-0">
     <!-- 📹 Background video -->
     <x-video-background
       v-if="$sectionData.background?.bg_video"
@@ -25,9 +25,9 @@
       v-if="$builder.isEditing && !$builder.isHideExtra"
       class="text-center widget-buttons"
     >
-      <v-btn color="#225082" dark size="x-large" @click="dialog = !dialog">
+      <v-btn color="#225082" size="x-large" @click="dialog = !dialog">
         <v-icon class="me-1">code</v-icon>
-        <span class="mx-1">Add Custom Code Here</span>
+        <span class="mx-1">Add Custom Code Here [{{ mode }}]</span>
 
         <v-avatar
           v-for="item in scripts_list"
@@ -43,12 +43,19 @@
       </v-btn>
     </div>
 
+    <template v-if="!dialog /*Force refresh on edits!*/"></template>
     <div
-      v-if="!dialog /*Force refresh on edits!*/"
+      v-if="mode === 'html'"
       v-dynamic-scripts="true"
       :style="{ pen: $builder.isEditing }"
       v-html="$sectionData.html"
     ></div>
+    <component
+      v-else-if="mode === 'vue'"
+      :is="generated_componet"
+      v-dynamic-scripts="true"
+      :style="{ pen: $builder.isEditing }"
+    ></component>
 
     <!-- █████████████████████ Edit Dialog █████████████████████ -->
     <v-dialog
@@ -76,6 +83,28 @@
               your editor. For this reason, we strongly advise only pasting code
               from sources you trust.
             </v-list-subheader>
+
+            <!-- ━━━━━━━━━━━━━━━━━━━━ Raw Code Mode ━━━━━━━━━━━━━━━━━━━━ -->
+
+            <v-btn-toggle
+              v-model="mode"
+              class="my-3 overflow-visible"
+              rounded="lg"
+              selected-class="blue-flat elevation-10"
+              @update:model-value="setMode"
+            >
+              <v-btn variant="outlined" value="html" class="tnt">
+                <v-icon class="me-1">html</v-icon>
+
+                HTML
+              </v-btn>
+              <v-btn variant="outlined" value="vue" class="tnt">
+                <v-avatar :size="24" class="me-1" rounded>
+                  <v-img :src="require('./assets/vue.svg')" />
+                </v-avatar>
+                Vue
+              </v-btn>
+            </v-btn-toggle>
 
             <prism-editor
               v-model="$sectionData.html"
@@ -142,6 +171,10 @@ import XVideoBackground from "../../components/x/video-background/XVideoBackgrou
 import StylerDirective from "../../styler/StylerDirective";
 import LMixinSection from "../../mixins/section/LMixinSection";
 import { PrismEditor } from "vue-prism-editor";
+import { defineComponent } from "vue/dist/vue.esm-bundler.js";
+
+const MODE_VUE = "vue";
+const MODE_HTML = "html";
 
 export default {
   name: "LSectionHtml",
@@ -179,19 +212,96 @@ export default {
 
     busy_scripts: false,
     scripts_list: [],
+
+    generated_componet: null,
+
+    mode: MODE_HTML,
   }),
   computed: {},
   watch: {
     dialog(dialog) {
       if (dialog) this.refreshScripts();
+      if (!dialog) {
+        this.generated_componet = this.gen(this.$sectionData.html);
+      }
     },
   },
 
-  created() {},
+  created() {
+    this.detectMode();
+    if (this.mode === MODE_VUE) {
+      this.generated_componet = this.gen(this.$sectionData.html);
+    }
+  },
 
   mounted() {},
 
   methods: {
+    detectMode() {
+      if (
+        this.$sectionData.html.includes("<!----vue---->") ||
+        this.$sectionData.html.includes("<template>")
+      ) {
+        this.mode = MODE_VUE;
+      } else {
+        this.mode = MODE_HTML;
+      }
+    },
+    setMode() {
+      if (this.mode === MODE_HTML) {
+        this.$sectionData.html = this.$sectionData.html.replace(
+          /<!----vue---->/g,
+          "",
+        );
+      } else {
+        this.$sectionData.html = `<!----vue---->${this.$sectionData.html}`;
+      }
+    },
+
+    gen(html) {
+      this.detectMode();
+      console.log("🔥 Generating HTML");
+
+      const { html: cleanHTML, scriptContent } = this.parseHTML(html);
+
+      // Assuming scriptContent is something like "{ data: () => ({ foo: 'bar' }), methods: { someMethod() {} } }"
+
+      // Remove the script tags and any non-JavaScript content
+      let scriptText = scriptContent.replace(/<script>|<\/script>/g, "").trim();
+
+      // Evaluate the script to extract the configuration
+      let config;
+      try {
+        const evalScript = new Function(scriptText + "; return config;");
+        config = evalScript();
+      } catch (error) {
+        console.error("Error evaluating script:", error);
+      }
+
+      return defineComponent({
+        template: cleanHTML,
+        //components: {}, // Register local custom components
+        ...config,
+      });
+    },
+
+    parseHTML(html) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
+      const scripts = doc.querySelectorAll("script");
+      let scriptContent = "";
+
+      scripts.forEach((script) => {
+        scriptContent += script.textContent;
+        script.parentNode.removeChild(script);
+      });
+
+      return {
+        html: doc.body.innerHTML,
+        scriptContent,
+      };
+    },
+
     highlighter(code) {
       return Prism.highlight(code, Prism.languages.html, "html");
     },
