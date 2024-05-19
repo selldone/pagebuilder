@@ -48,6 +48,8 @@ export const LMixinEvents = defineComponent({
      * @param {string} tab - The tab to be displayed on the settings page.
      */
     ShowLSettingsPageTypography(style: Object, tab: string) {
+      console.log('style:',style)
+
       EventBus.$emit("show:LSettingsPageTypography", { style, tab });
     },
 

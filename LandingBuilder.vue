@@ -49,7 +49,11 @@
       @click:prompt="show_prompt = !show_prompt"
     >
     </l-page-editor-top-menu>
-    <v-sheet v-else-if="page" height="64" style="border-radius: 26px 26px 0 0"> </v-sheet>
+    <v-sheet
+      v-else-if="page"
+      height="64"
+      style="border-radius: 26px 26px 0 0"
+    ></v-sheet>
 
     <v-expand-transition>
       <div v-if="show_prompt" class="pa-3 pa-sm-5">
@@ -305,7 +309,14 @@ export default {
     LPageEditorSetting,
     LPageEditorSeo,
   },
-emits: ["update:page", "update:externalTab", "update", "create", "scale","update:preview"],
+  emits: [
+    "update:page",
+    "update:externalTab",
+    "update",
+    "create",
+    "scale",
+    "update:preview",
+  ],
   props: {
     shop: {
       required: false,
@@ -564,10 +575,10 @@ emits: ["update:page", "update:externalTab", "update", "create", "scale","update
               );
 
               /*
-                           IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                            this.page = data.page;
-                           this.loadPageData();
-                            */
+                             IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                              this.page = data.page;
+                             this.loadPageData();
+                              */
             }
           })
           .catch((error) => {
@@ -615,18 +626,18 @@ emits: ["update:page", "update:externalTab", "update", "create", "scale","update
 
               this.$emit("create", data.page);
               /* Old way!
-                              this.$route.params.page_id = data.page.id;
-                */
+                                this.$route.params.page_id = data.page.id;
+                  */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                              IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                
-                              this.loadPageData();
-                               */
+                                IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                  
+                                this.loadPageData();
+                                 */
             }
           })
           .catch((error) => {

@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <!-- 📹 Background video -->
     <x-video-background
       v-if="$sectionData.background?.bg_video"
@@ -58,7 +58,7 @@
       scrollable
       transition="dialog-bottom-transition"
     >
-      <v-card>
+      <v-card class="text-start">
         <v-card-title>
           <v-icon class="me-1" color="#111">integration_instructions</v-icon>
           Html Code Editor
@@ -141,14 +141,14 @@ import * as types from "../../src/types/types";
 import XVideoBackground from "../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../styler/StylerDirective";
 import LMixinSection from "../../mixins/section/LMixinSection";
-import {PrismEditor} from "vue-prism-editor";
+import { PrismEditor } from "vue-prism-editor";
 
 export default {
   name: "LSectionHtml",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: {PrismEditor, XVideoBackground },
+  components: { PrismEditor, XVideoBackground },
   cover: require("../../assets/images/covers/html.svg"),
 
   group: "Basic",

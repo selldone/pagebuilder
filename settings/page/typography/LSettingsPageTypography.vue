@@ -280,7 +280,7 @@ import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimens
 import { LUtilsTypo } from "../../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsPageTypography",
@@ -333,6 +333,7 @@ export default {
 
       ({ style, tab }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
+        console.log('style',style)
 
         this.style = style;
 

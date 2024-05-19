@@ -200,11 +200,11 @@
             >
               <b class="d-block"> Edit / View Mode </b>
               <div class="my-1">
-                <v-icon  size="small">edit</v-icon>
+                <v-icon size="small">edit</v-icon>
                 <b class="mx-1">Edit Mode:</b> All editing tools will be shown.
               </div>
               <div class="my-1">
-                <v-icon  size="small">visibility</v-icon>
+                <v-icon size="small">visibility</v-icon>
                 <b class="mx-1">View Mode:</b> View what users see by hiding
                 extra edit tools and empty texts.
               </div>
@@ -252,7 +252,7 @@
           :title="$t('page_builder.design.tools.typography')"
           icon
           stacked
-          @click.stop="ShowLSettingsPageTypography(style)"
+          @click.stop="ShowLSettingsPageTypography(pageBuilder.$builder.style)"
         >
           <v-icon>text_fields</v-icon>
           <div class="small mt-1 tnt">
@@ -318,15 +318,13 @@
 
             <ol class="my-1">
               <li>
-                <v-icon  size="small"
-                  >near_me arrow_right_alt colorize
-                </v-icon>
+                <v-icon size="small">near_me arrow_right_alt colorize </v-icon>
                 Enable the tool and hover your mouse over text, columns, or
                 images; the cursor will resemble a pipette.
               </li>
               <li>Click on the target element to copy its style.</li>
               <li>
-                <v-icon  size="small"
+                <v-icon size="small"
                   >colorize arrow_right_alt format_color_fill
                 </v-icon>
                 The cursor will revert to a palette; click on the destination
@@ -336,7 +334,7 @@
             <div>
               <v-icon color="amber" size="x-small">circle</v-icon>
               Hotkey:
-              <v-icon class="mx-1"  size="small">sync_alt</v-icon>
+              <v-icon class="mx-1" size="small">sync_alt</v-icon>
               <b>⌘Ctrl + E</b>
             </div>
           </v-tooltip>
@@ -395,7 +393,7 @@
           max-width="420"
         >
           <b class="d-block"> Import Landing Page </b>
-          <v-icon  size="small">folder</v-icon>
+          <v-icon size="small">folder</v-icon>
           <b class="mx-1">Load: </b> You can import a .landing file, which will
           replace all existing sections with the newly added ones.
         </v-tooltip>
@@ -415,7 +413,7 @@
           max-width="420"
         >
           <b class="d-block"> Export Landing Page </b>
-          <v-icon  size="small">save</v-icon>
+          <v-icon size="small">save</v-icon>
           <b class="mx-1">Save: </b> You have the option to export this page as
           a .landing file, which can be imported into other shops or repurposed
           for creating additional pages.
@@ -456,12 +454,12 @@
         >
           <b class="d-block"> LTR / RTL </b>
           <div class="my-1">
-            <v-icon  size="small">format_textdirection_r_to_l</v-icon>
+            <v-icon size="small">format_textdirection_r_to_l</v-icon>
             <b class="mx-1">RTL:</b> Adjust the page orientation to
             right-to-left.
           </div>
           <div class="my-1">
-            <v-icon  size="small">format_textdirection_l_to_r</v-icon>
+            <v-icon size="small">format_textdirection_l_to_r</v-icon>
             <b class="mx-1">LTR:</b> Adjust the page orientation to
             left-to-right.
           </div>
@@ -511,7 +509,6 @@
     :scrim="false"
     color="#1e1e1e"
     dark
-
   >
     <v-card class="text-start" flat rounded="xl">
       <v-card-title></v-card-title>
