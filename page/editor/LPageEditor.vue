@@ -494,7 +494,7 @@
 
                           'ignore-elements': !$builder.isSorting,
                           pen: drop_section,
-                          'hover-z-10':$builder.isEditing
+                          'hover-z-10': $builder.isEditing,
                         }"
                         :style="section.get('$sectionData.style')"
                       />
@@ -795,7 +795,7 @@ export default defineComponent({
 
     SStylerIcon,
   },
-  emits: ["update:preview", "changeMode", "scale", "saved",'load:template'],
+  emits: ["update:preview", "changeMode", "scale", "saved", "load:template"],
   props: {
     showIntro: {
       type: Boolean,
@@ -1393,7 +1393,7 @@ export default defineComponent({
 
           if (t.isString(val)) {
             // Purify if past from word:
-            if (val.includes("<!"+"--")) {
+            if (val.includes("<!" + "--")) {
               // Remove comments:
               let corrected = val.replace(/<!--.*?-->/gs, "");
               // Remove classes:
@@ -2038,11 +2038,10 @@ label {
     pointer-events: none;
     animation: none !important;
   }
-
 }
 
-.hover-z-10{
-  &:hover{
+.hover-z-10 {
+  &:hover {
     z-index: 10;
   }
 }

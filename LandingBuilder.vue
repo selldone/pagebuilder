@@ -16,7 +16,7 @@
   <div v-bind="$attrs">
     <v-fade-transition>
       <div
-        v-if="(inPageEditMode && !page) || busy_fetch"
+        v-if="show_loading"
         class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
         style="z-index: 99999"
       >
@@ -50,7 +50,7 @@
     >
     </l-page-editor-top-menu>
     <v-sheet
-      v-else-if="page"
+      v-else-if="page || show_loading"
       height="64"
       style="border-radius: 26px 26px 0 0"
     ></v-sheet>
@@ -380,6 +380,9 @@ export default {
     ai_model: "chatgpt",
   }),
   computed: {
+    show_loading(){
+      return (this.inPageEditMode && !this.page) || this.busy_fetch
+    },
     page_id() {
       // First check route param then feed by prop:
       return this.$route.params.page_id;
