@@ -16,13 +16,9 @@
   <x-section
     v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
     :object="$sectionData"
-
+    no-default-padding
   >
-    <x-container
-      :object="$sectionData"
-      max-width-normal="1550px"
-
-    >
+    <x-container :object="$sectionData" max-width-normal="1550px" class="pa-0">
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'title' }"
         class="my-5"
@@ -33,6 +29,7 @@
         v-styler:row="rowBinding"
         :align="$sectionData.row ? $sectionData.row.align : undefined"
         :force-mode-view="mode_view"
+        :force-mode-view-folders="mode_view_f"
         :force-package="forcePackage"
         :justify="$sectionData.row ? $sectionData.row.justify : undefined"
         :shop="getShop()"
@@ -98,6 +95,7 @@ export default {
   data: () => ({
     forcePackage: null,
     mode_view: ModeView.NORMAL.code,
+    mode_view_f:null,
   }),
   computed: {
     /**
@@ -125,6 +123,8 @@ export default {
           this.$builder.isEditing,
         );
         this.mode_view = value.mode_view;
+        this.mode_view_f = value.mode_view_f;
+
       }
     },
   },
@@ -138,6 +138,9 @@ export default {
 
     if (this.forcePackage.mode_view)
       this.mode_view = this.forcePackage.mode_view;
+
+    if (this.forcePackage.mode_view_f)
+      this.mode_view_f = this.forcePackage.mode_view_f;
 
     // Set dynamic values for filter:
     this.forcePackage = ApplyAugmentToObject(

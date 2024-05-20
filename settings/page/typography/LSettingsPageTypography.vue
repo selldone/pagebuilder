@@ -80,11 +80,15 @@
               placeholder="Default shop font"
               variant="underlined"
             >
-              <template v-slot:item="{ item }">
-                <span :style="{ fontFamily: item }">{{ item }}</span>
+              <template v-slot:item="{ item,props }">
+                <v-list-item v-bind="props" :style="{ fontFamily: item.raw }" >
+                  <template v-slot:title>
+                    <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
+                  </template>
+                </v-list-item>
               </template>
               <template v-slot:selection="{ item }">
-                <span :style="{ fontFamily: item }">{{ item }}</span>
+                <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
               </template>
             </v-select>
 
@@ -124,7 +128,7 @@
                 <template v-slot:append-inner>
                   <v-btn
                     :disabled="!font_input"
-                    color="primary"
+                    color="#1976D2"
                     prepend-icon="add"
                     variant="elevated"
                     @click.stop="addFont()"

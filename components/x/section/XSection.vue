@@ -17,7 +17,7 @@
     :id="object.id"
     v-data-x="object.style"
     v-styler:section="sectionBinding"
-    :class="object.classes"
+    :class="[object.classes, { '-no-padding': noDefaultPadding }]"
     :style="[background_style, object.style]"
     class="section"
   >
@@ -46,6 +46,7 @@ export default {
 
   props: {
     object: { required: true },
+    noDefaultPadding: Boolean,
   },
   data: () => ({}),
   computed: {

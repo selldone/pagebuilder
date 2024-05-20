@@ -109,6 +109,7 @@
                     content-class="bg-deep-purple-accent-3"
                     activator="parent"
                     location="right"
+                    :open-delay="500"
                     >Show Classes
                   </v-tooltip>
                 </v-btn>
@@ -127,6 +128,7 @@
                     content-class="bg-deep-purple-accent-3"
                     activator="parent"
                     location="right"
+                    :open-delay="500"
                     >Show Style
                   </v-tooltip>
                 </v-btn>
@@ -168,6 +170,7 @@
             dir="ltr"
             flat
             height="84"
+            :open-delay="500"
           >
             <!-- ▃▃▃▃▃▃▃▃▃▃ 📇 View > Normal ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -175,6 +178,7 @@
               content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
+              :open-delay="500"
             >
               <template v-slot:activator="{ props }">
                 <span caption="Design" class="sub-caption -hover b-16px ms-2">
@@ -218,6 +222,7 @@
               content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
+              :open-delay="500"
             >
               <template v-slot:activator="{ props }">
                 <span caption="Animation" class="sub-caption -hover b-16px">
@@ -256,6 +261,7 @@
               content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
+              :open-delay="500"
             >
               <template v-slot:activator="{ props }">
                 <span caption="Tracking" class="sub-caption -hover m-0 b-16px">
@@ -328,6 +334,7 @@
               content-class="bg-black text-start pa-3 small"
               location="top"
               max-width="420"
+              :open-delay="500"
             >
               <template v-slot:activator="{ props }">
                 <v-btn
@@ -548,8 +555,9 @@
                         <v-icon size="36">donut_large</v-icon>
                         <v-tooltip
                           activator="parent"
-                          content-class="bg-black"
+                          content-class="bg-black text-start"
                           location="bottom"
+                          :open-delay="500"
                         >
                           <b>Feed</b><br />
                           Simple edit section contents.
@@ -563,7 +571,7 @@
                         icon
                         tooltip="<b>AI</b><br>Auto generate contents."
                         tooltip-location="bottom"
-                        x-large
+                        x-large :open-delay="500"
                         @click="autoComplete(section)"
                       >
                       </u-button-ai-small>
@@ -601,6 +609,7 @@
                             activator="parent"
                             content-class="bg-black"
                             location="bottom"
+                            :open-delay="500"
                           >
                             <b>Message</b> ({{
                               notes?.filter((n) => n.element_id === section.uid)
@@ -1364,7 +1373,7 @@ export default defineComponent({
       //console.log('calcMaxH',this.max_h)
       if (this.scale_down) {
         let height = this.$refs.artboard.clientHeight;
-        this.max_h = 100 + height / 2 + "px"; //height/2 + 'px'; // problem in add new element
+        this.max_h = 120 + height / 2 + "px"; //height/2 + 'px'; // problem in add new element
       } else {
         this.max_h = "unset";
       }

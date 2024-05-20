@@ -17,10 +17,14 @@
     :class="{
       '-copy': copy_hover,
       '-delete': delete_hover,
-      '-row': ['LSectionTextMarquee'].includes(section.name) || el_height<200,
+      '-row': ['LSectionTextMarquee'].includes(section.name) || el_height < 200,
     }"
     class="side-section"
-    v-size="({height})=>{el_height=height}"
+    v-size="
+      ({ height }) => {
+        el_height = height;
+      }
+    "
   >
     <!-- ▃▃▃▃▃▃▃▃▃▃ Copy ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -41,6 +45,7 @@
         content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
+        :open-delay="500"
       >
         <b class="d-block">
           <v-icon class="me-1">content_copy</v-icon>
@@ -73,6 +78,7 @@
         location="left"
         max-width="420"
         text="Delete Section"
+        :open-delay="500"
       >
       </v-tooltip>
     </v-btn>
@@ -97,6 +103,7 @@
         content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
+        :open-delay="500"
       >
         <b class="d-block">
           <v-icon class="me-1">save</v-icon>
@@ -125,6 +132,7 @@
         content-class="bg-black pa-3 text-start small"
         location="left"
         max-width="420"
+        :open-delay="500"
       >
         <b>
           <v-icon class="me-1">content_paste</v-icon>
@@ -180,7 +188,7 @@ export default defineComponent({
     return {
       copy_hover: false,
       delete_hover: false,
-      el_height:0,
+      el_height: 0,
     };
   },
 

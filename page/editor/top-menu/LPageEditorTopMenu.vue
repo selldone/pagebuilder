@@ -63,6 +63,7 @@
             content-class="text-start small pa-2 bg-black"
             location="bottom"
             max-width="420"
+            :open-delay="500"
           >
             <b class="d-block">
               {{ $t("page_builder.design.tools.history") }}
@@ -123,7 +124,7 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420"
+              max-width="420" :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.tools") }}
@@ -162,7 +163,7 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420"
+              max-width="420" :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.rearrange") }}
@@ -196,7 +197,7 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420"
+              max-width="420" :open-delay="500"
             >
               <b class="d-block"> Edit / View Mode </b>
               <div class="my-1">
@@ -237,7 +238,7 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420"
+            max-width="420" :open-delay="500"
           >
             <b class="d-block"> Page Style </b>
             Personalize the primary page's appearance, such as background and
@@ -263,7 +264,7 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420"
+            max-width="420" :open-delay="500"
           >
             <b class="d-block"> Typography </b>
             Configure the typography, fonts, and size of elements on the page.
@@ -285,7 +286,7 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420"
+            max-width="420" :open-delay="500"
           >
             <b class="d-block"> Prebuilt Sections </b>
             Enable or disable the display of pre-constructed and designed
@@ -310,7 +311,7 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420"
+            max-width="420" :open-delay="500"
           >
             <b class="d-block"> Clone Style </b>
             Using this tool, you can duplicate styles such as fonts,
@@ -351,7 +352,7 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420"
+            max-width="420" :open-delay="500"
           >
             <b class="d-block"> AI Assistance </b>
             Utilize this tool to configure prompts, AI models, and plugins,
@@ -390,7 +391,7 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420"
+          max-width="420" :open-delay="500"
         >
           <b class="d-block"> Import Landing Page </b>
           <v-icon size="small">folder</v-icon>
@@ -410,7 +411,7 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420"
+          max-width="420" :open-delay="500"
         >
           <b class="d-block"> Export Landing Page </b>
           <v-icon size="small">save</v-icon>
@@ -450,7 +451,7 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420"
+          max-width="420" :open-delay="500"
         >
           <b class="d-block"> LTR / RTL </b>
           <div class="my-1">
@@ -480,7 +481,7 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420"
+          max-width="420" :open-delay="500"
         >
           <p
             v-for="short_key in Object.keys(ShortKeys).limit(5)"

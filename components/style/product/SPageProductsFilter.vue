@@ -28,14 +28,35 @@
       <s-products-sort-view
         v-model="product_sort"
         v-model:only-available="only_available"
-        v-model:viewMode="mode_view"
         active-class="blue-flat"
         class="mx-2 overflow-auto"
-        has-view-mode
         two-line
-
       />
     </div>
+
+    <!-- ━━━━━━━━━━━━━━━━ Mobile vie mode ━━━━━━━━━━━━━━━━ -->
+    <!-- ████████████████████ View Mode ████████████████████ -->
+    mode_view:{{mode_view}} / {{mode_view_f}}
+    <h3 class="text-start mb-1 font-weight-light">
+      <v-icon class="me-1">smartphone</v-icon>
+      {{ $t("global.commons.mobile") }}
+    </h3>
+    <div class="text-center">
+      <b-shop-theme-view-move
+        v-model="mode_view"
+        icon="shelves"
+        :label="$t('global.commons.products')" dark
+      >
+      </b-shop-theme-view-move>
+
+      <b-shop-theme-view-move
+        v-model="mode_view_f"
+        icon="folder"
+        :label="$t('global.commons.categories')" dark
+      >
+      </b-shop-theme-view-move>
+    </div>
+
 
     <!-- ████████████████████ Type ████████████████████ -->
 
@@ -367,10 +388,12 @@ import BCategoryInput from "@selldone/components-vue/backoffice/category/input/B
 import BVendorInput from "@selldone/components-vue/backoffice/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
+import BShopThemeViewMove from "@app-backoffice/pages/shop/setting/theme/view-mode/BShopThemeViewMove.vue";
 
 export default {
   name: "SPageProductsFilter",
   components: {
+    BShopThemeViewMove,
     USmartSwitch,
     BVendorInput,
     BCategoryInput,
@@ -433,7 +456,8 @@ export default {
 
     vendor_id: null,
 
-    mode_view: ModeView.NORMAL,
+    mode_view: ModeView.NORMAL.code,
+    mode_view_f:null,
   }),
 
   watch: {
@@ -471,7 +495,8 @@ export default {
 
         vendor_id: this.vendor_id,
 
-        mode_view: this.mode_view.code,
+        mode_view: this.mode_view,
+        mode_view_f:this.mode_view_f,
 
         surrounded: this.surrounded,
       };
@@ -513,11 +538,8 @@ export default {
           ? "category"
           : "all";
 
-      this.mode_view = filter_bundle.mode_view
-        ? Object.values(ModeView).find(
-            (m) => m.code === filter_bundle.mode_view,
-          )
-        : ModeView.NORMAL;
+      this.mode_view = filter_bundle.mode_view;
+      this.mode_view_f = filter_bundle.mode_view_f; // For categories
 
       this.surrounded = !!filter_bundle.surrounded;
 

@@ -78,12 +78,16 @@
 
 
   .section {
-    padding: 20px 30px;
+
     text-align: center;
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
     object-fit: cover;
+
+    &:not(&.-no-padding){
+      padding: 20px 30px;
+    }
 
     &-title {
       font-size: 30px;

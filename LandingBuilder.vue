@@ -13,23 +13,20 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div v-bind="$attrs">
-    <v-fade-transition>
-      <div
-        v-if="show_loading"
-        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
-        style="z-index: 99999"
-      >
-        <v-progress-circular
-          :color="SaminColorLight"
-          :size="50"
-          indeterminate
-        />
-        <p class="mt-2">
-          {{ $t("page_builder.waiting_fetch") }}
-        </p>
-      </div>
-    </v-fade-transition>
+  <v-fade-transition>
+    <div
+      v-if="show_loading"
+      class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
+      style="z-index: 99999"
+    >
+      <v-progress-circular :color="SaminColorLight" :size="50" indeterminate />
+      <p class="mt-2">
+        {{ $t("page_builder.waiting_fetch") }}
+      </p>
+    </div>
+  </v-fade-transition>
+
+  <div v-bind="$attrs" class="blur-animate" :class="{ blurred: show_loading }">
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <l-page-editor-top-menu
@@ -380,8 +377,8 @@ export default {
     ai_model: "chatgpt",
   }),
   computed: {
-    show_loading(){
-      return (this.inPageEditMode && !this.page) || this.busy_fetch
+    show_loading() {
+      return (this.inPageEditMode && !this.page) || this.busy_fetch;
     },
     page_id() {
       // First check route param then feed by prop:
@@ -578,10 +575,10 @@ export default {
               );
 
               /*
-                             IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                              this.page = data.page;
-                             this.loadPageData();
-                              */
+                               IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                                this.page = data.page;
+                               this.loadPageData();
+                                */
             }
           })
           .catch((error) => {
@@ -629,18 +626,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                                this.$route.params.page_id = data.page.id;
-                  */
+                                  this.$route.params.page_id = data.page.id;
+                    */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                                IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                  
-                                this.loadPageData();
-                                 */
+                                  IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                    
+                                  this.loadPageData();
+                                   */
             }
           })
           .catch((error) => {
