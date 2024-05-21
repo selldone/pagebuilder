@@ -22,9 +22,9 @@
   >
     <template v-slot:append>
       <u-color-selector
+        :dialog-title="title"
         :model-value="modelValue"
         :nullable="clearable"
-        :dialog-title="title"
         @update:model-value="setValue"
       ></u-color-selector>
     </template>
@@ -39,10 +39,7 @@ export default defineComponent({
   name: "SSettingColor",
   components: { UColorSelector },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     clearable: Boolean,

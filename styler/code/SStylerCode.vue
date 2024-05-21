@@ -29,7 +29,7 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Edit Code ―――――――――――――――――― -->
 
       <li>
         <v-btn
@@ -37,29 +37,43 @@
           icon
           size="42"
           variant="text"
-          @click="showGallerySettings()"
+          @click="showCodeEditor()"
         >
-          <v-icon dark size="20">tune</v-icon>
+          <v-icon size="20">code</v-icon>
 
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
             location="bottom"
-            >Add New Slide
+            >Edit Code
           </v-tooltip>
         </v-btn>
       </li>
 
-      <!-- ―――――――――――――――――― XButtons List (Add Button) ―――――――――――――――――― -->
+      <!-- ―――――――――――――――――― Set Custom Properties ―――――――――――――――――― -->
 
       <li>
-        <button class="styler-button" @click="addNewSlide()">
-          <v-icon color="#CDDC39" dark size="20">add_photo_alternate</v-icon>
+        <button class="styler-button" @click="showProperties()">
+          <v-icon color="#fff" size="20">data_object</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
             location="bottom"
-            >Add New Slide
+            >Change Properties
+          </v-tooltip>
+        </button>
+      </li>
+
+      <!-- ―――――――――――――――――― Refresh Component ―――――――――――――――――― -->
+
+      <li v-if="refresh">
+        <button class="styler-button" @click="refresh()">
+          <v-icon color="#fff" size="20">refresh</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            >Refresh & Recreate Component
           </v-tooltip>
         </button>
       </li>
@@ -72,14 +86,12 @@
 </template>
 
 <script>
-import * as types from "../../src/types/types";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 
 export default {
-  name: "SStylerGallery",
+  name: "SStylerCode",
 
   mixins: [LMixinEvents, LMixinStyler],
 
@@ -101,17 +113,24 @@ export default {
       default: "top",
     },
 
-    keyColumns: {
+    keyCode: {
       type: String,
-      default: "columns",
+      default: "html",
     },
-    columnStructure: {
-      type: Object,
-      default: () => ({
-        title: types.Title,
-        image: types.Image,
-      }),
+    keyProperties: {
+      type: String,
+      default: "properties",
     },
+
+    /**
+     * {'structure':properties_structure,'value':properties_default}
+     * Structure of properties in the component | Default value of properties in the component
+     */
+    properties: Object,
+    /**
+     * A callback refresh function to refresh code in component
+     */
+    refresh: {},
   },
   data: () => ({}),
 
@@ -128,24 +147,28 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerButtons");
     }
-    // Auto seed buttons if not exist
-    if (!this.target[this.keyColumns]) this.target[this.keyColumns] = [];
   },
   mounted() {},
 
   methods: {
-    showGallerySettings() {
-      this.ShowLSettingsGallery(
+    showCodeEditor() {
+      this.ShowLSettingsCodeEditor(
         this.el,
         this.section,
         this.target,
-        this.keyColumns,
+        this.keyCode,
+        this.refresh,
       );
     },
 
-    addNewSlide() {
-      this.target[this.keyColumns].push(
-        LUtilsSeeder.seed(this.columnStructure),
+    showProperties() {
+      this.ShowLSettingsCodeProperties(
+        this.el,
+        this.section,
+        this.target,
+        this.keyProperties,
+        this.properties.structure,
+        this.properties.value,
       );
     },
   },

@@ -39,7 +39,7 @@
           class="tnt"
           size="small"
         >
-          <v-icon v-if="item.icon" start>{{ item.icon }} </v-icon>
+          <v-icon v-if="item.icon" start>{{ item.icon }}</v-icon>
           {{ is_object ? (item.title ? item.title : item.value) : item }}
         </v-btn>
       </v-btn-toggle>
@@ -53,10 +53,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "SSettingToggle",
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     items: {

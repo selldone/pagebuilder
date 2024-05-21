@@ -32,6 +32,7 @@ import SStylerSwiper from "../styler/swiper/SStylerSwiper.vue";
 import SStylerBlogs from "../styler/blogs/SStylerBlogs.vue";
 import SStylerMarquee from "../styler/marquee/SStylerMarquee.vue";
 import SStylerGallery from "../styler/gallery/SStylerGallery.vue";
+import SStylerCode from "../styler/code/SStylerCode.vue";
 
 const DEBUG = false;
 
@@ -50,7 +51,8 @@ export namespace StylerOptions {
     | "swiper"
     | "blogs"
     | "marquee"
-    | "gallery";
+    | "gallery"
+    | "code";
 
   export interface IButtonsRow {
     target: types.ButtonsRow;
@@ -187,6 +189,8 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerMarquee;
     } else if (argument === "gallery") {
       stylerComponent = SStylerGallery;
+    } else if (argument === "code") {
+      stylerComponent = SStylerCode;
     }
 
     const StylerComponent = defineComponent({

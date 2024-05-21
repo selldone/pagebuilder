@@ -73,10 +73,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "SSettingSelect",
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     items: {

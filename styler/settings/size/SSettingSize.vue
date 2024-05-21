@@ -42,10 +42,7 @@ export default defineComponent({
   name: "SSettingSize",
   components: { UDimensionInput },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
 

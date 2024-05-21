@@ -62,10 +62,7 @@ export default defineComponent({
   name: "SSettingSlider",
   components: { UNumberInput },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     disabled: Boolean,

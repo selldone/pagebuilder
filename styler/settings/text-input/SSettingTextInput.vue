@@ -23,20 +23,20 @@
     <div v-if="subtitle" class="small">{{ subtitle }}</div>
     <v-text-field
       :clearable="clearable"
+      :counter="counter"
       :disabled="disabled"
+      :messages="messages ? messages : ''"
       :model-value="modelValue"
+      :placeholder="placeholder"
+      :rules="rules"
       class="my-1"
       color="#1976D2"
       density="compact"
       hide-details
-      :placeholder="placeholder"
       single-line
       style="min-width: 200px"
       variant="plain"
       @update:model-value="(val) => setValue(val)"
-      :messages="messages?messages:''"
-      :rules="rules"
-      :counter="counter"
     >
     </v-text-field>
   </v-list-item>
@@ -48,11 +48,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "SSettingTextInput",
 
+  emits: ["update:modelValue"],
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     subtitle: {},
     icon: {},
@@ -62,13 +60,12 @@ export default defineComponent({
     },
     disabled: Boolean,
     clearable: Boolean,
-    messages:{},
-    placeholder:{
-      default:'Enter...'
+    messages: {},
+    placeholder: {
+      default: "Enter...",
     },
-    rules:{},
-    counter:{},
-
+    rules: {},
+    counter: {},
   },
   computed: {},
   data() {

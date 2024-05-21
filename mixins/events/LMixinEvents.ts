@@ -48,7 +48,7 @@ export const LMixinEvents = defineComponent({
      * @param {string} tab - The tab to be displayed on the settings page.
      */
     ShowLSettingsPageTypography(style: Object, tab: string) {
-      console.log('style:',style)
+      console.log("style:", style);
 
       EventBus.$emit("show:LSettingsPageTypography", { style, tab });
     },
@@ -244,6 +244,41 @@ export const LMixinEvents = defineComponent({
         keyColumns,
       });
     },
+
+
+    ShowLSettingsCodeEditor(
+        el: HTMLElement,
+        section: Section,
+        target: Object,
+        keyCode: string,
+        refresh:Function
+    ) {
+      EventBus.$emit("show:LSettingsCodeEditor", {
+        el,
+        section,
+        target,
+        keyCode,
+        refresh
+      });
+    },
+    ShowLSettingsCodeProperties(
+        el: HTMLElement,
+        section: Section,
+        target: Object,
+        keyProperties: string,
+        propertiesStructure:Object,
+        propertiesDefault:Object
+    ) {
+      EventBus.$emit("show:LSettingsCodeProperties", {
+        el,
+        section,
+        target,
+        keyProperties,
+        propertiesStructure,
+        propertiesDefault
+      });
+    },
+
 
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**

@@ -703,6 +703,10 @@
 
     <l-settings-gallery :builder="$builder"></l-settings-gallery>
 
+
+    <l-settings-code-editor :builder="$builder"></l-settings-code-editor>
+    <l-settings-code-properties :builder="$builder"></l-settings-code-properties>
+
     <!-- ――――――――――――――――――――――  Dialog Master Style Image ―――――――――――――――――――― -->
 
     <l-settings-image-size></l-settings-image-size>
@@ -770,12 +774,16 @@ import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingsGallery from "../../settings/gallery/LSettingsGallery.vue";
 import Builder from "../../Builder.ts";
 import { LUtilsFont } from "../../utils/font/LUtilsFont";
+import LSettingsCodeEditor from "@selldone/page-builder/settings/code/editor/LSettingsCodeEditor.vue";
+import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor/LSettingsCodeProperties.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LSettingsCodeProperties,
+    LSettingsCodeEditor,
     LSettingsGallery,
     SLandingSectionSideBar,
     SLandingEditorComponentsMenu,
@@ -1351,6 +1359,9 @@ export default defineComponent({
     },
 
     inActiveEditingMode() {
+      // Dialog open then prevent any undo / redo short key!
+     // console.log('--->',document.querySelector('.v-overlay-container > .v-overlay--active'),document.querySelector('.v-navigation-drawer--active'))
+      if(document.querySelector('.v-overlay-container > .v-overlay--active') !== null || document.querySelector('.v-navigation-drawer--active') !== null)return false;
       // Are we the other tab?
       if (!this.isElementVisible(this.$el)) {
         return false;

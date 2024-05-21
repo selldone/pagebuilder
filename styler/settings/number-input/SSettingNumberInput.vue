@@ -48,10 +48,7 @@ export default defineComponent({
   name: "SSettingNumberInput",
   components: { UNumberInput },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     min: { default: 0 },

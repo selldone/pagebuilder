@@ -45,10 +45,7 @@ export default defineComponent({
   name: "SSettingSwitch",
   emits: ["update:modelValue"],
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
+    modelValue: {},
     title: {},
     icon: {},
     disabled: Boolean,
