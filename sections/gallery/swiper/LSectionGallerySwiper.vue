@@ -22,7 +22,6 @@
     }"
     :object="$sectionData"
     class="pa-0"
-
   >
     <!-- ████████████████████████ Main ████████████████████████ -->
     <swiper
@@ -39,6 +38,10 @@
         shadowOffset: 20,
         shadowScale: 0.94,
       }"
+      :materialEffect="{
+          slideSplitRatio: 0.65,
+        }"
+
       :direction="SLIDE_DATA.direction ? SLIDE_DATA.direction : 'horizontal'"
       :effect="SLIDE_DATA.effect"
       :grab-cursor="SLIDE_DATA.grabCursor"
@@ -61,6 +64,7 @@
       slide-to-clicked-slide
       @realIndexChange="(s) => (realIndex = s.realIndex)"
       @swiper="onMainSwiperInitialized"
+      :class="{'overflow-visible':is_overflow_visible}"
     >
       <swiper-slide v-for="(_slide, index) in SLIDE_DATA.items" :key="index">
         <!-- 📹 Background video -->
@@ -71,10 +75,12 @@
         </x-video-background>
 
         <div
-          :class="[realIndex === index ? SLIDE_DATA.active : null]"
+          :class="[realIndex === index ? SLIDE_DATA.active : null,{
+            'swiper-material-wrapper':is_material_effect
+          }]"
           :index="index"
           :style="[backgroundStyle(_slide.background)]"
-          class="position-relative h-100"
+          class="position-relative h-100 "
         >
           <!-- ----------------- Image Layer ----------------- -->
 
@@ -82,7 +88,6 @@
             v-model="_slide.image"
             :augment="augment"
             :class="{ pen: !$section.lock }"
-
             style="min-height: 100%; min-width: 100%; max-height: 100%"
           />
 
@@ -98,6 +103,8 @@
                 'container--fluid': _slide.container
                   ? _slide.container.fluid
                   : false,
+
+                  'swiper-material-content':is_material_effect
               },
             ]"
             :container-styler="true"
@@ -113,6 +120,7 @@
               ]);
               $forceUpdate();
             "
+
           >
             <v-row
               v-styler:row="{
@@ -125,7 +133,7 @@
               :justify="_slide.row ? _slide.row.justify : 'start'"
               no-gutters
             >
-              <div>
+              <div >
                 <h2
                   v-styler:text="{
                     target: $sectionData.slide.items[index],
@@ -268,7 +276,7 @@ import XButton from "../../../components/x/button/XButton.vue";
 import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 // Import Swiper styles
-import 'swiper/css';
+import "swiper/css";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import {
@@ -292,6 +300,9 @@ import {
   Virtual,
   Zoom,
 } from "swiper/modules";
+import EffectMaterial from "@selldone/components-vue/ui/swiper/effects/material/effect-material.esm.js";
+
+
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 
 export default {
@@ -362,6 +373,8 @@ export default {
       EffectCoverflow, // Coverflow Effect module
       EffectCards, // Cards Effect module
       EffectCreative, // Creative Effect module
+
+      EffectMaterial, // Material Effect module
 
       // Navigation modules
       Navigation, // Navigation module
@@ -467,6 +480,13 @@ export default {
           }
         : undefined;
     },
+
+    is_material_effect(){
+      return this.SLIDE_DATA.effect === "material";
+    },
+    is_overflow_visible(){
+      return this.SLIDE_DATA.effect === "cards";
+    }
   },
 
   watch: {
