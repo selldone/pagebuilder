@@ -18,10 +18,7 @@
       <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
-        <x-column
-          :object="$sectionData.columns[0]"
-          class="position-relative"
-        >
+        <x-column :object="$sectionData.columns[0]" class="position-relative">
           <h1
             v-styler:text="{ target: $sectionData, keyText: 'title' }"
             class="mb-2"
@@ -64,13 +61,14 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 import { defineComponent } from "vue";
+import coverImage from "../../../assets/images/covers/hero-1.svg";
 
 export default defineComponent({
   name: "LSectionHeroHorizontal",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
   components: { XUploader },
-  cover: require("../../../assets/images/covers/hero-1.svg"),
+  cover: coverImage,
   label: "Horizontal Hero",
   help: {
     title: "Place this section at the beginning of your page.",
@@ -168,8 +166,7 @@ export default defineComponent({
   },
 
   methods: {},
-})
-;
+});
 </script>
 
 <style lang="scss" scoped></style>

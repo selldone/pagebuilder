@@ -55,6 +55,8 @@ import {isFunction, isObject} from "lodash-es";
 import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
 import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
+import * as types from "./src/types/types";
+import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 
 const DEBUG = true;
 
@@ -123,9 +125,6 @@ const BUILDER_OPTIONS: builder.IOptions = {
     ultrawide: "v-col-xl-",
   },
 };
-
-import * as types from "./src/types/types";
-
 
 export class Builder {
   types = types;
@@ -562,8 +561,10 @@ const SectionComponents: any[] = [
  * Adds a component section to the builder and arguments it with the styler.
  */
 function initializeSections(app: App) {
+  console.log("🔧",  "Installing components...",SectionComponents);
+
   SectionComponents.forEach((_component) => {
-    // console.log("🔧", _component, _component?.name, "Install");
+    console.log("🔧", _component, _component?.name, "Install");
 
     if (_component) {
       Components[_component.name] = _component;

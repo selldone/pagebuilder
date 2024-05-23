@@ -13,7 +13,7 @@
  */
 
 import {App} from "vue";
-import Builder from "./Builder";
+import Builder, {builder} from "./Builder";
 
 import "./styles/page-builder.scss";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
@@ -29,7 +29,6 @@ import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGal
 
 import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
-import {builder} from "./Builder";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
 import brandingImage from "./assets/images/themes/branding.jpg";
@@ -60,7 +59,10 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
         "Edit mode. Invalid uploadImageUrl function in SetupPageBuilder(...,here)!",
       );
     } else {
-      const test = options.server.uploadImageUrl("page", { id: 0, shop_id: 0 } as Page);
+      const test = options.server.uploadImageUrl("page", {
+        id: 0,
+        shop_id: 0,
+      } as Page);
       if (!test) {
         console.error(
           "Invalid uploadImageUrl! Generated test upload image path is " + test,
