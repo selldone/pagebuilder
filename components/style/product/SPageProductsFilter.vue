@@ -388,7 +388,7 @@ import BCategoryInput from "@selldone/components-vue/backoffice/category/input/B
 import BVendorInput from "@selldone/components-vue/backoffice/vendor/input/BVendorInput.vue";
 import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
-import BShopThemeViewMove from "@app-backoffice/pages/shop/setting/theme/view-mode/BShopThemeViewMove.vue";
+import BShopThemeViewMove from "@selldone/components-vue/backoffice/shop/theme/view-mode/BShopThemeViewMove.vue";
 
 export default {
   name: "SPageProductsFilter",
