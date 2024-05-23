@@ -17,11 +17,12 @@
     v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
     :object="$sectionData"
     no-default-padding
+    class="py-11"
   >
     <x-container :object="$sectionData" max-width-normal="1550px" class="pa-0">
       <h2
         v-styler:text="{ target: $sectionData, keyText: 'title' }"
-        class="my-5 mx-11"
+        class="my-5 px-11"
         v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
       />
 
@@ -40,7 +41,7 @@
 
       <p
         v-styler:text="{ target: $sectionData, keyText: 'text' }"
-        class="my-5 mx-11"
+        class="my-5 px-11"
         v-html="$sectionData.text?.applyAugment(augment, $builder.isEditing)"
       />
     </x-container>
