@@ -561,10 +561,10 @@ const SectionComponents: any[] = [
  * Adds a component section to the builder and arguments it with the styler.
  */
 function initializeSections(app: App) {
-  console.log("🔧",  "Installing components...",SectionComponents);
+  //console.log("🔧",  "Installing components...",SectionComponents);
 
   SectionComponents.forEach((_component) => {
-    console.log("🔧", _component, _component?.name, "Install");
+    //console.log("🔧", _component, _component?.name, "Install");
 
     if (_component) {
       Components[_component.name] = _component;

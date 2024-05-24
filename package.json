@@ -1,9 +1,11 @@
 {
   "name": "@selldone/page-builder",
-  "version": "1.5.24",
+  "version": "1.5.25",
   "private": false,
   "type": "module",
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://selldone.com)",
+  "description": "Selldone in-line page builder, built with Vue3, aims to replace Webflow, Wix, and EditorX as an open-source project. It's part of the Selldone business OS platform.",
+
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
