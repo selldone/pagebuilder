@@ -97,8 +97,7 @@ export default {
 
   data: () => ({
     rand_id: Math.random().toString(36).substring(7),
-    //  articleType:Article.Type.Blog.code,
-    // body:null,
+
   }),
 
   computed: {},
@@ -126,7 +125,7 @@ export default {
 
       // For official page:
       return window.API.UPLOAD_ARTICLE_IMAGE(
-        Article.Type.SelldoneBlog.code,
+        Article.Types.SelldoneBlog.code,
         null,
       );
     },
