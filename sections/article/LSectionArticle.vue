@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <!-- 📹 Background video -->
     <x-video-background
       v-if="$sectionData.background?.bg_video"
@@ -46,11 +46,11 @@
 
 <script>
 import * as types from "../../src/types/types";
-import { ArticleTypes } from "@selldone/core-js/enums/article/ArticleTypes";
 import SArticleEditor from "@selldone/components-vue/article/SArticleEditor.vue";
 import XVideoBackground from "../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../styler/StylerDirective";
 import LMixinSection from "../../mixins/section/LMixinSection";
+import { Article } from "@selldone/core-js";
 
 let KEEPER = {}; // Keep component instance for each id
 export default {
@@ -97,7 +97,7 @@ export default {
 
   data: () => ({
     rand_id: Math.random().toString(36).substring(7),
-    //  articleType:ArticleTypes.Blog.code,
+    //  articleType:Article.Type.Blog.code,
     // body:null,
   }),
 
@@ -126,7 +126,7 @@ export default {
 
       // For official page:
       return window.API.UPLOAD_ARTICLE_IMAGE(
-        ArticleTypes.SelldoneBlog.code,
+        Article.Type.SelldoneBlog.code,
         null,
       );
     },
