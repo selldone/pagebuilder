@@ -77,9 +77,9 @@
 import { ShopTransportations } from "@selldone/core-js/enums/logistic/ShopTransportations";
 import { Reactions } from "@selldone/core-js/enums/support/Reactions";
 import { Brands } from "@selldone/core-js/enums/social/Brands";
-import { CampaignMedium } from "@selldone/core-js/enums/campaign/CampaignMedium";
 import { CustomerClubLevels } from "@selldone/core-js/enums/customer/CustomerClubLevels";
 import { CompileMarkdown } from "@selldone/core-js/helper/html/HtmlHelper";
+import { CampaignLink } from "@selldone/core-js";
 
 export default {
   name: "PNoteBox",
@@ -121,7 +121,7 @@ export default {
         ShopTransportations,
         Reactions,
         Brands,
-        CampaignMedium,
+        CampaignLink.Medium,
         CustomerClubLevels,
       ];
 
