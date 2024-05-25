@@ -77,9 +77,8 @@
 import { ShopTransportations } from "@selldone/core-js/enums/logistic/ShopTransportations";
 import { Reactions } from "@selldone/core-js/enums/support/Reactions";
 import { Brands } from "@selldone/core-js/enums/social/Brands";
-import { CustomerClubLevels } from "@selldone/core-js/enums/customer/CustomerClubLevels";
 import { CompileMarkdown } from "@selldone/core-js/helper/html/HtmlHelper";
-import { CampaignLink } from "@selldone/core-js";
+import { CampaignLink, Club } from "@selldone/core-js";
 
 export default {
   name: "PNoteBox",
@@ -122,7 +121,7 @@ export default {
         Reactions,
         Brands,
         CampaignLink.Medium,
-        CustomerClubLevels,
+        Club.Levels,
       ];
 
       repos.forEach((obj) => {
