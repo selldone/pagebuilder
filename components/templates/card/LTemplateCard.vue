@@ -15,16 +15,15 @@
 <template>
   <v-card
     :class="{
-      'widget-hover pp': clickable /*We are in teh shop!*/,
+      //'widget-hover pp': clickable /*We are in teh shop!*/,
     }"
     :disabled="!!loading"
-    :min-width="show_deploy_button ? 360 : undefined"
+    :min-width="minWidth"
     :ripple="clickable"
     :to="need_become_premium ? undefined : to"
-    class="rounded-2rem position-relative border overflow-hidden pa-2"
+    class="rounded-2rem position-relative overflow-hidden pa-2"
     @click="need_become_premium ? showNeedSubscribePremium() : $emit('select')"
-    color="#333"
-    variant="outlined"
+    :variant="variant"
     :style="!clickable && !to ? 'cursor: initial' : undefined"
   >
     <v-img
@@ -58,7 +57,7 @@
       </div>
     </v-img>
     <u-loading-progress v-if="loading"></u-loading-progress>
-    <v-card-title>
+    <v-card-title class="text-subtitle-2">
       {{ template.name }}
     </v-card-title>
     <v-card-actions>
@@ -66,40 +65,52 @@
         <v-btn
           v-if="template.preview"
           :href="template.preview"
-          size="x-large"
+          :size="size"
           target="_blank"
           variant="outlined"
           @click.stop
-          >{{$t('global.commons.preview')}}
+          >{{ $t("global.commons.preview") }}
           <v-icon end>open_in_new</v-icon>
         </v-btn>
 
         <v-btn
-          v-if="
-            show_deploy_button &&
-            !need_become_premium /*We are in the templates page of selldone*/
-          "
-          :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
+          v-if="need_become_premium"
           color="#000"
-          size="x-large"
-          target="_blank"
-          variant="elevated"
-        >
-          <v-icon start>upload_file</v-icon>
-
-          {{$t('global.actions.deploy_now')}}
-        </v-btn>
-
-        <v-btn
-          v-if="show_deploy_button && need_become_premium"
-          color="#000"
-          size="x-large"
+          :size="size"
           variant="elevated"
           @click="showNeedSubscribePremium()"
         >
           <v-icon start>auto_awesome</v-icon>
 
-          {{$t('global.actions.become_premium')}}
+          {{ $t("global.actions.become_premium") }}
+        </v-btn>
+
+        <v-btn
+          v-else-if="!in_shop_mode"
+          :href="`/magic-links/shop:pages:template?template_id=${template.id}`"
+          color="#000"
+          :size="size"
+          target="_blank"
+          variant="elevated"
+        >
+          <v-icon start>upload_file</v-icon>
+
+          {{ $t("global.actions.deploy_now") }}
+        </v-btn>
+        <v-btn
+          v-else-if="in_shop_mode"
+          :to="{
+            name: 'BPageLandingEditor',
+            params: { page_id: 'new' },
+            query: { template_id: template.id },
+          }"
+          color="#000"
+          :size="size"
+          variant="elevated"
+        >
+          <v-icon start>upload_file</v-icon>
+
+          {{ $t("global.actions.deploy_now") }}
         </v-btn>
       </div>
     </v-card-actions>
@@ -121,6 +132,15 @@ export default {
     loading: {},
 
     clickable: Boolean,
+    variant: {
+      default: "outlined",
+    },
+    minWidth:{},
+
+    size: {
+      default: "large",
+    },
+
   },
   data() {
     return {};
@@ -134,8 +154,8 @@ export default {
       return this.template.premium && !this.user?.premium;
     },
 
-    show_deploy_button() {
-      return !this.$route.params.shop_id;
+    in_shop_mode() {
+      return !!this.$route.params.shop_id;
     },
   },
 

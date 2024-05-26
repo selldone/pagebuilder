@@ -69,7 +69,7 @@
         </v-list-item>
       </v-navigation-drawer>
 
-      <v-list v-else min-width="280"  max-width="280">
+      <v-list v-else min-width="280" max-width="280">
         <v-list-item
           v-for="item in categories"
           :key="item.code"
@@ -183,6 +183,8 @@
                 :template="item"
                 @select="$route.params.shop_id ? loadTemplate(item) : undefined"
                 :clickable="!!$route.params.shop_id"
+                variant="outlined"
+                min-width="280"
               ></l-template-card>
             </v-col>
           </v-fade-transition>
