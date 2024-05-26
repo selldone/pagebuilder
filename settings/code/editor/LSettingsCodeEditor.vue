@@ -79,7 +79,7 @@
             contenteditable="false"
             language="html"
             line-numbers
-            style="min-height: 50vh;font-size: 12px"
+            style="min-height: 50vh; font-size: 12px"
             @blur="refreshScripts"
             @update:model-value="changed = true"
           >
@@ -167,12 +167,34 @@
       </v-card-subtitle>
 
       <v-card-text>
-        <div class="border-between-vertical max-w-400 mx-auto w-100 my-5">
+        <v-row align="stretch" justify="center" no-gutters>
+          <v-card
+            class="ma-2 pb-3 d-flex flex-column align-stretch overflow-hidden border pp"
+            flat
+            max-width="250"
+            width="250"
+            rounded="xl"
+            href="https://github.com/selldone/storefront-sdk/tree/main/test"
+            target="_blank"
+            color="#000"
+          >
+            <v-responsive aspect-ratio="2" class="flex-grow-1 " content-class="d-flex align-center justify-center">
+              <v-icon class="ma-auto" size="46">fa:fab fa-github</v-icon>
+            </v-responsive>
+            <div class="single-line flex-grow-0 px-3 py-1 text-subtitle-2">
+              Sample Codes & Live Tests
+              <v-icon class="mx-1" size="small">open_in_new</v-icon>
+
+            </div>
+          </v-card>
+
           <v-sheet
             v-for="(item, i) in sample_elements"
             :key="i"
-            class="my-1 d-flex flex-column align-stretch overflow-hidden border pp row-hover"
+            class="ma-2 pb-3 d-flex flex-column align-stretch overflow-hidden border pp row-hover"
             flat
+            max-width="250"
+            width="250"
             rounded="xl"
             @click="
               target[keyCode] = item.section.data.html;
@@ -189,11 +211,11 @@
               aspect-ratio="2"
             >
             </v-img>
-            <div class="single-line flex-grow-0 pa-3">
+            <div class="single-line flex-grow-0 px-3 py-1 text-subtitle-2">
               {{ item.title }}
             </div>
           </v-sheet>
-        </div>
+        </v-row>
       </v-card-text>
     </v-card>
   </v-bottom-sheet>
