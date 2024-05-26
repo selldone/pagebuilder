@@ -448,16 +448,11 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
-
-
     target: {
       required: true,
       type: Object,
       // It's the value of v-styler:arg="value"
     },
-
 
     /**
      * Set the location of the proper
@@ -489,6 +484,10 @@ export default {
     keyColor: {
       type: String,
       default: "color",
+    },
+    keyText: {
+      type: String,
+      default: "content",
     },
   },
   data: () => ({
@@ -546,7 +545,6 @@ export default {
     },
   },
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -581,7 +579,14 @@ export default {
     delete this.target.large;
     delete this.target.xLarge;
   },
-  mounted() {},
+  mounted() {
+
+    this.updateValue = () => {
+      // console.log("📐 updateValue", this.target, this.keyText, this.el.innerHTML);
+      this.target[this.keyText] = this.el.innerHTML;
+    };
+    this.el.addEventListener("blur", this.updateValue);
+  },
 
   methods: {
     updateOption(option) {

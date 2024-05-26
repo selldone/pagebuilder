@@ -494,8 +494,6 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
@@ -562,7 +560,6 @@ export default {
   },
   watch: {
     option(option) {
-
       // Save range selection:
       this.saveRangeSelected();
     },

@@ -151,7 +151,7 @@ import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.
 import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import * as Types from "../../src/types/types";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 const LAYOUTS = [
   "x-layout-normal", // Column | Image + Title + Content
