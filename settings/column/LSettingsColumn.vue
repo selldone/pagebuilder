@@ -14,7 +14,6 @@
 
 <template>
   <v-navigation-drawer
-    v-if="target"
     v-model="show_edit_layout"
     :scrim="false"
     :width="
@@ -26,7 +25,7 @@
     temporary
     theme="dark"
   >
-    <v-card class="text-start" flat>
+    <v-card v-if="target" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn
