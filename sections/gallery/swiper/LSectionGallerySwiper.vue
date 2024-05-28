@@ -66,7 +66,7 @@
       @swiper="onMainSwiperInitialized"
       :class="{'overflow-visible':is_overflow_visible}"
     >
-      <swiper-slide v-for="(_slide, index) in SLIDE_DATA.items" :key="index">
+      <swiper-slide v-for="(_slide, index) in $sectionData.slide.items" :key="index">
         <!-- 📹 Background video -->
         <x-video-background
           v-if="_slide.container?.background?.bg_video"
@@ -78,7 +78,6 @@
           :class="[realIndex === index ? SLIDE_DATA.active : null,{
             'swiper-material-wrapper':is_material_effect
           }]"
-          :index="index"
           :style="[backgroundStyle(_slide.background)]"
           class="position-relative h-100 "
         >
@@ -92,25 +91,22 @@
           />
 
           <!-- ----------------- Text Layer ----------------- -->
-          <div
+          <v-container
             v-styler:container="{
               target: $sectionData.slide.items[index].container,
               hasFluid: true,
             }"
+            :fluid=" _slide.container?.fluid"
             :class="[
               _slide.container.classes,
               {
-                'container--fluid': _slide.container
-                  ? _slide.container.fluid
-                  : false,
 
                   'swiper-material-content':is_material_effect
               },
             ]"
-            :container-styler="true"
-            :index="index"
+
             :style="[_slide.container.style]"
-            class="abs-container container"
+            class="abs-container"
             cloneable="true"
             style="z-index: 100"
             @click="
@@ -126,10 +122,9 @@
               v-styler:row="{
                 target: $sectionData.slide.items[index],
                 hasArrangement: true,
-                hasFluid: true,
+                hasFluid: false,
               }"
               :align="_slide.row ? _slide.row.align : 'center'"
-              :index="index"
               :justify="_slide.row ? _slide.row.justify : 'start'"
               no-gutters
             >
@@ -139,7 +134,6 @@
                     target: $sectionData.slide.items[index],
                     keyText: 'title',
                   }"
-                  :index="index"
                   v-html="
                     _slide.title?.applyAugment(augment, $builder.isEditing)
                   "
@@ -149,7 +143,6 @@
                     target: $sectionData.slide.items[index],
                     keyText: 'subtitle',
                   }"
-                  :index="index"
                   v-html="
                     _slide.subtitle?.applyAugment(augment, $builder.isEditing)
                   "
@@ -165,7 +158,6 @@
                   :augment="augment"
                   :btn-data="_slide.button"
                   :editing="$builder.isEditing"
-                  :index="index"
                   class="m-2 z2"
                 >
                 </x-button>
@@ -205,7 +197,7 @@
                 <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ End Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
               </div>
             </v-row>
-          </div>
+          </v-container>
         </div>
       </swiper-slide>
     </swiper>
@@ -222,7 +214,7 @@
       @swiper="onThumbnailSwiperInitialized"
     >
       <swiper-slide
-        v-for="(slide, index) in SLIDE_DATA.items"
+        v-for="(slide, index) in $sectionData.slide.items"
         :key="index"
         :class="{ pp: swiperOptionThumbs.allowTouchMove }"
         :style="{ height: SLIDE_DATA.heightThumbs }"
@@ -243,7 +235,6 @@
               target: $sectionData.slide.items[index],
               keyText: 'thumb_title',
             }"
-            :index="index"
             v-html="
               $sectionData.slide.items[index].thumb_title?.applyAugment(
                 augment,
@@ -256,7 +247,6 @@
               target: $sectionData.slide.items[index],
               keyText: 'thumb_subtitle',
             }"
-            :index="index"
             v-html="
               $sectionData.slide.items[index].thumb_subtitle?.applyAugment(
                 augment,

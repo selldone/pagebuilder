@@ -58,11 +58,17 @@ export namespace Section {
 
 export class Section implements Section.ISection {
   public uid: string; // New save section ID
-  public id: string; // Old save section ID in data.id (depricated)
+  public id: string; // Old save section ID in data.id (deprecated)
   public name: string;
   public schema: any;
   public data: Section.IData;
-  public stylers: { instance: App; container: Element }[];
+  public stylers: {
+    instance: App;
+    container: Element;
+    argument: string;
+    //el: HTMLElement;
+    //props: any;
+  }[];
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
     LOG("⚽ Section > Constructor", options, this, force_set_new_uid);

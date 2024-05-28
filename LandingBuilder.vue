@@ -389,15 +389,8 @@ export default {
       return this.tab === "design";
     },
 
-    upload_bg_url() {
-      return this.$builder.getImageUploadUrl();
-    },
 
-    page_view_url() {
-      if (this.shop) return `/@${this.shop.name}/pages/${this.page.name}`;
-      // Official Samin!
-      else return this.isOfficialPage ? `/pages/${this.page.name}` : null;
-    },
+
 
     inPageEditMode() {
       return (

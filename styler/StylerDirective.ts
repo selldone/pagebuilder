@@ -12,7 +12,16 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {ComponentInstance, createApp, defineComponent, DirectiveBinding, h, ObjectDirective, VNode,} from "vue";
+import {
+  ComponentInstance,
+  createApp,
+  defineComponent,
+  DirectiveBinding,
+  h,
+  ObjectDirective,
+  reactive,
+  VNode,
+} from "vue";
 import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
 import {isObject, isString} from "lodash-es";
 import Builder from "../Builder.ts";
@@ -92,7 +101,7 @@ const StylerDirective: ObjectDirective<
   | StylerOptions.IProducts
 > = {
   mounted(
-    el: HTMLElement & { $section?: Section },
+    el: HTMLElement & { $section?: Section; props?: any },
     binding: DirectiveBinding,
     vnode: VNode,
   ) {
@@ -131,7 +140,7 @@ const StylerDirective: ObjectDirective<
 
     rootApp.appendChild(newNode);
 
-    // ------- Dynamic expression: -------
+    // ------- Dynamic expression: ------- // Deprecated!!!
     const index = el.getAttribute("index");
 
     let expression = binding.value;
@@ -200,17 +209,21 @@ const StylerDirective: ObjectDirective<
       },
     });
 
-    const props = {
-      route: instance.$route,
-      el,
-      section: section,
-      type: argument,
-      name: expression,
-      bindingValue: binding.value,
-
-      builder: builder,
-      ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
-    };
+    // const props = getProps(instance, el, section, argument, expression, binding);
+    const props = reactive(
+      getProps(instance, el, section, argument, expression, binding),
+    );
+    /*  const props = {
+                route: instance.$route,
+                el,
+                section: section,
+                type: argument,
+                name: expression,
+                bindingValue: binding.value,
+          
+                builder: builder,
+                ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
+              };*/
 
     // Create a new Vue app with the AAddonComparison component
     const vnode_styler = createApp({
@@ -236,7 +249,13 @@ const StylerDirective: ObjectDirective<
       return;
     }
 
-    section.stylers.push({ instance: vnode_styler, container: newNode });
+    el.props = props;
+
+    section.stylers.push({
+      instance: vnode_styler,
+      container: newNode,
+      argument: argument!,
+    });
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
@@ -244,10 +263,20 @@ const StylerDirective: ObjectDirective<
   },
 
   updated(
-    el: HTMLElement & { $section?: Section },
+    el: HTMLElement & { $section?: Section; props?: any },
     binding: DirectiveBinding & { $builder?: Builder },
     vnode: VNode,
   ) {
+    if (
+      binding.oldValue?.target &&
+      binding.oldValue?.target !== binding.value?.target
+    ) {
+      if (el.props) {
+        //console.log("Styler Directive Updated --------> ",existingStyler,'value', binding.value, "el", el);
+        Object.assign(el.props, binding.value);
+      }
+    }
+
     // Check if binding.value has changed
     if (DEBUG && binding.oldValue !== binding.value) {
       console.log("Styler directive updated", binding.value, "el", el);
@@ -258,6 +287,26 @@ const StylerDirective: ObjectDirective<
     }
   },
 };
+
+function getProps(
+  instance: any,
+  el: any,
+  section: any,
+  argument: any,
+  expression: any,
+  binding: any,
+) {
+  return {
+    route: instance.$route,
+    el,
+    section,
+    type: argument,
+    name: expression,
+    bindingValue: binding.value,
+    builder: instance.$builder,
+    ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
+  };
+}
 
 export default StylerDirective;
 

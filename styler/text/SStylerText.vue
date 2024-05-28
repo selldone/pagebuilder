@@ -71,7 +71,7 @@
           offset-y="8"
         >
           <button class="styler-button" @click="option = 'textColor'">
-            <v-icon dark size="20">format_color_text</v-icon>
+            <v-icon size="20">format_color_text</v-icon>
 
             <v-tooltip
               activator="parent"
@@ -160,7 +160,7 @@
 
       <li>
         <button class="styler-button" @click="option = 'text-gradient'">
-          <v-icon dark size="20">gradient</v-icon>
+          <v-icon size="20">gradient</v-icon>
           <v-tooltip
             activator="parent"
             attach
@@ -284,7 +284,7 @@
                 }
               "
             >
-              <v-icon dark size="20">{{ it.icon }}</v-icon>
+              <v-icon size="20">{{ it.icon }}</v-icon>
 
               <v-tooltip
                 activator="parent"
@@ -354,7 +354,7 @@
                 }
               "
             >
-              <v-icon dark size="20"
+              <v-icon size="20"
                 >{{ uppercase ? "title" : "format_size" }}
               </v-icon>
             </button>
@@ -379,9 +379,7 @@
                 }
               "
             >
-              <v-icon :class="'bg-' + it" class="text-gradient" dark
-                >lens
-              </v-icon>
+              <v-icon :class="'bg-' + it" class="text-gradient">lens </v-icon>
             </v-btn>
           </li>
           <v-divider class="mx-2" dark inset vertical></v-divider>
@@ -397,7 +395,7 @@
                 }
               "
             >
-              <v-icon dark size="20"
+              <v-icon size="20"
                 >{{ text_gradient_mode ? "texture" : "format_color_fill" }}
               </v-icon>
 

@@ -58,7 +58,7 @@ import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export namespace builder {
   export interface IOptions {

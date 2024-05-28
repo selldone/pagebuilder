@@ -33,7 +33,7 @@
 
       <li>
         <button class="styler-button" @click="showMasterDesignDialog()">
-          <v-icon dark size="20">architecture</v-icon>
+          <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -49,7 +49,7 @@
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon dark size="20">fa:fas fa-image</v-icon>
+          <v-icon size="20">fa:fas fa-image</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -65,7 +65,7 @@
 
       <li v-if="hasFluid">
         <button class="styler-button" @click="target.fluid = !target.fluid">
-          <v-icon dark size="20"
+          <v-icon size="20"
             >{{ target.fluid ? "swap_horiz" : "compare_arrows" }}
           </v-icon>
 
@@ -105,13 +105,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
     },
-
 
     /**
      * Set the location of the proper
@@ -131,19 +128,9 @@ export default {
   }),
 
   computed: {
-    blockFluid() {
-      // console.log('blockFluid',this.el.getAttribute("no-fluid"),this.el)
-      // Add :  :container-styler="true" If you want to prevent show fluid button on roe!
-      // console.log('container-styler',this.el.parentElement.getAttribute('container-styler'))
-      return (
-        (this.el.parentElement &&
-          this.el.parentElement.getAttribute("container-styler")) ||
-        this.el.getAttribute("no-fluid")
-      );
-    },
+
   },
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */

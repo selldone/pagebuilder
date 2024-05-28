@@ -17,7 +17,7 @@ import _ from "lodash-es";
 import Builder from "../../Builder.ts";
 import {Section} from "../../src/section/section";
 
-const DEBUG = false;
+const DEBUG = true;
 
 export const LMixinHistory = defineComponent({
   data() {
