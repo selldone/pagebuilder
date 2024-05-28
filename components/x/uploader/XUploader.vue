@@ -685,6 +685,12 @@ export default defineComponent({
     },
 
     init() {
+
+      if(!this.modelValue || typeof this.modelValue !== 'object'){
+        this.image = { src: null, setting: {} };
+        this.$emit("update:modelValue", this.image );
+        return;
+      }
       this.image = this.modelValue;
       // console.log('init',this.image)
 
@@ -703,14 +709,14 @@ export default defineComponent({
       // this.setting.contain=!this.cover
       // this.setting.aspect=this.aspectRatio
 
-      this.classes = this.modelValue.classes;
-      this.styles = this.modelValue.style;
+      this.classes = this.image.classes;
+      this.styles = this.image.style;
 
       if (!this.classes || !Array.isArray(this.classes)) {
         this.classes = this.initialClasses ? this.initialClasses : [];
         // Auto set class image:
         //  console.log('Auto set class image',this.classes)
-        this.modelValue.classes = this.classes;
+        this.image.classes = this.classes;
       }
 
       if (this.rounded && this.setting.round === undefined) {
@@ -854,7 +860,6 @@ export default defineComponent({
     },
   },
 });
-
 </script>
 
 <style lang="scss" scoped>
