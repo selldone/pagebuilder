@@ -40,7 +40,7 @@
           variant="text"
           @click="show_align = true"
         >
-          <v-icon dark size="20">vertical_distribute</v-icon>
+          <v-icon size="20">vertical_distribute</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -55,7 +55,7 @@
 
       <li>
         <button class="styler-button" @click="addNewButton()">
-          <v-icon color="#CDDC39" dark size="20">add_box</v-icon>
+          <v-icon color="#CDDC39" size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
@@ -135,7 +135,6 @@ export default {
     SStylerTemplate,
   },
   props: {
-
     target: {
       required: true,
       type: Object,
@@ -168,7 +167,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -182,11 +180,13 @@ export default {
     }
     // Auto seed buttons if not exist
     if (!this.target[this.keyButtons]) this.target[this.keyButtons] = [];
-    if (this.target[this.keyRow])
+    if (!this.target[this.keyRow]){
       this.target[this.keyRow] = {
         align: "center",
         justify: "space-around",
       };
+    }
+
   },
   mounted() {},
 

@@ -57,6 +57,11 @@
               <div>
                 <v-icon class="me-1">font_download</v-icon>
                 Page Fonts
+
+                <v-chip v-for="font in style.fonts" :key="font" size="small" class="ma-1" label>
+                  <span :style="{ fontFamily: font }">{{ font }}</span>
+                </v-chip>
+
               </div>
             </div>
           </v-expansion-panel-title>
@@ -80,10 +85,12 @@
               placeholder="Default shop font"
               variant="underlined"
             >
-              <template v-slot:item="{ item,props }">
-                <v-list-item v-bind="props" :style="{ fontFamily: item.raw }" >
+              <template v-slot:item="{ item, props }">
+                <v-list-item v-bind="props" :style="{ fontFamily: item.raw }">
                   <template v-slot:title>
-                    <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
+                    <span :style="{ fontFamily: item.raw }">{{
+                      item.raw
+                    }}</span>
                   </template>
                 </v-list-item>
               </template>
@@ -337,7 +344,7 @@ export default {
 
       ({ style, tab }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
-        console.log('style',style)
+        console.log("style", style);
 
         this.style = style;
 
@@ -393,6 +400,8 @@ export default {
       if (!this.style.fonts || !Array.isArray(this.style.fonts))
         this.style.fonts = [];
 
+      this.font_input = this.extractFontName(this.font_input);
+
       this.font_input = this.font_input.trim(); //.replace(' ','+')
       if (this.style.fonts.includes(this.font_input)) {
         this.font_input = "";
@@ -401,6 +410,25 @@ export default {
       this.style.fonts.push(this.font_input);
       this.font_input = "";
       FontLoader.LoadFonts(this.style.fonts);
+    },
+    extractFontName(url) {
+      if (!url?.startsWith("http")) return url;
+      // Create a URL object from the input URL string
+      const urlObject = new URL(url);
+
+      // Extract the pathname from the URL object
+      const pathname = urlObject.pathname;
+
+      // Split the pathname into parts using '/' as the delimiter
+      const parts = pathname.split("/");
+
+      // The font name will be the last part of the pathname
+      const fontName = parts[parts.length - 1];
+
+      // Replace '+' with spaces to get the actual font name
+      const decodedFontName = fontName.replace(/\+/g, " ");
+
+      return decodedFontName;
     },
 
     deleteFont(font) {

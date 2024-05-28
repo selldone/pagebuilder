@@ -59,7 +59,7 @@ export const LMixinStyler = defineComponent({
     //█████████████████████████████████████████████████████████████
     EventBus.$on(LEventsName.PAGE_BUILDER_STYLER_OPEN, ({ type, show }) => {
       if (show) {
-         //TODO: We can limit showing stylers here!
+        //TODO: We can limit showing stylers here!
       }
     });
   },
@@ -140,7 +140,6 @@ export const LMixinStyler = defineComponent({
             });
           });
         });
-
       }
     },
 
@@ -187,10 +186,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                      if (this.popper) {
-                                                        this.popper.destroy();
-                                                        this.popper = null;
-                                                      }*/
+                                                                  if (this.popper) {
+                                                                    this.popper.destroy();
+                                                                    this.popper = null;
+                                                                  }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!
@@ -433,6 +432,54 @@ export const LMixinStyler = defineComponent({
       // Add the new class to the first child element
       const child = this.el.firstChild;
       child.classList.add(`${prefix_class_name}${class_name}`);
+    },
+
+    //------------------------------------------------------------------
+    /**
+     * Safe past (remove all html tags)
+     * @param event
+     */
+    stripHtmlToText(event: any) {
+      // Prevent past section data:
+      try {
+        function IsValidJsonSectionString(str: any) {
+          try {
+            const json = JSON.parse(str);
+            return json.name && json.data && Object.keys(json.data).length > 0;
+          } catch (e) {}
+          return false;
+        }
+
+        const paste = (event.clipboardData || window.clipboardData).getData(
+          "text",
+        );
+        if (IsValidJsonSectionString(paste)) return;
+      } catch (e) {}
+      // console.log("types", event.clipboardData.types);
+
+      event.preventDefault();
+
+      const cb = event.clipboardData;
+      let pastedContent = "";
+      if (cb.types.indexOf("text/plain") !== -1) {
+        // contains html
+        pastedContent = cb.getData("text/plain");
+      } else if (cb.types.indexOf("text/html") !== -1) {
+        // contains text
+        pastedContent = $(cb.getData("text/html")).text();
+      } else {
+        return;
+        //pastedContent = cb.getData(cb.types[0]); // get whatever it has
+      }
+      // console.log("Past", event, pastedContent);
+      //    let doc = new DOMParser().parseFromString(pastedContent, "text/html");
+      //  const pure = doc.body.textContent.trim() || "";
+
+      const pure = pastedContent.replace(/(\r\n|\n|\r)/gm, "");
+      // console.log("Past", 'pure', pure);
+
+      //  console.log('pure',pure)
+      this.el.insertAtCaret(pure);
     },
   },
 });

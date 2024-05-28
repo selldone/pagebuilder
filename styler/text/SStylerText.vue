@@ -697,53 +697,7 @@ export default {
       this.setElementClass("text-align-", align.val, true);
     },
 
-    //------------------------------------------------------------------
-    /**
-     * Safe past (remove all html tags)
-     * @param event
-     */
-    stripHtmlToText(event) {
-      // Prevent past section data:
-      try {
-        function IsValidJsonSectionString(str) {
-          try {
-            let json = JSON.parse(str);
-            return json.name && json.data && Object.keys(json.data).length > 0;
-          } catch (e) {}
-          return false;
-        }
 
-        let paste = (event.clipboardData || window.clipboardData).getData(
-          "text",
-        );
-        if (IsValidJsonSectionString(paste)) return;
-      } catch (e) {}
-      // console.log("types", event.clipboardData.types);
-
-      event.preventDefault();
-
-      const cb = event.clipboardData;
-      let pastedContent = "";
-      if (cb.types.indexOf("text/plain") !== -1) {
-        // contains html
-        pastedContent = cb.getData("text/plain");
-      } else if (cb.types.indexOf("text/html") !== -1) {
-        // contains text
-        pastedContent = $(cb.getData("text/html")).text();
-      } else {
-        return;
-        //pastedContent = cb.getData(cb.types[0]); // get whatever it has
-      }
-      // console.log("Past", event, pastedContent);
-      //    let doc = new DOMParser().parseFromString(pastedContent, "text/html");
-      //  const pure = doc.body.textContent.trim() || "";
-
-      let pure = pastedContent.replace(/(\r\n|\n|\r)/gm, "");
-      // console.log("Past", 'pure', pure);
-
-      //  console.log('pure',pure)
-      this.el.insertAtCaret(pure);
-    },
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Root inner element > Toggle class ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 

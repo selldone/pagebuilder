@@ -16,7 +16,7 @@
   <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
   <!-- Start Buttons group -->
   <v-row
-    v-styler:buttons-row="{ target: object }"
+    v-styler:buttons-row="{ target: object,keyRow: 'btn_row'}"
     :align="object.btn_row ? object.btn_row.align : 'center'"
     :justify="object.btn_row ? object.btn_row.justify : 'space-around'"
     class="x--buttons"

@@ -580,6 +580,8 @@ export default {
     delete this.target.xLarge;
   },
   mounted() {
+    this.el.addEventListener("paste", this.stripHtmlToText, true);
+
 
     this.updateValue = () => {
       // console.log("📐 updateValue", this.target, this.keyText, this.el.innerHTML);
@@ -587,6 +589,12 @@ export default {
     };
     this.el.addEventListener("blur", this.updateValue);
   },
+  beforeUnmount() {
+    this.el.removeEventListener("paste", this.stripHtmlToText, true);
+
+    this.el.removeEventListener("blur", this.updateValue);
+  },
+
 
   methods: {
     updateOption(option) {

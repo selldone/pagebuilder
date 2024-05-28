@@ -19,7 +19,7 @@
     v-if="has_edit_toolbar || has_animate_toolbar"
     :activator="$refs.i_image"
     :close-on-content-click="false"
-    :open-delay="0"
+    :open-delay="300"
     location="top"
     open-on-hover
     transition="slide-y-reverse-transition"
