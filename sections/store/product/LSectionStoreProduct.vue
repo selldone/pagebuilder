@@ -129,7 +129,7 @@ export default {
 
       window.$storefront.products
         .optimize(600)
-        .getInfo(this.productInfo.id, { no_article: true })
+        .get(this.productInfo.id, { no_article: true })
         .then(({ product }) => {
           this.product = product;
 
