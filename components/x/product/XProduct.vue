@@ -69,7 +69,7 @@
     </template>
 
     <div
-      v-if="!product && $builder.isEditing && !$builder.isHideExtra"
+      v-if="!product && $builder.isEditing && !$builder.isHideExtra && !busy"
       class="text-center pp d-flex align-items-center justify-center flex-column bg-tiny-checkers"
     >
       <img
