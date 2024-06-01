@@ -84,6 +84,33 @@
     </v-btn>
 
     <v-spacer></v-spacer>
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Custom Show/Hide Section ▃▃▃▃▃▃▃▃▃▃ -->
+    <div class="position-relative">
+      <div class="d-flex align-center position-absolute " style="bottom: 12px;right: 0px">
+
+
+        <div  v-if="section.data.hide_sm" class="position-relative me-3 hover-scale" title="Hide on small screens">
+          <v-icon size="20" >smartphone</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red">block</v-icon>
+        </div>
+
+        <div v-if="section.data.hide_md" class="position-relative me-3 hover-scale" title="Hide on medium screens">
+          <v-icon  size="20" >tablet_android</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red">block</v-icon>
+        </div>
+
+        <div v-if="section.data.hide_lg"  class="position-relative me-3 hover-scale" title="Hide on normal screens">
+          <v-icon size="20" >laptop</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red">block</v-icon>
+        </div>
+        <div v-if="section.data.hide_xl" class="position-relative me-3 hover-scale" title="Hide on large screens">
+          <v-icon  size="20" >desktop_windows</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red">block</v-icon>
+        </div>
+
+      </div>
+    </div>
+
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Save Section (Page's Element) ▃▃▃▃▃▃▃▃▃▃ -->
 

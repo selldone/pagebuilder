@@ -35,7 +35,7 @@
     class="page-content"
   >
     <component
-      v-for="section in $builder.sections"
+      v-for="section in sections"
       :key="section.uid"
       :is="section.name"
       :id="section.uid"
@@ -90,6 +90,17 @@ export default {
         this.style.bg_repeat,
         this.style.bg_color,
       );
+    },
+
+    sections() {
+      return this.$builder.sections?.filter((section) => {
+        if (section.data?.hide_sm && this.$vuetify.display.sm) return false;
+        if (section.data?.hide_md && this.$vuetify.display.md) return false;
+        if (section.data?.hide_lg && this.$vuetify.display.lg) return false;
+        if (section.data?.hide_xl && this.$vuetify.display.xlAndUp) return false;
+
+        return true;
+      });
     },
   },
   watch: {

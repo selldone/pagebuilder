@@ -34,7 +34,7 @@
 
       <li>
         <button class="styler-button" @click="showMasterDesignDialog()">
-          <v-icon dark size="20">architecture</v-icon>
+          <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -46,11 +46,27 @@
         </button>
       </li>
 
+      <!-- ―――――――――――――――――― Show & Hide based on the screen size ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="option = 'screen'">
+          <v-icon size="20">visibility</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Show / Hide Screen Size
+          </v-tooltip>
+        </button>
+      </li>
+
       <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon dark size="20">fa:fas fa-image</v-icon>
+          <v-icon size="20">fa:fas fa-image</v-icon>
         </button>
         <v-tooltip
           activator="parent"
@@ -89,7 +105,7 @@
       <!-- ―――――――――――――――――― Frame Shape ―――――――――――――――――― -->
       <li>
         <button class="styler-button" @click="option = 'bg-styler'">
-          <v-icon dark size="20">style</v-icon>
+          <v-icon size="20">style</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
@@ -124,7 +140,6 @@
               key="1"
               class="bg-malibu-beach text-gradient"
               color="#1BD4F2"
-              dark
               size="20"
               >nights_stay
             </v-icon>
@@ -133,7 +148,6 @@
               key="2"
               class="bg-sunny-morning text-gradient"
               color="#FFC107"
-              dark
               size="20"
               >wb_sunny
             </v-icon>
@@ -195,6 +209,89 @@
           </v-item>
         </v-item-group>
       </li>
+
+      <!-- ―――――――――――――――――― Show & Hide based on the screen size ―――――――――――――――――― -->
+
+      <li v-if="option === 'screen'" style="--bg-color: #323c47">
+        <v-btn
+          :color="!target.hide_sm ? 'primary' : '#fff'"
+          style="background: transparent"
+          @click="target.hide_sm = !target.hide_sm"
+          variant="flat"
+          class="mx-1"
+          stacked
+          size="small"
+          density="compact"
+        >
+          <v-icon>{{
+            target.hide_sm ? "visibility_off" : "visibility"
+          }}</v-icon>
+          <div class="x-small tnt mt-1">
+            <v-icon size="12" class="me-1">smartphone</v-icon>
+            Mobile
+          </div>
+        </v-btn>
+
+        <v-btn
+          :color="!target.hide_md ? 'primary' : '#fff'"
+          style="background: transparent"
+          @click="target.hide_md = !target.hide_md"
+          variant="flat"
+          class="mx-1"
+          stacked
+          size="small"
+          density="compact"
+        >
+          <v-icon>{{
+            target.hide_md ? "visibility_off" : "visibility"
+          }}</v-icon>
+
+          <div class="x-small tnt mt-1">
+            <v-icon size="12" class="me-1">tablet_android</v-icon>
+            Tablet
+          </div>
+        </v-btn>
+
+        <v-btn
+          :color="!target.hide_lg ? 'primary' : '#fff'"
+          style="background: transparent"
+          @click="target.hide_lg = !target.hide_lg"
+          variant="flat"
+          class="mx-1"
+          stacked
+          size="small"
+          density="compact"
+        >
+          <v-icon>{{
+            target.hide_lg ? "visibility_off" : "visibility"
+          }}</v-icon>
+
+          <div class="x-small tnt mt-1">
+            <v-icon size="12" class="me-1">laptop</v-icon>
+            Normal
+          </div>
+        </v-btn>
+
+        <v-btn
+          :color="!target.hide_xl ? 'primary' : '#fff'"
+          style="background: transparent"
+          @click="target.hide_xl = !target.hide_xl"
+          variant="flat"
+          class="mx-1"
+          stacked
+          size="small"
+          density="compact"
+        >
+          <v-icon>{{
+            target.hide_xl ? "visibility_off" : "visibility"
+          }}</v-icon>
+
+          <div class="x-small tnt mt-1">
+            <v-icon size="12" class="me-1">desktop_windows</v-icon>
+            Large
+          </div>
+        </v-btn>
+      </li>
     </ul>
   </s-styler-template>
 </template>
@@ -237,13 +334,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
     },
-
 
     /**
      * Set the location of the proper
@@ -266,7 +360,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -338,17 +431,15 @@ export default {
     toggleDarkMode() {
       this.target.background.dark = !this.target.background.dark;
 
-
       // Force deep update:
 
       this.section.set(`$sectionData.background`, (background) => {
         background.dark = this.target.background.dark;
       });
-
     },
 
     changeBgStyle() {
-      console.log("this.bgStylerStyle", this.bgStylerStyle, this.target);
+      //console.log("this.bgStylerStyle", this.bgStylerStyle, this.target);
       this.removeClass(`bg-style-`);
       this.target.classes.push(this.bgStylerStyle);
     },
