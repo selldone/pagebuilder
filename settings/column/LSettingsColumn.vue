@@ -104,6 +104,26 @@
                 </v-row>
               </div>
 
+
+              <div v-else-if="item === 'custom'" class="pa-2">
+                <div class="mb-2 small"><b>Custom</b></div>
+
+                <div
+                    class="--image"
+                    style="
+                    height: 70px;
+                    min-width: 25px;
+                    background: #8097b4;
+                    position: relative;
+                    margin-bottom: 8px;
+                    border-radius: 8px;
+                  "
+                >
+                  <v-icon class="center-absolute" size="32">architecture</v-icon>
+                </div>
+
+              </div>
+
               <template v-else>
                 <div
                   :class="item"
@@ -201,6 +221,7 @@ import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 const LAYOUTS = [
   "product",
   "collection",
+ // "custom",
 
   "x-layout-normal", // Column | Image + Title + Content
   "x-layout-overlay-top", // Image + Column of Title Content inside image

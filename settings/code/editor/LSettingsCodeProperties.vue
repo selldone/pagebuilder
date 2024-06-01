@@ -57,6 +57,7 @@
               v-model="target[keyProperties][item.key]"
               :title="item.title"
               clearable
+              :max="9999"
             ></s-setting-number-input>
             <s-setting-switch
               v-else-if="item.type === 'boolean'"

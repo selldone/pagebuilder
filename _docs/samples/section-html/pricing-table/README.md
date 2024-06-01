@@ -1,0 +1,581 @@
+
+# Pricing Table
+
+### Page Builder Code
+You can copy and paste the following code into the raw code section of the page builder.
+
+```html
+<!----vue---->
+
+<v-container class="text-start"
+
+
+>
+    <h2 v-if="properties.title" v-html="properties.title" class="text-h3"></h2>
+    <h3 v-if="properties.subtitle" v-html="properties.subtitle" class="mb-5 font-weight-light"></h3>
+
+
+    <div class="text-center ">
+        <v-btn-toggle rounded="xl" v-model="current_offer_code" selected-class="bg-blue-accent-4 elevation-9" variant="outlined"  style="min-height: 64px">
+            <v-btn v-for="offer in properties.offers" :value="offer.code" style="text-transform: none" >{{offer.title}}</v-btn>
+        </v-btn-toggle>
+    </div>
+
+
+    <div class="d-flex align-center justify-center">
+        <div class="overflow-auto">
+            <div class="d-flex py-12 align-stretch justify-start">
+
+                <v-card
+                        v-for="plan in plans"
+                        :key="plan.code"
+                        class="mx-5 rounded-28px pa-4 position-relative overflow-hidden d-flex flex-column "
+                        :min-width="properties?.width*(plan.bold?1.1:1)"
+                        :max-width="properties?.width*(plan.bold?1.1:1)"
+                        :min-height="properties?.height"
+
+                        :style="[plan.bold?'transform: scale(1.05);z-index:2;margin:0 46px !important':'']"
+                        width="90%"
+                        :color="plan.color"
+                        :rounded="plan.rounded"
+                        :elevation="plan.elevation"
+                        border
+                >
+                    <div>
+                        <small
+                        >{{ plan.name }}</small
+                        >
+                    </div>
+
+                    <div class="text-center mt-8">
+                        <img
+                                :src="plan.image"
+                                class="me-1"
+                                height="36"
+                                width="36"
+                        />
+                        <h2 class="text-center">{{ plan.title }} Features</h2>
+                        <div></div>
+
+                        <div v-if="plan.soldout" style="  background-color: #d32f2f;
+  color: #fff;
+  padding: 4px 6px;
+  position: absolute;
+  top: 0;
+  right: 24px;
+  width: 120px;
+  font-size: 12px;
+  border-radius: 0 0 12px 12px;">
+                            <v-icon v-for="i in 5" :key="i" color="amber" size="x-small"
+                            >star
+                            </v-icon>
+                            <div class="my-1 font-weight-black">
+                                {{ `${plan.months} Months` }}
+                            </div>
+                            Sold Out
+                        </div>
+
+                        <div v-else-if="plan.choose" style="  background-color: #0b6aaa;
+  color: #fff;
+  padding: 4px 6px;
+  position: absolute;
+  top: 0;
+  right: 24px;
+  width: 120px;
+  font-size: 12px;
+  border-radius: 0 0 12px 12px;">
+                            <v-icon v-for="i in 5" :key="i" color="amber" size="x-small"
+                            >star
+                            </v-icon>
+                            <div class="my-1 font-weight-black">
+                                {{ `${plan.months} Months` }}
+                            </div>
+                            Best Buy
+                        </div>
+                    </div>
+                    <hr class="my-5"/>
+
+                    <div class="d-flex align-center">
+                        <v-icon class="me-1" >timelapse</v-icon>
+                        Deal Duration
+                        <v-spacer></v-spacer>
+
+                        <span><b class="me-1">{{ plan.months }}</b> Months</span>
+                    </div>
+
+                    <div v-for="(feature,i) in plan.main_features" :key="i" class="d-flex align-center mt-3">
+                        <v-icon v-if="feature.icon" class="me-1" >{{ feature.icon }}</v-icon>
+                        {{ feature.title }}
+
+                        <v-btn
+                                v-if="feature.tooltip"
+                                class="ms-1"
+                                icon
+                                variant="text"
+                                size="small"
+                        >
+                            <v-icon>info</v-icon>
+
+                            <v-tooltip
+                                    location="bottom"
+                                    max-width="420"
+                                    activator="parent"
+                                    content-class="bg-black"
+                            >
+                                <div class="text-start pa-3" v-html="feature.tooltip">
+
+                                </div>
+                            </v-tooltip>
+                        </v-btn>
+
+                        <v-spacer></v-spacer>
+                        <span class="text-h3 font-weight-black"
+                        >{{ feature.value }}<span class="small">{{ feature.unit }}</span></span
+                        >
+                    </div>
+
+
+                    <hr class="my-5"/>
+
+                    <div
+                            v-for="(feature,i) in plan.features" :key="i"
+                            class="py-1"
+
+                    >
+                        <v-icon class="me-2">{{ feature.icon }}</v-icon>
+                        {{ feature.title }}
+                    </div>
+
+                    <v-spacer></v-spacer>
+                    <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Extra bounds ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+                    <div v-if="plan.gift" class="py-2 text-subtitle-2 d-flex align-center">
+                        <u-lottie
+                                :options="{
+                    path: 'https://selldone.com/animation/happy_birthday.json',
+                    loop: false,
+                  }"
+                                :speed="1"
+                                height="44px"
+                                width="44px"
+                        ></u-lottie>
+                        <div class="flex-grow-1 ms-1" v-html="plan.gift"></div>
+                    </div>
+
+                    <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ More (Price list) ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+
+                    <div v-if="plan.more_link || plan.more_to" class="text-end">
+                        <v-btn :href="plan.more_link" :to="plan.more_to" target="_blank" variant="text" style="text-transform: none" rounded
+                               color="primary">more...</v-btn>
+
+                    </div>
+
+
+                    <hr class="my-5"/>
+
+                    <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Price ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+                    <div v-if="getPricing(plan).price_net && getPricing(plan).price_net > getPricing(plan).price">
+                        <u-price
+                                :amount="getPricing(plan).price_net"
+                                :currency="getPricing(plan).currency"
+                                large
+                                line-through
+                        ></u-price>
+                        <v-chip class="mx-2 mb-2" color="#D32F2F" label size="small" variant="elevated"
+                        ><b
+                        >{{
+                            Math.round(
+                            (100 * (getPricing(plan).price_net - getPricing(plan).price)) / getPricing(plan).price_net,
+                            "0",
+                            )
+                            }}%</b
+                        >
+                            <span class="mx-1">OFF</span>
+                        </v-chip>
+                    </div>
+
+                    <div class="d-flex align-end">
+                        <u-price
+                                :amount="getPricing(plan).price"
+                                :currency="plan.currency"
+                                x-large
+                        ></u-price>
+
+                    </div>
+
+                    <div v-if="getPricing(plan).tax " class="py-1">
+                        <span class="mx-2">+</span>
+                        <u-price
+                                :amount="getPricing(plan).tax"
+                                :currency="plan.currency"
+                                class="me-1"
+                        >
+                        </u-price>
+                        <span class="small">{{ plan.tax_label }}</span>
+                    </div>
+
+                    <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Login / User info ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+                    <div v-if="user" :class="{ disabled: plan.soldout }">
+                        <v-list-item>
+                            <template v-slot:prepend>
+                                <v-avatar class="avatar-gradient -thin -user">
+                                    <v-img :src="`/users/${user.id}/profile/avatar/small`"></v-img>
+                                </v-avatar>
+                            </template>
+
+                            <v-list-item-title>
+                                {{ user.name }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                                {{ user.email }}
+                            </v-list-item-subtitle>
+                        </v-list-item>
+                    </div>
+
+                    <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Buy Button ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+
+                    <div
+                            :class="{ disabled: plan.soldout }"
+                            class="mt-5 flex-grow-0"
+                    >
+                        <v-btn
+                                block
+                                size="x-large"
+                                :href="plan.action?.href"
+                                :to="plan.action?.to"
+                                :color="plan.action?.color"
+                                rounded="lg"
+                                style="text-transform: none"
+                        >
+
+                            <v-icon v-if="plan.action?.icon" class="me-2">{{ plan.action?.icon }}</v-icon>
+
+                            {{
+                            plan.action?.text
+                            }}
+                        </v-btn>
+                    </div>
+
+                    <div class="text-end mt-4 text-muted" style="font-size: 12px">
+                        <v-icon size="12">shield</v-icon>
+                        Payments are secured by <b style="color: #6653dc">Stripe</b>
+
+                    </div>
+                </v-card>
+
+
+            </div>
+        </div>
+    </div>
+</v-container>
+
+
+<script>
+    const config= {
+        props: {
+            // This will be feed by landing builder if you want to build a dynamic and customizable landing section!
+            properties: {
+                default: () => ({
+                    title: 'Incredible Offer Deal',
+                    subtitle: 'Get the best deal for your business with Selldone today!',
+
+
+                    height: 600, // Minimum height of the card
+                    width: 320,  // Width of the card
+
+                    offers:[
+                        {title:'Monthly Plans',code:'monthly',default:true},
+                        {title:'Yearly Plans',code:'yearly'},
+
+                    ]
+
+                }),
+            },
+        },
+        data() {
+            return {
+
+                current_offer_code:'monthly',
+
+                plans: [
+
+                    // ━━━━━━━━━━━━━━━━━━━━ PLAN 1 ━━━━━━━━━━━━━━━━━━━━
+                    {
+                        name: 'Basic',
+                        image: 'https://placehold.co/400',
+                        title: 'Basic Features',
+                        months: 12,
+                        color: '#fff',
+                        rounded: 'xl',
+                        elevation: 0,
+
+                        soldout: true,
+                        choose: false,
+                        bold:false,
+
+                        main_features: [
+                            {
+                                title: 'Stores',
+                                icon: 'storefront',
+                                value: 1,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                            {
+                                title: 'Products',
+                                icon: 'shelves',
+                                value: 100,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                        ],
+
+                        features: [
+                            {
+                                icon: 'all_inclusive',
+                                title: 'Free Domain',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Free SSL',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Community Builder',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Marketplace Builder',
+                            },
+                        ],
+
+                        more_link: 'https://selldone.com',
+                        more_to: undefined,
+
+                        gift: '<b>Free</b> 1 Year Domain',
+
+
+                        currency: 'USD',
+                        tax_label: 'VAT',
+
+                        pricing:{
+                            monthly:{
+                                price_net: 1500,
+                                price: 899,
+                                tax: 80,
+
+                            },
+                            yearly:{
+                                price_net:1500,
+                                price: 799,
+                                tax: 70,
+                            }
+                        },
+
+                        // Action:
+                        action: {
+                            href: 'https://selldone.com',
+                            text: 'Buy Now',
+                            icon: 'payment',
+                            color: "#0b6aaa"
+                        }
+                    },
+
+// ━━━━━━━━━━━━━━━━━━━━ PLAN 2 ━━━━━━━━━━━━━━━━━━━━
+                    {
+                        name: 'Pro',
+                        image: 'https://placehold.co/400',
+                        title: 'Professional Features',
+                        months: 12,
+                        color: '#000000',
+                        rounded: 'xl',
+                        elevation: 12,
+
+                        soldout: false,
+                        choose: true,
+                        bold:true,
+
+                        main_features: [
+                            {
+                                title: 'Stores',
+                                icon: 'storefront',
+                                value: 3,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                            {
+                                title: 'Products',
+                                icon: 'shelves',
+                                value: 500,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                        ],
+
+                        features: [
+                            {
+                                icon: 'all_inclusive',
+                                title: 'Free Domain',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Free SSL',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Advanced Analytics',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Priority Support',
+                            },
+                        ],
+
+                        more_link: 'https://selldone.com',
+                        more_to: undefined,
+
+                        gift: '<b>Free</b> 2 Years Domain',
+
+
+                        currency: 'USD',
+                        tax_label: 'VAT',
+
+
+                        pricing:{
+                            monthly:{
+                                price_net:3000,
+                                price: 1899,
+                                tax: 160,
+
+
+                            },
+                            yearly:{
+                                price_net:3000,
+                                price: 1799,
+                                tax: 150,
+                            }
+
+                        },
+
+                        // Action:
+                        action: {
+                            href: 'https://selldone.com',
+                            text: 'Buy Now',
+                            icon: 'payment',
+                            color: "#fff"
+                        }
+                    },
+
+                    // ━━━━━━━━━━━━━━━━━━━━ PLAN 3 ━━━━━━━━━━━━━━━━━━━━
+                    {
+                        name: 'Enterprise',
+                        image: 'https://placehold.co/400',
+                        title: 'Enterprise Features',
+                        months: 12,
+                        color: '#fff',
+                        rounded: 'xl',
+                        elevation: 0,
+
+                        soldout: false,
+                        choose: false,
+                        bold:false,
+
+                        main_features: [
+                            {
+                                title: 'Stores',
+                                icon: 'storefront',
+                                value: 10,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                            {
+                                title: 'Products',
+                                icon: 'shelves',
+                                value: 2000,
+                                unit: 'x',
+                                tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                            },
+                        ],
+
+                        features: [
+                            {
+                                icon: 'all_inclusive',
+                                title: 'Free Domain',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Free SSL',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Dedicated Support',
+                            },
+                            {
+                                icon: 'check',
+                                title: 'Custom Integrations',
+                            },
+                        ],
+
+                        more_link: 'https://selldone.com',
+                        more_to: undefined,
+
+                        gift: '<b>Free</b> 3 Years Domain',
+
+
+                        currency: 'USD',
+                        tax_label: 'VAT',
+
+
+                        pricing:{
+
+
+                            monthly:{
+                                price_net: 5000,
+                                price: 3999,
+                                tax: 320,
+
+
+                            },
+                            yearly:{
+                                price_net:5000,
+                                price: 3760,
+                                tax: 300,
+                            }
+
+                        },
+
+                        // Action:
+                        action: {
+                            href: 'https://selldone.com',
+                            text: 'Buy Now',
+                            icon: 'payment',
+                            color: "#0b6aaa"
+                        }
+                    },
+
+
+                ],
+            };
+        },
+        computed: {
+            user() {
+                return window.$storefront?.USER // Global way to get current user!
+            }
+        },
+        methods: {
+            getPricing(plan){
+                const out= plan.pricing && plan.pricing[this.current_offer_code];
+                if(!out)return {};
+                return  out;
+            }
+        },
+        created() {
+            this.current_offer_code=this.properties.offers.find(o=>o.default)?.code;
+            if(!this.current_offer_code)this.current_offer_code=this.properties.offers[0]?.code;
+        }
+    }
+
+</script>
+```

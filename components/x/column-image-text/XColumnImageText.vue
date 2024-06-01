@@ -28,13 +28,20 @@
         :augment="augment"
       >
       </x-product>
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection-4 ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
       <x-collection
         v-else-if="selected_layout === 'collection'"
         :object="object"
         :augment="augment"
       >
       </x-collection>
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Custom ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--  <x-custom
+           v-else-if="selected_layout === 'custom'"
+           :object="object"
+           :augment="augment"
+       >
+       </x-custom>-->
       <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
 
       <div v-else :class="layout_class" class="position-relative">
