@@ -70,14 +70,14 @@
 
     <div
       v-if="!product && $builder.isEditing && !$builder.isHideExtra && !busy"
-      class="text-center pp d-flex align-items-center justify-center flex-column bg-tiny-checkers"
+      class="text-center pp d-flex align-items-center justify-center flex-column bg-tiny-checkers usn"
     >
-      <img
-        class="m-3"
-        height="96"
-        src="@selldone/components-vue/assets/icons/product-comparison.svg"
-        width="96"
-      />
+      <v-icon
+        class="ma-3"
+        size="96"
+      >
+        shelves
+      </v-icon>
       <p>Select a product</p>
     </div>
   </v-card>

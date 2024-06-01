@@ -30,14 +30,14 @@
 
     <div
       v-else-if="$builder.isEditing && !$builder.isHideExtra"
-      class="text-center min-height-40vh widget-hover pointer-pointer d-flex align-items-center justify-center flex-column bg-tiny-checkers"
+      class="text-center min-height-40vh widget-hover pointer-pointer d-flex align-items-center justify-center flex-column bg-tiny-checkers usn"
     >
-      <img
-        class="m-3"
-        height="96"
-        src="@selldone/components-vue/assets/icons/product-comparison.svg"
-        width="96"
-      />
+      <v-icon
+          class="ma-3"
+          size="96"
+      >
+        shelves
+      </v-icon>
       <p class="text-h2">Select a product</p>
     </div>
   </x-section>
