@@ -14,7 +14,12 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <v-card class="text-start px-4 py-2" variant="text">
-    <h3 class="mb-2">{{ object.title }}</h3>
+    <h3
+      class="mb-2"
+      v-if="object.title || SHOW_EDIT_TOOLS"
+      v-styler:text="{ target: object, keyText: 'title' }"
+      v-html="object.title?.applyAugment(augment, $builder.isEditing)"
+    ></h3>
     <x-row
       :column-structure="ItemType"
       :object="object"
@@ -44,7 +49,7 @@
           cover
         />
         <div
-          v-if="object.title || SHOW_EDIT_TOOLS"
+          v-if="col.title || SHOW_EDIT_TOOLS"
           class="text-subtitle-2 line-height-normal"
           v-styler:text="{ target: col, keyText: 'title' }"
           v-html="col.title?.applyAugment(augment, $builder.isEditing)"
