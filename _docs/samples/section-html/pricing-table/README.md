@@ -304,7 +304,7 @@ You can copy and paste the following code into the raw code section of the page 
                     // ━━━━━━━━━━━━━━━━━━━━ PLAN 1 ━━━━━━━━━━━━━━━━━━━━
                     {
                         name: 'Basic',
-                        image: 'https://placehold.co/400',
+                        image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
                         title: 'Basic Features',
                         months: 12,
                         color: '#fff',
@@ -386,7 +386,7 @@ You can copy and paste the following code into the raw code section of the page 
 // ━━━━━━━━━━━━━━━━━━━━ PLAN 2 ━━━━━━━━━━━━━━━━━━━━
                     {
                         name: 'Pro',
-                        image: 'https://placehold.co/400',
+                        image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
                         title: 'Professional Features',
                         months: 12,
                         color: '#000000',
@@ -471,7 +471,7 @@ You can copy and paste the following code into the raw code section of the page 
                     // ━━━━━━━━━━━━━━━━━━━━ PLAN 3 ━━━━━━━━━━━━━━━━━━━━
                     {
                         name: 'Enterprise',
-                        image: 'https://placehold.co/400',
+                        image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
                         title: 'Enterprise Features',
                         months: 12,
                         color: '#fff',
