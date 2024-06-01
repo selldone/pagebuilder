@@ -38,7 +38,7 @@
       >
         shelves
       </v-icon>
-      <p class="text-h2">Select a product</p>
+      <p>Select a product</p>
     </div>
   </x-section>
 </template>
