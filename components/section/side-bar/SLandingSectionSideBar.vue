@@ -17,7 +17,7 @@
     :class="{
       '-copy': copy_hover,
       '-delete': delete_hover,
-      '-row': ['LSectionTextMarquee'].includes(section.name) || el_height < 200,
+      '-row': is_row,
     }"
     class="side-section"
     v-size="
@@ -84,11 +84,12 @@
     </v-btn>
 
     <v-spacer></v-spacer>
-    <!-- ▃▃▃▃▃▃▃▃▃▃ Custom Show/Hide Section ▃▃▃▃▃▃▃▃▃▃ -->
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Custom Show / Hide Section ▃▃▃▃▃▃▃▃▃▃ -->
     <div class="position-relative">
       <div
         class="d-flex align-center position-absolute"
-        style="bottom: 12px; right: 0px"
+        :style="{ bottom: is_row ? '42px' : '12px' }"
+        style="right: 0px"
       >
         <div
           v-if="section.data?.hide_sm"
@@ -97,8 +98,8 @@
         >
           <v-icon size="20">smartphone</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-            >block</v-icon
-          >
+            >block
+          </v-icon>
         </div>
 
         <div
@@ -108,8 +109,8 @@
         >
           <v-icon size="20">tablet_android</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-            >block</v-icon
-          >
+            >block
+          </v-icon>
         </div>
 
         <div
@@ -119,8 +120,8 @@
         >
           <v-icon size="20">laptop</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-            >block</v-icon
-          >
+            >block
+          </v-icon>
         </div>
         <div
           v-if="section.data?.hide_xl"
@@ -129,8 +130,8 @@
         >
           <v-icon size="20">desktop_windows</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-            >block</v-icon
-          >
+            >block
+          </v-icon>
         </div>
       </div>
     </div>
@@ -240,6 +241,15 @@ export default defineComponent({
       delete_hover: false,
       el_height: 0,
     };
+  },
+
+  computed: {
+    is_row() {
+      return (
+        ["LSectionTextMarquee"].includes(this.section.name) ||
+        this.el_height < 200
+      );
+    },
   },
 
   created() {},
