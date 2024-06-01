@@ -16,7 +16,6 @@
   <x-section
     v-styler:product="{ target: $sectionData.product_info }"
     :object="$sectionData"
-
   >
     <s-product-overview
       v-if="product"
@@ -122,7 +121,7 @@ export default {
     getProductInfo() {
       this.product = null;
 
-      console.log(`getProductInfo ----> `, this.productInfo);
+      //console.log(`getProductInfo ----> `, this.productInfo);
       if (!this.productInfo || !this.productInfo.id) return;
 
       this.busy = true;

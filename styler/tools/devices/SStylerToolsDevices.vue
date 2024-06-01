@@ -37,9 +37,9 @@
         <v-chip
           v-if="mobileValue"
           color="green"
-          label
-          size="small"
-          variant="tonal"
+          class="mx-1"
+          size="x-small"
+          variant="flat"
           >{{ mobileValue }}
         </v-chip>
       </v-tooltip>
@@ -70,9 +70,9 @@
         <v-chip
           v-if="tabletValue"
           color="green"
-          label
-          size="small"
-          variant="tonal"
+          class="mx-1"
+          size="x-small"
+          variant="flat"
           >{{ tabletValue }}
         </v-chip>
       </v-tooltip>
@@ -103,9 +103,9 @@
         <v-chip
           v-if="desktopValue"
           color="green"
-          label
-          size="small"
-          variant="tonal"
+          class="mx-1"
+          size="x-small"
+          variant="flat"
           >{{ desktopValue }}
         </v-chip>
       </v-tooltip>
@@ -123,7 +123,7 @@
         color="#fff"
         location="bottom end"
       >
-        <v-icon dark size="20">tv</v-icon>
+        <v-icon size="20">tv</v-icon>
       </v-badge>
 
       <v-tooltip
@@ -136,9 +136,9 @@
         <v-chip
           v-if="widescreenValue"
           color="green"
-          label
-          size="small"
-          variant="tonal"
+          class="mx-1"
+          size="x-small"
+          variant="flat"
           >{{ widescreenValue }}
         </v-chip>
       </v-tooltip>

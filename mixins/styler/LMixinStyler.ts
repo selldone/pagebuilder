@@ -96,7 +96,7 @@ export const LMixinStyler = defineComponent({
           ? this.$refs.styler.$el /*Vue components*/
           : this.$refs.styler; /*Native elements*/
 
-        const PADDING = 15;
+        const PADDING =this.positionOffset?this.positionOffset: 15;
         // When the floating element is open on the screen
         this.cleanup = autoUpdate(referenceEl, floatingEl, () => {
           computePosition(referenceEl, floatingEl, {
@@ -186,10 +186,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                  if (this.popper) {
-                                                                    this.popper.destroy();
-                                                                    this.popper = null;
-                                                                  }*/
+                                                                        if (this.popper) {
+                                                                          this.popper.destroy();
+                                                                          this.popper = null;
+                                                                        }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!
@@ -450,6 +450,7 @@ export const LMixinStyler = defineComponent({
           return false;
         }
 
+        // @ts-ignore
         const paste = (event.clipboardData || window.clipboardData).getData(
           "text",
         );

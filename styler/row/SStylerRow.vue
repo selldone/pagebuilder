@@ -40,7 +40,7 @@
           variant="text"
           @click="show_align = true"
         >
-          <v-icon dark size="20">vertical_distribute</v-icon>
+          <v-icon size="20">vertical_distribute</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -55,7 +55,7 @@
 
       <li v-if="hasWrap">
         <button class="styler-button" @click="toggleNoWrap">
-          <v-icon dark size="20"
+          <v-icon  size="20"
             >{{ target[keyRow].no_wrap ? "view_column" : "view_comfy" }}
           </v-icon>
           <v-tooltip
@@ -81,7 +81,7 @@
 
       <li v-if="hasFluid">
         <button class="styler-button" @click="toggleFluid">
-          <v-icon dark size="20"
+          <v-icon  size="20"
             >{{ target[keyRow].fluid ? "swap_horiz" : "compare_arrows" }}
           </v-icon>
           <v-tooltip
@@ -97,7 +97,7 @@
 
       <li v-if="hasAdd">
         <button class="styler-button" @click="addNewColumn()">
-          <v-icon color="#CDDC39" dark size="20">add_box</v-icon>
+          <v-icon color="#CDDC39"  size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
@@ -176,8 +176,6 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
@@ -246,7 +244,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -258,9 +255,9 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerRow");
     }
-    // Auto seed buttons if not exist
+    // Auto seed columns if not exist
     if (!this.target[this.keyColumns]) this.target[this.keyColumns] = [];
-    if (this.target[this.keyRow])
+    if (!this.target[this.keyRow])
       this.target[this.keyRow] = {
         align: "center",
         justify: "space-around",
@@ -274,7 +271,9 @@ export default {
      */
     addNewColumn() {
       console.log("addNewColumn", this.target[this.keyColumns]);
-      this.target[this.keyColumns].push(LUtilsSeeder.seed(this.columnStructure));
+      this.target[this.keyColumns].push(
+        LUtilsSeeder.seed(this.columnStructure),
+      );
     },
 
     toggleNoWrap() {

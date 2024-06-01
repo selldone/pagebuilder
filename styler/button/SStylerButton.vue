@@ -176,7 +176,7 @@
         <ul class="align">
           <li v-for="it in TextAlign" :key="it.val">
             <button
-              :title="getName(it.val)"
+              :title="it.val"
               class="styler-button"
               @mousedown="
                 (event) => {
@@ -489,6 +489,10 @@ export default {
       type: String,
       default: "content",
     },
+    keyAlign: {
+      type: String,
+      default: "align",
+    },
   },
   data: () => ({
     TextAlign: TextAlign,
@@ -618,6 +622,7 @@ export default {
 
     setTextAlign(val) {
       this.setElementClass("text-align-", val, true);
+      this.target[this.keyAlign] = val;
     },
 
     setBackground(color) {

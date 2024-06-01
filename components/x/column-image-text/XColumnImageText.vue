@@ -21,7 +21,23 @@
       has-custom-layout
       no-grid
     >
-      <div :class="layout_class" class="position-relative">
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <x-product
+        v-if="selected_layout === 'product'"
+        :object="object"
+        :augment="augment"
+      >
+      </x-product>
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection-4 ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <x-collection
+        v-else-if="selected_layout === 'collection'"
+        :object="object"
+        :augment="augment"
+      >
+      </x-collection>
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
+
+      <div v-else :class="layout_class" class="position-relative">
         <h3
           v-if="
             layout_class === 'x-layout-middle' &&
@@ -95,26 +111,15 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
+import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 
-const LAYOUTS = [
-  "x-layout-normal", // Column | Image + Title + Content
-  "x-layout-overlay-top", // Image + Column of Title Content inside image
-  "x-layout-overlay-center",
-  "x-layout-overlay-bottom",
-  "x-layout-image",
-  "x-layout-reverse",
-  "x-layout-row",
-  "x-layout-row-reverse",
-  "x-layout-middle", // Title Image Content
-  "x-layout-title-content", //Title Content (no image)
-  "x-layout-content-title", // Content Title (no image)
-];
 export default defineComponent({
   name: "XColumnImageText",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XUploader, XButton },
+  components: { XCollection, XProduct, XUploader, XButton },
 
   props: {
     object: { required: true },
@@ -136,7 +141,6 @@ export default defineComponent({
   data: () => ({
     standard_classes: LUtilsClasses.StandardClasses(),
 
-    LAYOUTS: LAYOUTS,
     selected_layout: null,
   }),
 

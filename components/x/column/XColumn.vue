@@ -20,6 +20,7 @@
       target: object,
       hasCustomLayout: hasCustomLayout,
       removeColumn: removeColumn,
+      position:nested?'left-bottom':undefined,
     }"
     :class="[
       !noGrid ? calcGridClasses(object.grid) : undefined,
@@ -71,6 +72,14 @@ export default defineComponent({
       // Used in v-styler
       type: Function,
     },
+
+    /**
+     * Change the offset for the proper in nested columns to prevent overlap
+     * Default is 15
+     */
+    nested: Boolean
+
+
   },
   created() {},
 

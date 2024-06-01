@@ -81,6 +81,11 @@ export default defineComponent({
         };
       },
     },
+
+    /**
+     * Set the location of the proper
+     */
+    position:{},
   },
   data: () => ({}),
 
@@ -97,6 +102,7 @@ export default defineComponent({
         hasAdd: this.addColumn,
         hasArrangement: this.hasArrangement,
         hasFluid: this.hasFluid,
+        position:this.position
       };
     },
   },

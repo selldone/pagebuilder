@@ -54,7 +54,7 @@
 
       <li v-if="hasCustomLayout">
         <button class="styler-button" @click="showCustomLayout">
-          <v-icon dark size="20">fit_screen</v-icon>
+          <v-icon size="20">fit_screen</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -64,6 +64,9 @@
           >
             Customize Layout
           </v-tooltip>
+          <v-icon size="10" class="absolute-top-end" color="amber">
+            auto_awesome
+          </v-icon>
         </button>
       </li>
 
@@ -71,7 +74,7 @@
 
       <li>
         <button class="styler-button" @click="showMasterDesignDialog()">
-          <v-icon dark size="20">architecture</v-icon>
+          <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -88,7 +91,7 @@
 
       <li>
         <button class="styler-button" @click="showStyleDialog()">
-          <v-icon dark size="20">fa:fas fa-image</v-icon>
+          <v-icon size="20">fa:fas fa-image</v-icon>
           <v-tooltip
             activator="parent"
             attach
@@ -171,12 +174,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
     target: {
       required: true,
       type: Object,
     },
-
 
     /**
      * Set the location of the proper
@@ -185,6 +186,11 @@ export default {
       type: String,
       default: "bottom",
     },
+    /**
+     * Set custom offset for the proper
+     * Default is 15
+     */
+    positionOffset: {},
 
     removeColumn: {
       type: Function,
@@ -208,7 +214,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */

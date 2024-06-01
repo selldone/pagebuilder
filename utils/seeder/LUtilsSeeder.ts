@@ -20,8 +20,6 @@ import avatarImage from "../../assets/images/samples/empty-photo-1.svg";
 import logoImage from "../../assets/images/samples/empty-photo-2.svg";
 import sampleImage from "../../assets/images/samples/empty-photo-3.svg";
 
-
-
 const DEBUG = false;
 
 const SeederRepository: Map<string, any> = new Map<string, any>([
@@ -217,8 +215,8 @@ const SeederRepository: Map<string, any> = new Map<string, any>([
       height: "24px",
       duration: "10s",
       color: null,
-      space:200,
-      repeat:10
+      space: 200,
+      repeat: 10,
     }),
   ],
 ]);

@@ -50,32 +50,22 @@
           list below.
         </v-list-subheader>
 
-        <v-slide-group class="py-5" show-arrows>
-          <v-slide-group-item v-for="item in LAYOUTS" :key="item">
+        <v-row class="py-5" no-gutters>
+          <v-col v-for="item in LAYOUTS" :key="item">
             <v-card
               :style="target.layout === item ? 'border: solid 2px #fff;' : ''"
               class="ma-4"
-              color="#285c94"
-              height="160"
+              color="#BBDEFB"
+              height="140"
               rounded="lg"
               style="font-size: 80%"
               variant="outlined"
               width="100"
               @click="selectLayout(item)"
             >
-              <div
-                :class="item"
-                class="position-relative small text-start pa-2"
-              >
-                <h3 v-if="item === 'x-layout-middle'">Title...</h3>
-
+              <div v-if="item === 'product'" class="pa-2">
+                <div class="mb-2 small"><b>Product</b></div>
                 <div
-                  v-if="
-                    ![
-                      'x-layout-title-content',
-                      'x-layout-content-title',
-                    ].includes(item)
-                  "
                   class="--image"
                   style="
                     height: 70px;
@@ -86,18 +76,73 @@
                     border-radius: 8px;
                   "
                 >
-                  <v-icon class="center-absolute" color="#225082"
-                    >crop_original
-                  </v-icon>
+                  <v-icon class="center-absolute" size="32">inventory_2</v-icon>
                 </div>
-                <div class="--contents">
-                  <h3 v-if="item !== 'x-layout-middle'">Title...</h3>
-                  <p class="m-0">Content...</p>
-                </div>
+
+                <u-price :amount="18.99" class="me-2"></u-price>
               </div>
+
+              <div v-else-if="item === 'collection'" class="pa-2">
+                <div class="mb-2 small"><b>Collection</b></div>
+
+                <v-row dense class="text-center">
+                  <v-col v-for="i in 4" :key="i" cols="6">
+                    <div
+                      class="--image mx-auto"
+                      style="
+                        height: 28px;
+                        width: 28px;
+                        background: #8097b4;
+                        position: relative;
+                        margin-bottom: 8px;
+                        border-radius: 8px;
+                      "
+                    ></div>
+
+                    <div style="font-size: 6px">Subtitle...</div>
+                  </v-col>
+                </v-row>
+              </div>
+
+              <template v-else>
+                <div
+                  :class="item"
+                  class="position-relative small text-start px-2"
+                >
+                  <h3 v-if="item === 'x-layout-middle'" class="my-2">
+                    Title...
+                  </h3>
+
+                  <div
+                    v-if="
+                      ![
+                        'x-layout-title-content',
+                        'x-layout-content-title',
+                      ].includes(item)
+                    "
+                    class="--image my-2"
+                    style="
+                      height: 70px;
+                      min-width: 25px;
+                      background: #8097b4;
+                      position: relative;
+                      margin-bottom: 8px;
+                      border-radius: 8px;
+                    "
+                  >
+                    <v-icon class="center-absolute" color="#225082"
+                      >crop_original
+                    </v-icon>
+                  </div>
+                  <div class="--contents my-2">
+                    <h3 v-if="item !== 'x-layout-middle'">Title...</h3>
+                    <p class="m-0">Content...</p>
+                  </div>
+                </div>
+              </template>
             </v-card>
-          </v-slide-group-item>
-        </v-slide-group>
+          </v-col>
+        </v-row>
 
         <v-list-subheader>
           You can customize the column style by selecting from the provided
@@ -151,8 +196,12 @@ import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import * as Types from "../../src/types/types";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 
 const LAYOUTS = [
+  "product",
+  "collection",
+
   "x-layout-normal", // Column | Image + Title + Content
   "x-layout-overlay-top", // Image + Column of Title Content inside image
   "x-layout-overlay-center",
@@ -170,7 +219,7 @@ export default {
   name: "LSettingsColumn",
   mixins: [LMixinEvents],
 
-  components: { USmartToggle },
+  components: { UPrice, USmartToggle },
 
   props: {},
   data: () => ({
