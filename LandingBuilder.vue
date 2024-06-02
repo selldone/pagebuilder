@@ -129,7 +129,6 @@
       v-show="tab === 'design'"
       ref="vueBuilder"
       :ai-auto-fill-function="aiAutoFillFunction"
-      :hasSaveButton="isOfficialPage"
       :page="page"
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"

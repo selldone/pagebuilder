@@ -26,6 +26,7 @@
       v-if="show_templates"
       :themes="themes"
       has-header
+      clickable
       @select:raw-theme="(_raw) => addTheme(_raw)"
       @select:page="(_page) => loadTemplate(_page)"
     ></l-templates-list>
@@ -830,10 +831,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    hasSaveButton: {
-      type: Boolean,
-      default: false,
-    },
+
 
     device: {
       default: "desktop", // desktop   tablet   mobile
@@ -855,6 +853,7 @@ export default defineComponent({
     },
 
     aiAutoFillFunction: {},
+
   },
   data() {
     return {
@@ -944,6 +943,9 @@ export default defineComponent({
     load_percent() {
       return (100 * this.delay_load) / this.sections_length;
     },
+    is_loading_sections(){
+      return this.sections_length && this.load_percent<100
+    },
     shop_page() {
       return this.shop && !this.isMenu && !this.isPopup ? this.page : null;
     },
@@ -993,24 +995,10 @@ export default defineComponent({
     "$builder.sections": {
       deep: true,
       handler(sections) {
-        if (!this.page?.id) return; // Only emit changes if page exists!
+        // Do not emit sections change in loading sections!
+        if(this.is_loading_sections)return;
+        this.onUpdatePreview()
 
-        const _page = {
-          title: this.title,
-          image: this.page.image,
-          name: this.page.name,
-          direction: this.page.direction,
-          color: this.page.color,
-          content: {
-            title: this.title,
-            sections: sections.map((s) => ({
-              name: s.name,
-              data: s.data,
-            })),
-            style: this.builder.style,
-          },
-        };
-        this.$emit("update:preview", _page);
       },
     },
 
@@ -1260,6 +1248,31 @@ export default defineComponent({
   },
 
   methods: {
+    onUpdatePreview: _.throttle( function () {
+      const sections=this.$builder?.sections;
+      // console.log("sections -------->", sections);
+      if (!this.page?.id) return; // Only emit changes if page exists!
+
+      const _page = {
+        title: this.title,
+        image: this.page.image,
+        name: this.page.name,
+        direction: this.page.direction,
+        color: this.page.color,
+        content: {
+          title: this.title,
+          sections: sections.map((s) => ({
+            name: s.name,
+            data: s.data,
+          })),
+          style: this.builder.style,
+        },
+      };
+      this.$emit("update:preview", _page);
+
+
+    }, 1000),
+
     //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
     registerPastListener() {
       // Add global past:
@@ -1454,12 +1467,6 @@ export default defineComponent({
 
       this.$builder.add(section, position, true, true);
 
-      // Fix BUG direction change by vuetify!
-      this.$nextTick(() => {
-        //console.log("Set Direction addSection > Fix", this.getCurrentLanguage().dir);
-        //this.$vuetify.locale.isRtl = this.getCurrentLanguage().dir === "rtl";
-      });
-
       this.onSaveHistory();
     },
 
@@ -1474,7 +1481,7 @@ export default defineComponent({
         } else {
           this.delay_load = 999;
         }
-      }, 300);
+      }, 100);
     },
 
     addTheme(theme) {

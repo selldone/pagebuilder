@@ -128,7 +128,7 @@ export const LMixinHistory = defineComponent({
 
     //――――――――――――――――――――――  History > Save ――――――――――――――――――――
 
-    onSaveHistory() {
+    async onSaveHistory  () {
       const builder = this.builder as Builder;
       if (DEBUG)
         console.log(

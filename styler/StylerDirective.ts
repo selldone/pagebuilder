@@ -23,7 +23,7 @@ import {
   VNode,
 } from "vue";
 import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
-import {isObject, isString} from "lodash-es";
+import {isObject} from "lodash-es";
 import Builder from "../Builder.ts";
 import {Section} from "../src/section/section";
 import SStylerButtons from "../styler/buttons/SStylerButtons.vue";
@@ -100,11 +100,18 @@ const StylerDirective: ObjectDirective<
   | StylerOptions.IButton
   | StylerOptions.IProducts
 > = {
-  mounted(
-    el: HTMLElement & { $section?: Section; props?: any },
+  async mounted(
+    el: HTMLElement & {
+      $section?: Section;
+      __props?: any;
+      __instance?: any;
+      __container?: any;
+    },
     binding: DirectiveBinding,
     vnode: VNode,
   ) {
+    //console.log("MOUNTED STYLER!");
+
     const instance = binding.instance as ComponentInstance<{
       $builder: Builder;
       $section: Section;
@@ -112,6 +119,9 @@ const StylerDirective: ObjectDirective<
 
     // Get builder from main page editor/viewer
     const builder: Builder = instance.$builder;
+
+    const isEditing = builder.isEditing;
+    if (!isEditing) return;
 
     // Get section from parent section
     const section: Section = instance.$section;
@@ -131,38 +141,13 @@ const StylerDirective: ObjectDirective<
       builder?.isEditing ? "✅" : "❌",
     );
 
-    const isEditing = builder.isEditing;
-
-    if (!isEditing) return;
-
     const newNode = document.createElement("div");
     const rootApp = instance.$root!.$el;
 
     rootApp.appendChild(newNode);
 
     // ------- Dynamic expression: ------- // Deprecated!!!
-    const index = el.getAttribute("index");
-
-    let expression = binding.value;
-
-    // ━━━━━━━━━━━━━━━━━━ Dynamic Nested Path (Nested Components) ━━━━━━━━━━━━━━━━━━
-    if (
-      isString(
-        binding.value,
-      ) /*When we feed raw path to v-styler like in nested X components!*/ &&
-      binding.value.includes("{path}") // e.g. v-styler="`${path}.title`"
-    ) {
-      // ━━━━━━━━━━━━━━━━━━ Replace index in Path (Loop) ━━━━━━━━━━━━━━━━━━
-      expression = expression.replace("index", index);
-    }
-
-    // ━━━━━━━━━━━━━━━━━━ Exceptions ━━━━━━━━━━━━━━━━━━
-
-    /**
-     * Handle dynamic v-stylers (If value is null then do not apply v-styler!) {@see XRow}
-     */
-    //if (binding.arg === "row" && !binding.value) return;
-
+    const expression = binding.value;
     // ━━━━━━━━━━━━━━━━━━ Create Styler ━━━━━━━━━━━━━━━━━━
 
     const argument = binding.arg;
@@ -213,17 +198,6 @@ const StylerDirective: ObjectDirective<
     const props = reactive(
       getProps(instance, el, section, argument, expression, binding),
     );
-    /*  const props = {
-                route: instance.$route,
-                el,
-                section: section,
-                type: argument,
-                name: expression,
-                bindingValue: binding.value,
-          
-                builder: builder,
-                ...(isObject(binding.value) ? binding.value : {}), // Pass binding values as props for styler component
-              };*/
 
     // Create a new Vue app with the AAddonComparison component
     const vnode_styler = createApp({
@@ -249,21 +223,31 @@ const StylerDirective: ObjectDirective<
       return;
     }
 
-    el.props = props;
+    el.__props = props;
+    el.__instance = vnode_styler;
+    el.__container = newNode;
 
-    section.stylers.push({
-      instance: vnode_styler,
-      container: newNode,
-      argument: argument!,
-    });
+    /**
+         * Bottleneck! slow down performance!
+
+         section.stylers.push({
+         instance: vnode_styler,
+         container: newNode,
+         argument: argument!,
+         });*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
     }
   },
 
-  updated(
-    el: HTMLElement & { $section?: Section; props?: any },
+  async updated(
+    el: HTMLElement & {
+      $section?: Section;
+      __props?: any;
+      __instance?: any;
+      __container?: any;
+    },
     binding: DirectiveBinding & { $builder?: Builder },
     vnode: VNode,
   ) {
@@ -271,20 +255,36 @@ const StylerDirective: ObjectDirective<
       binding.oldValue?.target &&
       binding.oldValue?.target !== binding.value?.target
     ) {
-      if (el.props) {
+      if (el.__props) {
+        //console.log("UPDATE STYLER! A");
         //console.log("Styler Directive Updated --------> ",existingStyler,'value', binding.value, "el", el);
-        Object.assign(el.props, binding.value);
+        Object.assign(el.__props, binding.value);
       }
     }
 
     // Check if binding.value has changed
-    if (DEBUG && binding.oldValue !== binding.value) {
-      console.log("Styler directive updated", binding.value, "el", el);
-    }
+    /* if (DEBUG && binding.oldValue !== binding.value) {
+                   console.log("Styler directive updated", binding.value, "el", el);
+                 }*/
     // Set is-editable class in editing mode:
     if (binding?.$builder?.isEditing && !el.classList.contains("is-editable")) {
+      //console.log("UPDATE STYLER! B");
       el.classList.add("is-editable");
     }
+  },
+
+  beforeUnmount(
+    el: HTMLElement & {
+      $section?: Section;
+      __props?: any;
+      __instance?: any;
+      __container?: any;
+    },
+  ) {
+    //console.log("Destroy all stylers in the section!", el);
+
+    el.__instance?.unmount();
+    el.__container?.remove();
   },
 };
 

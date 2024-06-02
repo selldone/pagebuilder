@@ -52,7 +52,7 @@ export namespace Section {
     name: string;
     schema: Object;
     data: IData;
-    stylers: { instance: App; container: Element }[];
+    //stylers: { instance: App; container: Element }[];
   }
 }
 
@@ -62,13 +62,13 @@ export class Section implements Section.ISection {
   public name: string;
   public schema: any;
   public data: Section.IData;
-  public stylers: {
+ /* public stylers: {
     instance: App;
     container: Element;
     argument: string;
     //el: HTMLElement;
     //props: any;
-  }[];
+  }[];*/
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
     LOG("⚽ Section > Constructor", options, this, force_set_new_uid);
@@ -79,7 +79,7 @@ export class Section implements Section.ISection {
     this.name = options.name;
     this.schema = options.schema;
     this.data = options.data || LUtilsSeeder.seed(options.schema);
-    this.stylers = [];
+    //this.stylers = [];
 
     this.uid = options.uid;
     // Compatible with old version:
@@ -146,13 +146,13 @@ export class Section implements Section.ISection {
   }
 
   destroy() {
-    LOG("Destroy all stylers in the section!", this);
+   /* LOG("Destroy all stylers in the section!", this);
 
     this.stylers.forEach(({ instance, container }) => {
       instance.unmount();
       container.remove();
     });
-    this.stylers = [];
+    this.stylers = [];*/
   }
 
   /**

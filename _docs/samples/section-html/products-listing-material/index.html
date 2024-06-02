@@ -71,7 +71,8 @@
 <div id="app">
     <v-app>
 
-        <v-sheet :color="properties?.background_color" style="overflow-x: auto;width: 100%" class="my-5 py-3 py-sm-5 mx-auto"
+        <v-sheet :color="properties?.background_color" style="overflow-x: auto;width: 100%"
+                 class="my-5 py-3 py-sm-5 mx-auto"
                  :style="[$vuetify.display.xlAndUp?'border-radius:2rem;max-width:1720px;width:98%;':'',
                  {
                      '--height':properties?.height,
@@ -107,7 +108,8 @@
                                 flat
                                 :to="getProductTo(product)"
                         >
-                            <v-img :src="getImageUrl(product.icon)" height="var(--image-height)"  :cover="properties?.cover"></v-img>
+                            <v-img :src="getImageUrl(product.icon)" height="var(--image-height)"
+                                   :cover="properties?.cover"></v-img>
                             <div class="d-flex justify-space-between pa-2">
                                 <b>{{ product.price }}
                                     {{ product.currency }}</b>
@@ -115,7 +117,9 @@
                                     {{ Math.round(100 * (product.discount) / (product.price)) }}%
                                 </v-chip>
                             </div>
-                            <v-card-text class="text-wrap pb-2" style="font-size: var(--font-size-text);overflow: hidden;">{{ product.title }}</v-card-text>
+                            <v-card-text class="text-wrap pb-2"
+                                         style="font-size: var(--font-size-text);overflow: hidden;">{{ product.title }}
+                            </v-card-text>
 
                         </v-card>
                     </v-col>
@@ -161,14 +165,18 @@
     const {createApp, h} = Vue;
 
     document.addEventListener('DOMContentLoaded', function () {
-        const app = createApp(
-            {
+
+        const sdk = storefront.StorefrontSDK;
+        sdk.Setup();
+
+
+        const config = {
             props: {
                 // This will be feed by landing builder if you want to build a dynamic and customizable landing section!
                 properties: {
                     default: () => ({
                         title: 'Incredible Offer Deal',
-                        background_color:'#ef3c51',
+                        background_color: '#ef3c51',
 
                         limit: 10,
                         icon: 'https://cdn.selldone.com/app/shops/115/pages/1926/images/confettisvg967788a152da6f5a63ca8fef86119157.svg',
@@ -179,13 +187,13 @@
                         action_more_icon: 'trending_flat',
 
                         height: '240px',
-                        width:'200px',
+                        width: '200px',
                         font_size_header: '1.5rem',
                         font_size_text: '0.85rem',
 
-                        cover:false,
+                        cover: false,
 
-                        with_limited_time:false
+                        with_limited_time: false
                     }),
                 },
             },
@@ -198,7 +206,7 @@
             },
             methods: {
                 fetchProducts(dir, more, limit, options) {
-                    window.$storefront.products
+                    window.$storefront?.products
                         .optimize(600) // Cache products for 600 seconds
                         .list(dir, more ? this.products.length : 0, limit, options)
                         .then(({products, folders}) => {
@@ -214,7 +222,7 @@
                 },
                 getProductTo(product) {
                     return {
-                        name: window.$storefront.routes.PRODUCT_PAGE,
+                        name: window.$storefront?.routes.PRODUCT_PAGE,
                         params: {
                             product_id: product.id,
                         }
@@ -222,7 +230,7 @@
                 },
                 getProductsListingTo() {
                     return {
-                        name: window.$storefront.routes.SHOP_PAGE,
+                        name: window.$storefront?.routes.SHOP_PAGE,
                         query: {
                             search: '*',
                             sort: 'most_popular',
@@ -232,8 +240,6 @@
                 }
             },
             created() {
-                const sdk = storefront.StorefrontSDK;
-                sdk.Setup();
 
                 this.fetchProducts('*', false, this.properties?.limit, {
                     categories_count: 0,
@@ -244,7 +250,10 @@
                     search: null,
                     search_type: null,
                     dirs: null,
-                    filter: JSON.stringify({only_has_discount: true,limited_offer:this.properties?.with_limited_time}),
+                    filter: JSON.stringify({
+                        only_has_discount: true,
+                        limited_offer: this.properties?.with_limited_time
+                    }),
                     products_only: false,
                     categories_only: false,
                     with_total: true,
@@ -254,7 +263,9 @@
                     surrounded: false
                 })
             }
-        });
+        }
+
+        const app = createApp(config);
 
         const {createVuetify} = Vuetify;
         const vuetify = createVuetify({});

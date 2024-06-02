@@ -83,96 +83,99 @@ You can copy and paste the following code into the raw code section of the page 
 
 
 <script>
- config = {
-     props: {
-         // This will be feed by landing builder if you want to build a dynamic and customizable landing section!
-         properties: {
-             default: () => ({
-                 title: 'Incredible Offer Deal',
-                 background_color:'#ef3c51',
+    const config = {
+        props: {
+            // This will be feed by landing builder if you want to build a dynamic and customizable landing section!
+            properties: {
+                default: () => ({
+                    title: 'Incredible Offer Deal',
+                    background_color: '#ef3c51',
 
-                 limit: 10,
-                 icon: 'https://cdn.selldone.com/app/shops/115/pages/1926/images/confettisvg967788a152da6f5a63ca8fef86119157.svg',
-                 action_offer: 'More Info',
-                 action_offer_icon: 'chevron_right',
+                    limit: 10,
+                    icon: 'https://cdn.selldone.com/app/shops/115/pages/1926/images/confettisvg967788a152da6f5a63ca8fef86119157.svg',
+                    action_offer: 'More Info',
+                    action_offer_icon: 'chevron_right',
 
-                 action_more: 'View All',
-                 action_more_icon: 'trending_flat',
+                    action_more: 'View All',
+                    action_more_icon: 'trending_flat',
 
-                 height: '240px',
-                 width:'200px',
-                 font_size_header: '1.5rem',
-                 font_size_text: '0.85rem',
+                    height: '240px',
+                    width: '200px',
+                    font_size_header: '1.5rem',
+                    font_size_text: '0.85rem',
 
-                 cover:false,
+                    cover: false,
 
-                 with_limited_time:false
-             }),
-         },
-     },
-     data() {
-         return {
+                    with_limited_time: false
+                }),
+            },
+        },
+        data() {
+            return {
 
-             products: [],
-             folders: []
-         };
-     },
-     methods: {
-         fetchProducts(dir, more, limit, options) {
-             window.$storefront.products
-                     .optimize(600) // Cache products for 600 seconds
-                     .list(dir, more ? this.products.length : 0, limit, options)
-                     .then(({products, folders}) => {
-                         this.products = products;
-                         this.folders = folders;
-                     })
-                     .catch((error) => {
-                         console.error("Failed to fetch products:", error);
-                     });
-         },
-         getImageUrl(path, size) {
-             return window.CDN.GET_SHOP_IMAGE_PATH(path, size)
-         },
-         getProductTo(product) {
-             return {
-                 name: window.$storefront.routes.PRODUCT_PAGE,
-                 params: {
-                     product_id: product.id,
-                 }
-             }
-         },
-         getProductsListingTo() {
-             return {
-                 name: window.$storefront.routes.SHOP_PAGE,
-                 query: {
-                     search: '*',
-                     sort: 'most_popular',
-                     filter: JSON.stringify({only_has_discount: true})
-                 }
-             }
-         }
-     },
-     created() {
+                products: [],
+                folders: []
+            };
+        },
+        methods: {
+            fetchProducts(dir, more, limit, options) {
+                window.$storefront?.products
+                        .optimize(600) // Cache products for 600 seconds
+                        .list(dir, more ? this.products.length : 0, limit, options)
+                        .then(({products, folders}) => {
+                            this.products = products;
+                            this.folders = folders;
+                        })
+                        .catch((error) => {
+                            console.error("Failed to fetch products:", error);
+                        });
+            },
+            getImageUrl(path, size) {
+                return window.CDN.GET_SHOP_IMAGE_PATH(path, size)
+            },
+            getProductTo(product) {
+                return {
+                    name: window.$storefront?.routes.PRODUCT_PAGE,
+                    params: {
+                        product_id: product.id,
+                    }
+                }
+            },
+            getProductsListingTo() {
+                return {
+                    name: window.$storefront?.routes.SHOP_PAGE,
+                    query: {
+                        search: '*',
+                        sort: 'most_popular',
+                        filter: JSON.stringify({only_has_discount: true})
+                    }
+                }
+            }
+        },
+        created() {
 
-         this.fetchProducts('*', false, this.properties?.limit, {
-             categories_count: 0,
-             with_parent: true,
-             with_page: true,
-             sort: 'random',
-             available: false,
-             search: null,
-             search_type: null,
-             dirs: null,
-             filter: JSON.stringify({only_has_discount: true,limited_offer:this.properties?.with_limited_time}),
-             products_only: false,
-             categories_only: false,
-             with_total: true,
-             bounds: null,
-             tags: null,
-             vendor_id: null,
-             surrounded: false
-         })
-     }
- }
+            this.fetchProducts('*', false, this.properties?.limit, {
+                categories_count: 0,
+                with_parent: true,
+                with_page: true,
+                sort: 'random',
+                available: false,
+                search: null,
+                search_type: null,
+                dirs: null,
+                filter: JSON.stringify({
+                    only_has_discount: true,
+                    limited_offer: this.properties?.with_limited_time
+                }),
+                products_only: false,
+                categories_only: false,
+                with_total: true,
+                bounds: null,
+                tags: null,
+                vendor_id: null,
+                surrounded: false
+            })
+        }
+    }
 </script>
 ```

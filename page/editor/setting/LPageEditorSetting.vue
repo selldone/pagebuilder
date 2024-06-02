@@ -95,27 +95,30 @@
       />
 
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
-      <s-widget-header
-        :to="{ name: 'BPageShopClassificationClusters' }"
-        add-caption="Management"
-        add-icon="settings"
-        add-text
-        icon="workspaces"
-        title="Cluster"
-      ></s-widget-header>
+      <template v-if="!isOfficialPage">
+        <s-widget-header
+          :to="{ name: 'BPageShopClassificationClusters' }"
+          add-caption="Management"
+          add-icon="settings"
+          add-text
+          icon="workspaces"
+          title="Cluster"
+        ></s-widget-header>
 
-      <v-list-subheader>
-        By linking this page to a cluster, you can effortlessly locate and
-        manage it.
-      </v-list-subheader>
-      <b-cluster-input
-        :model-value="clusterId"
-        :return-object="false"
-        clearable
-        icon="workspaces_filled"
-        no-home
-        @update:modelValue="(val) => $emit('update:clusterId', val)"
-      ></b-cluster-input>
+        <v-list-subheader>
+          By linking this page to a cluster, you can effortlessly locate and
+          manage it.
+        </v-list-subheader>
+        <b-cluster-input
+          :model-value="clusterId"
+          :return-object="false"
+          clearable
+          icon="workspaces_filled"
+          no-home
+          @update:modelValue="(val) => $emit('update:clusterId', val)"
+        ></b-cluster-input>
+      </template>
+
       <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
     </div>
 
@@ -157,10 +160,7 @@
         </div>
       </v-list-subheader>
 
-      <u-smart-verify
-        v-model="verify_delete"
-        color="red"
-      ></u-smart-verify>
+      <u-smart-verify v-model="verify_delete" color="red"></u-smart-verify>
 
       <div class="widget-buttons">
         <v-btn

@@ -181,8 +181,8 @@
               <l-template-card
                 :loading="busy_get_template === item.id"
                 :template="item"
-                @select="$route.params.shop_id ? loadTemplate(item) : undefined"
-                :clickable="!!$route.params.shop_id"
+                @select="clickable ? loadTemplate(item) : undefined"
+                :clickable="clickable"
                 variant="outlined"
                 min-width="280"
               ></l-template-card>
@@ -210,6 +210,7 @@ export default {
       type: Array,
     },
     hasHeader: { type: Boolean },
+    clickable:Boolean,
   },
   data() {
     return {
