@@ -264,8 +264,8 @@ const StylerDirective: ObjectDirective<
 
     // Check if binding.value has changed
     /* if (DEBUG && binding.oldValue !== binding.value) {
-                   console.log("Styler directive updated", binding.value, "el", el);
-                 }*/
+                       console.log("Styler directive updated", binding.value, "el", el);
+                     }*/
     // Set is-editable class in editing mode:
     if (binding?.$builder?.isEditing && !el.classList.contains("is-editable")) {
       //console.log("UPDATE STYLER! B");

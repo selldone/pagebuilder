@@ -80,6 +80,9 @@ export namespace builder {
     server?: IServer;
     type?: ModelType;
     model?: IModel;
+
+    /** Ignore sections name to do not show in the list */
+    ignoreSections?:string[],
   }
 
   export interface IState {
@@ -226,7 +229,7 @@ export class Builder {
     LOG("⚽ 2. Start Install...");
 
     initializeXComponents(app);
-    initializeSections(app);
+    initializeSections(app,options.ignoreSections);
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
@@ -560,11 +563,13 @@ const SectionComponents: any[] = [
 /**
  * Adds a component section to the builder and arguments it with the styler.
  */
-function initializeSections(app: App) {
+function initializeSections(app: App,ignoreSections?:string[]) {
   //console.log("🔧",  "Installing components...",SectionComponents);
 
   SectionComponents.forEach((_component) => {
     //console.log("🔧", _component, _component?.name, "Install");
+
+    if(ignoreSections?.includes(_component.name))return;
 
     if (_component) {
       Components[_component.name] = _component;

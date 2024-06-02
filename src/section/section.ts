@@ -15,7 +15,6 @@
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
 import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
-import {App} from "vue";
 import {isString} from "lodash-es";
 import {LUtilsObject} from "../../utils/object/LUtilsObject";
 
@@ -62,13 +61,14 @@ export class Section implements Section.ISection {
   public name: string;
   public schema: any;
   public data: Section.IData;
- /* public stylers: {
-    instance: App;
-    container: Element;
-    argument: string;
-    //el: HTMLElement;
-    //props: any;
-  }[];*/
+
+  /* public stylers: {
+       instance: App;
+       container: Element;
+       argument: string;
+       //el: HTMLElement;
+       //props: any;
+     }[];*/
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
     LOG("⚽ Section > Constructor", options, this, force_set_new_uid);
@@ -146,13 +146,13 @@ export class Section implements Section.ISection {
   }
 
   destroy() {
-   /* LOG("Destroy all stylers in the section!", this);
-
-    this.stylers.forEach(({ instance, container }) => {
-      instance.unmount();
-      container.remove();
-    });
-    this.stylers = [];*/
+    /* LOG("Destroy all stylers in the section!", this);
+     
+         this.stylers.forEach(({ instance, container }) => {
+           instance.unmount();
+           container.remove();
+         });
+         this.stylers = [];*/
   }
 
   /**
