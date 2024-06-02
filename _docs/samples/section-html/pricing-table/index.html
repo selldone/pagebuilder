@@ -56,8 +56,7 @@
     <v-app>
 
         <v-container class="text-start"
-
-
+                     :fluid="properties.fluid"
         >
             <h2 v-if="properties.title" v-html="properties.title" class="text-h3"></h2>
             <h3 v-if="properties.subtitle" v-html="properties.subtitle" class="mb-5 font-weight-light"></h3>
@@ -77,7 +76,7 @@
                        <v-card
                                v-for="plan in plans"
                                :key="plan.code"
-                               class="mx-5 rounded-28px pa-4 position-relative overflow-hidden d-flex flex-column "
+                               class="mx-5 pa-4 position-relative overflow-hidden d-flex flex-column "
                                :min-width="properties?.width*(plan.bold?1.1:1)"
                                :max-width="properties?.width*(plan.bold?1.1:1)"
                                :min-height="properties?.height"
@@ -340,7 +339,7 @@
                     default: () => ({
                         title: 'Incredible Offer Deal',
                         subtitle: 'Get the best deal for your business with Selldone today!',
-
+                        fluid: true, // Full width of the card
 
                         height: 600, // Minimum height of the card
                         width: 320,  // Width of the card
@@ -348,8 +347,266 @@
                         offers:[
                             {title:'Monthly Plans',code:'monthly',default:true},
                             {title:'Yearly Plans',code:'yearly'},
+                        ],
 
-                        ]
+                        plans: [
+
+                            // ━━━━━━━━━━━━━━━━━━━━ PLAN 1 ━━━━━━━━━━━━━━━━━━━━
+                            {
+                                name: 'Basic',
+                                image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
+                                title: 'Basic Features',
+                                months: 12,
+                                color: '#fff',
+                                rounded: 'xl',
+                                elevation: 0,
+
+                                soldout: true,
+                                choose: false,
+                                bold:false,
+
+                                main_features: [
+                                    {
+                                        title: 'Stores',
+                                        icon: 'storefront',
+                                        value: 1,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                    {
+                                        title: 'Products',
+                                        icon: 'shelves',
+                                        value: 100,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                ],
+
+                                features: [
+                                    {
+                                        icon: 'all_inclusive',
+                                        title: 'Free Domain',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Free SSL',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Community Builder',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Marketplace Builder',
+                                    },
+                                ],
+
+                                more_link: 'https://selldone.com',
+                                more_to: undefined,
+
+                                gift: '<b>Free</b> 1 Year Domain',
+
+
+                                currency: 'USD',
+                                tax_label: 'VAT',
+
+                                pricing:{
+                                    monthly:{
+                                        price_net: 1500,
+                                        price: 899,
+                                        tax: 80,
+
+                                    },
+                                    yearly:{
+                                        price_net:1500,
+                                        price: 799,
+                                        tax: 70,
+                                    }
+                                },
+
+                                // Action:
+                                action: {
+                                    href: 'https://selldone.com',
+                                    text: 'Buy Now',
+                                    icon: 'payment',
+                                    color: "#0b6aaa"
+                                }
+                            },
+
+// ━━━━━━━━━━━━━━━━━━━━ PLAN 2 ━━━━━━━━━━━━━━━━━━━━
+                            {
+                                name: 'Pro',
+                                image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
+                                title: 'Professional Features',
+                                months: 12,
+                                color: '#000000',
+                                rounded: 'xl',
+                                elevation: 12,
+
+                                soldout: false,
+                                choose: true,
+                                bold:true,
+
+                                main_features: [
+                                    {
+                                        title: 'Stores',
+                                        icon: 'storefront',
+                                        value: 3,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                    {
+                                        title: 'Products',
+                                        icon: 'shelves',
+                                        value: 500,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                ],
+
+                                features: [
+                                    {
+                                        icon: 'all_inclusive',
+                                        title: 'Free Domain',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Free SSL',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Advanced Analytics',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Priority Support',
+                                    },
+                                ],
+
+                                more_link: 'https://selldone.com',
+                                more_to: undefined,
+
+                                gift: '<b>Free</b> 2 Years Domain',
+
+
+                                currency: 'USD',
+                                tax_label: 'VAT',
+
+
+                                pricing:{
+                                    monthly:{
+                                        price_net:3000,
+                                        price: 1899,
+                                        tax: 160,
+
+
+                                    },
+                                    yearly:{
+                                        price_net:3000,
+                                        price: 1799,
+                                        tax: 150,
+                                    }
+
+                                },
+
+                                // Action:
+                                action: {
+                                    href: 'https://selldone.com',
+                                    text: 'Buy Now',
+                                    icon: 'payment',
+                                    color: "#fff"
+                                }
+                            },
+
+                            // ━━━━━━━━━━━━━━━━━━━━ PLAN 3 ━━━━━━━━━━━━━━━━━━━━
+                            {
+                                name: 'Enterprise',
+                                image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
+                                title: 'Enterprise Features',
+                                months: 12,
+                                color: '#fff',
+                                rounded: 'xl',
+                                elevation: 0,
+
+                                soldout: false,
+                                choose: false,
+                                bold:false,
+
+                                main_features: [
+                                    {
+                                        title: 'Stores',
+                                        icon: 'storefront',
+                                        value: 10,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                    {
+                                        title: 'Products',
+                                        icon: 'shelves',
+                                        value: 2000,
+                                        unit: 'x',
+                                        tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
+                                    },
+                                ],
+
+                                features: [
+                                    {
+                                        icon: 'all_inclusive',
+                                        title: 'Free Domain',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Free SSL',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Dedicated Support',
+                                    },
+                                    {
+                                        icon: 'check',
+                                        title: 'Custom Integrations',
+                                    },
+                                ],
+
+                                more_link: 'https://selldone.com',
+                                more_to: undefined,
+
+                                gift: '<b>Free</b> 3 Years Domain',
+
+
+                                currency: 'USD',
+                                tax_label: 'VAT',
+
+
+                                pricing:{
+
+
+                                    monthly:{
+                                        price_net: 5000,
+                                        price: 3999,
+                                        tax: 320,
+
+
+                                    },
+                                    yearly:{
+                                        price_net:5000,
+                                        price: 3760,
+                                        tax: 300,
+                                    }
+
+                                },
+
+                                // Action:
+                                action: {
+                                    href: 'https://selldone.com',
+                                    text: 'Buy Now',
+                                    icon: 'payment',
+                                    color: "#0b6aaa"
+                                }
+                            },
+
+
+                        ],
 
                     }),
                 },
@@ -359,269 +616,15 @@
 
                     current_offer_code:'monthly',
 
-                    plans: [
 
-                        // ━━━━━━━━━━━━━━━━━━━━ PLAN 1 ━━━━━━━━━━━━━━━━━━━━
-                        {
-                            name: 'Basic',
-                            image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
-                            title: 'Basic Features',
-                            months: 12,
-                            color: '#fff',
-                            rounded: 'xl',
-                            elevation: 0,
-
-                            soldout: true,
-                            choose: false,
-                            bold:false,
-
-                            main_features: [
-                                {
-                                    title: 'Stores',
-                                    icon: 'storefront',
-                                    value: 1,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                                {
-                                    title: 'Products',
-                                    icon: 'shelves',
-                                    value: 100,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                            ],
-
-                            features: [
-                                {
-                                    icon: 'all_inclusive',
-                                    title: 'Free Domain',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Free SSL',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Community Builder',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Marketplace Builder',
-                                },
-                            ],
-
-                            more_link: 'https://selldone.com',
-                            more_to: undefined,
-
-                            gift: '<b>Free</b> 1 Year Domain',
-
-
-                            currency: 'USD',
-                            tax_label: 'VAT',
-
-                            pricing:{
-                                monthly:{
-                                    price_net: 1500,
-                                    price: 899,
-                                    tax: 80,
-
-                                },
-                                yearly:{
-                                    price_net:1500,
-                                    price: 799,
-                                    tax: 70,
-                                }
-                            },
-
-                            // Action:
-                            action: {
-                                href: 'https://selldone.com',
-                                text: 'Buy Now',
-                                icon: 'payment',
-                                color: "#0b6aaa"
-                            }
-                        },
-
-// ━━━━━━━━━━━━━━━━━━━━ PLAN 2 ━━━━━━━━━━━━━━━━━━━━
-                        {
-                            name: 'Pro',
-                            image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
-                            title: 'Professional Features',
-                            months: 12,
-                            color: '#000000',
-                            rounded: 'xl',
-                            elevation: 12,
-
-                            soldout: false,
-                            choose: true,
-                            bold:true,
-
-                            main_features: [
-                                {
-                                    title: 'Stores',
-                                    icon: 'storefront',
-                                    value: 3,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                                {
-                                    title: 'Products',
-                                    icon: 'shelves',
-                                    value: 500,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                            ],
-
-                            features: [
-                                {
-                                    icon: 'all_inclusive',
-                                    title: 'Free Domain',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Free SSL',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Advanced Analytics',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Priority Support',
-                                },
-                            ],
-
-                            more_link: 'https://selldone.com',
-                            more_to: undefined,
-
-                            gift: '<b>Free</b> 2 Years Domain',
-
-
-                            currency: 'USD',
-                            tax_label: 'VAT',
-
-
-                            pricing:{
-                                monthly:{
-                                    price_net:3000,
-                                    price: 1899,
-                                    tax: 160,
-
-
-                                },
-                                yearly:{
-                                    price_net:3000,
-                                    price: 1799,
-                                    tax: 150,
-                                }
-
-                            },
-
-                            // Action:
-                            action: {
-                                href: 'https://selldone.com',
-                                text: 'Buy Now',
-                                icon: 'payment',
-                                color: "#fff"
-                            }
-                        },
-
-                        // ━━━━━━━━━━━━━━━━━━━━ PLAN 3 ━━━━━━━━━━━━━━━━━━━━
-                        {
-                            name: 'Enterprise',
-                            image: 'https://selldone.com/app/v852/assets/enterprise.C1oMZz8J.svg',
-                            title: 'Enterprise Features',
-                            months: 12,
-                            color: '#fff',
-                            rounded: 'xl',
-                            elevation: 0,
-
-                            soldout: false,
-                            choose: false,
-                            bold:false,
-
-                            main_features: [
-                                {
-                                    title: 'Stores',
-                                    icon: 'storefront',
-                                    value: 10,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                                {
-                                    title: 'Products',
-                                    icon: 'shelves',
-                                    value: 2000,
-                                    unit: 'x',
-                                    tooltip: "Tell your customers about this feature. You can use <b>HTML code</b> here."
-                                },
-                            ],
-
-                            features: [
-                                {
-                                    icon: 'all_inclusive',
-                                    title: 'Free Domain',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Free SSL',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Dedicated Support',
-                                },
-                                {
-                                    icon: 'check',
-                                    title: 'Custom Integrations',
-                                },
-                            ],
-
-                            more_link: 'https://selldone.com',
-                            more_to: undefined,
-
-                            gift: '<b>Free</b> 3 Years Domain',
-
-
-                            currency: 'USD',
-                            tax_label: 'VAT',
-
-
-                            pricing:{
-
-
-                                monthly:{
-                                    price_net: 5000,
-                                    price: 3999,
-                                    tax: 320,
-
-
-                                },
-                                yearly:{
-                                    price_net:5000,
-                                    price: 3760,
-                                    tax: 300,
-                                }
-
-                            },
-
-                            // Action:
-                            action: {
-                                href: 'https://selldone.com',
-                                text: 'Buy Now',
-                                icon: 'payment',
-                                color: "#0b6aaa"
-                            }
-                        },
-
-
-                    ],
                 };
             },
             computed: {
                 user() {
                     return window.$storefront?.USER // Global way to get current user!
+                },
+                plans(){
+                    return this.properties.plans
                 }
             },
             methods: {

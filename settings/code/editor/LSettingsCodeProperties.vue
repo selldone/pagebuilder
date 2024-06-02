@@ -38,82 +38,19 @@
       </v-card-actions>
 
       <v-card-text>
-        <!-- ━━━━━━━━━━━━━━━━━━━━ Properties ━━━━━━━━━━━━━━━━━━━━ -->
+        <!-- ━━━━━━━━━━━━━━━━━━━━ Properties > Edit ━━━━━━━━━━━━━━━━━━━━ -->
 
-        <s-setting-group
-          subtitle="You can set dynamic values in the component by defining properties in the props of the custom Vue component."
-          title="Properties"
-          icon="data_object"
-        >
-          <template v-for="item in structure" :key="item.key">
-            <s-setting-text-input
-              v-if="item.type === 'string'"
-              v-model="target[keyProperties][item.key]"
-              :subtitle="item.title"
-              clearable
-            ></s-setting-text-input>
-            <s-setting-number-input
-              v-else-if="item.type === 'number'"
-              v-model="target[keyProperties][item.key]"
-              :title="item.title"
-              clearable
-              :max="9999"
-            ></s-setting-number-input>
-            <s-setting-switch
-              v-else-if="item.type === 'boolean'"
-              v-model="target[keyProperties][item.key]"
-              :title="item.title"
-              clearable
-            ></s-setting-switch>
-            <s-setting-color
-              v-else-if="item.type === 'color'"
-              v-model="target[keyProperties][item.key]"
-              :title="item.title"
-              clearable
-            ></s-setting-color>
-
-            <div v-else class="small pa-2">Invalid type: {{ item }}</div>
-          </template>
-        </s-setting-group>
-
-        <s-setting-group
-          v-if="Object.keys(missingProperties).length"
-          title="Missing Properties"
-          subtitle="These properties are not defined in the properties structure."
-        >
-          <v-list>
-            <v-fade-transition group>
-              <v-list-item
-                v-for="(item, key) in missingProperties"
-                :title="key"
-                :subtitle="item"
-                :key="key"
-              >
-                <template v-slot:append>
-                  <v-btn
-                    icon
-                    variant="text"
-                    color="red"
-                    @click="delete target[keyProperties][key]"
-                  >
-                    <v-icon>close</v-icon>
-                  </v-btn>
-                </template>
-              </v-list-item>
-            </v-fade-transition>
-          </v-list>
-        </s-setting-group>
+        <u-setting-dynamic
+          :properties-structure="propertiesStructure"
+          v-model="target[keyProperties]"
+        ></u-setting-dynamic>
+        <!-- ━━━━━━━━━━━━━━━━━━━━ Properties > Reset Default ━━━━━━━━━━━━━━━━━━━━ -->
 
         <s-setting-group
           title="Critical"
           subtitle="Use this section with caution. Resetting the properties will remove all the custom values and reset them to the default values."
         >
-          <v-btn
-            variant="text"
-            @click="
-              target[keyProperties] = Object.assign({}, propertiesDefault)
-            "
-          >
+          <v-btn variant="text" @click="resetToDefault">
             <v-icon class="me-1">restart_alt</v-icon>
             Reset to default
           </v-btn>
@@ -129,11 +66,8 @@
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
-import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import USettingDynamic from "@selldone/page-builder/styler/settings/dynamic/USettingDynamic.vue";
 
 export default {
   name: "LSettingsCodeProperties",
@@ -141,11 +75,9 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SSettingColor,
-    SSettingSwitch,
-    SSettingNumberInput,
+    USettingDynamic,
+
     SSettingGroup,
-    SSettingTextInput,
   },
 
   props: {
@@ -179,70 +111,6 @@ export default {
     effect() {
       return this.target?.effect;
     },
-    upload_image_url() {
-      return this.builder.getImageUploadUrl();
-    },
-
-    structure() {
-      // Try to define the structure from the propertiesStructure
-
-      if (
-        this.propertiesStructure &&
-        Object.keys(this.propertiesStructure).length
-      )
-        return this.propertiesStructure;
-
-      if (!this.propertiesDefault) return {};
-
-      // Try to define the structure from the propertiesDefault
-      function isHexColor(value) {
-        const hexColorRegex =
-          /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
-        return typeof value === "string" && hexColorRegex.test(value);
-      }
-
-      const getType = (value) => {
-        if (typeof value === "string") {
-          return isHexColor(value) ? "color" : "string";
-        } else if (typeof value === "number") {
-          return "number";
-        } else if (typeof value === "boolean") {
-          return "boolean";
-        } else {
-          return "unknown";
-        }
-      };
-
-      const structure = Object.keys(this.propertiesDefault).reduce(
-        (acc, key) => {
-          acc[key] = {
-            key: key,
-            title: key
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (char) => char.toUpperCase()),
-            type: getType(this.propertiesDefault[key]),
-          };
-          return acc;
-        },
-        {},
-      );
-
-      return structure;
-    },
-
-    missingProperties() {
-      let targetProperties = this.target[this.keyProperties];
-      let structureKeys = Object.keys(this.structure);
-      let missingProperties = {};
-
-      for (let key in targetProperties) {
-        if (!structureKeys.includes(key)) {
-          missingProperties[key] = targetProperties[key];
-        }
-      }
-
-      return missingProperties;
-    },
   },
   watch: {
     show_dialog(dialog) {},
@@ -275,11 +143,13 @@ export default {
         if (
           !this.target[this.keyProperties] ||
           typeof this.target[this.keyProperties] !== "object"
-        )
-          this.target[this.keyProperties] = Object.assign(
-            {},
-            this.propertiesDefault,
+        ) {
+          // Deep clone!
+          this.target[this.keyProperties] = JSON.parse(
+            JSON.stringify(this.propertiesDefault),
           );
+        }
+
         this.showDialog();
       },
     );
@@ -326,6 +196,19 @@ export default {
         this.show_dialog = true;
         this.LOCK = false; // 🔓 Now can update values
       });
+    },
+
+    resetToDefault() {
+      this.openDangerAlert(
+        "Reset to Default",
+        "Are you sure you want to reset the properties to default?",
+        "Yes, Reset Now",
+        () => {
+          this.target[this.keyProperties] = JSON.parse(
+            JSON.stringify(this.propertiesDefault),
+          );
+        },
+      );
     },
   },
 };

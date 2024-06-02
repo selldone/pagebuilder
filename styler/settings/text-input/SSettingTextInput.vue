@@ -20,7 +20,7 @@
     class="s--setting-combobox"
     density="compact"
   >
-    <div v-if="subtitle" class="small">{{ subtitle }}</div>
+
     <v-text-field
       :clearable="clearable"
       :counter="counter"
@@ -31,10 +31,10 @@
       :rules="rules"
       class="my-1"
       color="#1976D2"
-      density="compact"
+      density="comfortable"
       hide-details
-      single-line
       style="min-width: 200px"
+      :label="subtitle"
       variant="plain"
       @update:model-value="(val) => setValue(val)"
     >

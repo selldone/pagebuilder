@@ -61,6 +61,9 @@
             location="bottom"
             >Change Properties
           </v-tooltip>
+          <v-icon size="10" class="absolute-top-end" color="amber">
+            auto_awesome
+          </v-icon>
         </button>
       </li>
 
