@@ -370,7 +370,7 @@ export default {
         }
 
         // Shop home page in storefront
-        if (this.$route.name === "CustomHomePage") {
+        if (this.$route.name === window.$storefront?.routes.CUSTOM_HOME_PAGE) {
           url = window.XAPI.GET_CUSTOM_HOME_PAGE(
             this.shop_name,
             window.$storefront.home,
@@ -392,6 +392,18 @@ export default {
             this.$route.params.include_id,
           );
         }
+
+        // Storefront > Vendors custom landing pages
+        else if (
+            this.$route.name === window.$storefront?.routes.SHOP_VENDOR_CUSTOM_LANDING_PAGE
+        ) {
+          if (!this.shop_name) return;
+          url = window.XAPI.GET_VENDOR_PAGE_DATA(
+              this.shop_name,
+              this.$route.params.vendor_id,
+          );
+        }
+
 
         // Normal shop landing page on the storefront:
         else {

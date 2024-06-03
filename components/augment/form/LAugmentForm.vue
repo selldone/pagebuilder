@@ -34,12 +34,12 @@
       page content. Keys should be max 32 characters.
     </v-list-subheader>
 
-    <v-table class="bg-transparent min-height-10vh">
+    <v-table class="bg-transparent min-height-10vh" >
       <template v-slot:default>
         <thead>
           <tr>
-            <th>Key</th>
-            <th>Value</th>
+            <th style="width: 150px;">Key</th>
+            <th class="min-width-200">Value</th>
             <th></th>
           </tr>
         </thead>
@@ -56,7 +56,7 @@
                 hide-details
                 placeholder="Enter a key..."
                 title="Key"
-                variant="solo"
+                variant="plain"
                 @change="$emit('change')"
               ></v-text-field>
             </td>
@@ -78,6 +78,7 @@
                     $emit('change');
                   }
                 "
+
               ></s-image-uploader>
               <v-text-field
                 v-else
@@ -89,7 +90,7 @@
                 hide-details
                 placeholder="Enter a value..."
                 title="Value"
-                variant="solo"
+                variant="plain"
                 @change="$emit('change')"
               ></v-text-field>
             </td>
@@ -261,7 +262,11 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    modelValue(){
+      this.init();
+    }
+  },
 
   created() {
     this.init();
