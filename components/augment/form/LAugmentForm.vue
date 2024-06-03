@@ -59,9 +59,13 @@
                 title="Key"
                 variant="plain"
                 @change="$emit('change')"
-                @keydown.enter="editings.remove(item)"
+                @keydown.enter="item.key ? editings.remove(item) : undefined"
               ></v-text-field>
-              <div v-else @click="editings.push(item)" class="pp text-subtitle-2">
+              <div
+                v-else
+                @click="editings.push(item)"
+                class="pp text-subtitle-2"
+              >
                 {{ item.key }}
               </div>
             </td>
