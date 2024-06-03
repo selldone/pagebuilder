@@ -17,41 +17,43 @@
 
   <div
     ref="menu"
+    class="l--page-editor-components-menu no-inv thin-scroll"
+
     :class="{
       'is-visiable': isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': isDragged,
+      '-small':$vuetify.display.xs,
+      '-expanded':expanded === 0
     }"
-    class="float-menu no-inv thin-scroll"
   >
     <v-expansion-panels
       v-model="expanded"
-      :style="{ maxWidth: expanded === 0 ? '260px' : '140px' }"
-      class="overflow-hidden rounded-18px"
+      class="overflow-hidden rounded-18px "
       style="transition: all 0.35s; --v-activated-opacity: 0"
       theme="dark"
     >
       <v-expansion-panel :bg-color="expanded === 0 ? '#111' : '#0152d0'">
-        <v-expansion-panel-title ripple>
+        <v-expansion-panel-title ripple class="-header">
           <v-icon size="small" start>view_day</v-icon>
           <div class="flex-grow-1">Sections</div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <div class="border-between-vertical">
+          <div class="-groups border-between-vertical">
             <div
               v-for="(group, name) in groups"
               :key="name"
-              class="fmenu-group mb-2 pb-3"
+              class="-group mb-2 pb-3"
             >
-              <div class="fmenu-header">
-                <span class="fmenu-title">{{ name }}</span>
+              <div class="-group-header">
+                {{ name }}
               </div>
-              <v-row class="fmenu-body" dense justify="space-around">
+              <v-row class="-group-body" dense justify="space-around">
                 <span
                   v-for="(section, index) in group"
                   :key="index"
                   :section-name="section.name"
-                  class="fmenu-element hover-scale-small"
+                  class="-item-element hover-scale-small"
                   draggable="true"
                   @mouseenter="(e) => showMenu(e, section)"
                   @mouseleave="hideMenu()"
@@ -59,7 +61,7 @@
                   <img
                     v-if="section.cover"
                     :src="section.cover"
-                    class="fmenu-elementImage"
+                    class="-item-image"
                   />
                 </span>
               </v-row>
@@ -150,7 +152,7 @@ export default defineComponent({
   },
 
   mounted() {
-    const groups = this.$refs.menu.querySelectorAll(".fmenu-body");
+    const groups = this.$refs.menu.querySelectorAll(".-group-body");
     const _self = this;
     groups.forEach((group) => {
       const sortable = Sortable.create(group, {
@@ -224,7 +226,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.float-menu {
+.l--page-editor-components-menu {
   user-select: none;
   z-index: 210;
   position: fixed;
@@ -241,12 +243,11 @@ export default defineComponent({
   opacity: 0;
   transform: translateX(-200px);
 
-  /*
-    border-radius: 24px;
-      padding: 12px 6px 84px 6px;
+  max-width: 140px;
+  &.-expanded{
+    max-width: 260px;
+  }
 
-  background: #000;
-  */
 
   &.is-visiable {
     opacity: 1;
@@ -267,16 +268,16 @@ export default defineComponent({
     }
   }
 
-  .fmenu-group {
-    .fmenu-body {
+  .-group {
+    .-group-body {
       max-width: 160px;
 
-      .fmenu-element {
+      .-item-element {
         position: relative;
         cursor: pointer;
         user-select: none;
 
-        .fmenu-elementImage {
+        .-item-image {
           height: 24px;
           margin: 2px;
           pointer-events: none;
@@ -290,16 +291,39 @@ export default defineComponent({
       }
     }
 
-    .fmenu-header {
+    .-group-header {
       margin-top: 0.6rem;
 
-      .fmenu-title {
-        font-size: 0.7em;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-        font-weight: 800;
-        display: block;
+      font-size: 0.7em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-weight: 800;
+      display: block;
+    }
+  }
+
+  &.-small{
+    font-size: 10px;
+    max-width: 110px;
+    &.-expanded{
+      max-width: 128px;
+    }
+    .-groups{
+      margin-left: -12px;
+      margin-right: -12px;
+    }
+    .-group {
+      .-group-body {
+        .-item-element {
+          .-item-image {
+            height: 12px;
+            margin: 2px;
+          }
+        }
       }
+    }
+    .-header{
+      font-size: 9px;
     }
   }
 }
@@ -310,7 +334,7 @@ export default defineComponent({
   height: max-content;
   box-shadow: 0 0 2px 1px #0c91d3;
 
-  .fmenu-elementImage {
+  .-item-image {
     width: 100%;
     height: auto;
     background: #1976d2;

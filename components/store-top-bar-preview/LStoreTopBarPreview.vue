@@ -22,9 +22,10 @@
     }"
     class="position-relative"
     style="transition: all 0.4s; z-index: 10"
+    v-bind="$attrs"
   >
     <div
-      style="position: absolute; left: 0; right: 0; top: 0"
+      style="position: absolute; left: 0; right: 0; top: 0; overflow: hidden"
       :style="{ color: page_style.menu_dark ? '#fff' : '#000' }"
     >
       <v-toolbar
@@ -41,10 +42,7 @@
         flat
         height="64"
       >
-        <s-header-section-logo
-          :shop="shop"
-          view-only
-        ></s-header-section-logo>
+        <s-header-section-logo :shop="shop" view-only></s-header-section-logo>
       </v-toolbar>
 
       <s-storefront-top-menu
@@ -69,68 +67,118 @@
         preview
       ></s-storefront-top-menu>
     </div>
-
-    <v-menu
-      activator="parent"
-      open-on-hover
-      location="right"
-      content-class="bg-black text-start pa-2 rounded-xl"
-      :close-on-content-click="false"
-      :offset="[16, 0]"
-    >
-      <v-btn
-        color="#fff"
-        variant="tonal"
-        class="me-1 tnt"
-        rounded="t-xl"
-        min-width="100"
-        @click="ShowLSettingsPageStyle(builder.style, true, 'menu')"
-      >
-        <v-icon start>edit</v-icon>
-        Menu
-      </v-btn>
-
-      <div class="d-flex align-center border-top-dashed mt-2">
-        <div class="d-inline-flex flex-column align-stretch">
-          <v-chip size="small" label @click="toggleMode" class="ma-1">
-            <v-icon start>control_camera</v-icon>
-            {{ page_style.header_mode }}
-          </v-chip>
-          <v-chip
-            size="small"
-            label
-            class="ma-1"
-            @click="page_style.menu_transparent = !page_style.menu_transparent"
-          >
-            <v-icon start>gradient</v-icon>
-            {{ page_style.menu_transparent ? "transparent" : "solid" }}
-          </v-chip>
-        </div>
-
-        <v-btn
-          @click="page_style.menu_dark = !page_style.menu_dark"
-          icon
-          class="ma-2"
-          :size="32"
-          title="Dark/Light mode"
-        >
-          <v-slide-y-transition leave-absolute>
-            <v-icon v-if="page_style.menu_dark" color="blur">dark_mode</v-icon>
-            <v-icon v-else color="amber">light_mode</v-icon>
-          </v-slide-y-transition>
-        </v-btn>
-
-        <u-color-selector
-          v-model="page_style.header_color"
-          end
-          class="ma-2"
-          :size="36"
-          nullable
-          >circle
-        </u-color-selector>
-      </div>
-    </v-menu>
   </div>
+
+  <v-btn
+    @click="dialog = true"
+    style="position: absolute; right: 20px; top: 8px; z-index: 20"
+    color="#000"
+    prepend-icon="menu"
+    class="tnt"
+    >Menu Settings
+  </v-btn>
+
+  <v-bottom-sheet
+    v-model="dialog"
+    content-class="text-start rounded-t-xl"
+    width="98vw"
+    max-width="640"
+  >
+    <v-card rounded="t-xl">
+      <v-card-title>
+        <v-icon class="me-2">menu</v-icon>
+        Menu Style
+      </v-card-title>
+      <v-card-text>
+        <s-widget-header icon="control_camera" title="Position">
+        </s-widget-header>
+        <v-list-subheader>
+          Set position and behavior of the menu.
+        </v-list-subheader>
+
+        <v-btn-toggle
+          selected-class="black-flat"
+          v-model="page_style.header_mode"
+          rounded="xl"
+          variant="flat"
+          class="overflow-auto"
+          border
+        >
+          <v-btn
+            v-for="(item, index) in ['normal', 'overlay', 'hidden']"
+            :key="index"
+            :value="item"
+          >
+            {{ item }}
+          </v-btn>
+        </v-btn-toggle>
+
+        <s-widget-header icon="gradient" title="Color" class="mt-3">
+        </s-widget-header>
+        <v-list-subheader>
+          Set the color and dark/light mode of the menu.
+        </v-list-subheader>
+
+        <v-row no-gutters align="center" justify="space-between">
+          <v-btn-toggle
+            selected-class="black-flat"
+            v-model="page_style.menu_transparent"
+            rounded="xl"
+            variant="flat"
+            border
+            class="overflow-auto"
+          >
+            <v-btn :value="true"> transparent </v-btn>
+            <v-btn :value="false"> solid </v-btn>
+          </v-btn-toggle>
+
+          <v-btn
+            @click="page_style.menu_dark = !page_style.menu_dark"
+            icon
+            class="ma-2"
+            :size="32"
+            title="Dark/Light mode"
+            variant="elevated"
+            :color="page_style.menu_dark?'blue':'amber'"
+          >
+            <v-slide-y-transition leave-absolute>
+              <v-icon v-if="page_style.menu_dark"
+                >dark_mode</v-icon
+              >
+              <v-icon v-else >light_mode</v-icon>
+            </v-slide-y-transition>
+          </v-btn>
+
+          <u-color-selector
+            v-model="page_style.header_color"
+            end
+            class="ma-2"
+            :size="36"
+            nullable
+            >circle
+          </u-color-selector>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn size="x-large" variant="text" @click="dialog = false">
+            <v-icon start>close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+
+          <v-btn
+            variant="elevated"
+            color="#000"
+            size="x-large"
+            @click="dialog=false;ShowLSettingsPageStyle(builder.style, true, 'menu')"
+          >
+            <v-icon start>edit</v-icon>
+            Show More Settings
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+  </v-bottom-sheet>
 </template>
 
 <script>
@@ -153,6 +201,11 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      dialog: false,
+    };
   },
 
   computed: {

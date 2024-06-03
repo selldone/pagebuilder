@@ -63,7 +63,7 @@
               !$builder.isTracking &&
               ($vuetify.display.xlAndUp || scale_down)
             "
-            :class="{ '-scale-down': scale_down }"
+            :class="{ '-scale-down': scale_down, '-small':$vuetify.display.xs, }"
             class="side-menu zoomIn"
           >
             <b>View</b>
@@ -2617,7 +2617,7 @@ label {
 .side-menu {
   position: absolute;
   right: -80px;
-  top: 200px;
+  top: 140px;
   background: #7577fa;
   display: flex;
   flex-direction: column;
@@ -2633,6 +2633,14 @@ label {
     right: calc(25% - 64px);
     transition-delay: 0.1s;
     transition-duration: 0.5s;
+  }
+  &.-small{
+    font-size: 8px;
+    right: calc(25% - 48px);
+    top: 100px;
+    .v-btn{
+      --v-btn-height: 20px;
+    }
   }
 }
 

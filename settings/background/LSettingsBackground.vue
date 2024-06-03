@@ -73,7 +73,7 @@ import _ from "lodash-es";
 import BackgroundImageEditor from "../../components/style/background/BackgroundImageEditor.vue";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsBackground",
