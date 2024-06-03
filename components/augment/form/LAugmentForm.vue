@@ -34,11 +34,11 @@
       page content. Keys should be max 32 characters.
     </v-list-subheader>
 
-    <v-table class="bg-transparent min-height-10vh" >
+    <v-table class="bg-transparent min-height-10vh">
       <template v-slot:default>
         <thead>
           <tr>
-            <th style="width: 150px;">Key</th>
+            <th style="width: 150px">Key</th>
             <th class="min-width-200">Value</th>
             <th></th>
           </tr>
@@ -47,6 +47,7 @@
           <tr v-for="(item, i) in modelValue" :key="i">
             <td>
               <v-text-field
+                v-if="!item.key || editings?.includes(item)"
                 v-model="item.key"
                 :counter="32"
                 :rules="[GlobalRules.counter(32)]"
@@ -58,7 +59,11 @@
                 title="Key"
                 variant="plain"
                 @change="$emit('change')"
+                @keydown.enter="editings.remove(item)"
               ></v-text-field>
+              <div v-else @click="editings.push(item)" class="pp text-subtitle-2">
+                {{ item.key }}
+              </div>
             </td>
             <td>
               <s-image-uploader
@@ -78,7 +83,6 @@
                     $emit('change');
                   }
                 "
-
               ></s-image-uploader>
               <v-text-field
                 v-else
@@ -252,6 +256,7 @@ export default {
     return {
       show_add: false,
       help_dialog: false,
+      editings: [],
     };
   },
   computed: {
@@ -263,9 +268,9 @@ export default {
   },
 
   watch: {
-    modelValue(){
+    modelValue() {
       this.init();
-    }
+    },
   },
 
   created() {
