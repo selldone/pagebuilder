@@ -27,10 +27,10 @@
     "@selldone/sdk-storefront": "latest",
     "@selldone/components-vue": "latest",
 
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "lodash-es": "^4.17.21",
     "vue": "^3.4.27",
-    "vuetify": "^3.6.6",
+    "vuetify": "^3.6.7",
     "@floating-ui/dom": "^1.6.5",
     "sortablejs": "^1.15.2",
     "heatmap.js": "^2.0.5"
