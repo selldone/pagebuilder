@@ -176,7 +176,7 @@
               lg="3"
               md="4"
               sm="6"
-              style="min-width: max-content"
+
             >
               <l-template-card
                 :loading="busy_get_template === item.id"
