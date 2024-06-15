@@ -18,18 +18,17 @@
   <div
     ref="menu"
     class="l--page-editor-components-menu no-inv thin-scroll"
-
     :class="{
       'is-visiable': isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': isDragged,
-      '-small':$vuetify.display.xs,
-      '-expanded':expanded === 0
+      '-small': $vuetify.display.xs,
+      '-expanded': expanded === 0,
     }"
   >
     <v-expansion-panels
       v-model="expanded"
-      class="overflow-hidden rounded-18px "
+      class="overflow-hidden rounded-18px"
       style="transition: all 0.35s; --v-activated-opacity: 0"
       theme="dark"
     >
@@ -177,10 +176,12 @@ export default defineComponent({
     });
   },
   beforeUnmount() {
-    this.sortables_group.forEach((sortable) => {
-      sortable.destroy();
-    });
-    this.sortables_group = [];
+    try {
+      this.sortables_group.forEach((sortable) => {
+        sortable.destroy();
+      });
+      this.sortables_group = [];
+    } catch (e) {}
   },
   methods: {
     setDragMode(drag) {
@@ -244,10 +245,10 @@ export default defineComponent({
   transform: translateX(-200px);
 
   max-width: 140px;
-  &.-expanded{
+
+  &.-expanded {
     max-width: 260px;
   }
-
 
   &.is-visiable {
     opacity: 1;
@@ -302,16 +303,19 @@ export default defineComponent({
     }
   }
 
-  &.-small{
+  &.-small {
     font-size: 10px;
     max-width: 110px;
-    &.-expanded{
+
+    &.-expanded {
       max-width: 128px;
     }
-    .-groups{
+
+    .-groups {
       margin-left: -12px;
       margin-right: -12px;
     }
+
     .-group {
       .-group-body {
         .-item-element {
@@ -322,7 +326,8 @@ export default defineComponent({
         }
       }
     }
-    .-header{
+
+    .-header {
       font-size: 9px;
     }
   }

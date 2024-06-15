@@ -53,6 +53,7 @@
           'is-editable': $builder.isEditing && inEditMode,
         }"
         class="artboard overflow-hidden"
+        :style="{ minHeight: scale_down ? '200vh' : '100vh' }"
       >
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -63,7 +64,10 @@
               !$builder.isTracking &&
               ($vuetify.display.xlAndUp || scale_down)
             "
-            :class="{ '-scale-down': scale_down, '-small':$vuetify.display.xs, }"
+            :class="{
+              '-scale-down': scale_down,
+              '-small': $vuetify.display.xs,
+            }"
             class="side-menu zoomIn"
           >
             <b>View</b>
@@ -317,10 +321,14 @@
               flat
               hide-details
               rounded
-              variant="solo-filled"
+              variant="solo"
+              bg-color="#fafafa"
+
+
             >
               <template v-if="!isPopup" v-slot:append-inner>
                 <v-btn
+                    v-if="!demo"
                   :href="base_url + page.name"
                   icon
                   target="_blank"
@@ -572,7 +580,8 @@
                         icon
                         tooltip="<b>AI</b><br>Auto generate contents."
                         tooltip-location="bottom"
-                        x-large :open-delay="500"
+                        x-large
+                        :open-delay="500"
                         @click="autoComplete(section)"
                       >
                       </u-button-ai-small>
@@ -704,9 +713,10 @@
 
     <l-settings-gallery :builder="$builder"></l-settings-gallery>
 
-
     <l-settings-code-editor :builder="$builder"></l-settings-code-editor>
-    <l-settings-code-properties :builder="$builder"></l-settings-code-properties>
+    <l-settings-code-properties
+      :builder="$builder"
+    ></l-settings-code-properties>
 
     <!-- ――――――――――――――――――――――  Dialog Master Style Image ―――――――――――――――――――― -->
 
@@ -832,7 +842,6 @@ export default defineComponent({
       default: false,
     },
 
-
     device: {
       default: "desktop", // desktop   tablet   mobile
     },
@@ -853,7 +862,7 @@ export default defineComponent({
     },
 
     aiAutoFillFunction: {},
-
+    demo:Boolean,
   },
   data() {
     return {
@@ -943,8 +952,8 @@ export default defineComponent({
     load_percent() {
       return (100 * this.delay_load) / this.sections_length;
     },
-    is_loading_sections(){
-      return this.sections_length && this.load_percent<100
+    is_loading_sections() {
+      return this.sections_length && this.load_percent < 100;
     },
     shop_page() {
       return this.shop && !this.isMenu && !this.isPopup ? this.page : null;
@@ -996,9 +1005,8 @@ export default defineComponent({
       deep: true,
       handler(sections) {
         // Do not emit sections change in loading sections!
-        if(this.is_loading_sections)return;
-        this.onUpdatePreview()
-
+        if (this.is_loading_sections) return;
+        this.onUpdatePreview();
       },
     },
 
@@ -1221,7 +1229,7 @@ export default defineComponent({
   },
 
   updated() {
-    if (this.$builder.scrolling) {
+    if (this.$builder.scrolling && this.$refs.artboard) {
       this.$builder.scrolling(this.$refs.artboard);
     }
   },
@@ -1232,13 +1240,15 @@ export default defineComponent({
     // console.log("Unregister hot key.", this.key_listener_keydown);
 
     // Destroy sortables: (memory leakage)
-    this.sortable.destroy();
+    try {
+      this.sortable.destroy();
+    } catch (e) {}
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――
     document.removeEventListener("keydown", this.key_listener_keydown, true);
-
-    this.$builder.clear();
-
+    try {
+      this.$builder.clear();
+    } catch (e) {}
     window.clearInterval(this.interval);
 
     //console.log("...beforeDestroy...",this.$builder);
@@ -1248,8 +1258,8 @@ export default defineComponent({
   },
 
   methods: {
-    onUpdatePreview: _.throttle( function () {
-      const sections=this.$builder?.sections;
+    onUpdatePreview: _.throttle(function () {
+      const sections = this.$builder?.sections;
       // console.log("sections -------->", sections);
       if (!this.page?.id) return; // Only emit changes if page exists!
 
@@ -1269,8 +1279,6 @@ export default defineComponent({
         },
       };
       this.$emit("update:preview", _page);
-
-
     }, 1000),
 
     //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
@@ -1373,8 +1381,13 @@ export default defineComponent({
 
     inActiveEditingMode() {
       // Dialog open then prevent any undo / redo short key!
-     // console.log('--->',document.querySelector('.v-overlay-container > .v-overlay--active'),document.querySelector('.v-navigation-drawer--active'))
-      if(document.querySelector('.v-overlay-container > .v-overlay--active') !== null || document.querySelector('.v-navigation-drawer--active') !== null)return false;
+      // console.log('--->',document.querySelector('.v-overlay-container > .v-overlay--active'),document.querySelector('.v-navigation-drawer--active'))
+      if (
+        document.querySelector(".v-overlay-container > .v-overlay--active") !==
+          null ||
+        document.querySelector(".v-navigation-drawer--active") !== null
+      )
+        return false;
       // Are we the other tab?
       if (!this.isElementVisible(this.$el)) {
         return false;
@@ -1396,7 +1409,7 @@ export default defineComponent({
     calcMaxH() {
       //console.log('calcMaxH',this.max_h)
       if (this.scale_down) {
-        let height = this.$refs.artboard.clientHeight;
+        let height = this.$refs.artboard?.clientHeight;
         this.max_h = 120 + height / 2 + "px"; //height/2 + 'px'; // problem in add new element
       } else {
         this.max_h = "unset";
@@ -2634,11 +2647,13 @@ label {
     transition-delay: 0.1s;
     transition-duration: 0.5s;
   }
-  &.-small{
+
+  &.-small {
     font-size: 8px;
     right: calc(25% - 48px);
     top: 100px;
-    .v-btn{
+
+    .v-btn {
       --v-btn-height: 20px;
     }
   }

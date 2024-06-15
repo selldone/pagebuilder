@@ -73,8 +73,8 @@ export const LMixinStyler = defineComponent({
 
     EventBus.$off(LEventsName.PAGE_BUILDER_STYLER_OPEN);
 
-    this.el.classList.remove("is-editable");
-    this.el.removeEventListener("click", this.showStyler);
+    this.el?.classList.remove("is-editable");
+    this.el?.removeEventListener("click", this.showStyler);
     document.removeEventListener("click", this.hideStyler, true);
   },
 

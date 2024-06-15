@@ -30,6 +30,7 @@
 
     <v-toolbar-items>
       <v-btn
+        v-if="!demo"
         :color="saveColor"
         :loading="busySave"
         stacked
@@ -47,7 +48,7 @@
         <!-- ▃▃▃▃▃▃▃▃▃▃ History ▃▃▃▃▃▃▃▃▃▃ -->
 
         <v-btn
-          v-if="history"
+          v-if="history && !demo"
           color="#333"
           icon
           stacked
@@ -124,7 +125,8 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420" :open-delay="500"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.tools") }}
@@ -163,7 +165,8 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420" :open-delay="500"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.rearrange") }}
@@ -197,7 +200,8 @@
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
-              max-width="420" :open-delay="500"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block"> Edit / View Mode </b>
               <div class="my-1">
@@ -238,7 +242,8 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420" :open-delay="500"
+            max-width="420"
+            :open-delay="500"
           >
             <b class="d-block"> Page Style </b>
             Personalize the primary page's appearance, such as background and
@@ -264,7 +269,8 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420" :open-delay="500"
+            max-width="420"
+            :open-delay="500"
           >
             <b class="d-block"> Typography </b>
             Configure the typography, fonts, and size of elements on the page.
@@ -286,7 +292,8 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420" :open-delay="500"
+            max-width="420"
+            :open-delay="500"
           >
             <b class="d-block"> Prebuilt Sections </b>
             Enable or disable the display of pre-constructed and designed
@@ -311,7 +318,8 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420" :open-delay="500"
+            max-width="420"
+            :open-delay="500"
           >
             <b class="d-block"> Clone Style </b>
             Using this tool, you can duplicate styles such as fonts,
@@ -319,7 +327,7 @@
 
             <ol class="my-1">
               <li>
-                <v-icon size="small">near_me arrow_right_alt colorize </v-icon>
+                <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
                 Enable the tool and hover your mouse over text, columns, or
                 images; the cursor will resemble a pipette.
               </li>
@@ -344,7 +352,7 @@
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
         <u-button-ai-small
-          v-if="hasAiButton"
+          v-if="hasAiButton && !demo"
           :tooltip="null"
           @click="$emit('click:prompt')"
         >
@@ -352,7 +360,8 @@
             activator="parent"
             content-class="text-start small pa-3 bg-black"
             location="bottom"
-            max-width="420" :open-delay="500"
+            max-width="420"
+            :open-delay="500"
           >
             <b class="d-block"> AI Assistance </b>
             Utilize this tool to configure prompts, AI models, and plugins,
@@ -391,7 +400,8 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420" :open-delay="500"
+          max-width="420"
+          :open-delay="500"
         >
           <b class="d-block"> Import Landing Page </b>
           <v-icon size="small">folder</v-icon>
@@ -411,7 +421,8 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420" :open-delay="500"
+          max-width="420"
+          :open-delay="500"
         >
           <b class="d-block"> Export Landing Page </b>
           <v-icon size="small">save</v-icon>
@@ -451,7 +462,8 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420" :open-delay="500"
+          max-width="420"
+          :open-delay="500"
         >
           <b class="d-block"> LTR / RTL </b>
           <div class="my-1">
@@ -481,7 +493,8 @@
           activator="parent"
           content-class="text-start small pa-3 bg-black"
           location="bottom"
-          max-width="420" :open-delay="500"
+          max-width="420"
+          :open-delay="500"
         >
           <p
             v-for="short_key in Object.keys(ShortKeys).limit(5)"
@@ -495,6 +508,18 @@
         </v-tooltip>
       </v-btn>
     </v-toolbar-items>
+
+    <v-btn
+      v-if="hasClose"
+      variant="elevated"
+      @click="$emit('click:close')"
+      title="Close page"
+      color="#000"
+      class="mx-2 "
+    >
+      <v-icon start>close</v-icon>
+      {{ $t("global.actions.close") }}
+    </v-btn>
   </v-toolbar>
 
   <!-- ████████████████████ Dialog > Import file ████████████████████ -->
@@ -614,6 +639,7 @@
       transform: translate(-50%, 0);
       z-index: 100;
     "
+    v-if="!demo"
   >
     <v-scroll-y-reverse-transition>
       <div v-if="!visible_to_user">
@@ -693,6 +719,7 @@ export default {
 
   components: { UDenseCirclesUsers, UButtonAiSmall, SDropZone },
   mixins: [LMixinEvents],
+  emits: ["click:save", "click:history", "click:prompt", "click:close"],
   props: {
     shop: {
       required: false,
@@ -737,6 +764,8 @@ export default {
       type: Boolean,
       default: false,
     },
+    demo: Boolean,
+    hasClose: Boolean,
   },
 
   computed: {
@@ -766,7 +795,7 @@ export default {
 
   watch: {
     show_import(val) {
-      this.BlurApp(val);
+     // this.BlurApp(val);
     },
   },
 

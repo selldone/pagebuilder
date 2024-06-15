@@ -28,22 +28,24 @@
 
   <div v-bind="$attrs" class="blur-animate" :class="{ blurred: show_loading }">
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
     <l-page-editor-top-menu
-      v-if="page && inEditMode"
+      v-if="(page || demoPage) && inEditMode && $refs.vueBuilder"
       :busySave="busy_save"
       :histories="histories"
       :inDesignTab="in_desig_tab"
-      :page="page"
+      :page="demoPage?demoPage:page"
       :pageBuilder="$refs.vueBuilder"
       :shop="shop"
       has-ai-button
       history
+      :demo="demo"
       style="border-radius: 26px 26px 0 0"
       @click:save="onSave"
       @click:history="history_dialog = true"
       @click:auto-generate="autoGenerate"
       @click:prompt="show_prompt = !show_prompt"
+      :hasClose="demo"
+      @click:close="$emit('click:close')"
     >
     </l-page-editor-top-menu>
     <v-sheet
@@ -129,7 +131,9 @@
       v-show="tab === 'design'"
       ref="vueBuilder"
       :ai-auto-fill-function="aiAutoFillFunction"
-      :page="page"
+      :page="demoPage?demoPage:page"
+      :demo="demo"
+      :initial-page-data="demoPage"
       :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
       @changeMode="(val) => (inEditMode = val)"
@@ -152,7 +156,7 @@
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Setting ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-setting
-    v-if="page"
+    v-if="page && !demo"
     v-show="tab === 'setting'"
     v-model:cluster-id="page.cluster_id"
     v-model:color="page.color"
@@ -165,21 +169,21 @@
   ></l-page-editor-setting>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-  <l-page-editor-seo v-if="page" v-show="tab === 'seo'" :page="page" />
+  <l-page-editor-seo v-if="page && !demo" v-show="tab === 'seo'" :page="page" />
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-statistics
-    v-if="page && tab === 'behavior'"
+    v-if="page && tab === 'behavior'  && !demo"
     :page="page"
   ></l-page-editor-statistics>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-  <l-page-editor-files v-if="page?.id && tab === 'files'" :page="page" />
+  <l-page-editor-files v-if="page?.id && tab === 'files'  && !demo" :page="page" />
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
   <v-bottom-sheet
-    v-if="page"
+    v-if="page  && !demo"
     v-model="history_dialog"
     content-class="rounded-t-xl"
     inset
@@ -286,6 +290,7 @@ import BAiModelInput from "@selldone/components-vue/backoffice/ai/model/input/BA
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 import { LMixinEvents } from "./mixins/events/LMixinEvents";
 import LPageEditor from "./page/editor/LPageEditor.vue";
+import { StorefrontSDK } from "@selldone/sdk-storefront/StorefrontSDK";
 
 /**
  * <landing-builder>
@@ -334,6 +339,8 @@ export default {
       type: Boolean,
       default: false,
     },
+    demo: Boolean,
+    demoPage: null,
   },
 
   data: () => ({
@@ -388,9 +395,6 @@ export default {
       return this.tab === "design";
     },
 
-
-
-
     inPageEditMode() {
       return (
         (this.page && this.page.id) ||
@@ -417,13 +421,29 @@ export default {
   },
 
   created() {
+    if (this.demo) {
+      return;
+    }
+
     if (this.inPageEditMode) {
       this.fetchPageData();
     }
 
     if (this.externalTab) this.tab = this.externalTab;
   },
-  mounted() {},
+  mounted() {
+    if (this.demo) {
+      if (this.demoPage) {
+        // this.page=this.demoPage;
+        this.$refs.vueBuilder.setPage(this.demoPage.content); // Force to update all page after first creation!
+      }
+
+      // Simulate current active shop:
+      this.$store.commit("setCurrentAdminShop", this.shop);
+      StorefrontSDK.Setup(this.shop.name);
+      this.$forceUpdate() // Important to update $refs.vueBuilder!
+    }
+  },
   beforeUnmount() {},
   methods: {
     getHistory(history_id) {
@@ -567,10 +587,10 @@ export default {
               );
 
               /*
-                               IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                                this.page = data.page;
-                               this.loadPageData();
-                                */
+                                 IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                                  this.page = data.page;
+                                 this.loadPageData();
+                                  */
             }
           })
           .catch((error) => {
@@ -618,18 +638,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                                  this.$route.params.page_id = data.page.id;
-                    */
+                                    this.$route.params.page_id = data.page.id;
+                      */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                                  IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                    
-                                  this.loadPageData();
-                                   */
+                                    IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                      
+                                    this.loadPageData();
+                                     */
             }
           })
           .catch((error) => {
@@ -798,22 +818,21 @@ export default {
   z-index: 999;
   --background: #1e1e1e; // For nested components like <s-fade-scroll>
 
-  .v-list-subheader{
-    .v-list-subheader__text{
+  .v-list-subheader {
+    .v-list-subheader__text {
       text-wrap: wrap !important;
     }
-
   }
+
   @media (max-width: 620px) {
     font-size: 12px;
 
-    .v-list-subheader{
+    .v-list-subheader {
       font-size: 10px;
-
     }
   }
 
-  h2{
+  h2 {
     font-size: 1.2em;
     font-weight: 600;
 
@@ -821,7 +840,8 @@ export default {
       font-size: 1em;
     }
   }
-  h3{
+
+  h3 {
     font-size: 1em;
     font-weight: 600;
 
@@ -829,6 +849,5 @@ export default {
       font-size: 0.8em;
     }
   }
-
 }
 </style>

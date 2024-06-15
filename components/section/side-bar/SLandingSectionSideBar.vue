@@ -269,6 +269,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   padding: 24px 8px;
+  max-height: 100%;
+  height: 100%;
 
   &.-row {
     flex-direction: row;
