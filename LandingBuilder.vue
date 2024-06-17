@@ -186,8 +186,8 @@
     v-if="page  && !demo"
     v-model="history_dialog"
     content-class="rounded-t-xl"
-    inset
-    max-width="840px"
+    max-width="98vw"
+    width="840px"
     scrollable
   >
     <v-card class="position-relative rounded-t-xl" rounded="0">

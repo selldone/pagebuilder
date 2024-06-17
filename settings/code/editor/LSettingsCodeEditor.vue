@@ -148,9 +148,8 @@
 
   <v-bottom-sheet
     v-model="sample_dialog"
-    inset
-    width="98vw"
-    max-width="720"
+    max-width="98vw"
+    width="720"
     content-class="rounded-t-xl"
     scrollable
   >
