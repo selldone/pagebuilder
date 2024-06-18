@@ -14,6 +14,7 @@
 
 <template>
   <component
+      class="x--column"
     :is="noGrid ? 'div' : 'v-col'"
     v-data-x="object.style"
     v-styler:column="{
@@ -97,4 +98,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.x--column{
+  height: 100%; // Fix some difference between edit mode and view mode when image does not exist!
+}
+</style>
