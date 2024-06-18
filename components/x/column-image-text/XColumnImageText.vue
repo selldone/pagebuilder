@@ -179,6 +179,7 @@ export default defineComponent({
 }
 
 .x-layout-overlay-top {
+  height: 100%;
   p {
     display: none;
   }
@@ -193,6 +194,7 @@ export default defineComponent({
 }
 
 .x-layout-overlay-center {
+  height: 100%;
   p {
     display: none;
   }
@@ -209,6 +211,7 @@ export default defineComponent({
 }
 
 .x-layout-overlay-bottom {
+  height: 100%;
   p {
     display: none;
   }

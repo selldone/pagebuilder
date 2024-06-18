@@ -101,5 +101,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .x--column{
   height: 100%; // Fix some difference between edit mode and view mode when image does not exist!
+
 }
 </style>
