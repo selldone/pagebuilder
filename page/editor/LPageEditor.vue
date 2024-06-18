@@ -738,6 +738,9 @@
       :section="selected_section"
       :section-component="selected_component"
     ></l-feeder-dialog>
+
+    <!-- ――――――――――――――――――――――  Add stylers here ―――――――――――――――――――― -->
+    <div id="stylers_container"></div>
   </div>
 </template>
 

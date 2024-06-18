@@ -75,7 +75,6 @@
 
             <v-tooltip
               activator="parent"
-              attach
               content-class="bg-black text-white"
               location="bottom"
             >
@@ -132,7 +131,6 @@
 
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >
@@ -148,7 +146,6 @@
           <SStylerIcon name="textStyle" />
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >
@@ -163,7 +160,6 @@
           <v-icon size="20">gradient</v-icon>
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >

@@ -19,7 +19,7 @@ import {
   DirectiveBinding,
   h,
   ObjectDirective,
-  reactive,
+  reactive, resolveComponent,
   VNode,
 } from "vue";
 import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
@@ -188,7 +188,7 @@ const StylerDirective: ObjectDirective<
     }
 
     const StylerComponent = defineComponent({
-      extends: stylerComponent as any,
+      extends: resolveComponent(stylerComponent as any),
       beforeCreate() {
         this.$builder = builder;
       },

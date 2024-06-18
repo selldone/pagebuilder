@@ -33,7 +33,7 @@
       :busySave="busy_save"
       :histories="histories"
       :inDesignTab="in_desig_tab"
-      :page="demoPage?demoPage:page"
+      :page="demoPage ? demoPage : page"
       :pageBuilder="$refs.vueBuilder"
       :shop="shop"
       has-ai-button
@@ -44,7 +44,7 @@
       @click:history="history_dialog = true"
       @click:auto-generate="autoGenerate"
       @click:prompt="show_prompt = !show_prompt"
-      :hasClose="demo"
+      :hasClose="hasClose"
       @click:close="$emit('click:close')"
     >
     </l-page-editor-top-menu>
@@ -131,7 +131,7 @@
       v-show="tab === 'design'"
       ref="vueBuilder"
       :ai-auto-fill-function="aiAutoFillFunction"
-      :page="demoPage?demoPage:page"
+      :page="demoPage ? demoPage : page"
       :demo="demo"
       :initial-page-data="demoPage"
       :shop="shop"
@@ -174,16 +174,19 @@
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-statistics
-    v-if="page && tab === 'behavior'  && !demo"
+    v-if="page && tab === 'behavior' && !demo"
     :page="page"
   ></l-page-editor-statistics>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Assets ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-  <l-page-editor-files v-if="page?.id && tab === 'files'  && !demo" :page="page" />
+  <l-page-editor-files
+    v-if="page?.id && tab === 'files' && !demo"
+    :page="page"
+  />
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ History ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
   <v-bottom-sheet
-    v-if="page  && !demo"
+    v-if="page && !demo"
     v-model="history_dialog"
     content-class="rounded-t-xl"
     max-width="98vw"
@@ -340,6 +343,7 @@ export default {
       default: false,
     },
     demo: Boolean,
+    hasClose: Boolean, // External close! like when open in th dialog
     demoPage: null,
   },
 
@@ -441,7 +445,7 @@ export default {
       // Simulate current active shop:
       this.$store.commit("setCurrentAdminShop", this.shop);
       StorefrontSDK.Setup(this.shop.name);
-      this.$forceUpdate() // Important to update $refs.vueBuilder!
+      this.$forceUpdate(); // Important to update $refs.vueBuilder!
     }
   },
   beforeUnmount() {},
@@ -587,10 +591,10 @@ export default {
               );
 
               /*
-                                 IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                                  this.page = data.page;
-                                 this.loadPageData();
-                                  */
+                                   IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                                    this.page = data.page;
+                                   this.loadPageData();
+                                    */
             }
           })
           .catch((error) => {
@@ -638,18 +642,18 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                                    this.$route.params.page_id = data.page.id;
-                      */
+                                      this.$route.params.page_id = data.page.id;
+                        */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
               /*
-                                    IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
-                      
-                                    this.loadPageData();
-                                     */
+                                      IMPORTANT: disconnect objects relations! especially for fonts -> change will not apply!
+                        
+                                      this.loadPageData();
+                                       */
             }
           })
           .catch((error) => {

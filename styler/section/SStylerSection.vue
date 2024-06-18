@@ -70,7 +70,6 @@
         </button>
         <v-tooltip
           activator="parent"
-          attach
           content-class="bg-black text-white"
           location="bottom"
           max-width="320"

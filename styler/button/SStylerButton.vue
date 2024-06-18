@@ -56,7 +56,6 @@
 
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >

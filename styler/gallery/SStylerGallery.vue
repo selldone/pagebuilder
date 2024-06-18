@@ -39,7 +39,7 @@
           variant="text"
           @click="showGallerySettings()"
         >
-          <v-icon dark size="20">tune</v-icon>
+          <v-icon  size="20">tune</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -54,7 +54,7 @@
 
       <li>
         <button class="styler-button" @click="addNewSlide()">
-          <v-icon color="#CDDC39" dark size="20">add_photo_alternate</v-icon>
+          <v-icon color="#CDDC39"  size="20">add_photo_alternate</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"

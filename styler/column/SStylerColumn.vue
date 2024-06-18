@@ -39,7 +39,6 @@
 
             <v-tooltip
               activator="parent"
-              attach
               content-class="bg-black text-white"
               location="bottom"
             >
@@ -58,7 +57,6 @@
 
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >
@@ -78,7 +76,6 @@
 
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >
@@ -94,7 +91,6 @@
           <v-icon size="20">fa:fas fa-image</v-icon>
           <v-tooltip
             activator="parent"
-            attach
             content-class="bg-black text-white"
             location="bottom"
           >
