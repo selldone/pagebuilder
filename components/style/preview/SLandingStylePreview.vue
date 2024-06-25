@@ -13,50 +13,87 @@
   -->
 
 <template>
-  <div
-    :class="{
-      '-border': border,
-      '-size': size,
-      '-margin': margin,
-      '-padding': padding,
-    }"
-    class="pre-parent bg-tiny-checkers-dark"
+  <s-box-sides
+    :selected="position"
+    class="my-4"
+    bg-color="#000"
+    @click:side="$emit('click:area', 'position')"
+    height="180"
+    height-percent="13%"
+    rounded="lg"
+    label="Position"
+    style="border: dashed thin #eee"
+    :top-label="modelValue.top ? modelValue.top : '-'"
+    :bottom-label="modelValue.bottom ? modelValue.bottom : '-'"
+    :left-label="modelValue.left ? modelValue.left : '-'"
+    :right-label="modelValue.right ? modelValue.right : '-'"
   >
-    Container
-    <div
-      :style="{ borderRadius: modelValue.borderRadius }"
-      class="pre-margin pointer-pointer"
-      @click.stop="$emit('click:area', 'margin')"
-    >
-      Margin
+    <template v-slot:label>
+      <v-chip
+        v-if="modelValue.position && modelValue.position!=='static'"
+        size="x-small"
+        label
+        density="compact"
+        class="text-capitalize"
+        color="#fff"
+        variant="elevated"
+        >{{ modelValue.position }}
+      </v-chip>
+    </template>
 
-      <div
-        :style="{
-          borderLeft: modelValue.borderLeft,
-          borderRight: modelValue.borderRight,
-          borderTop: modelValue.borderTop,
-          borderBottom: modelValue.borderBottom,
-          borderRadius: modelValue.borderRadius,
-        }"
-        class="pre-layer pointer-pointer"
-        @click.stop="$emit('click:area', 'padding')"
+    <s-box-sides
+      :selected="margin"
+      bg-color="#222"
+      @click:side="$emit('click:area', 'margin')"
+      height="100%"
+      height-percent="25%"
+      rounded="lg"
+      label="MARGIN"
+      outline
+
+      :top-label="modelValue.marginTop ? modelValue.marginTop : '-'"
+      :bottom-label="modelValue.marginBottom ? modelValue.marginBottom : '-'"
+      :left-label="modelValue.marginLeft ? modelValue.marginLeft : '-'"
+      :right-label="modelValue.marginRight ? modelValue.marginRight : '-'"
+    >
+      <s-box-sides
+        :selected="padding"
+        bg-color="#222"
+        @click:side="$emit('click:area', 'padding')"
+        height-percent="35%"
+        height="100%"
+        outline
+        :style="{outlineColor:border?'#3F51B5':undefined}"
+        rounded="lg"
+        label="PADDING"
+        :top-label="modelValue.paddingTop ? modelValue.paddingTop : '-'"
+        :bottom-label="
+          modelValue.paddingBottom ? modelValue.paddingBottom : '-'
+        "
+        :left-label="modelValue.paddingLeft ? modelValue.paddingLeft : '-'"
+        :right-label="modelValue.paddingRight ? modelValue.paddingRight : '-'"
       >
-        Padding
-        <div
-          :style="{ borderRadius: modelValue.borderRadius }"
-          class="pre-content pointer-pointer"
+        <v-sheet
+          :color="size ? '#3F51B5' : '#222'"
           @click.stop="$emit('click:area', 'size')"
+          rounded="lg"
+          height="100%"
+          style="outline: solid 3px #000; font-size: 9px"
+          class="d-flex align-center justify-center overflow-hidden pp"
         >
-          <p class="m-0 text-center">Content</p>
-        </div>
-      </div>
-    </div>
-  </div>
+          <span class="op-0-5 text-uppercase">Content</span>
+        </v-sheet>
+      </s-box-sides>
+    </s-box-sides>
+  </s-box-sides>
 </template>
 
 <script>
+import SBoxSides from "@selldone/page-builder/components/style/preview/SBoxSides.vue";
+
 export default {
   name: "SLandingStylePreview",
+  components: { SBoxSides },
   emits: ["update:modelValue", "click:area"],
   props: {
     modelValue: {},
@@ -65,6 +102,7 @@ export default {
     size: { type: Boolean },
     margin: { type: Boolean },
     padding: { type: Boolean },
+    position: Boolean,
   },
 
   computed: {
@@ -85,88 +123,64 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pre-parent {
-  padding: 8px;
-
+.box {
   position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(101, 72, 204, 0.74);
+}
 
-  min-height: 300px;
-  font-size: 11px;
-  font-weight: 500;
+.trapezoid {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  background-color: orange;
+  cursor: pointer;
 
-  &.-border {
-  }
+  --width: 10%;
+  --height: 15%;
 
-  &.-margin {
-    .pre-margin {
-      background: #ac460f
-        repeating-linear-gradient(
-          45deg,
-          #ac460f,
-          #ac460f 5px,
-          #bb5720 5px,
-          #bb5720 10px
-        );
-    }
-  }
+  --side-rev-w: calc(100% - var(--width));
+  --side-rev-h: calc(100% - var(--width));
+}
 
-  &.-padding {
-    .pre-layer {
-      background: #32b1ec
-        repeating-linear-gradient(
-          45deg,
-          #32b1ec,
-          #32b1ec 5px,
-          #4ebaec 5px,
-          #4ebaec 10px
-        );
-    }
-  }
+.top {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--height);
+  clip-path: polygon(0 0, 100% 0, var(--side-rev-w) 100%, var(--width) 100%);
+  background-color: rgba(48, 105, 183, 0.84);
+}
 
-  &.-size {
-    .pre-content {
-      background: #c2185b
-        repeating-linear-gradient(
-          45deg,
-          #c2185b,
-          #c2185b 5px,
-          #cb2969 5px,
-          #cb2969 10px
-        );
-    }
-  }
+.bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--height);
+  clip-path: polygon(var(--width) 0, var(--side-rev-w) 0, 100% 100%, 0 100%);
+  background-color: rgba(153, 82, 10, 0.85);
+}
 
-  .pre-margin {
-    position: absolute;
-    left: 10%;
-    top: 32px;
-    width: 80%;
+.left {
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: var(--width);
+  left: 0;
+  clip-path: polygon(0 0, 100% var(--height), 100% var(--side-rev-h), 0 100%);
+  background-color: rgba(10, 153, 40, 0.8);
+}
 
-    color: #fff;
-    padding: 8px;
-    border-radius: 2px;
-
-    background: #c2a89a;
-  }
-
-  .pre-layer {
-    background-color: #9fc2d2;
-    color: #fff;
-    margin: 24px;
-    padding: 8px;
-  }
-
-  .pre-content {
-    padding: 8px;
-
-    background-color: #ce7f9f;
-    color: #fff;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: 100px;
-    text-align: center;
-    border-radius: 2px;
-  }
+.right {
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: var(--width);
+  right: 0;
+  clip-path: polygon(0 var(--height), 100% 0, 100% 100%, 0 var(--side-rev-h));
+  background-color: rgba(180, 53, 28, 0.88);
 }
 </style>

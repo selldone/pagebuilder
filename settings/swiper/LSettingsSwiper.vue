@@ -137,7 +137,7 @@
               { value: 'vertical', icon: 'vertical_distribute' },
             ]"
             icon="turn_slight_right"
-            title="Slides direction"
+            label="Slides direction"
           ></s-setting-select>
 
           <o-swiper-slides-per-view
@@ -164,7 +164,7 @@
           <s-setting-switch
             v-model="target[keySlide].grabCursor"
             icon="mouse"
-            title="Grab cursor"
+            label="Grab cursor"
           ></s-setting-switch>
         </s-setting-group>
 

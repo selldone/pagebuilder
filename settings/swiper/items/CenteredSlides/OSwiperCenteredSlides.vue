@@ -16,23 +16,25 @@
     <s-setting-switch
       v-model="modelValue.centeredSlides"
       icon="view_carousel"
-      title="Centered slides"
+      label="Centered slides"
     >
     </s-setting-switch>
 
-    <s-setting-expandable
-      bg-color="transparent"
-      icon="subdirectory_arrow_right"
-      title="Center slide effect"
-    >
-      <s-setting-select
-        v-model="modelValue.active"
-        :items="CenterSlideEffect"
-        clearable
-        icon="layers"
-        title="Effect"
-      ></s-setting-select>
-    </s-setting-expandable>
+   <v-expansion-panels>
+     <s-setting-expandable
+         bg-color="transparent"
+         icon="subdirectory_arrow_right"
+         title="Center slide effect"
+     >
+       <s-setting-select
+           v-model="modelValue.active"
+           :items="CenterSlideEffect"
+           clearable
+           icon="layers"
+           label="Effect"
+       ></s-setting-select>
+     </s-setting-expandable>
+   </v-expansion-panels>
   </div>
 </template>
 

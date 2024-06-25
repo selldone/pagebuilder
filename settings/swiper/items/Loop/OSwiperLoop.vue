@@ -12,7 +12,7 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <s-setting-switch v-model="modelValue.loop" icon="repeat" title="Loop">
+  <s-setting-switch v-model="modelValue.loop" icon="repeat" label="Loop">
   </s-setting-switch>
 </template>
 

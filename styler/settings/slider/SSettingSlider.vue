@@ -16,27 +16,39 @@
 
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     class="s--setting-switch"
     density="compact"
   >
+    <template v-slot:prepend>
+      <span class="-label me-2 min-width-100">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span
+      >
+    </template>
+
     <template v-slot:append>
-      <u-number-input
-        :disabled="disabled"
-        :max="max"
-        :min="min"
-        :model-value="modelValue"
-        color="#1976D2"
-        density="compact"
-        hide-details
-        inset
-        style="min-width: 100px"
-        variant="plain"
-        @update:model-value="(val) => setValue(val)"
-        @click.stop
-      ></u-number-input>
-      <small v-if="suffix" class="ms-1">{{ suffix }}</small>
+      <v-list-item-action end>
+        <u-number-input
+          :disabled="disabled"
+          :max="max"
+          :min="min"
+          :model-value="modelValue"
+          color="#1976D2"
+          density="compact"
+          class="v-input-small"
+          hide-details
+          inset
+          style="min-width: 100px"
+          variant="outlined"
+          rounded="lg"
+          @update:model-value="(val) => setValue(val)"
+          @click.stop
+          :step="step"
+          :decimal="decimal?decimal:step<1 ? 2 : 0"
+        ></u-number-input>
+        <small v-if="suffix" class="ms-1">{{ suffix }}</small>
+      </v-list-item-action>
     </template>
     <v-slider
       :disabled="disabled"
@@ -63,7 +75,7 @@ export default defineComponent({
   components: { UNumberInput },
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     disabled: Boolean,
     min: {
@@ -79,6 +91,12 @@ export default defineComponent({
       default: null,
     },
     suffix: {},
+
+    step:{
+      default: 1,
+
+    },
+    decimal:{}
   },
   computed: {},
   data() {
@@ -94,5 +112,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-switch {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>

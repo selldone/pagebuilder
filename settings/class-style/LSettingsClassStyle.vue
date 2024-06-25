@@ -44,813 +44,86 @@
       <v-expansion-panels v-model="Selected_tab">
         <!-- ████████████████████ Size ████████████████████ -->
 
-        <v-expansion-panel v-if="has_size">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">fit_screen</v-icon>
-              Size
-
-              <v-chip
-                v-if="in_width && in_width !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Width"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>fullscreen</v-icon>
-                {{ in_width }}
-              </v-chip>
-              <v-chip
-                v-if="in_minWidth && in_minWidth !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Min Width"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>fullscreen_exit</v-icon>
-                {{ in_minWidth }}
-              </v-chip>
-              <v-chip
-                v-if="in_maxWidth && in_maxWidth !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Max Width"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>crop_free</v-icon>
-                {{ in_maxWidth }}
-              </v-chip>
-
-              <v-chip
-                v-if="in_height && in_height !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Height"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>fullscreen</v-icon>
-                {{ in_height }}
-              </v-chip>
-              <v-chip
-                v-if="in_minHeight && in_minHeight !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Min Height"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>fullscreen_exit</v-icon>
-                {{ in_minHeight }}
-              </v-chip>
-              <v-chip
-                v-if="in_maxHeight && in_maxHeight !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Max Height"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>crop_free</v-icon>
-                {{ in_maxHeight }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="size">
-              <s-landing-style-preview
-                :model-value="in_style"
-                class="mb-5"
-                size
-                @click:area="(val) => (Selected_tab = indexOf(val))"
-              ></s-landing-style-preview>
-
-              <s-widget-header
-                icon="fullscreen"
-                title="Preferred size"
-              ></s-widget-header>
-              <v-list-subheader
-                >The element will have this size by default.
-              </v-list-subheader>
-
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_width"
-                    :hint="size_hint"
-                    clearable
-                    label="Width"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_height"
-                    :hint="size_hint"
-                    clearable
-                    label="Height"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-
-              <s-widget-header
-                icon="fullscreen_exit"
-                title="Minimum size"
-              ></s-widget-header>
-              <v-list-subheader
-                >The element is forced to have this minimum size.
-              </v-list-subheader>
-
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_minWidth"
-                    :hint="size_hint"
-                    clearable
-                    label="Minimum Width"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_minHeight"
-                    :hint="size_hint"
-                    clearable
-                    label="Minimum Height"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-
-              <s-widget-header
-                icon="crop_free"
-                title="Maximum size"
-              ></s-widget-header>
-              <v-list-subheader
-                >The element size will be limited to these constraints.
-              </v-list-subheader>
-
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_maxWidth"
-                    :hint="size_hint"
-                    clearable
-                    label="Maximum Width"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_maxHeight"
-                    :hint="size_hint"
-                    clearable
-                    label="Maximum Height"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-
-              <div class="py-5">
-                <b>Relative Units</b>
-                <ul>
-                  <li><b>EM</b>: Relative to the parent element</li>
-
-                  <li><b>REM</b>: Relative to the root element (HTML tag)</li>
-
-                  <li><b>%</b>: Relative to the parent element</li>
-
-                  <li><b>VW</b>: Relative to the viewport’s width</li>
-
-                  <li><b> VH</b>: Relative to the viewport’s height</li>
-                </ul>
-              </div>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        <l-settings-style-size
+          v-if="has_size"
+          :inputStyle="in_style"
+          @click:area="(val) => (Selected_tab = indexOf(val))"
+          v-model:width="in_width"
+          v-model:height="in_height"
+          v-model:minWidth="in_minWidth"
+          v-model:minHeight="in_minHeight"
+          v-model:maxWidth="in_maxWidth"
+          v-model:maxHeight="in_maxHeight"
+        ></l-settings-style-size>
 
         <!-- ████████████████████ Padding ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('padding')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">padding</v-icon>
-              Padding
-
-              <v-chip
-                v-if="in_paddingLeft && in_paddingLeft !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Padding Left"
-                variant="tonal"
-                >Left: {{ in_paddingLeft }}
-              </v-chip>
-              <v-chip
-                v-if="in_paddingRight && in_paddingRight !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Padding Right"
-                variant="tonal"
-                >Right: {{ in_paddingRight }}
-              </v-chip>
-              <v-chip
-                v-if="in_paddingTop && in_paddingTop !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Padding top"
-                variant="tonal"
-                >top: {{ in_paddingTop }}
-              </v-chip>
-              <v-chip
-                v-if="in_paddingBottom && in_paddingBottom !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Padding Bottom"
-                variant="tonal"
-                >Bottom: {{ in_paddingBottom }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="padding">
-              <s-landing-style-preview
-                :model-value="in_style"
-                class="mb-5"
-                padding
-                @click:area="(val) => (Selected_tab = indexOf(val))"
-              ></s-landing-style-preview>
-
-              <s-widget-header icon="padding" title="Padding"></s-widget-header>
-              <v-list-subheader
-                >An element's padding area is the space between its content and
-                its border.
-              </v-list-subheader>
-
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_paddingLeft"
-                    :hint="size_hint"
-                    clearable
-                    label="Padding left"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_paddingRight"
-                    :hint="size_hint"
-                    clearable
-                    label="Padding right"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_paddingTop"
-                    :hint="size_hint"
-                    clearable
-                    label="Padding top"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_paddingBottom"
-                    :hint="size_hint"
-                    clearable
-                    label="Padding bottom"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        <l-settings-style-padding
+          v-if="available_tabs.includes('padding')"
+          :inputStyle="in_style"
+          @click:area="(val) => (Selected_tab = indexOf(val))"
+          v-model:paddingLeft="in_paddingLeft"
+          v-model:paddingRight="in_paddingRight"
+          v-model:paddingTop="in_paddingTop"
+          v-model:paddingBottom="in_paddingBottom"
+        >
+        </l-settings-style-padding>
 
         <!-- ████████████████████ Margin ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('margin')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">margin</v-icon>
-              Margin
+        <l-settings-style-margin
+          v-if="available_tabs.includes('margin')"
+          :inputStyle="in_style"
+          @click:area="(val) => (Selected_tab = indexOf(val))"
+          v-model:marginLeft="in_marginLeft"
+          v-model:marginRight="in_marginRight"
+          v-model:marginTop="in_marginTop"
+          v-model:marginBottom="in_marginBottom"
+        >
+        </l-settings-style-margin>
 
-              <v-chip
-                v-if="in_marginLeft && in_marginLeft !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Margin Left"
-                variant="tonal"
-                >Left: {{ in_marginLeft }}
-              </v-chip>
-              <v-chip
-                v-if="in_marginRight && in_marginRight !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Margin Right"
-                variant="tonal"
-                >Right: {{ in_marginRight }}
-              </v-chip>
-              <v-chip
-                v-if="in_marginTop && in_marginTop !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Margin top"
-                variant="tonal"
-                >top: {{ in_marginTop }}
-              </v-chip>
-              <v-chip
-                v-if="in_marginBottom && in_marginBottom !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Margin Bottom"
-                variant="tonal"
-                >Bottom: {{ in_marginBottom }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="margin">
-              <s-landing-style-preview
-                :model-value="in_style"
-                class="mb-5"
-                margin
-                @click:area="(val) => (Selected_tab = indexOf(val))"
-              ></s-landing-style-preview>
+        <!-- ████████████████████ Position ████████████████████ -->
 
-              <s-widget-header icon="margin" title="Margin"></s-widget-header>
-              <v-list-subheader
-                >In CSS, a margin is the space around an element's border, while
-                padding is the space between an element's border and the
-                element's content.
-              </v-list-subheader>
-
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_marginLeft"
-                    :hint="size_hint"
-                    clearable
-                    label="Margin left"
-                  ></u-dimension-input>
-                </v-col>
-
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_marginRight"
-                    :hint="size_hint"
-                    clearable
-                    label="Margin right"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_marginTop"
-                    :hint="size_hint"
-                    clearable
-                    label="Margin top"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_marginBottom"
-                    :hint="size_hint"
-                    clearable
-                    label="Margin bottom"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        <l-settings-style-position
+          v-if="available_tabs.includes('position')"
+          :inputStyle="in_style"
+          @click:area="(val) => (Selected_tab = indexOf(val))"
+          v-model:position="in_position"
+          v-model:top="in_top"
+          v-model:left="in_left"
+          v-model:bottom="in_bottom"
+          v-model:right="in_right"
+        >
+        </l-settings-style-position>
 
         <!-- ████████████████████ Border ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('border')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">rounded_corner</v-icon>
-              Border
+        <l-settings-style-border v-if="available_tabs.includes('border')"
 
-              <v-chip
-                v-if="in_borderLeft.trim() && !in_borderLeft.includes('unset')"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Border Left"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>border_left</v-icon>
-                {{ getName(in_borderLeft) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  in_borderRight.trim() && !in_borderRight.includes('unset')
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Border Right"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>border_right</v-icon>
-                {{ getName(in_borderRight) }}
-              </v-chip>
-              <v-chip
-                v-if="in_borderTop.trim() && !in_borderTop.includes('unset')"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Border Top"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>border_top</v-icon>
-                {{ getName(in_borderTop) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  in_borderBottom.trim() && !in_borderBottom.includes('unset')
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Border Bottom"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>border_bottom</v-icon>
-                {{ getName(in_borderBottom) }}
-              </v-chip>
+                           :inputStyle="in_style"
+                           @click:area="(val) => (Selected_tab = indexOf(val))"
 
-              <v-chip
-                v-if="in_borderRadius && in_borderRadius !== 'unset'"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Border Left"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>rounded_corner</v-icon>
-                {{ getName(in_borderRadius) }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="border">
-              <s-landing-style-preview
-                :model-value="in_style"
-                border
-                class="mb-5"
-                @click:area="(val) => (Selected_tab = indexOf(val))"
-              ></s-landing-style-preview>
+                                v-model:borderLeft="in_borderLeft"
+                                v-model:borderRight="in_borderRight"
+                                v-model:borderTop="in_borderTop"
+                                v-model:borderBottom="in_borderBottom"
+                                v-model:borderRadius="in_borderRadius"
 
-              <s-widget-header
-                icon="rounded_corner"
-                title="Border radius"
-              ></s-widget-header>
-              <v-list-subheader
-                >The CSS border is a shorthand property used to set the border
-                on an element.
-              </v-list-subheader>
+        >
 
-              <v-row class="max-w-640 mx-auto">
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="in_borderRadius"
-                    :hint="size_hint"
-                    clearable
-                    label="Border radius"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <u-smart-toggle
-                    v-model="borders_same"
-                    dark
-                    true-title="All same"
-                  >
-                  </u-smart-toggle>
-                </v-col>
-              </v-row>
-
-              <s-widget-header
-                icon="border_style"
-                title="Border style"
-              ></s-widget-header>
-
-              <s-landing-style-border
-                v-model="in_borderLeft"
-                :label="borders_same ? 'Border' : 'Border left'"
-                @update:modelValue="
-                  (val) => {
-                    if (borders_same) {
-                      in_borderRight = in_borderTop = in_borderBottom = val;
-                    }
-                  }
-                "
-              ></s-landing-style-border>
-
-              <v-expand-transition>
-                <div v-if="!borders_same">
-                  <s-landing-style-border
-                    v-model="in_borderRight"
-                    label="Border right"
-                  ></s-landing-style-border>
-                  <s-landing-style-border
-                    v-model="in_borderTop"
-                    label="Border top"
-                  ></s-landing-style-border>
-                  <s-landing-style-border
-                    v-model="in_borderBottom"
-                    label="Border bottom"
-                  ></s-landing-style-border>
-                </div>
-              </v-expand-transition>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        </l-settings-style-border>
 
         <!-- ████████████████████ Class ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('classes')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">turned_in</v-icon>
-              Class
+        <l-settings-classes v-if="available_tabs.includes('classes')"    v-model:classes="in_classes">
 
-              <v-chip
-                v-for="(it, i) in in_classes"
-                :key="i"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                variant="tonal"
-                >{{ getName(it) }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="classes" class="min-height-40vh">
-              <div
-                class="class-prev-con bg-tiny-checkers-dark pa-3 overflow-auto"
-                style="min-height: 120px; max-height: 200px !important"
-              >
-                <div :class="in_classes" class="class-prev">
-                  Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet.
-                </div>
-              </div>
-
-              <s-widget-header
-                icon="integration_instructions"
-                title="Classes"
-              ></s-widget-header>
-              <v-list-subheader
-                >In CSS, a class represents a collection of elements with
-                similar or identical characteristics. All classes in Bootstrap 4
-                are supported.
-              </v-list-subheader>
-
-              <div class="pa-1 border-between-vertical max-w-640 mx-auto">
-                <div
-                  v-for="(it, i) in in_classes"
-                  :key="i"
-                  class="d-flex align-center pa-1"
-                >
-                  <b>{{ it }}</b>
-                  <v-spacer></v-spacer>
-                  <div
-                    :class="it"
-                    style="
-                      min-height: unset !important;
-                      height: unset !important;
-                    "
-                    title="Sample"
-                  >
-                    ABC
-                  </div>
-                  <v-btn
-                    class="ms-2"
-                    color="red"
-                    icon
-                    title="Delete"
-                    variant="text"
-                    @click="remove(in_classes, it)"
-                  >
-                    <v-icon>close</v-icon>
-                  </v-btn>
-                </div>
-              </div>
-
-              <v-combobox
-                v-model="in_classes"
-                :items="standard_classes"
-                chips
-                class="max-w-640 mx-auto"
-                clearable
-                closable-chips
-                multiple
-                variant="underlined"
-              >
-              </v-combobox>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        </l-settings-classes>
 
         <!-- ████████████████████ Shadow ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('margin')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">wb_shade</v-icon>
-              Shadow
+        <l-settings-style-shadow v-if="available_tabs.includes('shadow')"    :inputStyle="in_style" v-model:shadow="shadow">
 
-              <v-chip
-                v-if="shadow"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Shadow"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>layers</v-icon>
-                {{ isObject(shadow) ? "Custom Shadow" : "Has Shadow" }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="shadow" class="d-flex flex-column">
-              <v-expand-transition>
-                <div v-if="shadow && in_shadow_edit" class="pb-2">
-                  <div class="shad-con bg-tiny-checkers mb-3">
-                    <div
-                      :class="{ '-inset': shadow_gen.includes('inset') }"
-                      :style="{ boxShadow: shadow_gen }"
-                      class="shad-pre"
-                    ></div>
-
-                    <div class="bottom-absolute-bar-dark" dir="ltr">
-                      {{ shadow_gen }}
-                    </div>
-                  </div>
-                </div>
-              </v-expand-transition>
-
-              <v-expand-transition>
-                <!-- Custom shadow edit mode -->
-
-                <div v-if="in_shadow_edit">
-                  <s-widget-header
-                    icon="looks_one"
-                    title="Horizontal shadow length"
-                  ></s-widget-header>
-
-                  <v-slider
-                    v-model="shadow.h"
-                    :max="200"
-                    :min="-200"
-                    step="1"
-                    thumb-color="#555"
-                    thumb-label="always"
-                  ></v-slider>
-
-                  <s-widget-header
-                    icon="looks_two"
-                    title="Vertical shadow length"
-                  ></s-widget-header>
-
-                  <v-slider
-                    v-model="shadow.w"
-                    :max="200"
-                    :min="-200"
-                    step="1"
-                    thumb-color="#555"
-                    thumb-label="always"
-                  ></v-slider>
-
-                  <s-widget-header
-                    icon="blur_on"
-                    title="Blur Radius"
-                  ></s-widget-header>
-
-                  <v-slider
-                    v-model="shadow.r"
-                    :max="200"
-                    :min="-200"
-                    step="1"
-                    thumb-color="#555"
-                    thumb-label="always"
-                  ></v-slider>
-
-                  <s-widget-header
-                    icon="blur_linear"
-                    title="Spread Radius"
-                  ></s-widget-header>
-
-                  <v-slider
-                    v-model="shadow.s"
-                    :max="200"
-                    :min="-200"
-                    step="1"
-                    thumb-color="#555"
-                    thumb-label="always"
-                  ></v-slider>
-
-                  <u-smart-switch
-                    v-model="shadow.i"
-                    class="my-5"
-                    dark
-                    false-icon="wb_shade"
-                    false-title="Outbound shadow"
-                    inset
-                    true-icon="curtains"
-                    true-title="Inset shadow"
-                  ></u-smart-switch>
-
-                  <s-widget-header
-                    icon="format_color_fill"
-                    title="Color"
-                  ></s-widget-header>
-
-                  <u-color-selector
-                    v-model="shadow.c"
-                    title="Shadow Color"
-                  ></u-color-selector>
-                </div>
-
-                <!-- Select shadow collection (default) -->
-                <v-item-group
-                  v-else
-                  v-model="shadow"
-                  :style="{ 'max-height': 50 + 'vh' }"
-                  class="overflow-y-auto bg-tiny-checkers"
-                >
-                  <v-container>
-                    <v-row align="center" justify="center">
-                      <v-col v-for="(item, i) in ShadowCollection" :key="i">
-                        <v-item v-slot="{ isSelected, toggle }" :value="item">
-                          <v-card
-                            :style="`box-shadow:${item}`"
-                            class="d-flex align-center"
-                            color="#fff"
-                            height="120"
-                            width="120"
-                            @click="toggle"
-                          >
-                            <v-scroll-y-transition>
-                              <div
-                                v-if="isSelected"
-                                class="flex-grow-1 text-center"
-                              >
-                                <v-icon color="success" size="large"
-                                  >check
-                                </v-icon>
-                              </div>
-                            </v-scroll-y-transition>
-                          </v-card>
-                        </v-item>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-item-group>
-              </v-expand-transition>
-
-              <div class="py-2">
-                <!-- Edit custom shadow -->
-                <v-btn v-if="!in_shadow_edit && !shadow" @click="addShadow()">
-                  <v-icon class="me-1">layers</v-icon>
-                  Edit custom shadow
-                </v-btn>
-
-                <v-btn v-if="shadow" @click="removeShadow()">
-                  <v-icon class="me-1">layers_clear</v-icon>
-                  Remove shadow
-                </v-btn>
-              </div>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        </l-settings-style-shadow>
 
         <!-- ████████████████████ Filter ████████████████████ -->
 
@@ -890,327 +163,9 @@
         </v-expansion-panel>
 
         <!-- ████████████████████ Transform ████████████████████ -->
+        <l-settings-style-transform v-if="available_tabs.includes('transform')"   :inputStyle="in_style" v-model:transform ="transform">
 
-        <v-expansion-panel v-if="available_tabs.includes('transform')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">transform</v-icon>
-              Transform
-
-              <v-chip
-                v-if="transform && transform.rotate"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Rotate"
-                variant="tonal"
-                >R {{ transform.rotate }}°
-              </v-chip>
-              <v-chip
-                v-if="transform && transform.rotateX"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Rotate X"
-                variant="tonal"
-                >Rx {{ transform.rotateX }}°
-              </v-chip>
-              <v-chip
-                v-if="transform && transform.rotateY"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Rotate Y"
-                variant="tonal"
-                >Ry {{ transform.rotateY }}°
-              </v-chip>
-              <v-chip
-                v-if="transform && transform.rotateZ"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Rotate Z"
-                variant="tonal"
-                >Rz {{ transform.rotateZ }}°
-              </v-chip>
-
-              <v-chip
-                v-if="
-                  transform &&
-                  transform.translateX &&
-                  transform.translateX !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Translate X"
-                variant="tonal"
-                >Tx {{ getName(transform.translateX) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  transform &&
-                  transform.translateY &&
-                  transform.translateY !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Translate Y"
-                variant="tonal"
-                >Ty {{ getName(transform.translateY) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  transform &&
-                  transform.translateZ &&
-                  transform.translateZ !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Translate Z"
-                variant="tonal"
-                >Tz {{ getName(transform.translateZ) }}
-              </v-chip>
-
-              <v-chip
-                v-if="
-                  transform && transform.scaleX && transform.scaleX !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Scale X"
-                variant="tonal"
-                >Sx {{ getName(transform.scaleX) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  transform && transform.scaleY && transform.scaleY !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Scale Y"
-                variant="tonal"
-                >Sy {{ getName(transform.scaleY) }}
-              </v-chip>
-
-              <v-chip
-                v-if="
-                  transform && transform.skewX && transform.skewX !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Skew X"
-                variant="tonal"
-                >Kx {{ getName(transform.skewX) }}
-              </v-chip>
-              <v-chip
-                v-if="
-                  transform && transform.skewY && transform.skewY !== 'unset'
-                "
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Skew Y"
-                variant="tonal"
-                >Ky {{ getName(transform.skewY) }}
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="transform">
-              <div class="shad-con bg-tiny-checkers mb-3">
-                <div
-                  :style="{ transform: transform_gen }"
-                  class="shad-pre s--shadow-no-padding"
-                  style="border-radius: 6px"
-                ></div>
-                <div class="bottom-absolute-bar-dark" dir="ltr">
-                  {{ transform_gen }}
-                </div>
-              </div>
-
-              <s-widget-header
-                icon="rotate_90_degrees_ccw"
-                title="Rotation"
-              ></s-widget-header>
-              <v-list-subheader>
-                The rotation defines a transformation that rotates an element
-                around a fixed point on the 2D plane, without deforming it.
-              </v-list-subheader>
-
-              <v-row>
-                <v-col cols="12" md="3" sm="6">
-                  <u-number-input
-                    v-model="transform.rotate"
-                    :max="360"
-                    :min="-360"
-                    label="Rotate"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-                <v-col cols="12" md="3" sm="6">
-                  <u-number-input
-                    v-model="transform.rotateX"
-                    :max="360"
-                    :min="-360"
-                    label="Rotate X"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-                <v-col cols="12" md="3" sm="6">
-                  <u-number-input
-                    v-model="transform.rotateY"
-                    :max="360"
-                    :min="-360"
-                    label="Rotate Y"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-                <v-col cols="12" md="3" sm="6">
-                  <u-number-input
-                    v-model="transform.rotateZ"
-                    :max="360"
-                    :min="-360"
-                    label="Rotate Z"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-              </v-row>
-
-              <s-widget-header
-                icon="flip_to_back"
-                title="Translate"
-              ></s-widget-header>
-              <v-list-subheader>
-                The translate allows you to transfer an element from one place
-                to another along the X (horizontal) axis, the Y (vertical) axis,
-                and the Z (depth) axis.
-              </v-list-subheader>
-
-              <v-row>
-                <v-col cols="12" md="4" sm="6">
-                  <u-dimension-input
-                    v-model="transform.translateX"
-                    clearable
-                    label="Translate X"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" md="4" sm="6">
-                  <u-dimension-input
-                    v-model="transform.translateY"
-                    clearable
-                    label="Translate y"
-                  ></u-dimension-input>
-                </v-col>
-                <v-col cols="12" md="4" sm="6">
-                  <u-dimension-input
-                    v-model="transform.translateZ"
-                    clearable
-                    label="Translate z"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-
-              <s-widget-header icon="transform" title="Scale"></s-widget-header>
-              <v-list-subheader>
-                The scale defines a transformation that resizes an element on
-                the 2D plane.
-              </v-list-subheader>
-
-              <v-row>
-                <v-col cols="12" md="4" sm="6">
-                  <u-number-input
-                    v-model="transform.scaleX"
-                    :decimal="1"
-                    :max="10"
-                    :min="0"
-                    :step="0.1"
-                    clearable
-                    label="Scale X"
-                  ></u-number-input>
-                </v-col>
-
-                <v-col cols="12" md="4" sm="6">
-                  <u-number-input
-                    v-model="transform.scaleY"
-                    :decimal="1"
-                    :max="10"
-                    :min="0"
-                    :step="0.1"
-                    clearable
-                    label="Scale Y"
-                  ></u-number-input>
-                </v-col>
-
-                <v-col cols="12" md="4" sm="6">
-                  <u-number-input
-                    v-model="transform.scaleZ"
-                    :decimal="1"
-                    :max="10"
-                    :min="0"
-                    :step="0.1"
-                    clearable
-                    label="Scale Z"
-                  ></u-number-input>
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <u-dimension-input
-                    v-model="transform.perspective"
-                    clearable
-                    label="Perspective"
-                  ></u-dimension-input>
-                </v-col>
-              </v-row>
-              <s-widget-header icon="360" title="Skew"></s-widget-header>
-              <v-list-subheader
-                >This transformation is a shear mapping that distorts each point
-                within an element by a certain angle in the horizontal and
-                vertical directions.
-              </v-list-subheader>
-
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <u-number-input
-                    v-model="transform.skewX"
-                    :max="360"
-                    :min="-360"
-                    label="Skew Y"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-
-                <v-col cols="12" sm="6">
-                  <u-number-input
-                    v-model="transform.skewY"
-                    :max="360"
-                    :min="-360"
-                    label="Skew Y"
-                    suffix="deg"
-                  ></u-number-input>
-                </v-col>
-              </v-row>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        </l-settings-style-transform>
       </v-expansion-panels>
     </v-card>
   </v-navigation-drawer>
@@ -1234,12 +189,25 @@ import _ from "lodash-es";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import LSettingsStyleSize from "@selldone/page-builder/settings/style/size/LSettingsStyleSize.vue";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import LSettingsStylePadding from "@selldone/page-builder/settings/style/padding/LSettingsStylePadding.vue";
+import LSettingsStyleMargin from "@selldone/page-builder/settings/style/margin/LSettingsStyleMargin.vue";
+import LSettingsStylePosition from "@selldone/page-builder/settings/style/position/LSettingsStylePosition.vue";
+import LSettingsStyleBorder from "@selldone/page-builder/settings/style/border/LSettingsStyleBorder.vue";
+import LSettingsClasses from "@selldone/page-builder/settings/classes/LSettingsClasses.vue";
+import LSettingsStyleShadow from "@selldone/page-builder/settings/style/shadow/LSettingsStyleShadow.vue";
+import LSettingsStyleTransform from "@selldone/page-builder/settings/style/transform/LSettingsStyleTransform.vue";
 
 const STYLE_TABS = [
   "size",
   "padding",
   "border",
   "margin",
+  "position",
   "shadow",
   "classes",
   "filter",
@@ -1250,6 +218,18 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    LSettingsStyleTransform,
+    LSettingsStyleShadow,
+    LSettingsClasses,
+    LSettingsStyleBorder,
+    LSettingsStylePosition,
+    LSettingsStyleMargin,
+    LSettingsStylePadding,
+    SSettingExpandable,
+    LSettingsStyleSize,
+    SSettingSize,
+    SSettingGroup,
+    SSettingSelect,
     USmartSwitch,
     USmartToggle,
 
@@ -1288,6 +268,13 @@ export default {
     in_maxWidth: null,
     in_maxHeight: null,
 
+    in_position: null,
+
+    in_top: null,
+    in_bottom: null,
+    in_left: null,
+    in_right: null,
+
     in_marginLeft: null,
     in_marginRight: null,
     in_marginTop: null,
@@ -1307,11 +294,10 @@ export default {
 
     size_hint: "Can set in %, px, vh, vm, pt, mm & ...",
 
-    borders_same: false,
 
     //--------------------------
     shadow: null,
-    ShadowCollection: ShadowCollection,
+
     //--------------------------
     filter: null,
 
@@ -1347,22 +333,46 @@ export default {
 
     //-----------------------------------
     transform_gen() {
-      let out = "";
+      const transformMap = {
+        perspective: 'px',
+        rotate: 'deg',
+        rotateX: 'deg',
+        rotateY: 'deg',
+        rotateZ: 'deg',
+        scaleX: '',
+        scaleY: '',
+        scaleZ: '',
+        skewX: 'deg',
+        skewY: 'deg',
+        translateX: 'px',
+        translateY: 'px',
+        translateZ: 'px',
+      };
 
+
+      let out = "";
+console.log('this.transform',this.transform)
       Object.keys(this.transform).forEach((key) => {
         const value = this.transform[key];
         if (!value || ["auto", "none", "unset"].includes(value)) return;
 
-        const dim = key.includes("rotate") || key.includes("skew") ? "deg" : "";
-        out += `${key}(${value}${dim}) `;
+        const unit = transformMap[key] || '';
+        out += `${key}(${value}${unit}) `;
       });
 
-      return out;
+      return out.trim();
     },
 
     //-----------------------------------
     in_style() {
       const out = {
+        position: this.in_position,
+
+        top: this.in_top,
+        bottom: this.in_bottom,
+        left: this.in_left,
+        right: this.in_right,
+
         marginLeft: this.in_marginLeft,
         marginRight: this.in_marginRight,
         marginTop: this.in_marginTop,
@@ -1430,6 +440,23 @@ export default {
       this.setSizePositionDebounced();
     },
 
+    in_position() {
+      this.setSizePositionDebounced();
+    },
+
+    in_top() {
+      this.setSizePositionDebounced();
+    },
+    in_bottom() {
+      this.setSizePositionDebounced();
+    },
+    in_left() {
+      this.setSizePositionDebounced();
+    },
+    in_right() {
+      this.setSizePositionDebounced();
+    },
+
     in_marginLeft() {
       this.setSizePositionDebounced();
     },
@@ -1473,9 +500,7 @@ export default {
       this.setSizePositionDebounced();
     },
 
-    borders_same() {
-      this.setSizePositionDebounced();
-    },
+
 
     shadow: {
       handler() {
@@ -1566,7 +591,8 @@ export default {
       if (val === "size") return 0;
       else if (val === "padding") return 1 - (this.has_size ? 0 : 1);
       else if (val === "margin") return 2 - (this.has_size ? 0 : 1);
-      else if (val === "border") return 3 - (this.has_size ? 0 : 1);
+      else if (val === "position") return 3 - (this.has_size ? 0 : 1);
+      else if (val === "border") return 4 - (this.has_size ? 0 : 1);
     },
 
     addShadow() {
@@ -1604,6 +630,15 @@ export default {
       this.in_maxWidth = this.el_style.style.maxWidth;
       this.in_maxHeight = this.el_style.style.maxHeight;
 
+      // Position:
+      this.in_position = this.el_style.style.position;
+      if (!this.in_position) this.in_position = "static";
+
+      this.in_top = this.el_style.style.top;
+      this.in_bottom = this.el_style.style.bottom;
+      this.in_left = this.el_style.style.left;
+      this.in_right = this.el_style.style.right;
+
       // Margin:
 
       this.in_marginLeft = this.el_style.style.marginLeft;
@@ -1627,10 +662,7 @@ export default {
       this.in_borderTop = `${this.el_style.style.borderTopWidth} ${this.el_style.style.borderTopStyle} ${this.el_style.style.borderTopColor}`;
       this.in_borderBottom = `${this.el_style.style.borderBottomWidth} ${this.el_style.style.borderBottomStyle} ${this.el_style.style.borderBottomColor}`;
 
-      this.borders_same =
-        this.in_borderLeft === this.in_borderRight &&
-        this.in_borderTop === this.in_borderBottom &&
-        this.in_borderLeft === this.in_borderBottom;
+
 
       // Filter:
       this.filter = this.el_style.style.filter;
@@ -1735,6 +767,13 @@ export default {
         safeSetStyle("maxWidth", this.in_maxWidth);
         safeSetStyle("maxHeight", this.in_maxHeight);
       }
+
+      safeSetStyle("position", this.in_position);
+
+      safeSetStyle("top", this.in_top);
+      safeSetStyle("bottom", this.in_bottom);
+      safeSetStyle("left", this.in_left);
+      safeSetStyle("right", this.in_right);
 
       safeSetStyle("marginLeft", this.in_marginLeft);
       safeSetStyle("marginRight", this.in_marginRight);

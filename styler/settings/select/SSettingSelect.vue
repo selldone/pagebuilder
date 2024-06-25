@@ -15,10 +15,16 @@
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     density="compact"
+    class="s--setting-select"
   >
+    <template v-slot:title>
+      <span class="-label">
+                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span>
+    </template>
+
     <template v-slot:append>
       <v-select
         :clearable="clearable"
@@ -28,18 +34,24 @@
         :items="items"
         :model-value="modelValue"
         :return-object="false"
-        class="mt-n1 mb-1"
+        class="v-input-small"
+        style="min-width: 160px"
         color="#1976D2"
         density="compact"
         hide-details
         inset
-        variant="plain"
+        variant="outlined"
+        rounded="lg"
         @update:model-value="(val) => setValue(val)"
       >
         <template v-slot:selection="{ item }">
           <v-icon v-if="is_object && item.raw.icon" class="me-2" size="20"
             >{{ item.raw.icon }}
           </v-icon>
+          <v-img  v-if="is_object && item.raw.src" :src="item.raw.src " class="me-2" width="20" height="20"
+          >
+          </v-img>
+
           {{
             is_object
               ? item.raw.title
@@ -60,7 +72,13 @@
             "
             class="text-start"
             v-bind="props"
-          ></v-list-item>
+          >
+            <template v-slot:prepend>
+              <v-img v-if="is_object && item.raw.src" :src="item.raw.src" width="24" height="24" class="me-2">
+
+              </v-img>
+            </template>
+          </v-list-item>
         </template>
       </v-select>
     </template>
@@ -74,7 +92,7 @@ export default defineComponent({
   name: "SSettingSelect",
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     items: {
       type: Array,
@@ -101,5 +119,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-select {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>

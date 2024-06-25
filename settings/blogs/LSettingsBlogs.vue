@@ -42,14 +42,14 @@
             v-model="blogs_filter.sortBy"
             :items="SortKEys"
             icon="swap_vert"
-            title="Sort by"
+            label="Sort by"
           ></s-setting-select>
           <s-setting-toggle
             v-model="blogs_filter.sortDesc"
             :items="SortDirections"
             icon="unfold_more"
             mandatory
-            title="Direction"
+            label="Direction"
           ></s-setting-toggle>
         </s-setting-group>
 
@@ -112,7 +112,7 @@
               { title: 'Elevated', icon: 'layers', value: true },
             ]"
             icon="layers"
-            title="Elevated"
+            label="Elevated"
           ></s-setting-toggle>
 
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Corner ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
@@ -126,21 +126,21 @@
               { title: 'Sm', icon: 'rounded_corner', value: 'sm' },
             ]"
             icon="rounded_corner"
-            title="Corner"
+            label="Corner"
           ></s-setting-toggle>
 
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Dark ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
           <s-setting-switch
             v-model="blogs_filter.style.dark"
             icon="dark_mode"
-            title="Dark"
+            label="Dark"
           ></s-setting-switch>
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
           <s-setting-color
             v-model="blogs_filter.style.color"
             clearable
             icon="palette"
-            title="Card color"
+            label="Card color"
           ></s-setting-color>
         </s-setting-group>
       </v-card-text>

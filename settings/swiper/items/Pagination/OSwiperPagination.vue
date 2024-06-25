@@ -16,7 +16,7 @@
     <s-setting-switch
       v-model="modelValue.pagination.enabled"
       icon="more_horiz"
-      title="Pagination"
+      label="Pagination"
     >
     </s-setting-switch>
 
@@ -25,16 +25,16 @@
         <s-setting-select
           v-model="modelValue.pagination.type"
           :items="['progressbar', 'bullets', 'fraction']"
-          title="Type"
+          label="Type"
         ></s-setting-select>
 
         <s-setting-switch
           v-model="modelValue.pagination.hideOnClick"
-          title="Hide on click"
+          label="Hide on click"
         ></s-setting-switch>
         <s-setting-switch
           v-model="modelValue.pagination.dynamicBullets"
-          title="Dynamic bullets"
+          label="Dynamic bullets"
         ></s-setting-switch>
         <s-setting-number-select
           v-model="modelValue.pagination.dynamicMainBullets"

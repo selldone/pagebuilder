@@ -13,8 +13,7 @@
   -->
 <template>
   <!-- ████████████████████████ Group ████████████████████████ -->
-  <v-expansion-panels class="s--setting-expandable">
-    <v-expansion-panel :bg-color="bgColor">
+    <v-expansion-panel :bg-color="bgColor" color="s--setting-expandable">
       <v-expansion-panel-title class="-group-title py-0">
         <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
         {{ title }}
@@ -28,6 +27,7 @@
           variant="flat"
           >{{ tag }}
         </v-chip>
+        <slot name="title"></slot>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <div class="-content">
@@ -35,7 +35,6 @@
         </div>
       </v-expansion-panel-text>
     </v-expansion-panel>
-  </v-expansion-panels>
 </template>
 
 <script>

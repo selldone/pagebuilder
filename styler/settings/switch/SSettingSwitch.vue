@@ -16,12 +16,17 @@
 
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     class="s--setting-switch"
     density="compact"
     @click="setValue(!modelValue)"
   >
+    <template v-slot:title>
+      <span class="-label me-2">
+                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{label}}</span>
+    </template>
+
     <template v-slot:append>
       <v-switch
         :disabled="disabled"
@@ -46,7 +51,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     disabled: Boolean,
   },
@@ -67,5 +72,11 @@ export default defineComponent({
   .-switch {
     transform: scale(0.8);
   }
+
+
+  .-label{
+    font-size: 0.8rem;
+  }
+
 }
 </style>

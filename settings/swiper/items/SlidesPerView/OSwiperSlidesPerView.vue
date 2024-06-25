@@ -21,45 +21,47 @@
     icon="view_carousel"
     title="Slide per view"
   >
-    <s-setting-expandable
-      :tags="tags"
-      bg-color="transparent"
-      icon="subdirectory_arrow_right"
-      title="Responsive"
-    >
-      <s-setting-number-select
-        v-model="modelValue.slidesPerViewLg"
-        :max="10"
-        :min="1"
-        clearable
-        has-auto
-        icon="desktop_windows"
-        title="Large screen"
+    <v-expansion-panels>
+      <s-setting-expandable
+          :tags="tags"
+          bg-color="transparent"
+          icon="subdirectory_arrow_right"
+          title="Responsive"
       >
-      </s-setting-number-select>
+        <s-setting-number-select
+            v-model="modelValue.slidesPerViewLg"
+            :max="10"
+            :min="1"
+            clearable
+            has-auto
+            icon="desktop_windows"
+            title="Large screen"
+        >
+        </s-setting-number-select>
 
-      <s-setting-number-select
-        v-model="modelValue.slidesPerViewMd"
-        :max="10"
-        :min="1"
-        clearable
-        has-auto
-        icon="laptop"
-        title="Medium screen"
-      >
-      </s-setting-number-select>
+        <s-setting-number-select
+            v-model="modelValue.slidesPerViewMd"
+            :max="10"
+            :min="1"
+            clearable
+            has-auto
+            icon="laptop"
+            title="Medium screen"
+        >
+        </s-setting-number-select>
 
-      <s-setting-number-select
-        v-model="modelValue.slidesPerViewSm"
-        :max="10"
-        :min="1"
-        clearable
-        has-auto
-        icon="smartphone"
-        title="Small screen"
-      >
-      </s-setting-number-select>
-    </s-setting-expandable>
+        <s-setting-number-select
+            v-model="modelValue.slidesPerViewSm"
+            :max="10"
+            :min="1"
+            clearable
+            has-auto
+            icon="smartphone"
+            title="Small screen"
+        >
+        </s-setting-number-select>
+      </s-setting-expandable>
+    </v-expansion-panels>
   </s-setting-number-select>
 </template>
 

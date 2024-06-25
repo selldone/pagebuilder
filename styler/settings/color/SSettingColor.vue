@@ -15,14 +15,20 @@
   <!-- ████████████████████████ Color ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     class="s--setting-color"
     density="compact"
   >
+    <template v-slot:prepend>
+      <span class="-label me-2">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span
+      >
+    </template>
+
     <template v-slot:append>
       <u-color-selector
-        :dialog-title="title"
+        :dialog-title="label"
         :model-value="modelValue"
         :nullable="clearable"
         @update:model-value="setValue"
@@ -40,7 +46,7 @@ export default defineComponent({
   components: { UColorSelector },
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     clearable: Boolean,
 
@@ -60,5 +66,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-color {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>

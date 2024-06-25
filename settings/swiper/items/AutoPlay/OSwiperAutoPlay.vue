@@ -16,7 +16,7 @@
     <s-setting-switch
       v-model="modelValue.autoplay.enable"
       icon="animation"
-      title="Auto play"
+      label="Auto play"
     ></s-setting-switch>
 
     <v-expand-transition>
@@ -27,27 +27,27 @@
           :max-slider="10000"
           :min="1000"
           suffix="ms"
-          title="Delay"
+          label="Delay"
         ></s-setting-slider>
 
         <s-setting-switch
           v-model="modelValue.autoplay.disableOnInteraction"
-          title="Disable on interaction"
+          label="Disable on interaction"
         ></s-setting-switch>
 
         <s-setting-switch
           v-model="modelValue.autoplay.pauseOnMouseEnter"
-          title="Pause on pointer enter"
+          label="Pause on pointer enter"
         ></s-setting-switch>
 
         <s-setting-switch
           v-model="modelValue.autoplay.reverseDirection"
-          title="Reverse direction"
+          label="Reverse direction"
         ></s-setting-switch>
 
         <s-setting-switch
           v-model="modelValue.autoplay.stopOnLastSlide"
-          title="Stop on last slide"
+          label="Stop on last slide"
         ></s-setting-switch>
       </div>
     </v-expand-transition>

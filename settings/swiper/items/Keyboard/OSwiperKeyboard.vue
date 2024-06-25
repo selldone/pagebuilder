@@ -16,7 +16,7 @@
     <s-setting-switch
       v-model="modelValue.keyboard.enable"
       icon="keyboard"
-      title="Keyboard control"
+      label="Keyboard control"
     >
     </s-setting-switch>
 
@@ -24,11 +24,11 @@
       <div v-if="modelValue.keyboard.enable">
         <s-setting-switch
           v-model="modelValue.keyboard.onlyInViewport"
-          title="Only in viewport"
+          label="Only in viewport"
         ></s-setting-switch>
         <s-setting-switch
           v-model="modelValue.keyboard.pageUpDown"
-          title="Page Up/Down keys"
+          label="Page Up/Down keys"
         ></s-setting-switch>
       </div>
     </v-expand-transition>

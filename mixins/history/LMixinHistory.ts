@@ -17,7 +17,7 @@ import _ from "lodash-es";
 import Builder from "../../Builder.ts";
 import {Section} from "../../src/section/section";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export const LMixinHistory = defineComponent({
   data() {
@@ -166,6 +166,7 @@ export const LMixinHistory = defineComponent({
         local_history.length > current_index &&
         clone === local_history[current_index]
       ) {
+        if(DEBUG)
         console.log("✖️ No changes in history");
         return;
       }

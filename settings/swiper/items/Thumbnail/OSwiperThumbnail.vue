@@ -16,7 +16,7 @@
     <s-setting-switch
       v-model="modelValue.thumbnail.enable"
       icon="calendar_view_month"
-      title="Thumbnail"
+      label="Thumbnail"
     >
     </s-setting-switch>
 
@@ -25,18 +25,18 @@
         <s-setting-select
           v-model="modelValue.thumbnail.type"
           :items="ThumbnailType"
-          title="Type"
+          label="Type"
         ></s-setting-select>
 
         <s-setting-select
           v-model="modelValue.thumbnail.active"
           :items="CenterSlideEffect"
-          title="Center slide effect"
+          label="Center slide effect"
         ></s-setting-select>
 
         <s-setting-switch
           v-model="modelValue.thumbnail.rounded"
-          title="Rounded"
+          label="Rounded"
         ></s-setting-switch>
       </div>
     </v-expand-transition>

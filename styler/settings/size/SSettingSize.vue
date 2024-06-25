@@ -15,20 +15,29 @@
   <!-- ████████████████████████ Size ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     class="s--setting-size"
     density="compact"
   >
+    <template v-slot:title>
+      <span class="-label me-2">
+                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+
+        {{label}}</span>
+    </template>
     <template v-slot:append>
       <u-dimension-input
         :disabled="disabled"
         :model-value="modelValue"
         dense
         hide-details
-        style="min-width: 200px"
-        variant="plain"
+        single-line
+        style="min-width: 160px"
+        variant="outlined"
+        density="compact"
         @update:model-value="setValue"
+        rounded="lg"
+        class="v-input-small"
       ></u-dimension-input>
     </template>
   </v-list-item>
@@ -41,9 +50,10 @@ import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimens
 export default defineComponent({
   name: "SSettingSize",
   components: { UDimensionInput },
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
 
     disabled: Boolean,
@@ -66,5 +76,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-size {
+
+  .-label{
+    font-size: 0.8rem;
+  }
+
+
+
 }
 </style>

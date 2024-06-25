@@ -16,13 +16,13 @@
     <s-setting-switch
       v-model="modelValue.autoHeight"
       icon="height"
-      title="Auto height"
+      label="Auto height"
     ></s-setting-switch>
 
     <s-setting-size
       v-model="modelValue.height"
       icon="straighten"
-      title="Slides Height"
+      label="Slides Height"
     ></s-setting-size>
   </s-setting-group>
 </template>

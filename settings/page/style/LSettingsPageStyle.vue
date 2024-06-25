@@ -118,7 +118,7 @@
 
            <s-setting-color
                v-model="style.header_color"
-               title="Header Color"
+               label="Header Color"
                icon="palette"
                clearable
            ></s-setting-color>

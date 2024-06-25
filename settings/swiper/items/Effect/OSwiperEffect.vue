@@ -17,7 +17,7 @@
       v-model="modelValue.effect"
       :items="effects"
       icon="view_compact_alt"
-      title="Effect"
+      label="Effect"
     ></s-setting-select>
   </s-setting-group>
 </template>

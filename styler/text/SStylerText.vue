@@ -29,6 +29,24 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+              activator="parent"
+              content-class="bg-black text-white"
+              location="bottom"
+              max-width="320"
+          >Classes & Style
+          </v-tooltip>
+        </button>
+      </li>
+
+
       <!-- ―――――――――――――――――― Link ―――――――――――――――――― -->
 
       <li v-if="!noLink">
@@ -498,6 +516,15 @@ export default {
       default: null,
     },
 
+    keyClasses:{
+      type: String,
+      default: 'classes',
+    },
+
+    keyStyle:{
+      type: String,
+      default: 'style',
+    },
     /**
      * Set the location of the proper
      */
@@ -509,6 +536,8 @@ export default {
     noLink: {
       type: Boolean,
     },
+
+
   },
   data: () => ({
     TextAlign: TextAlign,
@@ -627,6 +656,19 @@ export default {
   },
 
   methods: {
+    showMasterDesignDialog() {
+
+      //console.log('this.target',this.target.style,this.target.classes)
+      this.ShowLSettingsClassStyle(
+          this.el,
+          this.el,
+          this.target,
+          this.keyStyle,
+          this.keyClasses,
+      );
+    },
+
+
     calculateSelectedTextStyle() {
       this.text_color_display = this.getSelectedTextColor();
       this.text_font = this.getSelectedTextFont();

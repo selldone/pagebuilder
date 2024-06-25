@@ -15,20 +15,28 @@
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     density="compact"
+    class="s--setting-toggle"
   >
+    <template v-slot:prepend>
+      <span class="-label me-2">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span
+      >
+    </template>
+
     <template v-slot:append>
       <v-btn-toggle
         :disabled="disabled"
         :items="items"
         :mandatory="mandatory"
         :model-value="modelValue"
-        class="my-1"
+        class="bg-gray"
+        rounded="xl"
         density="compact"
         hide-details
-        selected-class="blue-flat"
+        selected-class="blue-flat elevation-3"
         variant="text"
         @update:model-value="(val) => setValue(val)"
       >
@@ -36,10 +44,12 @@
           v-for="item in items"
           :key="item.value"
           :value="item.value"
-          class="tnt"
+          class="tnt ma-1"
           size="small"
+          height="28"
+          rounded="xl"
+          :prepend-icon="item.icon"
         >
-          <v-icon v-if="item.icon" start>{{ item.icon }}</v-icon>
           {{ is_object ? (item.title ? item.title : item.value) : item }}
         </v-btn>
       </v-btn-toggle>
@@ -54,7 +64,7 @@ export default defineComponent({
   name: "SSettingToggle",
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     items: {
       type: Array,
@@ -80,6 +90,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.s--setting-select {
+.s--setting-toggle {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>

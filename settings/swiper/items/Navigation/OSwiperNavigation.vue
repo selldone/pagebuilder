@@ -16,7 +16,7 @@
     <s-setting-switch
       v-model="modelValue.navigation.enable"
       icon="settings_ethernet"
-      title="Navigation"
+      label="Navigation"
     >
     </s-setting-switch>
 

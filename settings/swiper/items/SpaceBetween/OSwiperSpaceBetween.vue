@@ -19,7 +19,7 @@
     :min="0"
     icon="space_bar"
     suffix="px"
-    title="Space between"
+    label="Space between"
   >
   </s-setting-slider>
 </template>

@@ -39,13 +39,13 @@
       <s-setting-switch
         v-else-if="item.type === 'boolean'"
         v-model="modelValue[item.key]"
-        :title="item.title"
+        :label="item.title"
         clearable
       ></s-setting-switch>
       <s-setting-color
         v-else-if="item.type === 'color'"
         v-model="modelValue[item.key]"
-        :title="item.title"
+        :label="item.title"
         clearable
       ></s-setting-color>
 

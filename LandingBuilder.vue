@@ -171,6 +171,9 @@
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ SEO ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
   <l-page-editor-seo v-if="page && !demo" v-show="tab === 'seo'" :page="page" />
 
+  <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ CSS ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+  <l-page-editor-css v-if="page" v-show="tab === 'css'" :page="page" />
+
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Statistic ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
   <l-page-editor-statistics
@@ -294,6 +297,7 @@ import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmar
 import { LMixinEvents } from "./mixins/events/LMixinEvents";
 import LPageEditor from "./page/editor/LPageEditor.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront/StorefrontSDK";
+import LPageEditorCss from "@selldone/page-builder/page/editor/css/LPageEditorCss.vue";
 
 /**
  * <landing-builder>
@@ -303,6 +307,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LPageEditorCss,
     LPageEditor,
     USmartSuggestion,
     BAiModelInput,
