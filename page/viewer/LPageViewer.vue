@@ -135,16 +135,19 @@ export default {
   created() {
     console.style("<b>🪐 Render page</b>");
     this.$builder.setContent(this.initialPageData);
-    LandingCssHelper.Inject(
-      this.initialPageCss /*Css*/,
-      this.$refs.render_container,
-    );
+
   },
 
   mounted() {
     this.$nextTick(() => {
       cleanDOM(this.$refs.render_container);
       this.initAnimations(this.$refs.render_container);
+
+      LandingCssHelper.Inject(
+          this.initialPageCss /*Css*/,
+          this.$refs.render_container,
+      );
+
     });
   },
 
