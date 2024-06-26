@@ -49,7 +49,6 @@
           v-model:bgColor="bg_color"
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
-          class="mt-8"
           dark
           has-bg-video
           has-bg-color

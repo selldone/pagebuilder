@@ -15,92 +15,77 @@
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
+    class="s--setting-text-input"
     density="compact"
-    class="s--setting-toggle"
   >
     <template v-slot:prepend>
-      <span class="-label me-2 min-width-100">
+      <span v-if="!modelValue" class="-label me-2 min-width-100">
         <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
         {{ label }}</span
       >
     </template>
 
-    <template v-slot:append>
-      <v-btn-toggle
-        :disabled="disabled"
-        :items="items"
-        :mandatory="mandatory"
-        :model-value="modelValue"
-        class="bg-heavy-rain d-flex flex-nowrap overflow-auto"
-        rounded="xl"
-        density="compact"
-        hide-details
-        selected-class="blue-flat elevation-3"
-        variant="text"
-        @update:model-value="(val) => setValue(val)"
-        v-dragscroll="true"
-      >
-        <v-btn
-          v-for="item in items"
-          :key="is_object ? item.value : item"
-          :value="is_object ? item.value : item"
-          class="tnt ma-1"
-          size="small"
-          height="28"
-          rounded="xl"
-          :prepend-icon="item?.icon"
-        >
-          {{ is_object ? (item.title ? item.title : item.value) : item }}
-        </v-btn>
-
-        <slot name="append-items"></slot>
-      </v-btn-toggle>
-    </template>
+    <s-video-uploader
+      :dark="dark"
+      :server="uploadUrl"
+      :video="modelValue ? getVideoUrl(modelValue) : null"
+      auto-compact
+      clearable
+      dense
+      max-file-size="8MB"
+      @onClear="$emit('update:bgVideo', null)"
+      @new-path="handleProcessVideo"
+      :label="!modelValue?label:undefined"
+      min-height="140px"
+      border
+      rounded="lg"
+    >
+    </s-video-uploader>
   </v-list-item>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import SVideoUploader from "@selldone/components-vue/ui/uploader/SVideoUploader.vue";
 
 export default defineComponent({
-  name: "SSettingToggle",
+  name: "SSettingVideo",
+  components: {
+    SVideoUploader,
+  },
+
   emits: ["update:modelValue"],
   props: {
+    uploadUrl: {
+      require: true,
+    },
+    dark: Boolean,
+
     modelValue: {},
     label: {},
+
     icon: {},
-    items: {
-      type: Array,
-      required: true,
-    },
+
     disabled: Boolean,
-    mandatory: Boolean,
+    messages: {},
   },
-  computed: {
-    is_object() {
-      return this.items[0] instanceof Object;
-    },
-  },
+  computed: {},
   data() {
     return {};
   },
   methods: {
-    setValue(value) {
-      this.$emit("update:modelValue", value);
+    handleProcessVideo(path) {
+      this.$emit("update:modelValue", path);
     },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.s--setting-toggle {
+.s--setting-text-input {
   .-label {
     font-size: 0.8rem;
-  }
-
-  ::v-deep(.v-list-item__append) {
-    overflow: hidden;
   }
 }
 </style>

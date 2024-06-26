@@ -16,7 +16,7 @@
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
     density="compact"
-    class="s--setting-toggle"
+    class="s--setting-image-position"
   >
     <template v-slot:prepend>
       <span class="-label me-2 min-width-100">
@@ -27,35 +27,34 @@
     </template>
 
     <template v-slot:append>
-      <v-btn-toggle
-        :disabled="disabled"
-        :items="items"
-        :mandatory="mandatory"
+      <v-item-group
         :model-value="modelValue"
-        class="bg-heavy-rain d-flex flex-nowrap overflow-auto"
-        rounded="xl"
-        density="compact"
-        hide-details
-        selected-class="blue-flat elevation-3"
-        variant="text"
-        @update:model-value="(val) => setValue(val)"
-        v-dragscroll="true"
+        :mandatory="mandatory"
+        @update:model-value="
+          (val) => {
+            $emit('update:modelValue', val);
+          }
+        "
       >
-        <v-btn
-          v-for="item in items"
-          :key="is_object ? item.value : item"
-          :value="is_object ? item.value : item"
-          class="tnt ma-1"
-          size="small"
-          height="28"
-          rounded="xl"
-          :prepend-icon="item?.icon"
-        >
-          {{ is_object ? (item.title ? item.title : item.value) : item }}
-        </v-btn>
-
-        <slot name="append-items"></slot>
-      </v-btn-toggle>
+        <v-container class="mx-auto text-center" style="max-width: 200px">
+          <v-row dense style="font-size: 8px">
+            <v-col v-for="pos in BackgroundPositions" :key="pos" cols="4">
+              <v-item v-slot="{ isSelected, toggle }" :value="pos">
+                <v-card
+                  :color="isSelected ? 'blue' : ''"
+                  :height="42"
+                  :width="42"
+                  class="d-flex align-center justify-center ma-auto border"
+                  dark
+                  @click="toggle"
+                >
+                  {{ pos }}
+                </v-card>
+              </v-item>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-item-group>
     </template>
   </v-list-item>
 </template>
@@ -64,43 +63,40 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "SSettingToggle",
+  name: "SSettingImagePosition",
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
     label: {},
     icon: {},
-    items: {
-      type: Array,
-      required: true,
-    },
+
     disabled: Boolean,
     mandatory: Boolean,
   },
-  computed: {
-    is_object() {
-      return this.items[0] instanceof Object;
-    },
-  },
+  computed: {},
   data() {
-    return {};
+    return {
+      BackgroundPositions: [
+        "top left",
+        "top center",
+        "top right",
+        "left center",
+        "center",
+        "right center",
+        "bottom left",
+        "bottom center",
+        "bottom right",
+      ],
+    };
   },
-  methods: {
-    setValue(value) {
-      this.$emit("update:modelValue", value);
-    },
-  },
+  methods: {},
 });
 </script>
 
 <style lang="scss" scoped>
-.s--setting-toggle {
+.s--setting-image-position {
   .-label {
     font-size: 0.8rem;
-  }
-
-  ::v-deep(.v-list-item__append) {
-    overflow: hidden;
   }
 }
 </style>

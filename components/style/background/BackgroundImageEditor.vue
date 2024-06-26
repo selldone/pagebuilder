@@ -25,29 +25,29 @@
       <v-btn-toggle
         v-model="tab"
         selected-class="black-flat elevation-3"
-        rounded="xl"
+        rounded="lg"
         variant="outlined"
-        class="bg-gray"
+        class="bg-dusty-grass"
+        style="min-width: 100%"
       >
-        <v-btn value="pattern" class="ma-1" prepend-icon="format_color_fill">
+        <v-btn
+          value="pattern"
+          class="ma-1"
+          prepend-icon="format_color_fill"
+          rounded="lg"
+        >
           Pattern
 
           <v-fab-transition>
-            <v-icon
-              v-if="bgGradient?.length || bgCustom"
-              color="#fff"
-              end
-              size="small"
+            <v-icon v-if="bgGradient?.length || bgCustom" end size="small"
               >check_circle
             </v-icon>
           </v-fab-transition>
         </v-btn>
-        <v-btn value="image" class="ma-1" prepend-icon="image">
+        <v-btn value="image" class="ma-1" prepend-icon="image" rounded="lg">
           Image
           <v-fab-transition>
-            <v-icon v-if="bgImage" color="#fff" end size="small"
-              >check_circle
-            </v-icon>
+            <v-icon v-if="bgImage" end size="small">check_circle</v-icon>
           </v-fab-transition>
         </v-btn>
         <v-btn
@@ -55,13 +55,12 @@
           value="video"
           class="ma-1"
           prepend-icon="smart_display"
+          rounded="lg"
         >
           Video
 
           <v-fab-transition>
-            <v-icon v-if="bgVideo" color="#fff" end size="small"
-              >check_circle
-            </v-icon>
+            <v-icon v-if="bgVideo" end size="small">check_circle</v-icon>
           </v-fab-transition>
         </v-btn>
       </v-btn-toggle>
@@ -173,145 +172,76 @@
         value="image"
         class="py-5"
       >
-        <s-widget-header
+        <s-setting-group
           icon="texture"
           title="Background image"
-        ></s-widget-header>
+          subtitle="Add an image as your background pattern."
+        ></s-setting-group>
 
-        <v-list-subheader
-          >Add an image as your background pattern.
-        </v-list-subheader>
+        <s-setting-image
+          :upload-url="uploadUrl"
+          :model-value="bgImage"
+          @update:model-value="(val) => $emit('update:bgImage', val)"
+          dark
+          label="Image"
+          icon="camera"
+        ></s-setting-image>
 
-        <s-image-uploader
-          :dark="dark"
-          :image="bgImage ? getShopImagePath(bgImage) : null"
-          :server="uploadUrl"
-          auto-compact
-          class="mt-2"
-          clearable
-          dense
-          max-file-size="2MB"
-          @onClear="$emit('update:bgImage', null)"
-          @new-path="handleProcessFile"
-          label="Background Image"
+        <s-setting-toggle
+          :model-value="bgImageSize"
+          @update:model-value="(val) => $emit('update:bgImageSize', val)"
+          :items="BgImageSizes"
+          label="Size"
+          icon="transform"
         >
-        </s-image-uploader>
-
-        <div class="p-1 text-center">
-          <v-btn-toggle
-            :model-value="bgImageSize"
-            class="mx-auto"
-            density="compact"
-            rounded
-            selected-class="blue-flat"
-          >
+          <template v-slot:append-items>
             <v-btn
-              v-for="item in BgImageSizes"
-              :key="item"
-              :value="item"
               size="small"
-              @click="
-                (val) => {
-                  $emit('update:bgImageSize', item);
-                  onChange();
-                }
-              "
+              @click="show_custom_size = true"
+              :value="bgImageSize"
+              class="ma-1 tnt"
+              rounded="xl"
             >
-              {{ item }}
+              {{ BgImageSizes.includes(bgImageSize) ? "Custom" : bgImageSize }}
             </v-btn>
-            <v-btn size="small" @click="show_custom_size = true"
-              >Custom: {{ bgImageSize ? bgImageSize : "auto" }}
-            </v-btn>
-          </v-btn-toggle>
-        </div>
+          </template>
+        </s-setting-toggle>
 
-        <div class="p-1 text-center">
-          <v-btn-toggle
-            :model-value="bgImageRepeat"
-            class="mx-auto"
-            density="compact"
-            rounded
-            selected-class="blue-flat"
-          >
-            <v-btn
-              v-for="item in bgImageRepeats"
-              :key="item"
-              :value="item"
-              size="small"
-              @click="
-                (val) => {
-                  $emit('update:bgImageRepeat', item);
-                  onChange();
-                }
-              "
-            >
-              {{ item }}
-            </v-btn>
-          </v-btn-toggle>
-        </div>
+        <s-setting-toggle
+          :model-value="bgImageRepeat"
+          @update:model-value="(val) => $emit('update:bgImageRepeat', val)"
+          :items="bgImageRepeats"
+          label="Repeat"
+          icon="details"
+        >
+        </s-setting-toggle>
 
-        <v-item-group
+        <s-setting-image-position
           :model-value="bgPosition"
-          mandatory
-          @update:model-value="
-            (val) => {
-              $emit('update:bgPosition', val);
-              onChange();
-            }
-          "
-        >
-          <v-container class="mx-auto" style="max-width: 240px">
-            <div class="text-center mb-2">Background position</div>
-            <v-row dense style="font-size: 8px">
-              <v-col v-for="pos in BackgroundPositions" :key="pos" cols="4">
-                <v-item v-slot="{ isSelected, toggle }" :value="pos">
-                  <v-card
-                    :color="isSelected ? 'blue' : ''"
-                    :height="64"
-                    :width="64"
-                    class="d-flex align-center justify-center ma-auto"
-                    dark
-                    @click="toggle"
-                  >
-                    {{ pos }}
-                  </v-card>
-                </v-item>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-item-group>
+          @update:model-value="(val) => $emit('update:bgPosition', val)"
+          label="Position"
+          icon="photo_size_select_small"
+        ></s-setting-image-position>
       </v-window-item>
 
       <!-- ████████████████████ Background video ████████████████████ -->
 
       <v-window-item v-if="hasBgVideo" value="video" class="py-5">
-        <s-widget-header
+        <s-setting-group
           icon="movie"
           title="Background video"
-        ></s-widget-header>
+          subtitle="Add a video that automatically plays in the background. If the background does not update after uploading, please save the changes and refresh the page."
+        ></s-setting-group>
 
-        <v-list-subheader class="my-2" style="min-height: unset">
-          <div>
-            Add a video that automatically plays in the background.<br />
-            <b>Important!</b> If the background does not update after uploading,
-            please save the changes and refresh the page.
-          </div>
-        </v-list-subheader>
-
-        <s-video-uploader
-          :dark="dark"
-          :server="uploadVideoUrl"
-          :video="bgVideo ? getVideoUrl(bgVideo) : null"
-          auto-compact
-          class="mt-2"
-          clearable
-          dense
-          max-file-size="8MB"
-          @onClear="$emit('update:bgVideo', null)"
-          @new-path="handleProcessVideo"
-          label="Background Video"
+        <s-setting-video
+          :upload-url="uploadVideoUrl"
+          :model-value="bgVideo"
+          @update:model-value="(val) => $emit('update:bgVideo', val)"
+          dark
+          label="Video"
+          icon="video_camera_back"
         >
-        </s-video-uploader>
+        </s-setting-video>
       </v-window-item>
     </v-window>
 
@@ -358,29 +288,32 @@
 </template>
 
 <script>
-import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import GradientBuilder from "../gradient/GradientBuilder.vue";
 import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
-
-import SVideoUploader from "@selldone/components-vue/ui/uploader/SVideoUploader.vue";
 import SSettingGroup from "../../../styler/settings/group/SSettingGroup.vue";
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
 import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingImage from "@selldone/page-builder/styler/settings/image/SSettingImage.vue";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
+import SSettingImagePosition from "@selldone/page-builder/styler/settings/image-position/SSettingImagePosition.vue";
+import SSettingVideo from "@selldone/page-builder/styler/settings/video/SSettingVideo.vue";
 
 export default {
   name: "BackgroundImageEditor",
   components: {
+    SSettingVideo,
+    SSettingImagePosition,
+    SSettingToggle,
+    SSettingImage,
     SSettingColor,
     SSettingSlider,
     UFadeScroll,
     SSettingGroup,
-    SVideoUploader,
 
     UDimensionInput,
     GradientBuilder,
-    SImageUploader,
   },
   emits: [
     "update:bgImage",
@@ -429,6 +362,7 @@ export default {
     bgImageRepeats: [
       "inherit",
       "repeat",
+      "no-repeat",
       "repeat-x",
       "repeat-y",
       "revert",
@@ -540,9 +474,9 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 <style scoped>
 .grad-layer {
-  width: 250px;
-  height: 140px;
-  border-radius: 2rem;
+  height: 110px;
+  font-size: 0.7rem;
+  border-radius: 0.7rem;
   overflow: hidden;
   border: solid 2px #fff;
 }
