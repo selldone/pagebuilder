@@ -75,9 +75,9 @@ const SeederRepository: Map<string, any> = new Map<string, any>([
   ],
   [
     Number.name,
-    () => {
-      value: 100;
-    },
+    () => ({
+      value: 100
+    }),
   ],
   [
     String.name,

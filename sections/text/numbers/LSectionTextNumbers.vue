@@ -39,7 +39,7 @@
           :object="col"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           cloneable
-          initial-classes-content="text-h1"
+          :initial-classes-content="['text-h1']"
           initial-column-layout="x-layout-content-title"
         >
         </x-column-image-text>

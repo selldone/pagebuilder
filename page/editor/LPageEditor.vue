@@ -2332,10 +2332,15 @@ label {
               font-size: 8px;
               padding: 4px 8px;
               border-radius: 6px;
-              font-weight: 700;
+              font-weight: 400;
               z-index: 4;
               transition: all 0.5s ease-in-out;
               line-height: normal;
+              overflow: hidden;
+              text-wrap: wrap;
+              white-space: wrap;
+              letter-spacing: normal;
+              max-width: 200px;
             }
 
             &:hover {
