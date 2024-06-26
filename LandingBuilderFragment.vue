@@ -74,7 +74,7 @@ export default {
 
     scale: false,
 
-    ref_builder:null,
+    ref_builder: null,
   }),
 
   computed: {
@@ -86,7 +86,11 @@ export default {
   watch: {
     modelValue() {
       // IMPORTANT: EACH PAGE NEED RECREATE ALL OF THIS COMPONENT!
-      this.$refs.vueBuilder.setPage(this.modelValue.content);
+      this.$refs.vueBuilder.setPage(
+        this.modelValue.content,
+        this.modelValue.css,
+        false,
+      );
     },
   },
 
@@ -101,11 +105,15 @@ export default {
         content: { sections: [], style: { font_size: 16 } },
       }); // Create blank page!
     } else {
-      this.$refs.vueBuilder.setPage(this.modelValue.content);
+      this.$refs.vueBuilder.setPage(
+        this.modelValue.content,
+        this.modelValue.css,
+        false,
+      );
     }
 
     this.$nextTick(() => {
-     this.ref_builder=this.$refs.vueBuilder
+      this.ref_builder = this.$refs.vueBuilder;
     });
   },
 

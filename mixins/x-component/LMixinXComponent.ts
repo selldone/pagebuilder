@@ -56,8 +56,6 @@ const LMixinXComponent = defineComponent({
     SHOW_EDIT_TOOLS() {
       return this.$builder.isEditing && !this.$builder.isHideExtra;
     },
-
-
   },
 
   watch: {},
@@ -77,6 +75,7 @@ const LMixinXComponent = defineComponent({
         background.bg_color,
         background.dark,
         background.bg_position,
+        background.bg_rotation,
       );
     },
 

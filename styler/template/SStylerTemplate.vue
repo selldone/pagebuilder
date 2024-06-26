@@ -54,7 +54,7 @@
       <!-- Available for: section / column -->
       <li>
         <button class="styler-button" @click="showAnimationEdit">
-          <v-icon  size="20">movie_filter</v-icon>
+          <v-icon size="20">movie_filter</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white text-start"
@@ -108,7 +108,7 @@
       <!-- Available for: section / column -->
       <li v-if="!element_id">
         <button class="styler-button fadeIn" @click="enableTrackingCode()">
-          <v-icon  size="20">gps_fixed</v-icon>
+          <v-icon size="20">gps_fixed</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -419,15 +419,13 @@ input[type="number"]::-webkit-outer-spin-button {
     z-index: 250;
   }
 
-  .styler-button{
-    .v-tooltip{
-      .v-overlay__content{
+  .styler-button {
+    .v-tooltip {
+      .v-overlay__content {
         min-width: 130px !important;
       }
-
     }
   }
-
 
   @media only screen and (max-width: 600px) {
     overflow: auto;

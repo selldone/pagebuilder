@@ -20,11 +20,12 @@
     class="py-5"
   >
     <x-container :object="$sectionData" max-width-normal="1550px" class="pa-0">
-      <h2
-        v-styler:text="{ target: $sectionData, keyText: 'title' }"
-        class="mb-5 px-7"
-        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
-      />
+      <x-text
+        v-model:object="$sectionData.title"
+        :augment="augment"
+        initial-type="h2"
+        :initial-classes="['mb-5', 'px-7']"
+      ></x-text>
 
       <s-products-listing
         v-styler:row="rowBinding"
@@ -55,13 +56,16 @@ import { ModeView } from "@selldone/core-js/enums/shop/ModeView";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/ObjectPrototypes";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
 
 export default {
   name: "LSectionStoreListing",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { SProductsListing },
+  components: {XContainer, XSection, XText, SProductsListing },
   cover: require("../../../assets/images/covers/products.svg"),
 
   group: "Products",
@@ -96,7 +100,7 @@ export default {
   data: () => ({
     forcePackage: null,
     mode_view: ModeView.NORMAL.code,
-    mode_view_f:null,
+    mode_view_f: null,
   }),
   computed: {
     /**
@@ -125,7 +129,6 @@ export default {
         );
         this.mode_view = value.mode_view;
         this.mode_view_f = value.mode_view_f;
-
       }
     },
   },

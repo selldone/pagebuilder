@@ -323,12 +323,10 @@
               rounded
               variant="solo"
               bg-color="#fafafa"
-
-
             >
               <template v-if="!isPopup" v-slot:append-inner>
                 <v-btn
-                    v-if="!demo"
+                  v-if="!demo"
                   :href="base_url + page.name"
                   icon
                   target="_blank"
@@ -790,6 +788,7 @@ import Builder from "../../Builder.ts";
 import { LUtilsFont } from "../../utils/font/LUtilsFont";
 import LSettingsCodeEditor from "@selldone/page-builder/settings/code/editor/LSettingsCodeEditor.vue";
 import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor/LSettingsCodeProperties.vue";
+import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 
 const DEBUG = false;
 export default defineComponent({
@@ -839,6 +838,9 @@ export default defineComponent({
         sections: [],
       }),
     },
+    initialPageCss: {
+      type: Object,
+    },
 
     hasSettingButton: {
       type: Boolean,
@@ -865,7 +867,7 @@ export default defineComponent({
     },
 
     aiAutoFillFunction: {},
-    demo:Boolean,
+    demo: Boolean,
   },
   data() {
     return {
@@ -945,6 +947,9 @@ export default defineComponent({
         this.builder.style.bg_size,
         this.builder.style.bg_repeat,
         this.builder.style.bg_color,
+        this.builder.style.dark,
+        this.builder.style.bg_position,
+        this.builder.style.bg_rotation,
       );
     },
 
@@ -993,6 +998,14 @@ export default defineComponent({
     notes() {
       return this.page?.notes;
     },
+
+    /**
+     * Compiled CSS
+     * @return {*}
+     */
+    custom_css() {
+      return this.page?.css;
+    },
   },
 
   watch: {
@@ -1011,6 +1024,12 @@ export default defineComponent({
         if (this.is_loading_sections) return;
         this.onUpdatePreview();
       },
+    },
+
+    custom_css(css) {
+      //console.log("🩴 -----> custom_css Updated!");
+      LandingCssHelper.Inject(css /*Css*/, this.$refs.pagecontent);
+      this.$builder.css = css; // Update builder pre compiled css
     },
 
     scale_down(scale_down) {
@@ -1038,7 +1057,7 @@ export default defineComponent({
 
   created() {
     // sets the initial data.
-    this.setPage(this.initialPageData);
+    this.setPage(this.initialPageData, this.initialPageCss, false);
     this.setModelInBuilder();
 
     this.themes = this.$builder.themes;
@@ -1280,6 +1299,7 @@ export default defineComponent({
           })),
           style: this.builder.style,
         },
+        css: this.page.css,
       };
       this.$emit("update:preview", _page);
     }, 1000),
@@ -1419,14 +1439,14 @@ export default defineComponent({
       }
     },
     getJson() {
-      const page = this.$builder.export();
-      this.checkHealth(page);
-      return page;
+      const content = this.$builder.export();
+      this.checkHealth(content);
+      return content;
     },
 
     //-----------------------------------
 
-    checkHealth(page) {
+    checkHealth(content) {
       const t = this;
 
       function checking(obj) {
@@ -1467,7 +1487,7 @@ export default defineComponent({
       }
 
       // Check all values:
-      checking(page);
+      checking(content);
     },
 
     newSection() {
@@ -1501,13 +1521,13 @@ export default defineComponent({
     },
 
     addTheme(theme) {
-      this.setPage(theme, true);
+      this.setPage(theme, null, true);
 
       this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
     },
 
     loadTemplate(page) {
-      this.setPage(page.content);
+      this.setPage(page.content, page.css, false);
 
       //update random title:
       const title = "Landing-" + Math.random().toString(36).substring(7);
@@ -1516,43 +1536,52 @@ export default defineComponent({
       this.$emit("load:template", page);
     },
 
-    setPage(data, from_theme = false) {
+    /**
+     * IMPORTANT: Externally call this function to set page builder content.
+     * @param content
+     * @param css
+     * @param from_theme
+     */
+    setPage(content, css, from_theme = false) {
       this.delay_load = 0;
 
-      console.style("<b>📐 Set page builder data.</b>", data, from_theme);
+      console.style("<b>📐 Set page builder content.</b>", content, from_theme);
 
       // ---------------------------------------*******************-------------------------------------
       // 🌼 Set style if not exist:
-      if (!data.style || Array.isArray(data.style))
-        data.style = { font_size: 16, bg_color: "", fonts: [] };
+      if (!content.style || Array.isArray(content.style))
+        content.style = { font_size: 16, bg_color: "", fonts: [] };
 
-      if (!data.style.font_size) data.style.font_size = 16;
-      if (!data.style.bg_color) data.style.bg_color = "";
-      if (!data.style.bg_gradient) data.style.bg_gradient = [];
-      if (!data.style.bg_size) data.style.bg_size = "cover";
-      if (!data.style.bg_custom) data.style.bg_custom = null;
-      if (!data.style.bg_repeat) data.style.bg_repeat = null;
+      if (!content.style.font_size) content.style.font_size = 16;
+      if (!content.style.bg_color) content.style.bg_color = "";
+      if (!content.style.bg_gradient) content.style.bg_gradient = [];
+      if (!content.style.bg_size) content.style.bg_size = "cover";
+      if (!content.style.bg_custom) content.style.bg_custom = null;
+      if (!content.style.bg_repeat) content.style.bg_repeat = null;
 
       // Set initial fonts size:
-      if (!this.isValidFontSize(data.style.h1_size))
-        data.style.h1_size = LUtilsTypo.H1_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.h2_size))
-        data.style.h2_size = LUtilsTypo.H2_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.h3_size))
-        data.style.h3_size = LUtilsTypo.H3_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.h4_size))
-        data.style.h4_size = LUtilsTypo.H4_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.h5_size))
-        data.style.h5_size = LUtilsTypo.H5_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.h6_size))
-        data.style.h6_size = LUtilsTypo.H6_SIZE_DEFAULT;
-      if (!this.isValidFontSize(data.style.p_size))
-        data.style.p_size = LUtilsTypo.P_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h1_size))
+        content.style.h1_size = LUtilsTypo.H1_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h2_size))
+        content.style.h2_size = LUtilsTypo.H2_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h3_size))
+        content.style.h3_size = LUtilsTypo.H3_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h4_size))
+        content.style.h4_size = LUtilsTypo.H4_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h5_size))
+        content.style.h5_size = LUtilsTypo.H5_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.h6_size))
+        content.style.h6_size = LUtilsTypo.H6_SIZE_DEFAULT;
+      if (!this.isValidFontSize(content.style.p_size))
+        content.style.p_size = LUtilsTypo.P_SIZE_DEFAULT;
 
       // ---------------------------------------*******************-------------------------------------
 
+      // 🩴 Inject custom css:
+      LandingCssHelper.Inject(css /*Custom Css*/, this.$refs.pagecontent);
+
       this.inEditMode = true;
-      this.$builder.setContent(data, from_theme);
+      this.$builder.setContent(content, from_theme);
 
       this.loadNextDelayed();
 

@@ -70,7 +70,7 @@
             clearable
             icon="search"
             subtitle="Show result contains these words in their title or description."
-            title="Search query"
+            label="Query"
           ></s-setting-text-input>
         </s-setting-group>
 

@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="transform" title="Transform">
+  <s-setting-expandable :value="value" icon="transform" title="Transform">
     <template v-slot:title>
       <v-chip
         v-if="transform && transform.rotate"
@@ -281,6 +281,8 @@ export default defineComponent({
   },
   emits: [],
   props: {
+    value:{},
+
     inputStyle: {},
 
     transform: {},

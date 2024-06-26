@@ -15,17 +15,18 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <h3
-        v-styler:text="{ target: $sectionData, keyText: 'title' }"
-        class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
-      />
+      <x-text
+        v-model:object="$sectionData.title"
+        :augment="augment"
+        initial-type="h3"
+        :initial-classes="['mb-5']"
+      ></x-text>
 
-      <p
-        v-styler:text="{ target: $sectionData, keyText: 'content' }"
-        class="fadeIn delay_300"
-        v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
-      />
+      <x-text
+        v-model:object="$sectionData.content"
+        :augment="augment"
+        initial-type="p"
+      ></x-text>
 
       <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
       <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
@@ -44,7 +45,7 @@
           v-for="(col, index) in $sectionData.columns"
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
-          :object="$sectionData.columns[index]"
+          :object="col"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           initial-column-layout="x-layout-middle"
         >
@@ -59,12 +60,18 @@
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
 
 export default {
   name: "LSectionImageFeatures",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {},
+  components: {XColumnImageText, XRow, XButtons, XContainer, XSection, XText },
   cover: require("../../../assets/images/covers/social-3.svg"),
   group: "Image & Text",
   label: "Text, 3x Large images",

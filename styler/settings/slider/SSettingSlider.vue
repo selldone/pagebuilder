@@ -46,8 +46,14 @@
           @click.stop
           :step="step"
           :decimal="decimal?decimal:step<1 ? 2 : 0"
-        ></u-number-input>
-        <small v-if="suffix" class="ms-1">{{ suffix }}</small>
+
+        >
+          <template v-if="suffix" v-slot:append-inner>
+            <small  class="ms-1">{{ suffix }}</small>
+          </template>
+
+        </u-number-input>
+
       </v-list-item-action>
     </template>
     <v-slider
@@ -73,6 +79,7 @@ import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.
 export default defineComponent({
   name: "SSettingSlider",
   components: { UNumberInput },
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
     label: {},

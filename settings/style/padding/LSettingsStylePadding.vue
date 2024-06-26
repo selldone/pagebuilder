@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="padding" title="Padding">
+  <s-setting-expandable :value="value" icon="padding" title="Padding">
     <template v-slot:title>
       <v-chip
         v-if="paddingLeft && paddingLeft !== 'unset'"
@@ -133,6 +133,7 @@ export default defineComponent({
   ],
 
   props: {
+    value:{},
     inputStyle: {},
 
     paddingLeft: {},

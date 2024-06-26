@@ -13,37 +13,30 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <h2
-        v-styler:text="{ target: $sectionData, keyText: 'title' }"
-        class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
-      />
+      <x-text
+        v-model:object="$sectionData.title"
+        :augment="augment"
+        initial-type="h2"
+        :initial-classes="['mb-5']"
+      ></x-text>
 
       <x-uploader
         v-model="$sectionData.image"
         :augment="augment"
         :initial-size="{ max_w: 600, max_h: 600 }"
-
         class="fadeIn delay_300"
         rounded
       />
 
-      <x-row
-        :object="$sectionData"
-        add-column
-        has-arrangement
-        has-fluid
-
-      >
+      <x-row :object="$sectionData" add-column has-arrangement has-fluid>
         <!-- ██████████████████████ Columns ██████████████████████ -->
         <x-column-image-text
           v-for="(col, index) in $sectionData.columns"
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
-          :object="$sectionData.columns[index]"
-
+          :object="col"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-title-content"
@@ -60,12 +53,17 @@ import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
 
 export default {
   name: "LSectionImageIntro",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: { XUploader },
+  components: {XColumnImageText, XRow, XContainer, XSection, XText, XUploader },
   cover: require("../../../assets/images/covers/social-2.svg"),
   group: "Image & Text",
   label: "Text, Image, Text",

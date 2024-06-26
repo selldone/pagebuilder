@@ -51,13 +51,14 @@ import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommer
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import { isObject } from "lodash-es";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionStoreProduct",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { SProductOverviewLoading, SProductOverview },
+  components: {XSection, SProductOverviewLoading, SProductOverview },
   cover: require("../../../assets/images/covers/product.svg"),
 
   group: "Products",

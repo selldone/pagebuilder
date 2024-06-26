@@ -420,6 +420,8 @@ export default {
     },
     tab(tab) {
       this.$emit("update:externalTab", tab);
+
+      if(tab === 'design' && this.page) this.page.css=Object.assign({},this.page.css); // Force update CSS and inject it!
     },
     externalTab(tab) {
       this.tab = tab;
@@ -444,7 +446,7 @@ export default {
     if (this.demo) {
       if (this.demoPage) {
         // this.page=this.demoPage;
-        this.$refs.vueBuilder.setPage(this.demoPage.content); // Force to update all page after first creation!
+        this.$refs.vueBuilder.setPage(this.demoPage.content,this.demoPage.css,false); // Force to update all page after first creation!
       }
 
       // Simulate current active shop:
@@ -476,7 +478,7 @@ export default {
           if (data.error) {
             this.showErrorAlert(null, data.error_msg);
           } else {
-            this.$refs.vueBuilder.setPage(data.content);
+            this.$refs.vueBuilder.setPage(data.content,data.css,false);
             this.loadPageData();
 
             this.showSuccessAlert(
@@ -565,6 +567,7 @@ export default {
         axios
           .put(url, {
             content: content,
+            css:this.page.css, // Keep pre compiled classes structure!
             html: html_content,
             seo: this.page.seo,
             title: this.page.title,
@@ -621,6 +624,7 @@ export default {
         axios
           .post(url, {
             content: content,
+            css:null,
             html: html_content,
             seo: null,
             title: content.title,
@@ -650,7 +654,7 @@ export default {
                                       this.$route.params.page_id = data.page.id;
                         */
               this.page = data.page;
-              this.$refs.vueBuilder.setPage(data.page.content); // Force to update all page after first creation!
+              this.$refs.vueBuilder.setPage(data.page.content,data.page.css,false); // Force to update all page after first creation!
 
               // Update page route (new -> page id!)
               this.$router.replace({ params: { page_id: data.page.id } });
@@ -704,7 +708,7 @@ export default {
             )
               this.page.content.style.fonts = [];
 
-            this.$refs.vueBuilder.setPage(data.page.content);
+            this.$refs.vueBuilder.setPage(data.page.content,data.page.css,false);
 
             this.histories = data.histories;
 
@@ -757,7 +761,7 @@ export default {
           if (data.error) {
             this.showErrorAlert(null, data.error_msg);
           } else {
-            this.$refs.vueBuilder.setPage(data.page.content);
+            this.$refs.vueBuilder.setPage(data.page.content,data.page.css,false);
             this.loadPageData();
 
             this.showSuccessAlert(

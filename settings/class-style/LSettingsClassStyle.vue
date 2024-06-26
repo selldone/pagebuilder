@@ -41,13 +41,34 @@
         </div>
       </v-card-actions>
 
+      <!-- ████████████████████ Tags ████████████████████ -->
+      <template v-if="customElementTags">
+        <s-setting-toggle
+          label="Element"
+          icon="video_label"
+          v-model="target.tag"
+          :items="customElementTags"
+        ></s-setting-toggle>
+      </template>
+
       <v-expansion-panels v-model="Selected_tab">
+        <!-- ████████████████████ Class ████████████████████ -->
+
+        <l-settings-classes
+          value="classes"
+          v-if="available_tabs.includes('classes')"
+          v-model:classes="in_classes"
+          :custom-css="builder.css /*Defined css by user*/"
+        >
+        </l-settings-classes>
+
         <!-- ████████████████████ Size ████████████████████ -->
 
         <l-settings-style-size
+          value="size"
           v-if="has_size"
           :inputStyle="in_style"
-          @click:area="(val) => (Selected_tab = indexOf(val))"
+          @click:area="(val) => (Selected_tab = val)"
           v-model:width="in_width"
           v-model:height="in_height"
           v-model:minWidth="in_minWidth"
@@ -59,9 +80,10 @@
         <!-- ████████████████████ Padding ████████████████████ -->
 
         <l-settings-style-padding
+          value="padding"
           v-if="available_tabs.includes('padding')"
           :inputStyle="in_style"
-          @click:area="(val) => (Selected_tab = indexOf(val))"
+          @click:area="(val) => (Selected_tab = val)"
           v-model:paddingLeft="in_paddingLeft"
           v-model:paddingRight="in_paddingRight"
           v-model:paddingTop="in_paddingTop"
@@ -72,9 +94,10 @@
         <!-- ████████████████████ Margin ████████████████████ -->
 
         <l-settings-style-margin
+          value="margin"
           v-if="available_tabs.includes('margin')"
           :inputStyle="in_style"
-          @click:area="(val) => (Selected_tab = indexOf(val))"
+          @click:area="(val) => (Selected_tab = val)"
           v-model:marginLeft="in_marginLeft"
           v-model:marginRight="in_marginRight"
           v-model:marginTop="in_marginTop"
@@ -85,9 +108,10 @@
         <!-- ████████████████████ Position ████████████████████ -->
 
         <l-settings-style-position
+          value="position"
           v-if="available_tabs.includes('position')"
           :inputStyle="in_style"
-          @click:area="(val) => (Selected_tab = indexOf(val))"
+          @click:area="(val) => (Selected_tab = val)"
           v-model:position="in_position"
           v-model:top="in_top"
           v-model:left="in_left"
@@ -98,73 +122,51 @@
 
         <!-- ████████████████████ Border ████████████████████ -->
 
-        <l-settings-style-border v-if="available_tabs.includes('border')"
-
-                           :inputStyle="in_style"
-                           @click:area="(val) => (Selected_tab = indexOf(val))"
-
-                                v-model:borderLeft="in_borderLeft"
-                                v-model:borderRight="in_borderRight"
-                                v-model:borderTop="in_borderTop"
-                                v-model:borderBottom="in_borderBottom"
-                                v-model:borderRadius="in_borderRadius"
-
+        <l-settings-style-border
+          value="border"
+          v-if="available_tabs.includes('border')"
+          :inputStyle="in_style"
+          @click:area="(val) => (Selected_tab = val)"
+          v-model:borderLeft="in_borderLeft"
+          v-model:borderRight="in_borderRight"
+          v-model:borderTop="in_borderTop"
+          v-model:borderBottom="in_borderBottom"
+          v-model:borderRadius="in_borderRadius"
         >
-
         </l-settings-style-border>
-
-        <!-- ████████████████████ Class ████████████████████ -->
-
-        <l-settings-classes v-if="available_tabs.includes('classes')"    v-model:classes="in_classes">
-
-        </l-settings-classes>
 
         <!-- ████████████████████ Shadow ████████████████████ -->
 
-        <l-settings-style-shadow v-if="available_tabs.includes('shadow')"    :inputStyle="in_style" v-model:shadow="shadow">
-
+        <l-settings-style-shadow
+          value="shadow"
+          v-if="available_tabs.includes('shadow')"
+          :inputStyle="in_style"
+          v-model:shadow="shadow"
+        >
         </l-settings-style-shadow>
 
         <!-- ████████████████████ Filter ████████████████████ -->
 
-        <v-expansion-panel v-if="available_tabs.includes('filter')">
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">movie_filter</v-icon>
-              Filter
-
-              <v-chip
-                v-if="filter"
-                class="mx-1"
-                color="green"
-                label
-                size="x-small"
-                title="Filter"
-                variant="tonal"
-              >
-                <v-icon size="x-small" start>photo_filter</v-icon>
-                Has Filter
-              </v-chip>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div key="filter">
-              <s-landing-style-filter
-                v-model="filter"
-                :preview-image="
-                  options?.prev_image
-                    ? getShopImagePath(options.prev_image)
-                    : undefined
-                "
-                show-preview
-              ></s-landing-style-filter>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+        <l-settings-style-filter
+          value="filter"
+          v-if="available_tabs.includes('filter')"
+          :inputStyle="in_style"
+          v-model:filter="filter"
+          :preview-image="
+            options?.prev_image
+              ? getShopImagePath(options.prev_image)
+              : undefined
+          "
+        >
+        </l-settings-style-filter>
 
         <!-- ████████████████████ Transform ████████████████████ -->
-        <l-settings-style-transform v-if="available_tabs.includes('transform')"   :inputStyle="in_style" v-model:transform ="transform">
-
+        <l-settings-style-transform
+          value="transform"
+          v-if="available_tabs.includes('transform')"
+          :inputStyle="in_style"
+          v-model:transform="transform"
+        >
         </l-settings-style-transform>
       </v-expansion-panels>
     </v-card>
@@ -172,28 +174,14 @@
 </template>
 
 <script>
-import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
-import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
-import SLandingStylePreview from "../../components/style/preview/SLandingStylePreview.vue";
-import SLandingStyleBorder from "../../components/style/border/SLandingStyleBorder.vue";
-import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
-import SLandingStyleFilter from "../../components/style/filter/SLandingStyleFilter.vue";
-import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import ShadowCollection from "../../src/enums/ShadowCollection";
-
-import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
-import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
-import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import LSettingsStyleSize from "@selldone/page-builder/settings/style/size/LSettingsStyleSize.vue";
-import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import LSettingsStylePadding from "@selldone/page-builder/settings/style/padding/LSettingsStylePadding.vue";
 import LSettingsStyleMargin from "@selldone/page-builder/settings/style/margin/LSettingsStyleMargin.vue";
 import LSettingsStylePosition from "@selldone/page-builder/settings/style/position/LSettingsStylePosition.vue";
@@ -201,6 +189,8 @@ import LSettingsStyleBorder from "@selldone/page-builder/settings/style/border/L
 import LSettingsClasses from "@selldone/page-builder/settings/classes/LSettingsClasses.vue";
 import LSettingsStyleShadow from "@selldone/page-builder/settings/style/shadow/LSettingsStyleShadow.vue";
 import LSettingsStyleTransform from "@selldone/page-builder/settings/style/transform/LSettingsStyleTransform.vue";
+import LSettingsStyleFilter from "@selldone/page-builder/settings/style/filter/LSettingsStyleFilter.vue";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 
 const STYLE_TABS = [
   "size",
@@ -218,6 +208,8 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    SSettingToggle,
+    LSettingsStyleFilter,
     LSettingsStyleTransform,
     LSettingsStyleShadow,
     LSettingsClasses,
@@ -225,20 +217,7 @@ export default {
     LSettingsStylePosition,
     LSettingsStyleMargin,
     LSettingsStylePadding,
-    SSettingExpandable,
     LSettingsStyleSize,
-    SSettingSize,
-    SSettingGroup,
-    SSettingSelect,
-    USmartSwitch,
-    USmartToggle,
-
-    UNumberInput,
-    SLandingStyleFilter,
-    UColorSelector,
-    SLandingStyleBorder,
-    SLandingStylePreview,
-    UDimensionInput,
   },
 
   props: {
@@ -256,9 +235,8 @@ export default {
     show_dialog_size: false,
     dialog_pre: false,
 
-    Selected_tab: null,
+    Selected_tab: "classes",
 
-    standard_classes: LUtilsClasses.StandardClasses(),
     in_classes: null,
 
     in_width: null,
@@ -292,9 +270,6 @@ export default {
     in_borderTop: null,
     in_borderBottom: null,
 
-    size_hint: "Can set in %, px, vh, vm, pt, mm & ...",
-
-
     //--------------------------
     shadow: null,
 
@@ -317,7 +292,7 @@ export default {
 
     available_tabs() {
       if (this.has_size) return STYLE_TABS;
-      return STYLE_TABS.slice(1);
+      return [...STYLE_TABS].remove("size");
     },
 
     shadow_gen() {
@@ -334,29 +309,28 @@ export default {
     //-----------------------------------
     transform_gen() {
       const transformMap = {
-        perspective: 'px',
-        rotate: 'deg',
-        rotateX: 'deg',
-        rotateY: 'deg',
-        rotateZ: 'deg',
-        scaleX: '',
-        scaleY: '',
-        scaleZ: '',
-        skewX: 'deg',
-        skewY: 'deg',
-        translateX: 'px',
-        translateY: 'px',
-        translateZ: 'px',
+        perspective: "px",
+        rotate: "deg",
+        rotateX: "deg",
+        rotateY: "deg",
+        rotateZ: "deg",
+        scaleX: "",
+        scaleY: "",
+        scaleZ: "",
+        skewX: "deg",
+        skewY: "deg",
+        translateX: "px",
+        translateY: "px",
+        translateZ: "px",
       };
 
-
       let out = "";
-console.log('this.transform',this.transform)
+      // console.log("this.transform", this.transform);
       Object.keys(this.transform).forEach((key) => {
         const value = this.transform[key];
         if (!value || ["auto", "none", "unset"].includes(value)) return;
 
-        const unit = transformMap[key] || '';
+        const unit = transformMap[key] || "";
         out += `${key}(${value}${unit}) `;
       });
 
@@ -412,7 +386,10 @@ console.log('this.transform',this.transform)
 
     //------------- Options ----------
     has_size() {
-      return !this.options || !this.options.noSize;
+      return !this.options?.noSize;
+    },
+    customElementTags() {
+      return this.options?.tags;
     },
   },
 
@@ -500,8 +477,6 @@ console.log('this.transform',this.transform)
       this.setSizePositionDebounced();
     },
 
-
-
     shadow: {
       handler() {
         this.setSizePositionDebounced();
@@ -587,14 +562,6 @@ console.log('this.transform',this.transform)
   },
 
   methods: {
-    indexOf(val) {
-      if (val === "size") return 0;
-      else if (val === "padding") return 1 - (this.has_size ? 0 : 1);
-      else if (val === "margin") return 2 - (this.has_size ? 0 : 1);
-      else if (val === "position") return 3 - (this.has_size ? 0 : 1);
-      else if (val === "border") return 4 - (this.has_size ? 0 : 1);
-    },
-
     addShadow() {
       this.shadow = { w: 10, h: 10, r: 15, s: 20, c: "#44444433", i: false };
     },
@@ -608,14 +575,6 @@ console.log('this.transform',this.transform)
       let classes = this.target[this.keyClass];
       if (!classes) classes = [];
       this.in_classes = classes.unique();
-
-      /*
-            this.in_classes = this.el_class.className
-        .split(" ")
-        .filter(
-          (val) => val.startsWith("is-") || this.standard_classes.includes(val)
-        ); // Tips: 'is-' is official classes by styler!
-        */
 
       //console.log(' this.in_classes', this.in_classes,this.el_class.className)
       let style = this.target[this.keyStyle];
@@ -661,8 +620,6 @@ console.log('this.transform',this.transform)
       this.in_borderRight = `${this.el_style.style.borderRightWidth} ${this.el_style.style.borderRightStyle} ${this.el_style.style.borderRightColor}`;
       this.in_borderTop = `${this.el_style.style.borderTopWidth} ${this.el_style.style.borderTopStyle} ${this.el_style.style.borderTopColor}`;
       this.in_borderBottom = `${this.el_style.style.borderBottomWidth} ${this.el_style.style.borderBottomStyle} ${this.el_style.style.borderBottomColor}`;
-
-
 
       // Filter:
       this.filter = this.el_style.style.filter;
@@ -823,14 +780,6 @@ console.log('this.transform',this.transform)
       if (!classes) classes = [];
       const cur_classes = classes;
 
-      /*
-
-      const cur_classes = this.el_class.className
-        .split(" ")
-        .filter(
-          (val) => val.startsWith("is-") || this.standard_classes.includes(val)
-        );
-*/
       // console.log(' Set classes', 'cur_classes',cur_classes)
 
       const deletes = cur_classes.filter(

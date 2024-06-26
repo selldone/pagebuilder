@@ -129,6 +129,13 @@ const BUILDER_OPTIONS: builder.IOptions = {
   },
 };
 
+export type IPageCss = {
+  classes: {
+    classes: { selector: string; value: string }[] | null;
+    raw: string | null;
+  };
+};
+
 export class Builder {
   types = types;
 
@@ -136,6 +143,7 @@ export class Builder {
   public title: string;
   public sections: Section[];
   public style: any;
+  public css:IPageCss|null|undefined; // Pre compiled CSS
   public columnsPrefix: any;
   public themes: any[];
   public server: builder.IServer | undefined | null;
@@ -193,6 +201,7 @@ export class Builder {
     this.title = options.title;
     this.sections = options.sections;
     this.style = options.style;
+    this.css= options.css;
     this.columnsPrefix = options.columnsPrefix;
     this.themes = options.themes;
     this.server = options.server;
@@ -417,26 +426,26 @@ export class Builder {
 
   /**
    * Load page content from a JSON object.
-   * @param data
+   * @param content
    */
-  setContent(data: Page.IContent, from_theme: boolean = false) {
-    LOG("⚽ Set -----> data", data);
+  setContent(content: Page.IContent, from_theme: boolean = false) {
+    LOG("⚽ Set -----> content", content);
 
-    data = LUtilsMigration.MigratePageContent(data);
+    content = LUtilsMigration.MigratePageContent(content);
 
-    this.style = data.style;
+    this.style = content.style;
 
     // Load fonts:
-    if (data.style?.fonts) FontLoader.LoadFonts(data.style.fonts);
+    if (content.style?.fonts) FontLoader.LoadFonts(content.style.fonts);
 
-    this.title = data.title !== undefined ? data.title : this.title;
+    this.title = content.title !== undefined ? content.title : this.title;
 
     // --- Reset history ---
     this.history = []; // Reset local history fot undo redo
     this.historyIndex = 0;
 
-    if (data.sections && Array.isArray(data.sections)) {
-      this.sections = data.sections
+    if (content.sections && Array.isArray(content.sections)) {
+      this.sections = content.sections
         .map((section) => {
           //console.debug("Add section > ", section);
           if (!this.components[section.name]) {

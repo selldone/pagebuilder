@@ -13,28 +13,32 @@
   -->
 <template>
   <!-- ████████████████████████ Group ████████████████████████ -->
-    <v-expansion-panel :bg-color="bgColor" color="s--setting-expandable">
-      <v-expansion-panel-title class="-group-title py-0">
-        <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
-        {{ title }}
-        <v-chip
-          v-for="tag in tags"
-          :key="tag"
-          class="ma-1"
-          color="green"
-          label
-          size="x-small"
-          variant="flat"
-          >{{ tag }}
-        </v-chip>
-        <slot name="title"></slot>
-      </v-expansion-panel-title>
-      <v-expansion-panel-text>
-        <div class="-content">
-          <slot></slot>
-        </div>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
+  <v-expansion-panel
+    :value="value"
+    :bg-color="bgColor"
+    color="s--setting-expandable"
+  >
+    <v-expansion-panel-title class="-group-title py-0">
+      <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
+      {{ title }}
+      <v-chip
+        v-for="tag in tags"
+        :key="tag"
+        class="ma-1"
+        color="green"
+        label
+        size="x-small"
+        variant="flat"
+        >{{ tag }}
+      </v-chip>
+      <slot name="title"></slot>
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
+      <div class="-content">
+        <slot></slot>
+      </div>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
 </template>
 
 <script>
@@ -44,6 +48,7 @@ export default defineComponent({
   name: "SSettingExpandable",
   components: {},
   props: {
+    value: {},
     title: {},
     icon: {},
     bgColor: {},

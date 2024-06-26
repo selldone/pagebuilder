@@ -60,37 +60,22 @@
            </div>
          </v-expansion-panel-title>
          <v-expansion-panel-text>
-           <s-widget-header
-               icon="palette"
-               title="Background Color"
-           ></s-widget-header>
-           <v-list-subheader>Page background color.</v-list-subheader>
-
-           <u-color-selector
-               v-model="style.bg_color"
-               :title="$t('page_builder.setting.bg_color_input')"
-               class="mb-5"
-               color="#293239"
-               dark
-               nullable
-               @change="$forceUpdate()"
-           ></u-color-selector>
 
            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-           <s-widget-header
-               :title="$t('page_builder.setting.bg_style_input')"
-               icon="wallpaper"
-           ></s-widget-header>
-           <v-list-subheader></v-list-subheader>
            <background-image-editor
                v-model:bg-image="style.bg_image"
                v-model:bgCustom="style.bg_custom"
                v-model:bgGradient="style.bg_gradient"
+               v-model:bgRotation="style.bg_rotation"
+
                v-model:bgImageRepeat="style.bg_repeat"
                v-model:bgImageSize="style.bg_size"
                :upload-url="upload_bg_url"
                @change="$forceUpdate()"
+
+               v-model:bgColor="style.bg_color"
+               has-bg-color
            >
            </background-image-editor>
          </v-expansion-panel-text>

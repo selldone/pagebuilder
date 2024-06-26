@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="margin" title="Margin">
+  <s-setting-expandable :value="value" icon="margin" title="Margin">
     <template v-slot:title>
       <v-chip
         v-if="marginLeft && marginLeft !== 'unset'"
@@ -132,6 +132,7 @@ export default defineComponent({
     "click:area",
   ],
   props: {
+    value:{},
     inputStyle: {},
 
     marginLeft: {},

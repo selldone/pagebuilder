@@ -879,7 +879,7 @@ export default {
           this.page.direction = template.direction;
           this.page.note = template.note;
 
-          this.pageBuilder.setPage(this.page.content);
+          this.pageBuilder.setPage(this.page.content,null,false);
 
           /////this.pageBuilder.title = "Page builder | " + this.page.title + " 📐";
 

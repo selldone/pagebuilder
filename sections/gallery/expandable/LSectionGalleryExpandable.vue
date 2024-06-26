@@ -16,29 +16,27 @@
   <x-section
     :object="$sectionData"
     class="pa-0"
-
     v-styler:gallery="{
       target: $sectionData,
       keyColumns: 'columns',
       columnStructure: columnStructure,
     }"
   >
-    <h2
-      v-styler:text="{ target: $sectionData, keyText: 'title' }"
-      class="mb-5"
-      v-html="$sectionData.title?.applyAugment(augment, $builder.isEditing)"
-    />
-    <p
-      v-styler:text="{ target: $sectionData, keyText: 'content' }"
-      v-html="$sectionData.content?.applyAugment(augment, $builder.isEditing)"
-    />
+    <x-text
+      v-model:object="$sectionData.title"
+      :augment="augment"
+      initial-type="h2"
+      :initial-classes="['mb-5']"
+    ></x-text>
+
+    <x-text
+      v-model:object="$sectionData.content"
+      :augment="augment"
+      initial-type="p"
+    ></x-text>
 
     <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-    <x-buttons
-      :augment="augment"
-      :object="$sectionData"
-
-    ></x-buttons>
+    <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
     <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 
     <div class="container-gallery">
@@ -46,52 +44,34 @@
         v-for="(col, index) in $sectionData.columns"
         :key="index"
         :class="{ 'run-mode': /*!$builder.isEditing*/ true }"
-        :index="index"
         class="box"
       >
         <x-uploader
           v-model="col.image"
           :augment="augment"
           :class="{
-            '-caption': $builder.isEditing || $sectionData.columns[index].title,
+            '-caption': $builder.isEditing || col.title,
             '-editing': $builder.isEditing,
           }"
-
           class="gallery-image-item"
           cover
         >
         </x-uploader>
 
         <div class="g-content">
-          <h3
-            v-if="$builder.isEditing || $sectionData.columns[index].title"
+          <x-text
+            v-model:object="col.title"
+            :augment="augment"
+            initial-type="h3"
             class="g-title"
-            v-styler:text="{
-              target: $sectionData.columns[index],
-              keyText: 'title',
-            }"
-            v-html="
-              $sectionData.columns[index].title?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
+          ></x-text>
 
-          <p
-            v-if="$builder.isEditing || $sectionData.columns[index].title"
+          <x-text
+            v-model:object="col.subtitle"
+            :augment="augment"
+            initial-type="p"
             class="g-subtitle"
-            v-styler:text="{
-              target: $sectionData.columns[index],
-              keyText: 'subtitle',
-            }"
-            v-html="
-              $sectionData.columns[index].subtitle?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
+          ></x-text>
         </div>
       </div>
     </div>
@@ -104,13 +84,16 @@ import { LMixinHistory } from "../../../mixins/history/LMixinHistory";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 
 export default {
   name: "LSectionGalleryExpandable",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection, LMixinHistory],
 
-  components: {XUploader},
+  components: {XButtons, XSection, XText, XUploader },
   cover: require("../../../assets/images/covers/gallery-1.svg"),
   group: "Gallery",
   label: "Expandable Gallery",

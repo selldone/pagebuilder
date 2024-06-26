@@ -51,6 +51,7 @@ import XVideoBackground from "../../components/x/video-background/XVideoBackgrou
 import StylerDirective from "../../styler/StylerDirective";
 import LMixinSection from "../../mixins/section/LMixinSection";
 import { Article } from "@selldone/core-js";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 let KEEPER = {}; // Keep component instance for each id
 export default {
@@ -58,7 +59,7 @@ export default {
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { XVideoBackground, SArticleEditor },
+  components: { XSection, XVideoBackground, SArticleEditor },
   cover: require("../../assets/images/covers/article.svg"),
 
   group: "Text",
@@ -97,7 +98,6 @@ export default {
 
   data: () => ({
     rand_id: Math.random().toString(36).substring(7),
-
   }),
 
   computed: {},

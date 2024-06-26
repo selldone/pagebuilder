@@ -15,6 +15,11 @@
 
 export const CssFiltersGallery = [
   {
+    name: "No filter",
+    value: {},
+  },
+
+  {
     name: "Noisy",
     value: {
       brightness: 1,
@@ -215,9 +220,49 @@ export const CssFiltersGallery = [
   },
 
   {
-    name: "No filter",
-    value: {},
+    name: "Soft Blur",
+    value: {
+      blur: 5, // applying a moderate blur
+      brightness: 1.1,
+      saturate: 1
+    },
   },
+  {
+    name: "Dreamy Glow",
+    value: {
+      brightness: 1.4,
+      saturate: 1.2,
+      sepia: 0.1,
+      blur: 2 // softer blur for a glow effect
+    },
+  },
+  {
+    name: "Sharp Details",
+    value: {
+      contrast: 1.5,
+      saturate: 1.2,
+      blur: 0.5 // slight blur to soften the sharpness slightly
+    },
+  },
+  {
+    name: "Vintage Film",
+    value: {
+      sepia: 0.6,
+      grayscale: 0.3,
+      contrast: 0.9,
+      blur: 1 // mild blur to mimic old film softness
+    },
+  },
+  {
+    name: "Foggy Morning",
+    value: {
+      contrast: 0.8,
+      brightness: 1.2,
+      saturate: 0.7,
+      blur: 3 // higher blur for a foggy effect
+    },
+  }
+
 ];
 
 export class LUtilsFilter {
@@ -239,3 +284,4 @@ export class LUtilsFilter {
     return out;
   }
 }
+

@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="rounded_corner" title="Border">
+  <s-setting-expandable :value="value" icon="rounded_corner" title="Border">
     <template v-slot:title>
       <v-chip
         v-if="borderLeft.trim() && !borderLeft.includes('unset')"
@@ -172,6 +172,8 @@ export default defineComponent({
     "click:area",
   ],
   props: {
+    value:{},
+
     inputStyle: {},
 
     borderLeft: {},

@@ -15,11 +15,12 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <h2
-        v-styler:text="{ target: $sectionData, keyText: 'header' }"
-        class="mb-5 fadeIn delay_100"
-        v-html="$sectionData.header?.applyAugment(augment, $builder.isEditing)"
-      ></h2>
+      <x-text
+        v-model:object="$sectionData.header"
+        :augment="augment"
+        initial-type="h2"
+        :initial-classes="['mb-5']"
+      ></x-text>
 
       <x-row
         :column-structure="ItemType"
@@ -35,7 +36,7 @@
           v-for="(col, index) in $sectionData.columns"
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
-          :object="$sectionData.columns[index]"
+          :object="col"
           :remove-column="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-title-content"
@@ -51,12 +52,17 @@
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
 
 export default {
   name: "LSectionTextThreeColumns",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {},
+  components: {XColumnImageText, XRow, XContainer, XSection, XText },
   cover: require("../../../assets/images/covers/section-2.svg"),
   group: "Text",
   label: "Three columns",

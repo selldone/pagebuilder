@@ -14,17 +14,18 @@
 
 export class LUtilsBackground {
   static CreateCompleteBackgroundStyleObject(
-    bgCustom?: string,
-    bgGradient?: string[],
-    bgImage?: string,
-    bgImageSize?: string,
-    BgImageRepeat?: string,
-    bgColor?: string,
+    bg_custom?: string,
+    bg_gradient?: string[],
+    bg_image?: string,
+    bg_size?: string,
+    bg_repeat?: string,
+    bg_color?: string,
     dark: boolean = false,
-    position: string = "center",
+    bg_position: string = "center",
+    bg_rotation: number = 45 /*deg*/,
   ) {
-    if (bgCustom && bgCustom.includes("background")) {
-      const out = this.StringStyleToObj(bgCustom);
+    if (bg_custom && bg_custom.includes("background")) {
+      const out = this.StringStyleToObj(bg_custom);
       if (!out.color && dark !== null && dark !== undefined) {
         out.color = dark ? "#fff" : "#333";
       }
@@ -32,26 +33,27 @@ export class LUtilsBackground {
     }
 
     const out = {
-      backgroundColor: bgColor,
+      backgroundColor: bg_color,
       backgroundImage: this.CreateBackgroundImageStyle(
-        bgCustom,
-        bgGradient,
-        bgImage,
+        bg_custom,
+        bg_gradient,
+        bg_image,
+        bg_rotation,
       ),
       backgroundSize: this.CreateBackgroundSizeStyle(
-        bgCustom,
-        bgGradient,
-        bgImage,
-        bgImageSize,
+        bg_custom,
+        bg_gradient,
+        bg_image,
+        bg_size,
       ),
-      backgroundRepeat: BgImageRepeat,
+      backgroundRepeat: bg_repeat,
       color:
         dark === null || dark === undefined
           ? undefined
           : dark
             ? "#fff"
             : "#333",
-      backgroundPosition: position,
+      backgroundPosition: bg_position,
     };
 
     //   console.log('CreateCompleteBackgroundStyleObject',out)
@@ -85,44 +87,45 @@ export class LUtilsBackground {
   }
 
   static CreateBackgroundImageStyle(
-    bgCustom?: string,
-    bgGradient?: string[],
-    bgImage?: string,
+    bg_custom?: string,
+    bg_gradient?: string[],
+    bg_image?: string,
+    bg_rotation: number,
   ) {
     const out = [];
 
-    if (bgCustom) out.push(bgCustom);
+    if (bg_custom) out.push(bg_custom);
 
     let gradient = "";
-    if (bgGradient && bgGradient.length >= 2) {
-      gradient = "linear-gradient(45deg";
-      bgGradient.forEach(function (e) {
+    if (bg_gradient && bg_gradient.length >= 2) {
+      gradient = `linear-gradient(${bg_rotation}deg`;
+      bg_gradient.forEach(function (e) {
         gradient += "," + e;
       });
       gradient += ")";
       out.push(gradient);
     }
 
-    if (bgImage) out.push(`url('${bgImage}')`);
+    if (bg_image) out.push(`url('${bg_image}')`);
 
     return out.join(",");
   }
 
   static CreateBackgroundSizeStyle(
-    bgCustom?: string,
-    bgGradient?: string[],
-    bgImage?: string,
-    bgImageSize?:string,
+    bg_custom?: string,
+    bg_gradient?: string[],
+    bg_image?: string,
+    bg_size?: string,
   ) {
     const out = [];
 
-    if (bgCustom) out.push("cover");
+    if (bg_custom) out.push("cover");
 
-    if (bgGradient && bgGradient.length >= 2) {
+    if (bg_gradient && bg_gradient.length >= 2) {
       out.push("cover");
     }
 
-    if (bgImage) out.push(bgImageSize);
+    if (bg_image) out.push(bg_size);
 
     return out.join(",");
   }

@@ -42,13 +42,13 @@
       >
         <v-btn
           v-for="item in items"
-          :key="item.value"
-          :value="item.value"
+          :key="is_object ? item.value : item"
+          :value="is_object ? item.value : item"
           class="tnt ma-1"
           size="small"
           height="28"
           rounded="xl"
-          :prepend-icon="item.icon"
+          :prepend-icon="item?.icon"
         >
           {{ is_object ? (item.title ? item.title : item.value) : item }}
         </v-btn>

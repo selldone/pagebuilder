@@ -45,15 +45,16 @@
       <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
 
       <div v-else :class="layout_class" class="position-relative">
-        <h3
+        <x-text
           v-if="
             layout_class === 'x-layout-middle' &&
-            (object.title || SHOW_EDIT_TOOLS)
+            (object.title?.value || SHOW_EDIT_TOOLS)
           "
-          v-styler:text="{ target: object, keyText: 'title' }"
-          class="mb-3"
-          v-html="object.title?.applyAugment(augment, $builder.isEditing)"
-        />
+          :initial-type="headerType"
+          :initial-classes="['mb-3']"
+          v-model:object="object.title"
+          :augment="augment"
+        ></x-text>
 
         <x-uploader
           v-if="
@@ -69,24 +70,24 @@
         />
 
         <div class="--contents">
-          <component
-            :is="headerType"
+          <x-text
             v-if="
               layout_class !== 'x-layout-middle' &&
-              (object.title || SHOW_EDIT_TOOLS)
+              (object.title?.value || SHOW_EDIT_TOOLS)
             "
-            v-styler:text="{ target: object, keyText: 'title' }"
-            class="mb-3"
-            v-html="object.title?.applyAugment(augment, $builder.isEditing)"
-          />
+            :initial-type="headerType"
+            :initial-classes="['mb-3']"
+            v-model:object="object.title"
+            :augment="augment"
+          ></x-text>
 
-          <p
-            v-if="object.content || SHOW_EDIT_TOOLS"
-            v-styler:text="{ target: object, keyText: 'content' }"
-            :class="contentClass"
-            class="mt-2"
-            v-html="object.content?.applyAugment(augment, $builder.isEditing)"
-          />
+          <x-text
+            v-if="object.content?.value || SHOW_EDIT_TOOLS"
+            initial-type="p"
+            :initial-classes="['mt-2', ...initialClassesContent?initialClassesContent:[]]"
+            v-model:object="object.content"
+            :augment="augment"
+          ></x-text>
         </div>
       </div>
       <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -120,19 +121,20 @@ import { defineComponent } from "vue";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
 
 export default defineComponent({
   name: "XColumnImageText",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XCollection, XProduct, XUploader, XButton },
+  components: { XText, XCollection, XProduct, XUploader, XButton },
 
   props: {
     object: { required: true },
     initialColumnLayout: { default: "x-layout-normal" },
-    contentClass: {
-      /*Permanent class for content*/
+    initialClassesContent: {
+      type: Array,
     },
 
     noActionButtons: { type: Boolean, default: false },
@@ -180,6 +182,7 @@ export default defineComponent({
 
 .x-layout-overlay-top {
   height: 100%;
+
   p {
     display: none;
   }
@@ -195,6 +198,7 @@ export default defineComponent({
 
 .x-layout-overlay-center {
   height: 100%;
+
   p {
     display: none;
   }
@@ -212,6 +216,7 @@ export default defineComponent({
 
 .x-layout-overlay-bottom {
   height: 100%;
+
   p {
     display: none;
   }

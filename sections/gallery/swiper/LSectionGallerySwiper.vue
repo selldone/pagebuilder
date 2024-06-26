@@ -39,9 +39,8 @@
         shadowScale: 0.94,
       }"
       :materialEffect="{
-          slideSplitRatio: 0.65,
-        }"
-
+        slideSplitRatio: 0.65,
+      }"
       :direction="SLIDE_DATA.direction ? SLIDE_DATA.direction : 'horizontal'"
       :effect="SLIDE_DATA.effect"
       :grab-cursor="SLIDE_DATA.grabCursor"
@@ -64,9 +63,12 @@
       slide-to-clicked-slide
       @realIndexChange="(s) => (realIndex = s.realIndex)"
       @swiper="onMainSwiperInitialized"
-      :class="{'overflow-visible':is_overflow_visible}"
+      :class="{ 'overflow-visible': is_overflow_visible }"
     >
-      <swiper-slide v-for="(_slide, index) in $sectionData.slide.items" :key="index">
+      <swiper-slide
+        v-for="(_slide, index) in $sectionData.slide.items"
+        :key="index"
+      >
         <!-- 📹 Background video -->
         <x-video-background
           v-if="_slide.container?.background?.bg_video"
@@ -75,11 +77,14 @@
         </x-video-background>
 
         <div
-          :class="[realIndex === index ? SLIDE_DATA.active : null,{
-            'swiper-material-wrapper':is_material_effect
-          }]"
+          :class="[
+            realIndex === index ? SLIDE_DATA.active : null,
+            {
+              'swiper-material-wrapper': is_material_effect,
+            },
+          ]"
           :style="[backgroundStyle(_slide.background)]"
-          class="position-relative h-100 "
+          class="position-relative h-100"
         >
           <!-- ----------------- Image Layer ----------------- -->
 
@@ -93,18 +98,16 @@
           <!-- ----------------- Text Layer ----------------- -->
           <v-container
             v-styler:container="{
-              target: $sectionData.slide.items[index].container,
+              target: _slide.container,
               hasFluid: true,
             }"
-            :fluid=" _slide.container?.fluid"
+            :fluid="_slide.container?.fluid"
             :class="[
               _slide.container.classes,
               {
-
-                  'swiper-material-content':is_material_effect
+                'swiper-material-content': is_material_effect,
               },
             ]"
-
             :style="[_slide.container.style]"
             class="abs-container"
             cloneable="true"
@@ -116,11 +119,10 @@
               ]);
               $forceUpdate();
             "
-
           >
             <v-row
               v-styler:row="{
-                target: $sectionData.slide.items[index],
+                target: _slide,
                 hasArrangement: true,
                 hasFluid: false,
               }"
@@ -128,32 +130,25 @@
               :justify="_slide.row ? _slide.row.justify : 'start'"
               no-gutters
             >
-              <div >
-                <h2
-                  v-styler:text="{
-                    target: $sectionData.slide.items[index],
-                    keyText: 'title',
-                  }"
-                  v-html="
-                    _slide.title?.applyAugment(augment, $builder.isEditing)
-                  "
-                />
-                <p
-                  v-styler:text="{
-                    target: $sectionData.slide.items[index],
-                    keyText: 'subtitle',
-                  }"
-                  v-html="
-                    _slide.subtitle?.applyAugment(augment, $builder.isEditing)
-                  "
-                ></p>
+              <div>
+                <x-text
+                  v-model:object="_slide.title"
+                  :augment="augment"
+                  initial-type="h2"
+                ></x-text>
+
+                <x-text
+                  v-model:object="_slide.subtitle"
+                  :augment="augment"
+                  initial-type="p"
+                ></x-text>
 
                 <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
                 <x-button
                   v-if="_slide.button"
                   v-styler:button="{
-                    target: $sectionData.slide.items[index].button,
+                    target: _slide.button,
                   }"
                   :augment="augment"
                   :btn-data="_slide.button"
@@ -230,30 +225,17 @@
             realIndex === index ? $sectionData.slide.thumbnail.active : null,
           ]"
         >
-          <h3
-            v-styler:text="{
-              target: $sectionData.slide.items[index],
-              keyText: 'thumb_title',
-            }"
-            v-html="
-              $sectionData.slide.items[index].thumb_title?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
-          <p
-            v-styler:text="{
-              target: $sectionData.slide.items[index],
-              keyText: 'thumb_subtitle',
-            }"
-            v-html="
-              $sectionData.slide.items[index].thumb_subtitle?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          ></p>
+          <x-text
+            v-model:object="slide.thumb_title"
+            :augment="augment"
+            initial-type="h3"
+          ></x-text>
+
+          <x-text
+            v-model:object="slide.thumb_subtitle"
+            :augment="augment"
+            initial-type="p"
+          ></x-text>
         </div>
       </swiper-slide>
     </swiper>
@@ -292,8 +274,9 @@ import {
 } from "swiper/modules";
 import EffectMaterial from "@selldone/components-vue/ui/swiper/effects/material/effect-material.esm.js";
 
-
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionGallerySwiper",
@@ -301,6 +284,8 @@ export default {
   mixins: [LMixinSection],
 
   components: {
+    XSection,
+    XText,
     XUploader,
     XVideoBackground,
     XButton,
@@ -471,12 +456,12 @@ export default {
         : undefined;
     },
 
-    is_material_effect(){
+    is_material_effect() {
       return this.SLIDE_DATA.effect === "material";
     },
-    is_overflow_visible(){
+    is_overflow_visible() {
       return this.SLIDE_DATA.effect === "cards";
-    }
+    },
   },
 
   watch: {

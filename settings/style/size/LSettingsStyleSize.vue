@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="fit_screen" title="Size">
+  <s-setting-expandable :value="value" icon="fit_screen" title="Size">
     <template v-slot:title>
       <v-chip
         v-if="width && width !== 'unset'"
@@ -258,6 +258,7 @@ export default defineComponent({
     "click:area",
   ],
   props: {
+    value:{},
     inputStyle: {},
 
     width: {},

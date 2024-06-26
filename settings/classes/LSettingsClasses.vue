@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="turned_in" title="Class">
+  <s-setting-expandable :value="value" icon="turned_in" title="Class">
     <template v-slot:title>
       <v-chip
         v-for="(it, i) in classes?.limit(3)"
@@ -28,30 +28,27 @@
       </v-chip>
     </template>
 
-
     <s-setting-group
-        title="Classes"
-        icon="integration_instructions"
-        subtitle="In CSS, a class represents a collection of elements with similar or identical characteristics. All classes in Bootstrap 4 are supported."
+      title="Classes"
+      icon="integration_instructions"
+      subtitle="In CSS, a class represents a collection of elements with similar or identical characteristics. All classes in Bootstrap 4 are supported."
     ></s-setting-group>
 
-
-
     <v-combobox
-      :items="standard_classes"
+      :items="all_classes"
       :model-value="classes"
       @update:model-value="(v) => $emit('update:classes', v)"
       chips
-      class="max-w-640 mx-auto"
       clearable
       closable-chips
       multiple
-      variant="underlined"
+      placeholder="Select classes..."
+      variant="outlined"
+      hide-details
+      density="compact"
     >
-      <template v-slot:chip="{item,props}">
-        <v-chip v-bind="props" label color="#1976D2" variant="flat">
-
-        </v-chip>
+      <template v-slot:chip="{ props }">
+        <v-chip v-bind="props" label color="#1976D2" variant="flat"> </v-chip>
       </template>
     </v-combobox>
   </s-setting-expandable>
@@ -62,6 +59,7 @@ import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { LUtilsClasses } from "@selldone/page-builder/utils/classes/LUtilsClasses";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import {LandingCssHelper} from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 
 export default defineComponent({
   name: "LSettingsClasses",
@@ -71,11 +69,27 @@ export default defineComponent({
   },
   emits: ["update:classes"],
   props: {
+    value: {},
+
     classes: {},
+
+    /**
+     * Defined css by user
+     * Type: IPageCss
+     */
+    customCss:{},
   },
   data: () => ({
     standard_classes: LUtilsClasses.StandardClasses(),
   }),
+  computed:{
+    custom_classes(){
+      return LandingCssHelper.GetListOfClasses(this.customCss)
+    },
+    all_classes(){
+      return this.custom_classes.concat(this.standard_classes)
+    }
+  },
 
   watch: {},
 

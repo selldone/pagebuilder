@@ -36,28 +36,25 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre" class="pb-16">
-        <u-color-selector v-model="bg_color" nullable title="Background color">
-          <template v-slot:append-title>
-            <v-chip v-if="bg_color" class="ma-1" label size="x-small"
-              >{{ bg_color }}
-            </v-chip>
-          </template>
-        </u-color-selector>
+
         <background-image-editor
           v-model:bg-image="bg_image"
           v-model:bgCustom="bg_custom"
           v-model:bgGradient="bg_gradient"
+          v-model:bgRotation="bg_rotation"
           v-model:bgImageRepeat="bg_repeat"
           v-model:bgImageSize="bg_size"
           v-model:bgPosition="bg_position"
           v-model:bgVideo="bg_video"
-          :BgColor="bg_color"
+          v-model:bgColor="bg_color"
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
           class="mt-8"
           dark
           has-bg-video
+          has-bg-color
         >
+
         </background-image-editor>
       </v-card-text>
     </v-card>
@@ -81,7 +78,6 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    UColorSelector,
     BackgroundImageEditor,
   },
 
@@ -104,6 +100,7 @@ export default {
     bg_image: null,
     bg_video: null,
     bg_gradient: [],
+    bg_rotation:null,
     bg_size: null,
     bg_custom: null,
     bg_repeat: null,
@@ -134,6 +131,7 @@ export default {
         bg_image: this.bg_image,
         bg_video: this.bg_video,
         bg_gradient: this.bg_gradient,
+        bg_rotation: this.bg_rotation,
         bg_size: this.bg_size,
         bg_custom: this.bg_custom,
         bg_repeat: this.bg_repeat,
@@ -213,9 +211,10 @@ export default {
       this.bg_image = background ? background.bg_image : null;
       this.bg_video = background ? background.bg_video : null;
 
-      this.bg_gradient =
-        background && background.bg_gradient ? background.bg_gradient : [];
-      this.bg_size = background ? background.bg_size : null;
+      this.bg_gradient = background && background.bg_gradient ? background.bg_gradient : [];
+      this.bg_rotation =background?.bg_rotation ? background.bg_rotation : 45/*deg*/;
+
+          this.bg_size = background ? background.bg_size : null;
       this.bg_custom = background ? background.bg_custom : null;
       this.bg_repeat = background ? background.bg_repeat : null;
       this.dark = background ? background.dark : false;
@@ -252,6 +251,7 @@ export default {
         background.bg_color,
         background.dark,
         background.bg_position,
+        background.bg_rotation,
       );
 
       //  console.log('+++style+++',style)

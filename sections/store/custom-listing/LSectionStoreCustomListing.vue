@@ -75,12 +75,14 @@ import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/ObjectPrototypes";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XCustomProductsList from "@selldone/page-builder/components/x/products-list/XCustomProductsList.vue";
 
 export default {
   name: "LSectionStoreCustomListing",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {},
+  components: {XCustomProductsList, XSection},
   cover: require("../../../assets/images/covers/products-list-custom.svg"),
 
   group: "Products",

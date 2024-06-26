@@ -18,17 +18,18 @@
       class="grad-layer bg-tiny-checkers-dark mx-auto mb-3 position-relative text-center"
     >
       <div class="center-absolute pa-2">{{ $t("global.commons.preview") }}</div>
-      <div :style="final_bg_styles" class="grad-layer"></div>
+      <div :style="final_bg_styles" style="height: 100%; width: 100%"></div>
     </div>
 
-    <v-toolbar class="my-5 rounded-lg" flat>
-      <v-toolbar-items>
-        <v-btn
-          :color="tab === 1 ? 'amber' : undefined"
-          variant="text"
-          @click.stop="tab = 1"
-        >
-          <v-icon class="me-1">format_color_fill</v-icon>
+    <div class="my-5 overflow-auto">
+      <v-btn-toggle
+        v-model="tab"
+        selected-class="black-flat elevation-3"
+        rounded="xl"
+        variant="outlined"
+        class="bg-gray"
+      >
+        <v-btn value="pattern" class="ma-1" prepend-icon="format_color_fill">
           Pattern
 
           <v-fab-transition>
@@ -41,12 +42,7 @@
             </v-icon>
           </v-fab-transition>
         </v-btn>
-        <v-btn
-          :color="tab === 2 ? 'amber' : undefined"
-          variant="text"
-          @click.stop="tab = 2"
-        >
-          <v-icon class="me-1">image</v-icon>
+        <v-btn value="image" class="ma-1" prepend-icon="image">
           Image
           <v-fab-transition>
             <v-icon v-if="bgImage" color="#fff" end size="small"
@@ -56,11 +52,10 @@
         </v-btn>
         <v-btn
           v-if="hasBgVideo"
-          :color="tab === 3 ? 'amber' : undefined"
-          variant="text"
-          @click.stop="tab = 3"
+          value="video"
+          class="ma-1"
+          prepend-icon="smart_display"
         >
-          <v-icon class="me-1">smart_display</v-icon>
           Video
 
           <v-fab-transition>
@@ -69,11 +64,21 @@
             </v-icon>
           </v-fab-transition>
         </v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+      </v-btn-toggle>
+    </div>
 
     <v-window v-model="tab">
-      <v-window-item :value="1">
+      <v-window-item value="pattern">
+        <s-setting-color
+          v-if="hasBgColor"
+          :model-value="bgColor"
+          @update:model-value="(val) => $emit('update:bgColor', val)"
+          icon="palette"
+          clearable
+          label="Solid Color"
+        >
+        </s-setting-color>
+
         <!-- ████████████████████ Custom style ████████████████████ -->
 
         <s-setting-group
@@ -82,7 +87,7 @@
           title="Custom style"
         >
           <v-list-item prepend-icon="texture">
-            <u-fade-scroll>
+            <u-fade-scroll drag-scroll>
               <div class="d-flex align-center">
                 <v-btn
                   v-for="item in BgImageStyles"
@@ -100,6 +105,7 @@
               </div>
             </u-fade-scroll>
           </v-list-item>
+
           <v-list-item prepend-icon="css">
             <v-textarea
               :max-rows="3"
@@ -108,9 +114,11 @@
               auto-grow
               class="english-field"
               clearable
+              hide-details
+              density="compact"
               flat
               placeholder="Custom bg image style e.g. background-image ..."
-              variant="plain"
+              variant="outlined"
               @update:model-value="
                 (val) => {
                   $emit('update:bgCustom', val);
@@ -140,6 +148,19 @@
                   }
                 "
               ></gradient-builder>
+
+              <v-expand-x-transition>
+                <s-setting-slider
+                  v-if="bgGradient?.length >= 2"
+                  label="Rotation"
+                  icon="360"
+                  suffix="deg"
+                  :model-value="bgRotation"
+                  @update:model-value="(val) => $emit('update:bgRotation', val)"
+                  :min="0"
+                  :max="360"
+                ></s-setting-slider>
+              </v-expand-x-transition>
             </s-setting-group>
           </div>
         </v-expand-transition>
@@ -149,7 +170,7 @@
 
       <v-window-item
         :class="{ disabled: raw_style_mode }"
-        :value="2"
+        value="image"
         class="py-5"
       >
         <s-widget-header
@@ -162,20 +183,19 @@
         </v-list-subheader>
 
         <s-image-uploader
-            :dark="dark"
-            :image="bgImage ? getShopImagePath(bgImage) : null"
-            :server="uploadUrl"
-            auto-compact
-            class="mt-2"
-            clearable
-            dense
-            max-file-size="2MB"
-            @onClear="$emit('update:bgImage', null)"
-            @new-path="handleProcessFile"
-            label="Background Image"
+          :dark="dark"
+          :image="bgImage ? getShopImagePath(bgImage) : null"
+          :server="uploadUrl"
+          auto-compact
+          class="mt-2"
+          clearable
+          dense
+          max-file-size="2MB"
+          @onClear="$emit('update:bgImage', null)"
+          @new-path="handleProcessFile"
+          label="Background Image"
         >
         </s-image-uploader>
-
 
         <div class="p-1 text-center">
           <v-btn-toggle
@@ -230,8 +250,6 @@
           </v-btn-toggle>
         </div>
 
-
-
         <v-item-group
           :model-value="bgPosition"
           mandatory
@@ -266,7 +284,7 @@
 
       <!-- ████████████████████ Background video ████████████████████ -->
 
-      <v-window-item v-if="hasBgVideo" :value="3" class="py-5">
+      <v-window-item v-if="hasBgVideo" value="video" class="py-5">
         <s-widget-header
           icon="movie"
           title="Background video"
@@ -348,10 +366,14 @@ import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimens
 import SVideoUploader from "@selldone/components-vue/ui/uploader/SVideoUploader.vue";
 import SSettingGroup from "../../../styler/settings/group/SSettingGroup.vue";
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
+import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
+import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 
 export default {
   name: "BackgroundImageEditor",
   components: {
+    SSettingColor,
+    SSettingSlider,
     UFadeScroll,
     SSettingGroup,
     SVideoUploader,
@@ -363,6 +385,7 @@ export default {
   emits: [
     "update:bgImage",
     "update:bgGradient",
+    "update:bgRotation",
     "update:bgImageSize",
     "update:bgCustom",
     "update:bgImageRepeat",
@@ -373,13 +396,14 @@ export default {
   props: {
     bgImage: {},
     bgGradient: {},
+    bgRotation: {},
     bgImageSize: {
       default: "cover",
     },
     bgImageRepeat: {},
 
     bgCustom: {},
-    BgColor: {},
+    bgColor: {},
 
     bgPosition: {
       default: "center",
@@ -395,10 +419,11 @@ export default {
 
     bgVideo: {},
     hasBgVideo: { type: Boolean, default: false },
+    hasBgColor: Boolean,
   },
 
   data: () => ({
-    tab: 1,
+    tab: "pattern",
 
     BgImageSizes: ["auto", "contain", "cover"],
     bgImageRepeats: [
@@ -470,9 +495,10 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
         this.bgImage ? this.getShopImagePath(this.bgImage) : null,
         this.bgImageSize,
         this.bgImageRepeat,
-        this.BgColor,
+        this.bgColor,
         null,
         this.bgPosition,
+        this.bgRotation,
       );
     },
 
@@ -515,8 +541,9 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 <style scoped>
 .grad-layer {
   width: 250px;
-  height: 150px;
+  height: 140px;
   border-radius: 2rem;
   overflow: hidden;
+  border: solid 2px #fff;
 }
 </style>

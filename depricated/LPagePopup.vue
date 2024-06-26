@@ -82,6 +82,9 @@ export default {
         this.style.bg_size,
         this.style.bg_repeat,
         this.style.bg_color,
+        this.style.dark,
+        this.style.bg_position,
+        this.style.bg_rotation,
       );
     },
   },

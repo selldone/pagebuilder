@@ -14,39 +14,48 @@
 
 <template>
   <div>
-    <div :style="{ background: gradient }" class="gradient-view"></div>
     <div class="container">
-      <v-fade-transition class="row m-1" group tag="div">
-        <u-color-selector
-          v-for="(color, index) in modelValue"
-          :key="index"
-          v-model="modelValue[index]"
-          class="m-1 inline-block"
-          @update:modelValue="onChange()"
-        >
-          lens
-        </u-color-selector>
-      </v-fade-transition>
+      <v-expand-transition>
+        <div v-if="modelValue?.length">
 
-      <div class="px-2">
-        <v-btn class="ma-1" icon title="Add a color" @click="addColor">
+          <div :style="{ background: gradient }" class="gradient-view"></div>
+
+
+          <u-color-selector
+            v-for="(color, index) in modelValue"
+            :key="index"
+            v-model="modelValue[index]"
+            class="m-1 inline-block"
+            @update:modelValue="onChange()"
+          >
+            lens
+          </u-color-selector>
+        </div>
+      </v-expand-transition>
+
+      <div class="pa-2">
+        <v-btn class="ma-1" icon size="small" title="Add a color" @click="addColor">
           <v-icon>add</v-icon>
         </v-btn>
-        <v-btn
-          v-if="modelValue && modelValue.length > 2"
-          class="ma-1"
-          icon
-          title="Remove last color"
-          @click="removeColor"
-        >
-          <v-icon>remove</v-icon>
-        </v-btn>
+   <v-expand-x-transition>
+     <v-btn
+         v-if="modelValue && modelValue.length > 2"
+         class="ma-1"
+         icon
+         size="small"
+         title="Remove last color"
+         @click="removeColor"
+     >
+       <v-icon>remove</v-icon>
+     </v-btn>
+   </v-expand-x-transition>
 
         <v-btn
           class="ma-1"
           icon
           title="Create random colors"
           @click="generateGradient"
+          size="small"
         >
           <v-icon>fa:fas fa-dice</v-icon>
         </v-btn>
@@ -54,6 +63,7 @@
           v-if="clearable"
           class="ma-1"
           icon
+          size="small"
           @click="$emit('update:modelValue', [])"
         >
           <v-icon>delete</v-icon>

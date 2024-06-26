@@ -29,7 +29,6 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-
       <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
 
       <li>
@@ -37,15 +36,14 @@
           <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
-              activator="parent"
-              content-class="bg-black text-white"
-              location="bottom"
-              max-width="320"
-          >Classes & Style
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Classes & Style
           </v-tooltip>
         </button>
       </li>
-
 
       <!-- ―――――――――――――――――― Link ―――――――――――――――――― -->
 
@@ -393,7 +391,7 @@
                 }
               "
             >
-              <v-icon :class="'bg-' + it" class="text-gradient">lens </v-icon>
+              <v-icon :class="'bg-' + it" class="text-gradient">lens</v-icon>
             </v-btn>
           </li>
           <v-divider class="mx-2" dark inset vertical></v-divider>
@@ -513,17 +511,17 @@ export default {
 
     keyText: {
       type: String,
-      default: null,
+      default: "value",
     },
 
-    keyClasses:{
+    keyClasses: {
       type: String,
-      default: 'classes',
+      default: "classes",
     },
 
-    keyStyle:{
+    keyStyle: {
       type: String,
-      default: 'style',
+      default: "style",
     },
     /**
      * Set the location of the proper
@@ -536,8 +534,6 @@ export default {
     noLink: {
       type: Boolean,
     },
-
-
   },
   data: () => ({
     TextAlign: TextAlign,
@@ -657,17 +653,16 @@ export default {
 
   methods: {
     showMasterDesignDialog() {
-
       //console.log('this.target',this.target.style,this.target.classes)
       this.ShowLSettingsClassStyle(
-          this.el,
-          this.el,
-          this.target,
-          this.keyStyle,
-          this.keyClasses,
+        this.el,
+        this.el,
+        this.target,
+        this.keyStyle,
+        this.keyClasses,
+      {tags:['p','h1','h2','h3','h4','h5']}
       );
     },
-
 
     calculateSelectedTextStyle() {
       this.text_color_display = this.getSelectedTextColor();
@@ -734,8 +729,6 @@ export default {
       this.text_align = align;
       this.setElementClass("text-align-", align.val, true);
     },
-
-
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Root inner element > Toggle class ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 

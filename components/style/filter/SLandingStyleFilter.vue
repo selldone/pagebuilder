@@ -21,9 +21,11 @@
       :src="selected_prev"
       :style="{ filter: filter }"
       class="mb-3"
-      max-height="30vh"
+      max-height="360px"
       max-width="800"
-      min-height="15vh"
+      height="15vh"
+      cover
+      rounded="lg"
     >
       <div>
         <v-img
@@ -31,11 +33,13 @@
           :src="previewImage"
           class="pr-item shadow-hover"
           @click="selected_prev = previewImage"
+          cover
         ></v-img>
         <v-img
           v-for="im in plates"
           :key="im"
           :src="im"
+          cover
           class="pr-item shadow-hover"
           @click="selected_prev = im"
         ></v-img>
@@ -43,14 +47,11 @@
     </v-img>
     <!-- ████████████████████ Collection ████████████████████ -->
 
-    <s-widget-header
-      icon="filter_vintage"
+    <s-setting-group
       title="Filters collection"
-    ></s-widget-header>
-    <v-list-subheader
-      >Select a filter from the collection. Using complex filters may slow down
-      your page experience.
-    </v-list-subheader>
+      icon="filter_vintage"
+      subtitle="Select a filter from the collection. Using complex filters may slow down your page experience."
+    ></s-setting-group>
 
     <v-item-group v-model="filter_value">
       <v-container>
@@ -74,18 +75,23 @@
                 class="rounded-18px"
                 height="64"
                 width="64"
+                cover
               >
               </v-img>
-              <div class="bottom-absolute-bar-dark">
+              <v-sheet
+                class="bottom-absolute-bar-dark"
+                :color="isSelected ? 'blue' : ''"
+              >
                 <v-icon
                   v-if="it.value.url"
                   color="#fff"
                   size="8"
                   title="Slowdown!"
+                  cover
                   >warning
                 </v-icon>
                 {{ it.name }}
-              </div>
+              </v-sheet>
             </v-card>
           </v-item>
         </v-row>
@@ -94,44 +100,43 @@
 
     <!-- ████████████████████ Customize ████████████████████ -->
 
-    <s-widget-header icon="tune" title="Tune"></s-widget-header>
-    <v-list-subheader
-      >You can customize and make your filter here.
-    </v-list-subheader>
-
-    <v-expansion-panels>
-      <v-expansion-panel>
-        <v-expansion-panel-title
-          ><span
-            ><v-icon class="me-1" size="small">fa:fas fa-cogs</v-icon> Filter
-            values</span
-          >
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-slider
-            v-for="key in editable_values"
-            :key="key"
-            v-model="filter_value[key]"
-            :label="key"
-            :max="getMax(key)"
-            :min="getMin(key)"
-            :step="getStep(key)"
-            thumb-color="#1976D2"
-            thumb-label
-          >
-          </v-slider>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-expand-transition>
+      <s-setting-group
+        v-if="editable_values?.length"
+        title="Tune"
+        icon="tune"
+        subtitle="You can customize and make your filter here."
+      >
+        <s-setting-slider
+          v-for="key in editable_values"
+          :key="key"
+          v-model="filter_value[key]"
+          :label="key"
+          :max="getMax(key)"
+          :min="getMin(key)"
+          :step="getStep(key)"
+          thumb-color="#1976D2"
+          thumb-label
+          icon="fa:fas fa-cogs"
+        >
+        </s-setting-slider>
+      </s-setting-group>
+    </v-expand-transition>
   </div>
 </template>
 
 <script>
-import { LUtilsFilter, CssFiltersGallery } from "../../../utils/filter/LUtilsFilter";
+import {
+  CssFiltersGallery,
+  LUtilsFilter,
+} from "../../../utils/filter/LUtilsFilter";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
 
 export default {
   name: "SLandingStyleFilter",
-  components: {},
+  components: { SSettingSlider, SSettingGroup },
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
     previewImage: {
@@ -218,5 +223,6 @@ export default {
   height: 36px;
   border-radius: 12px;
   cursor: pointer;
+  border: solid #fff 2px;
 }
 </style>

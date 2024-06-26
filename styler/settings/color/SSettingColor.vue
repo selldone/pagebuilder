@@ -44,6 +44,7 @@ import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSel
 export default defineComponent({
   name: "SSettingColor",
   components: { UColorSelector },
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
     label: {},

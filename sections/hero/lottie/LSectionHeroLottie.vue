@@ -13,14 +13,13 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
       <x-row
         v-if="$sectionData.columns"
         :object="$sectionData"
         has-arrangement
         has-fluid
-
       >
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
@@ -29,28 +28,22 @@
           class="position-relative"
           path="$sectionData.columns[0]"
         >
-          <h1
-            v-styler:text="{ target: $sectionData, keyText: 'title' }"
-            class="mb-2 fadeIn"
-            v-html="
-              $sectionData.title?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.title"
+            :augment="augment"
+            initial-type="h1"
+            :initial-classes="['mb-2']"
+          ></x-text>
 
-          <p
-            v-styler:text="{ target: $sectionData, keyText: 'content' }"
-            class="mb-4 fadeIn delay_300"
-            v-html="
-              $sectionData.content?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.content"
+            :augment="augment"
+            initial-type="p"
+            :initial-classes="['mb-4']"
+          ></x-text>
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons
-            :augment="augment"
-            :object="$sectionData"
-
-          ></x-buttons>
+          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </x-column>
 
@@ -98,12 +91,18 @@ import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 
 export default {
   name: "LSectionHeroLottie",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XUploader},
+  components: {XButtons, XColumn, XRow, XContainer, XSection, XText, XUploader },
   cover: require("../../../assets/images/covers/hero-lottie.svg"),
   label: "Animate Hero - Lottie Files",
 

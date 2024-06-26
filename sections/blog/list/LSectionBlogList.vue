@@ -16,7 +16,6 @@
   <x-section
     v-styler:blogs="{ target: $sectionData, keyFilter: 'blogs_filter' }"
     :object="$sectionData"
-
   >
     <!-- 📹 Background video -->
     <x-video-background
@@ -25,16 +24,19 @@
     >
     </x-video-background>
 
-    <h2
-      v-styler:text="{ target: $sectionData, keyText: 'title' }"
-      class="my-5 fadeIn"
-      v-html="$sectionData.title"
-    />
-    <p
-      v-styler:text="{ target: $sectionData, keyText: 'text' }"
-      class="my-5 fadeIn delay_300"
-      v-html="$sectionData.text"
-    />
+    <x-text
+      v-model:object="$sectionData.title"
+      :augment="augment"
+      initial-type="h2"
+      :initial-classes="['my-5']"
+    ></x-text>
+
+    <x-text
+      v-model:object="$sectionData.text"
+      :augment="augment"
+      initial-type="p"
+      :initial-classes="['my-5']"
+    ></x-text>
 
     <v-container
       :fluid="$sectionData.row ? $sectionData.row.fluid : false"
@@ -89,13 +91,15 @@ import SBlogCard from "@selldone/components-vue/storefront/blog/card/SBlogCard.v
 import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionBlogList",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { XVideoBackground, SBlogCard },
+  components: {XSection, XText, XVideoBackground, SBlogCard },
   cover: require("../../../assets/images/covers/blogs.svg"),
 
   group: "Blogs",
@@ -126,6 +130,9 @@ export default {
     id: {
       type: Number,
       required: true,
+    },
+    augment: {
+      // Extra information to show to dynamic show in page content
     },
   },
 

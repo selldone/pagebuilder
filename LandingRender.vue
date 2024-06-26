@@ -78,6 +78,7 @@
         ref="page_render"
         :augment="augment"
         :initialPageData="json"
+        :initialPageCss="css"
         :style="background"
         style="min-height: 800px"
       />
@@ -113,6 +114,7 @@ export default {
     // showLoading: true,
 
     json: null,
+    css:null,
     page: null,
     augment: null, // Extra information to show to dynamic show in page content
     busy: false,
@@ -355,6 +357,7 @@ export default {
       this.busy = true;
       this.page = null;
       this.json = null;
+      this.css=null;
 
       let url = "";
 
@@ -439,6 +442,7 @@ export default {
 
       this.page = data.page;
       this.json = data.page.content;
+      this.css = data.page.css;
 
       //Augment data:
       this.augment = data.augment;

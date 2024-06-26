@@ -90,7 +90,6 @@ export class LUtilsClasses {
         "overflow-hidden",
         "text-white",
         "text-black",
-        "text-white",
         "blockquote",
         "text-h1",
         "text-h2",

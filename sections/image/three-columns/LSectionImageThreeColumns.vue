@@ -13,14 +13,9 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <x-row
-        :object="$sectionData"
-        has-arrangement
-        has-fluid
-
-      >
+      <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column A ██████████████████████ -->
 
         <x-column :object="$sectionData.columnA" path="$sectionData.columnA">
@@ -36,8 +31,7 @@
               v-for="(col, index) in $sectionData.columnA.columns"
               :key="`${index}-${$sectionData.columnA.length}`"
               :augment="augment"
-              :object="$sectionData.columnA.columns[index]"
-
+              :object="col"
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
@@ -58,8 +52,7 @@
               v-for="(col, index) in $sectionData.columnB.columns"
               :key="`${index}-${$sectionData.columnB.length}`"
               :augment="augment"
-              :object="$sectionData.columnB.columns[index]"
-
+              :object="col"
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
@@ -80,7 +73,7 @@
               v-for="(col, index) in $sectionData.columnC.columns"
               :key="`${index}-${$sectionData.columnC.length}`"
               :augment="augment"
-              :object="$sectionData.columnC.columns[index]"
+              :object="col"
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
@@ -95,13 +88,18 @@
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
 
 export default {
   name: "LSectionImageThreeColumns",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: {},
+  components: {XColumnImageText, XColumn, XRow, XContainer, XSection },
   cover: require("../../../assets/images/covers/three-columns.svg"),
   group: "Image & Text",
   label: "Three column",

@@ -28,8 +28,8 @@ interface DataProps {
 }
 
 const LMixinSection = defineComponent({
-  props:{
-    sectionData:{}
+  props: {
+    sectionData: {},
   },
   data(): DataProps {
     return {
@@ -130,6 +130,7 @@ const LMixinSection = defineComponent({
         background.bg_color,
         background.dark,
         background.bg_position,
+        background.bg_rotation,
       );
     },
 

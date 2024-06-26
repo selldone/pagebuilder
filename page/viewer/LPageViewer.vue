@@ -57,6 +57,7 @@ import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import Builder from "../../Builder.ts";
 import { provide } from "vue";
 import { cleanDOM } from "../../utils/html/LUtilsHtml";
+import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 
 export default {
   name: "LPageViewer",
@@ -68,6 +69,8 @@ export default {
         sections: [],
       }),
     },
+    initialPageCss: {},
+
     augment: {
       // Extra information to show to dynamic show in page content
     },
@@ -89,6 +92,9 @@ export default {
         this.style.bg_size,
         this.style.bg_repeat,
         this.style.bg_color,
+        this.style.dark,
+        this.style.bg_position,
+        this.style.bg_rotation,
       );
     },
 
@@ -97,7 +103,8 @@ export default {
         if (section.data?.hide_sm && this.$vuetify.display.sm) return false;
         if (section.data?.hide_md && this.$vuetify.display.md) return false;
         if (section.data?.hide_lg && this.$vuetify.display.lg) return false;
-        if (section.data?.hide_xl && this.$vuetify.display.xlAndUp) return false;
+        if (section.data?.hide_xl && this.$vuetify.display.xlAndUp)
+          return false;
 
         return true;
       });
@@ -106,6 +113,11 @@ export default {
   watch: {
     initialPageData() {
       this.$builder.setContent(this.initialPageData);
+
+      LandingCssHelper.Inject(
+        this.initialPageCss /*Css*/,
+        this.$refs.render_container,
+      );
     },
   },
   beforeCreate() {
@@ -123,6 +135,10 @@ export default {
   created() {
     console.style("<b>🪐 Render page</b>");
     this.$builder.setContent(this.initialPageData);
+    LandingCssHelper.Inject(
+      this.initialPageCss /*Css*/,
+      this.$refs.render_container,
+    );
   },
 
   mounted() {

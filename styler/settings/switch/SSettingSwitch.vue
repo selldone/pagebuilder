@@ -22,9 +22,10 @@
   >
     <template v-slot:title>
       <span class="-label me-2">
-                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-        {{label}}</span>
+        {{ label }}</span
+      >
     </template>
 
     <template v-slot:append>
@@ -73,10 +74,8 @@ export default defineComponent({
     transform: scale(0.8);
   }
 
-
-  .-label{
+  .-label {
     font-size: 0.8rem;
   }
-
 }
 </style>

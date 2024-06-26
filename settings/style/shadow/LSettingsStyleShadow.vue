@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="wb_shade" title="Shadow">
+  <s-setting-expandable :value="value" icon="wb_shade" title="Shadow">
     <template v-slot:title>
       <v-chip
         v-if="shadow"
@@ -150,9 +150,12 @@ export default defineComponent({
   },
   emits: [],
   props: {
+    value:{},
+
     inputStyle: {},
 
     shadow: {},
+
   },
   data: () => ({
     ShadowCollection: ShadowCollection,

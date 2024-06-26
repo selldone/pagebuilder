@@ -274,7 +274,9 @@
           </v-list-subheader>
 
           <l-feeder-align v-model="section_data.row.align"></l-feeder-align>
-          <l-feeder-justify v-model="section_data.row.justify"></l-feeder-justify>
+          <l-feeder-justify
+            v-model="section_data.row.justify"
+          ></l-feeder-justify>
           <u-smart-toggle
             v-model="section_data.row.fluid"
             false-description="The container possesses a restricted width."
@@ -370,12 +372,12 @@ import LFeederNewsletter from "../../../components/feeder/newsletter/LFeederNews
 import LFeederImage from "../../../components/feeder/image/LFeederImage.vue";
 import LAugmentFinder from "../../../components/augment/finder/LAugmentFinder.vue";
 import UTextValueDashed from "@selldone/components-vue/ui/text/value-dashed/UTextValueDashed.vue";
-import {LMixinEvents} from "../../../mixins/events/LMixinEvents";
+import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import LFeederColumn from "../column/LFeederColumn.vue";
 
 export default {
   name: "LFeederDialog",
-  mixins:[LMixinEvents],
+  mixins: [LMixinEvents],
   components: {
     LAugmentFinder,
     LFeederImage,
@@ -450,6 +452,7 @@ export default {
         background.bg_color,
         background.dark,
         background.bg_position,
+        background.bg_rotation,
       );
     },
 

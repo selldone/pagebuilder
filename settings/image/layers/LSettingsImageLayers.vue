@@ -48,7 +48,7 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <v-icon class="me-1" dark>wallpaper</v-icon>
+                <v-icon class="me-1">wallpaper</v-icon>
                 Background
 
                 <v-icon
@@ -66,6 +66,7 @@
                 key="0"
                 v-model:bg-custom="bg.bg_custom"
                 v-model:bg-gradient="bg.bg_gradient"
+                v-model:bgRotation="bg.bg_rotation"
                 v-model:bg-image="bg.bg_image"
                 v-model:bg-image-repeat="bg.bg_repeat"
                 v-model:bg-image-size="bg.bg_size"
@@ -81,7 +82,7 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <v-icon class="me-1" dark>broken_image</v-icon>
+                <v-icon class="me-1" >broken_image</v-icon>
                 Foreground
 
                 <v-icon
@@ -100,6 +101,7 @@
                 v-model:bg-image="fg.bg_image"
                 v-model:bgCustom="fg.bg_custom"
                 v-model:bgGradient="fg.bg_gradient"
+                v-model:bgRotation="fg.bg_rotation"
                 v-model:bgImageRepeat="fg.bg_repeat"
                 v-model:bgImageSize="fg.bg_size"
                 :upload-url="upload_bg_url"
@@ -110,18 +112,19 @@
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
+
+
       </template>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 /**
  * <l-settings-image-layers>
@@ -166,31 +169,6 @@ export default {
   computed: {
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
-    },
-
-    bg_cal_prev() {
-      const bg = this.bg;
-      if (!bg) return null;
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        bg.bg_custom,
-        bg.bg_gradient,
-        this.bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
-        bg.bg_size,
-        bg.bg_repeat,
-        bg.bg_color,
-      );
-    },
-    fg_cal_prev() {
-      const fg = this.fg;
-      if (!fg) return null;
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        fg.bg_custom,
-        fg.bg_gradient,
-        this.fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
-        fg.bg_size,
-        fg.bg_repeat,
-        fg.bg_color,
-      );
     },
   },
   watch: {

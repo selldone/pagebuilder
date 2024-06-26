@@ -13,14 +13,9 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <x-row
-        :object="$sectionData"
-        has-arrangement
-        has-fluid
-
-      >
+      <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
         <x-column
@@ -28,49 +23,28 @@
           class="position-relative"
           path="$sectionData.columns[0]"
         >
-          <h1
-            v-styler:text="{
-              target: $sectionData.columns[0],
-              keyText: 'title',
-            }"
-            class="mb-2 fadeIn delay_100"
-            v-html="
-              $sectionData.columns[0].title?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.columns[0].title"
+            :augment="augment"
+            initial-type="h1"
+            :initial-classes="['mb-2']"
+          ></x-text>
 
-          <p
-            v-styler:text="{
-              target: $sectionData.columns[0],
-              keyText: 'content',
-            }"
-            class="mb-4 fadeIn delay_300"
-            v-html="
-              $sectionData.columns[0].content?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.columns[0].content"
+            :augment="augment"
+            initial-type="p"
+            :initial-classes="['mb-4']"
+          ></x-text>
 
           <v-expand-transition>
             <div v-if="success" key="1">
-              <p
-                v-styler:text="{
-                target:$sectionData.newsletter,
-                keyText: 'success_msg',
-                }"
-                class="my-4"
-                v-html="
-                  $sectionData.newsletter.success_msg?.applyAugment(
-                    augment,
-                    $builder.isEditing,
-                  )
-                "
-              />
+              <x-text
+                v-model:object="$sectionData.newsletter.success_msg"
+                :augment="augment"
+                initial-type="p"
+                :initial-classes="['my-4']"
+              ></x-text>
             </div>
             <div v-else key="2">
               <v-text-field
@@ -140,7 +114,6 @@
               class="tnt ma-1"
               variant="outlined"
               @click.stop="toggleMode()"
-
             >
               <v-icon start>flip_camera_android</v-icon>
               {{ success ? "Show form" : "Show success" }}
@@ -157,13 +130,18 @@ import * as types from "../../../src/types/types";
 import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 
 export default {
   name: "LSectionFormNewsletter",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { XButton },
+  components: {XColumn, XRow, XContainer, XSection, XText, XButton },
   cover: require("../../../assets/images/covers/newsletter.svg"),
   label: "Newsletter",
   help: {

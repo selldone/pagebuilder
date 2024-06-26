@@ -16,25 +16,26 @@ import * as types from "../../src/types/types";
 import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
 import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
-import avatarImage from "../../assets/images/samples/empty-photo-1.svg";
-import logoImage from "../../assets/images/samples/empty-photo-2.svg";
-import sampleImage from "../../assets/images/samples/empty-photo-3.svg";
+import imagePlaceholder from "../../assets/images/samples/image-placeholder.png";
 
 const DEBUG = false;
 
 const SeederRepository: Map<string, any> = new Map<string, any>([
-  [types.Title.name, "Lorem ipsum dolor sit amet"],
+  [types.Title.name, () => ({ value: "Enter your headline here..." })],
   [
     types.Text.name,
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    () => ({
+      value:
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+    }),
   ],
-  [types.Avatar.name, avatarImage],
-  [types.Logo.name, logoImage],
+  [types.Avatar.name, imagePlaceholder],
+  [types.Logo.name, imagePlaceholder],
   [types.Link.name, ""],
   [
     types.Image.name,
     () => ({
-      src: sampleImage,
+      src: imagePlaceholder,
       setting: { contain: false, aspect: 1 },
     }),
   ],
@@ -64,16 +65,26 @@ const SeederRepository: Map<string, any> = new Map<string, any>([
   ],
   [
     types.Quote.name,
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    () => ({
+      value: "Describe your experience in detail...",
+    }),
   ],
   [
     types.Grid.name,
     () => ({ mobile: "", tablet: "", desktop: "", widescreen: "" }),
   ],
-  [Number.name, 100],
+  [
+    Number.name,
+    () => {
+      value: 100;
+    },
+  ],
   [
     String.name,
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    () => ({
+      value:
+        "Write your article, starting with a catchy introduction followed by supporting paragraphs and a conclusion...",
+    }),
   ],
 
   [
@@ -148,8 +159,8 @@ const SeederRepository: Map<string, any> = new Map<string, any>([
   [
     types.Slide.name,
     () => ({
-      title: "Title",
-      subtitle: "Some messages...",
+      title: () => ({ value: "Slide title" }),
+      subtitle: () => ({ value: "Some messages..." }),
       image: LUtilsSeeder.seed(types.Image),
       row: LUtilsSeeder.seed(types.Row) /*Align message!*/,
       container: LUtilsSeeder.seed(types.Container),

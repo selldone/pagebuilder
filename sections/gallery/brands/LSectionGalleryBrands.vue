@@ -16,35 +16,25 @@
   xmlns:v-slot="http://www.w3.org/1999/XSL/Transform"
   xmlns:v-styler="http://www.w3.org/1999/xhtml"
 >
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <x-row
-        :object="$sectionData"
-        has-arrangement
-        has-fluid
-
-      >
+      <x-row :object="$sectionData" has-arrangement has-fluid>
         <v-col cols="12" md="4" sm="6">
-          <h2
-            v-styler:text="{ target: $sectionData, keyText: 'title' }"
-            class="mb-3"
-            v-html="
-              $sectionData.title?.applyAugment(augment, $builder.isEditing)
-            "
-          />
-          <p
-            v-styler:text="{ target: $sectionData, keyText: 'content' }"
-            v-html="
-              $sectionData.content?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.title"
+            :augment="augment"
+            initial-type="h2"
+            :initial-classes="['mb-3']"
+          ></x-text>
+
+          <x-text
+            v-model:object="$sectionData.content"
+            :augment="augment"
+            initial-type="p"
+          ></x-text>
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons
-            :augment="augment"
-            :object="$sectionData"
-
-          ></x-buttons>
+          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
           <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
         </v-col>
         <v-col cols="12" md="8" sm="6">
@@ -53,21 +43,18 @@
             :object="$sectionData"
             add-column
             has-arrangement
-
             ><!-- Only addable can remove col-->
 
             <x-column
               v-for="(col, index) in $sectionData.columns"
               :key="`${index}-${$sectionData.columns.length}`"
               :object="col"
-
               :remove-column="() => $sectionData.columns.splice(index, 1)"
             >
               <x-uploader
                 v-model="col.image"
                 :augment="augment"
                 :initialSize="null"
-
                 cover
               />
             </x-column>
@@ -83,12 +70,26 @@ import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 
 export default {
   name: "LSectionGalleryBrands",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: { XUploader },
+  components: {
+    XColumn,
+    XButtons,
+    XRow,
+    XContainer,
+    XSection,
+    XText,
+    XUploader,
+  },
   cover: require("../../../assets/images/covers/gallery-2.svg"),
   group: "Gallery",
   label: "Brands gallery",

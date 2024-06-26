@@ -17,7 +17,6 @@
     v-styler:swiper="{ target: $sectionData, keySlide: 'slide' }"
     :object="$sectionData"
     class="p-0"
-
   >
     <!-- --------------------------------------------------------------------------------------------------------- -->
 
@@ -68,23 +67,21 @@
         class="d-flex justify-center"
       >
         <div
-          v-styler:container="{ target: $sectionData.slide.items[index] }"
+          v-styler:container="{ target: slide }"
           :class="[
-            $sectionData.slide.items[index].classes,
+            slide.classes,
             realIndex === index ? $sectionData.slide.active : null,
             {
-              'w-100':$sectionData.slide.items[index].fluid
-            }
+              'w-100': slide.fluid,
+            },
           ]"
-          :index="index"
           :style="[
-            backgroundStyle($sectionData.slide.items[index].background),
-            $sectionData.slide.items[index].style,
+            backgroundStyle(slide.background),
+            slide.style,
           ]"
-
           cloneable="true"
           @click="
-            $builder.onClickClone($event, $sectionData.slide.items[index], [
+            $builder.onClickClone($event, slide, [
               'classes',
               'style',
             ]);
@@ -93,9 +90,9 @@
         >
           <!-- 📹 Background video -->
           <x-video-background
-            v-if="$sectionData.slide.items[index]?.background?.bg_video"
+            v-if="slide?.background?.bg_video"
             :video="
-              getVideoUrl($sectionData.slide.items[index]?.background?.bg_video)
+              getVideoUrl(slide?.background?.bg_video)
             "
           >
           </x-video-background>
@@ -112,44 +109,28 @@
               min_h: '20px',
               min_w: '20px',
             }"
-
             contain
           />
 
-          <h2
-            v-styler:text="{
-              target: $sectionData.slide.items[index],
-              keyText: 'title',
-            }"
-            :index="index"
-            v-html="
-              $sectionData.slide.items[index].title?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          />
-          <p
-            v-styler:text="{
-              target: $sectionData.slide.items[index],
-              keyText: 'subtitle',
-            }"
-            :index="index"
-            v-html="
-              $sectionData.slide.items[index].subtitle?.applyAugment(
-                augment,
-                $builder.isEditing,
-              )
-            "
-          ></p>
+          <x-text
+            v-model:object="slide.title"
+            :augment="augment"
+            initial-type="h2"
+          ></x-text>
+
+          <x-text
+            v-model:object="slide.subtitle"
+            :augment="augment"
+            initial-type="p"
+          ></x-text>
 
           <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
           <x-button
-            v-if="$sectionData.slide.items[index].button"
-            v-styler:button="{ target: $sectionData.slide.items[index].button }"
+            v-if="slide.button"
+            v-styler:button="{ target: slide.button }"
             :augment="augment"
-            :btn-data="$sectionData.slide.items[index].button"
+            :btn-data="slide.button"
             :editing="$builder.isEditing"
             :index="index"
             class="m-2"
@@ -163,13 +144,13 @@
           >
             <v-slide-x-reverse-transition hide-on-leave>
               <v-btn
-                v-if="!$sectionData.slide.items[index].button"
+                v-if="!slide.button"
                 key="add"
                 class="ma-1"
                 title="Add action button."
                 variant="outlined"
                 @click.stop="
-                  $sectionData.slide.items[index].button = getInstance(
+                  slide.button = getInstance(
                     types.Button,
                   );
                   $forceUpdate();
@@ -186,7 +167,7 @@
                 title="Delete button."
                 variant="outlined"
                 @click.stop="
-                  $sectionData.slide.items[index].button = null;
+                  slide.button = null;
                   $forceUpdate();
                 "
                 color="#fff"
@@ -242,6 +223,8 @@ import {
   Virtual,
   Zoom,
 } from "swiper/modules";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionGalleryScroll",
@@ -249,6 +232,8 @@ export default {
   mixins: [LMixinSection],
 
   components: {
+    XSection,
+    XText,
     XUploader,
     XVideoBackground,
     XButton,

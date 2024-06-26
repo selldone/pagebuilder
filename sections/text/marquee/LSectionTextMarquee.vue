@@ -30,7 +30,6 @@
       '--font-color': $sectionData.text_loop?.font_color,
     }"
     class="-x-infinite-sec"
-
   >
     <u-marquee
       :id="marquee_id"
@@ -42,7 +41,13 @@
       :reverse="!!$sectionData.text_loop?.reverse"
       auto-width
       style="min-width: 100%"
-      :key="$sectionData.text_loop?.html?.length+'-'+$sectionData.text_loop?.repeat+'-'+$sectionData.text_loop?.space"
+      :key="
+        $sectionData.text_loop?.html?.length +
+        '-' +
+        $sectionData.text_loop?.repeat +
+        '-' +
+        $sectionData.text_loop?.space
+      "
       :repeat="
         $sectionData.text_loop?.repeat ? $sectionData.text_loop?.repeat : 10
       "
@@ -63,12 +68,13 @@ import * as types from "../../../src/types/types";
 import UMarquee from "@selldone/components-vue/ui/marquee/UMarquee.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionTextMarquee",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: { UMarquee },
+  components: {XSection, UMarquee },
   cover: require("../../../assets/images/covers/section-infinite-text.png"),
 
   group: "Text",

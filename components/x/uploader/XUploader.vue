@@ -629,6 +629,9 @@ export default defineComponent({
         bg.bg_size,
         bg.bg_repeat,
         bg.bg_color,
+        bg.dark,
+        bg.bg_position,
+        bg.bg_rotation,
       );
     },
     fg_cal() {
@@ -641,6 +644,9 @@ export default defineComponent({
         fg.bg_size,
         fg.bg_repeat,
         fg.bg_color,
+        fg.dark,
+        fg.bg_position,
+        fg.bg_rotation,
       );
     },
 
@@ -685,10 +691,9 @@ export default defineComponent({
     },
 
     init() {
-
-      if(!this.modelValue || typeof this.modelValue !== 'object'){
+      if (!this.modelValue || typeof this.modelValue !== "object") {
         this.image = { src: null, setting: {} };
-        this.$emit("update:modelValue", this.image );
+        this.$emit("update:modelValue", this.image);
         return;
       }
       this.image = this.modelValue;
@@ -740,7 +745,7 @@ export default defineComponent({
         this.modelValue,
         "style",
         "classes",
-        { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
+        { /*noSize: true,*/ prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
     },
 
@@ -842,7 +847,7 @@ export default defineComponent({
         this.modelValue,
         "style",
         "classes",
-        { noSize: true, prev_image: this.image.src }, // Not show size ! conflict with image size!
+        { /* noSize: true,*/ prev_image: this.image.src }, // Not show size ! conflict with image size!
       );
     },
 

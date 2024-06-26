@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <s-setting-expandable icon="control_camera" title="Position">
+  <s-setting-expandable :value="value" icon="control_camera" title="Position">
     <template v-slot:title>
       <v-chip
         v-if="position"
@@ -148,6 +148,7 @@ export default defineComponent({
     "click:area",
  ],
   props: {
+    value:{},
     inputStyle: {},
 
     position: {},

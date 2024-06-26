@@ -13,13 +13,9 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData" >
+  <x-section :object="$sectionData">
     <x-container :object="$sectionData">
-      <x-row
-        :object="$sectionData"
-        has-arrangement
-        has-fluid
-      >
+      <x-row :object="$sectionData" has-arrangement has-fluid>
         <v-col
           v-styler:column="{ target: $sectionData.columns[0] }"
           :class="[gridClasses[0], $sectionData.columns[0].classes]"
@@ -36,21 +32,19 @@
           >
           </x-video-background>
 
-          <h1
-            v-styler:text="{ target: $sectionData, keyText: 'title' }"
-            class="mb-2 fadeIn delay_100"
-            v-html="
-              $sectionData.title?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.title"
+            :augment="augment"
+            initial-type="h1"
+            :initial-classes="['mb-2']"
+          ></x-text>
 
-          <p
-            v-styler:text="{ target: $sectionData, keyText: 'content' }"
-            class="mb-4 fadeIn delay_300"
-            v-html="
-              $sectionData.content?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.content"
+            :augment="augment"
+            initial-type="p"
+            :initial-classes="['mb-4']"
+          ></x-text>
 
           <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ Start Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
           <s-storefront-search-box
@@ -97,13 +91,12 @@
           >
           </x-video-background>
 
-          <p
-            v-styler:text="{ target: $sectionData, keyText: 'content2' }"
-            class="my-5 fadeIn delay_500"
-            v-html="
-              $sectionData.content2?.applyAugment(augment, $builder.isEditing)
-            "
-          />
+          <x-text
+            v-model:object="$sectionData.content2"
+            :augment="augment"
+            initial-type="p"
+            :initial-classes="['my-5']"
+          ></x-text>
         </v-col>
       </x-row>
     </x-container>
@@ -116,13 +109,17 @@ import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SSt
 import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 
 export default {
   name: "LSectionHeroSearch",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { XVideoBackground, SStorefrontSearchBox },
+  components: {XRow, XContainer, XSection, XText, XVideoBackground, SStorefrontSearchBox },
   cover: require("../../../assets/images/covers/hero-search.svg"),
   group: "Hero",
   label: "Search Hero",

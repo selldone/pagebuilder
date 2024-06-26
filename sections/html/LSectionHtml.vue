@@ -67,13 +67,14 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper";
+import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "LSectionHtml",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: { PrismEditor, XVideoBackground },
+  components: {XSection, PrismEditor, XVideoBackground },
   cover: require("../../assets/images/covers/html.svg"),
 
   group: "Basic",

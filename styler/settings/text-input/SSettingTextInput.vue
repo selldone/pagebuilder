@@ -15,11 +15,16 @@
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
-    class="s--setting-combobox"
+    class="s--setting-text-input"
     density="compact"
   >
+    <template v-slot:prepend>
+      <span class="-label me-2 min-width-100">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span
+      >
+    </template>
 
     <v-text-field
       :clearable="clearable"
@@ -31,11 +36,11 @@
       :rules="rules"
       class="my-1"
       color="#1976D2"
-      density="comfortable"
+      density="compact"
       hide-details
       style="min-width: 200px"
       :label="subtitle"
-      variant="plain"
+      variant="outlined"
       @update:model-value="(val) => setValue(val)"
     >
     </v-text-field>
@@ -51,7 +56,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     subtitle: {},
     icon: {},
     items: {
@@ -80,6 +85,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.s--setting-combobox {
+.s--setting-text-input {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>
