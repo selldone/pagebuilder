@@ -13,6 +13,8 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {isObject} from "lodash-es";
+
 export const CssFiltersGallery = [
   {
     name: "No filter",
@@ -224,7 +226,7 @@ export const CssFiltersGallery = [
     value: {
       blur: 5, // applying a moderate blur
       brightness: 1.1,
-      saturate: 1
+      saturate: 1,
     },
   },
   {
@@ -233,7 +235,7 @@ export const CssFiltersGallery = [
       brightness: 1.4,
       saturate: 1.2,
       sepia: 0.1,
-      blur: 2 // softer blur for a glow effect
+      blur: 2, // softer blur for a glow effect
     },
   },
   {
@@ -241,7 +243,7 @@ export const CssFiltersGallery = [
     value: {
       contrast: 1.5,
       saturate: 1.2,
-      blur: 0.5 // slight blur to soften the sharpness slightly
+      blur: 0.5, // slight blur to soften the sharpness slightly
     },
   },
   {
@@ -250,7 +252,7 @@ export const CssFiltersGallery = [
       sepia: 0.6,
       grayscale: 0.3,
       contrast: 0.9,
-      blur: 1 // mild blur to mimic old film softness
+      blur: 1, // mild blur to mimic old film softness
     },
   },
   {
@@ -259,14 +261,89 @@ export const CssFiltersGallery = [
       contrast: 0.8,
       brightness: 1.2,
       saturate: 0.7,
-      blur: 3 // higher blur for a foggy effect
+      blur: 3, // higher blur for a foggy effect
     },
-  }
-
+  },
 ];
 
+export const FILTERS = {
+  blur: {
+    value: "blur",
+    title: "Blur",
+    icon: "blur_on", // Material icon name
+    dim: "px",
+    min: 0,
+    max: 20,
+    step: 0.1,
+  },
+  brightness: {
+    value: "brightness",
+    title: "Brightness",
+    icon: "brightness_6", // Material icon name
+    dim: "",
+    min: 0,
+    max: 2,
+    step: 0.01,
+  },
+  invert: {
+    value: "invert",
+    title: "Invert",
+    icon: "invert_colors", // Material icon name
+    dim: "",
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
+  saturate: {
+    value: "saturate",
+    title: "Saturate",
+    icon: "settings_brightness", // Material icon name
+    dim: "",
+    min: 0,
+    max: 2,
+    step: 0.01,
+  },
+  sepia: {
+    value: "sepia",
+    title: "Sepia",
+    icon: "filter_vintage", // Material icon name
+    dim: "",
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
+
+  contrast: {
+    value: "contrast",
+    title: "Contrast",
+    icon: "contrast", // Material icon name
+    dim: "",
+    min: 0,
+    max: 2,
+    step: 0.01,
+  },
+  grayscale: {
+    value: "grayscale",
+    title: "Grayscale",
+    icon: "filter_b_and_w", // Material icon name
+    dim: "",
+    min: 0,
+    max: 1,
+    step: 0.01,
+  },
+  "hue-rotate": {
+    value: "hue-rotate",
+    title: "Hue Rotation",
+    icon: "tonality", // Material icon name
+    dim: "deg",
+    min: 0,
+    max: 360,
+    step: 1,
+  },
+};
+
 export class LUtilsFilter {
-  static CalcFilter(filter) {
+  static CalcFilterOld(filter) {
     if (!filter) return null;
 
     let out = "";
@@ -283,5 +360,22 @@ export class LUtilsFilter {
     });
     return out;
   }
-}
 
+  static CalcFilter(filter:Record<string, any>) {
+
+    if (!filter || !isObject(filter)) return null;
+    //console.log("CalcFilter", filter);
+    let out = "";
+    Object.keys(filter).forEach((key) => {
+      if (key === "url") {
+        out += `${key}('${filter[key]}') `;
+      } else {
+        const filterConfig = FILTERS[key];
+        if (filterConfig && (filter[key]!=null && filter[key]!=undefined)) {
+          out += `${key}(${filter[key]}${filterConfig.dim}) `;
+        }
+      }
+    });
+    return out.trim();
+  }
+}

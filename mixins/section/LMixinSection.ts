@@ -131,6 +131,7 @@ const LMixinSection = defineComponent({
         background.dark,
         background.bg_position,
         background.bg_rotation,
+        background.bg_backdrop,
       );
     },
 

@@ -95,6 +95,7 @@ export default {
         this.style.dark,
         this.style.bg_position,
         this.style.bg_rotation,
+          null
       );
     },
 

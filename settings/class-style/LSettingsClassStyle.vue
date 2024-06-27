@@ -25,7 +25,7 @@
     temporary
     theme="dark"
   >
-    <v-card v-if="dialog_pre" :style="global_variables" class="text-start" flat>
+    <v-card v-if="dialog_pre" :style="global_variables" class="text-start" flat style="padding-bottom: 10vh">
       <!-- ████████████████████ Actions ████████████████████ -->
 
       <v-card-actions>
@@ -51,7 +51,7 @@
         ></s-setting-toggle>
       </template>
 
-      <v-expansion-panels v-model="Selected_tab">
+      <v-expansion-panels v-model="Selected_tab" flat class="border-between-vertical" style="--border-color:#999">
         <!-- ████████████████████ Class ████████████████████ -->
 
         <l-settings-classes
@@ -135,6 +135,28 @@
         >
         </l-settings-style-border>
 
+        <!-- ████████████████████ Typeface ████████████████████ -->
+        <l-settings-style-typeface
+          value="typeface"
+          v-if="available_tabs.includes('typeface')"
+          :inputStyle="in_style"
+          v-model:fonts="builder.style.fonts"
+          v-model:color="in_typeface_color"
+          v-model:fontFamily="in_typeface_fontFamily"
+          v-model:fontSize="in_typeface_fontSize"
+          v-model:fontWeight="in_typeface_fontWeight"
+          v-model:fontStyle="in_typeface_fontStyle"
+          v-model:fontVariant="in_typeface_fontVariant"
+          v-model:lineHeight="in_typeface_lineHeight"
+          v-model:letterSpacing="in_typeface_letterSpacing"
+          v-model:textAlign="in_typeface_textAlign"
+          v-model:textDecoration="in_typeface_textDecoration"
+          v-model:textTransform="in_typeface_textTransform"
+          v-model:textShadow="in_typeface_textShadow"
+          @change="setSizePositionDebounced"
+        >
+        </l-settings-style-typeface>
+
         <!-- ████████████████████ Shadow ████████████████████ -->
 
         <l-settings-style-shadow
@@ -168,7 +190,75 @@
           v-model:transform="transform"
         >
         </l-settings-style-transform>
+
+        <!-- ████████████████████ Background ████████████████████ -->
+
+        <s-setting-expandable title="Background" icon="wallpaper">
+          <template v-slot:title>
+            <v-chip
+              v-if="background.bg_color"
+              class="ms-1"
+              color="#000"
+              label
+              size="x-small"
+              density="comfortable"
+              variant="flat"
+            >
+              <v-icon
+                start
+                :color="background.bg_color"
+              ></v-icon>
+              {{ background.bg_color }}
+            </v-chip>
+
+            <v-chip
+              v-if="background.bg_image"
+              class="ms-1"
+              color="#00796B"
+              label
+              size="x-small"
+              density="comfortable"
+              variant="flat"
+              prepend-icon="image"
+            >
+              Image
+            </v-chip>
+            <v-chip
+              v-if="background.bg_backdrop"
+              class="ms-1"
+              color="#673AB7"
+              label
+              size="x-small"
+              density="comfortable"
+              variant="flat"
+              prepend-icon="photo_filter"
+            >
+              Backdrop
+            </v-chip>
+          </template>
+          <background-image-editor
+            v-model:bg-image="background.bg_image"
+            v-model:bgCustom="background.bg_custom"
+            v-model:bgGradient="background.bg_gradient"
+            v-model:bgRotation="background.bg_rotation"
+            v-model:bgImageRepeat="background.bg_repeat"
+            v-model:bgImageSize="background.bg_size"
+            v-model:bgPosition="background.bg_position"
+            v-model:bgVideo="background.bg_video"
+            v-model:bgColor="background.bg_color"
+            v-model:bgBackdrop="background.bg_backdrop"
+            :upload-url="upload_bg_url"
+            :upload-video-url="upload_video_url"
+            dark
+            has-bg-video
+            has-bg-color
+            has-backdrop
+          >
+          </background-image-editor>
+        </s-setting-expandable>
       </v-expansion-panels>
+
+
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -177,7 +267,7 @@
 import ShadowCollection from "../../src/enums/ShadowCollection";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _ from "lodash-es";
+import _, { isObject } from "lodash-es";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
@@ -191,6 +281,12 @@ import LSettingsStyleShadow from "@selldone/page-builder/settings/style/shadow/L
 import LSettingsStyleTransform from "@selldone/page-builder/settings/style/transform/LSettingsStyleTransform.vue";
 import LSettingsStyleFilter from "@selldone/page-builder/settings/style/filter/LSettingsStyleFilter.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
+import LSettingsStyleTypeface from "@selldone/page-builder/settings/style/typeface/LSettingsStyleTypeface.vue";
+import { BoxShadowHelper } from "@selldone/page-builder/styler/settings/shadow/BoxShadowHelper";
+import { TextShadowHelper } from "@selldone/page-builder/styler/settings/shadow/TextShadowHelper";
+import BackgroundImageEditor from "@selldone/page-builder/components/style/background/BackgroundImageEditor.vue";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtilsBackground";
 
 const STYLE_TABS = [
   "size",
@@ -202,12 +298,16 @@ const STYLE_TABS = [
   "classes",
   "filter",
   "transform",
+  "typeface",
 ];
 
 export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    SSettingExpandable,
+    BackgroundImageEditor,
+    LSettingsStyleTypeface,
     SSettingToggle,
     LSettingsStyleFilter,
     LSettingsStyleTransform,
@@ -229,8 +329,12 @@ export default {
     target: null,
     keyStyle: null, // style
     keyClass: null, // classes
+    keyBackground: null, // background
     options: {},
 
+    // ---------------------------------
+
+    background: null,
     // ---------------------------------
     show_dialog_size: false,
     dialog_pre: false,
@@ -271,6 +375,21 @@ export default {
     in_borderBottom: null,
 
     //--------------------------
+
+    in_typeface_color: null,
+    in_typeface_fontFamily: null,
+    in_typeface_fontSize: null,
+    in_typeface_fontWeight: null,
+    in_typeface_fontStyle: null,
+    in_typeface_fontVariant: null,
+    in_typeface_lineHeight: null,
+    in_typeface_letterSpacing: null,
+    in_typeface_textAlign: null,
+    in_typeface_textDecoration: null,
+    in_typeface_textTransform: null,
+    in_typeface_textShadow: null,
+
+    //--------------------------
     shadow: null,
 
     //--------------------------
@@ -291,16 +410,14 @@ export default {
     },
 
     available_tabs() {
-      if (this.has_size) return STYLE_TABS;
-      return [...STYLE_TABS].remove("size");
+      return STYLE_TABS.filter((tab) => !this.options?.exclude?.includes(tab));
     },
 
     shadow_gen() {
-      if (!this.shadow) return "";
-      if (this.isString(this.shadow)) return this.shadow;
-      return `${this.shadow.w}px ${this.shadow.h}px ${this.shadow.r}px ${
-        this.shadow.s
-      }px ${this.shadow.c} ${this.shadow.i ? "inset" : ""}`;
+      return BoxShadowHelper.Generate(this.shadow);
+    },
+    shadow_text_gen() {
+      return TextShadowHelper.Generate(this.in_typeface_textShadow);
     },
     in_shadow_edit() {
       return this.shadow && !this.isString(this.shadow);
@@ -368,6 +485,20 @@ export default {
         filter: this.filter,
 
         transform: this.transform_gen,
+
+        // Typeface:
+        color: this.in_typeface_color,
+        fontFamily: this.in_typeface_fontFamily,
+        fontSize: this.in_typeface_fontSize,
+        fontWeight: this.in_typeface_fontWeight,
+        fontStyle: this.in_typeface_fontStyle,
+        fontVariant: this.in_typeface_fontVariant,
+        lineHeight: this.in_typeface_lineHeight,
+        letterSpacing: this.in_typeface_letterSpacing,
+        textAlign: this.in_typeface_textAlign,
+        textDecoration: this.in_typeface_textDecoration,
+        textTransform: this.in_typeface_textTransform,
+        textShadow: this.shadow_text_gen,
       };
 
       if (this.has_size) {
@@ -385,11 +516,23 @@ export default {
     },
 
     //------------- Options ----------
+
     has_size() {
-      return !this.options?.noSize;
+      return !this.options?.exclude?.includes("size");
     },
+    has_typeface() {
+      return !this.options?.exclude?.includes("typeface");
+    },
+
     customElementTags() {
       return this.options?.tags;
+    },
+
+    upload_bg_url() {
+      return this.builder.getImageUploadUrl();
+    },
+    upload_video_url() {
+      return this.builder.getVideoUploadUrl();
     },
   },
 
@@ -497,6 +640,12 @@ export default {
       },
       deep: true,
     },
+    background: {
+      handler() {
+        this.setSizePositionDebounced();
+      },
+      deep: true,
+    },
 
     show_dialog_size(dialog) {
       // Keep highlight active element:
@@ -509,7 +658,15 @@ export default {
     EventBus.$on(
       "show:LSettingsClassStyle",
 
-      ({ el_style, el_class, target, keyStyle, keyClass, options }) => {
+      ({
+        el_style,
+        el_class,
+        target,
+        keyStyle,
+        keyClass,
+        keyBackground,
+        options,
+      }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -520,6 +677,7 @@ export default {
         this.target = target;
         this.keyStyle = keyStyle;
         this.keyClass = keyClass;
+        this.keyBackground = keyBackground;
 
         this.options = options;
 
@@ -562,14 +720,15 @@ export default {
   },
 
   methods: {
-    addShadow() {
-      this.shadow = { w: 10, h: 10, r: 15, s: 20, c: "#44444433", i: false };
-    },
-    removeShadow() {
-      this.shadow = null;
-    },
-
     showSizeDialog() {
+      this.background = this.target[this.keyBackground];
+      if (
+        !this.background ||
+        !isObject(this.background) ||
+        Array.isArray(this.background)
+      )
+        this.background = {};
+
       //  this.Selected_tab = this.has_size ? STYLE_TABS[0] : STYLE_TABS[1];
 
       let classes = this.target[this.keyClass];
@@ -627,28 +786,14 @@ export default {
       // Shadow:
 
       this.shadow = this.el_style.style.boxShadow;
-      //console.log("boxShadow ", this.el_style.style.boxShadow);
+
       // Try to extract value:
       if (
         this.el_style.style.boxShadow &&
-        !ShadowCollection.includes(this.shadow)
-      )
-        // Not in collection!
-        try {
-          const arr = this.el_style.style.boxShadow.split(/ (?![^(]*\))/);
-          if (arr.length >= 5)
-            this.shadow = {
-              w: parseInt(arr[1]),
-              h: parseInt(arr[2]),
-              r: parseInt(arr[3]),
-              s: parseInt(arr[4]),
-              c: arr[0],
-              i: arr.includes("inset"),
-            };
-          //console.log("boxShadow ",this.el_style.style.boxShadow,  this.shadow);
-        } catch (e) {
-          console.error(e);
-        }
+        !ShadowCollection.includes(this.shadow) // Not in collection!
+      ) {
+        this.shadow = BoxShadowHelper.Extract(this.el_style.style.boxShadow);
+      }
 
       // Transform:
 
@@ -663,6 +808,42 @@ export default {
         if (val.includes("deg")) this.transform[key] = val.replace("deg", "");
       });
 
+      // Typeface:
+      this.in_typeface_color = this.makeNullIfEmpty(this.el_style.style.color);
+      this.in_typeface_fontFamily = this.makeNullIfEmpty(
+        this.el_style.style.fontFamily,
+      );
+      this.in_typeface_fontSize = this.makeNullIfEmpty(
+        this.el_style.style.fontSize,
+      );
+      this.in_typeface_fontWeight = this.makeNullIfEmpty(
+        this.el_style.style.fontWeight,
+      );
+      this.in_typeface_fontStyle = this.makeNullIfEmpty(
+        this.el_style.style.fontStyle,
+      );
+      this.in_typeface_fontVariant = this.makeNullIfEmpty(
+        this.el_style.style.fontVariant,
+      );
+      this.in_typeface_lineHeight = this.makeNullIfEmpty(
+        this.el_style.style.lineHeight,
+      );
+      this.in_typeface_letterSpacing = this.makeNullIfEmpty(
+        this.el_style.style.letterSpacing,
+      );
+      this.in_typeface_textAlign = this.makeNullIfEmpty(
+        this.el_style.style.textAlign,
+      );
+      this.in_typeface_textDecoration = this.makeNullIfEmpty(
+        this.el_style.style.textDecoration,
+      );
+      this.in_typeface_textTransform = this.makeNullIfEmpty(
+        this.el_style.style.textTransform,
+      );
+      this.in_typeface_textShadow = TextShadowHelper.Extract(
+        this.makeNullIfEmpty(this.el_style.style.textShadow),
+      );
+
       //console.log("transform object:", this.transform);
 
       this.dialog_pre = false;
@@ -671,6 +852,10 @@ export default {
         this.show_dialog_size = true;
         this.LOCK = false; // 🔓 Now can update values
       });
+    },
+
+    makeNullIfEmpty(val) {
+      return val && val.trim().length ? val : null;
     },
 
     /**
@@ -700,17 +885,14 @@ export default {
     setSizePosition() {
       if (!this.show_dialog_size || this.LOCK) return;
 
-      const t = this;
+      // ━━━━━━━━━━━━━━━ 🍀 Style ━━━━━━━━━━━━━━━
 
-      function convertToDashSeparated(str) {
-        return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-      }
+      const t = this;
 
       function safeSetStyle(key, val) {
         if (val && val !== "unset") t.el_style.style[key] = val;
         else {
           t.el_style.style.removeProperty(key); // The removeProperty() method in JavaScript is used to remove a CSS property from the style object of an element. However, it only works with properties that are set through CSS stylesheets, not inline styles.
-          //const converted = convertToDashSeparated(key); // minWidth -> min-width
           t.el_style.style[key] = "";
           //console.log('Set Style',key,converted,val)
         }
@@ -753,6 +935,20 @@ export default {
 
       safeSetStyle("transform", this.transform_gen);
 
+      // Typeface:
+      safeSetStyle("color", this.in_typeface_color);
+      safeSetStyle("fontFamily", this.in_typeface_fontFamily);
+      safeSetStyle("fontSize", this.in_typeface_fontSize);
+      safeSetStyle("fontWeight", this.in_typeface_fontWeight);
+      safeSetStyle("fontStyle", this.in_typeface_fontStyle);
+      safeSetStyle("fontVariant", this.in_typeface_fontVariant);
+      safeSetStyle("lineHeight", this.in_typeface_lineHeight);
+      safeSetStyle("letterSpacing", this.in_typeface_letterSpacing);
+      safeSetStyle("textAlign", this.in_typeface_textAlign);
+      safeSetStyle("textDecoration", this.in_typeface_textDecoration);
+      safeSetStyle("textTransform", this.in_typeface_textTransform);
+      safeSetStyle("textShadow", this.shadow_text_gen);
+
       let style = this.target[this.keyStyle];
       if (!style || Array.isArray(style)) style = {};
 
@@ -774,7 +970,8 @@ export default {
 
       this.target[this.keyStyle] = style; // Save data in section!
 
-      // ----------------------- Save Custom Classes -----------------------
+      // ━━━━━━━━━━━━━━━ 🌸 Class ━━━━━━━━━━━━━━━
+      // Save Custom Classes
       // Set classes:
       let classes = this.target[this.keyClass];
       if (!classes) classes = [];
@@ -794,9 +991,31 @@ export default {
       this.el_class.classList.remove(...deletes);
       this.el_class.classList.add(...adds);
 
-      ///console.log("Element classes -->  ", this.in_classes);
-
       this.target[this.keyClass] = this.in_classes; // Save data in section!
+
+      // ━━━━━━━━━━━━━━━ 🌼 Background ━━━━━━━━━━━━━━━
+      const background = this.background;
+      if (background) {
+        const bg_style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
+          background.bg_custom,
+          background.bg_gradient,
+          background.bg_image
+            ? this.getShopImagePath(background.bg_image)
+            : null,
+          background.bg_size,
+          background.bg_repeat,
+          background.bg_color,
+          background.dark,
+          background.bg_position,
+          background.bg_rotation,
+          background.bg_backdrop,
+        );
+        //console.log('background',background, t.el_style)
+        Object.keys(bg_style).forEach((key) => {
+          this.el_style.style[key] = bg_style[key];
+        });
+      }
+      this.target[this.keyBackground] = background; // Save data in section!
     },
   },
 };

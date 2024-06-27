@@ -39,381 +39,322 @@
           </v-btn>
         </div>
       </v-card-actions>
-     <v-card-title>
-       <s-widget-header
-           icon="design_services"
-           title="Page Master Style"
-       ></s-widget-header>
-       <v-list-subheader></v-list-subheader>
-     </v-card-title>
+      <v-card-title>
+        <s-widget-header
+          icon="design_services"
+          title="Page Master Style"
+        ></s-widget-header>
+        <v-list-subheader></v-list-subheader>
+      </v-card-title>
 
-     <v-expansion-panels v-model="tab">
-       <!-- ████████████████████ Page Background ████████████████████ -->
+      <v-expansion-panels v-model="tab">
+        <!-- ████████████████████ Page Background ████████████████████ -->
 
-       <v-expansion-panel>
-         <v-expansion-panel-title>
-           <div>
-             <div>
-               <v-icon class="me-1">wallpaper</v-icon>
-               Page Background
-             </div>
-           </div>
-         </v-expansion-panel-title>
-         <v-expansion-panel-text>
+        <s-setting-expandable icon="wallpaper" title="Page Background">
+          <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+          <background-image-editor
+            v-model:bg-image="style.bg_image"
+            v-model:bgCustom="style.bg_custom"
+            v-model:bgGradient="style.bg_gradient"
+            v-model:bgRotation="style.bg_rotation"
+            v-model:bgImageRepeat="style.bg_repeat"
+            v-model:bgImageSize="style.bg_size"
+            :upload-url="upload_bg_url"
+            @change="$forceUpdate()"
+            v-model:bgColor="style.bg_color"
+            has-bg-color
+          >
+          </background-image-editor>
+        </s-setting-expandable>
 
-           <background-image-editor
-               v-model:bg-image="style.bg_image"
-               v-model:bgCustom="style.bg_custom"
-               v-model:bgGradient="style.bg_gradient"
-               v-model:bgRotation="style.bg_rotation"
+        <!-- ████████████████████ Top Menu ████████████████████ -->
 
-               v-model:bgImageRepeat="style.bg_repeat"
-               v-model:bgImageSize="style.bg_size"
-               :upload-url="upload_bg_url"
-               @change="$forceUpdate()"
+        <s-setting-expandable icon="linear_scale" title="Top Menu">
+          <s-setting-group
+            icon="control_camera"
+            title="Position"
+            subtitle="Set position and behavior of the menu."
+          ></s-setting-group>
 
-               v-model:bgColor="style.bg_color"
-               has-bg-color
-           >
-           </background-image-editor>
-         </v-expansion-panel-text>
-       </v-expansion-panel>
+          <s-setting-toggle
+            v-model="style.header_mode"
+            :items="['normal', 'overlay', 'hidden']"
+            label="Menu Position"
+            mandatory
+          >
+          </s-setting-toggle>
 
-       <!-- ████████████████████ Top Menu ████████████████████ -->
+          <s-setting-toggle
+            v-model="style.menu_transparent"
+            :items="[
+              {
+                title: 'Transparent',
+                icon: 'format_color_reset',
+                value: true,
+              },
+              { title: 'Solid', icon: 'opacity', value: false },
+            ]"
+            label="Behavior"
+            mandatory
+          >
+          </s-setting-toggle>
 
-       <v-expansion-panel>
-         <v-expansion-panel-title>
-           <div>
-             <div>
-               <v-icon class="me-1">drag_handle</v-icon>
-               Top Menu
-             </div>
-           </div>
-         </v-expansion-panel-title>
-         <v-expansion-panel-text>
-           <s-widget-header
-               icon="linear_scale"
-               title="Top menu"
-           ></s-widget-header>
-           <v-list-subheader
-           >Customize the header menu on the pages and create fancy looks.
-           </v-list-subheader>
+          <s-setting-group
+            icon="format_color_fill"
+            title="Color"
+            subtitle="Set the color and dark/light mode of the menu."
+          ></s-setting-group>
 
-           <s-setting-color
-               v-model="style.header_color"
-               label="Header Color"
-               icon="palette"
-               clearable
-           ></s-setting-color>
+          <s-setting-toggle
+            v-model="style.menu_dark"
+            :items="[
+              { title: 'Dark', icon: 'dark_mode', value: true },
+              { title: 'Light', icon: 'light_mode', value: false },
+            ]"
+            label="Color Mode"
+            mandatory
+            icon="contrast"
+          >
+          </s-setting-toggle>
 
-           <u-smart-select
-               v-model="style.header_mode"
-               :items="[
-                {
-                  title: 'Normal ● Default',
-                  code: 'normal',
-                  description:
-                    'The primary header will be displayed as an independent view at the top of the page.',
-                  icon: 'drag_handle',
-                },
-                {
-                  title: 'Overlay',
-                  code: 'overlay',
-                  description:
-                    'The primary header will appear at the beginning of the first section, featuring a transparent background.',
-                  icon: 'join_left',
-                },
-                {
-                  title: 'Hidden',
-                  code: 'hidden',
-                  description: 'The primary header will be hidden on the page.',
-                  icon: 'visibility_off',
-                },
-              ]"
-               class="my-3"
-               dark
-               item-description="description"
-               item-icon="icon"
-               item-text="title"
-               item-value="code"
-               label="Main Shop Header"
-               @change="
-                (val) => {
-                  if (val === 'overlay')
-                    style.menu_transparent = true; /*Always should be transparent*/
-                }
-              "
-           ></u-smart-select>
+          <s-setting-color
+            v-model="style.header_color"
+            icon="palette"
+            label="Color"
+            clearable
+          >
+          </s-setting-color>
+        </s-setting-expandable>
 
-           <u-smart-switch
-               v-model="style.menu_transparent"
-               :disabled="style.header_mode === 'overlay'"
-               class="my-3"
-               dark
-               false-icon="opacity"
-               false-title="Normal"
-               label="Custom Header Menu"
-               true-description="The top header will be shown overlay on top of the page."
-               true-icon="invert_colors_off"
-               true-title="Transparent Background"
-               @change="$forceUpdate()"
-           ></u-smart-switch>
+        <!-- ████████████████████ Colors Plate ████████████████████ -->
 
-           <u-smart-switch
-               v-model="style.menu_dark"
-               class="my-3"
-               clearable
-               dark
-               false-description="The text in the header section will be black."
-               false-icon="light_mode"
-               false-title="Light Mode"
-               label="Header Color Mode"
-               true-description="The text in the header section will be white."
-               true-icon="dark_mode"
-               true-title="Dark Mode"
-           ></u-smart-switch>
-         </v-expansion-panel-text>
-       </v-expansion-panel>
+        <s-setting-expandable icon="palette" title="Colors Plate"
 
-       <!-- ████████████████████ Colors Plate ████████████████████ -->
 
-       <v-expansion-panel>
-         <v-expansion-panel-title>
-           <div>
-             <div>
-               <v-icon class="me-1">palette</v-icon>
-               Colors Plate
-             </div>
-           </div>
-         </v-expansion-panel-title>
-         <v-expansion-panel-text>
-           <s-widget-header icon="palette" title="Colors"></s-widget-header>
-           <v-list-subheader
-           >Here, you have the option to personalize the color variables of
-             the page.
-           </v-list-subheader>
+                              subtitle="Here, you have the option to personalize the color variables of the page.">
 
-           <!-- Class: is-samin  -->
-           <u-color-selector
-               v-model="style.plate_light_1"
-               dark
-               nullable
-               title="Light Color 1"
-               @change="$forceUpdate()"
-           ></u-color-selector>
 
-           <u-color-selector
-               v-model="style.plate_dark_1"
-               dark
-               nullable
-               title="Dark Color 1"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
 
-           <!-- Class: is-red  -->
-           <u-color-selector
-               v-model="style.plate_light_2"
-               dark
-               nullable
-               title="Light Color 2"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-samin  -->
+            <s-setting-color
+              v-model="style.plate_light_1"
+              clearable
+              label="Light Color 1"
+              @change="$forceUpdate()"
+              class="border-start-white-thin"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_2"
-               dark
-               nullable
-               title="Dark Color 2"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_1"
+              clearable
+              label="Dark Color 1"
+              @change="$forceUpdate()"
+              class="border-start-white-thin"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-black  -->
-           <u-color-selector
-               v-model="style.plate_light_3"
-               dark
-               nullable
-               title="Light Color 3"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-red  -->
+            <s-setting-color
+              v-model="style.plate_light_2"
+              clearable
+              label="Light Color 2"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_3"
-               dark
-               nullable
-               title="Dark Color 3"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_2"
+              clearable
+              label="Dark Color 2"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-green  -->
-           <u-color-selector
-               v-model="style.plate_light_4"
-               dark
-               nullable
-               title="Light Color 4"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-black  -->
+            <s-setting-color
+              v-model="style.plate_light_3"
+              clearable
+              label="Light Color 3"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_4"
-               dark
-               nullable
-               title="Dark Color 4"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <s-setting-color
+              v-model="style.plate_dark_3"
+              clearable
+              label="Dark Color 3"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <hr />
+            <!-- Class: is-green  -->
+            <s-setting-color
+              v-model="style.plate_light_4"
+              clearable
+              label="Light Color 4"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <!-- Class: is-blue  -->
-           <u-color-selector
-               v-model="style.plate_light_5"
-               dark
-               nullable
-               title="Light Color 5"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <s-setting-color
+              v-model="style.plate_dark_4"
+              clearable
+              label="Dark Color 4"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_5"
-               dark
-               nullable
-               title="Dark Color 5"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <hr />
 
-           <!-- Class: is-white  -->
-           <u-color-selector
-               v-model="style.plate_light_6"
-               dark
-               nullable
-               title="Light Color 6"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-blue  -->
+            <s-setting-color
+              v-model="style.plate_light_5"
+              clearable
+              label="Light Color 5"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_6"
-               dark
-               nullable
-               title="Dark Color 6"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_5"
+              clearable
+              label="Dark Color 5"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-deep-purple  -->
-           <u-color-selector
-               v-model="style.plate_light_7"
-               dark
-               nullable
-               title="Light Color 7"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-white  -->
+            <s-setting-color
+              v-model="style.plate_light_6"
+              clearable
+              label="Light Color 6"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_7"
-               dark
-               nullable
-               title="Dark Color 7"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_6"
+              clearable
+              label="Dark Color 6"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-teal  -->
-           <u-color-selector
-               v-model="style.plate_light_8"
-               dark
-               nullable
-               title="Light Color 8"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-deep-purple  -->
+            <s-setting-color
+              v-model="style.plate_light_7"
+              clearable
+              label="Light Color 7"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_8"
-               dark
-               nullable
-               title="Dark Color 8"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_7"
+              clearable
+              label="Dark Color 7"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-cyan  -->
-           <u-color-selector
-               v-model="style.plate_light_9"
-               dark
-               nullable
-               title="Light Color 9"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-teal  -->
+            <s-setting-color
+              v-model="style.plate_light_8"
+              clearable
+              label="Light Color 8"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_9"
-               dark
-               nullable
-               title="Dark Color 9"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_8"
+              clearable
+              label="Dark Color 8"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-amber -->
-           <u-color-selector
-               v-model="style.plate_light_10"
-               dark
-               nullable
-               title="Light Color 10"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-cyan  -->
+            <s-setting-color
+              v-model="style.plate_light_9"
+              clearable
+              label="Light Color 9"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_10"
-               dark
-               nullable
-               title="Dark Color 10"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_9"
+              clearable
+              label="Dark Color 9"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-pink -->
-           <u-color-selector
-               v-model="style.plate_light_11"
-               dark
-               nullable
-               title="Light Color 11"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-amber -->
+            <s-setting-color
+              v-model="style.plate_light_10"
+              clearable
+              label="Light Color 10"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_11"
-               dark
-               nullable
-               title="Dark Color 11"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
+            <s-setting-color
+              v-model="style.plate_dark_10"
+              clearable
+              label="Dark Color 10"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
 
-           <!-- Class: is-blue-grey -->
-           <u-color-selector
-               v-model="style.plate_light_12"
-               dark
-               nullable
-               title="Light Color 12"
-               @change="$forceUpdate()"
-           ></u-color-selector>
+            <!-- Class: is-pink -->
+            <s-setting-color
+              v-model="style.plate_light_11"
+              clearable
+              label="Light Color 11"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
 
-           <u-color-selector
-               v-model="style.plate_dark_12"
-               dark
-               nullable
-               title="Dark Color 12"
-               @change="$forceUpdate()"
-           ></u-color-selector>
-           <hr />
-         </v-expansion-panel-text>
-       </v-expansion-panel>
-     </v-expansion-panels>
+            <s-setting-color
+              v-model="style.plate_dark_11"
+              clearable
+              label="Dark Color 11"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+            <hr />
+
+            <!-- Class: is-blue-grey -->
+            <s-setting-color
+              v-model="style.plate_light_12"
+              clearable
+              label="Light Color 12"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+
+            <s-setting-color
+              v-model="style.plate_dark_12"
+              clearable
+              label="Dark Color 12"
+              class="border-start-white-thin"
+              @change="$forceUpdate()"
+            ></s-setting-color>
+
+
+        </s-setting-expandable>
+      </v-expansion-panels>
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -430,12 +371,18 @@ import BackgroundImageEditor from "../../../components/style/background/Backgrou
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingColor from "../../../styler/settings/color/SSettingColor.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 
 export default {
   name: "LSettingsPageStyle",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingExpandable,
+    SSettingToggle,
+    SSettingGroup,
     SSettingColor,
     USmartSelect,
     USmartSwitch,

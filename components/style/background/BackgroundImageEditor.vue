@@ -63,10 +63,24 @@
             <v-icon v-if="bgVideo" end size="small">check_circle</v-icon>
           </v-fab-transition>
         </v-btn>
+
+        <v-btn
+          v-if="hasBackdrop"
+          value="backdrop"
+          class="ma-1"
+          prepend-icon="blur_circular"
+          rounded="lg"
+        >
+          Backdrop
+
+          <v-fab-transition>
+            <v-icon v-if="bgBackdrop" end size="small">check_circle</v-icon>
+          </v-fab-transition>
+        </v-btn>
       </v-btn-toggle>
     </div>
 
-    <v-window v-model="tab">
+    <v-window v-model="tab"  >
       <v-window-item value="pattern">
         <s-setting-color
           v-if="hasBgColor"
@@ -243,6 +257,17 @@
         >
         </s-setting-video>
       </v-window-item>
+
+      <!-- ████████████████████ Background video ████████████████████ -->
+
+      <v-window-item v-if="hasBgVideo" value="backdrop" class="py-5">
+        <s-setting-backdrop-filter
+          label="Backdrop filter"
+          icon="photo_filter"
+          :model-value="bgBackdrop"
+          @update:model-value="(val) => $emit('update:bgBackdrop', val)"
+        ></s-setting-backdrop-filter>
+      </v-window-item>
     </v-window>
 
     <!-- ████████████████████ Dialog > Custom Size ████████████████████ -->
@@ -299,10 +324,12 @@ import SSettingImage from "@selldone/page-builder/styler/settings/image/SSetting
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingImagePosition from "@selldone/page-builder/styler/settings/image-position/SSettingImagePosition.vue";
 import SSettingVideo from "@selldone/page-builder/styler/settings/video/SSettingVideo.vue";
+import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
 
 export default {
   name: "BackgroundImageEditor",
   components: {
+    SSettingBackdropFilter,
     SSettingVideo,
     SSettingImagePosition,
     SSettingToggle,
@@ -342,6 +369,8 @@ export default {
       default: "center",
     },
 
+    bgBackdrop: {},
+
     uploadUrl: {
       require: true,
     },
@@ -353,6 +382,7 @@ export default {
     bgVideo: {},
     hasBgVideo: { type: Boolean, default: false },
     hasBgColor: Boolean,
+    hasBackdrop: Boolean,
   },
 
   data: () => ({
@@ -433,6 +463,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
         null,
         this.bgPosition,
         this.bgRotation,
+        this.bgBackdrop,
       );
     },
 

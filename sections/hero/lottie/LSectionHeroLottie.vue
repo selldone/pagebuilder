@@ -25,8 +25,6 @@
 
         <x-column
           :object="$sectionData.columns[0]"
-          class="position-relative"
-          path="$sectionData.columns[0]"
         >
           <x-text
             v-model:object="$sectionData.title"
@@ -51,8 +49,6 @@
 
         <x-column
           :object="$sectionData.columns[1]"
-          class="fadeIn delay_300 position-relative"
-          path="$sectionData.columns[1]"
         >
           <x-uploader
             v-model="$sectionData.lottie"
@@ -61,7 +57,6 @@
             class="header-image hero-image"
             file-key="lottie"
             no-preview
-            path="$sectionData.lottie"
             @uploaded="refreshAnimation"
           >
             <template v-slot="{ src }">

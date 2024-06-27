@@ -157,6 +157,7 @@ export default {
         this.target,
         `style`,
         `classes`,
+          "background",
 
         //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
       );

@@ -36,6 +36,7 @@
       :page="demoPage ? demoPage : page"
       :pageBuilder="$refs.vueBuilder"
       :shop="shop"
+      :has-shop-menu="!!shop"
       has-ai-button
       history
       :demo="demo"

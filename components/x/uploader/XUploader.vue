@@ -632,6 +632,7 @@ export default defineComponent({
         bg.dark,
         bg.bg_position,
         bg.bg_rotation,
+          bg.bg_backdrop,
       );
     },
     fg_cal() {
@@ -647,6 +648,7 @@ export default defineComponent({
         fg.dark,
         fg.bg_position,
         fg.bg_rotation,
+          fg.bg_backdrop,
       );
     },
 
@@ -745,7 +747,8 @@ export default defineComponent({
         this.modelValue,
         "style",
         "classes",
-        { /*noSize: true,*/ prev_image: this.image.src }, // Not show size ! conflict with image size!
+          "background",
+        { /*noSize: true,*/ prev_image: this.image.src ,exclude:['typeface']}, // Not show size ! conflict with image size!
       );
     },
 
@@ -847,7 +850,7 @@ export default defineComponent({
         this.modelValue,
         "style",
         "classes",
-        { /* noSize: true,*/ prev_image: this.image.src }, // Not show size ! conflict with image size!
+        { /* noSize: true,*/ prev_image: this.image.src ,exclude:['typeface'] }, // Not show size ! conflict with image size!
       );
     },
 

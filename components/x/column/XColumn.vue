@@ -14,14 +14,14 @@
 
 <template>
   <component
-      class="x--column"
+    class="x--column"
     :is="noGrid ? 'div' : 'v-col'"
     v-data-x="object.style"
     v-styler:column="{
       target: object,
       hasCustomLayout: hasCustomLayout,
       removeColumn: removeColumn,
-      position:nested?'left-bottom':undefined,
+      position: nested ? 'left-bottom' : undefined,
     }"
     :class="[
       !noGrid ? calcGridClasses(object.grid) : undefined,
@@ -78,11 +78,14 @@ export default defineComponent({
      * Change the offset for the proper in nested columns to prevent overlap
      * Default is 15
      */
-    nested: Boolean
-
-
+    nested: Boolean,
   },
-  created() {},
+  created() {
+    if (this.object && !this.object.classes) {
+      // Auto add position relative to the column by default (to show video correctly!)
+      this.object.classes = ["position-relative"];
+    }
+  },
 
   methods: {
     copyStyle(event) {
@@ -99,8 +102,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.x--column{
+.x--column {
   height: 100%; // Fix some difference between edit mode and view mode when image does not exist!
-
 }
 </style>

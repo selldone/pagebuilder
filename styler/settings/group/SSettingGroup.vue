@@ -18,7 +18,7 @@
       <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
       {{ title }} <v-spacer></v-spacer> <slot name="title-action"></slot>
     </v-card-title>
-    <v-card-subtitle v-if="subtitle" class="small text-wrap"
+    <v-card-subtitle v-if="subtitle" class="small text-wrap pt-1"
       >{{ subtitle }}
     </v-card-subtitle>
     <v-card class="my-2" color="#282828" rounded="lg">

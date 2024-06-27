@@ -59,6 +59,7 @@ export const LMixinEvents = defineComponent({
       target: Object,
       keyStyle: string,
       keyClass: string,
+      keyBackground: string,
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
@@ -68,6 +69,7 @@ export const LMixinEvents = defineComponent({
         target,
         keyStyle,
         keyClass,
+        keyBackground,
         options,
       });
     },
@@ -245,29 +247,28 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-
     ShowLSettingsCodeEditor(
-        el: HTMLElement,
-        section: Section,
-        target: Object,
-        keyCode: string,
-        refresh:Function
+      el: HTMLElement,
+      section: Section,
+      target: Object,
+      keyCode: string,
+      refresh: Function,
     ) {
       EventBus.$emit("show:LSettingsCodeEditor", {
         el,
         section,
         target,
         keyCode,
-        refresh
+        refresh,
       });
     },
     ShowLSettingsCodeProperties(
-        el: HTMLElement,
-        section: Section,
-        target: Object,
-        keyProperties: string,
-        propertiesStructure:Object,
-        propertiesDefault:Object
+      el: HTMLElement,
+      section: Section,
+      target: Object,
+      keyProperties: string,
+      propertiesStructure: Object,
+      propertiesDefault: Object,
     ) {
       EventBus.$emit("show:LSettingsCodeProperties", {
         el,
@@ -275,10 +276,9 @@ export const LMixinEvents = defineComponent({
         target,
         keyProperties,
         propertiesStructure,
-        propertiesDefault
+        propertiesDefault,
       });
     },
-
 
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**

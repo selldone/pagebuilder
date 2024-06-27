@@ -12,6 +12,8 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {LUtilsFilter} from "@selldone/page-builder/utils/filter/LUtilsFilter.ts";
+
 export class LUtilsBackground {
   static CreateCompleteBackgroundStyleObject(
     bg_custom?: string,
@@ -23,6 +25,7 @@ export class LUtilsBackground {
     dark: boolean = false,
     bg_position: string = "center",
     bg_rotation: number = 45 /*deg*/,
+    bg_backdrop: [] = null /*Backdrop Filter*/,
   ) {
     if (bg_custom && bg_custom.includes("background")) {
       const out = this.StringStyleToObj(bg_custom);
@@ -55,6 +58,11 @@ export class LUtilsBackground {
             : "#333",
       backgroundPosition: bg_position,
     };
+
+    // 🍃 Set backdrop filter:
+    if (bg_backdrop) {
+        out["backdropFilter"] = LUtilsFilter.CalcFilter(bg_backdrop);
+    }
 
     //   console.log('CreateCompleteBackgroundStyleObject',out)
     return out;

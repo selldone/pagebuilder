@@ -416,6 +416,7 @@ export default {
         this.target,
         `style`,
         `classes`,
+          "background",
       );
     },
 

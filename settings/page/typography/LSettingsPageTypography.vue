@@ -58,105 +58,27 @@
                 <v-icon class="me-1">font_download</v-icon>
                 Page Fonts
 
-                <v-chip v-for="font in style.fonts" :key="font" size="small" class="ma-1" label>
+                <v-chip
+                  v-for="font in style.fonts"
+                  :key="font"
+                  size="small"
+                  class="ma-1"
+                  label
+                >
                   <span :style="{ fontFamily: font }">{{ font }}</span>
                 </v-chip>
-
               </div>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <s-widget-header
-              class="mt-5"
-              icon="title"
-              title="Page default font"
-            ></s-widget-header>
-            <v-list-subheader
-              >First, add fonts, then select it here.
-            </v-list-subheader>
-
-            <v-select
+            <s-setting-font-family
+              v-model:fonts="style.fonts"
               v-model="style.font"
-              :items="style.fonts"
+              icon="title"
+              label="Fefault font"
               clearable
-              label="Font"
-              messages="Show only added fonts."
-              persistent-placeholder
-              placeholder="Default shop font"
-              variant="underlined"
-            >
-              <template v-slot:item="{ item, props }">
-                <v-list-item v-bind="props" :style="{ fontFamily: item.raw }">
-                  <template v-slot:title>
-                    <span :style="{ fontFamily: item.raw }">{{
-                      item.raw
-                    }}</span>
-                  </template>
-                </v-list-item>
-              </template>
-              <template v-slot:selection="{ item }">
-                <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
-              </template>
-            </v-select>
-
-            <div class="my-3">
-              <s-widget-header
-                class="mt-5"
-                icon="folder_open"
-                title="Added fonts"
-              ></s-widget-header>
-
-              <v-list-subheader
-                >You can add new fonts from Google fonts. Just write the font
-                name in the following box.
-              </v-list-subheader>
-
-              <div v-for="font in style.fonts" :key="font" class="row-font">
-                <b :style="{ fontFamily: font }">
-                  <v-icon class="me-1" size="small">font_download</v-icon>
-                  {{ font }}</b
-                >
-                <v-btn icon @click="deleteFont(font)">
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </div>
-
-              <v-combobox
-                v-model="font_input"
-                v-model:search="font_input"
-                :items="filtered_fonts"
-                class="my-5"
-                label="Font name"
-                persistent-placeholder
-                placeholder="Type font name Ex.Akzidenz Grotesk and pres Enter..."
-                variant="underlined"
-                @keydown.enter="addFont"
-              >
-                <template v-slot:append-inner>
-                  <v-btn
-                    :disabled="!font_input"
-                    color="#1976D2"
-                    prepend-icon="add"
-                    variant="elevated"
-                    @click.stop="addFont()"
-                  >
-                    Add font
-                  </v-btn>
-                </template>
-              </v-combobox>
-              <div class="text-end">
-                <v-btn
-                  class="tnt"
-                  color="amber"
-                  href="https://fonts.google.com/"
-                  size="small"
-                  target="_blank"
-                  variant="text"
-                  >View Google Fonts
-                  <v-icon class="ms-1" size="small">open_in_new</v-icon>
-                </v-btn>
-              </div>
-            </div>
+              has-add
+            ></s-setting-font-family>
           </v-expansion-panel-text>
         </v-expansion-panel>
 
@@ -284,7 +206,7 @@
 
 <script>
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
-import { FontLoader, FONTS } from "@selldone/core-js/helper/font/FontLoader";
+import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
@@ -292,12 +214,14 @@ import { LUtilsTypo } from "../../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 
 export default {
   name: "LSettingsPageTypography",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingFontFamily,
     UDimensionInput,
 
     UNumberInput,
@@ -315,7 +239,6 @@ export default {
 
     tab: null,
     style: null,
-    font_input: null,
 
     //--------------------------
     dialog_master_style: false,
@@ -392,48 +315,6 @@ export default {
     onChange() {
       this.$forceUpdate();
       this.$emit("change");
-    },
-
-    addFont() {
-      if (!this.font_input) return;
-
-      if (!this.style.fonts || !Array.isArray(this.style.fonts))
-        this.style.fonts = [];
-
-      this.font_input = this.extractFontName(this.font_input);
-
-      this.font_input = this.font_input.trim(); //.replace(' ','+')
-      if (this.style.fonts.includes(this.font_input)) {
-        this.font_input = "";
-        return;
-      }
-      this.style.fonts.push(this.font_input);
-      this.font_input = "";
-      FontLoader.LoadFonts(this.style.fonts);
-    },
-    extractFontName(url) {
-      if (!url?.startsWith("http")) return url;
-      // Create a URL object from the input URL string
-      const urlObject = new URL(url);
-
-      // Extract the pathname from the URL object
-      const pathname = urlObject.pathname;
-
-      // Split the pathname into parts using '/' as the delimiter
-      const parts = pathname.split("/");
-
-      // The font name will be the last part of the pathname
-      const fontName = parts[parts.length - 1];
-
-      // Replace '+' with spaces to get the actual font name
-      const decodedFontName = fontName.replace(/\+/g, " ");
-
-      return decodedFontName;
-    },
-
-    deleteFont(font) {
-      this.style.fonts.remove(font);
-      this.$forceUpdate();
     },
   },
 };

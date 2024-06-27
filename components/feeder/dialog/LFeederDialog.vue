@@ -452,7 +452,8 @@ export default {
         background.bg_color,
         background.dark,
         background.bg_position,
-        background.bg_rotation,
+          background.bg_rotation,
+          background.bg_backdrop,
       );
     },
 

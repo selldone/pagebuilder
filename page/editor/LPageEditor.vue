@@ -950,6 +950,7 @@ export default defineComponent({
         this.builder.style.dark,
         this.builder.style.bg_position,
         this.builder.style.bg_rotation,
+          null
       );
     },
 

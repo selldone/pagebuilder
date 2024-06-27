@@ -18,7 +18,7 @@
       <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
-        <x-column :object="$sectionData.columns[0]" class="position-relative">
+        <x-column :object="$sectionData.columns[0]" >
           <x-text
             v-model:object="$sectionData.title"
             :augment="augment"

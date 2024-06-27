@@ -24,8 +24,12 @@
         density="comfortable"
         variant="flat"
       >
-        <v-icon size="x-small" start>layers</v-icon>
-        {{ isObject(shadow) ? "Custom Shadow" : "Has Shadow" }}
+        <v-icon start>layers</v-icon>
+        <span class="me-1">{{
+          isObject(shadow) ? "Custom Shadow" : "Has Shadow"
+        }}</span>
+
+        <v-icon v-for="it in shadow_colors" :color="it">circle</v-icon>
       </v-chip>
     </template>
 
@@ -33,55 +37,13 @@
       <!-- Custom shadow edit mode -->
 
       <div v-if="in_shadow_edit">
-        <s-setting-slider
-          v-model="shadow.h"
-          label="Vertical"
-          icon="swap_vert"
-          :max="200"
-          :min="-200"
-        ></s-setting-slider>
-
-        <s-setting-slider
-          v-model="shadow.w"
-          label="Horizontal"
-          icon="swap_horiz"
-          :max="200"
-          :min="-200"
-        ></s-setting-slider>
-
-        <s-setting-slider
-          v-model="shadow.r"
-          label="Blur"
-          icon="blur_on"
-          :max="200"
-          :min="0"
-        ></s-setting-slider>
-
-        <s-setting-slider
-          v-model="shadow.s"
-          label="Spread"
-          icon="blur_linear"
-          :max="200"
-          :min="-200"
-        ></s-setting-slider>
-
-        <s-setting-toggle
-          v-model="shadow.i"
-          label="Type"
-          icon="blinds"
-          :items="[
-            { title: 'Outbound', icon: 'wb_shade', value: false },
-            { title: 'Inset', icon: 'curtains', value: true },
-          ]"
-        ></s-setting-toggle>
-
-
-
-        <s-setting-color
-          v-model="shadow.c"
-          icon="format_color_fill"
-          label="Color"
-        ></s-setting-color>
+        <s-setting-shadow
+          :model-value="shadow"
+          @update:model-value="(v) => $emit('update:shadow', v)"
+          label="Custom Shadow"
+          icon="tune"
+          auto-add-first
+        ></s-setting-shadow>
       </div>
 
       <!-- Select shadow collection (default) -->
@@ -89,7 +51,7 @@
         v-else
         :model-value="shadow"
         @update:model-value="(v) => $emit('update:shadow', v)"
-        :style="{ 'max-height': 40 + 'vh' }"
+        :style="{ 'max-height': 30 + 'vh' }"
         class="overflow-y-auto bg-tiny-checkers rounded-lg"
       >
         <v-container>
@@ -100,8 +62,8 @@
                   :style="`box-shadow:${item}`"
                   class="d-flex align-center"
                   color="#fff"
-                  height="80"
-                  width="80"
+                  height="64"
+                  width="64"
                   @click="toggle"
                 >
                   <v-scroll-y-transition>
@@ -116,19 +78,17 @@
         </v-container>
       </v-item-group>
     </v-expand-transition>
-
-    <div class="py-2">
-      <!-- Edit custom shadow -->
-      <v-btn v-if="!in_shadow_edit && !shadow" @click="addShadow()">
-        <v-icon class="me-1">layers</v-icon>
-        Edit custom shadow
-      </v-btn>
-
-      <v-btn v-if="shadow" @click="removeShadow()">
-        <v-icon class="me-1">layers_clear</v-icon>
-        Remove shadow
-      </v-btn>
-    </div>
+    <!-- Edit custom shadow -->
+    <v-btn
+      v-if="!in_shadow_edit"
+      @click="addShadow()"
+      block
+      class="mt-3"
+      variant="outlined"
+    >
+      <v-icon start>layers</v-icon>
+      Edit custom shadow
+    </v-btn>
   </s-setting-expandable>
 </template>
 
@@ -136,31 +96,33 @@
 import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import ShadowCollection from "@selldone/page-builder/src/enums/ShadowCollection";
-import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
-import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
-import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingShadow from "@selldone/page-builder/styler/settings/shadow/SSettingShadow.vue";
+import { BoxShadowHelper } from "@selldone/page-builder/styler/settings/shadow/BoxShadowHelper";
 
 export default defineComponent({
   name: "LSettingsStyleShadow",
   components: {
-    SSettingColor,
-    SSettingToggle,
-    SSettingSlider,
+    SSettingShadow,
+
     SSettingExpandable,
   },
   emits: [],
   props: {
-    value:{},
+    value: {},
 
     inputStyle: {},
 
     shadow: {},
-
   },
   data: () => ({
     ShadowCollection: ShadowCollection,
   }),
   computed: {
+    shadow_colors() {
+      if (!Array.isArray(this.shadow)) return [];
+      return this.shadow.map((s) => s.c);
+    },
+
     in_shadow_edit() {
       return this.shadow && !this.isString(this.shadow);
     },
@@ -179,17 +141,7 @@ export default defineComponent({
 
   methods: {
     addShadow() {
-      this.$emit("update:shadow", {
-        w: 10,
-        h: 10,
-        r: 15,
-        s: 20,
-        c: "#44444433",
-        i: false,
-      });
-    },
-    removeShadow() {
-      this.$emit("update:shadow", null);
+      this.$emit("update:shadow", [BoxShadowHelper.NewItem()]);
     },
   },
 });

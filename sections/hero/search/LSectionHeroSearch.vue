@@ -23,7 +23,6 @@
             $sectionData.columns[0].style,
             backgroundStyle($sectionData.columns[0].background),
           ]"
-          class="position-relative"
         >
           <!-- 📹 Background video -->
           <x-video-background

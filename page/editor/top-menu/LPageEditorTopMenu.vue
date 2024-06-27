@@ -349,6 +349,7 @@
           </v-tooltip>
         </v-btn>
 
+
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
         <u-button-ai-small
@@ -388,6 +389,29 @@
         </u-button-ai-small>
       </template>
       <v-divider class="m-0" vertical></v-divider>
+
+
+      <!-- ▃▃▃▃▃▃▃▃▃▃ Shop Top Menu ▃▃▃▃▃▃▃▃▃▃ -->
+
+
+      <template v-if="hasShopMenu">
+        <v-btn  color="#333" icon stacked @click="show_menu_editor = true">
+          <v-icon size="small">menu</v-icon>
+
+          <div class="small mt-1 tnt">Menu</div>
+          <v-avatar    :image="getShopImagePath(shop.icon, 128)"
+                       class=" avatar-gradient -shop -thin absolute-top-end"
+                       size="18">
+
+          </v-avatar>
+
+        </v-btn>
+        <v-divider class="m-0" vertical></v-divider>
+
+        <l-store-top-bar-editor v-model="show_menu_editor" :builder="pageBuilder.$builder" :shop="shop"></l-store-top-bar-editor>
+      </template>
+
+
 
       <!-- ▃▃▃▃▃▃▃▃▃▃ Import ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -484,7 +508,7 @@
         </v-tooltip>
       </v-btn>
 
-      <v-btn color="#111" stacked variant="text" @click="show_hotkeys = true">
+      <v-btn color="#111" stacked variant="text" @click="show_hotkeys = true" class="me-3">
         <v-icon start>keyboard_alt</v-icon>
 
         <div class="small mt-1 tnt">Hot Keys</div>
@@ -696,6 +720,7 @@ import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonA
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { LUtilsMigration } from "../../../utils/migration/LUtilsMigration";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import LStoreTopBarEditor from "@selldone/page-builder/components/store/top-bar/editor/LStoreTopBarEditor.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -717,7 +742,7 @@ const ShortKeys = {
 export default {
   name: "LPageEditorTopMenu",
 
-  components: { UDenseCirclesUsers, UButtonAiSmall, SDropZone },
+  components: {LStoreTopBarEditor, UDenseCirclesUsers, UButtonAiSmall, SDropZone },
   mixins: [LMixinEvents],
   emits: ["click:save", "click:history", "click:prompt", "click:close"],
   props: {
@@ -725,6 +750,8 @@ export default {
       required: false,
       type: Object,
     },
+    hasShopMenu: Boolean,
+
 
     page: {
       require: true,
@@ -791,6 +818,8 @@ export default {
     show_import: false,
 
     visible_to_user: false,
+
+    show_menu_editor:false,
   }),
 
   watch: {

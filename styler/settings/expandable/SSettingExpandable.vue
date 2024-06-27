@@ -34,6 +34,7 @@
       <slot name="title"></slot>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
+      <v-list-subheader v-if="subtitle">{{subtitle}}</v-list-subheader>
       <div class="-content">
         <slot></slot>
       </div>
@@ -50,6 +51,7 @@ export default defineComponent({
   props: {
     value: {},
     title: {},
+    subtitle:{},
     icon: {},
     bgColor: {},
     tags: {

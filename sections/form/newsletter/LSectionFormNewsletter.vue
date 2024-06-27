@@ -20,8 +20,6 @@
 
         <x-column
           :object="$sectionData.columns[0]"
-          class="position-relative"
-          path="$sectionData.columns[0]"
         >
           <x-text
             v-model:object="$sectionData.columns[0].title"

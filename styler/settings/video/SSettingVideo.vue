@@ -36,7 +36,7 @@
       max-file-size="8MB"
       @onClear="$emit('update:bgVideo', null)"
       @new-path="handleProcessVideo"
-      :label="!modelValue?label:undefined"
+      :label="modelValue?label:undefined"
       min-height="140px"
       border
       rounded="lg"

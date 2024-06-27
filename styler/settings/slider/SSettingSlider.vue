@@ -30,6 +30,7 @@
     <template v-slot:append>
       <v-list-item-action end>
         <u-number-input
+          v-if="!clearable || (modelValue !== null && modelValue !== undefined)"
           :disabled="disabled"
           :max="max"
           :min="min"
@@ -45,18 +46,36 @@
           @update:model-value="(val) => setValue(val)"
           @click.stop
           :step="step"
-          :decimal="decimal?decimal:step<1 ? 2 : 0"
-
+          :decimal="decimal ? decimal : step < 1 ? 2 : 0"
         >
           <template v-if="suffix" v-slot:append-inner>
-            <small  class="ms-1">{{ suffix }}</small>
+            <small class="ms-1">{{ suffix }}</small>
           </template>
-
         </u-number-input>
 
+        <v-btn
+          v-if="clearable && (modelValue === null || modelValue === undefined)"
+          @click="$emit('update:modelValue', defaultValue)"
+          variant="outlined"
+          size="small"
+        >
+          Set Value
+        </v-btn>
+        <v-btn
+          v-else-if="clearable"
+          @click="$emit('update:modelValue', null)"
+          class="ms-1"
+          size="32"
+          icon
+          color="red"
+          variant="text"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
       </v-list-item-action>
     </template>
     <v-slider
+      v-if="!clearable || (modelValue !== null && modelValue !== undefined)"
       :disabled="disabled"
       :max="maxSlider ? maxSlider : max"
       :min="minSlider ? minSlider : min"
@@ -67,6 +86,7 @@
       hide-details
       rounded
       track-size="5"
+      :step="step"
       @update:model-value="(val) => setValue(val)"
     ></v-slider>
   </v-list-item>
@@ -84,6 +104,7 @@ export default defineComponent({
     modelValue: {},
     label: {},
     icon: {},
+    defaultValue: { default: 0 },
     disabled: Boolean,
     min: {
       default: 0,
@@ -99,11 +120,12 @@ export default defineComponent({
     },
     suffix: {},
 
-    step:{
+    step: {
       default: 1,
-
     },
-    decimal:{}
+    decimal: {},
+
+    clearable: Boolean,
   },
   computed: {},
   data() {

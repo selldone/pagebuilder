@@ -20,8 +20,6 @@
 
         <x-column
           :object="$sectionData.columns[0]"
-          class="position-relative"
-          path="$sectionData.columns[0]"
         >
           <x-text
             v-model:object="$sectionData.title"
@@ -45,13 +43,10 @@
 
         <x-column
           :object="$sectionData.columns[1]"
-          class="fadeIn delay_300 position-relative"
-          path="$sectionData.columns[1]"
         >
           <x-uploader
             v-model="$sectionData.image"
             :augment="augment"
-            path="$sectionData.image"
           />
         </x-column>
       </x-row>

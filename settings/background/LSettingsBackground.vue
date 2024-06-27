@@ -47,11 +47,14 @@
           v-model:bgPosition="bg_position"
           v-model:bgVideo="bg_video"
           v-model:bgColor="bg_color"
+          v-model:bg-backdrop="bg_backdrop"
+
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
           dark
           has-bg-video
           has-bg-color
+          has-backdrop
         >
 
         </background-image-editor>
@@ -105,6 +108,7 @@ export default {
     bg_repeat: null,
     dark: null,
     bg_position: "center",
+    bg_backdrop:null,
 
     //--------------------------
     key_listener_keydown: null,
@@ -136,6 +140,7 @@ export default {
         bg_repeat: this.bg_repeat,
         dark: this.dark,
         bg_position: this.bg_position,
+        bg_backdrop:this.bg_backdrop,
       };
     },
   },
@@ -220,6 +225,8 @@ export default {
 
       this.bg_position = background ? background.bg_position : "center";
 
+      this.bg_backdrop = background ? background.bg_backdrop : null;
+
       this.dialog_pre = false;
       this.$nextTick(() => {
         this.dialog_pre = true;
@@ -251,6 +258,7 @@ export default {
         background.dark,
         background.bg_position,
         background.bg_rotation,
+        background.bg_backdrop,
       );
 
       //  console.log('+++style+++',style)

@@ -26,7 +26,7 @@
       <s-setting-text-input
         v-if="item.type === 'string'"
         v-model="modelValue[item.key]"
-        :subtitle="item.title"
+        :label="item.title"
         clearable
       ></s-setting-text-input>
       <s-setting-number-input
