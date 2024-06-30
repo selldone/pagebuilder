@@ -12,9 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {XColumnData} from "@selldone/page-builder/components/x/column/XColumnData.ts";
+import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XColumnObjectData.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
-import {XTextData} from "@selldone/page-builder/components/x/text/XTextData.ts";
+import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 import {XUploaderData} from "@selldone/page-builder/components/x/uploader/XUploaderData.ts";
 
 export class XCollectionData {
@@ -28,8 +28,8 @@ export class XCollectionData {
 export namespace XCollectionDataTypes {
 
   export interface IChildren {
-    column:XColumnData,
-    title:XTextData,
+    column:XColumnObjectData,
+    title:XTextObjectData,
     image:XUploaderData,
 
   }

@@ -15,7 +15,7 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
 import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
-import {LModelElementXColumn} from "@selldone/page-builder/components/x/column/LModelElementXColumn.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
 import {
@@ -40,7 +40,7 @@ export class LMigrationV2MultipleColumns {
     container.addChild(row);
 
     // Add column A:
-    const column_A = LModelElementXColumn.MigrateOld(
+    const column_A = XColumnObject.MigrateOld(
       $sectionData.columnA,
       null,
     );
@@ -57,7 +57,7 @@ export class LMigrationV2MultipleColumns {
     });
 
     // Add column B:
-    const column_B = LModelElementXColumn.MigrateOld(
+    const column_B = XColumnObject.MigrateOld(
       $sectionData.columnB,
       null,
     );
@@ -75,7 +75,7 @@ export class LMigrationV2MultipleColumns {
 
     // Add column C:
     if ($sectionData.columnC) {
-      const column_C = LModelElementXColumn.MigrateOld(
+      const column_C = XColumnObject.MigrateOld(
         $sectionData.columnC,
         null,
       );

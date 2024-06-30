@@ -77,7 +77,6 @@
         </button>
       </li>
 
-
       <!-- ―――――――――――――――――― Add New Column ―――――――――――――――――― -->
 
       <li v-if="hasAdd">
@@ -150,11 +149,10 @@ import JUSTIFY from "../../src/enums/JUSTIFY";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-import { LModelElementXColumn } from "@selldone/page-builder/components/x/column/LModelElementXColumn";
-import { LModelElementXText } from "@selldone/page-builder/components/x/text/LModelElementXText";
-import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
-import {XRowData} from "@selldone/page-builder/components/x/row/XRowData";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow";
+import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject";
+import { LModelElementXUploader } from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
+import { LModelElementXRow } from "@selldone/page-builder/components/x/row/LModelElementXRow";
 
 export default {
   name: "SStylerRow",
@@ -208,7 +206,6 @@ export default {
       type: Boolean,
       default: false,
     },
-
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -230,7 +227,6 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerRow");
     }
-
   },
   mounted() {},
 
@@ -243,20 +239,19 @@ export default {
 
       console.log("this.columnStructure", this.columnStructure);
 
-      const new_column = LModelElementXColumn.Seed(12, 6, 4);
+      const new_column = XColumnObject.Seed(12, 6, 4);
 
       this.columnStructure.forEach((item) => {
         if (["p", "h1", "h2", "h3", "h4", "h5"].includes(item)) {
           new_column.addChild(
-            LModelElementXText.Seed(
+            XTextObject.Seed(
               item === "p"
                 ? "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description..."
                 : "Enter your headline here...",
               item,
             ),
           );
-        }
-       else if (["img", "image"].includes(item)) {
+        } else if (["img", "image"].includes(item)) {
           new_column.addChild(LModelElementXUploader.Seed(1, true));
         } else {
           console.error("Add new column structure is invalid! item:", item);
@@ -269,7 +264,6 @@ export default {
     toggleNoWrap() {
       this.target.data.no_wrap = !this.target.data.no_wrap;
     },
-
   },
 };
 </script>

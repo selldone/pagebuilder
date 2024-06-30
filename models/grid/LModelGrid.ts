@@ -32,4 +32,43 @@ export class LModelGrid {
     this.desktop = params.desktop;
     this.widescreen = params.widescreen;
   }
+
+  // ━━━━━━━━━━━━━━━━━ Setters ━━━━━━━━━━━━━━━━━
+
+  public setMobile(mobile: number | null) {
+    if (this.isValidNumber(mobile)) {
+      this.mobile = mobile;
+    }
+    return this;
+  }
+
+  public setTablet(tablet: number | null) {
+    if (this.isValidNumber(tablet)) {
+      this.tablet = tablet;
+    }
+    return this;
+  }
+
+  public setDesktop(desktop: number | null) {
+    if (this.isValidNumber(desktop)) {
+      this.desktop = desktop;
+    }
+    return this;
+  }
+
+  public setWidescreen(widescreen: number | null) {
+    if (this.isValidNumber(widescreen)) {
+      this.widescreen = widescreen;
+    }
+
+    return this;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Validators ━━━━━━━━━━━━━━━━━
+
+  private isValidNumber(value: number | null): boolean {
+    const valid = value === null || (value >= 1 && value <= 12);
+    if (!valid) console.error("Invalid value for widescreen");
+    return valid;
+  }
 }

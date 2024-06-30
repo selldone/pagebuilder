@@ -17,10 +17,10 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XCollectionData} from "@selldone/page-builder/components/x/collection/XCollectionData.ts";
 
 export class LModelElementXCollection extends LModelElement<XCollectionData> {
-  static Seed(): LModelElementXProduct {
+  static Seed(): LModelElementXCollection {
     const data = new XCollectionData([]);
 
-    return new LModelElementXProduct(null, null, null, null, data, null);
+    return new LModelElementXCollection(null, null, null, null, data, null);
   }
 
   constructor(

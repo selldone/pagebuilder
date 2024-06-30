@@ -14,16 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {IXTextDataTypes, XTextData,} from "@selldone/page-builder/components/x/text/XTextData.ts";
+import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 import {isString} from "lodash-es";
 
-export class LModelElementXText extends LModelElement<XTextData> {
+export class XTextObject extends LModelElement<XTextObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XTextData | null,
+    data: XTextObjectData | null,
     props: any,
   ) {
     super(
@@ -32,34 +32,57 @@ export class LModelElementXText extends LModelElement<XTextData> {
       style,
       classes,
       children,
-      data ? data : new XTextData("", "p"),
+      data ? data : new XTextObjectData("", "p"),
       props,
     );
   }
 
-  static Seed(
-    value: string,
-    tag: IXTextDataTypes.IType,
-    classes: string[],
-  ): LModelElementXText {
-    const data = new XTextData(value, tag);
-    return new LModelElementXText(null, null, classes, null, data, null);
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XTextObject(null, null, null, null, null, null);
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+  /**
+   * Create a new instance of XTextObject
+   * @param value
+   * @param tag
+   * @param classes
+   * @constructor
+   */
+  static Seed(
+    value: string,
+    tag: XTextObjectDataTypes.ITag,
+    classes: string[],
+  ): XTextObject {
+    const instance = XTextObject.NewInstance();
+    instance.data.setValue(value).setTag(tag);
+    instance.classes = classes;
+    return instance;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @param initialType
+   * @param initialClasses
+   * @constructor
+   */
   static MigrateOld(
     old: any,
     initialType: string | null,
     initialClasses: string[] | null,
-  ): LModelElementXText | null {
+  ): XTextObject | null {
     if (!old) return null;
 
-    const data = new XTextData(
+    const data = new XTextObjectData(
       isString(old) ? old : old.value ?? null,
       old.tag ?? initialType,
     );
 
     console.log("Text Element ", old, "--- old --->", data);
-    return new LModelElementXText(
+    return new XTextObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes ? old.classes : initialClasses,

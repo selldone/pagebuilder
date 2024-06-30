@@ -15,7 +15,7 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
-import {LModelElementXColumn} from "@selldone/page-builder/components/x/column/LModelElementXColumn.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {LModelElementXCollection} from "@selldone/page-builder/components/x/collection/LModelElementXCollection.ts";
 import {
   XColumnImageTextData,
@@ -24,7 +24,7 @@ import {
 import {XProductData} from "@selldone/page-builder/components/x/product/XProductData.ts";
 import {XCollectionData} from "@selldone/page-builder/components/x/collection/XCollectionData.ts";
 import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
-import {LModelElementXText} from "@selldone/page-builder/components/x/text/LModelElementXText.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXProduct} from "@selldone/page-builder/components/x/product/LModelElementXProduct.ts";
 
 export class LModelElementXColumnImageText extends LModelElement<XColumnImageTextData> {
@@ -71,7 +71,7 @@ export class LModelElementXColumnImageText extends LModelElement<XColumnImageTex
         layout ? layout : initialColumnLayout,
       ),
     );
-    return new LModelElementXColumn(
+    return new XColumnObject(
       null,
       null,
       initialClassesContent,
@@ -107,8 +107,8 @@ export class LModelElementXColumnImageText extends LModelElement<XColumnImageTex
       null,
     );
 
-    column.addChild(LModelElementXText.MigrateOld(old.title));
-    column.addChild(LModelElementXText.MigrateOld(old.content));
+    column.addChild(XTextObject.MigrateOld(old.title));
+    column.addChild(XTextObject.MigrateOld(old.content));
     column.addChild(LModelElementXUploader.MigrateOld(old.image));
 
     if (old.layout === "product") {
@@ -125,8 +125,8 @@ export class LModelElementXColumnImageText extends LModelElement<XColumnImageTex
     } else if (old.layout === "collection") {
       const _children = old.columns.map((_column: any) => {
         return {
-          column: LModelElementXColumn.MigrateOld(LModelGrid(_column)),
-          title: LModelElementXText.MigrateOld(_column.title),
+          column: XColumnObject.MigrateOld(LModelGrid(_column)),
+          title: XTextObject.MigrateOld(_column.title),
           image: LModelElementXUploader.MigrateOld(_column.image),
         };
       });

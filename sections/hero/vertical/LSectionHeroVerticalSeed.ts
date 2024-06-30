@@ -15,8 +15,8 @@
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
 import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
-import {LModelElementXColumn} from "@selldone/page-builder/components/x/column/LModelElementXColumn.ts";
-import {LModelElementXText} from "@selldone/page-builder/components/x/text/LModelElementXText.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
 
@@ -34,15 +34,15 @@ export const LSectionHeroVerticalSeed = () => {
   container.addChild(row);
 
   // Initialize and configure first column
-  const column1 = LModelElementXColumn.Seed(12, 12, 12);
+  const column1 = XColumnObject.Seed(12, 12, 12);
   row.addChild(column1);
 
-  column1.addChild(LModelElementXText.Seed("Enter your headline here...", "h1", ["mb-2"]));
-  column1.addChild(LModelElementXText.Seed("Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...", "p", ["mb-4"]));
+  column1.addChild(XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]));
+  column1.addChild(XTextObject.Seed("Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...", "p", ["mb-4"]));
   column1.addChild(LModelElementXButtons.Seed());
 
   // Initialize and configure second column
-  const column2 = LModelElementXColumn.Seed(12, 10, 8);
+  const column2 = XColumnObject.Seed(12, 10, 8);
   row.addChild(column2);
 
   column2.addChild(LModelElementXUploader.Seed(1));

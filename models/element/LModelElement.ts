@@ -50,12 +50,14 @@ export abstract class LModelElement<T> {
 
     // Temporary add data to current level: // TODO: MUST REMOVE AFTER MIGRATION!
     /* if (this.data) {
-           Object.assign(this, this.data);
-         }*/
+               Object.assign(this, this.data);
+             }*/
   }
 
-  addChild(element: LModelElement<any>|null) {
-    if(!element)return;
+  addChild(element: LModelElement<any> | null) {
+    if (!element) return;
     this.children.push(element);
   }
+
+
 }

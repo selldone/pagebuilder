@@ -20,7 +20,7 @@ import {XSectionData} from "@selldone/page-builder/components/x/section/XSection
 import {
   LModelElementXColumnImageText
 } from "@selldone/page-builder/components/x/column-image-text/LModelElementXColumnImageText.ts";
-import {LModelElementXText} from "@selldone/page-builder/components/x/text/LModelElementXText.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 
 export class LSectionTextNumbersMigration {
@@ -37,7 +37,7 @@ export class LSectionTextNumbersMigration {
     section.addChild(container);
 
     container.addChild(
-      LModelElementXText.MigrateOld($sectionData.header, "h2", ["mb-5"]),
+      XTextObject.MigrateOld($sectionData.header, "h2", ["mb-5"]),
     );
 
 

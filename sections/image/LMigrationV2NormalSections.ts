@@ -20,7 +20,7 @@ import {XSectionData} from "@selldone/page-builder/components/x/section/XSection
 import {
   LModelElementXColumnImageText
 } from "@selldone/page-builder/components/x/column-image-text/LModelElementXColumnImageText.ts";
-import {LModelElementXText} from "@selldone/page-builder/components/x/text/LModelElementXText.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 
 export class LMigrationV2NormalSections {
@@ -37,10 +37,10 @@ export class LMigrationV2NormalSections {
     section.addChild(container);
 
     container.addChild(
-      LModelElementXText.MigrateOld($sectionData.title, "h1", ["mb-5"]),
+      XTextObject.MigrateOld($sectionData.title, "h1", ["mb-5"]),
     );
     container.addChild(
-      LModelElementXText.MigrateOld($sectionData.content, "p", ["mb-5"]),
+      XTextObject.MigrateOld($sectionData.content, "p", ["mb-5"]),
     );
 
     // Add buttons:

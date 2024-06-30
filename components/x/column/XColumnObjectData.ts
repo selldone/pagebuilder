@@ -14,15 +14,16 @@
 
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 
-export class XColumnData {
-
-  grid: LModelGrid | null;
-
+export class XColumnObjectData {
+  public grid: LModelGrid;
 
   constructor(grid: LModelGrid | null) {
-    this.grid = grid;
+    this.grid = grid ? grid : new LModelGrid({});
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
 
-
+  static NewInstance() {
+    return new XColumnObjectData(new LModelGrid({}));
+  }
 }

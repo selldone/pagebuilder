@@ -70,7 +70,7 @@
           value="grid"
           v-if="available_tabs.includes('grid')"
           :inputStyle="in_style"
-          v-model:grid="target[keyGrid]"
+          v-model:grid="target.data.grid"
         >
         </l-settings-style-grid>
 
@@ -226,7 +226,7 @@
               density="comfortable"
               variant="flat"
             >
-              <v-icon start :color="background.bg_color"></v-icon>
+              <v-icon start :color="background.bg_color">circle</v-icon>
               {{ background.bg_color }}
             </v-chip>
 
@@ -351,7 +351,7 @@ export default {
     keyStyle: null, // style
     keyClass: null, // classes
     keyBackground: null, // background
-    keyGrid: null, // grid
+    //keyGrid: null, // grid
     options: {},
 
     // ---------------------------------
@@ -431,11 +431,15 @@ export default {
       return LUtilsColors.GenerateColorsStyle(this.builder.style);
     },
 
+    has_grid(){
+      return !!this.target?.data.grid
+    },
+
     available_tabs() {
       return STYLE_TABS.filter(
         (tab) =>
           !this.options?.exclude?.includes(tab) &&
-          (tab !== "grid" || this.keyGrid) /*It should set grid key!*/,
+          (tab !== "grid" || this.has_grid) /*It should set grid key!*/,
       );
     },
 
@@ -695,7 +699,6 @@ export default {
         keyStyle,
         keyClass,
         keyBackground,
-        keyGrid,
         options,
       }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
@@ -709,7 +712,6 @@ export default {
         this.keyStyle = keyStyle;
         this.keyClass = keyClass;
         this.keyBackground = keyBackground;
-        this.keyGrid = keyGrid;
 
         this.options = options;
 

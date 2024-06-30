@@ -60,7 +60,6 @@ export const LMixinEvents = defineComponent({
       keyStyle: string,
       keyClass: string,
       keyBackground: string,
-      keyGrid: string|null,
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
@@ -71,7 +70,6 @@ export const LMixinEvents = defineComponent({
         keyStyle,
         keyClass,
         keyBackground,
-        keyGrid,
         options,
       });
     },

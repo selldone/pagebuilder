@@ -67,6 +67,7 @@ import * as types from "@selldone/page-builder/src/types/types";
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import { defineAsyncComponent } from "vue";
+import { LModelElementXCollection } from "@selldone/page-builder/components/x/collection/LModelElementXCollection";
 
 const XText = defineAsyncComponent(
   () => import("@selldone/page-builder/components/x/text/XText.vue"),
@@ -80,7 +81,10 @@ export default {
   components: { XColumn, XRow, XText, XUploader },
 
   props: {
-    object: { required: true },
+    object: {
+      type: LModelElementXCollection,
+      required: true,
+    },
     augment: {},
     initialCount: {
       default: 4,

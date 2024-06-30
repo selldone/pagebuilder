@@ -15,8 +15,8 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
 import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
-import {LModelElementXColumn} from "@selldone/page-builder/components/x/column/LModelElementXColumn.ts";
-import {LModelElementXText} from "@selldone/page-builder/components/x/text/LModelElementXText.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
@@ -49,14 +49,14 @@ export class LMigrationV2Heroes {
 
     // Add column 1:
     if ($sectionData.columns[0]) {
-      const column_1 = LModelElementXColumn.MigrateOld($sectionData.columns[0]);
+      const column_1 = XColumnObject.MigrateOld($sectionData.columns[0]);
       row.addChild(column_1);
 
       column_1.addChild(
-        LModelElementXText.MigrateOld($sectionData.title, "h1", ["mb-2"]),
+        XTextObject.MigrateOld($sectionData.title, "h1", ["mb-2"]),
       );
       column_1.addChild(
-        LModelElementXText.MigrateOld($sectionData.content, "p", ["mb-4"]),
+        XTextObject.MigrateOld($sectionData.content, "p", ["mb-4"]),
       );
 
       column_1.addChild(
@@ -75,7 +75,7 @@ export class LMigrationV2Heroes {
 
     // Add column 2:
     if ($sectionData.columns[1]) {
-      const column_2 = LModelElementXColumn.MigrateOld(
+      const column_2 = XColumnObject.MigrateOld(
         $sectionData.columns[1],
         null,
       );
@@ -100,7 +100,7 @@ export class LMigrationV2Heroes {
 
       if ($sectionData.content2) {
         column_2.addChild(
-          LModelElementXText.MigrateOld($sectionData.content2, "p", ["my-5"]),
+          XTextObject.MigrateOld($sectionData.content2, "p", ["my-5"]),
         );
       }
     }

@@ -14,16 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XColumnData} from "@selldone/page-builder/components/x/column/XColumnData.ts";
+import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XColumnObjectData.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 
-export class LModelElementXColumn extends LModelElement<XColumnData> {
+export class XColumnObject extends LModelElement<XColumnObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XColumnData | null,
+    data: XColumnObjectData | null,
     props: any,
   ) {
     super(
@@ -34,34 +34,56 @@ export class LModelElementXColumn extends LModelElement<XColumnData> {
       children,
       data
         ? data
-        : new XColumnData(
+        : new XColumnObjectData(
             new LModelGrid({ mobile: 12, tablet: 6, desktop: 4 }),
           ),
       props,
     );
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XColumnObject(null, null, null, null, null, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  /**
+   * Create a new instance of XColumnObject
+   * @param mobile
+   * @param tablet
+   * @param desktop
+   * @param widescreen
+   * @constructor
+   */
   static Seed(
     mobile = 12,
     tablet = 6,
     desktop = 4,
     widescreen = null,
-  ): LModelElementXColumn {
-    const data = new XColumnData(
-      new LModelGrid({
-        mobile: mobile,
-        tablet: tablet,
-        desktop: desktop,
-        widescreen: widescreen,
-      }),
-    );
-    return new LModelElementXColumn(null, null, null, null, data, null);
+  ): XColumnObject {
+    const instance = XColumnObject.NewInstance();
+    instance.data.grid
+      .setMobile(mobile)
+      .setTablet(tablet)
+      .setDesktop(desktop)
+      .setWidescreen(widescreen);
+
+    return instance;
   }
 
-  static MigrateOld(old: any): LModelElementXColumn {
-    const data = new XColumnData(new LModelGrid(old?.grid));
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
 
-    return new LModelElementXColumn(
+
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @constructor
+   */
+  static MigrateOld(old: any): XColumnObject {
+    const data = new XColumnObjectData(new LModelGrid(old?.grid));
+
+    return new XColumnObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,

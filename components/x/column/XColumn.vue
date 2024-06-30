@@ -27,7 +27,8 @@
     @click="copyStyle"
     :class="[
       object.classes,
-      !noGrid ? calcGridClasses(object.data?.grid) : undefined,
+      !noGrid ? calcGridClasses(object.data.grid) : undefined,
+      { 'is-editable': $builder.isEditing }
     ]"
     :style="[object?.style, backgroundStyle(object.background)]"
   >
@@ -49,6 +50,7 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import DataXDirective from "../../../directives/DataXDirective";
+import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
 
 export default defineComponent({
   name: "XColumn",
@@ -57,7 +59,10 @@ export default defineComponent({
   components: { XVideoBackground },
 
   props: {
-    object: { required: true },
+    object: {
+      type: XColumnObject,
+      required: true,
+    },
     cloneable: { default: false, type: Boolean },
     noGrid: {
       /*No grid: Grid do not apply to the column here, but apply in it's parent which is column! It useful to have margin and it act like a card.*/
