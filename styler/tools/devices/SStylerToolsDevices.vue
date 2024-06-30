@@ -23,6 +23,7 @@
         :model-value="mobileValue > 0"
         color="#fff"
         location="bottom end"
+        rounded
       >
         <SStylerIcon name="mobile" />
       </v-badge>
@@ -41,6 +42,12 @@
           variant="flat"
           >{{ mobileValue }}
         </v-chip>
+
+        <s-layout-responsive-view
+          v-if="mobileValue"
+          :cols="mobileValue"
+          class="mt-1"
+        ></s-layout-responsive-view>
       </v-tooltip>
     </button>
   </li>
@@ -55,6 +62,7 @@
         :model-value="tabletValue > 0"
         color="#fff"
         location="bottom end"
+        rounded
       >
         <SStylerIcon name="tablet" />
       </v-badge>
@@ -73,6 +81,12 @@
           variant="flat"
           >{{ tabletValue }}
         </v-chip>
+
+        <s-layout-responsive-view
+          v-if="tabletValue"
+          :cols="tabletValue"
+          class="mt-1"
+        ></s-layout-responsive-view>
       </v-tooltip>
     </button>
   </li>
@@ -87,6 +101,7 @@
         :model-value="desktopValue > 0"
         color="#fff"
         location="bottom end"
+        rounded
       >
         <SStylerIcon name="laptop" />
       </v-badge>
@@ -105,6 +120,12 @@
           variant="flat"
           >{{ desktopValue }}
         </v-chip>
+
+        <s-layout-responsive-view
+          v-if="desktopValue"
+          :cols="desktopValue"
+          class="mt-1"
+        ></s-layout-responsive-view>
       </v-tooltip>
     </button>
   </li>
@@ -119,6 +140,7 @@
         :model-value="widescreenValue > 0"
         color="#fff"
         location="bottom end"
+        rounded
       >
         <v-icon size="20">tv</v-icon>
       </v-badge>
@@ -137,6 +159,12 @@
           variant="flat"
           >{{ widescreenValue }}
         </v-chip>
+
+        <s-layout-responsive-view
+          v-if="widescreenValue"
+          :cols="widescreenValue"
+          class="mt-1"
+        ></s-layout-responsive-view>
       </v-tooltip>
     </button>
   </li>
@@ -145,10 +173,11 @@
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import SStylerIcon from "../../../styler/icon/SStylerIcon.vue";
+import SLayoutResponsiveView from "@selldone/page-builder/styler/tools/devices/SLayoutResponsiveView.vue";
 
 export default defineComponent({
   name: "SStylerToolsDevices",
-  components: { SStylerIcon },
+  components: { SLayoutResponsiveView, SStylerIcon },
   mixins: [LMixinEvents],
   emits: ["update:modelValue"],
   props: {

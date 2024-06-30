@@ -14,163 +14,56 @@
 
 <template>
   <div v-if="modelValue">
-    <v-text-field
-      v-model="modelValue.label"
-      label="Label"
-      placeholder="Input label..."
-      @change="$emit('change', modelValue)"
-    >
-    </v-text-field>
 
-    <v-text-field
-      v-model="modelValue.placeholder"
-      :append-inner-icon="
-        modelValue.persistentPlaceholder ? 'lock' : 'lock_open'
-      "
-      label="Placeholder"
-      placeholder="Sample of input..."
-      @change="$emit('change', modelValue)"
-      @click:append-inner="
-        modelValue.persistentPlaceholder = !modelValue.persistentPlaceholder;
-        $emit('change', modelValue);
-        $forceUpdate();
-      "
-    ></v-text-field>
 
-    <v-text-field
-      v-model="modelValue.messages"
-      label="Message"
-      messages="It will be shown under input."
-      placeholder="A short message..."
-      @change="$emit('change', modelValue)"
-    >
-    </v-text-field>
-    <v-text-field
-      v-model="modelValue.hint"
-      label="Hint"
-      messages="It will appear when the user clicks on the input and focusing on it."
-      placeholder="A short help..."
-      @change="$emit('change', modelValue)"
-    >
-    </v-text-field>
+    <s-setting-text-input label="Label" placeholder="Input label..."   v-model="modelValue.label"></s-setting-text-input>
 
-    <v-list-subheader></v-list-subheader>
+    <s-setting-text-input label="Placeholder" placeholder="Sample of input..."   v-model="modelValue.placeholder"></s-setting-text-input>
 
-    <v-btn
-      :color="modelValue.flat ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.flat = !modelValue.flat;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      Flat
-    </v-btn>
 
-    <v-btn
-      :color="modelValue.rounded ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.rounded = !modelValue.rounded;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      <v-icon>{{ modelValue.rounded ? "rounded_corner" : "crop_din" }}</v-icon>
-    </v-btn>
+    <s-setting-text-input label="Message" placeholder="A short message..."   v-model="modelValue.messages"></s-setting-text-input>
 
-    <v-btn
-      :color="modelValue.solo ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.solo = !modelValue.solo;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      Solo
-    </v-btn>
 
-    <v-btn
-      :color="modelValue.outlined ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.outlined = !modelValue.outlined;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      Outlined
-    </v-btn>
+    <s-setting-text-input label="Hint" placeholder="A short help..." subtitle="It will appear when the user clicks on the input and focusing on it."   v-model="modelValue.hint"></s-setting-text-input>
 
-    <v-btn
-      :color="modelValue.dark ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.dark = !modelValue.dark;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      Dark
-    </v-btn>
 
-    <v-btn
-      :color="modelValue.filled ? 'primary' : undefined"
-      class="ma-1"
-      min-width="36"
-      variant="flat"
-      @click="
-        () => {
-          modelValue.filled = !modelValue.filled;
-          $emit('change', modelValue);
-        }
-      "
-    >
-      Filled
-    </v-btn>
 
-    <u-color-selector
-      v-model="modelValue.color"
-      class="my-3"
-      nullable
-      title="Color"
-      @change="$emit('change', modelValue)"
-    ></u-color-selector>
+    <s-setting-switch v-model="modelValue.persistentPlaceholder" label="Persistent Placeholder"></s-setting-switch>
 
-    <u-color-selector
+
+
+    <s-setting-switch v-model="modelValue.flat" label="Flat"></s-setting-switch>
+
+    <s-setting-rounded v-model="modelValue.rounded"></s-setting-rounded>
+
+    <s-setting-variant v-model="modelValue.variant"></s-setting-variant>
+
+    <s-setting-color v-model="modelValue.color" label="Color" clearable></s-setting-color>
+
+    <s-setting-color
       v-model="modelValue.backgroundColor"
-      class="my-3"
-      nullable
-      title="Background color"
-      @change="$emit('change', modelValue)"
-    ></u-color-selector>
+      label="Background"
+      clearable
+    ></s-setting-color>
   </div>
 </template>
 
 <script>
-import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
+import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
+import SSettingRounded from "@selldone/page-builder/styler/settings/rounded/SSettingRounded.vue";
+import SSettingVariant from "@selldone/page-builder/styler/settings/variant/SSettingVariant.vue";
+import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 
 export default {
   name: "LFeederInput",
-  components: { UColorSelector },
-  emits: ["change"],
+  components: {
+    SSettingTextInput,
+    SSettingColor,
+    SSettingVariant,
+    SSettingRounded,
+    SSettingSwitch,
+  },
 
   props: {
     modelValue: {},

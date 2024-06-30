@@ -118,13 +118,12 @@
 </template>
 
 <script>
-import * as types from "../../src/types/types";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import ALIGN from "../../src/enums/ALIGN";
 import JUSTIFY from "../../src/enums/JUSTIFY";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import { LModelElementXButton } from "@selldone/page-builder/components/x/button/LModelElementXButton";
 
 export default {
   name: "SStylerButtons",
@@ -180,13 +179,12 @@ export default {
     }
     // Auto seed buttons if not exist
     if (!this.target[this.keyButtons]) this.target[this.keyButtons] = [];
-    if (!this.target[this.keyRow]){
+    if (!this.target[this.keyRow]) {
       this.target[this.keyRow] = {
         align: "center",
         justify: "space-around",
       };
     }
-
   },
   mounted() {},
 
@@ -195,7 +193,8 @@ export default {
      * XButtons | Add button
      */
     addNewButton() {
-      this.target[this.keyButtons].push(LUtilsSeeder.seed(types.Button));
+      console.log("Add new button!",this.target)
+      this.target.addChild(LModelElementXButton.Seed());
     },
   },
 };

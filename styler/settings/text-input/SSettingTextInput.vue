@@ -39,12 +39,18 @@
       density="compact"
       hide-details
       style="min-width: 200px"
-      :label="subtitle"
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
     >
     </v-text-field>
   </v-list-item>
+  <div
+    v-if="subtitle"
+    style="font-size: 0.7rem; padding: 4px 16px; opacity: 0.5"
+  >
+    <v-icon>arrow_drop_up</v-icon>
+    {{ subtitle }}
+  </div>
 </template>
 
 <script>

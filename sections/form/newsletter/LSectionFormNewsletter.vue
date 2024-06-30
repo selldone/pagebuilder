@@ -90,7 +90,7 @@
                     noLink: true,
                   }"
                   :augment="augment"
-                  :btn-data="$sectionData.button"
+                  :object="$sectionData.button"
                   :editing="$builder.isEditing && !$builder.isHideExtra"
                   :loading="busy"
                   class="m-2"

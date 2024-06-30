@@ -170,7 +170,7 @@
     ></s-setting-select>
 
     <!-- Text Decoration -->
-    <s-setting-select
+    <s-setting-text-decoration
       :model-value="textDecoration"
       @update:model-value="
         (v) => {
@@ -178,10 +178,9 @@
           onChange();
         }
       "
-      :items="TEXT_DECORATIONS"
       label="Text Decoration"
       icon="format_underline"
-    ></s-setting-select>
+    ></s-setting-text-decoration>
 
     <!-- Text Transform -->
     <s-setting-select
@@ -222,6 +221,8 @@ import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-fami
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
 import SSettingShadow from "@selldone/page-builder/styler/settings/shadow/SSettingShadow.vue";
+import SSettingTextDecoration
+  from "@selldone/page-builder/styler/settings/text-decoration/SSettingTextDecoration.vue";
 
 const FONT_WEIGHTS = [
   { title: "Thin", value: "200" },
@@ -241,13 +242,7 @@ const TEXT_ALIGNMENTS = [
   { title: "Justify", value: "justify" },
 ];
 
-const TEXT_DECORATIONS = [
-  { title: "None", value: "none" },
-  { title: "Underline", value: "underline" },
-  { title: "Overline", value: "overline" },
-  { title: "Line Through", value: "line-through" },
-  { title: "Blink", value: "blink" },
-];
+
 
 const TEXT_TRANSFORMS = [
   { title: "None", value: "none" },
@@ -260,6 +255,7 @@ const TEXT_TRANSFORMS = [
 export default defineComponent({
   name: "LSettingsStyleTypeface",
   components: {
+    SSettingTextDecoration,
     SSettingShadow,
     SSettingSelect,
     SSettingSize,
@@ -309,9 +305,12 @@ export default defineComponent({
   data: () => ({
     FONT_WEIGHTS: FONT_WEIGHTS,
     TEXT_ALIGNMENTS: TEXT_ALIGNMENTS,
-    TEXT_DECORATIONS: TEXT_DECORATIONS,
+
     TEXT_TRANSFORMS: TEXT_TRANSFORMS,
   }),
+
+
+
   computed: {
     shadow_colors() {
       if (!Array.isArray(this.textShadow)) return [];
@@ -321,6 +320,12 @@ export default defineComponent({
 
   watch: {
     textShadow: {
+      handler() {
+        this.onChange();
+      },
+      deep: true,
+    },
+    textDecoration: {
       handler() {
         this.onChange();
       },

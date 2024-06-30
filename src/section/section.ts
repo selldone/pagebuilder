@@ -15,8 +15,9 @@
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
 import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
-import {isString} from "lodash-es";
+import {isObject, isString} from "lodash-es";
 import {LUtilsObject} from "../../utils/object/LUtilsObject";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 const DEBUG = false;
 export namespace Section {
@@ -42,6 +43,16 @@ export namespace Section {
       string,
       any
     > /*More optional data (Not save on the model on database)*/;
+
+    /**
+     * New version
+     */
+    object: LModelElement | null;
+
+    /**
+     * @Deprecated
+     * Old version
+     */
     data?: IData;
   }
 
@@ -50,7 +61,10 @@ export namespace Section {
     id: string;
     name: string;
     schema: Object;
-    data: IData;
+    object: LModelElement | null;
+
+
+    data: IData|null; // Deprecated! Migrate to new version it will be null!
     //stylers: { instance: App; container: Element }[];
   }
 }
@@ -60,31 +74,59 @@ export class Section implements Section.ISection {
   public id: string; // Old save section ID in data.id (deprecated)
   public name: string;
   public schema: any;
-  public data: Section.IData;
+  public data: Section.IData | null = null; // TODO: Deduplicated OLD!
 
-  /* public stylers: {
-       instance: App;
-       container: Element;
-       argument: string;
-       //el: HTMLElement;
-       //props: any;
-     }[];*/
+  public object: LModelElement | null = null; // 🪵 New Version!
+
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
-    LOG("⚽ Section > Constructor", options, this, force_set_new_uid);
-    LOG("🪷 ", options);
+    LOG(
+      `⚽ ${options.name} | Section > Constructor`,
+      options,
+      this,
+      force_set_new_uid,
+    );
+    LOG(`🪷 ${options.name} | `, options);
 
     // this.id=options.data?.id
     options = Object.assign({}, options);
     this.name = options.name;
     this.schema = options.schema;
-    this.data = options.data || LUtilsSeeder.seed(options.schema);
-    //this.stylers = [];
-
     this.uid = options.uid;
-    // Compatible with old version:
-    if (!this.uid && options.data?.id) {
-      this.uid = options.data?.id;
+
+    // TODO: Should implement for new version here:
+    if (options.object && isObject(options.object)) {
+      console.log(
+        `🪵 ${options.name} | New version load data in section...`,
+        options,
+      );
+      this.object = options.object /* || LUtilsSeeder.seed(options.schema)*/; // TODO: Should seed generate new version compatible data!
+    } else if (options.data) {
+      /*Old Version*/
+      console.log(
+        `${options.name} | Load data from old version!`,
+        options.data,
+      );
+      this.data = options.data;
+      //this.stylers = [];
+
+      // Compatible with old version:
+      if (!this.uid && options.data?.id) {
+        this.uid = options.data?.id;
+      }
+    } else {
+      const _object = LUtilsSeeder.SeedNew(options.name);
+      LOG(
+        `🪷 ${options.name} | Section.ts > constructor > Seed:`,
+        options.name,
+        "--object-->",
+        _object,
+      );
+      if (_object) {
+        this.object = _object;
+      }
+
+      this.data = LUtilsSeeder.seed(options.schema);
     }
 
     if (force_set_new_uid || !this.uid /*Auto assign an id!*/) {
@@ -92,26 +134,39 @@ export class Section implements Section.ISection {
       this.uid = "auto_" + Math.round(Math.random() * 99999999999);
 
       LOG(
-        "🪷 Section.ts > constructor > UID (NEW):",
+        `🪷 ${options.name} | Section.ts > constructor > UID (NEW):`,
         this.uid,
         "force",
         force_set_new_uid,
       );
     } else {
-      LOG("🪷 Section.ts > constructor > UID (EXIST):", this.uid);
+      LOG(
+        `🪷 ${options.name} | Section.ts > constructor > UID (EXIST):`,
+        this.uid,
+      );
     }
     // Compatible with missed updated in code(temporary)
-    this.id = this.uid;
+   // this.id = this.uid;
+
+    if(!this.object){
+      console.error("❗The object is not defined! Please check migration from V1 to V2!",options.name)
+      return;
+    }
+
   }
 
   set(name: string, value: Object) {
-    LOG("⚽ Section > Set", "name", name, "value", value);
+    LOG(`⚽ ${name} | Section > Set`, "name", name, "value", value);
 
     const path = toPath(name);
     const prop = path.pop();
 
     if (!prop) {
-      console.error("🪷 Section.ts > set > prop is undefined", name, value);
+      console.error(
+        `🪷 ${name} | Section.ts > set > prop is undefined`,
+        name,
+        value,
+      );
       return;
     }
 
@@ -133,7 +188,7 @@ export class Section implements Section.ISection {
     const prop = path.pop();
 
     if (!prop) {
-      console.error("🪷 Section.ts > get > prop is undefined", name);
+      console.error(`🪷 ${name} | Section.ts > get > prop is undefined`, name);
       return;
     }
 
@@ -145,23 +200,13 @@ export class Section implements Section.ISection {
     return obj[prop];
   }
 
-  destroy() {
-    /* LOG("Destroy all stylers in the section!", this);
-     
-         this.stylers.forEach(({ instance, container }) => {
-           instance.unmount();
-           container.remove();
-         });
-         this.stylers = [];*/
-  }
+  destroy() {}
 
   /**
    * Remove empty <br> data.
    * @returns {*|{}}
    */
   removeBRFromSectionData() {
-    // console.log('removeBR',data)
-
     return LUtilsObject.IterateOverSectionData(this.data, (text: any) => {
       if (isString(text) && text.trim() === "<br>") {
         console.log("🌶 Remove empty tags", text);
@@ -173,5 +218,5 @@ export class Section implements Section.ISection {
 }
 
 function LOG(...text: any) {
-  if (DEBUG) console.log("🐤 Section.ts", ...text);
+  if (DEBUG) console.log("🐤 SECTION", ...text);
 }

@@ -14,9 +14,13 @@
 
 <template>
   <v-container
-    :fluid="object.row ? object.row.fluid : false"
-    :style="{ maxWidth: object.row?.fluid ? undefined : maxWidthNormal }"
+    v-styler:container="containerBinding"
+    :fluid="object.data ? object.data.fluid : false"
     class="x--container"
+
+    :class="[object?.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object?.style, backgroundStyle(object.background),{ maxWidth: object.data?.fluid ? undefined : maxWidthNormal }]"
+
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
@@ -27,6 +31,7 @@
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
+import { LModelElementXContainer } from "@selldone/page-builder/components/x/container/LModelElementXContainer";
 
 export default defineComponent({
   name: "XContainer",
@@ -35,14 +40,31 @@ export default defineComponent({
   components: {},
 
   props: {
-    object: { required: true },
+    object: { required: true, type: LModelElementXContainer },
     maxWidthNormal: {
       // Override max with (non-fluid)
     },
   },
 
   data: () => ({}),
-  created() {},
+
+  computed: {
+    /**
+     * 🐍 Use compute for better performance.
+     * @return {{target: *}}
+     */
+    containerBinding() {
+      return {
+        target: this.object,
+        //  position:'left'
+      };
+    },
+  },
+
+  created() {
+
+    console.log('object Container',this.object)
+  },
 });
 </script>
 

@@ -21,7 +21,7 @@
     <v-card-subtitle v-if="subtitle" class="small text-wrap pt-1"
       >{{ subtitle }}
     </v-card-subtitle>
-    <v-card class="my-2" color="#282828" rounded="lg">
+    <v-card class="my-2" color="#282828" rounded="lg" flat>
       <div class="-card-content">
         <slot></slot>
       </div>

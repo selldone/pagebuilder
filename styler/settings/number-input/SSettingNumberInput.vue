@@ -17,7 +17,17 @@
     :class="{ 'disabled-scale-down': disabled }"
     class="s--setting-number-input"
   >
-    <v-list-item :prepend-icon="icon" :title="title" density="compact">
+    <v-list-item   density="compact">
+
+      <template v-slot:prepend>
+      <span class="-label me-2 min-width-100">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+
+        {{ label }}</span
+      >
+      </template>
+
+
       <template v-slot:append>
         <u-number-input
           :clearable="clearable"
@@ -49,7 +59,7 @@ export default defineComponent({
   components: { UNumberInput },
   props: {
     modelValue: {},
-    title: {},
+    label: {},
     icon: {},
     min: { default: 0 },
     max: { default: 100 },
@@ -71,5 +81,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-number-input {
+  .-label {
+    font-size: 0.8rem;
+  }
 }
 </style>

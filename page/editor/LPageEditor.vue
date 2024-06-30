@@ -499,6 +499,7 @@
                       <component
                         :is="section.name"
                         :sectionData="section.data"
+                        :sectionObject="section.object/*🪵 New Version!*/"
                         v-if="delay_load > index"
                         :id="section.uid"
                         :ref="'SECTION_' + section.uid"
@@ -737,8 +738,11 @@
       :section-component="selected_component"
     ></l-feeder-dialog>
 
-    <!-- ――――――――――――――――――――――  Add stylers here ―――――――――――――――――――― -->
-    <div id="stylers_container"></div>
+
+    <!-- ――――――――――――――――――――――  Hierarchy ―――――――――――――――――――― -->
+
+    <l-settings-hierarchy :builder="$builder"></l-settings-hierarchy>
+
   </div>
 </template>
 
@@ -789,12 +793,14 @@ import { LUtilsFont } from "../../utils/font/LUtilsFont";
 import LSettingsCodeEditor from "@selldone/page-builder/settings/code/editor/LSettingsCodeEditor.vue";
 import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor/LSettingsCodeProperties.vue";
 import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
+import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LSettingsHierarchy,
     LSettingsCodeProperties,
     LSettingsCodeEditor,
     LSettingsGallery,

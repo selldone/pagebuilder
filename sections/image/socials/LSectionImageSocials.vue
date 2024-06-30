@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+  <x-section v-if="false" :object="$sectionData">
     <x-container :object="$sectionData">
       <x-text
         v-model:object="$sectionData.title"
@@ -46,7 +46,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="col"
-          :remove-column="() => $sectionData.columns.splice(index, 1)"
+          :remove-child="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-row"
         >
@@ -55,6 +55,8 @@
       </x-row>
     </x-container>
   </x-section>
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
 </template>
 
 <script>
@@ -67,12 +69,21 @@ import XContainer from "@selldone/page-builder/components/x/container/XContainer
 import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionImageSocials",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XColumnImageText, XRow, XButtons, XContainer, XSection, XText },
+  components: {
+    XComponent,
+    XColumnImageText,
+    XRow,
+    XButtons,
+    XContainer,
+    XSection,
+    XText,
+  },
   cover: require("../../../assets/images/covers/social-4.svg"),
   group: "Image & Text",
   label: "Social & Testimonial",

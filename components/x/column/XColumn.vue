@@ -20,16 +20,16 @@
     v-styler:column="{
       target: object,
       hasCustomLayout: hasCustomLayout,
-      removeColumn: removeColumn,
+      removeChild: removeChild,
       position: nested ? 'left-bottom' : undefined,
     }"
-    :class="[
-      !noGrid ? calcGridClasses(object.grid) : undefined,
-      object.classes,
-    ]"
     :cloneable="cloneable"
-    :style="[object.style, backgroundStyle(object.background)]"
     @click="copyStyle"
+    :class="[
+      object.classes,
+      !noGrid ? calcGridClasses(object.data?.grid) : undefined,
+    ]"
+    :style="[object?.style, backgroundStyle(object.background)]"
   >
     <!-- 📹 Background video -->
     <x-video-background
@@ -66,10 +66,10 @@ export default defineComponent({
     },
     hasCustomLayout: {
       // Used in v-styler
-      default: false,
+      default: true,
       type: Boolean,
     },
-    removeColumn: {
+    removeChild: {
       // Used in v-styler
       type: Function,
     },

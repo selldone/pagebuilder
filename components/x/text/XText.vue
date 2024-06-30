@@ -16,14 +16,13 @@
   <!-- ━━━━━━━━━━━━━━━━━━━━━━ X-Text ━━━━━━━━━━━━━━━━━━━━━━ -->
   <component
     v-if="isValid"
-    :is="object.tag"
+    :is="object.data?.tag"
     v-styler:text="{
       target: object,
-
     }"
     :class="[object?.classes, { 'is-editable': $builder.isEditing }]"
     :style="[object?.style]"
-    v-html="object?.value?.applyAugment(augment, $builder.isEditing)"
+    v-html="object?.data?.value?.applyAugment(augment, $builder.isEditing)"
   ></component>
 </template>
 
@@ -43,17 +42,20 @@ export default defineComponent({
   mixins: [LMixinXComponent],
 
   components: { XCollection, XProduct, XUploader, XButton },
-emits: ["update:object"],
+  emits: ["update:object"],
   props: {
+    // Fixed:
     object: { required: true },
+    augment: {
+      // Extra information to show to dynamic show in page content
+      required: true,
+    },
 
+    // Optional:
     initialClasses: { type: Array },
     initialType: { required: true },
 
-    augment: {
-      // Extra information to show to dynamic show in page content
-      required: true
-    },
+
   },
   data: () => ({}),
 
@@ -73,17 +75,15 @@ emits: ["update:object"],
         classes: this.initialClasses,
         style: {},
       });
-    }else{
+    } else {
       // Set initial classes if not set yet!
-      if(!this.object.classes && this.initialClasses){
-        this.object.classes = [...this.initialClasses]
+      if (!this.object.classes && this.initialClasses) {
+        this.object.classes = [...this.initialClasses];
       }
-      if(!this.object.tag){
-        this.object.tag=this.initialType
+      if (!this.object.tag) {
+        this.object.tag = this.initialType;
       }
     }
-
-
   },
   methods: {},
 });

@@ -63,10 +63,13 @@
 
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
-      <li v-if="hasFluid">
-        <button class="styler-button" @click="target.fluid = !target.fluid">
+      <li>
+        <button
+          class="styler-button"
+          @click="target.data.fluid = !target.data.fluid"
+        >
           <v-icon size="20"
-            >{{ target.fluid ? "swap_horiz" : "compare_arrows" }}
+            >{{ target.data.fluid ? "swap_horiz" : "compare_arrows" }}
           </v-icon>
 
           <v-tooltip
@@ -92,6 +95,7 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer";
 
 /**
  * v-styler:container
@@ -107,7 +111,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: LModelElementXContainer,
     },
 
     /**
@@ -115,21 +119,14 @@ export default {
      */
     position: {
       type: String,
-      default: "right-center",
-    },
-
-    hasFluid: {
-      type: Boolean,
-      default: true,
+      default: "right-top",
     },
   },
   data: () => ({
     option: null,
   }),
 
-  computed: {
-
-  },
+  computed: {},
   watch: {
     /**
      * Reset menu status when it's closed.
@@ -138,9 +135,16 @@ export default {
       this.option = null;
     },
   },
-  beforeMount() {
+  beforeCreate() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerContainer");
+      throw new Error("Target is required for SStylerContainer!");
+    }
+    if (!this.target.data) {
+      console.error('Target data -> ', this.target);
+      throw new Error(
+        "The target data is required for SStylerContainer!"
+
+      );
     }
   },
   mounted() {},
@@ -157,7 +161,8 @@ export default {
         this.target,
         `style`,
         `classes`,
-          "background",
+        "background",
+        null,
 
         //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
       );

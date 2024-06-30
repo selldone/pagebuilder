@@ -40,14 +40,10 @@
         </div>
       </v-card-actions>
 
-      <v-card-text v-if="dialog_pre">
-        <s-widget-header
-          icon="photo_size_select_large"
-          title="Image Size"
-        ></s-widget-header>
-        <v-list-subheader></v-list-subheader>
-
-        <div class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3">
+      <v-card-text v-if="dialog_pre" key="preview">
+        <div
+          class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3 rounded-lg"
+        >
           <v-img
             :aspect-ratio="target[keySize].aspect"
             :cover="!target[keySize].contain"
@@ -58,95 +54,42 @@
             :min-width="min_w"
             :src="getShopImagePath(src)"
             :width="w"
-            class="bg-amber-soft"
           >
           </v-img>
         </div>
 
-        <s-widget-header
-          icon="fullscreen"
-          title="Preferred size"
-        ></s-widget-header>
-
-        <v-row class="max-w-640 mx-auto">
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="w"
-              dense
-              label="Width"
-            ></u-dimension-input>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="h"
-              dense
-              label="Height"
-            ></u-dimension-input>
-          </v-col>
-        </v-row>
-
-        <s-widget-header
-          icon="fullscreen_exit"
-          title="Minimum size"
-        ></s-widget-header>
-
-        <v-row class="max-w-640 mx-auto">
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="min_w"
-              dense
-              label="Min Width"
-            ></u-dimension-input>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="min_h"
-              dense
-              label="Min Height"
-            ></u-dimension-input>
-          </v-col>
-        </v-row>
-
-        <s-widget-header
-          icon="crop_free"
-          title="Maximum size"
-        ></s-widget-header>
-
-        <v-row class="max-w-640 mx-auto">
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="max_w"
-              dense
-              label="Max Width"
-            ></u-dimension-input>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <u-dimension-input
-              v-model="max_h"
-              dense
-              label="Max Height"
-            ></u-dimension-input>
-          </v-col>
-        </v-row>
+        <v-expansion-panels v-model="tab" key="tabs">
+          <!-- ████████████████████ Size ████████████████████ -->
+          <l-settings-style-size
+            value="size"
+            no-preview
+            v-model:width="w"
+            v-model:height="h"
+            v-model:minWidth="min_w"
+            v-model:minHeight="min_h"
+            v-model:maxWidth="max_w"
+            v-model:maxHeight="max_h"
+          ></l-settings-style-size>
+        </v-expansion-panels>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingsStyleSize from "@selldone/page-builder/settings/style/size/LSettingsStyleSize.vue";
 
 export default {
   name: "LSettingsImageSize",
   mixins: [LMixinEvents],
 
   components: {
-    UDimensionInput,
+    LSettingsStyleSize,
   },
 
   props: {},
@@ -158,6 +101,7 @@ export default {
 
     src: null,
 
+    tab: "size",
     //----------------------------------------------
     dialog_resize: false,
     dialog_pre: false,
@@ -219,7 +163,7 @@ export default {
         this.updateCallback = updateCallback;
 
         this.src = src; // Used in Preview
-        this.showProductsDialog();
+        this.showDialog();
       },
     );
 
@@ -258,7 +202,7 @@ export default {
   },
 
   methods: {
-    showProductsDialog() {
+    showDialog() {
       this.assignSizes();
 
       this.dialog_pre = false;
@@ -331,12 +275,13 @@ export default {
 
 <style lang="scss" scoped>
 .img-prev-con {
-  max-height: 30vh;
   min-height: 20vh;
   overflow: auto;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  flex-direction: column;
+  max-height: 200px;
+  max-width: 100%;
 }
 </style>

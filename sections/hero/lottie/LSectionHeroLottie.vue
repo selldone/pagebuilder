@@ -13,73 +13,9 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-row
-        v-if="$sectionData.columns"
-        :object="$sectionData"
-        has-arrangement
-        has-fluid
-      >
-        <!-- ██████████████████████ Column 1 ██████████████████████ -->
-
-        <x-column
-          :object="$sectionData.columns[0]"
-        >
-          <x-text
-            v-model:object="$sectionData.title"
-            :augment="augment"
-            initial-type="h1"
-            :initial-classes="['mb-2']"
-          ></x-text>
-
-          <x-text
-            v-model:object="$sectionData.content"
-            :augment="augment"
-            initial-type="p"
-            :initial-classes="['mb-4']"
-          ></x-text>
-
-          <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
-          <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
-        </x-column>
-
-        <!-- ██████████████████████ Column 2 ██████████████████████ -->
-
-        <x-column
-          :object="$sectionData.columns[1]"
-        >
-          <x-uploader
-            v-model="$sectionData.lottie"
-            :aspect-ratio="1"
-            :augment="augment"
-            class="header-image hero-image"
-            file-key="lottie"
-            no-preview
-            @uploaded="refreshAnimation"
-          >
-            <template v-slot="{ src }">
-              <u-lottie
-                v-if="show_lottie_view"
-                :options="{
-                  path: getShopJsonPath(src),
-                  loop: true,
-                  autoplay: true,
-                }"
-                :speed="1"
-                class="-in-animation"
-                height="auto"
-                style="max-width: 800px; max-height: 800px"
-                width="100%"
-              />
-            </template>
-          </x-uploader>
-        </x-column>
-      </x-row>
-    </x-container>
-  </x-section>
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
+
 
 <script>
 import * as types from "../../../src/types/types";
@@ -92,12 +28,22 @@ import XContainer from "@selldone/page-builder/components/x/container/XContainer
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionHeroLottie",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XButtons, XColumn, XRow, XContainer, XSection, XText, XUploader },
+  components: {
+    XButtons,
+    XColumn,
+    XRow,
+    XContainer,
+    XSection,
+    XText,
+    XUploader,
+    XComponent
+  },
   cover: require("../../../assets/images/covers/hero-lottie.svg"),
   label: "Animate Hero - Lottie Files",
 
@@ -175,27 +121,7 @@ export default {
   watch: {},
 
   created() {
-    // 🛠️ Fix bad data structures:
-    if (!this.$sectionData.columns || this.$sectionData.columns.length < 2) {
-      this.$sectionData.columns = [
-        {
-          grid: {
-            mobile: 12,
-            tablet: 6,
-            desktop: 8,
-            widescreen: null,
-          },
-        },
-        {
-          grid: {
-            mobile: 12,
-            tablet: 6,
-            desktop: 4,
-            widescreen: null,
-          },
-        },
-      ];
-    }
+
   },
 
   methods: {
@@ -211,4 +137,3 @@ export default {
 
 <style lang="scss" scoped></style>
 
-<style lang="scss"></style>

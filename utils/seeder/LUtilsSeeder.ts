@@ -17,6 +17,12 @@ import ProductFramesSample from "../../sections/store/custom-listing/frames/Prod
 import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
 import imagePlaceholder from "../../assets/images/samples/image-placeholder.png";
+import {
+  LSectionHeroHorizontalSeed
+} from "@selldone/page-builder/sections/hero/horizontal/LSectionHeroHorizontalSeed.ts";
+import {LSectionHeroVerticalSeed} from "@selldone/page-builder/sections/hero/vertical/LSectionHeroVerticalSeed.ts";
+import {LSectionHeroLottieSeed} from "@selldone/page-builder/sections/hero/lottie/LSectionHeroLottieSeed.ts";
+import {LSectionHeroSearchSeed} from "@selldone/page-builder/sections/hero/search/LSectionHeroSearchSeed.ts";
 
 const DEBUG = false;
 
@@ -76,7 +82,7 @@ const SeederRepository: Map<string, any> = new Map<string, any>([
   [
     Number.name,
     () => ({
-      value: 100
+      value: 100,
     }),
   ],
   [
@@ -281,5 +287,25 @@ export class LUtilsSeeder {
     if (DEBUG) console.log(`😅 Seed by schema ${schema} ->`, out);
 
     return out;
+  }
+
+  static SeedNew(name: string) {
+    console.log("🪵 Seed", name);
+
+    if (name === "LSectionHeroHorizontal") {
+      return LSectionHeroHorizontalSeed();
+    } else if (name === "LSectionHeroVertical") {
+      return LSectionHeroVerticalSeed();
+    } else if (name === "LSectionHeroLottie") {
+      return LSectionHeroLottieSeed();
+    } else if (name === "LSectionHeroSearch") {
+      return LSectionHeroSearchSeed();
+    }
+
+
+
+
+    console.error("🚨 Seed not found", name);
+    return null;
   }
 }

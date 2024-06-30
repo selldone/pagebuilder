@@ -15,80 +15,64 @@
 <template>
   <!-- IMPORTANT: Element must have -trackable class! -->
   <v-btn
-    :id="btnData.id"
-    :class="[btnData.classes, { '-button-glow': is_glow }]"
-    :color="btnData.color"
-    :elevation="btnData.elevation"
-    :height="btnData.height"
-    :href="editing ? ' ' : btnData.href"
-    :icon="btnData.icon"
+    :id="object.data.id"
+    :class="[object.classes, { '-button-glow': is_glow }]"
+    :color="object.data.color"
+    :elevation="object.data.elevation"
+    :height="object.data.height"
+    :href="is_editing ? ' ' : object.data.href"
+    :icon="object.data.icon"
     :loading="loading"
-    :ripple="btnData.ripple"
+    :ripple="object.data.ripple"
     :rounded="
-      btnData.rounded ? btnData.rounded : btnData.tile ? 0 : btnData.rounded
+      object.data.rounded ? object.data.rounded : object.data.tile ? 0 : object.data.rounded
     "
-    :size="
-      btnData.size
-        ? btnData.size
-        : btnData.xLarge
-          ? 'x-large'
-          : btnData.large
-            ? 'large'
-            : btnData.small
-              ? 'small'
-              : btnData.xSmall
-                ? 'x-small'
-                : undefined
-    "
-    :style="{ fontFamily: btnData.font, '--shadow-color': btnData.color }"
+    :size="  object.data.size "
+    :style="{ fontFamily: object.data.font, '--shadow-color': object.data.color }"
     :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
     :variant="
       is_glow
         ? 'elevated'
-        : btnData.variant
-          ? btnData.variant
-          : btnData.depressed
-            ? 'flat'
-            : btnData.outlined
-              ? 'outlined'
-              : btnData.text
-                ? 'text'
-                : btnData.fab
-                  ? 'elevated'
-                  : undefined
+        : object.data.variant
+
     "
     class="x--button tnt -trackable"
-    v-html="btnData.content?.applyAugment(augment, editing)"
+    v-html="object.data.content?.applyAugment(augment, is_editing)"
   >
   </v-btn>
 </template>
 
 <script>
+import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
+
 export default {
   name: "XButton",
+  mixins: [LMixinXComponent],
   props: {
-    btnData: {},
-    editing: { type: Boolean, default: false },
+    object: {},
     loading: {},
     augment: {
       // Extra information to show to dynamic show in page content
     },
   },
   computed: {
+    is_editing(){
+      return this.$builder.isEditing
+    },
     is_glow() {
       return (
-        this.btnData.variant === "glow" /*New*/ || this.btnData.glow
+        this.object.data.variant === "glow" /*New*/ || this.object.glow
       ); /*Old*/
     },
     is_dark() {
-      if (typeof this.btnData.color === "string") {
-        return this.btnData.color.includes("-dark-"); // ex. var(--plate-dark-4)
+      if (typeof this.object.data.color === "string") {
+        return this.object.data.color.includes("-dark-"); // ex. var(--plate-dark-4)
       }
       return false;
     },
     is_light() {
-      if (typeof this.btnData.color === "string") {
-        return this.btnData.color.includes("-light-"); // ex. var(--plate-light-4)
+      if (typeof this.object.data.color === "string") {
+        return this.object.data.color.includes("-light-"); // ex. var(--plate-light-4)
       }
       return false;
     },

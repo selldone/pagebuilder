@@ -417,6 +417,7 @@ export default {
         `style`,
         `classes`,
           "background",
+          null
       );
     },
 

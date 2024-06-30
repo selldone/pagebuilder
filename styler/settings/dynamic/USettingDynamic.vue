@@ -32,7 +32,7 @@
       <s-setting-number-input
         v-else-if="item.type === 'number'"
         v-model="modelValue[item.key]"
-        :title="item.title"
+        :label="item.title"
         clearable
         :max="9999"
       ></s-setting-number-input>

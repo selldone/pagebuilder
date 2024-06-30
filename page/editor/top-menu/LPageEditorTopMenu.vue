@@ -277,30 +277,18 @@
           </v-tooltip>
         </v-btn>
 
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
+        <!-- ▃▃▃▃▃▃▃▃▃▃ Hierarchy ▃▃▃▃▃▃▃▃▃▃ -->
 
         <v-btn
-          :color="landing_show_elements_repository ? 'primary' : '#333'"
+          :color="hierarchy?'primary':'#333'"
           icon
           stacked
-          @click.stop="toggleLandingShowElementsRepository()"
+          @click.stop="ShowLSettingsHierarchy(!hierarchy,(val)=>{hierarchy=val})"
         >
-          <v-icon>widgets</v-icon>
-          <div class="small mt-1 tnt">Repository</div>
-
-          <v-tooltip
-            activator="parent"
-            content-class="text-start small pa-3 bg-black"
-            location="bottom"
-            max-width="420"
-            :open-delay="500"
-          >
-            <b class="d-block"> Prebuilt Sections </b>
-            Enable or disable the display of pre-constructed and designed
-            sections. These sections are created using standard sections
-            available in the left menu, demonstrating the versatility of this
-            page builder.
-          </v-tooltip>
+          <v-icon>account_tree</v-icon>
+          <div class="small mt-1 tnt">
+            {{ $t("page_builder.design.tools.hierarchy")?.substring(0, 6) }}
+          </div>
         </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
@@ -349,6 +337,33 @@
           </v-tooltip>
         </v-btn>
 
+        <v-divider class="m-0" vertical></v-divider>
+
+        <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
+
+        <v-btn
+          :color="landing_show_elements_repository ? 'primary' : '#333'"
+          icon
+          stacked
+          @click.stop="toggleLandingShowElementsRepository()"
+        >
+          <v-icon>widgets</v-icon>
+          <div class="small mt-1 tnt">Repository</div>
+
+          <v-tooltip
+            activator="parent"
+            content-class="text-start small pa-3 bg-black"
+            location="bottom"
+            max-width="420"
+            :open-delay="500"
+          >
+            <b class="d-block"> Prebuilt Sections </b>
+            Enable or disable the display of pre-constructed and designed
+            sections. These sections are created using standard sections
+            available in the left menu, demonstrating the versatility of this
+            page builder.
+          </v-tooltip>
+        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -390,28 +405,28 @@
       </template>
       <v-divider class="m-0" vertical></v-divider>
 
-
       <!-- ▃▃▃▃▃▃▃▃▃▃ Shop Top Menu ▃▃▃▃▃▃▃▃▃▃ -->
 
-
       <template v-if="hasShopMenu">
-        <v-btn  color="#333" icon stacked @click="show_menu_editor = true">
+        <v-btn color="#333" icon stacked @click="show_menu_editor = true">
           <v-icon size="small">menu</v-icon>
 
           <div class="small mt-1 tnt">Menu</div>
-          <v-avatar    :image="getShopImagePath(shop.icon, 128)"
-                       class=" avatar-gradient -shop -thin absolute-top-end"
-                       size="18">
-
+          <v-avatar
+            :image="getShopImagePath(shop.icon, 128)"
+            class="avatar-gradient -shop -thin absolute-top-end"
+            size="18"
+          >
           </v-avatar>
-
         </v-btn>
         <v-divider class="m-0" vertical></v-divider>
 
-        <l-store-top-bar-editor v-model="show_menu_editor" :builder="pageBuilder.$builder" :shop="shop"></l-store-top-bar-editor>
+        <l-store-top-bar-editor
+          v-model="show_menu_editor"
+          :builder="pageBuilder.$builder"
+          :shop="shop"
+        ></l-store-top-bar-editor>
       </template>
-
-
 
       <!-- ▃▃▃▃▃▃▃▃▃▃ Import ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -508,7 +523,13 @@
         </v-tooltip>
       </v-btn>
 
-      <v-btn color="#111" stacked variant="text" @click="show_hotkeys = true" class="me-3">
+      <v-btn
+        color="#111"
+        stacked
+        variant="text"
+        @click="show_hotkeys = true"
+        class="me-3"
+      >
         <v-icon start>keyboard_alt</v-icon>
 
         <div class="small mt-1 tnt">Hot Keys</div>
@@ -539,7 +560,7 @@
       @click="$emit('click:close')"
       title="Close page"
       color="#000"
-      class="mx-2 "
+      class="mx-2"
     >
       <v-icon start>close</v-icon>
       {{ $t("global.actions.close") }}
@@ -742,7 +763,12 @@ const ShortKeys = {
 export default {
   name: "LPageEditorTopMenu",
 
-  components: {LStoreTopBarEditor, UDenseCirclesUsers, UButtonAiSmall, SDropZone },
+  components: {
+    LStoreTopBarEditor,
+    UDenseCirclesUsers,
+    UButtonAiSmall,
+    SDropZone,
+  },
   mixins: [LMixinEvents],
   emits: ["click:save", "click:history", "click:prompt", "click:close"],
   props: {
@@ -751,7 +777,6 @@ export default {
       type: Object,
     },
     hasShopMenu: Boolean,
-
 
     page: {
       require: true,
@@ -819,12 +844,14 @@ export default {
 
     visible_to_user: false,
 
-    show_menu_editor:false,
+    show_menu_editor: false,
+
+    hierarchy:false,
   }),
 
   watch: {
     show_import(val) {
-     // this.BlurApp(val);
+      // this.BlurApp(val);
     },
   },
 
@@ -908,7 +935,7 @@ export default {
           this.page.direction = template.direction;
           this.page.note = template.note;
 
-          this.pageBuilder.setPage(this.page.content,null,false);
+          this.pageBuilder.setPage(this.page.content, null, false);
 
           /////this.pageBuilder.title = "Page builder | " + this.page.title + " 📐";
 

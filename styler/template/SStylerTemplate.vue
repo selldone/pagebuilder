@@ -18,18 +18,15 @@
     :caption="type"
     :class="[
       {
-        'is-visible':
-          isVisible && (normal_mode || tracking_mode || animation_mode),
+        'is-visible': isVisible && (normal_mode || tracking_mode || animation_mode),
         '-dot -red': type === 'button' || type === 'text',
-        '-dot -green':
-          type === 'row' || type === 'grid' || type === 'buttons-row',
-        '-dot -amber': type === 'container',
+        '-dot -green':  type === 'row' || type === 'grid' || type === 'buttons-row',
+
+
+        '-dot -amber': type === 'container' || type === 'swiper' ||  type === 'blogs' || type === 'marquee',
 
         '-dot -blue': type === 'column',
 
-        '-dot -amber': type === 'swiper',
-        '-dot -amber': type === 'blogs',
-        '-dot -amber': type === 'marquee',
 
         '-dot': type === 'section',
       },
@@ -299,6 +296,11 @@ $red: #ff3d3d;
     margin: 0;
     padding: 0 !important;
     color: #fff;
+
+    .v-divider{
+      border-color: #aaa ;
+      opacity: 0.4;
+    }
   }
 
   &-input {

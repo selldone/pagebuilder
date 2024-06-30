@@ -29,7 +29,8 @@ interface DataProps {
 
 const LMixinSection = defineComponent({
   props: {
-    sectionData: {},
+    sectionData: {}, // Old version
+    sectionObject: {}, // 🪵 New version
   },
   data(): DataProps {
     return {
@@ -67,6 +68,16 @@ const LMixinSection = defineComponent({
     SHOW_EDIT_TOOLS() {
       return this.$builder.isEditing && !this.$builder.isHideExtra;
     },
+    /**
+     * 🪵 New version
+     */
+    $sectionObject(){
+      return this.sectionObject;
+    },
+
+    /**
+     * Old version
+     */
     $sectionData() {
       // Tips: Remove unset from style to solve conflict with self element classes by unset attributes!
 

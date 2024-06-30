@@ -13,14 +13,12 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+  <x-section v-if="false" :object="$sectionData">
     <x-container :object="$sectionData">
       <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
 
-        <x-column
-          :object="$sectionData.columns[0]"
-        >
+        <x-column :object="$sectionData.columns[0]">
           <x-text
             v-model:object="$sectionData.title"
             :augment="augment"
@@ -41,17 +39,17 @@
         </x-column>
         <!-- ██████████████████████ Column 2 ██████████████████████ -->
 
-        <x-column
-          :object="$sectionData.columns[1]"
-        >
-          <x-uploader
-            v-model="$sectionData.image"
-            :augment="augment"
-          />
+        <x-column :object="$sectionData.columns[1]">
+          <x-uploader v-model:object="$sectionData.image" :augment="augment" />
         </x-column>
       </x-row>
     </x-container>
   </x-section>
+
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
+
 </template>
 
 <script>
@@ -65,12 +63,22 @@ import XContainer from "@selldone/page-builder/components/x/container/XContainer
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionHeroVertical",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XButtons, XColumn, XRow, XContainer, XSection, XText, XUploader },
+  components: {
+    XComponent,
+    XButtons,
+    XColumn,
+    XRow,
+    XContainer,
+    XSection,
+    XText,
+    XUploader,
+  },
   cover: require("../../../assets/images/covers/hero-2.svg"),
   group: "Hero",
   label: "Vertical Hero",
@@ -143,27 +151,7 @@ export default {
   watch: {},
 
   created() {
-    // 🛠️ Fix bad data structures:
-    if (!this.$sectionData.columns || this.$sectionData.columns.length < 2) {
-      this.$sectionData.columns = [
-        {
-          grid: {
-            mobile: 12,
-            tablet: 12,
-            desktop: 12,
-            widescreen: null,
-          },
-        },
-        {
-          grid: {
-            mobile: 12,
-            tablet: 10,
-            desktop: 8,
-            widescreen: null,
-          },
-        },
-      ];
-    }
+
   },
 };
 </script>

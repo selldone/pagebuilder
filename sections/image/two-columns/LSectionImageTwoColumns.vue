@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+  <x-section v-if="false" :object="$sectionData">
     <x-container :object="$sectionData">
       <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column A ██████████████████████ -->
@@ -31,7 +31,7 @@
               :key="`${index}-${$sectionData.columnA.length}`"
               :augment="augment"
               :object="col"
-              :remove-column="() => $sectionData.columns.splice(index, 1)"
+              :remove-child="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>
@@ -53,7 +53,7 @@
               :key="`${index}-${$sectionData.columnB.length}`"
               :augment="augment"
               :object="col"
-              :remove-column="() => $sectionData.columns.splice(index, 1)"
+              :remove-child="() => $sectionData.columns.splice(index, 1)"
             >
             </x-column-image-text>
           </x-row>
@@ -61,6 +61,10 @@
       </x-row>
     </x-container>
   </x-section>
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
+
 </template>
 
 <script>
@@ -72,13 +76,14 @@ import XContainer from "@selldone/page-builder/components/x/container/XContainer
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionImageTwoColumns",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: {XColumnImageText, XColumn, XRow, XContainer, XSection },
+  components: {XComponent, XColumnImageText, XColumn, XRow, XContainer, XSection },
   cover: require("../../../assets/images/covers/two-columns.svg"),
   group: "Image & Text",
   label: "Two column",

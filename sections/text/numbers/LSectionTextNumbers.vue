@@ -13,7 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+  <x-section v-if="false" :object="$sectionData">
     <x-container :object="$sectionData">
       <x-text
         v-model:object="$sectionData.header"
@@ -37,7 +37,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="col"
-          :remove-column="() => $sectionData.columns.splice(index, 1)"
+          :remove-child="() => $sectionData.columns.splice(index, 1)"
           cloneable
           :initial-classes-content="['text-h1']"
           initial-column-layout="x-layout-content-title"
@@ -47,6 +47,9 @@
       </x-row>
     </x-container>
   </x-section>
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
 </template>
 
 <script>
@@ -58,16 +61,24 @@ import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionTextNumbers",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XColumnImageText, XRow, XContainer, XSection, XText },
+  components: {
+    XComponent,
+    XColumnImageText,
+    XRow,
+    XContainer,
+    XSection,
+    XText,
+  },
   cover: require("../../../assets/images/covers/social-1.svg"),
 
   group: "Text",
-  label: "Three numbers",
+  label: "Numbers",
   help: {
     title:
       "Use this section to show big numbers or highlight some values in your business.",

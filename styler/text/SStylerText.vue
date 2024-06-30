@@ -508,11 +508,11 @@ export default {
       required: true,
       type: Object,
     },
-
+/*
     keyText: {
       type: String,
       default: "value",
-    },
+    },*/
 
     keyClasses: {
       type: String,
@@ -600,11 +600,11 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerText");
     }
-    if (!this.keyText) {
+   /* if (!this.keyText) {
       throw new Error(
         "keyText should be define in v-styler:text={keyText:'...'}",
       );
-    }
+    }*/
 
     this.text_font = this.el.firstChild?.style?.fontFamily;
 
@@ -643,7 +643,7 @@ export default {
 
     this.updateValue = () => {
       // console.log("📐 updateValue", this.target, this.keyText, this.el.innerHTML);
-      this.target[this.keyText] = this.el.innerHTML;
+      this.target.data.value = this.el.innerHTML;
     };
     this.el.addEventListener("blur", this.updateValue);
   },
@@ -668,6 +668,7 @@ export default {
         this.keyStyle,
           this.keyClasses,
           this.keyBackground,
+          null,
       {tags:['p','h1','h2','h3','h4','h5']}
       );
     },

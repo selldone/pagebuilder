@@ -15,49 +15,45 @@
 <template>
   <!-- ████████████████████████ Border ████████████████████████ -->
 
-
-  <v-list-item class="s--landing-style-border ">
-
-
+  <v-list-item class="s--landing-style-border">
     <template v-slot:prepend>
       <span class="-label me-2 min-width-100">
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
-
-
-        {{label}}</span>
+        {{ label }}</span
+      >
     </template>
 
     <div class="d-flex align-center">
       <u-dimension-input
-          v-model="width"
-          class="flex-grow-1 v-input-small"
-          hide-details
-          label="Width"
-          variant="outlined"
-          single-line
-          rounded="lg"
-          dense
-          @change="updateOut"
+        v-model="width"
+        class="flex-grow-1 v-input-small"
+        hide-details
+        label="Width"
+        variant="outlined"
+        single-line
+        rounded="lg"
+        dense
+        @change="updateOut"
       ></u-dimension-input>
       <v-select
-          v-model="type"
-          :items="items"
-          class="px-2 v-input-small"
-          flat
-          hide-details
-          single-line
-          label="Type"
-          variant="outlined"
-          rounded="lg"
-          density="compact"
-          @update:model-value="updateOut"
+        v-model="type"
+        :items="items"
+        class="px-2 v-input-small"
+        flat
+        hide-details
+        single-line
+        label="Type"
+        variant="outlined"
+        rounded="lg"
+        density="compact"
+        @update:model-value="updateOut"
       ></v-select>
       <u-color-selector
-          v-model="color"
-          class="flex-grow-0 ms-2"
-          mode="rgba"
-          @change="updateOut"
+        v-model="color"
+        class="flex-grow-0 ms-2"
+        mode="rgba"
+        @change="updateOut"
       ></u-color-selector>
     </div>
   </v-list-item>
@@ -74,7 +70,7 @@ export default {
   props: {
     modelValue: {},
     label: {},
-    icon:{},
+    icon: {},
   },
 
   data() {
@@ -106,6 +102,7 @@ export default {
   methods: {
     updateOut() {
       // console.log("updateOut", this.width, this.type, this.color);
+      if(!this.type || this.type === 'none' || !this.width || this.width === 'unset') return null;
       this.$emit(
         "update:modelValue",
         `${this.width} ${this.type} ${this.color} `,
@@ -130,12 +127,8 @@ export default {
 
 <style lang="scss" scoped>
 .s--landing-style-border {
-
-  .-label{
+  .-label {
     font-size: 0.8rem;
   }
-
-
-
 }
 </style>

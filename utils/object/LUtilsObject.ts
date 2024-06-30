@@ -36,7 +36,4 @@ export class LUtilsObject {
 
     return callback(data);
   }
-
-
-
 }

@@ -24,6 +24,7 @@
 
 <script>
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
+import { isString } from "lodash-es";
 
 export default {
   name: "LAugmentFinder",
@@ -39,7 +40,15 @@ export default {
   },
   computed: {
     array() {
-      return this.modelValue?.findAllDynamicAugmentKeys().unique(); // Find all {{key}}
+      if (isString(this.modelValue))
+        return this.modelValue?.findAllDynamicAugmentKeys().unique(); // Find all {{key}}
+      else {
+        console.error(
+          "LAugmentFinder: modelValue is not a string.",
+          this.modelValue,
+        );
+        return [];
+      }
     },
   },
 

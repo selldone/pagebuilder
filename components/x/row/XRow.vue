@@ -15,18 +15,21 @@
 <template>
   <v-row
     v-styler:row="rowBinding"
-    :align-content="object.row ? object.row.align : 'center'"
-    :align="object.row ? object.row.align : 'center'"
-    :class="{ '-no-wrap': hasWrap && object.row?.no_wrap }"
-    :justify="object.row ? object.row.justify : 'space-around'"
+    :align-content="object.data ? object.data.align : 'center'"
+    :align="object.data ? object.data.align : 'center'"
+    :justify="object.data ? object.data.justify : 'space-around'"
     class="x--row"
+
+    :class="[object?.classes, {'-no-wrap': hasWrap && object.data?.no_wrap, 'is-editable': $builder.isEditing }]"
+    :style="[object?.style, backgroundStyle(object.background)]"
+
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
 
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-    <div
-      v-if="addColumn && SHOW_EDIT_TOOLS && !object.columns?.length"
+    <v-col cols="12"
+      v-if="addColumn && SHOW_EDIT_TOOLS && !object.children?.length"
       style="
         min-height: 48px;
         opacity: 0.5;
@@ -34,11 +37,12 @@
         text-transform: uppercase;
         display: flex;
         align-items: center;
+        justify-content: center;
       "
     >
       <v-icon class="me-1">library_add</v-icon>
       You can add columns here...
-    </div>
+    </v-col>
   </v-row>
 </template>
 
@@ -59,27 +63,18 @@ export default defineComponent({
 
     addColumn: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    hasArrangement: { type: Boolean, default: false },
+    hasArrangement: { type: Boolean, default: true },
 
-    hasWrap: { type: Boolean, default: false },
-    hasFluid: { type: Boolean, default: false },
+    hasWrap: { type: Boolean, default: true },
+    hasFluid: { type: Boolean, default: true },
 
     columnStructure: {
-      default: () => {
-        return {
-          title: types.Title,
-          image: types.Image,
-          content: types.Text,
-          grid: {
-            mobile: 12,
-            tablet: null,
-            desktop: null,
-            widescreen: null,
-          },
-        };
-      },
+      type: Array,
+      default: () => [
+        'h3',   'img','p'
+      ],
     },
 
     /**

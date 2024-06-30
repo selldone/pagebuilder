@@ -40,6 +40,7 @@
         variant="text"
         @update:model-value="(val) => setValue(val)"
         v-dragscroll="true"
+        :multiple="multiple"
       >
         <v-btn
           v-for="item in items"
@@ -76,6 +77,7 @@ export default defineComponent({
     },
     disabled: Boolean,
     mandatory: Boolean,
+    multiple:Boolean,
   },
   computed: {
     is_object() {

@@ -100,7 +100,7 @@
           <!-- ----------------- Image Layer ----------------- -->
 
           <x-uploader
-            v-model="slide.image"
+            v-model:object="slide.image"
             :augment="augment"
             :class="{ pen: !$section.lock }"
             :initialSize="{
@@ -130,7 +130,7 @@
             v-if="slide.button"
             v-styler:button="{ target: slide.button }"
             :augment="augment"
-            :btn-data="slide.button"
+            :object="slide.button"
             :editing="$builder.isEditing"
             :index="index"
             class="m-2"

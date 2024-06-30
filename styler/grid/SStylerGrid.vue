@@ -32,10 +32,10 @@
       <!-- ―――――――――――――――――― Grid ―――――――――――――――――― -->
       <s-styler-tools-devices
         v-model="device"
-        :desktop-value="target[keyGrid].desktop"
-        :mobile-value="target[keyGrid].mobile"
-        :tablet-value="target[keyGrid].tablet"
-        :widescreen-value="target[keyGrid].widescreen"
+        :desktop-value="target.data.grid.desktop"
+        :mobile-value="target.data.grid.mobile"
+        :tablet-value="target.data.grid.tablet"
+        :widescreen-value="target.data.grid.widescreen"
         @update:model-value="selectDevice"
       ></s-styler-tools-devices>
     </ul>
@@ -95,13 +95,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
     },
-
 
     /**
      * Set the location of the proper
@@ -111,10 +108,7 @@ export default {
       default: "bottom",
     },
 
-    keyGrid: {
-      type: String,
-      default: "grid",
-    },
+
   },
   data: () => ({
     option: null,
@@ -126,7 +120,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -141,18 +134,28 @@ export default {
   },
   mounted() {},
 
+  created() {
+    if(!this.target.data?.grid){
+      console.error("Styler Grid | Target is invalid! Target: ",this.target);
+    }
+  },
+
   methods: {
     selectDevice(device) {
       this.option = "columnWidth";
       this.device = device;
 
-      this.gridValue = this.target[this.keyGrid][device];
+
+
+      this.gridValue = this.target.data.grid[device];
     },
 
     setGridValue(val) {
       val = Math.min(Math.max(val, 0), 12);
 
-      this.target[this.keyGrid][this.device] = val;
+      console.log("Set grid value: ",val, " Device: ",this.device, " Target: ",this.target.data.grid)
+
+      this.target.data.grid[this.device] = val;
     },
   },
 };

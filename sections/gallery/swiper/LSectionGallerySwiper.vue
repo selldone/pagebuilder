@@ -89,7 +89,7 @@
           <!-- ----------------- Image Layer ----------------- -->
 
           <x-uploader
-            v-model="_slide.image"
+            v-model:object="_slide.image"
             :augment="augment"
             :class="{ pen: !$section.lock }"
             style="min-height: 100%; min-width: 100%; max-height: 100%"
@@ -151,7 +151,7 @@
                     target: _slide.button,
                   }"
                   :augment="augment"
-                  :btn-data="_slide.button"
+                  :object="_slide.button"
                   :editing="$builder.isEditing"
                   class="m-2 z2"
                 >

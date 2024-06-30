@@ -46,7 +46,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="col"
-          :remove-column="() => $sectionData.columns.splice(index, 1)"
+          :remove-child="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-normal"
         >

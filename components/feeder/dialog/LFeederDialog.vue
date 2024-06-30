@@ -82,7 +82,7 @@
           </v-list-subheader>
           <v-textarea
             v-if="schema.title"
-            v-model="section_data.title"
+            v-model="section_data.title.value"
             :rows="2"
             auto-grow
             label="Title"
@@ -91,13 +91,13 @@
           >
             <template v-slot:message>
               <l-augment-finder
-                :model-value="section_data.title"
+                :model-value="section_data.title.value"
               ></l-augment-finder>
             </template>
           </v-textarea>
           <v-textarea
             v-if="schema.content"
-            v-model="section_data.content"
+            v-model="section_data.content.value"
             :rows="2"
             auto-grow
             label="Description"
@@ -105,7 +105,7 @@
           >
             <template v-slot:message>
               <l-augment-finder
-                :model-value="section_data.content"
+                :model-value="section_data.content.value"
               ></l-augment-finder>
             </template>
           </v-textarea>

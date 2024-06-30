@@ -55,8 +55,8 @@
 
       <li v-if="hasWrap">
         <button class="styler-button" @click="toggleNoWrap">
-          <v-icon  size="20"
-            >{{ target[keyRow].no_wrap ? "view_column" : "view_comfy" }}
+          <v-icon size="20"
+            >{{ target.data.no_wrap ? "view_column" : "view_comfy" }}
           </v-icon>
           <v-tooltip
             activator="parent"
@@ -66,7 +66,7 @@
 
             <v-img
               :src="
-                target[keyRow].no_wrap
+                target.data.no_wrap
                   ? require('./assets/row-no-wrap.svg')
                   : require('./assets/row-wrap.svg')
               "
@@ -77,27 +77,12 @@
         </button>
       </li>
 
-      <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
-
-      <li v-if="hasFluid">
-        <button class="styler-button" @click="toggleFluid">
-          <v-icon  size="20"
-            >{{ target[keyRow].fluid ? "swap_horiz" : "compare_arrows" }}
-          </v-icon>
-          <v-tooltip
-            activator="parent"
-            content-class="bg-black text-white"
-            location="bottom"
-            >Fluid / Limit Width
-          </v-tooltip>
-        </button>
-      </li>
 
       <!-- ―――――――――――――――――― Add New Column ―――――――――――――――――― -->
 
       <li v-if="hasAdd">
         <button class="styler-button" @click="addNewColumn()">
-          <v-icon color="#CDDC39"  size="20">add_box</v-icon>
+          <v-icon color="#CDDC39" size="20">add_box</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
@@ -117,7 +102,7 @@
 
       <div v-if="show_align" class="d-flex flex-column align-center pa-2">
         <v-btn-toggle
-          v-model="target[keyRow].align"
+          v-model="target.data.align"
           class="ma-1"
           rounded="xl"
           selected-class="green-flat"
@@ -136,7 +121,7 @@
           </v-btn>
         </v-btn-toggle>
         <v-btn-toggle
-          v-model="target[keyRow].justify"
+          v-model="target.data.justify"
           class="ma-1"
           rounded="xl"
           selected-class="blue-flat"
@@ -165,7 +150,11 @@ import JUSTIFY from "../../src/enums/JUSTIFY";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
+import { LModelElementXColumn } from "@selldone/page-builder/components/x/column/LModelElementXColumn";
+import { LModelElementXText } from "@selldone/page-builder/components/x/text/LModelElementXText";
+import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
+import {XRowData} from "@selldone/page-builder/components/x/row/XRowData";
+import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow";
 
 export default {
   name: "SStylerRow",
@@ -178,7 +167,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: LModelElementXRow,
       // It's the value of v-styler:arg="value"
     },
 
@@ -203,21 +192,10 @@ export default {
      * Initial column structure for adding new column
      */
     columnStructure: {
-      type: Object,
-      default: () => {
-        return {
-          title: "🌟 Title",
-          image: null,
-          content: "🌟 Content",
-          grid: {
-            mobile: 12,
-            tablet: 6,
-            desktop: 4,
-            widescreen: null,
-          },
-        };
-      },
+      type: Array,
+      default: () => ["h3", "img", "p"],
     },
+
     hasWrap: {
       type: Boolean,
       default: false,
@@ -230,10 +208,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasFluid: {
-      type: Boolean,
-      default: false,
-    },
+
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -255,13 +230,7 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerRow");
     }
-    // Auto seed columns if not exist
-    if (!this.target[this.keyColumns]) this.target[this.keyColumns] = [];
-    if (!this.target[this.keyRow])
-      this.target[this.keyRow] = {
-        align: "center",
-        justify: "space-around",
-      };
+
   },
   mounted() {},
 
@@ -270,18 +239,37 @@ export default {
      * XRow | Add new column
      */
     addNewColumn() {
-      console.log("addNewColumn", this.target[this.keyColumns]);
-      this.target[this.keyColumns].push(
-        LUtilsSeeder.seed(this.columnStructure),
-      );
+      console.log("addNewColumn", this.target.children);
+
+      console.log("this.columnStructure", this.columnStructure);
+
+      const new_column = LModelElementXColumn.Seed(12, 6, 4);
+
+      this.columnStructure.forEach((item) => {
+        if (["p", "h1", "h2", "h3", "h4", "h5"].includes(item)) {
+          new_column.addChild(
+            LModelElementXText.Seed(
+              item === "p"
+                ? "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description..."
+                : "Enter your headline here...",
+              item,
+            ),
+          );
+        }
+       else if (["img", "image"].includes(item)) {
+          new_column.addChild(LModelElementXUploader.Seed(1, true));
+        } else {
+          console.error("Add new column structure is invalid! item:", item);
+        }
+      });
+
+      this.target.addChild(new_column);
     },
 
     toggleNoWrap() {
-      this.target[this.keyRow].no_wrap = !this.target[this.keyRow].no_wrap;
+      this.target.data.no_wrap = !this.target.data.no_wrap;
     },
-    toggleFluid() {
-      this.target[this.keyRow].fluid = !this.target[this.keyRow].fluid;
-    },
+
   },
 };
 </script>

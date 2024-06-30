@@ -33,7 +33,7 @@ export class TextShadowHelper {
   }
 
   static Extract(shadow_str) {
-    if (!shadow_str) return [];
+    if (!shadow_str) return null;
 
     const out = [];
     try {
@@ -59,7 +59,7 @@ export class TextShadowHelper {
 
     console.log("Shadow > Extract > Raw shadow ", shadow_str, "--->", out);
 
-    return out;
+    return out.length ? out : null;
   }
 
   static NewItem() {

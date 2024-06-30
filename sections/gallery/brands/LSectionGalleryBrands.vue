@@ -49,10 +49,10 @@
               v-for="(col, index) in $sectionData.columns"
               :key="`${index}-${$sectionData.columns.length}`"
               :object="col"
-              :remove-column="() => $sectionData.columns.splice(index, 1)"
+              :remove-child="() => $sectionData.columns.splice(index, 1)"
             >
               <x-uploader
-                v-model="col.image"
+                v-model:object="col.image"
                 :augment="augment"
                 :initialSize="null"
                 cover

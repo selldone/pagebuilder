@@ -12,73 +12,23 @@
   - Tread carefully, for you're treading on dreams.
   -->
 
-<template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-row :object="$sectionData" has-arrangement has-fluid>
-        <!-- ██████████████████████ Column 1 ██████████████████████ -->
-
-        <x-column :object="$sectionData.columns[0]" >
-          <x-text
-            v-model:object="$sectionData.title"
-            :augment="augment"
-            initial-type="h1"
-            :initial-classes="['mb-2']"
-          ></x-text>
-
-          <x-text
-            v-model:object="$sectionData.content"
-            :augment="augment"
-            initial-type="p"
-            :initial-classes="['mb-4']"
-          ></x-text>
-
-          <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
-          <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
-        </x-column>
-
-        <!-- ██████████████████████ Column 2 ██████████████████████ -->
-
-        <x-column :object="$sectionData.columns[1]">
-          <x-uploader
-            v-model="$sectionData.image"
-            :aspect-ratio="1"
-            :augment="augment"
-            class="ma-auto"
-          />
-        </x-column>
-      </x-row>
-    </x-container>
-  </x-section>
+<template>
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
 
 <script>
-import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XUploader from "../../../components/x/uploader/XUploader.vue";
 import { defineComponent } from "vue";
 import coverImage from "../../../assets/images/covers/hero-1.svg";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
-import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
-import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
-import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
-import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default defineComponent({
   name: "LSectionHeroHorizontal",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
   components: {
-    XButtons,
-    XColumn,
-    XRow,
-    XContainer,
-    XSection,
-    XText,
-    XUploader,
+    XComponent,
   },
   cover: coverImage,
   label: "Horizontal Hero",
@@ -89,56 +39,12 @@ export default defineComponent({
 
   group: "Hero",
 
-  $schema: {
-    classes: types.ClassList,
-    row: types.Row,
-
-    // Background & Style:
-    background: types.Background,
-    style: types.Style,
-
-    // Contents:
-    title: types.Title,
-    content: types.Text,
-    image: types.Image,
-
-    // Buttons:
-    buttons: [],
-    btn_row: types.Row,
-
-    // Columns:
-    columns: [
-      {
-        grid: {
-          mobile: 12,
-          tablet: 12,
-          desktop: 6,
-          widescreen: null,
-        },
-      },
-      {
-        grid: {
-          mobile: 12,
-          tablet: 8,
-          desktop: 6,
-          widescreen: null,
-        },
-      },
-    ],
-
-    /**
-     * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
-     */
-    $init: (data) => {
-      data.classes = [
-        "min-height-80vh",
-        "d-flex" /*Keep row fill container! Important.*/,
-      ];
-      data.row.align = "center";
-    },
-  },
-
   props: {
+    /**
+     * 🪵 New version!
+     */
+    object: {},
+
     id: {
       type: Number,
       required: true,
@@ -154,27 +60,16 @@ export default defineComponent({
   watch: {},
   beforeCreate() {},
   created() {
-    // 🛠️Fix bad data structures:
-    if (!this.$sectionData.columns || this.$sectionData.columns.length < 2) {
-      this.$sectionData.columns = [
-        {
-          grid: {
-            mobile: 12,
-            tablet: 12,
-            desktop: 6,
-            widescreen: null,
-          },
-        },
-        {
-          grid: {
-            mobile: 12,
-            tablet: 8,
-            desktop: 6,
-            widescreen: null,
-          },
-        },
-      ];
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━ 🪵 Convert to new page: ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if (this.$sectionObject) {
+      console.log("🪵 New version detected!", this.$sectionObject);
+      return; //🪵 New version!
     }
+    console.log(
+      "❗Load old data! It should migrate before here.",
+      "LSectionHeroHorizontal | Section Data:",
+      this.$sectionData,
+    );
   },
 
   methods: {},

@@ -16,7 +16,7 @@
   <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
   <!-- Start Buttons group -->
   <v-row
-    v-styler:buttons-row="{ target: object,keyRow: 'btn_row'}"
+    v-styler:buttons-row="{ target: object, keyRow: 'btn_row' }"
     :align="object.btn_row ? object.btn_row.align : 'center'"
     :justify="object.btn_row ? object.btn_row.justify : 'space-around'"
     class="x--buttons"
@@ -24,8 +24,9 @@
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
-    <div
-      v-if="SHOW_EDIT_TOOLS && !object.buttons?.length"
+    <v-col
+      cols="12"
+      v-if="SHOW_EDIT_TOOLS && !object.children?.length"
       style="
         min-height: 48px;
         opacity: 0.5;
@@ -33,26 +34,25 @@
         text-transform: uppercase;
         display: flex;
         align-items: center;
+        justify-content: center;
       "
     >
       <v-icon class="me-1">library_add</v-icon>
       You can add buttons here...
-    </div>
+    </v-col>
     <!-- Only addable cna remove col-->
-
     <x-button
-      v-for="(col, index) in object.buttons"
-      :key="`${index}-${object.buttons.length}`"
+      v-for="(child, index) in object.children"
+      :key="`${index}-${object.children.length}`"
       v-styler:button="{
-        target: col,
-        remove: () => {
-          object.buttons.splice(index, 1);
+        target: child.data,
+        removeChild: () => {
+          object.children.splice(index, 1);
         },
       }"
       :augment="augment"
-      :btn-data="col"
-      :editing="$builder.isEditing"
-      class="m-2"
+      :object="child"
+      class="ma-2"
     >
     </x-button>
   </v-row>
@@ -65,6 +65,7 @@ import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
+import { LModelElement } from "@selldone/page-builder/models/element/LModelElement";
 
 export default defineComponent({
   name: "XButtons",
@@ -76,6 +77,28 @@ export default defineComponent({
     augment: {
       // Extra information to show to dynamic show in page content
     },
+  },
+  computed: {
+    buttons() {
+      // New version:
+      if (this.object instanceof LModelElement) {
+        return this.object.children;
+      }
+      console.error("❗Old buttons version!");
+      // Old version: TODO: Remove this block
+      return this.object.buttons;
+    },
+  },
+
+  created() {
+    // New version:
+    if (this.object instanceof LModelElement) {
+      return;
+    }
+    console.error(
+      "❗Old buttons version! Please migrate to new version.",
+      this.object,
+    );
   },
 });
 </script>

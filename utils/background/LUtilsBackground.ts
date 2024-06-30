@@ -29,9 +29,9 @@ export class LUtilsBackground {
   ) {
     if (bg_custom && bg_custom.includes("background")) {
       const out = this.StringStyleToObj(bg_custom);
-      if (!out.color && dark !== null && dark !== undefined) {
+     /* if (!out.color && dark !== null && dark !== undefined) {
         out.color = dark ? "#fff" : "#333";
-      }
+      }*/
       return out;
     }
 
@@ -50,12 +50,12 @@ export class LUtilsBackground {
         bg_size,
       ),
       backgroundRepeat: bg_repeat,
-      color:
+    /*  color:
         dark === null || dark === undefined
           ? undefined
           : dark
             ? "#fff"
-            : "#333",
+            : "#333",*/
       backgroundPosition: bg_position,
     };
 

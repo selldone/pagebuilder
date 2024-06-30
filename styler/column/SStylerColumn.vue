@@ -32,9 +32,9 @@
     <ul class="styler-list">
       <!-- ―――――――――――――――――― Delete col ―――――――――――――――――― -->
 
-      <template v-if="removeColumn">
+      <template v-if="removeChild">
         <li>
-          <button class="styler-button" @click="removeColumn">
+          <button class="styler-button" @click="removeChild">
             <v-icon color="red" size="20">close</v-icon>
 
             <v-tooltip
@@ -106,10 +106,10 @@
 
       <s-styler-tools-devices
         v-model="device"
-        :desktop-value="target[keyGrid].desktop"
-        :mobile-value="target[keyGrid].mobile"
-        :tablet-value="target[keyGrid].tablet"
-        :widescreen-value="target[keyGrid].widescreen"
+        :desktop-value="target.data?.grid.desktop"
+        :mobile-value="target.data?.grid.mobile"
+        :tablet-value="target.data?.grid.tablet"
+        :widescreen-value="target.data?.grid.widescreen"
         @update:model-value="selectDevice"
       ></s-styler-tools-devices>
     </ul>
@@ -188,7 +188,7 @@ export default {
      */
     positionOffset: {},
 
-    removeColumn: {
+    removeChild: {
       type: Function,
     },
     hasCustomLayout: {
@@ -196,10 +196,7 @@ export default {
       default: false,
     },
 
-    keyGrid: {
-      type: String,
-      default: "grid",
-    },
+
   },
   data: () => ({
     option: null,
@@ -218,14 +215,23 @@ export default {
     },
   },
   beforeMount() {
+
     if (!this.target) {
       throw new Error("Target is required for SStylerColumn");
     }
+
+    if(!isObject(this.target.data)){
+      console.error("Invalid target data! Maybe its because of migration from V1 to V2! Target:",this.target)
+      return;
+    }
+
+
     if (
-      !isObject(this.target[this.keyGrid]) ||
-      Array.isArray(this.target[this.keyGrid])
+      !isObject(this.target.data?.grid) ||
+      Array.isArray(this.target.data?.grid)
     ) {
-      this.target[this.keyGrid] = { mobile: 12, tablet: 6, desktop: 4 };
+      console.error("Invalid data.grid! Target:",this.target)
+      this.target.data.grid = { mobile: 12, tablet: 6, desktop: 4 };
     }
   },
   mounted() {},
@@ -246,7 +252,8 @@ export default {
         this.target,
         `style`,
         `classes`,
-          "background",
+        "background",
+        "grid",
       );
     },
 
@@ -258,12 +265,14 @@ export default {
       this.option = "columnWidth";
       this.device = device;
 
-      this.gridValue = this.target[this.keyGrid][device];
+      this.gridValue = this.target.data.grid[device];
     },
     setGridValue(val) {
-      val = Math.min(Math.max(val, 0), 12);
 
-      this.target[this.keyGrid][this.device] = val;
+      val = Math.min(Math.max(val, 0), 12);
+      console.log("Set column value: ",val, " Device: ",this.device, " Target: ",this.target.data.grid)
+
+      this.target.data.grid[this.device] = val;
     },
   },
 };

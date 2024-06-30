@@ -14,7 +14,6 @@
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Toolbar ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
-
   <v-menu
     v-if="has_edit_toolbar || has_animate_toolbar"
     :activator="$refs.i_image"
@@ -289,7 +288,7 @@
     :is="link && !$builder.isEditing ? 'a' : 'div'"
     v-if="src || blobUrl || $builder.isEditing"
     ref="i_image"
-    v-data-x="styles"
+    v-data-x="object.styles"
     :class="[
       {
         uploader: $builder.isEditing,
@@ -302,7 +301,7 @@
       { 'rounded-circle': setting.round }, // to keep rounded intuitive!
 
       /*root_classes*/
-      classes /*image_classes*/,
+      object.classes /*image_classes*/,
     ]"
     :href="link"
     :style="[
@@ -315,11 +314,11 @@
         'max-height': size?.max_h,
         'max-width': size?.max_w,
 
-        animationDuration: styles?.animationDuration,
-        animationDelay: styles?.animationDelay,
-        animationIterationCount: styles?.animationIterationCount,
-        animationDirection: styles?.animationDirection,
-        animationTimingFunction: styles?.animationTimingFunction,
+        animationDuration: object.styles?.animationDuration,
+        animationDelay: object.styles?.animationDelay,
+        animationIterationCount: object.styles?.animationIterationCount,
+        animationDirection: object.styles?.animationDirection,
+        animationTimingFunction: object.styles?.animationTimingFunction,
 
         'object-fit': setting.contain ? 'contain' : 'cover',
         'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
@@ -330,17 +329,17 @@
         // 'animation-name': 'inherit',
       },
       bg_cal,
-      styles,
+      object.styles,
     ]"
     class="image-container"
     cloneable="true"
     target="_blank"
     v-bind="$attrs"
     @click="
-      $builder.onClickClone($event, modelValue, [
+      $builder.onClickClone($event, object, [
         'classes',
         'style',
-        'setting',
+        'data.setting',
       ]);
       init();
       $forceUpdate();
@@ -435,6 +434,9 @@ import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
+import { LModelElementXUploader } from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
+import {XUploaderData, XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderData";
+import {LModelElementXLottie} from "@selldone/page-builder/components/x/lottie/LModelElementXLottie";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -461,17 +463,17 @@ export default defineComponent({
   components: {},
   inject: ["$builder", "$section"],
   props: {
-    modelValue: {
-      type: Object,
+    object: {
+      type: LModelElementXUploader,
     },
     mode: {
       default: "input",
       type: String,
     },
-
-    initialClasses: {
-      type: Array,
-    },
+    /*
+        initialClasses: {
+          type: Array,
+        },*/
     initialSize: {},
     /*
     cover: {          // Prefer default value!
@@ -513,10 +515,6 @@ export default defineComponent({
   },
 
   data: () => ({
-    image: {},
-    classes: null,
-    styles: null,
-
     //-----------------------
 
     busy_upload: false,
@@ -578,20 +576,18 @@ export default defineComponent({
       return this.$builder.getImageUploadUrl();
     },
     setting() {
-      const uid = this.uid;
-      return this.image.setting;
+      return this.object.data?.setting;
     },
     size() {
-      const uid = this.uid;
-      return this.setting.size;
+      return this.setting?.size;
     },
 
     src() {
-      if (this.$builder.isEditing) return this.image.src;
-      return this.image.src?.applyAugment(this.augment, false);
+      if (this.$builder.isEditing) return this.object.data.src;
+      return this.object.data.src?.applyAugment(this.augment, false);
     },
     is_dynamic_value() {
-      return this.image.src?.findAllDynamicAugmentKeys()?.length;
+      return this.object.data?.src?.findAllDynamicAugmentKeys()?.length;
     },
     missed_dynamic_value() {
       // Some dynamic values not exist in augment!
@@ -632,7 +628,7 @@ export default defineComponent({
         bg.dark,
         bg.bg_position,
         bg.bg_rotation,
-          bg.bg_backdrop,
+        bg.bg_backdrop,
       );
     },
     fg_cal() {
@@ -648,28 +644,25 @@ export default defineComponent({
         fg.dark,
         fg.bg_position,
         fg.bg_rotation,
-          fg.bg_backdrop,
+        fg.bg_backdrop,
       );
     },
 
     link() {
-      return this.image && this.image.link;
+      return this.object.data.link;
     },
 
     animations() {
-      return LUtilsClasses.GetAnimations(this.classes);
+      return LUtilsClasses.GetAnimations(this.object.classes);
     },
     hovers() {
-      return LUtilsClasses.GetHovers(this.classes);
+      return LUtilsClasses.GetHovers(this.object.classes);
     },
     threshold() {
-      return LUtilsClasses.GetThreshold(this.styles);
+      return LUtilsClasses.GetThreshold(this.object.styles);
     },
   },
   watch: {
-    image() {
-      this.$emit("update:modelValue", this.image);
-    },
     "setting.aspect"(aspect) {
       // Force rerender image when select auto aspect ration : (Fix zero height problem)
       if (!aspect) {
@@ -680,7 +673,7 @@ export default defineComponent({
       }
     },
 
-    modelValue() {
+    object() {
       this.init();
     },
   },
@@ -693,43 +686,39 @@ export default defineComponent({
     },
 
     init() {
-      if (!this.modelValue || typeof this.modelValue !== "object") {
-        this.image = { src: null, setting: {} };
-        this.$emit("update:modelValue", this.image);
+      if (!this.object || !(this.object instanceof LModelElementXUploader || this.object instanceof LModelElementXLottie)) {
+        console.error(
+          "Invalid object in the image uploader! Type:",typeof this.object,'Object: ',
+          this.object,
+        );
+       /// this.object.data=new XUploaderData("", new XUploaderDataTypes.Setting)
         return;
       }
-      this.image = this.modelValue;
-      // console.log('init',this.image)
-
-      if (!this.image || !Object.keys(this.image) || !this.image.setting)
-        this.image = { src: null, setting: {} };
 
       //  console.log('this.image.setting.size',this.image.setting.size)
-      if (!this.image.setting.size) {
-        this.image.setting.size = this.initialSize
-          ? this.initialSize
-          : { w: "100%", h: "100%", min_h: "20px", max_w: "100%" };
-
-        this.image.setting.contain = !!this.contain;
-      }
+      /* if (!this.image.setting.size) {
+         this.image.setting.size = this.initialSize
+           ? this.initialSize
+           : { w: "100%", h: "100%", min_h: "20px", max_w: "100%" };
+ 
+         this.image.setting.contain = !!this.contain;
+       }*/
 
       // this.setting.contain=!this.cover
       // this.setting.aspect=this.aspectRatio
 
-      this.classes = this.image.classes;
-      this.styles = this.image.style;
+      /*
+            if (!this.classes || !Array.isArray(this.classes)) {
+              this.classes = this.initialClasses ? this.initialClasses : [];
+              // Auto set class image:
+              //  console.log('Auto set class image',this.classes)
+              this.image.classes = this.classes;
+            }*/
 
-      if (!this.classes || !Array.isArray(this.classes)) {
-        this.classes = this.initialClasses ? this.initialClasses : [];
-        // Auto set class image:
-        //  console.log('Auto set class image',this.classes)
-        this.image.classes = this.classes;
-      }
-
-      if (this.rounded && this.setting.round === undefined) {
-        this.setting.round = this.rounded;
-        this.setting.aspect = 1;
-      }
+      /* if (this.rounded && this.setting.round === undefined) {
+         this.setting.round = this.rounded;
+         this.setting.aspect = 1;
+       }*/
     },
 
     forceUpdate() {
@@ -744,11 +733,15 @@ export default defineComponent({
         this.$refs.i_image,
         this.$refs.i_image,
 
-        this.modelValue,
+        this.object,
         "style",
         "classes",
-          "background",
-        { /*noSize: true,*/ prev_image: this.image.src ,exclude:['typeface']}, // Not show size ! conflict with image size!
+        "background",
+        null,
+        {
+          /*noSize: true,*/ prev_image: this.image.src,
+          exclude: ["typeface", "grid"],
+        }, // Not show size ! conflict with image size!
       );
     },
 
@@ -756,7 +749,7 @@ export default defineComponent({
     showLayers() {
       this.ShowLSettingsImageLayers(
         this.$refs.i_image,
-        this.modelValue,
+        this.object,
         "setting",
         this.src,
         () => {
@@ -769,7 +762,7 @@ export default defineComponent({
     showResize() {
       this.ShowLSettingsImageSize(
         this.$refs.i_image,
-        this.modelValue.setting,
+        this.object.setting,
         "size",
         this.src,
         () => {
@@ -824,7 +817,7 @@ export default defineComponent({
             this.showSuccessAlert(null, `Image uploaded successfully.`);
 
             const imageURL = response.data.files.path;
-            this.image.src = imageURL;
+            this.object.data.src = imageURL;
 
             this.$emit("uploaded", imageURL);
           } else {
@@ -847,17 +840,20 @@ export default defineComponent({
         this.$refs.i_image, // Style
         this.$refs.i_image, // Class
 
-        this.modelValue,
+        this.object,
         "style",
         "classes",
-        { /* noSize: true,*/ prev_image: this.image.src ,exclude:['typeface'] }, // Not show size ! conflict with image size!
+        {
+          /* noSize: true,*/ prev_image: this.object.data.src,
+          exclude: ["typeface"],
+        }, // Not show size ! conflict with image size!
       );
     },
 
     //----------------------------------------------------------------------------
 
     showLink() {
-      this.ShowLSettingsLink(this.$refs.i_image, this.modelValue, "link");
+      this.ShowLSettingsLink(this.$refs.i_image, this.object, "link");
     },
 
     onDropEnterHolder() {

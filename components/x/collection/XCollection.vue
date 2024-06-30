@@ -14,12 +14,12 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <v-card class="text-start px-4 py-2" variant="text">
-    <h3
-      class="mb-2"
-      v-if="object.title || SHOW_EDIT_TOOLS"
-      v-styler:text="{ target: object, keyText: 'title' }"
-      v-html="object.title?.applyAugment(augment, $builder.isEditing)"
-    ></h3>
+    <!-- Moved to parent!  <x-text
+        v-model:object="object.title"
+        :augment="augment"
+        initial-type="h3"
+        :initial-classes="['mb-2']"
+      ></x-text>-->
     <x-row
       :column-structure="ItemType"
       :object="object"
@@ -29,14 +29,14 @@
       ><!-- Only addable can remove col-->
 
       <x-column
-        v-for="(col, index) in object.columns"
-        :key="`${index}-${object.columns.length}`"
-        :object="col"
-        :remove-column="() => object.columns.splice(index, 1)"
+        v-for="(item, index) in object.children"
+        :key="`${index}-${object.children.length}`"
+        :object="item.column"
+        :remove-child="() => object.children.splice(index, 1)"
         nested
       >
         <x-uploader
-          v-model="col.image"
+          v-model:object="item.image"
           :augment="augment"
           :initialSize="{
             w: '100%',
@@ -48,12 +48,12 @@
           }"
           cover
         />
-        <div
-          v-if="col.title || SHOW_EDIT_TOOLS"
-          class="text-subtitle-2 line-height-normal"
-          v-styler:text="{ target: col, keyText: 'title' }"
-          v-html="col.title?.applyAugment(augment, $builder.isEditing)"
-        ></div>
+        <x-text
+          v-model:object="item.title"
+          :augment="augment"
+          initial-type="p"
+          :initial-classes="['text-subtitle-2', 'line-height-normal']"
+        ></x-text>
       </x-column>
     </x-row>
   </v-card>
@@ -64,15 +64,20 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
 import * as types from "@selldone/page-builder/src/types/types";
-import { isObject } from "lodash-es";
-import { LUtilsSeeder } from "@selldone/page-builder/utils/seeder/LUtilsSeeder";
+import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import { defineAsyncComponent } from "vue";
+
+const XText = defineAsyncComponent(
+  () => import("@selldone/page-builder/components/x/text/XText.vue"),
+);
 
 export default {
   name: "XCollection",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XUploader },
+  components: { XColumn, XRow, XText, XUploader },
 
   props: {
     object: { required: true },
@@ -98,14 +103,15 @@ export default {
   watch: {},
 
   created() {
-    if (!this.object.columns || !Array.isArray(this.object.columns)) {
-      this.object.columns = [];
-      for (let i = 0; i < this.initialCount; i++) {
-        this.object.columns.push(LUtilsSeeder.seed(this.ItemType));
-      }
+    if (!this.object.children || !Array.isArray(this.object.children)) {
+      console.error("XCollection: No children found, seeding...");
+      /* this.object.children = [];
+     * for (let i = 0; i < this.initialCount; i++) {
+         this.object.children.push(LUtilsSeeder.seed(this.ItemType));
+       }*/
     }
 
-    if (!this.object.row || !isObject(this.object.row)) this.object.row = {};
+    // if (!this.object.row || !isObject(this.object.row)) this.object.row = {};
   },
 
   mounted() {},

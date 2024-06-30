@@ -32,9 +32,9 @@
     <ul class="styler-list">
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
 
-      <template v-if="remove">
+      <template v-if="removeChild">
         <li>
-          <button class="styler-button" @click="remove()">
+          <button class="styler-button" @click="removeChild()">
             <v-icon color="red" size="20">close</v-icon>
 
             <v-tooltip
@@ -464,7 +464,7 @@ export default {
     /**
      * Show delete button
      */
-    remove: {
+    removeChild: {
       type: Function,
     },
     noLink: {

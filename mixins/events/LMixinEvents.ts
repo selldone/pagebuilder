@@ -60,6 +60,7 @@ export const LMixinEvents = defineComponent({
       keyStyle: string,
       keyClass: string,
       keyBackground: string,
+      keyGrid: string|null,
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
@@ -70,6 +71,7 @@ export const LMixinEvents = defineComponent({
         keyStyle,
         keyClass,
         keyBackground,
+        keyGrid,
         options,
       });
     },
@@ -277,6 +279,15 @@ export const LMixinEvents = defineComponent({
         keyProperties,
         propertiesStructure,
         propertiesDefault,
+      });
+    },
+
+
+    ShowLSettingsHierarchy(
+show,callback
+    ) {
+      EventBus.$emit("show:LSettingsHierarchy", {
+        show,callback
       });
     },
 

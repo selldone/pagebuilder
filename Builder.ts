@@ -57,6 +57,13 @@ import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
+import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
+import XButton from "@selldone/page-builder/components/x/button/XButton.vue";
+import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
+import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
+import XLottie from "@selldone/page-builder/components/x/lottie/XLottie.vue";
+import XSearch from "@selldone/page-builder/components/x/search/XSearch.vue";
 
 const DEBUG = false;
 
@@ -82,7 +89,7 @@ export namespace builder {
     model?: IModel;
 
     /** Ignore sections name to do not show in the list */
-    ignoreSections?:string[],
+    ignoreSections?: string[];
   }
 
   export interface IState {
@@ -143,7 +150,7 @@ export class Builder {
   public title: string;
   public sections: Section[];
   public style: any;
-  public css:IPageCss|null|undefined; // Pre compiled CSS
+  public css: IPageCss | null | undefined; // Pre compiled CSS
   public columnsPrefix: any;
   public themes: any[];
   public server: builder.IServer | undefined | null;
@@ -201,7 +208,7 @@ export class Builder {
     this.title = options.title;
     this.sections = options.sections;
     this.style = options.style;
-    this.css= options.css;
+    this.css = options.css;
     this.columnsPrefix = options.columnsPrefix;
     this.themes = options.themes;
     this.server = options.server;
@@ -238,7 +245,7 @@ export class Builder {
     LOG("⚽ 2. Start Install...");
 
     initializeXComponents(app);
-    initializeSections(app,options.ignoreSections);
+    initializeSections(app, options.ignoreSections);
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
@@ -278,14 +285,13 @@ export class Builder {
       if (DEBUG) console.log("Auto assign schema.", options);
     }
 
-    if (!options.schema) {
+    if (!options.schema) { // TODO:Remove this after migration!
       console.error(
-        "Schema not found for section",
+        "Schema not found for section! Maybe new version!",
         options,
         "position",
         position,
       );
-      return;
     }
     const section = new Section(options, force_set_new_uid);
 
@@ -456,8 +462,9 @@ export class Builder {
           const sectionData = {
             name: section.name,
             uid: section.uid,
-            data: from_theme ? null : section.data,
+            data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
             schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
+            object:section.object //🪵 New Version!
           };
 
           return new Section(sectionData);
@@ -482,13 +489,18 @@ export class Builder {
       Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
     });
 
-    console.log("👢 Style on save ", this.style);
+    console.log("👢 CSS Style on save ", this.style);
+
+
+
     return {
       title: this.title,
       sections: this.sections.map((s) => ({
         uid: s.uid, // New unique id saved in backend. Previous id was added to data.id
         name: s.name,
-        data: s.data,
+        data: s.data, // Should be removed after migration (if we have s.object)
+        object: s.object,
+
       })),
       style: this.style,
     };
@@ -572,13 +584,13 @@ const SectionComponents: any[] = [
 /**
  * Adds a component section to the builder and arguments it with the styler.
  */
-function initializeSections(app: App,ignoreSections?:string[]) {
+function initializeSections(app: App, ignoreSections?: string[]) {
   //console.log("🔧",  "Installing components...",SectionComponents);
 
   SectionComponents.forEach((_component) => {
     //console.log("🔧", _component, _component?.name, "Install");
 
-    if(ignoreSections?.includes(_component.name))return;
+    if (ignoreSections?.includes(_component.name)) return;
 
     if (_component) {
       Components[_component.name] = _component;
@@ -605,6 +617,13 @@ const XComponents: any[] = [
   XContainer,
   XButtons,
   XCustomProductsList,
+  XText,
+  XUploader,
+    XButton,
+    XProduct,
+    XCollection,
+    XLottie,
+  XSearch
 ];
 
 /**

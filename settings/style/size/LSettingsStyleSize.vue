@@ -90,6 +90,7 @@
       </v-chip>
     </template>
     <s-landing-style-preview
+      v-if="!noPreview"
       :model-value="inputStyle"
       class="mb-5"
       size
@@ -258,7 +259,7 @@ export default defineComponent({
     "click:area",
   ],
   props: {
-    value:{},
+    value: {},
     inputStyle: {},
 
     width: {},
@@ -269,6 +270,7 @@ export default defineComponent({
 
     maxWidth: {},
     maxHeight: {},
+    noPreview: Boolean,
   },
 });
 </script>

@@ -86,7 +86,7 @@
             :max="1000"
             :min="0"
             icon="padding"
-            title="Offset"
+            label="Offset"
           ></s-setting-number-input>
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Count ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
           <s-setting-number-input
@@ -94,7 +94,7 @@
             :max="100"
             :min="1"
             icon="margin"
-            title="Count"
+            label="Count"
           ></s-setting-number-input>
         </s-setting-group>
 

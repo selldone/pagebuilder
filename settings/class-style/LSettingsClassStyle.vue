@@ -25,7 +25,13 @@
     temporary
     theme="dark"
   >
-    <v-card v-if="dialog_pre" :style="global_variables" class="text-start" flat style="padding-bottom: 10vh">
+    <v-card
+      v-if="dialog_pre"
+      :style="global_variables"
+      class="text-start"
+      flat
+      style="padding-bottom: 10vh"
+    >
       <!-- ████████████████████ Actions ████████████████████ -->
 
       <v-card-actions>
@@ -48,10 +54,26 @@
           icon="video_label"
           v-model="target.tag"
           :items="customElementTags"
+          class="ms-3"
         ></s-setting-toggle>
       </template>
 
-      <v-expansion-panels v-model="Selected_tab" flat class="border-between-vertical" style="--border-color:#999">
+      <v-expansion-panels
+        v-model="Selected_tab"
+        flat
+        class="border-between-vertical"
+        style="--border-color: #999"
+        key="tabs"
+      >
+        <!-- ████████████████████ Grid ████████████████████ -->
+        <l-settings-style-grid
+          value="grid"
+          v-if="available_tabs.includes('grid')"
+          :inputStyle="in_style"
+          v-model:grid="target[keyGrid]"
+        >
+        </l-settings-style-grid>
+
         <!-- ████████████████████ Class ████████████████████ -->
 
         <l-settings-classes
@@ -204,10 +226,7 @@
               density="comfortable"
               variant="flat"
             >
-              <v-icon
-                start
-                :color="background.bg_color"
-              ></v-icon>
+              <v-icon start :color="background.bg_color"></v-icon>
               {{ background.bg_color }}
             </v-chip>
 
@@ -257,8 +276,6 @@
           </background-image-editor>
         </s-setting-expandable>
       </v-expansion-panels>
-
-
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -287,6 +304,8 @@ import { TextShadowHelper } from "@selldone/page-builder/styler/settings/shadow/
 import BackgroundImageEditor from "@selldone/page-builder/components/style/background/BackgroundImageEditor.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtilsBackground";
+import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
+import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
 
 const STYLE_TABS = [
   "size",
@@ -299,12 +318,14 @@ const STYLE_TABS = [
   "filter",
   "transform",
   "typeface",
+  "grid",
 ];
 
 export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    LSettingsStyleGrid,
     SSettingExpandable,
     BackgroundImageEditor,
     LSettingsStyleTypeface,
@@ -330,6 +351,7 @@ export default {
     keyStyle: null, // style
     keyClass: null, // classes
     keyBackground: null, // background
+    keyGrid: null, // grid
     options: {},
 
     // ---------------------------------
@@ -339,7 +361,7 @@ export default {
     show_dialog_size: false,
     dialog_pre: false,
 
-    Selected_tab: "classes",
+    Selected_tab: null,
 
     in_classes: null,
 
@@ -410,7 +432,11 @@ export default {
     },
 
     available_tabs() {
-      return STYLE_TABS.filter((tab) => !this.options?.exclude?.includes(tab));
+      return STYLE_TABS.filter(
+        (tab) =>
+          !this.options?.exclude?.includes(tab) &&
+          (tab !== "grid" || this.keyGrid) /*It should set grid key!*/,
+      );
     },
 
     shadow_gen() {
@@ -421,6 +447,10 @@ export default {
     },
     in_shadow_edit() {
       return this.shadow && !this.isString(this.shadow);
+    },
+
+    text_decoration_gen() {
+      return TextDecorationHelper.Generate(this.in_typeface_textDecoration);
     },
 
     //-----------------------------------
@@ -496,7 +526,7 @@ export default {
         lineHeight: this.in_typeface_lineHeight,
         letterSpacing: this.in_typeface_letterSpacing,
         textAlign: this.in_typeface_textAlign,
-        textDecoration: this.in_typeface_textDecoration,
+        textDecoration: this.text_decoration_gen,
         textTransform: this.in_typeface_textTransform,
         textShadow: this.shadow_text_gen,
       };
@@ -665,6 +695,7 @@ export default {
         keyStyle,
         keyClass,
         keyBackground,
+        keyGrid,
         options,
       }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
@@ -678,6 +709,7 @@ export default {
         this.keyStyle = keyStyle;
         this.keyClass = keyClass;
         this.keyBackground = keyBackground;
+        this.keyGrid = keyGrid;
 
         this.options = options;
 
@@ -834,8 +866,8 @@ export default {
       this.in_typeface_textAlign = this.makeNullIfEmpty(
         this.el_style.style.textAlign,
       );
-      this.in_typeface_textDecoration = this.makeNullIfEmpty(
-        this.el_style.style.textDecoration,
+      this.in_typeface_textDecoration = TextDecorationHelper.Extract(
+        this.makeNullIfEmpty(this.el_style.style.textDecoration),
       );
       this.in_typeface_textTransform = this.makeNullIfEmpty(
         this.el_style.style.textTransform,
@@ -945,7 +977,7 @@ export default {
       safeSetStyle("lineHeight", this.in_typeface_lineHeight);
       safeSetStyle("letterSpacing", this.in_typeface_letterSpacing);
       safeSetStyle("textAlign", this.in_typeface_textAlign);
-      safeSetStyle("textDecoration", this.in_typeface_textDecoration);
+      safeSetStyle("textDecoration", this.text_decoration_gen);
       safeSetStyle("textTransform", this.in_typeface_textTransform);
       safeSetStyle("textShadow", this.shadow_text_gen);
 
@@ -1022,25 +1054,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.shad-con {
-  position: relative;
-  min-height: 220px;
-  height: 30vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  .shad-pre {
-    height: 64px;
-    width: 64px;
-    border-radius: 50%;
-    background: #fafafa;
-    transition: all 0.5s ease-in-out;
-
-    &.-inset {
-      height: 200px;
-      width: 200px;
-    }
-  }
-}
 </style>

@@ -23,7 +23,7 @@
       ></x-text>
 
       <x-uploader
-        v-model="$sectionData.image"
+        v-model:object="$sectionData.image"
         :augment="augment"
         :initial-size="{ max_w: 600, max_h: 600 }"
         class="fadeIn delay_300"
@@ -37,7 +37,7 @@
           :key="`${index}-${$sectionData.columns.length}`"
           :augment="augment"
           :object="col"
-          :remove-column="() => $sectionData.columns.splice(index, 1)"
+          :remove-child="() => $sectionData.columns.splice(index, 1)"
           cloneable
           initial-column-layout="x-layout-title-content"
         >

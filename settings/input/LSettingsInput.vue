@@ -25,7 +25,7 @@
     temporary
     theme="dark"
   >
-    <v-card class="text-start" flat>
+    <v-card v-if="target" class="text-start" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
 
       <v-card-actions>
@@ -42,7 +42,7 @@
         <v-list-subheader
           >You can adjust the field property here to customize its appearance.
         </v-list-subheader>
-        <l-feeder-input v-model="target" @change="onChange"></l-feeder-input>
+        <l-feeder-input v-model="target" ></l-feeder-input>
       </v-card-title>
     </v-card>
   </v-navigation-drawer>
@@ -53,7 +53,7 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import LFeederInput from "../../components/feeder/input/LFeederInput.vue";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsInput",
@@ -145,9 +145,7 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-    onChange() {
-      if (!this.dialog || this.LOCK) return;
-    },
+
   },
 };
 </script>

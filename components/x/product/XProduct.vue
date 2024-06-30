@@ -14,7 +14,7 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <v-card
-    v-styler:product="{ target: object.product_info }"
+    v-styler:product="{ target: object }"
     class="text-start px-4 py-2"
     variant="text"
     :to="product_to"
@@ -91,6 +91,7 @@ import { isObject } from "lodash-es";
 import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import {StorefrontRoutesName} from "@selldone/core-js/enums/route/StorefrontRoutesName";
+import {XProductData} from "@selldone/page-builder/components/x/product/XProductData";
 
 export default {
   name: "XProduct",
@@ -111,13 +112,11 @@ export default {
   computed: {
 
     product_to(){
-      return this.productInfo?.id && {name:StorefrontRoutesName.PRODUCT_PAGE,params:{product_id:this.productInfo.id}}
+      return this.object.data?.id && {name:StorefrontRoutesName.PRODUCT_PAGE,params:{product_id:this.object.data.id}}
     },
 
 
-    productInfo() {
-      return this.object.product_info;
-    },
+
 
     price_in_selected_currency() {
       if (!this.product) return 0;
@@ -154,7 +153,7 @@ export default {
     },
   },
   watch: {
-    "object.product_info.id"(product_id) {
+    "object.data.id"(product_id) {
       if (product_id !== this.product?.id) {
         console.log("✻ Change selected product.");
         this.getProductInfo();
@@ -165,11 +164,11 @@ export default {
   created() {
     // Auto fix issues:
     if (
-      !this.object.product_info ||
-      !isObject(this.object.product_info) ||
-      Array.isArray(this.object.product_info)
+      !this.object.data ||
+      !isObject(this.object.data) ||
+      Array.isArray(this.object.data)
     )
-      this.object.product_info = {};
+      this.object.data = new XProductData();
 
     this.getProductInfo();
   },
@@ -180,14 +179,14 @@ export default {
     getProductInfo() {
       this.product = null;
 
-      //console.log(`getProductInfo ----> `, this.productInfo);
-      if (!this.productInfo || !this.productInfo.id) return;
+      //console.log(`getProductInfo ----> `, this.object.data);
+      if (!this.object.data || !this.object.data.id) return;
 
       this.busy = true;
 
       window.$storefront.products
         .optimize(600)
-        .get(this.productInfo.id, { no_article: true })
+        .get(this.object.data.id, { no_article: true })
         .then(({ product }) => {
           this.product = product;
 

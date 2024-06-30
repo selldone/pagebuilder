@@ -13,6 +13,12 @@
  */
 
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
+import {LMigrationV2Heroes} from "@selldone/page-builder/sections/hero/LMigrationV2Heroes.ts";
+import {LMigrationV2MultipleColumns} from "@selldone/page-builder/sections/image/LMigrationV2MultipleColumns.ts";
+import {LMigrationV2NormalSections} from "@selldone/page-builder/sections/image/LMigrationV2NormalSections.ts";
+import {
+    LSectionTextNumbersMigration
+} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbersMigration.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -23,6 +29,9 @@ export class LUtilsMigration {
     });
 
     obj = LUtilsMigration.MigrateKeys(obj);
+
+    // Migrate data to object (New hierarchy version)
+    this.MigrateV1toV2(obj);
 
     return obj;
   };
@@ -108,6 +117,48 @@ export class LUtilsMigration {
     obj = replaceKey(obj, "products_list", "filter");
 
     return obj;
+  }
+
+  /**
+   * Migrate data to object (New hierarchy version)
+   * @constructor
+   * @private
+   */
+  private static MigrateV1toV2(obj: Page.IContent) {
+    obj.sections?.forEach((section: Page.ISection) => {
+      if (!section.data) return; // Skip if no data
+
+      if (
+        section.name === "LSectionHeroHorizontal" ||
+        section.name === "LSectionHeroVertical" ||
+        section.name === "LSectionHeroLottie" ||
+        section.name === "LSectionHeroSearch"
+      ) {
+        section.object = LMigrationV2Heroes.Migrate(section.data);
+        section.data = null;
+      } else if (
+        section.name === "LSectionImageTwoColumns" ||
+        section.name === "LSectionImageThreeColumns"
+      ) {
+        section.object = LMigrationV2MultipleColumns.Migrate(section.data);
+        section.data = null;
+      } else if (
+        section.name === "LSectionImageSocials" ||
+        section.name === "LSectionImageFeatures" ||
+        section.name === "LSectionImageCards" ||
+        section.name === "LSectionImageIntro"
+      ) {
+        section.object = LMigrationV2NormalSections.Migrate(section.data);
+        section.data = null;
+      } else if (
+        section.name === "LSectionTextNumbers" ||
+        section.name === "LSectionTextThreeColumns" ||
+        section.name === "LSectionTextTwoColumns"
+      ) {
+        section.object = LSectionTextNumbersMigration.Migrate(section.data);
+        section.data = null;
+      }
+    });
   }
 }
 

@@ -89,6 +89,11 @@
       padding: 20px 30px;
     }
 
+    color: #000;
+    &.-dark{
+      color: #fff;
+    }
+
     &-title {
       font-size: 30px;
       color: inherit;

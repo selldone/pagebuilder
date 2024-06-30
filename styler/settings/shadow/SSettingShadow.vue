@@ -23,6 +23,7 @@
       >
       <template v-slot:append>
         <v-btn
+          v-if="modelValue"
           @click="$emit('update:modelValue', null)"
           color="red"
           variant="text"
@@ -118,7 +119,6 @@
               class="border-start-white-thin ms-6"
             ></s-setting-color>
           </v-carousel-item>
-
         </v-carousel>
       </v-expand-transition>
     </template>
@@ -171,11 +171,13 @@ export default defineComponent({
 
       if (this.isValid) {
         this.modelValue.push(new_item);
+        this.tab = this.modelValue.length - 1;
       } else {
         this.$emit("update:modelValue", [new_item]);
+        this.tab = 0;
       }
 
-      this.tab = this.modelValue.length - 1;
+
     },
   },
 

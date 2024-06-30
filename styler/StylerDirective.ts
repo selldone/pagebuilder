@@ -42,6 +42,7 @@ import SStylerBlogs from "../styler/blogs/SStylerBlogs.vue";
 import SStylerMarquee from "../styler/marquee/SStylerMarquee.vue";
 import SStylerGallery from "../styler/gallery/SStylerGallery.vue";
 import SStylerCode from "../styler/code/SStylerCode.vue";
+import SStylerInput from "@selldone/page-builder/styler/input/SStylerInput.vue";
 
 const DEBUG = false;
 
@@ -185,6 +186,8 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerGallery;
     } else if (argument === "code") {
       stylerComponent = SStylerCode;
+    } else if (argument === "input") {
+      stylerComponent = SStylerInput;
     }
 
     const StylerComponent = defineComponent({

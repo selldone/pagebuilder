@@ -17,7 +17,7 @@
     :id="object.id"
     v-data-x="object.style"
     v-styler:section="sectionBinding"
-    :class="[object.classes, { '-no-padding': noDefaultPadding }]"
+    :class="[object.classes, { '-no-padding': noDefaultPadding ,'-dark':object.background?.dark}]"
     :style="[background_style, object.style]"
     class="section"
   >

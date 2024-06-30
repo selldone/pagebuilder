@@ -47,7 +47,7 @@
         class="box"
       >
         <x-uploader
-          v-model="col.image"
+          v-model:object="col.image"
           :augment="augment"
           :class="{
             '-caption': $builder.isEditing || col.title,

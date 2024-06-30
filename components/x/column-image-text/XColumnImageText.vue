@@ -13,103 +13,119 @@
   -->
 
 <template>
-  <v-col :class="[calcGridClasses(object.grid)]" class="position-relative pa-0">
-    <x-column
-      :object="object"
-      :removeColumn="removeColumn"
-      cloneable
-      has-custom-layout
-      no-grid
-    >
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
-      <x-product
-        v-if="selected_layout === 'product'"
-        :object="object"
+  <x-column
+    :object="object"
+    :removeChild="removeChild"
+    cloneable
+    has-custom-layout
+  >
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
+    <template v-if="selected_layout === 'product' && product">
+      <x-text
+        v-model:object="title"
         :augment="augment"
-      >
-      </x-product>
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
-      <x-collection
-        v-else-if="selected_layout === 'collection'"
-        :object="object"
-        :augment="augment"
-      >
-      </x-collection>
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Custom ━━━━━━━━━━━━━━━━━━━━━━ -->
-      <!--  <x-custom
-           v-else-if="selected_layout === 'custom'"
-           :object="object"
-           :augment="augment"
-       >
-       </x-custom>-->
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
+        initial-type="h3"
+        :initial-classes="['mb-2']"
+      ></x-text>
 
-      <div v-else :class="layout_class" class="position-relative">
+      <x-product :object="product" :augment="augment"> </x-product>
+    </template>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
+    <x-collection
+      v-else-if="selected_layout === 'collection' && collection"
+      :object="collection"
+      :augment="augment"
+    >
+    </x-collection>
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Custom ━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!--  <x-custom
+         v-else-if="selected_layout === 'custom'"
+         :object="object"
+         :augment="augment"
+     >
+     </x-custom>-->
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
+
+    <div v-else :class="layout_class" class="position-relative">
+      <x-text
+        v-if="
+          title &&
+          layout_class === 'x-layout-middle' &&
+          (title?.value || SHOW_EDIT_TOOLS)
+        "
+        :initial-type="headerType"
+        :initial-classes="['mb-3']"
+        v-model:object="title"
+        :augment="augment"
+      ></x-text>
+
+      <x-uploader
+        v-if="
+          image &&
+          !['x-layout-title-content', 'x-layout-content-title'].includes(
+            layout_class,
+          )
+        "
+        v-model:object="image"
+        :augment="augment"
+        :initialClasses="['mx-auto', 'my-2']"
+        class="--image"
+        contain
+      />
+
+      <div class="--contents">
         <x-text
           v-if="
-            layout_class === 'x-layout-middle' &&
-            (object.title?.value || SHOW_EDIT_TOOLS)
+            title &&
+            layout_class !== 'x-layout-middle' &&
+            (title?.value || SHOW_EDIT_TOOLS)
           "
           :initial-type="headerType"
           :initial-classes="['mb-3']"
-          v-model:object="object.title"
+          v-model:object="title"
           :augment="augment"
         ></x-text>
 
-        <x-uploader
-          v-if="
-            !['x-layout-title-content', 'x-layout-content-title'].includes(
-              layout_class,
-            )
-          "
-          v-model="object.image"
+        <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
+        <x-component
+          v-for="(child, index) in other_children"
+          :object="child"
           :augment="augment"
-          :initialClasses="['mx-auto', 'my-2']"
-          class="--image"
-          contain
-        />
-
-        <div class="--contents">
-          <x-text
-            v-if="
-              layout_class !== 'x-layout-middle' &&
-              (object.title?.value || SHOW_EDIT_TOOLS)
-            "
-            :initial-type="headerType"
-            :initial-classes="['mb-3']"
-            v-model:object="object.title"
-            :augment="augment"
-          ></x-text>
-
-          <x-text
-            v-if="object.content?.value || SHOW_EDIT_TOOLS"
-            initial-type="p"
-            :initial-classes="['mt-2', ...initialClassesContent?initialClassesContent:[]]"
-            v-model:object="object.content"
-            :augment="augment"
-          ></x-text>
-        </div>
-      </div>
-      <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-
-      <slot name="buttons"></slot>
-      <div
-        :style="{
-          textAlign: object.button?.align,
-        }"
-      >
-        <x-button
-          v-if="object.button"
-          v-styler:button="{ target: object.button, hasAlign: true }"
-          :augment="augment"
-          :btn-data="object.button"
-          :editing="SHOW_EDIT_TOOLS"
-          class="m-2"
+          :remove-child="() => object.children.splice(index, 1)"
         >
-        </x-button>
+        </x-component>
+        <!--
+               <x-text
+                 v-if="object.content?.value || SHOW_EDIT_TOOLS"
+                 initial-type="p"
+                 :initial-classes="[
+                   'mt-2',
+                   ...(initialClassesContent ? initialClassesContent : []),
+                 ]"
+                 v-model:object="object.content"
+                 :augment="augment"
+               ></x-text>-->
       </div>
-    </x-column>
-  </v-col>
+    </div>
+    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+
+    <div
+      :style="{
+        textAlign: object.button?.align,
+      }"
+    >
+      <x-button
+        v-if="object.button"
+        v-styler:button="{ target: object.button, hasAlign: true }"
+        :augment="augment"
+        :object="object.button"
+        :editing="SHOW_EDIT_TOOLS"
+        class="m-2"
+      >
+      </x-button>
+    </div>
+  </x-column>
 </template>
 
 <script>
@@ -117,18 +133,34 @@ import XButton from "../../../components/x/button/XButton.vue";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
-import { defineComponent } from "vue";
+import { defineAsyncComponent, defineComponent } from "vue";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
+//import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
+import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
+
+// Asynchronously load components
+const XCollection = defineAsyncComponent(
+  () =>
+    import("@selldone/page-builder/components/x/collection/XCollection.vue"),
+);
 
 export default defineComponent({
   name: "XColumnImageText",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XText, XCollection, XProduct, XUploader, XButton },
+  components: {
+    XComponent,
+    XColumn,
+    XText,
+    XCollection,
+    XProduct,
+    XUploader,
+    XButton,
+  },
 
   props: {
     object: { required: true },
@@ -142,7 +174,7 @@ export default defineComponent({
     augment: {
       // Extra information to show to dynamic show in page content
     },
-    removeColumn: {
+    removeChild: {
       // Used in v-styler
       type: Function,
     },
@@ -156,6 +188,30 @@ export default defineComponent({
   computed: {
     layout_class() {
       return this.selected_layout ? this.selected_layout : "x-layout-normal";
+    },
+
+    title() {
+      return this.object.children?.find((c) => c.component === "XText");
+    },
+    image() {
+      return this.object.children?.find((c) => c.component === "XUploader");
+    },
+
+    product() {
+      return this.object.children?.find((c) => c.component === "XProduct");
+    },
+    collection() {
+      return this.object.children?.find((c) => c.component === "XCollection");
+    },
+
+    other_children() {
+      return this.object.children?.filter(
+        (c) =>
+          c !== this.title &&
+          c !== this.image &&
+          c !== this.product &&
+          c !== this.collection,
+      );
     },
   },
   watch: {
