@@ -18,12 +18,12 @@ import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelE
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
 import {
-  LModelElementXColumnImageText
-} from "@selldone/page-builder/components/x/column-image-text/LModelElementXColumnImageText.ts";
+  XColumnImageTextObject
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 
-export class LSectionTextNumbersMigration {
+export class LMigrationV2TextSections {
   static Migrate($sectionData: any): LModelElement<XSectionData> | null {
     if (!$sectionData) {
       return null;
@@ -48,7 +48,7 @@ export class LSectionTextNumbersMigration {
 
     $sectionData.columns.forEach((_column: any) => {
       row.addChild(
-        LModelElementXColumnImageText.MigrateOld(_column),
+        XColumnImageTextObject.MigrateOld(_column),
       );
     });
 

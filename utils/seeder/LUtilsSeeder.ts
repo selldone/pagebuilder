@@ -23,6 +23,13 @@ import {
 import {LSectionHeroVerticalSeed} from "@selldone/page-builder/sections/hero/vertical/LSectionHeroVerticalSeed.ts";
 import {LSectionHeroLottieSeed} from "@selldone/page-builder/sections/hero/lottie/LSectionHeroLottieSeed.ts";
 import {LSectionHeroSearchSeed} from "@selldone/page-builder/sections/hero/search/LSectionHeroSearchSeed.ts";
+import {
+  LSectionTextTwoColumnsSeed
+} from "@selldone/page-builder/sections/text/two-columns/LSectionTextTwoColumnsSeed.ts";
+import {
+  LSectionTextThreeColumnsSeed
+} from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumnsSeed.ts";
+import {LSectionTextNumbersSeed} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbersSeed.ts";
 
 const DEBUG = false;
 
@@ -300,7 +307,18 @@ export class LUtilsSeeder {
       return LSectionHeroLottieSeed();
     } else if (name === "LSectionHeroSearch") {
       return LSectionHeroSearchSeed();
+    } else if (name === "LSectionTextTwoColumns") {
+      return LSectionTextTwoColumnsSeed();
+    }else if (name === "LSectionTextThreeColumns") {
+      return LSectionTextThreeColumnsSeed();
+    }else if (name === "LSectionTextNumbers") {
+      return LSectionTextNumbersSeed();
     }
+
+
+
+
+
 
 
 

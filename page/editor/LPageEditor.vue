@@ -407,7 +407,7 @@
               :dir="page ? page.direction : 'auto'"
             >
               <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
-              <div key="header-demo">
+              <div key="header-demo" class="usn pen">
                 <slot name="header" :builder="builder"></slot>
               </div>
 

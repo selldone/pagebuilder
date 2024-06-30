@@ -14,16 +14,18 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XUploaderData, XUploaderDataTypes,} from "@selldone/page-builder/components/x/uploader/XUploaderData.ts";
-import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
+import {
+  XUploaderDataTypes,
+  XUploaderObjectData,
+} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
-export class LModelElementXUploader extends LModelElement<XUploaderData> {
+export class XUploaderObject extends LModelElement<XUploaderObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XUploaderData | null,
+    data: XUploaderObjectData | null,
     props: any,
   ) {
     super(
@@ -32,43 +34,55 @@ export class LModelElementXUploader extends LModelElement<XUploaderData> {
       style,
       classes,
       children,
-      data ? data : new XUploaderData(null, new XUploaderDataTypes.Setting()),
+      data
+        ? data
+        : new XUploaderObjectData(null, new XUploaderDataTypes.Setting()),
       props,
     );
   }
+
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XUploaderObject(null, null, null, null, null, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+  /**
+   * Create a new instance of XUploaderObject
+   * @param aspect
+   * @param contain
+   * @param round
+   * @param initialClasses
+   * @constructor
+   */
 
   static Seed(
     aspect: number = 1,
     contain: boolean = false,
     round: boolean = false,
     initialClasses: string[] = ["ma-auto"],
-  ): LModelElementXUploader {
-    const data = new XUploaderData(
-      imagePlaceholder,
-      new XUploaderDataTypes.Setting({
-        aspect: aspect,
-        contain: contain,
-        round: round,
-      }),
-    );
+  ): XUploaderObject {
+    const instance = XUploaderObject.NewInstance();
+    instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
+    instance.classes = initialClasses;
 
-    return new LModelElementXUploader(
-      null,
-      null,
-      initialClasses,
-      null,
-      data,
-      null,
-    );
+    return instance;
   }
 
-  static MigrateOld(old: any): LModelElementXUploader | null {
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @constructor
+   */
+
+  static MigrateOld(old: any): XUploaderObject | null {
     if (!old) return null;
-    const data = new XUploaderData(old?.src, old?.setting);
+    const data = new XUploaderObjectData(old?.src, old?.setting);
 
-    console.log("IMAGE----------?", old, "--->", data);
+    console.log("Migration Image | ---------->", old, "--->", data);
 
-    return new LModelElementXUploader(
+    return new XUploaderObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,

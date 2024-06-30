@@ -15,7 +15,7 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XLottieData} from "@selldone/page-builder/components/x/lottie/XLottieData.ts";
-import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderData.ts";
+import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
 export class LModelElementXLottie extends LModelElement<XLottieData> {
   constructor(

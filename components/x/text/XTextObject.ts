@@ -53,11 +53,11 @@ export class XTextObject extends LModelElement<XTextObjectData> {
   static Seed(
     value: string,
     tag: XTextObjectDataTypes.ITag,
-    classes: string[],
+    classes: string[]|null=null,
   ): XTextObject {
     const instance = XTextObject.NewInstance();
     instance.data.setValue(value).setTag(tag);
-    instance.classes = classes;
+    instance.classes = classes?classes:[];
     return instance;
   }
 

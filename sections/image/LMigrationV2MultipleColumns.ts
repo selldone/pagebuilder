@@ -19,8 +19,8 @@ import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnO
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
 import {
-    LModelElementXColumnImageText
-} from "@selldone/page-builder/components/x/column-image-text/LModelElementXColumnImageText.ts";
+    XColumnImageTextObject
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export class LMigrationV2MultipleColumns {
   static Migrate($sectionData: any): LModelElement<XSectionData> | null {
@@ -53,7 +53,7 @@ export class LMigrationV2MultipleColumns {
     column_A.addChild(column_A_row);
 
     $sectionData.columnA.columns.forEach((_column: any) => {
-      column_A_row.addChild(LModelElementXColumnImageText.MigrateOld(_column));
+      column_A_row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 
     // Add column B:
@@ -70,7 +70,7 @@ export class LMigrationV2MultipleColumns {
     column_B.addChild(column_B_row);
 
     $sectionData.columnB.columns.forEach((_column: any) => {
-      column_B_row.addChild(LModelElementXColumnImageText.MigrateOld(_column));
+      column_B_row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 
     // Add column C:
@@ -89,7 +89,7 @@ export class LMigrationV2MultipleColumns {
 
       $sectionData.columnC.columns.forEach((_column: any) => {
         column_C_row.addChild(
-          LModelElementXColumnImageText.MigrateOld(_column),
+          XColumnImageTextObject.MigrateOld(_column),
         );
       });
     }

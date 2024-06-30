@@ -18,7 +18,7 @@ import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelE
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
-import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {LModelElementXSearch} from "@selldone/page-builder/components/x/search/LModelElementXSearch.ts";
 
 export const LSectionHeroSearchSeed = () => {

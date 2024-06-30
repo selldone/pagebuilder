@@ -50,8 +50,8 @@ export abstract class LModelElement<T> {
 
     // Temporary add data to current level: // TODO: MUST REMOVE AFTER MIGRATION!
     /* if (this.data) {
-               Object.assign(this, this.data);
-             }*/
+                   Object.assign(this, this.data);
+                 }*/
   }
 
   addChild(element: LModelElement<any> | null) {
@@ -59,5 +59,25 @@ export abstract class LModelElement<T> {
     this.children.push(element);
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🥽 Label ━━━━━━━━━━━━━━━━━
 
+  /**
+   * Optional.
+   * We use label to identify the element when we want to find specific child element. For example when we want to find title, content elements in the {@see XColumnImageText}.
+   * @private
+   */
+  private label: string | null = null;
+
+  public setLabel(label: string | null): this {
+    this.label = label;
+    return this;
+  }
+
+  public getLabel(): string | null {
+    return this.label;
+  }
+
+  public findChildByLabel(label: string): LModelElement<any> | null {
+    return this.children.find((child) => child.getLabel() === label) || null;
+  }
 }

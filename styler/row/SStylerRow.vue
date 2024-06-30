@@ -151,7 +151,7 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject";
-import { LModelElementXUploader } from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import { LModelElementXRow } from "@selldone/page-builder/components/x/row/LModelElementXRow";
 
 export default {
@@ -252,7 +252,7 @@ export default {
             ),
           );
         } else if (["img", "image"].includes(item)) {
-          new_column.addChild(LModelElementXUploader.Seed(1, true));
+          new_column.addChild(XUploaderObject.Seed(1, true));
         } else {
           console.error("Add new column structure is invalid! item:", item);
         }

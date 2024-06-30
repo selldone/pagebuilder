@@ -15,37 +15,30 @@
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
 import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
-import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import {
+  XColumnImageTextObject
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
-export const LSectionHeroHorizontalSeed = () => {
+export const LSectionTextTwoColumnsSeed = () => {
   // Initialize section
   const section = LModelElementXSection.Seed();
-  section.classes=["min-height-80vh", "d-flex" /*Keep row fill container! Important.*/]
 
   // Initialize container and add to section
   const container = LModelElementXContainer.Seed();
   section.addChild(container);
 
+  container.addChild(
+    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+  );
+
   // Initialize row and add to container
   const row = LModelElementXRow.Seed();
   container.addChild(row);
 
-  // Initialize and configure first column
-  const column1 = XColumnObject.Seed(12, 6, 6);
-  row.addChild(column1);
-
-  column1.addChild(XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]));
-  column1.addChild(XTextObject.Seed("Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...", "p", ["mb-4"]));
-  column1.addChild(LModelElementXButtons.Seed());
-
-  // Initialize and configure second column
-  const column2 = XColumnObject.Seed(12, 6, 6);
-  row.addChild(column2);
-
-  column2.addChild(XUploaderObject.Seed(1));
+  // Initialize columns
+  row.addChild(XColumnImageTextObject.Seed(12, 6, 5,null,'x-layout-title-content'));
+  row.addChild(XColumnImageTextObject.Seed(12, 6, 5,null,'x-layout-title-content'));
 
   return section;
 };

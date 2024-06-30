@@ -18,12 +18,12 @@ import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelE
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
-import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
 import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
 import {LModelElementXLottie} from "@selldone/page-builder/components/x/lottie/LModelElementXLottie.ts";
 import {XLottieData} from "@selldone/page-builder/components/x/lottie/XLottieData.ts";
-import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderData.ts";
+import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {LModelElementXSearch} from "@selldone/page-builder/components/x/search/LModelElementXSearch.ts";
 
@@ -80,7 +80,7 @@ export class LMigrationV2Heroes {
         null,
       );
       row.addChild(column_2);
-      column_2.addChild(LModelElementXUploader.MigrateOld($sectionData.image));
+      column_2.addChild(XUploaderObject.MigrateOld($sectionData.image));
 
       if ($sectionData.lottie) {
         const data_lottie = new XLottieData(

@@ -14,21 +14,34 @@
 
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 
-export class XUploaderData {
+export class XUploaderObjectData {
   src: string | null;
-  setting: null | XUploaderDataTypes.Setting;
+  setting: XUploaderDataTypes.Setting;
 
   link: string | null;
 
   constructor(src: string | null, setting: null | XUploaderDataTypes.Setting) {
     this.src = src;
-    this.setting = setting;
+    this.setting = setting ? setting : new XUploaderDataTypes.Setting();
+    this.link = null;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+  public setSrc(src: string | null) {
+    this.src = src;
+    return this;
+  }
+
+  public setLink(link: string | null) {
+    this.link = link;
+    return this;
   }
 }
 
-export namespace XUploaderDataTypes {
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 
-  export class Setting{
+export namespace XUploaderDataTypes {
+  export class Setting {
     aspect: number | null;
     contain: boolean | null;
     round: boolean;
@@ -61,21 +74,49 @@ export namespace XUploaderDataTypes {
       };
     }
 
-  }
-   interface ISetting {
-    aspect: number | null;
-    contain: boolean | null;
-    round: boolean;
-    float: any;
-    bg: LModelBackground | null;
-    fg: LModelBackground | null;
-    size: {
-      h: any;
-      w: any;
-      max_h: any;
-      max_w: any;
-      min_h: any;
-      min_w: any;
-    } | null;
+    // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+    public setAspect(aspect: number | null) {
+      this.aspect = aspect;
+      return this;
+    }
+
+    public setContain(contain: boolean) {
+      this.contain = contain;
+      return this;
+    }
+
+    public setRound(round: boolean) {
+      this.round = round;
+      return this;
+    }
+
+    public setFloat(float: any) {
+      this.float = float;
+      return this;
+    }
+
+    public setBg(bg: LModelBackground | null) {
+      this.bg = bg;
+      return this;
+    }
+
+    public setFg(fg: LModelBackground | null) {
+      this.fg = fg;
+      return this;
+    }
+
+    public setSize(
+      size: {
+        h: any;
+        w: any;
+        max_h: any;
+        max_w: any;
+        min_h: any;
+        min_w: any;
+      } | null,
+    ) {
+      this.size = size;
+      return this;
+    }
   }
 }

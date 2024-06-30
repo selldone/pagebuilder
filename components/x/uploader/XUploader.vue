@@ -434,9 +434,8 @@ import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
-import { LModelElementXUploader } from "@selldone/page-builder/components/x/uploader/LModelElementXUploader";
-import {XUploaderData, XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderData";
-import {LModelElementXLottie} from "@selldone/page-builder/components/x/lottie/LModelElementXLottie";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
+import { LModelElementXLottie } from "@selldone/page-builder/components/x/lottie/LModelElementXLottie";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -464,7 +463,7 @@ export default defineComponent({
   inject: ["$builder", "$section"],
   props: {
     object: {
-      type: LModelElementXUploader,
+      type: XUploaderObject,
     },
     mode: {
       default: "input",
@@ -686,12 +685,20 @@ export default defineComponent({
     },
 
     init() {
-      if (!this.object || !(this.object instanceof LModelElementXUploader || this.object instanceof LModelElementXLottie)) {
+      if (
+        !this.object ||
+        !(
+          this.object instanceof XUploaderObject ||
+          this.object instanceof LModelElementXLottie
+        )
+      ) {
         console.error(
-          "Invalid object in the image uploader! Type:",typeof this.object,'Object: ',
+          "Invalid object in the image uploader! Type:",
+          typeof this.object,
+          "Object: ",
           this.object,
         );
-       /// this.object.data=new XUploaderData("", new XUploaderDataTypes.Setting)
+        /// this.object.data=new XUploaderData("", new XUploaderDataTypes.Setting)
         return;
       }
 

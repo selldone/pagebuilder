@@ -18,7 +18,7 @@ import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelE
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
-import {LModelElementXUploader} from "@selldone/page-builder/components/x/uploader/LModelElementXUploader.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
 export const LSectionHeroVerticalSeed = () => {
   // Initialize section
@@ -45,7 +45,7 @@ export const LSectionHeroVerticalSeed = () => {
   const column2 = XColumnObject.Seed(12, 10, 8);
   row.addChild(column2);
 
-  column2.addChild(LModelElementXUploader.Seed(1));
+  column2.addChild(XUploaderObject.Seed(1));
 
   return section;
 };

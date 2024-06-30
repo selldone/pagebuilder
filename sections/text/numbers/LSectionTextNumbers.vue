@@ -13,40 +13,6 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section v-if="false" :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-text
-        v-model:object="$sectionData.header"
-        :augment="augment"
-        initial-type="h2"
-        :initial-classes="['mb-5']"
-      ></x-text>
-
-      <x-row
-        :column-structure="ItemType"
-        :object="$sectionData"
-        add-column
-        has-arrangement
-        has-fluid
-        has-wrap
-        ><!-- Only addable can remove col-->
-
-        <!-- ██████████████████████ Columns ██████████████████████ -->
-        <x-column-image-text
-          v-for="(col, index) in $sectionData.columns"
-          :key="`${index}-${$sectionData.columns.length}`"
-          :augment="augment"
-          :object="col"
-          :remove-child="() => $sectionData.columns.splice(index, 1)"
-          cloneable
-          :initial-classes-content="['text-h1']"
-          initial-column-layout="x-layout-content-title"
-        >
-        </x-column-image-text>
-        <!-- █████████████████████████████████████████████████████ -->
-      </x-row>
-    </x-container>
-  </x-section>
 
   <x-component :object="$sectionObject" :augment="augment"></x-component>
 

@@ -14,7 +14,7 @@
 
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 
-export class XColumnImageTextData {
+export class XColumnImageTextObjectData {
   grid: LModelGrid | null;
   layout: XColumnImageTextDataTypes.LAYOUTS;
 
@@ -25,7 +25,15 @@ export class XColumnImageTextData {
     this.grid = grid;
     this.layout = layout;
   }
+
+  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+  public setLayout(layout: XColumnImageTextDataTypes.LAYOUTS) {
+    this.layout = layout;
+    return this;
+  }
 }
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 
 export namespace XColumnImageTextDataTypes {
   export enum LAYOUTS {

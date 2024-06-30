@@ -15,7 +15,7 @@
 import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XColumnObjectData.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
-import {XUploaderData} from "@selldone/page-builder/components/x/uploader/XUploaderData.ts";
+import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
 export class XCollectionData {
   children: XCollectionDataTypes.IChildren[];
@@ -30,7 +30,7 @@ export namespace XCollectionDataTypes {
   export interface IChildren {
     column:XColumnObjectData,
     title:XTextObjectData,
-    image:XUploaderData,
+    image:XUploaderObjectData,
 
   }
 }

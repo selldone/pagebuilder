@@ -28,7 +28,7 @@
         :initial-classes="['mb-2']"
       ></x-text>
 
-      <x-product :object="product" :augment="augment"> </x-product>
+      <x-product :object="product" :augment="augment"></x-product>
     </template>
 
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
@@ -87,6 +87,17 @@
           :augment="augment"
         ></x-text>
 
+        <x-text
+          v-if="content && (content?.value || SHOW_EDIT_TOOLS)"
+          initial-type="p"
+          :initial-classes="[
+            'mt-2',
+            ...(initialClassesContent ? initialClassesContent : []),
+          ]"
+          v-model:object="content"
+          :augment="augment"
+        ></x-text>
+
         <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
         <x-component
           v-for="(child, index) in other_children"
@@ -95,17 +106,6 @@
           :remove-child="() => object.children.splice(index, 1)"
         >
         </x-component>
-        <!--
-               <x-text
-                 v-if="object.content?.value || SHOW_EDIT_TOOLS"
-                 initial-type="p"
-                 :initial-classes="[
-                   'mt-2',
-                   ...(initialClassesContent ? initialClassesContent : []),
-                 ]"
-                 v-model:object="object.content"
-                 :augment="augment"
-               ></x-text>-->
       </div>
     </div>
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
@@ -140,6 +140,7 @@ import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
+import { XColumnImageTextObjectTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
 
 // Asynchronously load components
 const XCollection = defineAsyncComponent(
@@ -191,23 +192,38 @@ export default defineComponent({
     },
 
     title() {
-      return this.object.children?.find((c) => c.component === "XText");
+      return this.object.findChildByLabel(
+        XColumnImageTextObjectTypes.LABELS.TITLE,
+      );
+    },
+
+    content() {
+      return this.object.findChildByLabel(
+        XColumnImageTextObjectTypes.LABELS.CONTENT,
+      );
     },
     image() {
-      return this.object.children?.find((c) => c.component === "XUploader");
+      return this.object.findChildByLabel(
+        XColumnImageTextObjectTypes.LABELS.IMAGE,
+      );
     },
 
     product() {
-      return this.object.children?.find((c) => c.component === "XProduct");
+      return this.object.findChildByLabel(
+        XColumnImageTextObjectTypes.LABELS.PRODUCT,
+      );
     },
     collection() {
-      return this.object.children?.find((c) => c.component === "XCollection");
+      return this.object.findChildByLabel(
+        XColumnImageTextObjectTypes.LABELS.COLLECTION,
+      );
     },
 
     other_children() {
       return this.object.children?.filter(
         (c) =>
           c !== this.title &&
+          c !== this.content &&
           c !== this.image &&
           c !== this.product &&
           c !== this.collection,
@@ -215,16 +231,16 @@ export default defineComponent({
     },
   },
   watch: {
-    "object.layout"(val) {
+    "object.data.layout"(val) {
       if (val) this.selected_layout = val;
     },
   },
   created() {
-    if (!this.object.layout) {
-      this.object.layout = this.initialColumnLayout;
+    if (!this.object.data.layout) {
+      this.object.data.layout = this.initialColumnLayout;
       this.selected_layout = this.initialColumnLayout;
     } else {
-      this.selected_layout = this.object.layout;
+      this.selected_layout = this.object.data.layout;
     }
   },
   methods: {},
