@@ -53,7 +53,7 @@
         <v-row class="py-5" no-gutters>
           <v-col v-for="item in LAYOUTS" :key="item">
             <v-card
-              :style="target.layout === item ? 'border: solid 2px #fff;' : ''"
+              :style="target.data.layout === item ? 'border: solid 2px #fff;' : ''"
               class="ma-4"
               color="#BBDEFB"
               height="140"
@@ -276,6 +276,8 @@ export default {
     },
 
     has_button(has) {
+
+      // TODO: Add button as child!
       if (has) {
         this.target.button = LUtilsSeeder.seed(Types.Button);
       } else {
@@ -349,7 +351,7 @@ export default {
     selectLayout(layout) {
       if (!this.show_edit_layout || this.LOCK) return;
 
-      this.target.layout = layout;
+      this.target.data.setLayout(layout);
     },
   },
 };

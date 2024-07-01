@@ -13,12 +13,10 @@
   -->
 
 <template>
-  <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-  <!-- Start Buttons group -->
   <v-row
-    v-styler:buttons-row="{ target: object, keyRow: 'btn_row' }"
-    :align="object.btn_row ? object.btn_row.align : 'center'"
-    :justify="object.btn_row ? object.btn_row.justify : 'space-around'"
+    v-styler:buttons-row="{ target: object }"
+    :align="object.data ? object.data.align : 'center'"
+    :justify="object.data ? object.data.justify : 'space-around'"
     class="x--buttons"
     no-gutters
   >
@@ -56,8 +54,6 @@
     >
     </x-button>
   </v-row>
-  <!-- End Buttons group -->
-  <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 </template>
 
 <script>
@@ -66,6 +62,7 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement";
+import { XButtonsObject } from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 
 export default defineComponent({
   name: "XButtons",
@@ -73,7 +70,10 @@ export default defineComponent({
   mixins: [LMixinXComponent],
   components: { XButton },
   props: {
-    object: { required: true },
+    object: {
+      type: XButtonsObject,
+      required: true,
+    },
     augment: {
       // Extra information to show to dynamic show in page content
     },
@@ -91,6 +91,7 @@ export default defineComponent({
   },
 
   created() {
+    console.log("XButtons created | Object: ", this.object);
     // New version:
     if (this.object instanceof LModelElement) {
       return;

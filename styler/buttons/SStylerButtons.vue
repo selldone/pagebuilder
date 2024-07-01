@@ -75,7 +75,7 @@
 
       <div v-if="show_align" class="d-flex flex-column align-center pa-2">
         <v-btn-toggle
-          v-model="target[keyRow].align"
+          v-model="target.data.align"
           class="ma-1"
           rounded="xl"
           selected-class="green-flat"
@@ -94,7 +94,7 @@
           </v-btn>
         </v-btn-toggle>
         <v-btn-toggle
-          v-model="target[keyRow].justify"
+          v-model="target.data.justify"
           class="ma-1"
           rounded="xl"
           selected-class="blue-flat"
@@ -123,7 +123,8 @@ import JUSTIFY from "../../src/enums/JUSTIFY";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-import { LModelElementXButton } from "@selldone/page-builder/components/x/button/LModelElementXButton";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject";
+import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export default {
   name: "SStylerButtons",
@@ -148,14 +149,7 @@ export default {
       default: "left-center",
     },
 
-    keyRow: {
-      type: String,
-      default: "btn_row",
-    },
-    keyButtons: {
-      type: String,
-      default: "buttons",
-    },
+
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -178,12 +172,12 @@ export default {
       throw new Error("Target is required for SStylerButtons");
     }
     // Auto seed buttons if not exist
-    if (!this.target[this.keyButtons]) this.target[this.keyButtons] = [];
-    if (!this.target[this.keyRow]) {
-      this.target[this.keyRow] = {
-        align: "center",
-        justify: "space-around",
-      };
+    if (!this.target.children){
+      console.error('Invalid children.',this.target)
+    }
+    if (!(this.target.data instanceof XRowObjectData)) {
+      console.error('Invalid data type! It should be XRowData.',this.target.data)
+
     }
   },
   mounted() {},
@@ -194,7 +188,7 @@ export default {
      */
     addNewButton() {
       console.log("Add new button!",this.target)
-      this.target.addChild(LModelElementXButton.Seed());
+      this.target.addChild(XButtonObject.Seed());
     },
   },
 };

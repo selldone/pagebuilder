@@ -12,10 +12,13 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {XUploaderObjectData, XUploaderDataTypes,} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import {
+    XUploaderDataTypes,
+    XUploaderObjectData,
+} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
-export class XLottieData extends XUploaderObjectData {
+export class XLottieObjectData extends XUploaderObjectData {
   constructor(src: string | null, setting: null | XUploaderDataTypes.Setting) {
-   super(src, setting);
+    super(src, setting);
   }
 }

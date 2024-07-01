@@ -14,16 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {LModelElementXButton} from "@selldone/page-builder/components/x/button/LModelElementXButton.ts";
-import {XRowData} from "@selldone/page-builder/components/x/row/XRowData.ts";
+import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
-export class LModelElementXButtons extends LModelElement<XRowData> {
+export class XButtonsObject extends LModelElement<XRowObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XRowData | null,
+    data: XRowObjectData | null,
     props: Record<string, any> | null,
   ) {
     super(
@@ -32,43 +32,48 @@ export class LModelElementXButtons extends LModelElement<XRowData> {
       style,
       classes,
       children,
-      data ? data : new XRowData("center", "center", false),
+      data ? data : new XRowObjectData("center", "center", false),
       props,
     );
   }
 
-  static Seed(): LModelElementXButtons {
-    return new LModelElementXButtons(
-      null,
-      null,
-      null,
-      null,
-      new XRowData("center", "center", false),
-      null,
-    );
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XButtonsObject(null, null, null, null, null, null);
   }
 
-  static MigrateOld(
-    btn_row: any,
-    buttons: [],
-    props: any,
-  ): LModelElementXButtons {
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  static Seed(): XButtonsObject {
+    const instance = this.NewInstance();
+    instance.data.setJustify("center").setAlign("center");
+    return instance;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param btn_row
+   * @param buttons
+   * @constructor
+   */
+  static MigrateOld(btn_row: any, buttons: []): XButtonsObject {
     const align = btn_row?.align ?? null;
     const justify = btn_row?.justify ?? null;
     const no_wrap = btn_row?.no_wrap ?? null;
 
-    const row_buttons = new LModelElementXButtons(
+    const row_buttons = new XButtonsObject(
       new LModelBackground(btn_row?.background),
       btn_row?.style,
       btn_row?.classes,
       [],
 
-      new XRowData(align, justify, no_wrap),
+      new XRowObjectData(align, justify, no_wrap),
       null,
     );
 
     buttons.forEach((_button) => {
-      const _btn_element = LModelElementXButton.MigrateOld(_button, props);
+      const _btn_element = XButtonObject.MigrateOld(_button);
       console.log("_btn_element -- Add--->", _btn_element);
 
       row_buttons.addChild(_btn_element);

@@ -21,7 +21,7 @@ export abstract class LModelElement<T> {
 
   background: LModelBackground;
 
-  style: any;
+  style: Record<string, any>;
 
   classes: string[];
 
@@ -30,6 +30,7 @@ export abstract class LModelElement<T> {
   children: LModelElement<any>[];
 
   props: Record<string, any> | null;
+
 
   constructor(
     component: string,
@@ -42,16 +43,13 @@ export abstract class LModelElement<T> {
   ) {
     this.component = component;
     this.background = background ? background : new LModelBackground(null);
-    this.style = style;
+    this.style = style?style:{};
     this.classes = classes ? classes : [];
     this.children = children ? children : [];
     this.data = data;
     this.props = props;
 
-    // Temporary add data to current level: // TODO: MUST REMOVE AFTER MIGRATION!
-    /* if (this.data) {
-                   Object.assign(this, this.data);
-                 }*/
+
   }
 
   addChild(element: LModelElement<any> | null) {
@@ -80,4 +78,10 @@ export abstract class LModelElement<T> {
   public findChildByLabel(label: string): LModelElement<any> | null {
     return this.children.find((child) => child.getLabel() === label) || null;
   }
+
+  /**
+   * Use to find corresponding element.
+   */
+  public $element: HTMLElement | null = null;
+
 }

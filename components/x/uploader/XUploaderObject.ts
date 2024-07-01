@@ -18,6 +18,7 @@ import {
   XUploaderDataTypes,
   XUploaderObjectData,
 } from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
 
 export class XUploaderObject extends LModelElement<XUploaderObjectData> {
   constructor(
@@ -65,6 +66,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     const instance = XUploaderObject.NewInstance();
     instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
     instance.classes = initialClasses;
+    instance.data.setSrc(imagePlaceholder)
 
     return instance;
   }

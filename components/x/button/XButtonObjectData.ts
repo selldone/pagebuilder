@@ -15,7 +15,7 @@
 /**
  * Class representing button data with various properties.
  */
-export class XButtonData {
+export class XButtonObjectData {
   /**
    * Button color.
    */
@@ -25,16 +25,6 @@ export class XButtonData {
    * Button content.
    */
   content: string;
-
-  /**
-   * Dark theme flag.
-   */
-  dark: boolean;
-
-  /**
-   * Floating action button flag.
-   */
-  fab: boolean;
 
   /**
    * Glow effect flag.
@@ -62,45 +52,66 @@ export class XButtonData {
   size: string;
 
   /**
-   * Tile style flag.
-   */
-  tile: boolean;
-
-  /**
    * Creates an instance of XButtonData.
    * @param color - Button color.
    * @param content - Button content.
-   * @param dark - Dark theme flag.
-   * @param depressed - Depressed style flag.
-   * @param fab - Floating action button flag.
    * @param glow - Glow effect flag.
    * @param href - Hyperlink reference.
    * @param ripple - Ripple effect flag.
    * @param rounded - Rounded corners flag.
    * @param size - Button size.
-   * @param tile - Tile style flag.
    */
   constructor(
     color: string = "",
     content: string = "",
-    dark: boolean = false,
-    fab: boolean = false,
     glow: boolean = false,
     href: string | null = null,
     ripple: boolean = false,
     rounded: boolean | string = false,
     size: string = "x-large",
-    tile: boolean = false,
   ) {
     this.color = color;
     this.content = content;
-    this.dark = dark;
-    this.fab = fab;
     this.glow = glow;
     this.href = href;
     this.ripple = ripple;
     this.rounded = rounded;
     this.size = size;
-    this.tile = tile;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+  public setColor(color: string) {
+    this.color = color;
+    return this;
+  }
+
+  public setContent(content: string) {
+    this.content = content;
+    return this;
+  }
+
+  public setGlow(glow: boolean) {
+    this.glow = glow;
+    return this;
+  }
+
+  public setHref(href: string | null) {
+    this.href = href;
+    return this;
+  }
+
+  public setRipple(ripple: boolean) {
+    this.ripple = ripple;
+    return this;
+  }
+
+  public setRounded(rounded: boolean | string) {
+    this.rounded = rounded;
+    return this;
+  }
+
+  public setSize(size: string) {
+    this.size = size;
+    return this;
   }
 }

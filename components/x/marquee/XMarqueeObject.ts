@@ -14,50 +14,43 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
-import {isString} from "lodash-es";
+import {XMarqueeObjectData} from "@selldone/page-builder/components/x/marquee/XMarqueeObjectData.ts";
 
-export class XTextObject extends LModelElement<XTextObjectData> {
+export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XTextObjectData | null,
+    data: XMarqueeObjectData | null,
     props: any,
   ) {
     super(
-      "XText",
+      "XMarquee",
       background,
       style,
       classes,
       children,
-      data ? data : new XTextObjectData("", "p"),
+      data ? data : new XMarqueeObjectData(""),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XTextObject(null, null, null, null, null, null);
+    return new XMarqueeObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
-  /**
-   * Create a new instance of XTextObject
-   * @param value
-   * @param tag
-   * @param classes
-   * @constructor
-   */
-  static Seed(
-    value: string,
-    tag: XTextObjectDataTypes.ITag,
-    classes: string[] | null = null,
-  ): XTextObject {
-    const instance = XTextObject.NewInstance();
-    instance.data.setValue(value).setTag(tag);
-    instance.classes = classes ? classes : [];
+
+  static Seed(): XMarqueeObject {
+    const instance = this.NewInstance();
+    instance.data.setHtml("Write some text here...");
+    instance.style.fontSize='2rem'
+    instance.style.color='#ffffff'
+    instance.background.bg_color='#673AB7'
+    console.log("Instance Marquee --->", instance);
+
     return instance;
   }
 
@@ -65,27 +58,27 @@ export class XTextObject extends LModelElement<XTextObjectData> {
   /**
    * Migrate from V1 to V2
    * @param old
-   * @param initialType
-   * @param initialClasses
    * @constructor
    */
-  static MigrateOld(
-    old: any,
-    initialType: string | null,
-    initialClasses: string[] | null,
-  ): XTextObject {
-    if (!old) old = "";
 
-    const data = new XTextObjectData(
-      isString(old) ? old : old.value ?? null,
-      old.tag ?? initialType,
+  static MigrateOld(old: any): XMarqueeObject {
+    const data = new XMarqueeObjectData(
+      old.text_loop.html,
+      old.text_loop.duration,
+      old.text_loop.space,
+      old.text_loop.repeat,
+      old.text_loop.reverse,
     );
 
-    console.log("Text Element ", old, "--- old --->", data);
-    return new XTextObject(
+    const style = old.style ? old.style : {};
+    style.height = old.text_loop.height;
+    style.color = old.text_loop.font_color;
+    style.fontSize = old.text_loop.font_size;
+
+    return new XMarqueeObjectData(
       new LModelBackground(old?.background),
-      old?.style,
-      old?.classes ? old.classes : initialClasses,
+      style,
+      old?.classes,
       [],
       data,
       null,

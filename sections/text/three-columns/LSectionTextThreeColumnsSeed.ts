@@ -12,9 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {
   XColumnImageTextObject
@@ -22,10 +22,10 @@ import {
 
 export const LSectionTextThreeColumnsSeed = () => {
   // Initialize section
-  const section = LModelElementXSection.Seed();
+  const section = XSectionObject.Seed();
 
   // Initialize container and add to section
-  const container = LModelElementXContainer.Seed();
+  const container = XContainerObject.Seed();
   section.addChild(container);
 
   container.addChild(
@@ -33,7 +33,7 @@ export const LSectionTextThreeColumnsSeed = () => {
   );
 
   // Initialize row and add to container
-  const row = LModelElementXRow.Seed();
+  const row = XRowObject.Seed();
   container.addChild(row);
 
   // Initialize columns

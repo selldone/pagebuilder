@@ -14,15 +14,15 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XContainerData} from "@selldone/page-builder/components/x/container/XContainerData.ts";
+import {XContainerObjectData} from "@selldone/page-builder/components/x/container/XContainerObjectData.ts";
 
-export class LModelElementXContainer extends LModelElement<XContainerData> {
+export class XContainerObject extends LModelElement<XContainerObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XContainerData | null,
+    data: XContainerObjectData | null,
     props: any,
   ) {
     super(
@@ -31,25 +31,32 @@ export class LModelElementXContainer extends LModelElement<XContainerData> {
       style,
       classes,
       children,
-      data ? data : new XContainerData(),
+      data ? data : new XContainerObjectData(),
       props,
     );
   }
 
-  static Seed(): LModelElementXContainer {
-    return new LModelElementXContainer(null, null, null, null, null, null);
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XContainerObject(null, null, null, null, null, null);
   }
 
-  static MigrateOld(old: any, props: any): LModelElementXContainer {
-    const data = new XContainerData();
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-    return new LModelElementXContainer(
-      null,
-        null,
-        null,
-      [],
-      data,
-      props,
-    );
+  static Seed(): XContainerObject {
+    return this.NewInstance();
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @param props
+   * @constructor
+   */
+  static MigrateOld(old: any, props: any): XContainerObject {
+    const data = new XContainerObjectData();
+
+    return new XContainerObject(null, null, null, [], data, props);
   }
 }

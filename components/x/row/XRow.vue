@@ -19,16 +19,21 @@
     :align="object.data ? object.data.align : 'center'"
     :justify="object.data ? object.data.justify : 'space-around'"
     class="x--row"
-
-    :class="[object?.classes, {'-no-wrap': hasWrap && object.data?.no_wrap, 'is-editable': $builder.isEditing }]"
+    :class="[
+      object?.classes,
+      {
+        '-no-wrap': hasWrap && object.data?.no_wrap,
+        'is-editable': $builder.isEditing,
+      },
+    ]"
     :style="[object?.style, backgroundStyle(object.background)]"
-
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
 
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-    <v-col cols="12"
+    <v-col
+      cols="12"
       v-if="addColumn && SHOW_EDIT_TOOLS && !object.children?.length"
       style="
         min-height: 48px;
@@ -47,10 +52,10 @@
 </template>
 
 <script>
-import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 
 export default defineComponent({
   name: "XRow",
@@ -59,7 +64,7 @@ export default defineComponent({
   components: {},
 
   props: {
-    object: { required: true },
+    object: {type:XRowObject, required: true },
 
     addColumn: {
       type: Boolean,
@@ -72,15 +77,13 @@ export default defineComponent({
 
     columnStructure: {
       type: Array,
-      default: () => [
-        'h3',   'img','p'
-      ],
+      default: () => ["h3", "img", "p"],
     },
 
     /**
      * Set the location of the proper
      */
-    position:{},
+    position: {},
   },
   data: () => ({}),
 
@@ -97,7 +100,7 @@ export default defineComponent({
         hasAdd: this.addColumn,
         hasArrangement: this.hasArrangement,
         hasFluid: this.hasFluid,
-        position:this.position
+        position: this.position,
       };
     },
   },

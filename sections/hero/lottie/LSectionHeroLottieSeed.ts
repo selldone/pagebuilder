@@ -12,28 +12,28 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
-import {LModelElementXLottie} from "@selldone/page-builder/components/x/lottie/LModelElementXLottie.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
 
 export const LSectionHeroLottieSeed = () => {
   // Initialize section
-  const section = LModelElementXSection.Seed();
+  const section = XSectionObject.Seed();
   section.classes = [
     "min-height-80vh",
     "d-flex" /*Keep row fill container! Important.*/,
   ];
 
   // Initialize container and add to section
-  const container = LModelElementXContainer.Seed();
+  const container = XContainerObject.Seed();
   section.addChild(container);
 
   // Initialize row and add to container
-  const row = LModelElementXRow.Seed();
+  const row = XRowObject.Seed();
   container.addChild(row);
 
   // Initialize and configure first column
@@ -50,13 +50,13 @@ export const LSectionHeroLottieSeed = () => {
       ["mb-4"],
     ),
   );
-  column1.addChild(LModelElementXButtons.Seed());
+  column1.addChild(XButtonsObject.Seed());
 
   // Initialize and configure second column
   const column2 = XColumnObject.Seed(12, 6, 4);
   row.addChild(column2);
 
-  column2.addChild(LModelElementXLottie.Seed());
+  column2.addChild(XLottieObject.Seed());
 
   return section;
 };

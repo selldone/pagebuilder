@@ -14,46 +14,61 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XRowData} from "@selldone/page-builder/components/x/row/XRowData.ts";
+import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 
-export class LModelElementXRow extends LModelElement<XRowData> {
-
+export class XSectionObject extends LModelElement<XSectionObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XRowData | null,
+    data: XSectionObjectData | null,
     props: Record<string, any> | null,
   ) {
     super(
-      "XRow",
+      "XSection",
       background,
       style,
       classes,
       children,
-      data ? data : new XRowData("center", "center", false),
+      data ? data : new XSectionObjectData(),
       props,
     );
   }
 
-  static Seed(): LModelElementXRow {
-    return new LModelElementXRow(null, null, null, null, null, null);
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XSectionObject(null, null, null, null, null, null);
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  static Seed(): XSectionObject {
+    return this.NewInstance();
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @param props
+   * @constructor
+   */
   static MigrateOld(
     old: any,
-  ): LModelElementXRow {
-    const data = new XRowData(old?.row.align, old?.row.justify,  old?.row.no_wrap);
+    props: Record<string, any> | null,
+  ): XSectionObject {
+    const data = new XSectionObjectData();
 
-    console.log("Migrate Row | Old: ", old, " | Data: ", data);
-    return new LModelElementXRow(
-        null,
-      null,
-      null,
+    console.log("old", old);
+    return new XSectionObject(
+      new LModelBackground(old?.background),
+      old?.style,
+      old?.classes,
       [],
       data,
-      null,
+      props,
     );
   }
 }

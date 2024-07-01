@@ -13,43 +13,36 @@
  */
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
-import {
-  XColumnImageTextObject
-} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
 
 export class LMigrationV2TextSections {
-  static Migrate($sectionData: any): LModelElement<XSectionData> | null {
+  static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
 
     // 1. Add section:
-    const section = LModelElementXSection.MigrateOld($sectionData, null);
+    const section = XSectionObject.MigrateOld($sectionData, null);
 
     // 2. Add container:
-    const container = LModelElementXContainer.MigrateOld($sectionData, null);
+    const container = XContainerObject.MigrateOld($sectionData, null);
     section.addChild(container);
 
     container.addChild(
       XTextObject.MigrateOld($sectionData.header, "h2", ["mb-5"]),
     );
 
-
-
     // 3. Add row:
-    const row = LModelElementXRow.MigrateOld($sectionData, null);
+    const row = XRowObject.MigrateOld($sectionData, null);
     container.addChild(row);
 
     $sectionData.columns.forEach((_column: any) => {
-      row.addChild(
-        XColumnImageTextObject.MigrateOld(_column),
-      );
+      row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 
     return section;

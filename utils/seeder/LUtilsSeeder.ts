@@ -30,6 +30,11 @@ import {
   LSectionTextThreeColumnsSeed
 } from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumnsSeed.ts";
 import {LSectionTextNumbersSeed} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbersSeed.ts";
+import {LSectionImageSocialsSeed} from "@selldone/page-builder/sections/image/socials/LSectionImageSocialsSeed.ts";
+import {LSectionImageCardsSeed} from "@selldone/page-builder/sections/image/cards/LSectionImageCardsSeed.ts";
+import {LSectionImageFeaturesSeed} from "@selldone/page-builder/sections/image/features/LSectionImageFeaturesSeed.ts";
+import {LSectionImageIntroSeed} from "@selldone/page-builder/sections/image/intro/LSectionImageIntroSeed.ts";
+import {LSectionTextMarqueeSeed} from "@selldone/page-builder/sections/text/marquee/LSectionTextMarqueeSeed.ts";
 
 const DEBUG = false;
 
@@ -309,19 +314,21 @@ export class LUtilsSeeder {
       return LSectionHeroSearchSeed();
     } else if (name === "LSectionTextTwoColumns") {
       return LSectionTextTwoColumnsSeed();
-    }else if (name === "LSectionTextThreeColumns") {
+    } else if (name === "LSectionTextThreeColumns") {
       return LSectionTextThreeColumnsSeed();
-    }else if (name === "LSectionTextNumbers") {
+    } else if (name === "LSectionTextNumbers") {
       return LSectionTextNumbersSeed();
+    } else if (name === "LSectionImageSocials") {
+      return LSectionImageSocialsSeed();
+    } else if (name === "LSectionImageCards") {
+      return LSectionImageCardsSeed();
+    } else if (name === "LSectionImageFeatures") {
+      return LSectionImageFeaturesSeed();
+    } else if (name === "LSectionImageIntro") {
+      return LSectionImageIntroSeed();
+    } else if (name === "LSectionTextMarquee") {
+      return LSectionTextMarqueeSeed();
     }
-
-
-
-
-
-
-
-
 
     console.error("🚨 Seed not found", name);
     return null;

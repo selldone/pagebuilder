@@ -30,6 +30,9 @@ export namespace Section {
   export interface IOptions {
     name: string;
     uid: string; // [New] save section ID (previously we saved section ID in data.id)
+    /**
+     * @deprecated
+     */
     schema: {
       name: string;
       schema: any;

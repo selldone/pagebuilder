@@ -43,7 +43,7 @@
 <script>
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
-import { LModelElementXSearch } from "@selldone/page-builder/components/x/search/LModelElementXSearch";
+import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";
 import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
 
 export default {
@@ -57,7 +57,7 @@ export default {
 
   props: {
     object: {
-      type: LModelElementXSearch,
+      type: XSearchObject,
       required: true,
     },
     augment: {},

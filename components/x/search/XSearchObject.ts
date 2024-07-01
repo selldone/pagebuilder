@@ -14,16 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XSearchData} from "@selldone/page-builder/components/x/search/XSearchData.ts";
+import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
 import {LModelInput} from "@selldone/page-builder/models/input/LModelInput.ts";
 
-export class LModelElementXSearch extends LModelElement<XSearchData> {
+export class XSearchObject extends LModelElement<XSearchObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XSearchData | null,
+    data: XSearchObjectData | null,
     props: any,
   ) {
     super(
@@ -32,24 +32,34 @@ export class LModelElementXSearch extends LModelElement<XSearchData> {
       style,
       classes,
       children,
-      data ? data : new XSearchData(),
+      data ? data : new XSearchObjectData(),
       props,
     );
   }
 
-  static Seed(): LModelElementXSearch {
-    const data = new XSearchData();
-    console.log("data search --->", data);
-
-    return new LModelElementXSearch(null, null, null, null, data, null);
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XSearchObject(null, null, null, null, null, null);
   }
 
-  static MigrateOld(old: any): LModelElementXSearch | null {
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  static Seed(): XSearchObject {
+    return this.NewInstance();
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @constructor
+   */
+  static MigrateOld(old: any): XSearchObject | null {
     if (!old) return null;
 
-    const data = new XSearchData(new LModelInput(old));
+    const data = new XSearchObjectData(new LModelInput(old));
 
     console.log("Migrate Search Element ", old, "--- old --->", data);
-    return new LModelElementXSearch(null, null, null, [], data, null);
+    return new XSearchObject(null, null, null, [], data, null);
   }
 }

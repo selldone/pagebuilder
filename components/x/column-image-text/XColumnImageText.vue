@@ -140,7 +140,10 @@ import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
-import { XColumnImageTextObjectTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
+import {
+  XColumnImageTextObject,
+  XColumnImageTextObjectTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
 
 // Asynchronously load components
 const XCollection = defineAsyncComponent(
@@ -164,7 +167,7 @@ export default defineComponent({
   },
 
   props: {
-    object: { required: true },
+    object: { type:XColumnImageTextObject, required: true },
     initialColumnLayout: { default: "x-layout-normal" },
     initialClassesContent: {
       type: Array,

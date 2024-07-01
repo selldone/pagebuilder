@@ -16,16 +16,16 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {LModelElementXCollection} from "@selldone/page-builder/components/x/collection/LModelElementXCollection.ts";
+import {XCollectionObject} from "@selldone/page-builder/components/x/collection/XCollectionObject.ts";
 import {
-    XColumnImageTextDataTypes,
-    XColumnImageTextObjectData,
+  XColumnImageTextDataTypes,
+  XColumnImageTextObjectData,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
-import {XProductData} from "@selldone/page-builder/components/x/product/XProductData.ts";
-import {XCollectionData} from "@selldone/page-builder/components/x/collection/XCollectionData.ts";
+import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
+import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXProduct} from "@selldone/page-builder/components/x/product/LModelElementXProduct.ts";
+import {XProductObject} from "@selldone/page-builder/components/x/product/XProductObject.ts";
 
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
   constructor(
@@ -67,6 +67,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
    * @param layout
    * @param initialColumnLayout
    * @param initialClassesContent
+   * @param hasImage
    * @constructor
    */
 
@@ -111,7 +112,6 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
       );
     }
 
-
     return instance;
   }
 
@@ -149,38 +149,52 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
       null,
     );
 
-    column.addChild(XTextObject.MigrateOld(old.title,'h2',[]));
-    column.addChild(XTextObject.MigrateOld(old.content,'p',[]));
-    column.addChild(XUploaderObject.MigrateOld(old.image));
+    column.addChild(
+      XTextObject.MigrateOld(old.title, "h2", []).setLabel(
+        XColumnImageTextObjectTypes.LABELS.TITLE,
+      ),
+    );
+    column.addChild(
+      XTextObject.MigrateOld(old.content, "p", []).setLabel(
+        XColumnImageTextObjectTypes.LABELS.CONTENT,
+      ),
+    );
+
+    if (old.image)
+      column.addChild(
+        XUploaderObject.MigrateOld(old.image)!.setLabel(
+          XColumnImageTextObjectTypes.LABELS.IMAGE,
+        ),
+      );
 
     if (old.layout === "product") {
       column.addChild(
-        new LModelElementXProduct(
+        new XProductObject(
           null,
           null,
           null,
           null,
-          new XProductData(old.product_info?.id),
+          new XProductObjectData(old.product_info?.id),
           null,
-        ),
+        ).setLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT),
       );
     } else if (old.layout === "collection") {
       const _children = old.columns.map((_column: any) => {
         return {
           column: XColumnObject.MigrateOld(_column),
-          title: XTextObject.MigrateOld(_column.title,'h3',[]),
+          title: XTextObject.MigrateOld(_column.title, "h3", []),
           image: XUploaderObject.MigrateOld(_column.image),
         };
       });
       column.addChild(
-        new LModelElementXCollection(
+        new XCollectionObject(
           null,
           null,
           null,
           null,
-          new XCollectionData(_children),
+          new XCollectionObjectData(_children),
           null,
-        ),
+        ).setLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION),
       );
     }
 

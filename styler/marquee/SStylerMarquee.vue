@@ -29,6 +29,22 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Classes & Style
+          </v-tooltip>
+        </button>
+      </li>
+
       <!-- ―――――――――――――――――― Text Loop ―――――――――――――――――― -->
 
       <li>
@@ -54,6 +70,7 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 
 /**
  * v-styler:marquee
@@ -67,13 +84,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
-      type: Object,
+      type: XMarqueeObject,
     },
-
 
     /**
      * Set the location of the proper
@@ -82,11 +96,6 @@ export default {
       type: String,
       default: "top",
     },
-
-    keyMarquee: {
-      type: String,
-      default: "text_loop",
-    },
   },
   data: () => ({
     option: null,
@@ -94,7 +103,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -111,7 +119,19 @@ export default {
 
   methods: {
     showQueryBuilderTextLoop() {
-      this.ShowLSettingsMarquee(this.el, this.target, this.keyMarquee);
+      this.ShowLSettingsMarquee(this.el, this.target);
+    },
+
+    showMasterDesignDialog() {
+      this.ShowLSettingsClassStyle(
+        this.el,
+        this.el,
+        this.target,
+        `style`,
+        `classes`,
+        "background",
+        null,
+      );
     },
   },
 };

@@ -88,6 +88,7 @@
       @update:model-value="(v) => $emit('update:position', v)"
       :items="POSITION"
       label="Position"
+      clearable
     ></s-setting-select>
 
     <v-row dense :class="{disabled:position==='static'}">

@@ -37,7 +37,7 @@
           v-if="product.dis_end"
           :end="product.dis_end.convertToLocalDate()"
           class="absolute-bottom-end text-red pa-1 rounded-lg"
-          style="background-color: #ffffff44;backdrop-filter: blur(4px)"
+          style="background-color: #ffffff44; backdrop-filter: blur(4px)"
         ></u-count-down>
       </v-img>
 
@@ -72,12 +72,7 @@
       v-if="!product && $builder.isEditing && !$builder.isHideExtra && !busy"
       class="text-center pp d-flex align-items-center justify-center flex-column bg-tiny-checkers usn"
     >
-      <v-icon
-        class="ma-3"
-        size="96"
-      >
-        shelves
-      </v-icon>
+      <v-icon class="ma-3" size="96"> shelves</v-icon>
       <p>Select a product</p>
     </div>
   </v-card>
@@ -90,8 +85,9 @@ import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXC
 import { isObject } from "lodash-es";
 import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
-import {StorefrontRoutesName} from "@selldone/core-js/enums/route/StorefrontRoutesName";
-import {XProductData} from "@selldone/page-builder/components/x/product/XProductData";
+import { StorefrontRoutesName } from "@selldone/core-js/enums/route/StorefrontRoutesName";
+import { XProductObjectData } from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
+import { XProductObject } from "@selldone/page-builder/components/x/product/XProductObject.ts";
 
 export default {
   name: "XProduct",
@@ -101,8 +97,8 @@ export default {
   components: { UPrice, UCountDown },
 
   props: {
-    object: { required: true },
-    augment:{},
+    object: { type: XProductObject, required: true },
+    augment: {},
   },
 
   data: () => ({
@@ -110,13 +106,14 @@ export default {
     product: null,
   }),
   computed: {
-
-    product_to(){
-      return this.object.data?.id && {name:StorefrontRoutesName.PRODUCT_PAGE,params:{product_id:this.object.data.id}}
+    product_to() {
+      return (
+        this.object.data?.id && {
+          name: StorefrontRoutesName.PRODUCT_PAGE,
+          params: { product_id: this.object.data.id },
+        }
+      );
     },
-
-
-
 
     price_in_selected_currency() {
       if (!this.product) return 0;
@@ -168,7 +165,7 @@ export default {
       !isObject(this.object.data) ||
       Array.isArray(this.object.data)
     )
-      this.object.data = new XProductData();
+      this.object.data = new XProductObjectData();
 
     this.getProductInfo();
   },

@@ -12,14 +12,14 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 
-export class XColumnObjectData {
-  public grid: LModelGrid;
+export const LSectionTextMarqueeSeed = () => {
+  // Initialize section
+  const section = XSectionObject.Seed();
+  section.classes=['pa-0']
+  section.addChild(XMarqueeObject.Seed());
 
-  constructor(grid: LModelGrid | null) {
-    this.grid = grid ? grid : new LModelGrid({});
-  }
-
-
-}
+  return section;
+};

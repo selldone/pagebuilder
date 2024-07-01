@@ -12,12 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelInput} from "@selldone/page-builder/models/input/LModelInput.ts";
+export class XContainerObjectData {
+  fluid: boolean | null;
 
-export class XSearchData {
-  input: LModelInput;
-
-  constructor(input: LModelInput|null) {
-    this.input = input?input:new LModelInput();
+  constructor(fluid: boolean | null) {
+    this.fluid = !!fluid;
   }
 }

@@ -152,7 +152,7 @@ import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
-import { LModelElementXRow } from "@selldone/page-builder/components/x/row/LModelElementXRow";
+import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject";
 
 export default {
   name: "SStylerRow",
@@ -165,7 +165,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: LModelElementXRow,
+      type: XRowObject,
       // It's the value of v-styler:arg="value"
     },
 

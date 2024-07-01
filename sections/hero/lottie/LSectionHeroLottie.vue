@@ -16,18 +16,10 @@
   <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
 
-
 <script>
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XUploader from "../../../components/x/uploader/XUploader.vue";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
-import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
-import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
-import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
-import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
@@ -35,14 +27,7 @@ export default {
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
   components: {
-    XButtons,
-    XColumn,
-    XRow,
-    XContainer,
-    XSection,
-    XText,
-    XUploader,
-    XComponent
+    XComponent,
   },
   cover: require("../../../assets/images/covers/hero-lottie.svg"),
   label: "Animate Hero - Lottie Files",
@@ -120,9 +105,7 @@ export default {
   computed: {},
   watch: {},
 
-  created() {
-
-  },
+  created() {},
 
   methods: {
     refreshAnimation() {
@@ -136,4 +119,3 @@ export default {
 </script>
 
 <style lang="scss" scoped></style>
-

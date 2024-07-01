@@ -67,7 +67,7 @@ import * as types from "@selldone/page-builder/src/types/types";
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import { defineAsyncComponent } from "vue";
-import { LModelElementXCollection } from "@selldone/page-builder/components/x/collection/LModelElementXCollection";
+import { XCollectionObject } from "@selldone/page-builder/components/x/collection/XCollectionObject";
 
 const XText = defineAsyncComponent(
   () => import("@selldone/page-builder/components/x/text/XText.vue"),
@@ -82,7 +82,7 @@ export default {
 
   props: {
     object: {
-      type: LModelElementXCollection,
+      type: XCollectionObject,
       required: true,
     },
     augment: {},

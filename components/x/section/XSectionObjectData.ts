@@ -12,20 +12,6 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XRowData {
-  align: string | null;
-  justify: string | null;
-
-  no_wrap: boolean | null;
-
-  constructor(
-    align: string | null,
-    justify: string | null,
-    no_wrap: boolean | null,
-  ) {
-    this.align = align;
-
-    this.justify = justify;
-    this.no_wrap = no_wrap;
-  }
+export class XSectionObjectData {
+  constructor() {}
 }

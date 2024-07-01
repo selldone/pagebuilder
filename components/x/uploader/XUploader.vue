@@ -13,6 +13,7 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+
   <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Toolbar ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
   <v-menu
     v-if="has_edit_toolbar || has_animate_toolbar"
@@ -404,6 +405,7 @@
         @change="updateImage"
         @dragenter="onDropEnterHolder"
         @dragleave="onDropLeaveHolder"
+        :accept="accept"
       />
 
       <v-icon class="image-mark" color="#fff" size="48px"> image</v-icon>
@@ -435,7 +437,7 @@ import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
-import { LModelElementXLottie } from "@selldone/page-builder/components/x/lottie/LModelElementXLottie";
+import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -510,6 +512,10 @@ export default defineComponent({
 
     fileKey: {
       default: "photo",
+    },
+
+    accept: {
+      default: "image/png, image/jpeg, image/gif",
     },
   },
 
@@ -677,7 +683,9 @@ export default defineComponent({
     },
   },
 
-  mounted() {},
+  mounted() {
+
+  },
 
   methods: {
     isPercent(val) {
@@ -689,7 +697,7 @@ export default defineComponent({
         !this.object ||
         !(
           this.object instanceof XUploaderObject ||
-          this.object instanceof LModelElementXLottie
+          this.object instanceof XLottieObject
         )
       ) {
         console.error(
@@ -746,7 +754,7 @@ export default defineComponent({
         "background",
         null,
         {
-          /*noSize: true,*/ prev_image: this.image.src,
+          /*noSize: true,*/ prev_image: this.object.data.src,
           exclude: ["typeface", "grid"],
         }, // Not show size ! conflict with image size!
       );
@@ -784,11 +792,11 @@ export default defineComponent({
 
     deleteImage() {
       this.pre_src = this.src;
-      this.image.src = "";
+      this.object.data.src = "";
       this.$emit("uploaded", "");
     },
     restoreImage() {
-      this.image.src = this.pre_src;
+      this.object.data.src = this.pre_src;
       this.$emit("uploaded", this.src);
       this.pre_src = null;
     },

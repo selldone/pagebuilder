@@ -17,10 +17,12 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
-export const LSectionTextNumbersSeed = () => {
+export const LSectionImageIntroSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
+  section.classes = [];
 
   // Initialize container and add to section
   const container = XContainerObject.Seed();
@@ -30,26 +32,27 @@ export const LSectionTextNumbersSeed = () => {
     XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
   );
 
+  const image = XUploaderObject.Seed();
+  image.data.setting.size.max_w = "600px";
+  image.data.setting.size.max_h = "600px";
+  container.addChild(image);
+
   // Initialize row and add to container
   const row = XRowObject.Seed();
   container.addChild(row);
 
-  // Initialize columns
-  for (let i = 1; i <= 3; i++) {
-    const col = XColumnImageTextObject.Seed(
+  row.addChild(
+    XColumnImageTextObject.Seed(
       12,
-      4,
-      3,
+      10,
+      8,
       null,
-      "x-layout-content-title",
+      "x-layout-title-content",
       null,
-      ["text-h1"],
-    );
-
-    (col.children[1] as XTextObject).data.setValue(Math.abs(Math.round(999)));
-
-    row.addChild(col);
-  }
+      [],
+      false,
+    ),
+  );
 
   return section;
 };

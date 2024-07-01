@@ -31,6 +31,7 @@
       class="overflow-hidden rounded-18px"
       style="transition: all 0.35s; --v-activated-opacity: 0"
       theme="dark"
+      eager
     >
       <v-expansion-panel :bg-color="expanded === 0 ? '#111' : '#0152d0'">
         <v-expansion-panel-title ripple class="-header">

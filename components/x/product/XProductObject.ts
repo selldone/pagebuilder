@@ -14,36 +14,36 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XLottieData} from "@selldone/page-builder/components/x/lottie/XLottieData.ts";
-import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 
-export class LModelElementXLottie extends LModelElement<XLottieData> {
+export class XProductObject extends LModelElement<XProductObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XLottieData | null,
+    data: XProductObjectData | null,
     props: any,
   ) {
     super(
-      "XLottie",
+      "XProduct",
       background,
       style,
       classes,
       children,
-      data ? data : new XLottieData(null),
+      data ? data : new XProductObjectData(null),
       props,
     );
   }
 
-  static Seed(): LModelElementXLottie {
-    const data = new XLottieData(
-      "/animation/23222-checkmark.json",
-      new XUploaderDataTypes.Setting(),
-    );
-    console.log('data lottie --->',data)
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XProductObject(null, null, null, null, null, null);
+  }
 
-    return new LModelElementXLottie(null, null, null, null, data, null);
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  static Seed(): XProductObject {
+    return this.NewInstance();
   }
 }

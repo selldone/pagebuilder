@@ -225,11 +225,10 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsMarquee(el: HTMLElement, target: Object, keyMarquee: string) {
+    ShowLSettingsMarquee(el: HTMLElement, target: Object) {
       EventBus.$emit("show:LSettingsMarquee", {
         el,
         target,
-        keyMarquee,
       });
     },
 

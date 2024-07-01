@@ -11,9 +11,9 @@
   - Our journey is not just about reaching a destination, but about creating a masterpiece.
   - Tread carefully, for you're treading on dreams.
   -->
+<!-- IMPORTANT: Element must have -trackable class! -->
 
 <template>
-  <!-- IMPORTANT: Element must have -trackable class! -->
   <v-btn
     :id="object.data.id"
     :class="[object.classes, { '-button-glow': is_glow }]"
@@ -24,18 +24,14 @@
     :icon="object.data.icon"
     :loading="loading"
     :ripple="object.data.ripple"
-    :rounded="
-      object.data.rounded ? object.data.rounded : object.data.tile ? 0 : object.data.rounded
-    "
-    :size="  object.data.size "
-    :style="{ fontFamily: object.data.font, '--shadow-color': object.data.color }"
+    :rounded="object.data.rounded"
+    :size="object.data.size"
+    :style="{
+      fontFamily: object.data.font,
+      '--shadow-color': object.data.color,
+    }"
     :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
-    :variant="
-      is_glow
-        ? 'elevated'
-        : object.data.variant
-
-    "
+    :variant="is_glow ? 'elevated' : object.data.variant"
     class="x--button tnt -trackable"
     v-html="object.data.content?.applyAugment(augment, is_editing)"
   >
@@ -44,20 +40,24 @@
 
 <script>
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 
 export default {
   name: "XButton",
   mixins: [LMixinXComponent],
   props: {
-    object: {},
+    object: {
+      type: XButtonObject,
+      required: true,
+    },
     loading: {},
     augment: {
       // Extra information to show to dynamic show in page content
     },
   },
   computed: {
-    is_editing(){
-      return this.$builder.isEditing
+    is_editing() {
+      return this.$builder.isEditing;
     },
     is_glow() {
       return (

@@ -95,7 +95,7 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 
 /**
  * v-styler:container
@@ -111,7 +111,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: LModelElementXContainer,
+      type: XContainerObject,
     },
 
     /**

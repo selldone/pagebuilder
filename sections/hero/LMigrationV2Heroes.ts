@@ -13,22 +13,22 @@
  */
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
-import {LModelElementXLottie} from "@selldone/page-builder/components/x/lottie/LModelElementXLottie.ts";
-import {XLottieData} from "@selldone/page-builder/components/x/lottie/XLottieData.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
+import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
+import {XLottieObjectData} from "@selldone/page-builder/components/x/lottie/XLottieObjectData.ts";
 import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {LModelElementXSearch} from "@selldone/page-builder/components/x/search/LModelElementXSearch.ts";
+import {XSearchObject} from "@selldone/page-builder/components/x/search/XSearchObject.ts";
 
 export class LMigrationV2Heroes {
-  static Migrate($sectionData: any): LModelElement<XSectionData> | null {
+  static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
@@ -37,14 +37,14 @@ export class LMigrationV2Heroes {
     if (!$sectionData.columns) $sectionData.columns = [];
 
     // 1. Add section:
-    const section = LModelElementXSection.MigrateOld($sectionData, null);
+    const section = XSectionObject.MigrateOld($sectionData, null);
 
     // 2. Add container:
-    const container = LModelElementXContainer.MigrateOld($sectionData, null);
+    const container = XContainerObject.MigrateOld($sectionData, null);
     section.addChild(container);
 
     // 3. Add row:
-    const row = LModelElementXRow.MigrateOld($sectionData);
+    const row = XRowObject.MigrateOld($sectionData);
     container.addChild(row);
 
     // Add column 1:
@@ -60,35 +60,27 @@ export class LMigrationV2Heroes {
       );
 
       column_1.addChild(
-        LModelElementXButtons.MigrateOld(
-          $sectionData.btn_row,
-          $sectionData.buttons,
-          null,
-        ),
+        XButtonsObject.MigrateOld($sectionData.btn_row, $sectionData.buttons),
       );
-    }
-
-    // Search:
-    if ($sectionData.search) {
-      column_1.addChild(LModelElementXSearch.MigrateOld($sectionData.search));
+      // Search:
+      if ($sectionData.search) {
+        column_1.addChild(XSearchObject.MigrateOld($sectionData.search));
+      }
     }
 
     // Add column 2:
     if ($sectionData.columns[1]) {
-      const column_2 = XColumnObject.MigrateOld(
-        $sectionData.columns[1],
-        null,
-      );
+      const column_2 = XColumnObject.MigrateOld($sectionData.columns[1]);
       row.addChild(column_2);
       column_2.addChild(XUploaderObject.MigrateOld($sectionData.image));
 
       if ($sectionData.lottie) {
-        const data_lottie = new XLottieData(
+        const data_lottie = new XLottieObjectData(
           $sectionData.lottie.src,
           new XUploaderDataTypes.Setting($sectionData.lottie.setting),
         );
 
-        new LModelElementXLottie(
+        new XLottieObject(
           new LModelBackground($sectionData.lottie.background),
           $sectionData.lottie.style,
           $sectionData.lottie.classes,

@@ -21,6 +21,7 @@
     file-key="lottie"
     no-preview
     @uploaded="refreshAnimation"
+    accept="application/json"
   >
     <template v-slot="{ src }">
       <u-lottie
@@ -44,7 +45,7 @@
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
-import { LModelElementXLottie } from "@selldone/page-builder/components/x/lottie/LModelElementXLottie";
+import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
 
 export default {
   name: "XLottie",
@@ -55,7 +56,7 @@ export default {
 
   props: {
     object: {
-      type: LModelElementXLottie,
+      type: XLottieObject,
       required: true,
     },
     augment: {},

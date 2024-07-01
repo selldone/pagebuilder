@@ -14,50 +14,43 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
-import {isString} from "lodash-es";
+import {XButtonObjectData} from "@selldone/page-builder/components/x/button/XButtonObjectData.ts";
 
-export class XTextObject extends LModelElement<XTextObjectData> {
+export class XButtonObject extends LModelElement<XButtonObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XTextObjectData | null,
+    data: XButtonObjectData | null,
     props: any,
   ) {
     super(
-      "XText",
+      "XButton",
       background,
       style,
       classes,
       children,
-      data ? data : new XTextObjectData("", "p"),
+      data ? data : new XButtonObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XTextObject(null, null, null, null, null, null);
+    return new XButtonObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
-  /**
-   * Create a new instance of XTextObject
-   * @param value
-   * @param tag
-   * @param classes
-   * @constructor
-   */
-  static Seed(
-    value: string,
-    tag: XTextObjectDataTypes.ITag,
-    classes: string[] | null = null,
-  ): XTextObject {
-    const instance = XTextObject.NewInstance();
-    instance.data.setValue(value).setTag(tag);
-    instance.classes = classes ? classes : [];
+
+  static Seed(): XButtonObject {
+    const instance = this.NewInstance();
+    instance.data
+      .setColor("#1976D2")
+      .setContent("Action...")
+      .setSize("x-large")
+      .setRounded("xl");
+
     return instance;
   }
 
@@ -65,27 +58,24 @@ export class XTextObject extends LModelElement<XTextObjectData> {
   /**
    * Migrate from V1 to V2
    * @param old
-   * @param initialType
-   * @param initialClasses
    * @constructor
    */
-  static MigrateOld(
-    old: any,
-    initialType: string | null,
-    initialClasses: string[] | null,
-  ): XTextObject {
-    if (!old) old = "";
 
-    const data = new XTextObjectData(
-      isString(old) ? old : old.value ?? null,
-      old.tag ?? initialType,
+  static MigrateOld(old: any): XButtonObject {
+    const data = new XButtonObjectData(
+      old.color ?? "#1976D2",
+      old.content ?? "Action...",
+      old.glow ?? false,
+      old.href ?? null,
+      old.ripple ?? false,
+      old.rounded ?? "xl",
+      old.size ?? "x-large",
     );
 
-    console.log("Text Element ", old, "--- old --->", data);
-    return new XTextObject(
+    return new XButtonObject(
       new LModelBackground(old?.background),
       old?.style,
-      old?.classes ? old.classes : initialClasses,
+      old?.classes,
       [],
       data,
       null,

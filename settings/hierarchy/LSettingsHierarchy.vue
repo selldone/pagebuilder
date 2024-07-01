@@ -18,7 +18,7 @@
       v-model="dialog"
       :scrim="false"
       :width="
-        $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
+        $vuetify.display.xlAndUp ? 420 : $vuetify.display.lgAndUp ? 360 : 320
       "
       class="x-page-builder-options-slider"
       color="#1e1e1e"
@@ -26,24 +26,28 @@
       temporary
       theme="dark"
     >
-      <v-card class="text-start" flat style="padding-bottom: 10vh">
+      <v-card class="text-start" flat style="padding-bottom: 10vh;">
         <!-- ████████████████████ Actions ████████████████████ -->
 
-        <v-card-actions>
-          <div class="widget-buttons">
+        <div style="position: fixed;left: 0;right: 0;background-color: #1e1e1e99;backdrop-filter: blur(4px);z-index: 5">
+          <div class="widget-buttons" >
             <v-btn size="x-large" variant="text" @click="dialog = false">
               <v-icon class="me-1">close</v-icon>
               {{ $t("global.actions.close") }}
             </v-btn>
           </div>
-        </v-card-actions>
+        </div>
 
         <!-- ████████████████████ Hierarchy ████████████████████ -->
+        <h2 class="px-2" style="margin-top: 120px">Hierarchy</h2>
 
-        <v-treeview
-            :items="items"
-            density="compact"
-        ></v-treeview>
+        <l-settings-hierarchy-item v-for="(section,index) in sections" :key="index"  :object="section.object" class="mx-2"
+
+
+
+
+        >
+        </l-settings-hierarchy-item>
 
 
       </v-card>
@@ -54,11 +58,12 @@
 <script>
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingsHierarchyItem from "@selldone/page-builder/settings/hierarchy/item/LSettingsHierarchyItem.vue";
 
 export default {
   name: "LSettingsHierarchy",
   mixins: [LMixinEvents],
-  components: {},
+  components: {LSettingsHierarchyItem},
 
   props: {
     builder: { type: Object, required: true },
@@ -72,24 +77,7 @@ export default {
     sections() {
       return this.builder.sections;
     },
-    items(){
 
-      console.log('sections', this.sections)
-      return [];
-      return this.sections.map(section => {
-        return {
-          id: section.id,
-          title: section.name,
-          children: section.columns.map(child => {
-            return {
-              id: child.id,
-              title: child.name,
-
-            }
-          })
-        }
-      })
-    }
   },
 
   watch: {
@@ -139,7 +127,9 @@ export default {
     document.removeEventListener("keydown", this.key_listener_keydown, true);
   },
 
-  methods: {},
+  methods: {
+
+  },
 };
 </script>
 

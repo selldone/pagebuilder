@@ -16,9 +16,7 @@ import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import {LMigrationV2Heroes} from "@selldone/page-builder/sections/hero/LMigrationV2Heroes.ts";
 import {LMigrationV2MultipleColumns} from "@selldone/page-builder/sections/image/LMigrationV2MultipleColumns.ts";
 import {LMigrationV2NormalSections} from "@selldone/page-builder/sections/image/LMigrationV2NormalSections.ts";
-import {
-    LMigrationV2TextSections
-} from "@selldone/page-builder/sections/text/LMigrationV2TextSections.ts";
+import {LMigrationV2TextSections} from "@selldone/page-builder/sections/text/LMigrationV2TextSections.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -158,6 +156,7 @@ export class LUtilsMigration {
         section.object = LMigrationV2TextSections.Migrate(section.data);
         section.data = null;
       }
+
     });
   }
 }

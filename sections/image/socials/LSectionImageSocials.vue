@@ -13,62 +13,13 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section v-if="false" :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-text
-        v-model:object="$sectionData.title"
-        :augment="augment"
-        initial-type="h2"
-        :initial-classes="['mb-5']"
-      ></x-text>
-
-      <x-text
-        v-model:object="$sectionData.content"
-        :augment="augment"
-        initial-type="p"
-      ></x-text>
-
-      <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-      <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
-      <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
-
-      <x-row
-        :column-structure="ItemType"
-        :object="$sectionData"
-        add-column
-        has-arrangement
-        has-fluid
-        has-wrap
-      >
-        <!-- ██████████████████████ Columns ██████████████████████ -->
-        <x-column-image-text
-          v-for="(col, index) in $sectionData.columns"
-          :key="`${index}-${$sectionData.columns.length}`"
-          :augment="augment"
-          :object="col"
-          :remove-child="() => $sectionData.columns.splice(index, 1)"
-          cloneable
-          initial-column-layout="x-layout-row"
-        >
-        </x-column-image-text>
-        <!-- █████████████████████████████████████████████████████ -->
-      </x-row>
-    </x-container>
-  </x-section>
   <x-component :object="$sectionObject" :augment="augment"></x-component>
-
 </template>
 
 <script>
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
-import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
-import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
-import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
-import XColumnImageText from "@selldone/page-builder/components/x/column-image-text/XColumnImageText.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
@@ -77,12 +28,6 @@ export default {
   mixins: [LMixinSection],
   components: {
     XComponent,
-    XColumnImageText,
-    XRow,
-    XButtons,
-    XContainer,
-    XSection,
-    XText,
   },
   cover: require("../../../assets/images/covers/social-4.svg"),
   group: "Image & Text",

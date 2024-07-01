@@ -11,9 +11,9 @@
   - Our journey is not just about reaching a destination, but about creating a masterpiece.
   - Tread carefully, for you're treading on dreams.
   -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━ X-Text ━━━━━━━━━━━━━━━━━━━━━━ -->
 
 <template>
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━ X-Text ━━━━━━━━━━━━━━━━━━━━━━ -->
   <component
     v-if="isValid"
     :is="object.data?.tag"
@@ -35,6 +35,7 @@ import XUploader from "../../../components/x/uploader/XUploader.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import { isObject } from "lodash-es";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
 export default defineComponent({
   name: "XText",
@@ -45,7 +46,7 @@ export default defineComponent({
   emits: ["update:object"],
   props: {
     // Fixed:
-    object: { required: true },
+    object: { type: XTextObject, required: true },
     augment: {
       // Extra information to show to dynamic show in page content
       required: true,
@@ -54,8 +55,6 @@ export default defineComponent({
     // Optional:
     initialClasses: { type: Array },
     initialType: { required: true },
-
-
   },
   data: () => ({}),
 

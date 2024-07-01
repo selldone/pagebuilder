@@ -13,68 +13,22 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section
-    v-styler:marquee="{
-      target: $sectionData,
-      keyMarquee: 'text_loop',
-    }"
-    :object="$sectionData"
-    :style="{
-      '--height': $sectionData.text_loop?.height
-        ? $sectionData.text_loop?.height
-        : '24px',
-      '--duration': $sectionData.text_loop?.duration
-        ? $sectionData.text_loop?.duration
-        : '10s',
-      '--font-size': $sectionData.text_loop?.font_size,
-      '--font-color': $sectionData.text_loop?.font_color,
-    }"
-    class="-x-infinite-sec"
-  >
-    <u-marquee
-      :id="marquee_id"
-      :duration="
-        $sectionData.text_loop?.duration
-          ? $sectionData.text_loop?.duration
-          : '10s'
-      "
-      :reverse="!!$sectionData.text_loop?.reverse"
-      auto-width
-      style="min-width: 100%"
-      :key="
-        $sectionData.text_loop?.html?.length +
-        '-' +
-        $sectionData.text_loop?.repeat +
-        '-' +
-        $sectionData.text_loop?.space
-      "
-      :repeat="
-        $sectionData.text_loop?.repeat ? $sectionData.text_loop?.repeat : 10
-      "
-      :space="
-        $sectionData.text_loop?.space ? $sectionData.text_loop?.space : 200
-      "
-    >
-      <div
-        class="-x-infinite-content"
-        v-html="$sectionData.text_loop?.html"
-      ></div>
-    </u-marquee>
-  </x-section>
+
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
 
 <script>
 import * as types from "../../../src/types/types";
-import UMarquee from "@selldone/components-vue/ui/marquee/UMarquee.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionTextMarquee",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
-  components: {XSection, UMarquee },
+  components: { XComponent },
   cover: require("../../../assets/images/covers/section-infinite-text.png"),
 
   group: "Text",
@@ -102,24 +56,10 @@ export default {
     },
   },
   data: () => ({
-    marquee_id: "marquee_" + Math.round(Math.random() * 999999),
+
   }),
 };
 </script>
 <style lang="scss" scoped>
-.-x-infinite-sec {
-  min-height: var(--height);
 
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.-x-infinite-content {
-  white-space: nowrap;
-  font-size: var(--font-size) !important;
-  color: var(--font-color) !important;
-}
 </style>

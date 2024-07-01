@@ -12,25 +12,25 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {LModelElementXButtons} from "@selldone/page-builder/components/x/buttons/LModelElementXButtons.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
 export const LSectionHeroVerticalSeed = () => {
   // Initialize section
-  const section = LModelElementXSection.Seed();
+  const section = XSectionObject.Seed();
   section.classes=["min-height-80vh", "d-flex" /*Keep row fill container! Important.*/]
 
   // Initialize container and add to section
-  const container = LModelElementXContainer.Seed();
+  const container = XContainerObject.Seed();
   section.addChild(container);
 
   // Initialize row and add to container
-  const row = LModelElementXRow.Seed();
+  const row = XRowObject.Seed();
   container.addChild(row);
 
   // Initialize and configure first column
@@ -39,7 +39,7 @@ export const LSectionHeroVerticalSeed = () => {
 
   column1.addChild(XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]));
   column1.addChild(XTextObject.Seed("Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...", "p", ["mb-4"]));
-  column1.addChild(LModelElementXButtons.Seed());
+  column1.addChild(XButtonsObject.Seed());
 
   // Initialize and configure second column
   const column2 = XColumnObject.Seed(12, 10, 8);

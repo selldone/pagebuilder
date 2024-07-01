@@ -13,40 +13,40 @@
  */
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {LModelElementXContainer} from "@selldone/page-builder/components/x/container/LModelElementXContainer.ts";
-import {LModelElementXRow} from "@selldone/page-builder/components/x/row/LModelElementXRow.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {LModelElementXSection} from "@selldone/page-builder/components/x/section/LModelElementXSection.ts";
-import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 import {
     XColumnImageTextObject
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export class LMigrationV2MultipleColumns {
-  static Migrate($sectionData: any): LModelElement<XSectionData> | null {
+  static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
 
     // 1. Add section:
-    const section = LModelElementXSection.MigrateOld($sectionData, null);
+    const section = XSectionObject.MigrateOld($sectionData, null);
 
     // 2. Add container:
-    const container = LModelElementXContainer.MigrateOld($sectionData, null);
+    const container = XContainerObject.MigrateOld($sectionData, null);
     section.addChild(container);
 
     // 3. Add row:
-    const row = LModelElementXRow.MigrateOld($sectionData, null);
+    const row = XRowObject.MigrateOld($sectionData, null);
     container.addChild(row);
 
-    // Add column A:
+    // Add column A: It should be simple column! not column with custom layout.
     const column_A = XColumnObject.MigrateOld(
       $sectionData.columnA,
       null,
     );
     row.addChild(column_A);
 
-    const column_A_row = LModelElementXRow.MigrateOld(
+    const column_A_row = XRowObject.MigrateOld(
       $sectionData.columnA,
       null,
     );
@@ -56,14 +56,14 @@ export class LMigrationV2MultipleColumns {
       column_A_row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 
-    // Add column B:
+    // Add column B: It should be simple column! not column with custom layout.
     const column_B = XColumnObject.MigrateOld(
       $sectionData.columnB,
       null,
     );
     row.addChild(column_B);
 
-    const column_B_row = LModelElementXRow.MigrateOld(
+    const column_B_row = XRowObject.MigrateOld(
       $sectionData.columnB,
       null,
     );
@@ -73,7 +73,7 @@ export class LMigrationV2MultipleColumns {
       column_B_row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 
-    // Add column C:
+    // Add column C: It should be simple column! not column with custom layout.
     if ($sectionData.columnC) {
       const column_C = XColumnObject.MigrateOld(
         $sectionData.columnC,
@@ -81,7 +81,7 @@ export class LMigrationV2MultipleColumns {
       );
       row.addChild(column_C);
 
-      const column_C_row = LModelElementXRow.MigrateOld(
+      const column_C_row = XRowObject.MigrateOld(
         $sectionData.columnC,
         null,
       );

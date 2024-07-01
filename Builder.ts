@@ -64,6 +64,7 @@ import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import XLottie from "@selldone/page-builder/components/x/lottie/XLottie.vue";
 import XSearch from "@selldone/page-builder/components/x/search/XSearch.vue";
+import XMarquee from "@selldone/page-builder/components/x/marquee/XMarquee.vue";
 
 const DEBUG = false;
 
@@ -623,7 +624,8 @@ const XComponents: any[] = [
     XProduct,
     XCollection,
     XLottie,
-  XSearch
+  XSearch,
+  XMarquee
 ];
 
 /**

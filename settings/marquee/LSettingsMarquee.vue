@@ -53,7 +53,7 @@
               </v-list-subheader>
 
               <v-textarea
-                v-model="text_loop.html"
+                v-model="target.data.html"
                 placeholder="Write a text or html code here..."
                 variant="outlined"
               >
@@ -77,7 +77,7 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-color-selector
-                v-model="text_loop.font_color"
+                v-model="target.style.color"
                 class="my-3"
                 title="Font Color"
               ></u-color-selector>
@@ -85,7 +85,7 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-dimension-input
-                v-model="text_loop.font_size"
+                v-model="target.style.fontSize"
                 class="my-3"
                 label="Font Size"
               ></u-dimension-input>
@@ -93,25 +93,22 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-dimension-input
-                v-model="text_loop.height"
+                v-model="target.style.height"
                 class="my-3"
                 label="Height"
               ></u-dimension-input>
 
-
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-number-input
-                  v-model="text_loop.space"
-                  class="my-3"
-                  :min="1"
-                  label="Space"
-                  placeholder="Default is 200"
-                  variant="underlined"
-                  messages="Distance between items in pixels."
+                v-model="target.data.space"
+                class="my-3"
+                :min="1"
+                label="Space"
+                placeholder="Default is 200"
+                variant="underlined"
+                messages="Distance between items in pixels."
               ></u-number-input>
-
-
             </v-expansion-panel-text>
           </v-expansion-panel>
 
@@ -131,7 +128,7 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Duration ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <v-text-field
-                v-model="text_loop.duration"
+                v-model="target.data.duration"
                 class="my-3"
                 label="Duration"
                 placeholder="ex. 10s or 10000ms"
@@ -141,7 +138,7 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-number-input
-                v-model="text_loop.repeat"
+                v-model="target.data.repeat"
                 class="my-3"
                 :min="1"
                 label="Repeat Count"
@@ -152,7 +149,7 @@
               <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Reverse ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
               <u-smart-toggle
-                v-model="text_loop.reverse"
+                v-model="target.data.reverse"
                 class="my-3"
                 true-title="Reverse Animation"
               ></u-smart-toggle>
@@ -173,6 +170,7 @@ import _ from "lodash-es";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
+import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 
 export default {
   name: "LSettingsMarquee",
@@ -191,11 +189,9 @@ export default {
 
     el: null,
     target: null,
-    keyMarquee: null, // ex. text_loop
 
     dialog: false,
 
-    text_loop: {},
 
     //--------------------------
     key_listener_keydown: null,
@@ -205,26 +201,25 @@ export default {
 
   computed: {},
   watch: {
-    text_loop: {
+  /*  target: {
       handler() {
         this.onAcceptDebounced();
       },
       deep: true,
-    },
+    },*/
   },
   created() {},
   mounted() {
     EventBus.$on(
       "show:LSettingsMarquee",
 
-      ({ el, target, keyMarquee }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keyMarquee = keyMarquee;
         this.showDialog();
       },
     );
@@ -266,20 +261,14 @@ export default {
 
   methods: {
     showDialog() {
-      this.text_loop = this.target[this.keyMarquee];
-
-      if (!this.isObject(this.text_loop)) {
-        this.text_loop = {
-          html: "Write some text here...",
-          height: "24px",
-          duration: "10s",
-          color: null,
-        };
+      if(!(this.target instanceof XMarqueeObject)){
+        console.error("Target is not an instance of XMarqueeObject")
       }
 
+
       // Load default values:
-      if(!this.text_loop.space)this.text_loop.space=200;
-      if(!this.text_loop.repeat)this.text_loop.repeat=10;
+      if (!this.target.space) this.target.space = 200;
+      if (!this.target.repeat) this.target.repeat = 10;
 
       this.dialog = true;
       this.$nextTick(() => {
@@ -288,26 +277,14 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-    onAcceptDebounced: _.debounce(function () {
+  /*  onAcceptDebounced: _.debounce(function () {
       this.onAccept(false);
     }, 3000),
 
     onAccept() {
       if (!this.dialog || this.LOCK) return;
 
-      this.target = Object.assign({}, this.text_loop); // Save data in section!
-
-      if (this.text_loop.height)
-        this.el.style.setProperty("--height", this.text_loop.height);
-
-      if (this.text_loop.font_size)
-        this.el.style.setProperty("--font-size", this.text_loop.font_size);
-
-      if (this.text_loop.font_color)
-        this.el.style.setProperty("--font-color", this.text_loop.font_color);
-
-      /// this.dialog = false;
-    },
+    },*/
   },
 };
 </script>

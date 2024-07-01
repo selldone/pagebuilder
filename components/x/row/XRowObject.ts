@@ -14,47 +14,53 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XSectionData} from "@selldone/page-builder/components/x/section/XSectionData.ts";
+import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
-export class LModelElementXSection extends LModelElement<XSectionData> {
+export class XRowObject extends LModelElement<XRowObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XSectionData | null,
+    data: XRowObjectData | null,
     props: Record<string, any> | null,
   ) {
     super(
-      "XSection",
+      "XRow",
       background,
       style,
       classes,
       children,
-      data ? data : new XSectionData(),
+      data ? data : new XRowObjectData("center", "center", false),
       props,
     );
   }
 
-  static Seed(): LModelElementXSection {
-    const data = new XSectionData();
-    return new LModelElementXSection(null, null, null, null, data, null);
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XRowObject(null, null, null, null, null, null);
   }
 
-  static MigrateOld(
-    old: any,
-    props: Record<string, any> | null,
-  ): LModelElementXSection {
-    const data = new XSectionData();
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-    console.log("old", old);
-    return new LModelElementXSection(
-      new LModelBackground(old?.background),
-      old?.style,
-      old?.classes,
-      [],
-      data,
-      props,
+  static Seed(): XRowObject {
+    return this.NewInstance();
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @constructor
+   */
+  static MigrateOld(old: any): XRowObject {
+    const data = new XRowObjectData(
+      old?.row.align,
+      old?.row.justify,
+      old?.row.no_wrap,
     );
+
+    console.log("Migrate Row | Old: ", old, " | Data: ", data);
+    return new XRowObject(null, null, null, [], data, null);
   }
 }

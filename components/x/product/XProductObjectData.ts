@@ -12,6 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XSectionData {
-  constructor() {}
+export class XProductObjectData {
+  id: number | null;
+
+  constructor(id: number | null) {
+    this.id = id;
+  }
 }

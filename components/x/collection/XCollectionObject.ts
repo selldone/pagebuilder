@@ -14,64 +14,30 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XButtonData} from "@selldone/page-builder/components/x/button/XButtonData.ts";
+import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
 
-export class LModelElementXButton extends LModelElement<XButtonData> {
+export class XCollectionObject extends LModelElement<XCollectionObjectData> {
+  static Seed(): XCollectionObject {
+    const data = new XCollectionObjectData([]);
+
+    return new XCollectionObject(null, null, null, null, data, null);
+  }
+
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XButtonData | null,
+    data: XCollectionObjectData | null,
     props: any,
   ) {
     super(
-      "XButton",
+      "XCollection",
       background,
       style,
       classes,
       children,
-      data ? data : new XButtonData(),
-      props,
-    );
-  }
-
-  static Seed(): LModelElementXButton {
-    const data = new XButtonData(
-      "#1976D2",
-      "Action...",
-      false,
-      false,
-      false,
-      null,
-      false,
-      "xl",
-      "x-large",
-      false,
-    );
-    return new LModelElementXButton(null, null, null, null, data, null);
-  }
-
-  static MigrateOld(old: any, props: any): LModelElementXButton {
-    const data = new XButtonData(
-      old.color ?? "#1976D2",
-      old.content ?? "Action...",
-      old.dark ?? false,
-      old.fab ?? false,
-      old.glow ?? false,
-      old.href ?? null,
-      old.ripple ?? false,
-      old.rounded ?? "xl",
-      old.size ?? "x-large",
-      old.tile ?? false,
-    );
-
-    return new LModelElementXButton(
-      new LModelBackground(old?.background),
-      old?.style,
-      old?.classes,
-      [],
-      data,
+      data ? data : new XCollectionObjectData(null),
       props,
     );
   }

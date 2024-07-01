@@ -12,10 +12,36 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XContainerData {
-  fluid: boolean | null;
+export class XRowObjectData {
+  align: string | null;
+  justify: string | null;
 
-  constructor(fluid: boolean | null) {
-    this.fluid = !!fluid;
+  no_wrap: boolean | null;
+
+  constructor(
+    align: string | null,
+    justify: string | null,
+    no_wrap: boolean | null,
+  ) {
+    this.align = align;
+
+    this.justify = justify;
+    this.no_wrap = no_wrap;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+  public setAlign(align: string) {
+    this.align = align;
+    return this;
+  }
+
+  public setJustify(justify: string) {
+    this.justify = justify;
+    return this;
+  }
+
+  public setNoWrap(no_wrap: boolean) {
+    this.no_wrap = no_wrap;
+    return this;
   }
 }

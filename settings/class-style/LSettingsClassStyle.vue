@@ -784,7 +784,7 @@ export default {
 
       // Position:
       this.in_position = this.el_style.style.position;
-      if (!this.in_position) this.in_position = "static";
+      //if (!this.in_position) this.in_position = "static";
 
       this.in_top = this.el_style.style.top;
       this.in_bottom = this.el_style.style.bottom;

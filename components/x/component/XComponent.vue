@@ -19,7 +19,12 @@
     :augment="augment"
     v-bind="object.props"
   >
-    <div v-if="component === 'XSection'" class="absolute-top-center bg-white pa-2 z2">🌞 NEW 🔽🔽</div>
+    <div
+      v-if="component === 'XSection'"
+      class="absolute-top-center bg-white pa-2 z2"
+    >
+      🌞 NEW 🔽🔽
+    </div>
     <!-- ━━━━━━━━━━━━ Children ━━━━━━━━━━━━ -->
     <x-component
       v-for="(child, index) in children"
@@ -54,6 +59,9 @@ export default defineComponent({
     children() {
       return this.object.children;
     },
+  },
+  mounted() {
+    this.object.$element = this.$el;
   },
 });
 </script>

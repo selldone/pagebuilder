@@ -22,7 +22,7 @@
     :style="[object?.style, backgroundStyle(object.background),{ maxWidth: object.data?.fluid ? undefined : maxWidthNormal }]"
 
   >
-    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ XContainer > Children ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
   </v-container>
 </template>
@@ -31,7 +31,7 @@
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import { LModelElementXContainer } from "@selldone/page-builder/components/x/container/LModelElementXContainer";
+import { XContainerObject } from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 
 export default defineComponent({
   name: "XContainer",
@@ -40,7 +40,7 @@ export default defineComponent({
   components: {},
 
   props: {
-    object: { required: true, type: LModelElementXContainer },
+    object: { required: true, type: XContainerObject },
     maxWidthNormal: {
       // Override max with (non-fluid)
     },

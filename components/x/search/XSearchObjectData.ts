@@ -12,10 +12,12 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XProductData {
-  id: number | null;
+import {LModelInput} from "@selldone/page-builder/models/input/LModelInput.ts";
 
-  constructor(id: number | null) {
-    this.id = id;
+export class XSearchObjectData {
+  input: LModelInput;
+
+  constructor(input: LModelInput|null) {
+    this.input = input?input:new LModelInput();
   }
 }

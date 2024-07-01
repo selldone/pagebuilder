@@ -16,11 +16,13 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
-export const LSectionTextNumbersSeed = () => {
+export const LSectionImageFeaturesSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
+  section.classes = [];
 
   // Initialize container and add to section
   const container = XContainerObject.Seed();
@@ -30,25 +32,33 @@ export const LSectionTextNumbersSeed = () => {
     XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
   );
 
+  container.addChild(
+    XTextObject.Seed(
+      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+      "p",
+      [],
+    ),
+  );
+
+  container.addChild(XButtonsObject.Seed());
+
   // Initialize row and add to container
   const row = XRowObject.Seed();
   container.addChild(row);
 
-  // Initialize columns
   for (let i = 1; i <= 3; i++) {
-    const col = XColumnImageTextObject.Seed(
-      12,
-      4,
-      3,
-      null,
-      "x-layout-content-title",
-      null,
-      ["text-h1"],
+    row.addChild(
+      XColumnImageTextObject.Seed(
+        12,
+        4,
+        3,
+        null,
+        "x-layout-middle",
+        null,
+        [],
+        true,
+      ),
     );
-
-    (col.children[1] as XTextObject).data.setValue(Math.abs(Math.round(999)));
-
-    row.addChild(col);
   }
 
   return section;
