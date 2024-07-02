@@ -70,6 +70,8 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
       old.ripple ?? false,
       old.rounded ?? "xl",
       old.size ?? "x-large",
+      old.align ?? null,
+      old.variant ?? null,
     );
 
     return new XButtonObject(

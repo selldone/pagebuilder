@@ -115,6 +115,28 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     return instance;
   }
 
+  // ━━━━━━━━━━━━━━━━━ Labeled Children ━━━━━━━━━━━━━━━━━
+
+  getImageChild(): XUploaderObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.IMAGE);
+  }
+
+  getProductChild(): XProductObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT);
+  }
+
+  getCollectionChild(): XCollectionObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION);
+  }
+
+  getTitleChild(): XTextObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.TITLE);
+  }
+
+  getContentChild(): XTextObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.CONTENT);
+  }
+
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
 
   /**

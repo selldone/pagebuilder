@@ -280,13 +280,7 @@ export const LMixinEvents = defineComponent({
     },
 
 
-    ShowLSettingsHierarchy(
-show,callback
-    ) {
-      EventBus.$emit("show:LSettingsHierarchy", {
-        show,callback
-      });
-    },
+
 
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**

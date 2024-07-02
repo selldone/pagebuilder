@@ -20,7 +20,7 @@
     class="r-con c-container -force-rounded p-2 fadeIn"
   >
     <v-expand-transition>
-      <div v-if="!collapse" class="text-center">
+      <div v-if="!collapse" class="text-center text-white">
         Drag & Drop <small class="d-block">Pre-built sections</small>
       </div>
     </v-expand-transition>

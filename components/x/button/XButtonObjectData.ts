@@ -42,14 +42,25 @@ export class XButtonObjectData {
   ripple: boolean;
 
   /**
+   * Designates the border-radius applied to the component. This can be 0, xs, sm, true, lg, xl, pill, circle, and shaped.
    * Rounded corners flag.
    */
-  rounded: boolean | string;
+  rounded: XButtonObjectDataTypes.IRounded | null;
 
   /**
+   * Default unit is px. Can also use the following predefined sizes: x-small, small, default, large, and x-large.
    * Button size.
    */
-  size: string;
+  size: XButtonObjectDataTypes.ISize;
+
+  /**
+   * Button align in its parent.
+   */
+  align: XButtonObjectDataTypes.IAlign | null;
+
+  variant: XButtonObjectDataTypes.IVariant;
+
+  elevation: number | null;
 
   /**
    * Creates an instance of XButtonData.
@@ -60,6 +71,9 @@ export class XButtonObjectData {
    * @param ripple - Ripple effect flag.
    * @param rounded - Rounded corners flag.
    * @param size - Button size.
+   * @param align
+   * @param variant
+   * @param elevation
    */
   constructor(
     color: string = "",
@@ -67,8 +81,11 @@ export class XButtonObjectData {
     glow: boolean = false,
     href: string | null = null,
     ripple: boolean = false,
-    rounded: boolean | string = false,
-    size: string = "x-large",
+    rounded: XButtonObjectDataTypes.IRounded | null = null,
+    size: XButtonObjectDataTypes.ISize | null = null,
+    align: XButtonObjectDataTypes.IAlign | null = null,
+    variant: XButtonObjectDataTypes.IVariant | null = null,
+    elevation: number | null = null,
   ) {
     this.color = color;
     this.content = content;
@@ -76,7 +93,10 @@ export class XButtonObjectData {
     this.href = href;
     this.ripple = ripple;
     this.rounded = rounded;
-    this.size = size;
+    this.size = size ? size : "x-large";
+    this.align = align;
+    this.variant = variant ? variant : "elevated";
+    this.elevation = elevation;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -105,7 +125,7 @@ export class XButtonObjectData {
     return this;
   }
 
-  public setRounded(rounded: boolean | string) {
+  public setRounded(rounded: XButtonObjectDataTypes.IRounded | null) {
     this.rounded = rounded;
     return this;
   }
@@ -114,4 +134,59 @@ export class XButtonObjectData {
     this.size = size;
     return this;
   }
+
+  public setAlign(align: XButtonObjectDataTypes.IAlign | null) {
+    this.align = align;
+    return this;
+  }
+
+  public setVariant(variant: XButtonObjectDataTypes.IVariant | null) {
+    this.variant = variant;
+    return this;
+  }
+
+  public setElevation(elevation: number | null) {
+    this.elevation = elevation;
+    return this;
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
+
+export namespace XButtonObjectDataTypes {
+  export type ISize =
+    | "x-small"
+    | "small"
+    | "default"
+    | "large"
+    | "x-large"
+    | string
+    | number;
+  export type IVariant =
+    | "flat"
+    | "text"
+    | "elevated"
+    | "tonal"
+    | "outlined"
+    | "plain"
+    | null;
+
+  export type IAlign =
+    | "left"
+    | "center"
+    | "right"
+    | "justify"
+    | "start"
+    | "end";
+
+  export type IRounded =
+    | 0
+    | "xs"
+    | "sm"
+    | "true"
+    | "lg"
+    | "xl"
+    | "pill"
+    | "circle"
+    | "shaped";
 }

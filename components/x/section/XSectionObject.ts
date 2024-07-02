@@ -61,7 +61,7 @@ export class XSectionObject extends LModelElement<XSectionObjectData> {
   ): XSectionObject {
     const data = new XSectionObjectData();
 
-    console.log("old", old);
+   // console.log("old", old);
     return new XSectionObject(
       new LModelBackground(old?.background),
       old?.style,

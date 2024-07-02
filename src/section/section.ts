@@ -18,6 +18,7 @@ import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
 import {isObject, isString} from "lodash-es";
 import {LUtilsObject} from "../../utils/object/LUtilsObject";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 
 const DEBUG = false;
 export namespace Section {
@@ -66,8 +67,7 @@ export namespace Section {
     schema: Object;
     object: LModelElement | null;
 
-
-    data: IData|null; // Deprecated! Migrate to new version it will be null!
+    data: IData | null; // Deprecated! Migrate to new version it will be null!
     //stylers: { instance: App; container: Element }[];
   }
 }
@@ -80,7 +80,6 @@ export class Section implements Section.ISection {
   public data: Section.IData | null = null; // TODO: Deduplicated OLD!
 
   public object: LModelElement | null = null; // 🪵 New Version!
-
 
   constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
     LOG(
@@ -97,7 +96,19 @@ export class Section implements Section.ISection {
     this.schema = options.schema;
     this.uid = options.uid;
 
-    // TODO: Should implement for new version here:
+    // Try to migrate from V1 to V2
+    if (!options.object && options.data) {
+      // Try to migrate old version:
+      console.log(`Try to migrate section ${options.name} from V1 to V2. options:`,options);
+   try{
+     LUtilsMigration.MigrateSectionV1toV2(options);
+   }catch (e) {
+     console.error(`Migration failed for ${options.name}!`,e)
+
+   }
+      console.log(`After migration ${options.name} from V1 to V2. Data:`,options.data,'Object:',options.object);
+    }
+
     if (options.object && isObject(options.object)) {
       console.log(
         `🪵 ${options.name} | New version load data in section...`,
@@ -107,17 +118,15 @@ export class Section implements Section.ISection {
     } else if (options.data) {
       /*Old Version*/
       console.log(
-        `${options.name} | Load data from old version!`,
-        options.data,
+        `${options.name} | Load data from old version! You should implement the migration for it! options:`,
+        options,
       );
-      this.data = options.data;
-      //this.stylers = [];
 
-      // Compatible with old version:
-      if (!this.uid && options.data?.id) {
-        this.uid = options.data?.id;
-      }
+      this.data = options.data;
+
     } else {
+      console.log(`Create new instance by seeder.`);
+
       const _object = LUtilsSeeder.SeedNew(options.name);
       LOG(
         `🪷 ${options.name} | Section.ts > constructor > Seed:`,
@@ -127,9 +136,11 @@ export class Section implements Section.ISection {
       );
       if (_object) {
         this.object = _object;
+      }else{
+        console.error(`V2 Seeder does not exist for ${options.name}!`)
       }
 
-      this.data = LUtilsSeeder.seed(options.schema);
+     // this.data = LUtilsSeeder.seed(options.schema);
     }
 
     if (force_set_new_uid || !this.uid /*Auto assign an id!*/) {
@@ -149,13 +160,15 @@ export class Section implements Section.ISection {
       );
     }
     // Compatible with missed updated in code(temporary)
-   // this.id = this.uid;
+    // this.id = this.uid;
 
-    if(!this.object){
-      console.error("❗The object is not defined! Please check migration from V1 to V2!",options.name)
+    if (!this.object) {
+      console.error(
+        "❗The object is not defined! Please check migration from V1 to V2!",
+        options.name,
+      );
       return;
     }
-
   }
 
   set(name: string, value: Object) {

@@ -13,58 +13,7 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section v-if="false" :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-row :object="$sectionData" has-arrangement has-fluid>
-        <!-- ██████████████████████ Column A ██████████████████████ -->
-        <x-column :object="$sectionData.columnA" path="$sectionData.columnA">
-          <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Row ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-
-          <x-row
-            :object="$sectionData.columnA"
-            add-column
-            path="$sectionData.columnA"
-          >
-            <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-            <x-column-image-text
-              v-for="(col, index) in $sectionData.columnA.columns"
-              :key="`${index}-${$sectionData.columnA.length}`"
-              :augment="augment"
-              :object="col"
-              :remove-child="() => $sectionData.columns.splice(index, 1)"
-            >
-            </x-column-image-text>
-          </x-row>
-        </x-column>
-
-        <!-- ██████████████████████ Column B ██████████████████████ -->
-
-        <x-column :object="$sectionData.columnB" path="$sectionData.columnB">
-          <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Row ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-
-          <x-row
-            :object="$sectionData.columnB"
-            add-column
-            path="$sectionData.columnB"
-          >
-            <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Columns ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-            <x-column-image-text
-              v-for="(col, index) in $sectionData.columnB.columns"
-              :key="`${index}-${$sectionData.columnB.length}`"
-              :augment="augment"
-              :object="col"
-              :remove-child="() => $sectionData.columns.splice(index, 1)"
-            >
-            </x-column-image-text>
-          </x-row>
-        </x-column>
-      </x-row>
-    </x-container>
-  </x-section>
-
   <x-component :object="$sectionObject" :augment="augment"></x-component>
-
-
 </template>
 
 <script>
@@ -177,8 +126,8 @@ export default {
      * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
      */
     $init: (data) => {
-      data.columnB.columns.forEach((c) => {
-        c.image.setting.size = {
+      /*  data.columnB.columns.forEach((c) => {
+      c.image.setting.size = {
           w: "100%",
           h: "200px",
           max_w: "100%",
@@ -190,14 +139,11 @@ export default {
         c.image.setting.round = false;
 
         c.image.classes = ["mb-3"];
-      });
+      });*/
     },
   },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
+
     augment: {
       // Extra information to show to dynamic show in page content
     },

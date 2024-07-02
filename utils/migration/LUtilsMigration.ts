@@ -124,40 +124,45 @@ export class LUtilsMigration {
    */
   private static MigrateV1toV2(obj: Page.IContent) {
     obj.sections?.forEach((section: Page.ISection) => {
-      if (!section.data) return; // Skip if no data
-
-      if (
-        section.name === "LSectionHeroHorizontal" ||
-        section.name === "LSectionHeroVertical" ||
-        section.name === "LSectionHeroLottie" ||
-        section.name === "LSectionHeroSearch"
-      ) {
-        section.object = LMigrationV2Heroes.Migrate(section.data);
-        section.data = null;
-      } else if (
-        section.name === "LSectionImageTwoColumns" ||
-        section.name === "LSectionImageThreeColumns"
-      ) {
-        section.object = LMigrationV2MultipleColumns.Migrate(section.data);
-        section.data = null;
-      } else if (
-        section.name === "LSectionImageSocials" ||
-        section.name === "LSectionImageFeatures" ||
-        section.name === "LSectionImageCards" ||
-        section.name === "LSectionImageIntro"
-      ) {
-        section.object = LMigrationV2NormalSections.Migrate(section.data);
-        section.data = null;
-      } else if (
-        section.name === "LSectionTextNumbers" ||
-        section.name === "LSectionTextThreeColumns" ||
-        section.name === "LSectionTextTwoColumns"
-      ) {
-        section.object = LMigrationV2TextSections.Migrate(section.data);
-        section.data = null;
-      }
-
+      this.MigrateSectionV1toV2(section);
     });
+  }
+
+  public static MigrateSectionV1toV2(section: Page.ISection) {
+    if (!section.data) return; // Skip if no data
+
+    if (
+      section.name === "LSectionHeroHorizontal" ||
+      section.name === "LSectionHeroVertical" ||
+      section.name === "LSectionHeroLottie" ||
+      section.name === "LSectionHeroSearch"
+    ) {
+      section.object = LMigrationV2Heroes.Migrate(section.data);
+      section.data = null;
+    } else if (
+      section.name === "LSectionImageTwoColumns" ||
+      section.name === "LSectionImageThreeColumns"
+    ) {
+      section.object = LMigrationV2MultipleColumns.Migrate(section.data);
+      section.data = null;
+    } else if (
+      section.name === "LSectionImageSocials" ||
+      section.name === "LSectionImageFeatures" ||
+      section.name === "LSectionImageCards" ||
+      section.name === "LSectionImageIntro"
+    ) {
+      section.object = LMigrationV2NormalSections.Migrate(section.data);
+      section.data = null;
+    } else if (
+      section.name === "LSectionTextNumbers" ||
+      section.name === "LSectionTextThreeColumns" ||
+      section.name === "LSectionTextTwoColumns"
+    ) {
+      section.object = LMigrationV2TextSections.Migrate(section.data);
+      section.data = null;
+    }else{
+      console.error(`Migration not found for section ${section.name}`)
+    }
   }
 }
 

@@ -35,6 +35,12 @@ import {LSectionImageCardsSeed} from "@selldone/page-builder/sections/image/card
 import {LSectionImageFeaturesSeed} from "@selldone/page-builder/sections/image/features/LSectionImageFeaturesSeed.ts";
 import {LSectionImageIntroSeed} from "@selldone/page-builder/sections/image/intro/LSectionImageIntroSeed.ts";
 import {LSectionTextMarqueeSeed} from "@selldone/page-builder/sections/text/marquee/LSectionTextMarqueeSeed.ts";
+import {
+  LSectionImageTwoColumnsSeed
+} from "@selldone/page-builder/sections/image/two-columns/LSectionImageTwoColumnsSeed.ts";
+import {
+  LSectionImageThreeColumnsSeed
+} from "@selldone/page-builder/sections/image/three-columns/LSectionImageThreeColumnsSeed.ts";
 
 const DEBUG = false;
 
@@ -328,7 +334,13 @@ export class LUtilsSeeder {
       return LSectionImageIntroSeed();
     } else if (name === "LSectionTextMarquee") {
       return LSectionTextMarqueeSeed();
+    } else if (name === "LSectionImageTwoColumns") {
+      return LSectionImageTwoColumnsSeed();
+    } else if (name === "LSectionImageThreeColumns") {
+      return LSectionImageThreeColumnsSeed();
     }
+
+
 
     console.error("🚨 Seed not found", name);
     return null;

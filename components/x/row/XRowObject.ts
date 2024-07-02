@@ -55,9 +55,9 @@ export class XRowObject extends LModelElement<XRowObjectData> {
    */
   static MigrateOld(old: any): XRowObject {
     const data = new XRowObjectData(
-      old?.row.align,
-      old?.row.justify,
-      old?.row.no_wrap,
+      old?.row?.align,
+      old?.row?.justify,
+      old?.row?.no_wrap,
     );
 
     console.log("Migrate Row | Old: ", old, " | Data: ", data);

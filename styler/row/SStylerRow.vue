@@ -174,7 +174,7 @@ export default {
      */
     position: {
       type: String,
-      default: "right-end",
+      default: "right-start",
     },
 
     keyRow: {

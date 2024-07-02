@@ -277,19 +277,7 @@
           </v-tooltip>
         </v-btn>
 
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Hierarchy ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-btn
-          :color="hierarchy?'primary':'#333'"
-          icon
-          stacked
-          @click.stop="ShowLSettingsHierarchy(!hierarchy,(val)=>{hierarchy=val})"
-        >
-          <v-icon>account_tree</v-icon>
-          <div class="small mt-1 tnt">
-            {{ $t("page_builder.design.tools.hierarchy")?.substring(0, 6) }}
-          </div>
-        </v-btn>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -846,7 +834,6 @@ export default {
 
     show_menu_editor: false,
 
-    hierarchy:false,
   }),
 
   watch: {

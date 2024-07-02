@@ -119,7 +119,7 @@ export default {
      */
     position: {
       type: String,
-      default: "right-top",
+      default: "left-center",
     },
   },
   data: () => ({

@@ -673,11 +673,11 @@
           </v-locale-provider>
         </div>
 
-        <s-landing-editor-components-menu
+      <!--  <s-landing-editor-components-menu
           :components="components"
           :is-visible="listShown && inEditMode"
           :isScrollDown="scrollTop > 200"
-        ></s-landing-editor-components-menu>
+        ></s-landing-editor-components-menu>-->
       </div>
     </div>
     <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
@@ -741,7 +741,10 @@
 
     <!-- ――――――――――――――――――――――  Hierarchy ―――――――――――――――――――― -->
 
-    <l-settings-hierarchy :builder="$builder"></l-settings-hierarchy>
+
+    <l-page-editor-side-menu :builder="$builder"    :is-visible="listShown && inEditMode"
+                             :is-scroll-down="scrollTop > 200" ></l-page-editor-side-menu>
+
 
   </div>
 </template>
@@ -794,12 +797,14 @@ import LSettingsCodeEditor from "@selldone/page-builder/settings/code/editor/LSe
 import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor/LSettingsCodeProperties.vue";
 import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
+import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LPageEditorSideMenu,
     LSettingsHierarchy,
     LSettingsCodeProperties,
     LSettingsCodeEditor,
@@ -1643,24 +1648,17 @@ export default defineComponent({
     },
 
     getComponents() {
-      let components = [];
-
-      // get components data
-      components = Object.keys(this.$builder.components).map((name) => {
-        name = LUtilsMigration.MigrateSectionName(name);
-        const component = this.$builder.components[name];
+      return Object.entries(this.$builder.components).map(([originalName, component]) => {
+        const name = LUtilsMigration.MigrateSectionName(originalName);
         return {
           name: name,
           group: component.group,
           cover: component.cover,
           label: component.label,
           help: component.help,
-
           schema: component.$schema,
         };
       });
-
-      return components;
     },
 
     onScroll(e) {

@@ -27,7 +27,7 @@
     @click="copyStyle"
     :class="[
       object.classes,
-      !noGrid ? calcGridClasses(object.data.grid) : undefined,
+      !noGrid ? calcGridClasses(object.data?.grid) : undefined,
       { 'is-editable': $builder.isEditing }
     ]"
     :style="[object?.style, backgroundStyle(object.background)]"
@@ -71,7 +71,7 @@ export default defineComponent({
     },
     hasCustomLayout: {
       // Used in v-styler
-      default: true,
+      default: false,
       type: Boolean,
     },
     removeChild: {

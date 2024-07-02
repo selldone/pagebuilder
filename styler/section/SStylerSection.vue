@@ -190,7 +190,7 @@
             <template v-slot="{ isSelected, toggle }">
               <v-btn
                 :color="isSelected ? 'primary' : '#fff'"
-                icon
+                icon :variant="isSelected?'flat':'text'"
                 style="background: transparent"
                 @click="toggle"
               >
@@ -222,9 +222,9 @@
           size="small"
           density="compact"
         >
-          <v-icon>{{
-            target.hide_sm ? "visibility_off" : "visibility"
-          }}</v-icon>
+          <v-icon
+            >{{ target.hide_sm ? "visibility_off" : "visibility" }}
+          </v-icon>
           <div class="x-small tnt mt-1">
             <v-icon size="12" class="me-1">smartphone</v-icon>
             Mobile
@@ -241,9 +241,9 @@
           size="small"
           density="compact"
         >
-          <v-icon>{{
-            target.hide_md ? "visibility_off" : "visibility"
-          }}</v-icon>
+          <v-icon
+            >{{ target.hide_md ? "visibility_off" : "visibility" }}
+          </v-icon>
 
           <div class="x-small tnt mt-1">
             <v-icon size="12" class="me-1">tablet_android</v-icon>
@@ -261,9 +261,9 @@
           size="small"
           density="compact"
         >
-          <v-icon>{{
-            target.hide_lg ? "visibility_off" : "visibility"
-          }}</v-icon>
+          <v-icon
+            >{{ target.hide_lg ? "visibility_off" : "visibility" }}
+          </v-icon>
 
           <div class="x-small tnt mt-1">
             <v-icon size="12" class="me-1">laptop</v-icon>
@@ -281,9 +281,9 @@
           size="small"
           density="compact"
         >
-          <v-icon>{{
-            target.hide_xl ? "visibility_off" : "visibility"
-          }}</v-icon>
+          <v-icon
+            >{{ target.hide_xl ? "visibility_off" : "visibility" }}
+          </v-icon>
 
           <div class="x-small tnt mt-1">
             <v-icon size="12" class="me-1">desktop_windows</v-icon>
@@ -416,8 +416,8 @@ export default {
         this.target,
         `style`,
         `classes`,
-          "background",
-          null
+        "background",
+        null,
       );
     },
 

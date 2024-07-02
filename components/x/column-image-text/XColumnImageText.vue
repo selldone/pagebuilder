@@ -20,7 +20,7 @@
     has-custom-layout
   >
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
-    <template v-if="selected_layout === 'product' && product">
+    <template v-if="layout === 'product' && product">
       <x-text
         v-model:object="title"
         :augment="augment"
@@ -33,14 +33,14 @@
 
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
     <x-collection
-      v-else-if="selected_layout === 'collection' && collection"
+      v-else-if="layout === 'collection' && collection"
       :object="collection"
       :augment="augment"
     >
     </x-collection>
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Custom ━━━━━━━━━━━━━━━━━━━━━━ -->
     <!--  <x-custom
-         v-else-if="selected_layout === 'custom'"
+         v-else-if="layout === 'custom'"
          :object="object"
          :augment="augment"
      >
@@ -58,6 +58,7 @@
         :initial-classes="['mb-3']"
         v-model:object="title"
         :augment="augment"
+        class="--title"
       ></x-text>
 
       <x-uploader
@@ -85,6 +86,7 @@
           :initial-classes="['mb-3']"
           v-model:object="title"
           :augment="augment"
+          class="--title"
         ></x-text>
 
         <x-text
@@ -96,6 +98,7 @@
           ]"
           v-model:object="content"
           :augment="augment"
+          class="--content"
         ></x-text>
 
         <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
@@ -109,14 +112,13 @@
       </div>
     </div>
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-
     <div
+      v-if="object.button"
       :style="{
-        textAlign: object.button?.align,
+        textAlign: object.button.data.align,
       }"
     >
       <x-button
-        v-if="object.button"
         v-styler:button="{ target: object.button, hasAlign: true }"
         :augment="augment"
         :object="object.button"
@@ -142,7 +144,7 @@ import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import {
   XColumnImageTextObject,
-  XColumnImageTextObjectTypes
+  XColumnImageTextObjectTypes,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
 
 // Asynchronously load components
@@ -167,7 +169,7 @@ export default defineComponent({
   },
 
   props: {
-    object: { type:XColumnImageTextObject, required: true },
+    object: { type: XColumnImageTextObject, required: true },
     initialColumnLayout: { default: "x-layout-normal" },
     initialClassesContent: {
       type: Array,
@@ -186,12 +188,14 @@ export default defineComponent({
   data: () => ({
     standard_classes: LUtilsClasses.StandardClasses(),
 
-    selected_layout: null,
   }),
 
   computed: {
+    layout(){
+      return this.object.data.layout
+    },
     layout_class() {
-      return this.selected_layout ? this.selected_layout : "x-layout-normal";
+      return this.layout ? this.layout : "x-layout-normal";
     },
 
     title() {
@@ -234,16 +238,11 @@ export default defineComponent({
     },
   },
   watch: {
-    "object.data.layout"(val) {
-      if (val) this.selected_layout = val;
-    },
+
   },
   created() {
     if (!this.object.data.layout) {
       this.object.data.layout = this.initialColumnLayout;
-      this.selected_layout = this.initialColumnLayout;
-    } else {
-      this.selected_layout = this.object.data.layout;
     }
   },
   methods: {},
@@ -258,11 +257,11 @@ export default defineComponent({
 .x-layout-overlay-top {
   height: 100%;
 
-  p {
+  .--content {
     display: none;
   }
 
-  h3 {
+  .--title {
     position: absolute;
     top: 22px;
     left: 12px;
@@ -274,11 +273,11 @@ export default defineComponent({
 .x-layout-overlay-center {
   height: 100%;
 
-  p {
+  .--content {
     display: none;
   }
 
-  h3 {
+  .--title {
     position: absolute;
     right: 12px;
     z-index: 100;
@@ -292,11 +291,11 @@ export default defineComponent({
 .x-layout-overlay-bottom {
   height: 100%;
 
-  p {
+  .--content {
     display: none;
   }
 
-  h3 {
+  .--title {
     position: absolute;
     bottom: 22px;
     left: 12px;
@@ -306,8 +305,8 @@ export default defineComponent({
 }
 
 .x-layout-image {
-  p,
-  h3 {
+  .--content,
+  .--title {
     display: none;
   }
 }
@@ -318,8 +317,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column-reverse;
 
-  p,
-  h3 {
+  .--content,
+  .--title {
     margin-left: 0;
     margin-right: 0;
   }
@@ -357,8 +356,8 @@ export default defineComponent({
     flex-direction: column-reverse;
     align-items: stretch;
 
-    p,
-    h3 {
+    .--content,
+    .--title {
       // Make sure fill width!
       margin-left: 0;
       margin-right: 0;

@@ -82,9 +82,8 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     if (!old) return null;
     const data = new XUploaderObjectData(old?.src, old?.setting);
 
-    console.log("Migration Image | ---------->", old, "--->", data);
 
-    return new XUploaderObject(
+    const out= new XUploaderObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,
@@ -92,5 +91,8 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       data,
       null,
     );
+
+    console.log("Migration Image | ---------->", old, "--->", out);
+    return out;
   }
 }

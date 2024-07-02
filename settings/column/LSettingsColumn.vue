@@ -40,31 +40,30 @@
       </v-card-actions>
 
       <v-card-text>
-        <s-widget-header
+        <s-setting-group
           icon="auto_awesome_motion"
           title="Column Layout"
-        ></s-widget-header>
-
-        <v-list-subheader>
-          Choose your preferred column layout from the options provided in the
-          list below.
-        </v-list-subheader>
+          subtitle="Choose your preferred column layout from the options provided in the list below."
+        >
+        </s-setting-group>
 
         <v-row class="py-5" no-gutters>
           <v-col v-for="item in LAYOUTS" :key="item">
             <v-card
-              :style="target.data.layout === item ? 'border: solid 2px #fff;' : ''"
-              class="ma-4"
+              :style="
+                target.data.layout === item ? 'border: solid 2px #fff;' : ''
+              "
+              class="ma-1"
               color="#BBDEFB"
-              height="140"
+              height="120"
               rounded="lg"
-              style="font-size: 80%"
+              style="font-size: 65%"
               variant="outlined"
-              width="100"
+              width="80"
               @click="selectLayout(item)"
             >
               <div v-if="item === 'product'" class="pa-2">
-                <div class="mb-2 small"><b>Product</b></div>
+                <div class="mb-1 small"><b>Product</b></div>
                 <div
                   class="--image"
                   style="
@@ -76,14 +75,14 @@
                     border-radius: 8px;
                   "
                 >
-                  <v-icon class="center-absolute" size="32">inventory_2</v-icon>
+                  <v-icon class="center-absolute" size="32">shelves</v-icon>
                 </div>
 
                 <u-price :amount="18.99" class="me-2"></u-price>
               </div>
 
               <div v-else-if="item === 'collection'" class="pa-2">
-                <div class="mb-2 small"><b>Collection</b></div>
+                <div class="mb-1 small"><b>Collection</b></div>
 
                 <v-row dense class="text-center">
                   <v-col v-for="i in 4" :key="i" cols="6">
@@ -94,23 +93,24 @@
                         width: 28px;
                         background: #8097b4;
                         position: relative;
-                        margin-bottom: 8px;
-                        border-radius: 8px;
+                        margin-bottom: 4px;
+                        border-radius: 4px;
                       "
                     ></div>
 
-                    <div style="font-size: 6px">Subtitle...</div>
+                    <div style="font-size: 6px" class="single-line">
+                      Subtitle...
+                    </div>
                   </v-col>
                 </v-row>
               </div>
 
-
               <div v-else-if="item === 'custom'" class="pa-2">
-                <div class="mb-2 small"><b>Custom</b></div>
+                <div class="mb-1 small single-line"><b>Custom</b></div>
 
                 <div
-                    class="--image"
-                    style="
+                  class="--image"
+                  style="
                     height: 70px;
                     min-width: 25px;
                     background: #8097b4;
@@ -119,9 +119,10 @@
                     border-radius: 8px;
                   "
                 >
-                  <v-icon class="center-absolute" size="32">architecture</v-icon>
+                  <v-icon class="center-absolute" size="32"
+                    >architecture</v-icon
+                  >
                 </div>
-
               </div>
 
               <template v-else>
@@ -129,7 +130,10 @@
                   :class="item"
                   class="position-relative small text-start px-2"
                 >
-                  <h3 v-if="item === 'x-layout-middle'" class="my-2">
+                  <h3
+                    v-if="item === 'x-layout-middle single-line'"
+                    class="my-2"
+                  >
                     Title...
                   </h3>
 
@@ -156,7 +160,7 @@
                   </div>
                   <div class="--contents my-2">
                     <h3 v-if="item !== 'x-layout-middle'">Title...</h3>
-                    <p class="m-0">Content...</p>
+                    <p class="m-0 single-line">Content...</p>
                   </div>
                 </div>
               </template>
@@ -164,43 +168,18 @@
           </v-col>
         </v-row>
 
-        <v-list-subheader>
-          You can customize the column style by selecting from the provided
-          classes.
-        </v-list-subheader>
-
-        <v-combobox
-          v-model="target.classes"
-          :items="standard_classes"
-          chips
-          class="mx-3"
-          clearable
-          closable-chips
-          label="Classes"
-          multiple
-          variant="underlined"
-        >
-        </v-combobox>
-
-        <s-widget-header
-          class="my-5"
+        <s-setting-group
           icon="smart_button"
           title="Call To Action"
+          subtitle="You can place a button at the edge of the view and assign a URL to it."
         >
-          <v-list-subheader>
-            You can place a button at the edge of the view and assign a URL to
-            it.
-          </v-list-subheader>
-        </s-widget-header>
-        <u-smart-toggle
+        </s-setting-group>
+
+        <s-setting-switch
           v-model="has_button"
-          class="my-3"
-          dark
-          true-description="Add a call to action button to the column."
-          true-icon="call_to_action"
-          true-title="Has Button"
-        >
-        </u-smart-toggle>
+          label="Has Button"
+          icon="ads_click"
+        ></s-setting-switch>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
@@ -212,16 +191,17 @@ import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
-import * as Types from "../../src/types/types";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 
 const LAYOUTS = [
   "product",
   "collection",
- // "custom",
+  // "custom",
 
   "x-layout-normal", // Column | Image + Title + Content
   "x-layout-overlay-top", // Image + Column of Title Content inside image
@@ -240,7 +220,7 @@ export default {
   name: "LSettingsColumn",
   mixins: [LMixinEvents],
 
-  components: { UPrice, USmartToggle },
+  components: { SSettingSwitch, SSettingGroup, UPrice, USmartToggle },
 
   props: {},
   data: () => ({
@@ -276,10 +256,9 @@ export default {
     },
 
     has_button(has) {
-
       // TODO: Add button as child!
       if (has) {
-        this.target.button = LUtilsSeeder.seed(Types.Button);
+        this.target.button = XButtonObject.Seed();
       } else {
         this.target.button = null;
       }
@@ -290,7 +269,7 @@ export default {
     EventBus.$on(
       "show:LSettingsColumn",
 
-      ({ el, target, gridPath }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes

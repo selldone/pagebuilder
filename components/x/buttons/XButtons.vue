@@ -43,7 +43,7 @@
       v-for="(child, index) in object.children"
       :key="`${index}-${object.children.length}`"
       v-styler:button="{
-        target: child.data,
+        target: child,
         removeChild: () => {
           object.children.splice(index, 1);
         },

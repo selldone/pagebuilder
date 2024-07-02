@@ -94,9 +94,7 @@ export default {
      * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
      */
     $init: (data) => {
-      data.columns.forEach((c) => {
-        c.layout = "x-layout-middle";
-      });
+
     },
   },
   props: {

@@ -30,6 +30,22 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Classes & Style
+          </v-tooltip>
+        </button>
+      </li>
+
       <!-- ―――――――――――――――――― Delete button / col ―――――――――――――――――― -->
 
       <template v-if="removeChild">
@@ -61,9 +77,9 @@
           >
             Background
 
-            <v-chip v-if="target[keyColor]" class="ma-1" pill size="small">
-              <v-icon :color="target[keyColor]" start>circle</v-icon>
-              {{ target[keyColor] }}
+            <v-chip v-if="target.data.color" class="ma-1" pill size="small">
+              <v-icon :color="target.data.color" start>circle</v-icon>
+              {{ target.data.color }}
             </v-chip>
           </v-tooltip>
         </button>
@@ -81,8 +97,8 @@
             location="bottom"
             >Set link
 
-            <div v-if="target[keyUrl]" class="small">
-              <b>Href:</b> {{ target[keyUrl] }}
+            <div v-if="target.data.href" class="small">
+              <b>Href:</b> {{ target.data.href }}
             </div>
           </v-tooltip>
         </button>
@@ -124,27 +140,6 @@
             location="bottom"
             max-width="320"
             >Select text and to change the color
-          </v-tooltip>
-        </button>
-      </li>
-
-      <li>
-        <button class="styler-button" @click="updateOption('text-font')">
-          <v-icon size="20">font_download</v-icon>
-
-          <v-tooltip
-            activator="parent"
-            content-class="bg-black text-white"
-            location="bottom"
-            max-width="320"
-            >Change font
-            <v-chip
-              v-if="target.font"
-              :style="{ fontFamily: target.font }"
-              class="mx-1"
-              size="x-small"
-              >{{ target.font }}
-            </v-chip>
           </v-tooltip>
         </button>
       </li>
@@ -195,7 +190,7 @@
 
       <s-styler-tools-colors
         v-if="option === 'colorer'"
-        v-model="target[keyColor]"
+        v-model="target.data.color"
         :dark-colors="PLATE_DARK_VARS"
         :light-colors="PLATE_LIGHT_VARS"
         @update:model-value="removeClass(`bg--`)"
@@ -207,8 +202,8 @@
       <li v-if="option === 'link'" class="flex-grow-1">
         <div class="input-group is-rounded has-itemAfter is-primary">
           <v-text-field
-            v-model="target[keyUrl]"
-            :prepend-inner-icon="target[keyUrl] ? 'link' : 'link_off'"
+            v-model="target.data.href"
+            :prepend-inner-icon="target.data.href ? 'link' : 'link_off'"
             class="english-field mx-2"
             clearable
             flat
@@ -250,10 +245,10 @@
             color="#fff"
             rounded
             size="small"
-            @click="target.variant = variant"
+            @click="target.data.variant = variant"
           >
             <v-scale-transition leave-absolute>
-              <v-icon v-if="target.variant === variant" color="green" start
+              <v-icon v-if="target.data.variant === variant" color="green" start
                 >check_circle
               </v-icon>
             </v-scale-transition>
@@ -266,14 +261,14 @@
           v-for="rounded in ['0', 'xs', 'sm', 'default', 'lg', 'xl']"
           :key="rounded"
           :rounded="rounded"
-          :variant="target.rounded === rounded ? 'flat' : 'outlined'"
+          :variant="target.data.rounded === rounded ? 'flat' : 'outlined'"
           class="ma-1 x--button"
           color="#fff"
           size="small"
-          @click="target.rounded = rounded"
+          @click="target.data.rounded = rounded"
         >
           <v-scale-transition leave-absolute>
-            <v-icon v-if="target.rounded === rounded" color="green" start
+            <v-icon v-if="target.data.rounded === rounded" color="green" start
               >check_circle
             </v-icon>
           </v-scale-transition>
@@ -281,7 +276,9 @@
         </v-btn>
 
         <template
-          v-if="target.variant !== 'glow' /*Not supported for this variant*/"
+          v-if="
+            target.data.variant !== 'glow' /*Not supported for this variant*/
+          "
         >
           <small class="d-block my-1 text-start px-3">Other:</small>
 
@@ -290,24 +287,25 @@
               <v-slide-y-transition hide-on-leave>
                 <v-btn
                   v-if="
-                    target.elevation === null || target.elevation === undefined
+                    target.data.elevation === null ||
+                    target.data.elevation === undefined
                   "
                   class="tnt"
                   size="small"
                   variant="plain"
-                  @click="target.elevation = 0"
+                  @click="target.data.elevation = 0"
                 >
                   <v-icon start>layers_clear</v-icon>
                   Set elevation
                 </v-btn>
                 <u-number-input
-                  v-model="target.elevation"
+                  v-model="target.data.elevation"
                   :max="24"
                   :min="0"
                   clearable
                   e-else
                   label="Elevation"
-                  @clear="target.elevation === null"
+                  @clear="target.data.elevation === null"
                 ></u-number-input>
               </v-slide-y-transition>
             </v-col>
@@ -321,14 +319,14 @@
           v-for="size in BtnSizes"
           :key="size.val"
           :size="size.val"
-          :variant="target.size === size.val ? 'flat' : 'outlined'"
+          :variant="target.data.size === size.val ? 'flat' : 'outlined'"
           class="ma-1"
           color="#fff"
           rounded
-          @click="target.size = size.val"
+          @click="target.data.size = size.val"
         >
           <v-scale-transition leave-absolute>
-            <v-icon v-if="target.size === size.val" color="green" start
+            <v-icon v-if="target.data.size === size.val" color="green" start
               >check_circle
             </v-icon>
           </v-scale-transition>
@@ -371,41 +369,6 @@
           </v-btn>
         </ul>
       </li>
-
-      <!-- ―――――――――――――――――― Text Font ―――――――――――――――――― -->
-
-      <div v-if="option === 'text-font'" class="flex-grow-1 pa-1">
-        <v-select
-          v-model="target.font"
-          :items="fonts"
-          class="mx-2"
-          clearable
-          messages=" "
-          placeholder="Select a font..."
-          rounded
-          variant="solo"
-        >
-          <template v-slot:item="{ item, props }">
-            <v-list-item v-bind="props" @click.stop>
-              <template v-slot:title>
-                <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
-              </template>
-            </v-list-item>
-          </template>
-          <template v-slot:selection="{ item }">
-            <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
-          </template>
-          <template v-slot:message>
-            <div class="mt-1">
-              ● Add font in
-              <b>
-                <v-icon size="small">format_paint</v-icon>
-                Style</b
-              >.
-            </div>
-          </template>
-        </v-select>
-      </div>
     </ul>
   </s-styler-template>
 </template>
@@ -422,6 +385,7 @@ import {
 } from "../../utils/colors/LUtilsColors";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import SStylerToolsColors from "../../styler/tools/colors/SStylerToolsColors.vue";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 
 const TextAlign = [
   { val: "left", icon: "format_align_left" },
@@ -449,7 +413,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XButtonObject,
       // It's the value of v-styler:arg="value"
     },
 
@@ -474,23 +438,6 @@ export default {
     hasAlign: {
       type: Boolean,
       default: false,
-    },
-
-    keyUrl: {
-      type: String,
-      default: "href",
-    },
-    keyColor: {
-      type: String,
-      default: "color",
-    },
-    keyText: {
-      type: String,
-      default: "content",
-    },
-    keyAlign: {
-      type: String,
-      default: "align",
     },
   },
   data: () => ({
@@ -561,34 +508,13 @@ export default {
     }
 
     this.el.contentEditable = "true";
-
-    // New style:
-    if (this.target.size) {
-    }
-    // Old style:
-    else if (this.target.xSmall) {
-      this.target.size = "x-small";
-    } else if (this.target.small) {
-      this.target.size = "small";
-    } else if (this.target.large) {
-      this.target.size = "large";
-    } else if (this.target.xLarge) {
-      this.target.size = "x-large";
-    }
-
-    // Remove old style:
-    delete this.target.xSmall;
-    delete this.target.small;
-    delete this.target.large;
-    delete this.target.xLarge;
   },
   mounted() {
     this.el.addEventListener("paste", this.stripHtmlToText, true);
 
-
     this.updateValue = () => {
       // console.log("📐 updateValue", this.target, this.keyText, this.el.innerHTML);
-      this.target[this.keyText] = this.el.innerHTML;
+      this.target.data.content = this.el.innerHTML;
     };
     this.el.addEventListener("blur", this.updateValue);
   },
@@ -597,7 +523,6 @@ export default {
 
     this.el.removeEventListener("blur", this.updateValue);
   },
-
 
   methods: {
     updateOption(option) {
@@ -620,8 +545,8 @@ export default {
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Text Align ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
     setTextAlign(val) {
-      this.setElementClass("text-align-", val, true);
-      this.target[this.keyAlign] = val;
+      ///  this.setElementClass("text-align-", val, true);
+      this.target.data.setAlign(val);
     },
 
     setBackground(color) {
@@ -629,8 +554,8 @@ export default {
 
       console.log("Set custom color:", color);
 
-      this.target[this.keyColor] = color; // ex. var(--bg--plate-light-1) , #874000
-      this.target.glow = false;
+      this.target.data.setColor(color); // ex. var(--bg--plate-light-1) , #874000
+      this.target.data.setGlow(false);
     },
 
     addClass(className) {
@@ -682,6 +607,18 @@ export default {
     addLink(e) {
       e.preventDefault();
       this.option = null;
+    },
+
+    showMasterDesignDialog() {
+      this.ShowLSettingsClassStyle(
+        this.el,
+        this.el,
+        this.target,
+        `style`,
+        `classes`,
+        "background",
+        null,
+      );
     },
   },
 };

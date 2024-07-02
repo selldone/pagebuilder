@@ -289,7 +289,7 @@
     :is="link && !$builder.isEditing ? 'a' : 'div'"
     v-if="src || blobUrl || $builder.isEditing"
     ref="i_image"
-    v-data-x="object.styles"
+    v-data-x="object.style"
     :class="[
       {
         uploader: $builder.isEditing,
@@ -315,11 +315,11 @@
         'max-height': size?.max_h,
         'max-width': size?.max_w,
 
-        animationDuration: object.styles?.animationDuration,
-        animationDelay: object.styles?.animationDelay,
-        animationIterationCount: object.styles?.animationIterationCount,
-        animationDirection: object.styles?.animationDirection,
-        animationTimingFunction: object.styles?.animationTimingFunction,
+        animationDuration: object.style?.animationDuration,
+        animationDelay: object.style?.animationDelay,
+        animationIterationCount: object.style?.animationIterationCount,
+        animationDirection: object.style?.animationDirection,
+        animationTimingFunction: object.style?.animationTimingFunction,
 
         'object-fit': setting.contain ? 'contain' : 'cover',
         'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
@@ -330,7 +330,7 @@
         // 'animation-name': 'inherit',
       },
       bg_cal,
-      object.styles,
+      object.style,
     ]"
     class="image-container"
     cloneable="true"
@@ -446,6 +446,8 @@ const ASPECTS = [
   { val: 5 / 4, title: "5:4", icon: "crop_5_4" },
   { val: 3 / 2, title: "3:2", icon: "crop_3_2" },
   { val: 16 / 9, title: "16:9", icon: "crop_16_9" },
+  { val: 2, title: "2:1", icon: "crop_square" },
+
 ];
 
 const FLOATS = [
@@ -664,7 +666,7 @@ export default defineComponent({
       return LUtilsClasses.GetHovers(this.object.classes);
     },
     threshold() {
-      return LUtilsClasses.GetThreshold(this.object.styles);
+      return LUtilsClasses.GetThreshold(this.object.style);
     },
   },
   watch: {
