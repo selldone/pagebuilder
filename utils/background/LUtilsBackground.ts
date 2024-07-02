@@ -24,14 +24,14 @@ export class LUtilsBackground {
     bg_color?: string,
     dark: boolean = false,
     bg_position: string = "center",
-    bg_rotation: number = 45 /*deg*/,
-    bg_backdrop: [] = null /*Backdrop Filter*/,
+    bg_rotation: number | null = 45 /*deg*/,
+    bg_backdrop: Record<string, any> | null = null /*Backdrop Filter*/,
   ) {
     if (bg_custom && bg_custom.includes("background")) {
       const out = this.StringStyleToObj(bg_custom);
-     /* if (!out.color && dark !== null && dark !== undefined) {
-        out.color = dark ? "#fff" : "#333";
-      }*/
+      /* if (!out.color && dark !== null && dark !== undefined) {
+               out.color = dark ? "#fff" : "#333";
+             }*/
       return out;
     }
 
@@ -50,19 +50,19 @@ export class LUtilsBackground {
         bg_size,
       ),
       backgroundRepeat: bg_repeat,
-    /*  color:
-        dark === null || dark === undefined
-          ? undefined
-          : dark
-            ? "#fff"
-            : "#333",*/
+      /*  color:
+                dark === null || dark === undefined
+                  ? undefined
+                  : dark
+                    ? "#fff"
+                    : "#333",*/
       backgroundPosition: bg_position,
-    };
 
-    // 🍃 Set backdrop filter:
-    if (bg_backdrop) {
-        out["backdropFilter"] = LUtilsFilter.CalcFilter(bg_backdrop);
-    }
+      // 🍃 Set backdrop filter:
+      backdropFilter: bg_backdrop
+        ? LUtilsFilter.CalcFilter(bg_backdrop)
+        : undefined,
+    };
 
     //   console.log('CreateCompleteBackgroundStyleObject',out)
     return out;
@@ -98,7 +98,7 @@ export class LUtilsBackground {
     bg_custom?: string,
     bg_gradient?: string[],
     bg_image?: string,
-    bg_rotation: number,
+    bg_rotation?: number | null,
   ) {
     const out = [];
 
@@ -106,7 +106,7 @@ export class LUtilsBackground {
 
     let gradient = "";
     if (bg_gradient && bg_gradient.length >= 2) {
-      gradient = `linear-gradient(${bg_rotation}deg`;
+      gradient = `linear-gradient(${bg_rotation ? bg_rotation : 45}deg`;
       bg_gradient.forEach(function (e) {
         gradient += "," + e;
       });

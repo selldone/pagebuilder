@@ -61,6 +61,10 @@ const LMixinXComponent = defineComponent({
   watch: {},
 
   created() {},
+  mounted() {
+    // Assign current element to object (Temporary variable)
+    this.object.$element = this.$el;
+  },
 
   methods: {
     backgroundStyle(background: Background) {
@@ -76,8 +80,7 @@ const LMixinXComponent = defineComponent({
         background.dark,
         background.bg_position,
         background.bg_rotation,
-          background.bg_backdrop,
-
+        background.bg_backdrop,
       );
     },
 

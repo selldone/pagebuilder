@@ -98,6 +98,8 @@ export class Background {
   bg_color?: string;
   dark?: boolean;
   bg_position?: string;
+  bg_rotation?: number|null;
+  bg_backdrop?: Record<string, any>|null;
 }
 
 export class Style {}

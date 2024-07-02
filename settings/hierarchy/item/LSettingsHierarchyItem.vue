@@ -14,7 +14,7 @@
 
 <template>
   <div
-    class="l--settings-hierarchy-item py-1 my-1 border-start ps-2"
+    class="l--settings-hierarchy-item py-1 my-1 border-start ps-1"
     @mouseenter="onHoverIn"
     @mouseleave="onHoverOut"
   >
@@ -163,7 +163,7 @@ export default {
   user-select: none;
 
   &:hover {
-    border-width: 4px !important;
+    border-width: 3px !important;
   }
 }
 </style>
