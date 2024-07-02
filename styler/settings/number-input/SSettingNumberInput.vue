@@ -17,16 +17,14 @@
     :class="{ 'disabled-scale-down': disabled }"
     class="s--setting-number-input"
   >
-    <v-list-item   density="compact">
-
+    <v-list-item density="compact">
       <template v-slot:prepend>
-      <span class="-label me-2 min-width-100">
-        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+        <span class="-label me-2 min-width-100">
+          <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-        {{ label }}</span
-      >
+          {{ label }}</span
+        >
       </template>
-
 
       <template v-slot:append>
         <u-number-input
@@ -34,13 +32,15 @@
           :max="max"
           :min="min"
           :model-value="modelValue"
-          color="#1976D2"
-          density="compact"
+          dense
           hide-details
-          style="min-width: 100px"
-          variant="plain"
+          style="min-width: 140px"
+          variant="outlined"
+          rounded="lg"
           @update:model-value="(val) => setValue(val)"
-        >
+          :suffix="suffix"
+          dark
+          :lock="lock">
         </u-number-input>
       </template>
     </v-list-item>
@@ -66,6 +66,8 @@ export default defineComponent({
     clearable: Boolean,
     hasAuto: Boolean,
     disabled: Boolean,
+    lock: Boolean,
+    suffix: {},
   },
   computed: {},
   data() {

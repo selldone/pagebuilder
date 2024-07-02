@@ -846,22 +846,6 @@ export default {
     }
   }
 
-  h2 {
-    font-size: 1.2em;
-    font-weight: 600;
 
-    @media (max-width: 620px) {
-      font-size: 1em;
-    }
-  }
-
-  h3 {
-    font-size: 1em;
-    font-weight: 600;
-
-    @media (max-width: 620px) {
-      font-size: 0.8em;
-    }
-  }
 }
 </style>

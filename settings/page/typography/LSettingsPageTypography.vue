@@ -84,117 +84,99 @@
 
         <!-- ████████████████████ Size ████████████████████ -->
 
-        <v-expansion-panel>
-          <v-expansion-panel-title>
-            <div>
-              <div>
-                <v-icon class="me-1">format_shapes</v-icon>
-                Typo Size
-              </div>
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <s-widget-header
-              icon="format_size"
-              title="Default font size"
-            ></s-widget-header>
-            <v-list-subheader
-              >Add fonts, and change the base font size. This option is used to
-              calibrate font size based on the custom font.
-            </v-list-subheader>
+        <s-setting-expandable icon="format_shapes" title="Typo Size">
+          <s-setting-group
+            icon="format_size"
+            title="Default font size"
+            subtitle="Add fonts, and change the base font size. This option is used to calibrate font size based on the custom font."
+          >
+          </s-setting-group>
 
-            <u-number-input
-              v-model="style.font_size"
-              :max="100"
-              :min="10"
-              label="Main font size"
-              lock
-              show-buttons
-              suffix="px"
-              @change="$forceUpdate()"
-            ></u-number-input>
+          <s-setting-number-input
+            v-model="style.font_size"
+            :max="100"
+            :min="10"
+            label="Main font size"
+            suffix="px"
+            lock
+          ></s-setting-number-input>
 
-            <s-widget-header
-              class="mt-5"
-              icon="format_size"
-              title="Headers & Paragraph"
-            ></s-widget-header>
-            <v-list-subheader></v-list-subheader>
+          <s-setting-group icon="format_size" title="Headers & Paragraph">
+          </s-setting-group>
 
-            <u-dimension-input
-              v-model="style.h1_size"
-              clearable
-              label="H1 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
-            <u-dimension-input
-              v-model="style.h2_size"
-              clearable
-              label="H2 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
+          <s-setting-size
+            v-model="style.h1_size"
+            clearable
+            label="H1 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
+          <s-setting-size
+            v-model="style.h2_size"
+            clearable
+            label="H2 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
 
-            <u-dimension-input
-              v-model="style.h3_size"
-              clearable
-              label="H3 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
+          <s-setting-size
+            v-model="style.h3_size"
+            clearable
+            label="H3 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
 
-            <u-dimension-input
-              v-model="style.h4_size"
-              clearable
-              label="H4 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
-            <u-dimension-input
-              v-model="style.h5_size"
-              clearable
-              label="H5 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
-            <u-dimension-input
-              v-model="style.h6_size"
-              clearable
-              label="H6 Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
-            <u-dimension-input
-              v-model="style.p_size"
-              clearable
-              label="P Size"
-              lock
-              @change="onChange"
-            ></u-dimension-input>
+          <s-setting-size
+            v-model="style.h4_size"
+            clearable
+            label="H4 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
+          <s-setting-size
+            v-model="style.h5_size"
+            clearable
+            label="H5 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
+          <s-setting-size
+            v-model="style.h6_size"
+            clearable
+            label="H6 Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
+          <s-setting-size
+            v-model="style.p_size"
+            clearable
+            label="P Size"
+            lock
+            @change="onChange"
+          ></s-setting-size>
 
-            <div
-              :style="[
-                PageBuilderTypoHelper.GenerateTypoStyle(style),
-                PageBuilderColorsHelper.GenerateColorsStyle(style),
-                {
-                  fontFamily: style.font,
-                },
-              ]"
-              class="my-5 line-height-normal page-content"
-              style="min-height: 150px"
-            >
-              <h1>Header 1</h1>
-              <h2>Header 2</h2>
-              <h3>Header 3</h3>
-              <h4>Header 4</h4>
-              <h5>Header 5</h5>
-              <h6>Header 6</h6>
+          <div
+            :style="[
+              PageBuilderTypoHelper.GenerateTypoStyle(style),
+              PageBuilderColorsHelper.GenerateColorsStyle(style),
+              {
+                fontFamily: style.font,
+              },
+            ]"
+            class="my-5 line-height-normal page-content"
+            style="min-height: 150px"
+          >
+            <h1 :style="{fontSize:style.h1_size}">Header 1</h1>
+            <h2 :style="{fontSize:style.h2_size}">Header 2</h2>
+            <h3 :style="{fontSize:style.h3_size}">Header 3</h3>
+            <h4 :style="{fontSize:style.h4_size}">Header 4</h4>
+            <h5 :style="{fontSize:style.h5_size}">Header 5</h5>
+            <h6 :style="{fontSize:style.h6_size}">Header 6</h6>
 
-              <p>Paragraph</p>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+            <p :style="{fontSize:style.p_size}">Paragraph</p>
+          </div>
+        </s-setting-expandable>
 
         <!-- ████████████████████ Top Menu ████████████████████ -->
 
@@ -215,12 +197,20 @@ import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 
 export default {
   name: "LSettingsPageTypography",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingNumberInput,
+    SSettingSize,
+    SSettingGroup,
+    SSettingExpandable,
     SSettingFontFamily,
     UDimensionInput,
 
