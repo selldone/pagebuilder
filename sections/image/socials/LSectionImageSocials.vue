@@ -100,7 +100,7 @@ export default {
      * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
      */
     $init: (data) => {
-      data.columns.forEach((c) => {
+    /*  data.columns.forEach((c) => {
         c.image.setting.size = {
           w: "100%",
           h: "auto",
@@ -124,7 +124,7 @@ export default {
         };
 
         c.classes = ["text-start"];
-      });
+      });*/
     },
   },
   props: {

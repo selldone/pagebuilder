@@ -47,18 +47,21 @@ export const LSectionImageSocialsSeed = () => {
   container.addChild(row);
 
   for (let i = 1; i <= 3; i++) {
-    row.addChild(
-      XColumnImageTextObject.Seed(
-        12,
-        6,
-        4,
-        null,
-        "x-layout-row",
-        null,
-        [],
-        true,
-      ),
-    );
+    const  column=   XColumnImageTextObject.Seed(
+            12,
+            6,
+            4,
+            null,
+            "x-layout-row",
+            null,
+            [],
+            true,
+        );
+    row.addChild(column);
+
+
+  const image=  column.getImageChild()
+    image?.data.setting.setAspect(1).setRound(true)
   }
 
   return section;
