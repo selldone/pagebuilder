@@ -154,7 +154,7 @@
                       border-radius: 8px;
                     "
                   >
-                    <v-icon class="center-absolute" color="#225082"
+                    <v-icon class="center-absolute" color="#225082" size="24"
                       >crop_original
                     </v-icon>
                   </div>
