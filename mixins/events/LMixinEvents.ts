@@ -236,13 +236,11 @@ export const LMixinEvents = defineComponent({
       el: HTMLElement,
       section: Section,
       target: Object,
-      keyColumns: string,
     ) {
       EventBus.$emit("show:LSettingsGallery", {
         el,
         section,
         target,
-        keyColumns,
       });
     },
 

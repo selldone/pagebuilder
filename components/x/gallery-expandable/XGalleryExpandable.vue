@@ -13,7 +13,12 @@
   -->
 
 <template>
-  <div class="container-gallery">
+  <div
+      v-styler:gallery="{
+      target: object,
+      keyColumns: 'columns',
+    }"
+      class="container-gallery" >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
     <x-component

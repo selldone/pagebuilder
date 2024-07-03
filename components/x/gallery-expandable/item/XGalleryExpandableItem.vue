@@ -131,6 +131,10 @@ export default defineComponent({
     align-items: flex-start;
     justify-content: flex-start;
     line-height: normal;
+    pointer-events: none;
+     & > *{
+      pointer-events: auto;
+     }
 
     .g-title {
       margin-bottom: 12px;

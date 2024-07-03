@@ -54,7 +54,7 @@ export default defineComponent({
 
   .-group-title {
     font-size: 14px !important;
-    opacity: 0.6;
+   // opacity: 0.6;
   }
 
   .-card-content {

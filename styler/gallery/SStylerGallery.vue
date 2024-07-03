@@ -77,6 +77,12 @@ import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import {
+  XGalleryExpandableObject
+} from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
+import {
+  XGalleryExpandableItemObject
+} from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 
 export default {
   name: "SStylerGallery",
@@ -89,7 +95,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XGalleryExpandableObject,
       // It's the value of v-styler:arg="value"
     },
 
@@ -101,10 +107,10 @@ export default {
       default: "top",
     },
 
-    keyColumns: {
+  /*  keyColumns: {
       type: String,
       default: "columns",
-    },
+    },*/
     columnStructure: {
       type: Object,
       default: () => ({
@@ -128,8 +134,7 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerButtons");
     }
-    // Auto seed buttons if not exist
-    if (!this.target[this.keyColumns]) this.target[this.keyColumns] = [];
+
   },
   mounted() {},
 
@@ -139,14 +144,14 @@ export default {
         this.el,
         this.section,
         this.target,
-        this.keyColumns,
       );
     },
 
     addNewSlide() {
-      this.target[this.keyColumns].push(
-        LUtilsSeeder.seed(this.columnStructure),
+      this.target.addChild(
+        XGalleryExpandableItemObject.Seed(),
       );
+
     },
   },
 };

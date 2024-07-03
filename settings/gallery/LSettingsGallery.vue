@@ -37,90 +37,47 @@
 
       <v-card-text v-if="dialog_pre">
         <!-- ████████████████████ Slides ████████████████████ -->
-        <s-widget-header
-          add-caption="Add Slide"
-          button-color="#fff"
-          class="mt-5"
-          icon="layers"
+
+        <s-setting-group
           title="Slides"
-          @click:add="addSlide"
-        ></s-widget-header>
-        <v-list-subheader
-          >List of slides in the gallery. Click on a slide to edit it.
-        </v-list-subheader>
+          icon="layers"
+          subtitle="List of slides in the gallery. Click on a slide to edit it."
+        >
+          <template v-slot:title-action>
+            <v-btn
+              @click="addSlide"
+              prepend-icon="add_box"
+              color="#1976D2"
+              variant="elevated"
+            >
+              Add Slide
+            </v-btn>
+          </template>
+        </s-setting-group>
 
         <v-expansion-panels>
-          <v-expansion-panel
-            v-for="(item, i) in target[keyColumns]"
+          <l-settings-gallery-slide
+            v-for="(item, i) in slides"
             :key="i"
-            @click="goToSlide(i)"
+            :builder="builder"
+            :object="item"
+            @click:delete="removeSlide(i)"
           >
-            <v-expansion-panel-title class="text-start py-1">
-              <div class="flex-grow-0">
-                <v-avatar v-if="item.image?.src" class="me-2" rounded size="16">
-                  <v-img :src="getShopImagePath(item.image.src)"></v-img>
-                </v-avatar>
-                <v-icon v-else class="me-2" size="16">view_headline</v-icon>
-                Slide {{ i + 1 }}
-              </div>
-              <div
-                v-if="StripTags(item.title)"
-                class="mx-2 flex-grow-1 font-weight-bold"
-              >
-                | {{ StripTags(item.title)?.limitWords(5) }}
-              </div>
-              <v-btn
-                class="flex-grow-0"
-                icon
-                size="small"
-                @click.stop="removeSlide(i)"
-              >
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <s-image-uploader
-                v-if="item.image"
-                :image="getShopImagePath(item.image.src)"
-                :server="upload_image_url"
-                auto-compact
-                clearable
-                dark
-                label="Slide Image"
-                @onClear="item.image.src = null"
-                @new-path="(path) => (item.image.src = path)"
-              />
-
-              <v-text-field
-                v-model="item.title"
-                label="Slide Title"
-                variant="underlined"
-              >
-              </v-text-field>
-
-              <v-text-field
-                v-model="item.subtitle"
-                label="Slide Subtitle"
-                variant="underlined"
-              >
-              </v-text-field>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+          </l-settings-gallery-slide>
         </v-expansion-panels>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
-import * as types from "../../src/types/types";
-import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
-import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
+import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide/LSettingsGallerySlide.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 
 export default {
   name: "LSettingsGallery",
@@ -128,7 +85,8 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    SImageUploader,
+    SSettingGroup,
+    LSettingsGallerySlide,
   },
 
   props: {
@@ -137,28 +95,28 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    el: null,
-    section: null,
-    target: null,
-    keyColumns: null, // ex. columns
+  data() {
+    return {
+      el: null as HTMLElement | null,
+      section: null,
+      target: null as XGalleryExpandableObject | null,
 
-    //----------------------- Bg image -----------------------
-    show_edit_slide: false,
-    dialog_pre: false,
+      // ----------------------- Bg image -----------------------
+      show_edit_slide: false,
+      dialog_pre: false,
 
-    //--------------------------
-    key_listener_keydown: null,
+      // --------------------------
+      key_listener_keydown: null,
 
-    LOCK: false, // 🔐 Lock changes
-  }),
+      LOCK: false, // 🔐 Lock changes
+    };
+  },
 
   computed: {
-    effect() {
-      return this.target?.effect;
-    },
-    upload_image_url() {
-      return this.builder.getImageUploadUrl();
+    slides() {
+      return this.target.children.filter(
+        (c) => c instanceof XGalleryExpandableItemObject,
+      );
     },
   },
   watch: {
@@ -173,7 +131,7 @@ export default {
     EventBus.$on(
       "show:LSettingsGallery",
 
-      ({ el, section, target, keyColumns }) => {
+      ({ el, section, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -181,7 +139,6 @@ export default {
         this.el = el;
         this.section = section;
         this.target = target;
-        this.keyColumns = keyColumns;
         this.showDialog();
       },
     );
@@ -221,7 +178,6 @@ export default {
   },
 
   methods: {
-    StripTags,
     showDialog() {
       this.dialog_pre = false;
       this.$nextTick(() => {
@@ -233,16 +189,14 @@ export default {
     //----------------------------------------------------------------------------
 
     addSlide() {
-      this.target[this.keyColumns].push(LUtilsSeeder.seed(types.Slide));
+      this.target.addChild(XGalleryExpandableItemObject.Seed());
     },
 
     removeSlide(index) {
       this.openDeleteAlert(() => {
-        this.target[this.keyColumns].splice(index, 1);
+        this.target.children.splice(index, 1);
       });
     },
-
-    goToSlide(index) {},
   },
 };
 </script>
