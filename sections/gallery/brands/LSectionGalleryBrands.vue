@@ -16,53 +16,8 @@
   xmlns:v-slot="http://www.w3.org/1999/XSL/Transform"
   xmlns:v-styler="http://www.w3.org/1999/xhtml"
 >
-  <x-section :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-row :object="$sectionData" has-arrangement has-fluid>
-        <v-col cols="12" md="4" sm="6">
-          <x-text
-            v-model:object="$sectionData.title"
-            :augment="augment"
-            initial-type="h2"
-            :initial-classes="['mb-3']"
-          ></x-text>
 
-          <x-text
-            v-model:object="$sectionData.content"
-            :augment="augment"
-            initial-type="p"
-          ></x-text>
-
-          <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
-          <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
-        </v-col>
-        <v-col cols="12" md="8" sm="6">
-          <x-row
-            :column-structure="ItemType"
-            :object="$sectionData"
-            add-column
-            has-arrangement
-            ><!-- Only addable can remove col-->
-
-            <x-column
-              v-for="(col, index) in $sectionData.columns"
-              :key="`${index}-${$sectionData.columns.length}`"
-              :object="col"
-              :remove-child="() => $sectionData.columns.splice(index, 1)"
-            >
-              <x-uploader
-                v-model:object="col.image"
-                :augment="augment"
-                :initialSize="null"
-                cover
-              />
-            </x-column>
-          </x-row>
-        </v-col>
-      </x-row>
-    </x-container>
-  </x-section>
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
 
 <script>
@@ -76,12 +31,14 @@ import XContainer from "@selldone/page-builder/components/x/container/XContainer
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionGalleryBrands",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
   components: {
+    XComponent,
     XColumn,
     XButtons,
     XRow,
@@ -176,14 +133,7 @@ export default {
   watch: {},
 
   created() {
-    /*  let n = 12;
-    if (this.$sectionData.images.length < n) {
-      let diff = n - this.$sectionData.images.length;
-      for (let i = n - diff; i < n; i++) {
-        this.$sectionData.images.push("");
-      }
-    }
-    //  console.table(  this.$sectionData.images)*/
+
   },
   methods: {},
 };

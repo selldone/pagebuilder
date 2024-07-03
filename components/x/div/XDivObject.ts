@@ -14,76 +14,55 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {
-  XUploaderDataTypes,
-  XUploaderObjectData,
-} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
-import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
 
-export class XUploaderObject extends LModelElement<XUploaderObjectData> {
+export class XDivObject extends LModelElement<null> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XUploaderObjectData | null,
+    data: null,
     props: any,
   ) {
     super(
-      "XUploader",
+      "XGalleryExpandable",
       background,
       style,
       classes,
       children,
-      data
-        ? data
-        : new XUploaderObjectData(null, new XUploaderDataTypes.Setting()),
+      data,
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XUploaderObject(null, null, null, null, null, null);
+    return new XDivObject(null, null, null, null, null, null);
   }
 
+  // ━━━━━━━━━━━━━━━━━ Labeled Children ━━━━━━━━━━━━━━━━━
+
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
   /**
-   * Create a new instance of XUploaderObject
-   * @param aspect
-   * @param contain
-   * @param round
-   * @param initialClasses
+   * Create a new instance of XDivObject
    * @constructor
    */
-
-  static Seed(
-    aspect: number|null = 1,
-    contain: boolean = false,
-    round: boolean = false,
-    initialClasses: string[] = ["ma-auto"],
-  ): XUploaderObject {
-    const instance = XUploaderObject.NewInstance();
-    instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
-    instance.classes = initialClasses;
-    instance.data.setSrc(imagePlaceholder)
-
-    return instance;
+  static Seed(): XDivObject {
+    return XDivObject.NewInstance();
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+
   /**
    * Migrate from V1 to V2
    * @param old
    * @constructor
    */
+  static MigrateOld(old: any): XDivObject {
+    const data = new XDivObject();
 
-  static MigrateOld(old: any): XUploaderObject | null {
-    if (!old) return null;
-    const data = new XUploaderObjectData(old?.src, old?.setting);
-
-
-    const out= new XUploaderObject(
+    return new XDivObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,
@@ -91,8 +70,5 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       data,
       null,
     );
-
-    console.log("Migration Image | ---------->", old, "--->", out);
-    return out;
   }
 }

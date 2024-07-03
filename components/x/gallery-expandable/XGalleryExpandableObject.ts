@@ -15,75 +15,65 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {
-  XUploaderDataTypes,
-  XUploaderObjectData,
-} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
-import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
+  XGalleryExpandableObjectData
+} from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObjectData.ts";
+import {
+  XGalleryExpandableItemObject
+} from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 
-export class XUploaderObject extends LModelElement<XUploaderObjectData> {
+export class XGalleryExpandableObject extends LModelElement<XGalleryExpandableObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XUploaderObjectData | null,
+    data: XGalleryExpandableObjectData | null,
     props: any,
   ) {
     super(
-      "XUploader",
+      "XGalleryExpandable",
       background,
       style,
       classes,
       children,
-      data
-        ? data
-        : new XUploaderObjectData(null, new XUploaderDataTypes.Setting()),
+      data ? data : new XGalleryExpandableObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XUploaderObject(null, null, null, null, null, null);
+    return new XGalleryExpandableObject(null, null, null, null, null, null);
   }
 
+  // ━━━━━━━━━━━━━━━━━ Labeled Children ━━━━━━━━━━━━━━━━━
+
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
   /**
-   * Create a new instance of XUploaderObject
-   * @param aspect
-   * @param contain
-   * @param round
-   * @param initialClasses
+   * Create a new instance of XGalleryExpandableObject
    * @constructor
    */
+  static Seed(): XGalleryExpandableObject {
+    const instance = XGalleryExpandableObject.NewInstance();
 
-  static Seed(
-    aspect: number|null = 1,
-    contain: boolean = false,
-    round: boolean = false,
-    initialClasses: string[] = ["ma-auto"],
-  ): XUploaderObject {
-    const instance = XUploaderObject.NewInstance();
-    instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
-    instance.classes = initialClasses;
-    instance.data.setSrc(imagePlaceholder)
+    for (let i = 0; i < 4; i++) {
+      instance.addChild(XGalleryExpandableItemObject.Seed());
+    }
 
     return instance;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+
   /**
    * Migrate from V1 to V2
    * @param old
    * @constructor
    */
-
-  static MigrateOld(old: any): XUploaderObject | null {
-    if (!old) return null;
-    const data = new XUploaderObjectData(old?.src, old?.setting);
-
-
-    const out= new XUploaderObject(
+  static MigrateOld(old: any): XGalleryExpandableObject {
+    const data = new XGalleryExpandableObjectData();
+    const out = new XGalleryExpandableObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,
@@ -92,7 +82,14 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       null,
     );
 
-    console.log("Migration Image | ---------->", old, "--->", out);
+    old.columns.forEach((column: any) => {
+      out.addChild(XGalleryExpandableItemObject.MigrateOld(column));
+    });
+
     return out;
   }
 }
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
+
+export namespace XGalleryExpandableObjectTypes {}

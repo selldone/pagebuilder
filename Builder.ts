@@ -65,6 +65,9 @@ import XCollection from "@selldone/page-builder/components/x/collection/XCollect
 import XLottie from "@selldone/page-builder/components/x/lottie/XLottie.vue";
 import XSearch from "@selldone/page-builder/components/x/search/XSearch.vue";
 import XMarquee from "@selldone/page-builder/components/x/marquee/XMarquee.vue";
+import XGalleryExpandable from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandable.vue";
+import XGalleryExpandableItem
+  from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItem.vue";
 
 const DEBUG = false;
 
@@ -76,6 +79,7 @@ export namespace builder {
     title: string;
     sections: Section[];
     style: any;
+    css: IPageCss | null | undefined,
     columnsPrefix: {
       mobile: string;
       tablet: string;
@@ -128,6 +132,7 @@ const BUILDER_OPTIONS: builder.IOptions = {
   title: "",
   sections: [],
   style: {},
+  css:null,
   columnsPrefix: {
     mobile: "v-col-",
     tablet: "v-col-sm-",
@@ -286,7 +291,8 @@ export class Builder {
       if (DEBUG) console.log("Auto assign schema.", options);
     }
 
-    if (!options.schema) { // TODO:Remove this after migration!
+    if (!options.schema) {
+      // TODO:Remove this after migration!
       console.error(
         "Schema not found for section! Maybe new version!",
         options,
@@ -465,7 +471,7 @@ export class Builder {
             uid: section.uid,
             data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
             schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
-            object:section.object //🪵 New Version!
+            object: section.object, //🪵 New Version!
           };
 
           return new Section(sectionData);
@@ -492,8 +498,6 @@ export class Builder {
 
     console.log("👢 CSS Style on save ", this.style);
 
-
-
     return {
       title: this.title,
       sections: this.sections.map((s) => ({
@@ -501,7 +505,6 @@ export class Builder {
         name: s.name,
         data: s.data, // Should be removed after migration (if we have s.object)
         object: s.object,
-
       })),
       style: this.style,
     };
@@ -620,12 +623,14 @@ const XComponents: any[] = [
   XCustomProductsList,
   XText,
   XUploader,
-    XButton,
-    XProduct,
-    XCollection,
-    XLottie,
+  XButton,
+  XProduct,
+  XCollection,
+  XLottie,
   XSearch,
-  XMarquee
+  XMarquee,
+  XGalleryExpandable,
+  XGalleryExpandableItem,
 ];
 
 /**

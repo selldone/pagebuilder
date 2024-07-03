@@ -41,6 +41,10 @@ import {
 import {
   LSectionImageThreeColumnsSeed
 } from "@selldone/page-builder/sections/image/three-columns/LSectionImageThreeColumnsSeed.ts";
+import {
+  LSectionGalleryExpandableSeed
+} from "@selldone/page-builder/sections/gallery/expandable/LSectionGalleryExpandableSeed.ts";
+import {LSectionGalleryBrandsSeed} from "@selldone/page-builder/sections/gallery/brands/LSectionGalleryBrandsSeed.ts";
 
 const DEBUG = false;
 
@@ -338,7 +342,13 @@ export class LUtilsSeeder {
       return LSectionImageTwoColumnsSeed();
     } else if (name === "LSectionImageThreeColumns") {
       return LSectionImageThreeColumnsSeed();
+    } else if (name === "LSectionGalleryExpandable") {
+      return LSectionGalleryExpandableSeed();
+    }else if (name === "LSectionGalleryBrands") {
+      return LSectionGalleryBrandsSeed();
     }
+
+
 
 
 

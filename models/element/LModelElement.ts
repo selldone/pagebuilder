@@ -13,6 +13,7 @@
  */
 
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
+import {isFunction} from "lodash-es";
 
 export abstract class LModelElement<T> {
   component: string;
@@ -31,7 +32,6 @@ export abstract class LModelElement<T> {
 
   props: Record<string, any> | null;
 
-
   constructor(
     component: string,
     background: LModelBackground | null,
@@ -43,18 +43,17 @@ export abstract class LModelElement<T> {
   ) {
     this.component = component;
     this.background = background ? background : new LModelBackground(null);
-    this.style = style?style:{};
+    this.style = style ? style : {};
     this.classes = classes ? classes : [];
     this.children = children ? children : [];
     this.data = data;
     this.props = props;
-
-
   }
 
-  addChild(element: LModelElement<any> | null) {
-    if (!element) return;
+  addChild(element: LModelElement<any> | null): LModelElement<T> {
+    if (!element) return this;
     this.children.push(element);
+    return this;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥽 Label ━━━━━━━━━━━━━━━━━
@@ -84,4 +83,36 @@ export abstract class LModelElement<T> {
    */
   public $element: HTMLElement | null = null;
 
+  // ━━━━━━━━━━━━━━━━━ 🍒 Clone ━━━━━━━━━━━━━━━━━
+  public clone(): LModelElement<T> {
+    const cloneBackground = this.background ? this.background.clone() : null;
+    const cloneStyle = this.style ? JSON.parse(JSON.stringify(this.style)) : {};
+    const cloneClasses = this.classes ? [...this.classes] : [];
+
+    // If T is an object with a clone method, call it. Otherwise, shallow copy it.
+    const cloneData =
+        this.data && isFunction((this.data as any).clone)
+            ? (this.data as any).clone()
+            : null;
+    console.log("Clone Data", cloneData);
+
+
+    const cloneChildren = this.children.map((child) => child.clone());
+    const cloneProps = this.props ? { ...this.props } : null;
+
+
+
+    const clonedElement = new (this.constructor as any)(
+      cloneBackground,
+      cloneStyle,
+      cloneClasses,
+      cloneChildren,
+      cloneData,
+      cloneProps,
+    );
+
+    clonedElement.label = this.label;
+
+    return clonedElement;
+  }
 }

@@ -12,10 +12,12 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
 /**
  * Class representing text data with an associated HTML tag.
  */
-export class XTextObjectData {
+export class XTextObjectData extends LModelData<XTextObjectData> {
   /**
    * HTML or text value.
    */
@@ -35,6 +37,7 @@ export class XTextObjectData {
     value: string | null = null,
     tag: XTextObjectDataTypes.ITag | null = null,
   ) {
+    super();
     this.value = value;
     this.tag = tag ? tag : "p";
   }

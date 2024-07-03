@@ -135,4 +135,10 @@ export class LModelBackground {
 
     return out.join(",");
   }
+
+  // ━━━━━━━━━━━━━━━━━ 🍒 Clone ━━━━━━━━━━━━━━━━━
+
+  public clone(): LModelBackground {
+    return new LModelBackground(JSON.stringify(this));
+  }
 }

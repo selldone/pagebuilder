@@ -55,7 +55,9 @@
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
+import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject.ts";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
 export default defineComponent({
   name: "XRow",
@@ -64,7 +66,7 @@ export default defineComponent({
   components: {},
 
   props: {
-    object: {type:XRowObject, required: true },
+    object: { type: XRowObject, required: true },
 
     addColumn: {
       type: Boolean,
@@ -74,11 +76,11 @@ export default defineComponent({
 
     hasWrap: { type: Boolean, default: true },
     hasFluid: { type: Boolean, default: true },
-
-    columnStructure: {
-      type: Array,
-      default: () => ["h3", "img", "p"],
-    },
+    /*
+        columnStructure: {
+          type: Array,
+          default: () => ["h3", "img", "p"],
+        },*/
 
     /**
      * Set the location of the proper
@@ -88,6 +90,23 @@ export default defineComponent({
   data: () => ({}),
 
   computed: {
+  /*  columnStructure() {
+      const child = this.object.children.length
+        ? this.object.children[this.object.children.length - 1]
+        : null;
+
+      if (!child || !child.children.length) return ["h3", "img", "p"];
+
+      // Auto create from sample:
+      console.log("🐍 Auto create from sample child:", child);
+      return child.children
+        .map((child) => {
+          if (child instanceof XTextObject) return child.data.tag;
+          if (child instanceof XUploaderObject) return "img";
+          return null;
+        })
+        .filter((v) => !!v); // Remove null!
+    },*/
     /**
      * 🐍 Use compute for better performance.
      * @return {{target: *}}
@@ -95,7 +114,7 @@ export default defineComponent({
     rowBinding() {
       return {
         target: this.object,
-        columnStructure: this.columnStructure,
+      //  columnStructure: this.columnStructure,
         hasWrap: this.hasWrap,
         hasAdd: this.addColumn,
         hasArrangement: this.hasArrangement,

@@ -189,10 +189,10 @@ export default {
     /**
      * Initial column structure for adding new column
      */
-    columnStructure: {
+   /* columnStructure: {
       type: Array,
       default: () => ["h3", "img", "p"],
-    },
+    },*/
 
     hasWrap: {
       type: Boolean,
@@ -237,28 +237,30 @@ export default {
     addNewColumn() {
       console.log("addNewColumn", this.target.children);
 
-      console.log("this.columnStructure", this.columnStructure);
+      if (!this.target.children.length) {
+        console.log("Add new column with default structure.");
+        // Create default structure:
+        const new_column = XColumnObject.Seed(12, 6, 4);
+        new_column.addChild(XUploaderObject.Seed(1, true));
+        new_column.addChild(
+          XTextObject.Seed("Enter your headline here...", "h3"),
+        );
+        new_column.addChild(
+          XTextObject.Seed(
+            "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+            "p",
+          ),
+        );
+        this.target.addChild(new_column);
+      } else {
+        const child = this.target.children[this.target.children.length - 1];
+        console.log(
+          "Add new column with existing last child structure. Child:",
+          child,
+        );
 
-      const new_column = XColumnObject.Seed(12, 6, 4);
-
-      this.columnStructure.forEach((item) => {
-        if (["p", "h1", "h2", "h3", "h4", "h5"].includes(item)) {
-          new_column.addChild(
-            XTextObject.Seed(
-              item === "p"
-                ? "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description..."
-                : "Enter your headline here...",
-              item,
-            ),
-          );
-        } else if (["img", "image"].includes(item)) {
-          new_column.addChild(XUploaderObject.Seed(1, true));
-        } else {
-          console.error("Add new column structure is invalid! item:", item);
-        }
-      });
-
-      this.target.addChild(new_column);
+        this.target.addChild(child.clone());
+      }
     },
 
     toggleNoWrap() {

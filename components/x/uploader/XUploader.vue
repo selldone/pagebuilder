@@ -958,7 +958,7 @@ export default defineComponent({
   left: 0;
   width: 100%;
   opacity: 0;
-  z-index: 100;
+  z-index: 0;
   cursor: pointer;
 }
 

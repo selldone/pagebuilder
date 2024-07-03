@@ -19,14 +19,14 @@
     :class="{ collapse: collapse }"
     class="r-con c-container -force-rounded p-2 fadeIn"
   >
-    <v-expand-transition>
-      <div v-if="!collapse" class="text-center text-white">
-        Drag & Drop <small class="d-block">Pre-built sections</small>
+    <v-expand-transition >
+      <div v-if="!collapse" class="-header">
+        Drag & Drop <div class="small">Pre-built sections</div>
       </div>
     </v-expand-transition>
 
     <div
-      class="c-widget m-2 p-2 flex-grow-1 d-flex flex-column position-relative overflow-hidden"
+      class="c-widget  pa-2 flex-grow-1 d-flex flex-column position-relative overflow-hidden"
     >
       <v-text-field
         v-model="search"
@@ -37,9 +37,10 @@
         placeholder="Search..."
         variant="solo"
         @click:append.stop="collapse = !collapse"
+        @focus="collapse=false"
       ></v-text-field>
 
-      <v-fade-transition leave-absolute>
+      <v-expand-transition leave-absolute>
         <div v-show="!collapse" class="hide-scroll overflow-auto">
           <v-list class="border-between-vertical">
             <v-card
@@ -88,7 +89,7 @@
             <small v-if="more">Load more...</small>
           </div>
         </div>
-      </v-fade-transition>
+      </v-expand-transition>
 
       <v-spacer></v-spacer>
 
@@ -492,6 +493,7 @@ export default {
 <style lang="scss" scoped>
 .r-con {
   --top: 84px;
+  backdrop-filter: blur(2px);
 
   position: fixed;
   right: 24px;
@@ -502,6 +504,12 @@ export default {
   //min-height: 400px;
   z-index: 1;
   transition: all 0.5s ease-in-out;
+
+  .-header{
+    text-shadow: #0c1818 2px 2px 8px;
+    text-align: center;
+    color: #fff;
+  }
 
   &.collapse {
     max-height: 92px;

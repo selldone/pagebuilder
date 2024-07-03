@@ -167,14 +167,14 @@
             class="my-5 line-height-normal page-content"
             style="min-height: 150px"
           >
-            <h1 :style="{fontSize:style.h1_size}">Header 1</h1>
-            <h2 :style="{fontSize:style.h2_size}">Header 2</h2>
-            <h3 :style="{fontSize:style.h3_size}">Header 3</h3>
-            <h4 :style="{fontSize:style.h4_size}">Header 4</h4>
-            <h5 :style="{fontSize:style.h5_size}">Header 5</h5>
-            <h6 :style="{fontSize:style.h6_size}">Header 6</h6>
+            <h1 :style="{ fontSize: style.h1_size }">Header 1</h1>
+            <h2 :style="{ fontSize: style.h2_size }">Header 2</h2>
+            <h3 :style="{ fontSize: style.h3_size }">Header 3</h3>
+            <h4 :style="{ fontSize: style.h4_size }">Header 4</h4>
+            <h5 :style="{ fontSize: style.h5_size }">Header 5</h5>
+            <h6 :style="{ fontSize: style.h6_size }">Header 6</h6>
 
-            <p :style="{fontSize:style.p_size}">Paragraph</p>
+            <p :style="{ fontSize: style.p_size }">Paragraph</p>
           </div>
         </s-setting-expandable>
 
@@ -187,11 +187,9 @@
 </template>
 
 <script>
-import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
 import LEventsName from "../../../mixins/events/name/LEventsName";
-import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 import { LUtilsTypo } from "../../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
@@ -212,9 +210,6 @@ export default {
     SSettingGroup,
     SSettingExpandable,
     SSettingFontFamily,
-    UDimensionInput,
-
-    UNumberInput,
   },
   emits: ["change"],
   props: {
