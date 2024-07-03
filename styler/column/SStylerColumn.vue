@@ -182,11 +182,7 @@ export default {
       type: String,
       default: "bottom",
     },
-    /**
-     * Set custom offset for the proper
-     * Default is 15
-     */
-    positionOffset: {},
+
 
     removeChild: {
       type: Function,

@@ -12,6 +12,11 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XSectionObjectData {
-  constructor() {}
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
+export class XSectionObjectData extends LModelData<XSectionObjectData> {
+  constructor() {
+    super();
+
+  }
 }

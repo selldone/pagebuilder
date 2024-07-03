@@ -13,8 +13,9 @@
  */
 
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XColumnImageTextObjectData {
+export class XColumnImageTextObjectData extends LModelData<XColumnImageTextObjectData> {
   grid: LModelGrid | null;
   layout: XColumnImageTextDataTypes.LAYOUTS;
 
@@ -22,6 +23,8 @@ export class XColumnImageTextObjectData {
     grid: LModelGrid | null,
     layout: XColumnImageTextDataTypes.LAYOUTS,
   ) {
+    super();
+
     this.grid = grid;
     this.layout = layout;
   }

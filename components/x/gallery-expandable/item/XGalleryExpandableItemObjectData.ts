@@ -12,14 +12,11 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XGalleryExpandableItemObjectData {
-
-
+export class XGalleryExpandableItemObjectData extends LModelData<XGalleryExpandableItemObjectData> {
   constructor() {
+    super();
 
   }
-
-
 }

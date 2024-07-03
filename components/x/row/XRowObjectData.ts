@@ -12,7 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XRowObjectData {
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
+export class XRowObjectData extends LModelData<XRowObjectData> {
   align: string | null;
   justify: string | null;
 
@@ -23,6 +25,8 @@ export class XRowObjectData {
     justify: string | null,
     no_wrap: boolean | null,
   ) {
+    super();
+
     this.align = align;
 
     this.justify = justify;

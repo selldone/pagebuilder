@@ -12,10 +12,14 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XContainerObjectData {
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
+export class XContainerObjectData extends LModelData<XContainerObjectData> {
   fluid: boolean | null;
 
   constructor(fluid: boolean | null) {
+    super();
+
     this.fluid = !!fluid;
   }
 }

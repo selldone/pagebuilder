@@ -39,6 +39,11 @@ export const LMixinStyler = defineComponent({
       type: Object,
       required: true,
     },
+
+    position: {
+      type: String,
+      default: "bottom",
+    },
   },
   data() {
     return {
@@ -46,6 +51,7 @@ export const LMixinStyler = defineComponent({
       selection: null, // Keep selection range by user (text selection)
     };
   },
+
   created() {},
 
   mounted() {
@@ -81,7 +87,7 @@ export const LMixinStyler = defineComponent({
   methods: {
     checkProper() {
       if (!this.cleanup) {
-        const position = this.position;
+        //  const position = this.position;
 
         if (!this.$refs.styler) {
           console.error("Styler Mixin: No styler ref found!");
@@ -96,50 +102,58 @@ export const LMixinStyler = defineComponent({
           ? this.$refs.styler.$el /*Vue components*/
           : this.$refs.styler; /*Native elements*/
 
-        const PADDING =this.positionOffset?this.positionOffset: 15;
+        const PADDING = 15;
         // When the floating element is open on the screen
-        this.cleanup = autoUpdate(referenceEl, floatingEl, () => {
-          computePosition(referenceEl, floatingEl, {
-            placement: position,
-            middleware: [
-              offset(PADDING),
-              {
-                name: "custom",
+        this.cleanup = autoUpdate(
+          referenceEl,
+          floatingEl,
+          () => {
+            computePosition(referenceEl, floatingEl, {
+              placement: this.position,
+              middleware: [
+                offset(PADDING),
+                {
+                  name: "custom",
 
-                // Detect if the floating element is overflowing its boundary
+                  // Detect if the floating element is overflowing its boundary
 
-                async fn(state) {
-                  const { bottom, left, top, right } = await detectOverflow(
-                    state,
-                    {
-                      boundary: document.body,
-                      padding: PADDING,
-                    },
-                  );
+                  async fn(state) {
+                    const { bottom, left, top, right } = await detectOverflow(
+                      state,
+                      {
+                        boundary: document.body,
+                        padding: PADDING,
+                      },
+                    );
 
-                  if (left > 0) {
-                    // Overflow from left
-                    return { x: PADDING };
-                  } else if (right > 0) {
-                    // Overflow from right
-                    return {
-                      x:
-                        window.innerWidth -
-                        state.rects.floating.width -
-                        PADDING,
-                    };
-                  }
-                  return {};
+                    if (left > 0) {
+                      // Overflow from left
+                      return { x: PADDING };
+                    } else if (right > 0) {
+                      // Overflow from right
+                      return {
+                        x:
+                          window.innerWidth -
+                          state.rects.floating.width -
+                          PADDING,
+                      };
+                    }
+                    return {};
+                  },
                 },
-              },
-            ],
-          }).then((out) => {
-            Object.assign(floatingEl.style, {
-              left: `${out.x}px`,
-              top: `${out.y}px`,
+              ],
+            }).then((out) => {
+              Object.assign(floatingEl.style, {
+                left: `${out.x}px`,
+                top: `${out.y}px`,
+              });
             });
-          });
-        });
+          },
+          /* {
+                                           layoutShift: true,
+                             
+                                         }*/
+        );
       }
     },
 
@@ -186,10 +200,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                        if (this.popper) {
-                                                                          this.popper.destroy();
-                                                                          this.popper = null;
-                                                                        }*/
+                                                                                          if (this.popper) {
+                                                                                            this.popper.destroy();
+                                                                                            this.popper = null;
+                                                                                          }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!

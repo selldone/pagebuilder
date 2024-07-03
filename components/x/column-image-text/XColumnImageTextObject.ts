@@ -72,13 +72,12 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
    */
 
   static Seed(
-    mobile = 12,
-    tablet = 6,
-    desktop = 4,
-    widescreen = null,
+    mobile: number | null = 12,
+    tablet: number | null = 6,
+    desktop: number | null = 4,
+    widescreen: number | null = null,
     layout: XColumnImageTextDataTypes.LAYOUTS | null,
-    initialColumnLayout: XColumnImageTextDataTypes.LAYOUTS = XColumnImageTextDataTypes
-      .LAYOUTS.NORMAL,
+    initialColumnLayout: XColumnImageTextDataTypes.LAYOUTS|null = XColumnImageTextDataTypes.LAYOUTS.NORMAL,
     initialClassesContent: string[] = [],
     hasImage: boolean = false,
   ): XColumnImageTextObject {

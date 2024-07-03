@@ -15,11 +15,14 @@
 import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XColumnObjectData.ts";
 import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XCollectionObjectData {
+export class XCollectionObjectData extends LModelData<XCollectionObjectData> {
   children: XCollectionDataTypes.IChildren[];
 
   constructor(children: XCollectionDataTypes.IChildren[] | null) {
+    super();
+
     this.children = children ? children : [];
   }
 }

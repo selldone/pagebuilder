@@ -25,7 +25,6 @@
       :object="object"
       add-column
       has-arrangement
-      position="right-center"
       ><!-- Only addable can remove col-->
 
       <x-column

@@ -13,13 +13,14 @@
  */
 
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XColumnObjectData {
+export class XColumnObjectData extends LModelData<XColumnObjectData> {
   public grid: LModelGrid;
 
   constructor(grid: LModelGrid | null) {
+    super();
+
     this.grid = grid ? grid : new LModelGrid({});
   }
-
-
 }

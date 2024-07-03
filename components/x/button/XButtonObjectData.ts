@@ -12,10 +12,12 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
 /**
  * Class representing button data with various properties.
  */
-export class XButtonObjectData {
+export class XButtonObjectData extends LModelData<XButtonObjectData> {
   /**
    * Button color.
    */
@@ -87,6 +89,7 @@ export class XButtonObjectData {
     variant: XButtonObjectDataTypes.IVariant | null = null,
     elevation: number | null = null,
   ) {
+    super();
     this.color = color;
     this.content = content;
     this.glow = glow;

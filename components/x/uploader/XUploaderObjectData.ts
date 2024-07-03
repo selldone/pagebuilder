@@ -13,14 +13,16 @@
  */
 
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XUploaderObjectData {
+export class XUploaderObjectData extends LModelData<XUploaderObjectData> {
   src: string | null;
   setting: XUploaderDataTypes.Setting;
 
   link: string | null;
 
   constructor(src: string | null, setting: null | XUploaderDataTypes.Setting) {
+    super();
     this.src = src;
     this.setting = setting ? setting : new XUploaderDataTypes.Setting();
     this.link = null;

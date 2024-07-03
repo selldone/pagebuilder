@@ -17,6 +17,9 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {
+  XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export const LSectionImageTwoColumnsSeed = () => {
   // Initialize section
@@ -35,13 +38,16 @@ export const LSectionImageTwoColumnsSeed = () => {
   const column_A = XColumnObject.Seed(12, 6, 8, null);
   row.addChild(column_A);
 
-  column_A.addChild(
+  const column_A_row = XRowObject.Seed();
+  column_A.addChild(column_A_row);
+
+  column_A_row.addChild(
     XColumnImageTextObject.Seed(
       12,
       null,
       null,
       null,
-      "x-layout-normal",
+      XColumnImageTextDataTypes.LAYOUTS.NORMAL,
       null,
       [],
       true,
@@ -52,21 +58,24 @@ export const LSectionImageTwoColumnsSeed = () => {
   const column_B = XColumnObject.Seed(12, 6, 4, null);
   row.addChild(column_B);
 
+  const column_B_row = XRowObject.Seed();
+  column_B.addChild(column_B_row);
+
   for (let i = 1; i <= 3; i++) {
     const child = XColumnImageTextObject.Seed(
       12,
       null,
       null,
       null,
-      "x-layout-normal",
+      XColumnImageTextDataTypes.LAYOUTS.NORMAL,
       null,
       [],
       true,
     );
-    const image=child.getImageChild();
-    image?.data.setting.setAspect(2)
+    const image = child.getImageChild();
+    image?.data.setting.setAspect(2);
 
-    column_B.addChild(child);
+    column_B_row.addChild(child);
   }
 
   return section;

@@ -12,7 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XMarqueeObjectData {
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
+export class XMarqueeObjectData extends LModelData<XMarqueeObjectData> {
   html: string;
   duration: string;
   space: number;
@@ -26,6 +28,8 @@ export class XMarqueeObjectData {
     repeat: number = 10,
     reverse: boolean = false,
   ) {
+    super();
+
     this.html = html;
     this.duration = duration ? duration : "10s";
     this.space = space ? space : 200;

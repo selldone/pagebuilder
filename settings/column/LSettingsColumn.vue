@@ -120,8 +120,8 @@
                   "
                 >
                   <v-icon class="center-absolute" size="32"
-                    >architecture</v-icon
-                  >
+                    >architecture
+                  </v-icon>
                 </div>
               </div>
 
@@ -131,8 +131,8 @@
                   class="position-relative small text-start px-2"
                 >
                   <h3
-                    v-if="item === 'x-layout-middle single-line'"
-                    class="my-2"
+                    v-if="item === 'x-layout-middle'"
+                    class="--title my-2 single-line"
                   >
                     Title...
                   </h3>
@@ -159,8 +159,8 @@
                     </v-icon>
                   </div>
                   <div class="--contents my-2">
-                    <h3 v-if="item !== 'x-layout-middle'">Title...</h3>
-                    <p class="m-0 single-line">Content...</p>
+                    <h3 v-if="item !== 'x-layout-middle'" class="--title">Title...</h3>
+                    <p class="--content m-0 single-line">Content...</p>
                   </div>
                 </div>
               </template>
@@ -190,7 +190,6 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
-import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
@@ -220,7 +219,7 @@ export default {
   name: "LSettingsColumn",
   mixins: [LMixinEvents],
 
-  components: { SSettingSwitch, SSettingGroup, UPrice, USmartToggle },
+  components: { SSettingSwitch, SSettingGroup, UPrice },
 
   props: {},
   data: () => ({

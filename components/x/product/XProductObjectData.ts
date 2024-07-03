@@ -12,10 +12,14 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-export class XProductObjectData {
+import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+
+export class XProductObjectData extends LModelData<XProductObjectData> {
   id: number | null;
 
   constructor(id: number | null) {
+    super();
+
     this.id = id;
   }
 }

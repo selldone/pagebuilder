@@ -13,8 +13,8 @@
  */
 
 import {
-    XUploaderDataTypes,
-    XUploaderObjectData,
+  XUploaderDataTypes,
+  XUploaderObjectData,
 } from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
 export class XLottieObjectData extends XUploaderObjectData {
