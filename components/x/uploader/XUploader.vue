@@ -22,7 +22,7 @@
     :open-delay="300"
     location="top"
     open-on-hover
-    transition="slide-y-reverse-transition"
+    transition="slide-y-transition"
   >
     <v-toolbar
       v-if="has_edit_toolbar"

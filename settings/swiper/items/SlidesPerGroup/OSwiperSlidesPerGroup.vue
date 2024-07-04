@@ -13,7 +13,7 @@
   -->
 <template>
   <s-setting-number-select
-    v-model="modelValue.slidesPerGroup"
+    v-model="modelValue.data.slidesPerGroup"
     :disabled="!enable"
     :max="10"
     :min="1"
@@ -27,30 +27,31 @@
 <script>
 import { defineComponent } from "vue";
 import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperSlidesPerGroup",
   components: { SSettingNumberSelect },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
   computed: {
     enable() {
       return ["slide", "coverflow", "panorama"].includes(
-        this.modelValue.effect,
+        this.modelValue.data.effect,
       );
     },
   },
   watch: {
     enable(enable) {
-      if (!enable) this.modelValue.slidesPerGroup = 1; // Reset to default!
+      if (!enable) this.modelValue.data.slidesPerGroup = 1; // Reset to default!
     },
   },
   created() {
-    if (!this.modelValue.slidesPerGroup) this.modelValue.slidesPerGroup = 1;
+    if (!this.modelValue.data.slidesPerGroup) this.modelValue.data.slidesPerGroup = 1;
   },
 });
 </script>

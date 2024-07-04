@@ -14,73 +14,60 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
-import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
+import {
+  XVideoBackgroundObjectData
+} from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObjectData.ts";
 
-export class XButtonsObject extends LModelElement<XRowObjectData> {
+export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XRowObjectData | null,
-    props: Record<string, any> | null,
+    data: XVideoBackgroundObjectData | null,
+    props: any,
   ) {
     super(
-      "XButtons",
+      "XVideoBackground",
       background,
       style,
       classes,
       children,
-      data ? data : new XRowObjectData("center", "center", false),
+      data ? data : new XVideoBackgroundObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XButtonsObject(null, null, null, null, null, null);
+    return new XVideoBackgroundObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XButtonsObject {
+  static Seed(): XVideoBackgroundObject {
     const instance = this.NewInstance();
-    instance.data.setJustify("center").setAlign("center");
+
     return instance;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
   /**
    * Migrate from V1 to V2
-   * @param btn_row
-   * @param buttons
+   * @param old
    * @constructor
    */
-  static MigrateOld(btn_row: any, buttons: []): XButtonsObject {
-    const align = btn_row?.align ?? null;
-    const justify = btn_row?.justify ?? null;
-    const no_wrap = btn_row?.no_wrap ?? null;
 
-    const row_buttons = new XButtonsObject(
-      new LModelBackground(btn_row?.background),
-      btn_row?.style,
-      btn_row?.classes,
+  static MigrateOld(old: any): XVideoBackgroundObject {
+    const data = new XVideoBackgroundObjectData();
+
+    return new XVideoBackgroundObject(
+      new LModelBackground(old?.background),
+      old?.style,
+      old?.classes,
       [],
-
-      new XRowObjectData(align, justify, no_wrap),
+      data,
       null,
     );
-
-    buttons?.forEach((_button) => {
-      const _btn_element = XButtonObject.MigrateOld(_button);
-      console.log("Migrate Add Button -- Add--->", _btn_element);
-
-      row_buttons.addChild(_btn_element);
-    });
-
-    console.log("Migrate Buttons | ", btn_row, "--to-->", row_buttons);
-
-    return row_buttons;
   }
 }

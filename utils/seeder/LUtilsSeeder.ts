@@ -45,6 +45,7 @@ import {
   LSectionGalleryExpandableSeed
 } from "@selldone/page-builder/sections/gallery/expandable/LSectionGalleryExpandableSeed.ts";
 import {LSectionGalleryBrandsSeed} from "@selldone/page-builder/sections/gallery/brands/LSectionGalleryBrandsSeed.ts";
+import {LSectionGallerySwiperSeed} from "@selldone/page-builder/sections/gallery/swiper/LSectionGallerySwiperSeed.ts";
 
 const DEBUG = false;
 
@@ -346,7 +347,11 @@ export class LUtilsSeeder {
       return LSectionGalleryExpandableSeed();
     }else if (name === "LSectionGalleryBrands") {
       return LSectionGalleryBrandsSeed();
+    }else if (name === "LSectionGallerySwiper") {
+      return LSectionGallerySwiperSeed();
     }
+
+
 
 
 

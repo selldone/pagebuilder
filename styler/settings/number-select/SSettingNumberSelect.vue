@@ -45,6 +45,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SSettingNumberSelect",
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
     title: {},

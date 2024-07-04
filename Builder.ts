@@ -68,6 +68,9 @@ import XMarquee from "@selldone/page-builder/components/x/marquee/XMarquee.vue";
 import XGalleryExpandable from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandable.vue";
 import XGalleryExpandableItem
   from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItem.vue";
+import XDiv from "@selldone/page-builder/components/x/div/XDiv.vue";
+import XSwiper from "@selldone/page-builder/components/x/swiper/XSwiper.vue";
+import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
 
 const DEBUG = false;
 
@@ -631,6 +634,9 @@ const XComponents: any[] = [
   XMarquee,
   XGalleryExpandable,
   XGalleryExpandableItem,
+  XDiv,
+  XSwiper,
+  XVideoBackground
 ];
 
 /**

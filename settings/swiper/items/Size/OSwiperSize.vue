@@ -14,13 +14,13 @@
 <template>
   <s-setting-group title="Size">
     <s-setting-switch
-      v-model="modelValue.autoHeight"
+      v-model="modelValue.data.autoHeight"
       icon="height"
       label="Auto height"
     ></s-setting-switch>
 
     <s-setting-size
-      v-model="modelValue.height"
+      v-model="modelValue.data.height"
       icon="straighten"
       label="Slides Height"
     ></s-setting-size>
@@ -32,6 +32,7 @@ import { defineComponent } from "vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 import SSettingSize from "../../../../styler/settings/size/SSettingSize.vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperSize",
@@ -43,7 +44,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },

@@ -54,7 +54,7 @@ export const LSectionGalleryBrandsSeed = () => {
   const col_B_row = XRowObject.Seed();
   col_B.addChild(col_B_row);
 
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 12; i++) {
     const small_col = XColumnObject.Seed(4, 3, 2).addChild(
       XUploaderObject.Seed(),
     );

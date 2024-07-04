@@ -431,8 +431,8 @@ export default {
       return LUtilsColors.GenerateColorsStyle(this.builder.style);
     },
 
-    has_grid(){
-      return !!this.target?.data.grid
+    has_grid() {
+      return !!this.target?.data.grid;
     },
 
     available_tabs() {
@@ -754,7 +754,11 @@ export default {
   },
 
   methods: {
-    showSizeDialog() {
+    async showSizeDialog() {
+      this.dialog_pre = false;
+      // Add wait:
+      await this.$nextTick();
+
       this.background = this.target[this.keyBackground];
       if (
         !this.background ||
@@ -880,7 +884,6 @@ export default {
 
       //console.log("transform object:", this.transform);
 
-      this.dialog_pre = false;
       this.$nextTick(() => {
         this.dialog_pre = true;
         this.show_dialog_size = true;
@@ -1055,6 +1058,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

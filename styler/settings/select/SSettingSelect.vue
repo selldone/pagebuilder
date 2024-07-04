@@ -20,9 +20,10 @@
   >
     <template v-slot:title>
       <span class="-label">
-                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-        {{ label }}</span>
+        {{ label }}</span
+      >
     </template>
 
     <template v-slot:append>
@@ -48,7 +49,12 @@
           <v-icon v-if="is_object && item.raw.icon" class="me-2" size="20"
             >{{ item.raw.icon }}
           </v-icon>
-          <v-img  v-if="is_object && item.raw.src" :src="item.raw.src " class="me-2" width="20" height="20"
+          <v-img
+            v-if="is_object && item.raw.src"
+            :src="item.raw.src"
+            class="me-2"
+            width="20"
+            height="20"
           >
           </v-img>
 
@@ -62,7 +68,8 @@
         </template>
         <template v-slot:item="{ item, props }">
           <v-list-item
-            :prepend-icon="item.raw.icon"
+            v-bind="props"
+            class="text-start"
             :title="
               is_object
                 ? item.raw.title
@@ -70,13 +77,19 @@
                   : item.raw.value
                 : item.raw
             "
-            class="text-start"
-            v-bind="props"
           >
             <template v-slot:prepend>
-              <v-img v-if="is_object && item.raw.src" :src="item.raw.src" width="24" height="24" class="me-2">
-
+              <v-img
+                v-if="is_object && item.raw.src"
+                :src="item.raw.src"
+                width="24"
+                height="24"
+                class="me-2"
+              >
               </v-img>
+              <v-icon v-else-if="is_object && item.raw.icon" size="20">{{
+                item.raw.icon
+              }}</v-icon>
             </template>
           </v-list-item>
         </template>
@@ -90,6 +103,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SSettingSelect",
+  emits: ["update:modelValue"],
   props: {
     modelValue: {},
     label: {},

@@ -13,7 +13,7 @@
   -->
 <template>
   <s-setting-number-select
-    v-model="modelValue.grid.rows"
+    v-model="modelValue.data.grid.rows"
     :disabled="!enable"
     :max="10"
     :min="1"
@@ -21,35 +21,46 @@
     title="Slide rows"
   >
   </s-setting-number-select>
+
+  <s-setting-toggle
+    v-model="modelValue.data.grid.fill"
+    :disabled="!enable"
+    icon="view_stream"
+    title="Fill"
+    :items="['row', 'column']"
+  >
+  </s-setting-toggle>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 
 export default defineComponent({
   name: "OSwiperGrid",
-  components: { SSettingNumberSelect },
+  components: { SSettingToggle, SSettingNumberSelect },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
   computed: {
     enable() {
       return ["slide", "coverflow", "panorama"].includes(
-        this.modelValue.effect,
+        this.modelValue.data.effect,
       );
     },
   },
   watch: {
     enable(enable) {
-      if (!enable) this.modelValue.grid.rows = 1; // Reset to default!
+      if (!enable) this.modelValue.data.grid.rows = 1; // Reset to default!
     },
   },
   created() {
-    if (!this.modelValue.grid) this.modelValue.grid = { rows: 1 };
+    if (!this.modelValue.data.grid) this.modelValue.data.grid = { rows: 1 };
   },
 });
 </script>

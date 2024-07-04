@@ -13,15 +13,17 @@
   -->
 
 <template>
-  <div :class="{ 'run-mode': /*!$builder.isEditing*/ true }" class="x--gallery-expandable-item">
+  <x-div
+    :object="object"
+    :class="{ 'run-mode': /*!$builder.isEditing*/ !$builder.isEditing }"
+    class="x--gallery-expandable-item"
+    clearable
+  >
     <x-uploader
       v-if="image"
       :object="image"
       :augment="augment"
-      :class="{
-        '-caption': $builder.isEditing || col.title,
-        '-editing': $builder.isEditing,
-      }"
+
       class="g-image"
       cover
     >
@@ -44,7 +46,7 @@
 
       <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     </div>
-  </div>
+  </x-div>
 </template>
 
 <script>
@@ -54,12 +56,13 @@ import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
+import XDiv from "@selldone/page-builder/components/x/div/XDiv.vue";
 
 export default defineComponent({
   name: "XGalleryExpandableItem",
   directives: {},
   mixins: [LMixinXComponent],
-  components: { XComponent, XText, XUploader },
+  components: { XDiv, XComponent, XText, XUploader },
 
   props: {
     object: {
@@ -110,10 +113,6 @@ export default defineComponent({
     object-fit: cover;
     transition: 0.5s;
 
-
-    &.-caption {
-      height: calc(100% - 48px) !important;
-    }
   }
 
   .g-content {
@@ -132,15 +131,14 @@ export default defineComponent({
     justify-content: flex-start;
     line-height: normal;
     pointer-events: none;
-     & > *{
+
+    & > * {
       pointer-events: auto;
-     }
+    }
 
     .g-title {
       margin-bottom: 12px;
     }
-
-
   }
 
   &.run-mode {
@@ -151,9 +149,6 @@ export default defineComponent({
         width: 100%;
         height: 100%;
 
-        &.-editing {
-          height: calc(100% - 48px) !important;
-        }
       }
     }
   }

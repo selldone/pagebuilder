@@ -68,7 +68,7 @@ $outline-width: 4px;
         outline-color: var(--def-color) !important;
         outline-style: solid;
         outline-width: $outline-width;
-        transition: none;
+        transition: outline 0s;
       /*  &:after{
           content: '';
           position: absolute;

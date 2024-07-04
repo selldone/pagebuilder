@@ -65,6 +65,10 @@ const LMixinXComponent = defineComponent({
     // Assign current element to object (Temporary variable)
     this.object.$element = this.$el;
   },
+  updated() {
+    // Reassign current element to object (Temporary variable)
+    this.object.$element = this.$el;
+  },
 
   methods: {
     backgroundStyle(background: Background) {

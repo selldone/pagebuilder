@@ -12,44 +12,32 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <s-setting-number-select
-    v-model="modelValue.data.initialSlide"
-    :disabled="!enable"
-    :max="modelValue.children.length"
-    :min="0"
-    icon="view_carousel"
-    title="Initial slide"
-  >
-  </s-setting-number-select>
+  <div style="background-color: #333333; padding: 6px; border-radius: 4px">
+    <v-btn
+      @click="$emit('click')"
+      :prepend-icon="icon"
+      color="#222"
+      variant="elevated"
+      elevation="8"
+      class="tnt"
+      size="small"
+    >
+      {{ label }}
+    </v-btn>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
-import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
-import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
-  name: "OSwiperInitialSlide",
-  components: { SSettingNumberSelect },
+  name: "SSettingButton",
+  emits: ["click"],
   props: {
-    modelValue: {
-      type: XSwiperObject,
-      required: true,
-    },
-  },
-  computed: {
-    enable() {
-      return ["slide", "coverflow", "panorama"].includes(
-        this.modelValue.data.effect,
-      );
-    },
-  },
-  watch: {},
-  created() {
-    if (!this.modelValue.data.initialSlide)
-      this.modelValue.data.initialSlide = 0;
+    label: {},
+    icon: {},
   },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped lang="scss"></style>

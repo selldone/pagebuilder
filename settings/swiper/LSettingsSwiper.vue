@@ -37,98 +37,46 @@
 
       <v-card-text v-if="dialog_pre">
         <!-- ████████████████████ Slides ████████████████████ -->
-        <s-widget-header
-          add-caption="Add Slide"
-          button-color="#fff"
-          class="mt-5"
-          icon="layers"
+
+        <s-setting-group
           title="Slides"
-          @click:add="addSlide"
-        ></s-widget-header>
-        <v-list-subheader
-          >List of slides in the swiper. Click on a slide to edit it.
-        </v-list-subheader>
-
-        <v-expansion-panels>
-          <v-expansion-panel
-            v-for="(item, i) in target[keySlide].items"
-            :key="i"
-            @click="goToSlide(i)"
-          >
-            <v-expansion-panel-title class="text-start py-1">
-              <div class="flex-grow-0">
-                <v-avatar v-if="item.image?.src" class="me-2" rounded size="16">
-                  <v-img :src="getShopImagePath(item.image.src)"></v-img>
-                </v-avatar>
-                <v-icon v-else class="me-2" size="16">view_headline</v-icon>
-                Slide {{ i + 1 }}
-              </div>
-              <div
-                v-if="StripTags(item.title)"
-                class="mx-2 flex-grow-1 font-weight-bold"
-              >
-                | {{ StripTags(item.title)?.limitWords(5) }}
-              </div>
-              <v-btn
-                class="flex-grow-0"
-                icon
-                size="small"
-                @click.stop="removeSlide(i)"
-              >
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <s-image-uploader
-                v-if="item.image"
-                :image="getShopImagePath(item.image.src)"
-                :server="upload_image_url"
-                auto-compact
-                clearable
-                dark
-                label="Slide Image"
-                @onClear="item.image.src = null"
-                @new-path="(path) => (item.image.src = path)"
-              />
-
-              <v-text-field
-                v-model="item.title"
-                label="Slide Title"
-                variant="underlined"
-              >
-              </v-text-field>
-
-              <v-text-field
-                v-model="item.subtitle"
-                label="Slide Subtitle"
-                variant="underlined"
-              >
-              </v-text-field>
-
-              <template v-if="slide.thumbs">
-                <v-text-field
-                  v-model="item.thumb_title"
-                  label="Thumbnail Title"
-                  variant="underlined"
-                >
-                </v-text-field>
-
-                <v-text-field
-                  v-model="item.thumb_subtitle"
-                  label="Thumbnail Subtitle"
-                  variant="underlined"
-                >
-                </v-text-field>
-              </template>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
+          icon="layers"
+          subtitle="List of slides in the swiper. Click on a slide to edit it."
+        >
+          <template v-slot:title-action>
+            <s-setting-button
+              label="Add Slide"
+              icon="add_box"
+              @click="addSlide"
+            >
+            </s-setting-button>
+          </template>
+        </s-setting-group>
+        <draggable
+          v-model="target.children"
+          handle=".handle"
+          tag="div"
+          animation="200"
+          ghostClass="bg-primary"
+          class="border-between-vertical"
+        >
+          <template v-slot:item="{ element, index }">
+            <l-settings-swiper-slide
+              :object="element"
+              @click="goToSlide(index)"
+              :label="`Slide ${index + 1}`"
+              class="flex-grow-1"
+              :class="{ 'bg-blue': index === section.__currentSlide }"
+            >
+            </l-settings-swiper-slide>
+          </template>
+        </draggable>
 
         <!-- ████████████████████ Appearance ████████████████████ -->
 
-        <s-setting-group title="Appearance">
+        <s-setting-group title="Appearance" icon="design_services">
           <s-setting-select
-            v-model="target[keySlide].direction"
+            v-model="target.data.direction"
             :items="[
               {
                 value: 'horizontal',
@@ -140,29 +88,24 @@
             label="Slides direction"
           ></s-setting-select>
 
-          <o-swiper-slides-per-view
-            v-model="target[keySlide]"
-          ></o-swiper-slides-per-view>
+          <o-swiper-slides-per-view v-model="target"></o-swiper-slides-per-view>
+
           <o-swiper-slides-per-group
-            v-model="target[keySlide]"
+            v-model="target"
           ></o-swiper-slides-per-group>
 
-          <o-swiper-grid v-model="target[keySlide]"></o-swiper-grid>
-          <o-swiper-centered-slides
-            v-model="target[keySlide]"
-          ></o-swiper-centered-slides>
-          <o-swiper-space-between
-            v-model="target[keySlide]"
-          ></o-swiper-space-between>
+          <o-swiper-grid v-model="target"></o-swiper-grid>
 
-          <o-swiper-initial-slide
-            v-model="target[keySlide]"
-          ></o-swiper-initial-slide>
+          <o-swiper-centered-slides v-model="target"></o-swiper-centered-slides>
 
-          <o-swiper-loop v-model="target[keySlide]"></o-swiper-loop>
+          <o-swiper-space-between v-model="target"></o-swiper-space-between>
+
+          <o-swiper-initial-slide v-model="target"></o-swiper-initial-slide>
+
+          <o-swiper-loop v-model="target"></o-swiper-loop>
 
           <s-setting-switch
-            v-model="target[keySlide].grabCursor"
+            v-model="target.data.grabCursor"
             icon="mouse"
             label="Grab cursor"
           ></s-setting-switch>
@@ -170,29 +113,29 @@
 
         <!-- ████████████████████ Effects ████████████████████ -->
 
-        <o-swiper-effect v-model="target[keySlide]"></o-swiper-effect>
+        <o-swiper-effect v-model="target"></o-swiper-effect>
 
         <!-- ████████████████████ Size ████████████████████ -->
-        <o-swiper-size v-model="target[keySlide]"></o-swiper-size>
+        <o-swiper-size v-model="target"></o-swiper-size>
 
         <!-- ████████████████████ Auto Play ████████████████████ -->
-        <o-swiper-auto-play v-model="target[keySlide]"></o-swiper-auto-play>
+        <o-swiper-auto-play v-model="target"></o-swiper-auto-play>
 
         <!-- ████████████████████ Thumbnail ████████████████████ -->
 
         <o-swiper-thumbnail
           v-if="hasThumbnail"
-          v-model="target[keySlide]"
+          v-model="target"
         ></o-swiper-thumbnail>
 
         <!-- ████████████████████ Modules ████████████████████ -->
         <s-setting-group title="Modules"></s-setting-group>
 
-        <o-swiper-navigation v-model="target[keySlide]"></o-swiper-navigation>
+        <o-swiper-navigation v-model="target"></o-swiper-navigation>
 
-        <o-swiper-pagination v-model="target[keySlide]"></o-swiper-pagination>
+        <o-swiper-pagination v-model="target"></o-swiper-pagination>
 
-        <o-swiper-keyboard v-model="target[keySlide]"></o-swiper-keyboard>
+        <o-swiper-keyboard v-model="target"></o-swiper-keyboard>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
@@ -201,11 +144,7 @@
 <script>
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
-import * as types from "../../src/types/types";
 import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
-import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
-import _ from "lodash-es";
 import SSettingSwitch from "../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingSelect from "../../styler/settings/select/SSettingSelect.vue";
 import SSettingGroup from "../../styler/settings/group/SSettingGroup.vue";
@@ -224,7 +163,11 @@ import OSwiperGrid from "../../settings/swiper/items/Grid/OSwiperGrid.vue";
 import OSwiperSlidesPerGroup from "../../settings/swiper/items/SlidesPerGroup/OSwiperSlidesPerGroup.vue";
 import OSwiperSlidesPerView from "../../settings/swiper/items/SlidesPerView/OSwiperSlidesPerView.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
+import LSettingsSwiperSlide from "@selldone/page-builder/settings/swiper/slide/LSettingsSwiperSlide.vue";
+import draggable from "vuedraggable";
+import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 
 export default {
   name: "LSettingsSwiper",
@@ -232,6 +175,9 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    SSettingButton,
+    draggable,
+    LSettingsSwiperSlide,
     OSwiperKeyboard,
     OSwiperEffect,
     OSwiperThumbnail,
@@ -249,7 +195,6 @@ export default {
     SSettingGroup,
     SSettingSelect,
     SSettingSwitch,
-    SImageUploader,
   },
 
   props: {
@@ -262,14 +207,12 @@ export default {
     el: null,
     section: null,
     target: null,
-    keySlide: null, // ex. slide
     hasThumbnail: false,
 
     //----------------------- Bg image -----------------------
     show_edit_slide: false,
     dialog_pre: false,
 
-    slide: null,
     lock: true,
     //--------------------------
     key_listener_keydown: null,
@@ -277,14 +220,7 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {
-    effect() {
-      return this.target?.effect;
-    },
-    upload_image_url() {
-      return this.builder.getImageUploadUrl();
-    },
-  },
+  computed: {},
   watch: {
     show_edit_slide(dialog) {
       // Keep highlight active element:
@@ -293,8 +229,8 @@ export default {
     },
 
     lock(lock) {
-      this.section.lock = lock;
-      this.refresh();
+      this.section.__lock = lock;
+      //this.refresh();
     },
   },
   created() {},
@@ -302,7 +238,7 @@ export default {
     EventBus.$on(
       "show:LSettingsSwiper",
 
-      ({ el, section, target, keySlide, hasThumbnail }) => {
+      ({ el, section, target, hasThumbnail }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -310,7 +246,6 @@ export default {
         this.el = el;
         this.section = section;
         this.target = target;
-        this.keySlide = keySlide;
         this.hasThumbnail = hasThumbnail;
         this.showDialog();
       },
@@ -353,9 +288,7 @@ export default {
   methods: {
     StripTags,
     showDialog() {
-      this.slide = this.target[this.keySlide];
-
-      this.lock = this.section.lock; // temporary values
+      this.__lock = this.section.__lock; // temporary values
 
       this.dialog_pre = false;
       this.$nextTick(() => {
@@ -367,20 +300,22 @@ export default {
     //----------------------------------------------------------------------------
 
     addSlide() {
-      this.target[this.keySlide].items.push(LUtilsSeeder.seed(types.Slide));
-      this.refresh();
+      const slide = this.target.children[0];
+
+      this.target.addChild(slide ? slide.clone() : XSwiperObject.SeedSlide());
+      //this.refresh();
     },
 
     removeSlide(index) {
       this.openDeleteAlert(() => {
-        this.slide.items.splice(index, 1);
-        this.refresh();
+        this.target.children.splice(index, 1);
+        //this.refresh();
       });
     },
 
-    refresh() {
-      this.setSlideDebounced();
-    },
+    /*  refresh() {
+        this.setSlideDebounced();
+      },*/
 
     goToSlide(index) {
       this.section.__goToSlide(index);
@@ -388,17 +323,16 @@ export default {
 
     //----------------------------------------------------------------------------
 
-    setSlideDebounced: _.debounce(function () {
-      this.setSlide();
-    }, 100),
-
-    setSlide() {
-      if (!this.show_edit_slide || this.LOCK) return;
-
-      this.target[this.keySlide] = this.slide; // Force update slide to trigger watch on component and refresh slider
-
-      //this.section?.__refreshCallback();
-    },
+    /*  setSlideDebounced: _.debounce(function () {
+        this.setSlide();
+      }, 100),
+  
+      setSlide() {
+        if (!this.show_edit_slide || this.LOCK) return;
+  
+  
+        //this.section?.__refreshCallback();
+      },*/
   },
 };
 </script>

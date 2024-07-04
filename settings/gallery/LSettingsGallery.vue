@@ -44,26 +44,39 @@
           subtitle="List of slides in the gallery. Click on a slide to edit it."
         >
           <template v-slot:title-action>
-            <v-btn
+            <s-setting-button
+              label="Add Slide"
+              icon="add_box"
               @click="addSlide"
-              prepend-icon="add_box"
-              color="#1976D2"
-              variant="elevated"
             >
-              Add Slide
-            </v-btn>
+            </s-setting-button>
           </template>
         </s-setting-group>
 
-        <v-expansion-panels>
-          <l-settings-gallery-slide
-            v-for="(item, i) in slides"
-            :key="i"
-            :builder="builder"
-            :object="item"
-            @click:delete="removeSlide(i)"
+        <v-expansion-panels variant="accordion">
+          <draggable
+            v-model="target.children"
+            handle=".handle"
+            tag="div"
+            class="flex-grow-1 border-between-vertical"
+            animation="200"
+            ghostClass="bg-primary"
           >
-          </l-settings-gallery-slide>
+            <template v-slot:item="{ element, index }">
+              <l-settings-gallery-slide
+                v-if="isSlideComponent(element)"
+                :builder="builder"
+                :object="element"
+                @click:delete="removeSlide(index)"
+                :label="`Slide ${index + 1}`"
+              >
+              </l-settings-gallery-slide>
+
+              <div v-else class="pa-2 text-subtitle-2">
+                {{ element.component }}
+              </div>
+            </template>
+          </draggable>
         </v-expansion-panels>
       </v-card-text>
     </v-card>
@@ -78,6 +91,8 @@ import { EventBus } from "@selldone/core-js/events/EventBus";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide/LSettingsGallerySlide.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import draggable from "vuedraggable";
+import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 
 export default {
   name: "LSettingsGallery",
@@ -85,6 +100,8 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    SSettingButton,
+    draggable,
     SSettingGroup,
     LSettingsGallerySlide,
   },
@@ -188,6 +205,9 @@ export default {
     },
     //----------------------------------------------------------------------------
 
+    isSlideComponent(child) {
+      return child instanceof XGalleryExpandableItemObject;
+    },
     addSlide() {
       this.target.addChild(XGalleryExpandableItemObject.Seed());
     },

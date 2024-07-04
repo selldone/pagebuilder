@@ -14,28 +14,28 @@
 <template>
   <s-setting-group class="o-swiper-thumbnail">
     <s-setting-switch
-      v-model="modelValue.thumbnail.enable"
+      v-model="modelValue.data.thumbnail.enable"
       icon="calendar_view_month"
       label="Thumbnail"
     >
     </s-setting-switch>
 
     <v-expand-transition>
-      <div v-if="modelValue.thumbnail.enable" class="-content">
+      <div v-if="modelValue.data.thumbnail.enable" class="-content">
         <s-setting-select
-          v-model="modelValue.thumbnail.type"
+          v-model="modelValue.data.thumbnail.type"
           :items="ThumbnailType"
           label="Type"
         ></s-setting-select>
 
         <s-setting-select
-          v-model="modelValue.thumbnail.active"
+          v-model="modelValue.data.thumbnail.active"
           :items="CenterSlideEffect"
           label="Center slide effect"
         ></s-setting-select>
 
         <s-setting-switch
-          v-model="modelValue.thumbnail.rounded"
+          v-model="modelValue.data.thumbnail.rounded"
           label="Rounded"
         ></s-setting-switch>
       </div>
@@ -50,13 +50,14 @@ import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 import { ThumbnailType } from "../../../../settings/swiper/enums/ThumbnailEnums";
 import { CenterSlideEffect } from "../../../../settings/swiper/enums/CneterSlideEnums";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperThumbnail",
   components: { SSettingSelect, SSettingGroup, SSettingSwitch },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
@@ -68,8 +69,11 @@ export default defineComponent({
 
   watch: {},
   created() {
-    if (!this.modelValue.thumbnail || !this.isObject(this.modelValue.thumbnail))
-      this.modelValue.thumbnail = {
+    if (
+      !this.modelValue.data.thumbnail ||
+      !this.isObject(this.modelValue.data.thumbnail)
+    )
+      this.modelValue.data.thumbnail = {
         enable: false,
       };
   },

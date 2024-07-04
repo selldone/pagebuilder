@@ -20,6 +20,7 @@
     :is-visible="isVisible"
     :section="section"
     :target="target"
+    has-tracking
     :type="type"
   >
     <!-- Important: Display non because of preventing proper error -->
@@ -29,50 +30,32 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
-      <!-- ―――――――――――――――――― Slide Show ―――――――――――――――――― -->
-
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
       <li>
-        <button class="styler-button" @click="showEditSlides">
-          <v-icon color="#fff" size="20"> tune</v-icon>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"
             location="bottom"
-          >
-            Slides Setting
+            max-width="320"
+            >Classes & Style
           </v-tooltip>
         </button>
       </li>
 
-      <li>
-        <button class="styler-button" @click="section.__lock = !section.__lock">
-          <v-icon color="#fff" size="20">
-            {{ section.__lock ? "lock" : "swipe" }}
-          </v-icon>
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+      <li v-if="removeChild">
+        <button class="styler-button" @click="removeChild()">
+          <v-icon size="20" color="red">close</v-icon>
 
           <v-tooltip
             activator="parent"
-            content-class="bg-black text-white  text-start small"
+            content-class="bg-black text-white"
             location="bottom"
-            max-width="360"
-          >
-            <div>
-              <b>
-                <v-icon start>lock</v-icon>
-                Edit Mode</b
-              ><br />
-              Scroll by dragging, touch functionality disabled for seamless
-              editing.
-            </div>
-            <div>
-              <b>
-                <v-icon start>swap_horiz</v-icon>
-                View Mode</b
-              ><br />
-              Drag and touch functionality is enabled, allowing you to scroll
-              horizontally.
-            </div>
+            max-width="320"
+            >Remove
           </v-tooltip>
         </button>
       </li>
@@ -81,8 +64,6 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――― Normal editing tools (sub list) ――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
-
-    <ul class="styler-list flex-grow-1 w-100"></ul>
   </s-styler-template>
 </template>
 
@@ -90,13 +71,10 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-
-/**
- * v-styler:swiper
- */
+import { XDivObject } from "@selldone/page-builder/components/x/div/XDivObject.ts";
 
 export default {
-  name: "SStylerSwiper",
+  name: "SStylerDiv",
 
   mixins: [LMixinEvents, LMixinStyler],
 
@@ -106,54 +84,46 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XDivObject,
     },
-    /**
-     * section:
-     * should have these temporary variables:
-     * lock
-     */
 
     /**
      * Set the location of the proper
      */
     position: {
       type: String,
-      default: "top-end",
+      default: "bottom-start",
     },
 
-
-    hasThumbnail: {
-      default: false,
-    },
+    removeChild: Function,
   },
-  data: () => ({
-    option: null,
-  }),
+  data: () => ({}),
 
   computed: {},
   watch: {
     /**
      * Reset menu status when it's closed.
      */
-    isVisible() {
-      this.option = null;
-    },
+    isVisible() {},
   },
   beforeMount() {
     if (!this.target) {
-      throw new Error("Target is required for SStylerSwiper");
+      throw new Error("Target is required for SStylerDiv");
     }
   },
   mounted() {},
+  beforeUnmount() {},
 
   methods: {
-    showEditSlides() {
-      this.ShowLSettingsSwiper(
+    showMasterDesignDialog() {
+      this.ShowLSettingsClassStyle(
         this.el,
-        this.section,
+        this.el,
         this.target,
-        this.hasThumbnail,
+        `style`,
+        `classes`,
+        "background",
+        null,
       );
     },
   },

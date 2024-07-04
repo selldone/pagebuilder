@@ -18,6 +18,10 @@
 
     <v-toolbar density="compact" color="#222" height="52" style="border-bottom: solid #111 thin">
       <v-toolbar-title style="font-size: 12px"><b>Navigator</b></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn size="small" @click="expanded=!expanded" variant="text" :title="expanded?'Collapse All':'Expand All'">
+        <v-icon>{{expanded?'unfold_more_double':'unfold_less_double'}}</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <!-- ████████████████████ Hierarchy ████████████████████ -->
@@ -31,6 +35,7 @@
       :builder="builder"
       :object="section.object"
       class="mx-2"
+      ref="items"
     >
     </l-settings-hierarchy-item>
   </div>
@@ -49,8 +54,9 @@ export default {
     builder: { type: Builder, required: true },
   },
   data: () => ({
-    dialog: false,
-    callback: null,
+
+    expanded:false,
+
   }),
 
   computed: {
@@ -59,7 +65,13 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    expanded(val){
+      this.$refs.items.forEach((item) => {
+        item.setExpand(val)// Should be defined in LSettingsHierarchyItem
+      });
+    }
+  },
   created() {},
   mounted() {
     //█████████████████████████████████████████████████████████████

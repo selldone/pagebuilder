@@ -12,21 +12,18 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import {
+  XGalleryExpandableObject
+} from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
 
-export class XContainerObjectData extends LModelData<XContainerObjectData> {
-  fluid: boolean | null;
+export const LSectionGalleryScrollSeed = () => {
+  // Initialize section
+  const section = XSectionObject.Seed();
+  section.classes = [];
 
-  constructor(fluid: boolean | null) {
-    super();
 
-    this.fluid = !!fluid;
-  }
-
-  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
-
-  public setFluid(fluid: boolean): XContainerObjectData {
-    this.fluid = fluid;
-    return this;
-  }
-}
+  return section;
+};

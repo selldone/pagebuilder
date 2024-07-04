@@ -19,7 +19,8 @@ import {
   DirectiveBinding,
   h,
   ObjectDirective,
-  reactive, resolveComponent,
+  reactive,
+  resolveComponent,
   VNode,
 } from "vue";
 import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
@@ -43,6 +44,7 @@ import SStylerMarquee from "../styler/marquee/SStylerMarquee.vue";
 import SStylerGallery from "../styler/gallery/SStylerGallery.vue";
 import SStylerCode from "../styler/code/SStylerCode.vue";
 import SStylerInput from "@selldone/page-builder/styler/input/SStylerInput.vue";
+import SStylerDiv from "@selldone/page-builder/styler/div/SStylerDiv.vue";
 
 const DEBUG = false;
 
@@ -62,7 +64,8 @@ export namespace StylerOptions {
     | "blogs"
     | "marquee"
     | "gallery"
-    | "code";
+    | "code"
+    | "div";
 
   export interface IButtonsRow {
     target: types.ButtonsRow;
@@ -188,6 +191,10 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerCode;
     } else if (argument === "input") {
       stylerComponent = SStylerInput;
+    } else if (argument === "div") {
+      stylerComponent = SStylerDiv;
+    } else {
+      console.error("Styler component not found!", argument);
     }
 
     const StylerComponent = defineComponent({
@@ -267,8 +274,8 @@ const StylerDirective: ObjectDirective<
 
     // Check if binding.value has changed
     /* if (DEBUG && binding.oldValue !== binding.value) {
-                       console.log("Styler directive updated", binding.value, "el", el);
-                     }*/
+                               console.log("Styler directive updated", binding.value, "el", el);
+                             }*/
     // Set is-editable class in editing mode:
     if (binding?.$builder?.isEditing && !el.classList.contains("is-editable")) {
       //console.log("UPDATE STYLER! B");

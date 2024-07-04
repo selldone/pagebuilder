@@ -18,9 +18,10 @@ import {LMigrationV2MultipleColumns} from "@selldone/page-builder/sections/image
 import {LMigrationV2NormalSections} from "@selldone/page-builder/sections/image/LMigrationV2NormalSections.ts";
 import {LMigrationV2TextSections} from "@selldone/page-builder/sections/text/LMigrationV2TextSections.ts";
 import {
-  LMigrationV2GalleryExpandable
+    LMigrationV2GalleryExpandable
 } from "@selldone/page-builder/sections/gallery/expandable/LMigrationV2GalleryExpandable.ts";
 import {LMigrationV2GalleryBrands} from "@selldone/page-builder/sections/gallery/brands/LMigrationV2GalleryBrands.ts";
+import {LMigrationV2Swiper} from "@selldone/page-builder/sections/gallery/swiper/LMigrationV2Swiper.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -164,29 +165,20 @@ export class LUtilsMigration {
     ) {
       section.object = LMigrationV2TextSections.Migrate(section.data);
       section.data = null;
-    }
-
-
-    else if (
-        section.name === "LSectionGalleryExpandable"
-    ) {
+    } else if (section.name === "LSectionGalleryExpandable") {
       section.object = LMigrationV2GalleryExpandable.Migrate(section.data);
       section.data = null;
-    }
-
-    else if (
-        section.name === "LSectionGalleryBrands"
-    ) {
+    } else if (section.name === "LSectionGalleryBrands") {
       section.object = LMigrationV2GalleryBrands.Migrate(section.data);
+      section.data = null;
+    } else if (section.name === "LSectionGallerySwiper") {
+      section.object = LMigrationV2Swiper.Migrate(section.data);
       section.data = null;
     }
 
 
-
-
-
-  else{
-      console.error(`Migration not found for section ${section.name}`)
+    else {
+      console.error(`Migration not found for section ${section.name}`);
     }
   }
 }

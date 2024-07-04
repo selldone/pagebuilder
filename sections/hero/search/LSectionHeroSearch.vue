@@ -18,14 +18,8 @@
 
 <script>
 import * as types from "../../../src/types/types";
-import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
-import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
-import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
-import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
@@ -35,12 +29,6 @@ export default {
 
   components: {
     XComponent,
-    XRow,
-    XContainer,
-    XSection,
-    XText,
-    XVideoBackground,
-    SStorefrontSearchBox,
   },
   cover: require("../../../assets/images/covers/hero-search.svg"),
   group: "Hero",
@@ -101,22 +89,10 @@ export default {
       },
     ],
 
-    /**
-     * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
-     */
-    $init: (data) => {
-      data.classes = [
-        "text-center",
-        "d-flex" /*Keep row fill container! Important.*/,
-      ];
-      data.row.align = "center";
-    },
+
   },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
+
     augment: {
       // Extra information to show to dynamic show in page content
     },
@@ -133,16 +109,7 @@ export default {
    */
 
   created() {
-    // 🛠️ Fix bad data structures:
-    if (!this.$sectionData.search) {
-      this.$sectionData.search = {
-        solo: false,
-        filled: false,
-        flat: false,
-        dark: false,
-        color: null,
-      };
-    }
+
   },
 
   methods: {

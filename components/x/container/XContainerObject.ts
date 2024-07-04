@@ -31,7 +31,7 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
       style,
       classes,
       children,
-      data ? data : new XContainerObjectData(),
+      data ? data : new XContainerObjectData(false),
       props,
     );
   }
@@ -51,12 +51,18 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
   /**
    * Migrate from V1 to V2
    * @param old
-   * @param props
    * @constructor
    */
-  static MigrateOld(old: any, props: any): XContainerObject {
-    const data = new XContainerObjectData();
+  static MigrateOld(old: any): XContainerObject {
+    const data = new XContainerObjectData(false);
 
-    return new XContainerObject(null, null, null, [], data, props);
+    return new XContainerObject(
+      new LModelBackground(old?.background),
+      old?.style,
+      old?.classes,
+      [],
+      data,
+      null,
+    );
   }
 }

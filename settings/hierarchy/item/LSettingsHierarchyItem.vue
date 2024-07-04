@@ -18,7 +18,7 @@
     @mouseenter="onHoverIn"
     @mouseleave="onHoverOut"
   >
-    <div>
+    <div class="d-flex align-center">
       <span @click="expanded = !expanded" class="pp">
         <v-icon
           v-if="object.children?.length"
@@ -33,7 +33,12 @@
       <v-btn
         v-if="object.classes && has_classes"
         size="x-small"
-        :color="(object.classes.length ||  object.style && Object.keys(object.style).length)? '#fff' : '#999'"
+        :color="
+          object.classes.length ||
+          (object.style && Object.keys(object.style).length)
+            ? '#fff'
+            : '#999'
+        "
         class="ms-1 tnt"
         @click="showMasterDesignDialog()"
         title="Classes & Styles"
@@ -43,15 +48,25 @@
         <v-icon>architecture</v-icon>
       </v-btn>
 
+      <v-spacer></v-spacer>
+      <v-btn
+          v-if="isSection"
+          size="x-small"
+          class="ms-1"
+          @click="setExpand(!expanded)" variant="plain" :title="expanded?'Collapse All':'Expand All'"
+          min-width="20"
+      >
+        <v-icon>{{expanded?'unfold_more':'unfold_less'}}</v-icon>
+      </v-btn>
     </div>
 
     <v-expand-transition>
       <div v-if="expanded">
         <l-settings-hierarchy-item
-          v-for="(child, index) in object.children"
-          :key="index"
+          v-for="child in object.children"
           :object="child"
           class="ms-2"
+          ref="items"
         >
         </l-settings-hierarchy-item>
       </div>
@@ -94,6 +109,10 @@ export default {
       XCollection: { icon: "window", title: "Collection" },
       XColumnImageText: { icon: "broken_image", title: "Layout Column" },
       XButtons: { icon: "dialpad", title: "XButtons" },
+      XGalleryExpandable: { icon: "collections", title: "Expandable Gallery" },
+      XGalleryExpandableItem: { icon: "crop_portrait", title: "Gallery Item" },
+      XSwiper: { icon: "web_stories", title: "Swiper" },
+
 
     },
   }),
@@ -111,6 +130,9 @@ export default {
         this.ElementTypes[this.object.component]?.title || this.object.component
       );
     },
+    isSection(){
+      return this.object.component==='XSection'
+    }
   },
 
   watch: {},
@@ -151,6 +173,22 @@ export default {
 
         //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
       );
+    },
+
+    /**
+     * IMPORTANT! This method will be called externally from LSettingsHierarchy
+     * @param expanded
+     */
+   async setExpand(expanded) {
+      this.expanded = expanded;
+      // Add 200ms wait:
+      //await new Promise((resolve) => setTimeout(resolve, 100));
+      // Pass to its children:
+      this.$nextTick(() => {
+        this.$refs.items?.forEach((item) => {
+          item.setExpand(expanded);
+        });
+      });
     },
   },
 };

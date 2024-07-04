@@ -12,21 +12,18 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
-export class XContainerObjectData extends LModelData<XContainerObjectData> {
-  fluid: boolean | null;
+export const LSectionGallerySwiperSeed = () => {
+  // Initialize section
+  const section = XSectionObject.Seed();
+  section.classes = [];
 
-  constructor(fluid: boolean | null) {
-    super();
+  // Initialize swiper and add to section
+  const swiper = XSwiperObject.Seed();
+  section.addChild(swiper);
 
-    this.fluid = !!fluid;
-  }
 
-  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
-
-  public setFluid(fluid: boolean): XContainerObjectData {
-    this.fluid = fluid;
-    return this;
-  }
-}
+  return section;
+};

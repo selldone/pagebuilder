@@ -12,27 +12,28 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <s-setting-switch v-model="modelValue.loop" icon="repeat" label="Loop">
+  <s-setting-switch v-model="modelValue.data.loop" icon="repeat" label="Loop">
   </s-setting-switch>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperLoop",
   components: { SSettingSwitch },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
   computed: {},
   watch: {},
   created() {
-    if (!this.modelValue.loop) this.modelValue.loop = false;
+    if (!this.modelValue.data.loop) this.modelValue.data.loop = false;
   },
 });
 </script>

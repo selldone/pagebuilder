@@ -12,33 +12,33 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <s-setting-group class="o-switch-pagination">
+  <s-setting-group v-if="modelValue.data.pagination" class="o-switch-pagination">
     <s-setting-switch
-      v-model="modelValue.pagination.enabled"
+      v-model="modelValue.data.pagination.enabled"
       icon="more_horiz"
       label="Pagination"
     >
     </s-setting-switch>
 
     <v-expand-transition>
-      <div v-if="modelValue.pagination.enabled" class="-content">
+      <div v-if="modelValue.data.pagination.enabled" class="-content">
         <s-setting-select
-          v-model="modelValue.pagination.type"
+          v-model="modelValue.data.pagination.type"
           :items="['progressbar', 'bullets', 'fraction']"
           label="Type"
         ></s-setting-select>
 
         <s-setting-switch
-          v-model="modelValue.pagination.hideOnClick"
+          v-model="modelValue.data.pagination.hideOnClick"
           label="Hide on click"
         ></s-setting-switch>
         <s-setting-switch
-          v-model="modelValue.pagination.dynamicBullets"
+          v-model="modelValue.data.pagination.dynamicBullets"
           label="Dynamic bullets"
         ></s-setting-switch>
         <s-setting-number-select
-          v-model="modelValue.pagination.dynamicMainBullets"
-          :disabled="!modelValue.pagination.dynamicBullets"
+          v-model="modelValue.data.pagination.dynamicMainBullets"
+          :disabled="!modelValue.data.pagination.dynamicBullets"
           :max="10"
           :min="1"
           title="Dynamic main bullets"
@@ -54,6 +54,7 @@ import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vu
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperPagination",
@@ -65,7 +66,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
@@ -73,16 +74,15 @@ export default defineComponent({
   watch: {},
   created() {
     if (
-      !this.modelValue.pagination ||
-      !this.isObject(this.modelValue.pagination)
+      !this.modelValue.data.pagination ||
+      !this.isObject(this.modelValue.data.pagination)
     )
-      this.modelValue.pagination = {
+      this.modelValue.data.pagination = {
         enabled: false,
-        type: "bullets",
-        el: ".swiper-pagination",
+       type: "bullets",
         dynamicBullets: false,
         dynamicMainBullets: 3,
-        clickable: true,
+        hideOnClick: false,
       };
   },
 });

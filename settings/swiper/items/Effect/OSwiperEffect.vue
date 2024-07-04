@@ -14,7 +14,7 @@
 <template>
   <s-setting-group title="Effects">
     <s-setting-select
-      v-model="modelValue.effect"
+      v-model="modelValue.data.effect"
       :items="effects"
       icon="view_compact_alt"
       label="Effect"
@@ -26,40 +26,28 @@
 import { defineComponent } from "vue";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import { XSwiperObjectDataTypes } from "@selldone/page-builder/components/x/swiper/XSwiperObjectData.ts";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperEffect",
   components: { SSettingGroup, SSettingSelect },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
   computed: {},
   data() {
     return {
-      effects: [
-        "slide",
-        "fade",
-        "cube",
-        "flip",
-        "coverflow",
-        "cards",
-       // "panorama",
-        "carousel",
-      //  "shutters",
-        "slicer",
-        //  "gl",
-       // "tinder",
-        "material",
-       // "creative",
-      ],
+      effects: Object.values(XSwiperObjectDataTypes.Effect),
     };
   },
   watch: {},
   created() {
-    if (!this.modelValue.effect) this.modelValue.effect = "slide";
+    if (!this.modelValue.data.effect)
+      this.modelValue.data.effect = XSwiperObjectDataTypes.Effect.Slide;
   },
 });
 </script>

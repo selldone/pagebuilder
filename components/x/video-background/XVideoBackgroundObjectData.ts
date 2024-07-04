@@ -14,53 +14,20 @@
 
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
-export class XRowObjectData extends LModelData<XRowObjectData> {
-  align: XRowObjectDataTypes.IAlign;
-  justify: XRowObjectDataTypes.IJustify;
-
-  no_wrap: boolean;
-
-  constructor(
-    align: XRowObjectDataTypes.IAlign | null,
-    justify: XRowObjectDataTypes.IJustify | null,
-    no_wrap: boolean | null,
-  ) {
+/**
+ * Class representing button data with various properties.
+ */
+export class XVideoBackgroundObjectData extends LModelData<XVideoBackgroundObjectData> {
+  /**
+   * Creates an instance of XButtonData.
+   */
+  constructor() {
     super();
-
-    this.align = align ?? "center";
-
-    this.justify = justify ?? "center";
-    this.no_wrap = no_wrap ?? false;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
-  public setAlign(align: XRowObjectDataTypes.IAlign) {
-    this.align = align;
-    return this;
-  }
-
-  public setJustify(justify: XRowObjectDataTypes.IJustify) {
-    this.justify = justify;
-    return this;
-  }
-
-  public setNoWrap(no_wrap: boolean) {
-    this.no_wrap = no_wrap;
-    return this;
-  }
 }
 
 // ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 
-export namespace XRowObjectDataTypes {
-  export type IAlign = "end" | "center" | "start" | "stretch" | "baseline";
-
-  export type IJustify =
-    | "end"
-    | "center"
-    | "start"
-    | "space-around"
-    | "space-between"
-    | "space-evenly"
-    | "stretch";
-}
+export namespace XVideoBackgroundObjectDataTypes {}

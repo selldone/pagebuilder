@@ -16,7 +16,7 @@ interface IBackground {
   bg_custom?: string;
   bg_gradient?: string[];
   bg_image?: string;
-  bg_size?: string;
+  bg_size?: LModelBackgroundTypes.ISize | string;
   bg_repeat?: string;
   bg_color?: string;
   dark: boolean;
@@ -29,7 +29,7 @@ export class LModelBackground {
   bg_custom?: string;
   bg_gradient?: string[];
   bg_image?: string;
-  bg_size?: string;
+  bg_size?: LModelBackgroundTypes.ISize | string = "cover";
   bg_repeat?: string;
   bg_color?: string;
   dark: boolean;
@@ -42,7 +42,7 @@ export class LModelBackground {
     this.bg_custom = params.bg_custom;
     this.bg_gradient = params.bg_gradient;
     this.bg_image = params.bg_image;
-    this.bg_size = params.bg_size;
+    this.bg_size = params.bg_size ?? "cover";
     this.bg_repeat = params.bg_repeat;
     this.bg_color = params.bg_color;
     this.dark = params.dark;
@@ -141,4 +141,16 @@ export class LModelBackground {
   public clone(): LModelBackground {
     return new LModelBackground(JSON.stringify(this));
   }
+}
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
+
+export namespace LModelBackgroundTypes {
+  export type ISize =
+    | "auto"
+    | "cover"
+    | "contain"
+    | "100% 100%"
+    | "100% auto"
+    | "auto 100%";
 }

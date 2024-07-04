@@ -14,27 +14,27 @@
 <template>
   <div>
     <s-setting-switch
-      v-model="modelValue.centeredSlides"
+      v-model="modelValue.data.centeredSlides"
       icon="view_carousel"
       label="Centered slides"
     >
     </s-setting-switch>
 
-   <v-expansion-panels>
-     <s-setting-expandable
-         bg-color="transparent"
-         icon="subdirectory_arrow_right"
-         title="Center slide effect"
-     >
-       <s-setting-select
-           v-model="modelValue.active"
-           :items="CenterSlideEffect"
-           clearable
-           icon="layers"
-           label="Effect"
-       ></s-setting-select>
-     </s-setting-expandable>
-   </v-expansion-panels>
+    <v-expansion-panels>
+      <s-setting-expandable
+        bg-color="transparent"
+        icon="subdirectory_arrow_right"
+        title="Center slide effect"
+      >
+        <s-setting-select
+          v-model="modelValue.data.active"
+          :items="CenterSlideEffect"
+          clearable
+          icon="layers"
+          label="Effect"
+        ></s-setting-select>
+      </s-setting-expandable>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -44,13 +44,14 @@ import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vu
 import SSettingExpandable from "../../../../styler/settings/expandable/SSettingExpandable.vue";
 import { CenterSlideEffect } from "../../../../settings/swiper/enums/CneterSlideEnums";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperCenteredSlides",
   components: { SSettingSelect, SSettingExpandable, SSettingSwitch },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },

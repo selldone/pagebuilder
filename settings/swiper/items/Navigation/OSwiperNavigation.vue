@@ -14,14 +14,14 @@
 <template>
   <s-setting-group>
     <s-setting-switch
-      v-model="modelValue.navigation.enable"
+      v-model="modelValue.data.navigation.enabled"
       icon="settings_ethernet"
       label="Navigation"
     >
     </s-setting-switch>
 
     <v-expand-transition>
-      <div v-if="modelValue.navigation.enable"></div>
+      <div v-if="modelValue.data.navigation.enabled"></div>
     </v-expand-transition>
   </s-setting-group>
 </template>
@@ -30,13 +30,14 @@
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperNavigation",
   components: { SSettingGroup, SSettingSwitch },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
@@ -44,10 +45,10 @@ export default defineComponent({
   watch: {},
   created() {
     if (
-      !this.modelValue.navigation ||
-      !this.isObject(this.modelValue.navigation)
+      !this.modelValue.data.navigation ||
+      !this.isObject(this.modelValue.data.navigation)
     )
-      this.modelValue.navigation = {
+      this.modelValue.data.navigation = {
         enable: false,
       };
   },

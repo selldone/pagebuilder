@@ -13,7 +13,7 @@
   -->
 <template>
   <s-setting-slider
-    v-model="modelValue.spaceBetween"
+    v-model="modelValue.data.spaceBetween"
     :disabled="!enable"
     :max="100"
     :min="0"
@@ -27,13 +27,14 @@
 <script>
 import { defineComponent } from "vue";
 import SSettingSlider from "../../../../styler/settings/slider/SSettingSlider.vue";
+import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperSpaceBetween",
   components: { SSettingSlider },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
@@ -46,12 +47,12 @@ export default defineComponent({
         "panorama",
         "carousel",
         "material",
-      ].includes(this.modelValue.effect);
+      ].includes(this.modelValue.data.effect);
     },
   },
   watch: {},
   created() {
-    if (!this.modelValue.spaceBetween) this.modelValue.spaceBetween = 0;
+    if (!this.modelValue.data.spaceBetween) this.modelValue.data.spaceBetween = 0;
   },
 });
 </script>

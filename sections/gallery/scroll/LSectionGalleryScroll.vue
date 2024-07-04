@@ -14,7 +14,7 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-section
-    v-styler:swiper="{ target: $sectionData, keySlide: 'slide' }"
+    v-styler:swiper="{ target: $sectionData }"
     :object="$sectionData"
     class="p-0"
   >

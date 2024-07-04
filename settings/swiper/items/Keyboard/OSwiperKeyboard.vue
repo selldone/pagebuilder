@@ -14,20 +14,20 @@
 <template>
   <s-setting-group>
     <s-setting-switch
-      v-model="modelValue.keyboard.enable"
+      v-model="modelValue.data.keyboard.enabled"
       icon="keyboard"
       label="Keyboard control"
     >
     </s-setting-switch>
 
     <v-expand-transition>
-      <div v-if="modelValue.keyboard.enable">
+      <div v-if="modelValue.data.keyboard.enabled">
         <s-setting-switch
-          v-model="modelValue.keyboard.onlyInViewport"
+          v-model="modelValue.data.keyboard.onlyInViewport"
           label="Only in viewport"
         ></s-setting-switch>
         <s-setting-switch
-          v-model="modelValue.keyboard.pageUpDown"
+          v-model="modelValue.data.keyboard.pageUpDown"
           label="Page Up/Down keys"
         ></s-setting-switch>
       </div>
@@ -39,21 +39,25 @@
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperKeyboard",
   components: { SSettingGroup, SSettingSwitch },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
   computed: {},
   watch: {},
   created() {
-    if (!this.modelValue.keyboard || !this.isObject(this.modelValue.keyboard))
-      this.modelValue.keyboard = {
+    if (
+      !this.modelValue.data.keyboard ||
+      !this.isObject(this.modelValue.data.keyboard)
+    )
+      this.modelValue.data.keyboard = {
         enabled: false,
       };
   },

@@ -14,15 +14,15 @@
 <template>
   <s-setting-group class="o-switch-auto-play">
     <s-setting-switch
-      v-model="modelValue.autoplay.enable"
+      v-model="modelValue.data.autoplay.enabled"
       icon="animation"
       label="Auto play"
     ></s-setting-switch>
 
     <v-expand-transition>
-      <div v-if="modelValue.autoplay.enable" class="-content">
+      <div v-if="modelValue.data.autoplay.enabled" class="-content">
         <s-setting-slider
-          v-model="modelValue.autoplay.delay"
+          v-model="modelValue.data.autoplay.delay"
           :max="60000"
           :max-slider="10000"
           :min="1000"
@@ -31,22 +31,22 @@
         ></s-setting-slider>
 
         <s-setting-switch
-          v-model="modelValue.autoplay.disableOnInteraction"
+          v-model="modelValue.data.autoplay.disableOnInteraction"
           label="Disable on interaction"
         ></s-setting-switch>
 
         <s-setting-switch
-          v-model="modelValue.autoplay.pauseOnMouseEnter"
+          v-model="modelValue.data.autoplay.pauseOnMouseEnter"
           label="Pause on pointer enter"
         ></s-setting-switch>
 
         <s-setting-switch
-          v-model="modelValue.autoplay.reverseDirection"
+          v-model="modelValue.data.autoplay.reverseDirection"
           label="Reverse direction"
         ></s-setting-switch>
 
         <s-setting-switch
-          v-model="modelValue.autoplay.stopOnLastSlide"
+          v-model="modelValue.data.autoplay.stopOnLastSlide"
           label="Stop on last slide"
         ></s-setting-switch>
       </div>
@@ -59,6 +59,7 @@ import { defineComponent } from "vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingSlider from "../../../../styler/settings/slider/SSettingSlider.vue";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 export default defineComponent({
   name: "OSwiperAutoPlay",
@@ -71,7 +72,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Boolean,
+      type: XSwiperObject,
       required: true,
     },
   },
@@ -79,11 +80,11 @@ export default defineComponent({
   watch: {},
   created() {
     if (
-      !this.modelValue.autoplay ||
-      !this.isObject(this.modelValue.autoplay) ||
-      !this.modelValue.autoplay.delay
+      !this.modelValue.data.autoplay ||
+      !this.isObject(this.modelValue.data.autoplay) ||
+      !this.modelValue.data.autoplay.delay
     )
-      this.modelValue.autoplay = {
+      this.modelValue.data.autoplay = {
         enabled: false,
         delay: 3000,
         pauseOnMouseEnter: true,

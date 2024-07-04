@@ -13,14 +13,29 @@
   -->
 
 <template>
-  <v-expansion-panel>
-    <v-expansion-panel-title class="text-start py-1">
+  <v-expansion-panel rounded="0">
+    <v-expansion-panel-title class="text-start py-1 ps-0">
+      <template v-slot:actions>
+        <v-btn
+          class="flex-grow-0"
+          icon
+          variant="text"
+          size="small"
+          @click.stop="$emit('click:delete')"
+          color="red"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
+      </template>
+      <v-icon class="handle cursor-grab me-3"> unfold_more</v-icon>
+
+
       <div class="flex-grow-0">
-        <v-avatar v-if="image?.data.src" class="me-2" rounded size="16">
+        <v-avatar v-if="image?.data.src" class="me-2 hover-scale" rounded size="16">
           <v-img :src="getShopImagePath(image.data.src)"></v-img>
         </v-avatar>
         <v-icon v-else class="me-2" size="16">view_headline</v-icon>
-        Slide {{ i + 1 }}
+        {{ label }}
       </div>
       <div
         v-if="StripTags(title?.data?.value)"
@@ -29,16 +44,6 @@
         |
         {{ StripTags(title.data.value)?.limitWords(5) }}
       </div>
-      <v-btn
-        class="flex-grow-0"
-        icon
-        variant="text"
-        size="small"
-        @click.stop="$emit('click:delete')"
-        color="red"
-      >
-        <v-icon>close</v-icon>
-      </v-btn>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
       <s-image-uploader
@@ -88,6 +93,10 @@ export default {
     },
     object: {
       type: XGalleryExpandableItemObject,
+    },
+
+    label: {
+      default: "Slide",
     },
   },
   data: () => ({}),

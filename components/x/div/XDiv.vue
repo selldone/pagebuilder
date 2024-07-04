@@ -13,7 +13,11 @@
   -->
 
 <template>
-  <div :class="object.classes" :style="[background_style, object.style]">
+  <div
+    v-styler:div="{ target: object, removeChild:clearable? removeChild:undefined }"
+    :class="object.classes"
+    :style="[background_style, object.style]"
+  >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
   </div>
@@ -31,7 +35,8 @@ export default {
 
   props: {
     object: { required: true },
-    noDefaultPadding: Boolean,
+    clearable: Boolean,
+    removeChild: Function,
   },
   data: () => ({}),
   computed: {
