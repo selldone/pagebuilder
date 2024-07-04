@@ -57,9 +57,9 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
     const data = new XContainerObjectData(false);
 
     return new XContainerObject(
-      new LModelBackground(old?.background),
-      old?.style,
-      old?.classes,
+        null,
+        null,
+        null,
       [],
       data,
       null,
