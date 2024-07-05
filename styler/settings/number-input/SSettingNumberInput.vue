@@ -37,10 +37,15 @@
           style="min-width: 140px"
           variant="outlined"
           rounded="lg"
+          class="v-input-small"
           @update:model-value="(val) => setValue(val)"
           :suffix="suffix"
           dark
-          :lock="lock">
+          :lock="lock"
+          :placeholder="placeholder"
+          @clear="setValue(null)"
+          :alternative-button-value="null"
+        >
         </u-number-input>
       </template>
     </v-list-item>
@@ -48,6 +53,8 @@
       <slot></slot>
     </div>
   </div>
+  <div v-if="subtitle" class="small">{{ subtitle }}</div>
+
 </template>
 
 <script>
@@ -68,6 +75,8 @@ export default defineComponent({
     disabled: Boolean,
     lock: Boolean,
     suffix: {},
+    subtitle:{},
+    placeholder:{},
   },
   computed: {},
   data() {

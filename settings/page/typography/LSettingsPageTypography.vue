@@ -75,7 +75,7 @@
               v-model:fonts="style.fonts"
               v-model="style.font"
               icon="title"
-              label="Fefault font"
+              label="Default font"
               clearable
               has-add
             ></s-setting-font-family>

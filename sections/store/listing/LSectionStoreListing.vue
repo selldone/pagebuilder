@@ -13,7 +13,12 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
+
   <x-section
+      v-if="false"
     v-styler:products="{ target: $sectionData, keyFilter: 'filter' }"
     :object="$sectionData"
     no-default-padding
@@ -59,13 +64,14 @@ import LMixinSection from "../../../mixins/section/LMixinSection";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionStoreListing",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: {XContainer, XSection, XText, SProductsListing },
+  components: {XComponent, XContainer, XSection, XText, SProductsListing },
   cover: require("../../../assets/images/covers/products.svg"),
 
   group: "Products",
@@ -88,10 +94,7 @@ export default {
     row: types.Row,
   },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
+
     augment: {
       // Extra information to show to dynamic show in page content
     },
@@ -116,42 +119,11 @@ export default {
     },
   },
   watch: {
-    "$sectionData.filter"(value) {
-      if (value instanceof Object) {
-        console.log("✻ Change products / categories filter.");
-        //console.log("watch", value);
-        //console.log("forcePackage", this.$sectionData.filter);
 
-        this.forcePackage = ApplyAugmentToObject(
-          value,
-          this.augment,
-          this.$builder.isEditing,
-        );
-        this.mode_view = value.mode_view;
-        this.mode_view_f = value.mode_view_f;
-      }
-    },
   },
 
   created() {
-    if (!this.isObject(this.$sectionData.filter)) {
-      this.$sectionData.filter = {};
-    }
 
-    this.forcePackage = this.$sectionData.filter;
-
-    if (this.forcePackage.mode_view)
-      this.mode_view = this.forcePackage.mode_view;
-
-    if (this.forcePackage.mode_view_f)
-      this.mode_view_f = this.forcePackage.mode_view_f;
-
-    // Set dynamic values for filter:
-    this.forcePackage = ApplyAugmentToObject(
-      this.forcePackage,
-      this.augment,
-      this.$builder.isEditing,
-    );
   },
 
   mounted() {},

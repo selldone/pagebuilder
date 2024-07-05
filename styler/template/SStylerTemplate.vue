@@ -330,7 +330,7 @@ $red: #ff3d3d;
     color: $white;
     width: 42px;
     height: 42px;
-    border-radius: 42px;
+    border-radius: 50%;
     margin: 0 5px 0 0;
 
     &:hover {
@@ -416,6 +416,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 <style lang="scss">
 .styler {
+  text-align: start;
   &:hover {
     // Fix some over lapping of stylers!
     z-index: 250;

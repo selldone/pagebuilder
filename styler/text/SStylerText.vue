@@ -31,8 +31,8 @@
     <ul class="styler-list">
       <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
 
-      <li>
-        <button class="styler-button" @click="showMasterDesignDialog()">
+      <li >
+        <button class="styler-button" @click="showMasterDesignDialog()" >
           <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
@@ -194,18 +194,15 @@
 
       <li v-if="option === 'link'" class="flex-grow-1">
         <div class="input-group is-rounded has-itemAfter is-primary">
-          <v-text-field
+          <s-setting-text-input
             v-model="url"
-            :prepend-inner-icon="url ? 'link' : 'link_off'"
-            class="english-field mx-2"
+            :icon="url ? 'link' : 'link_off'"
+            class="english-field"
             clearable
-            flat
-            messages="● External: https://domain.. ● Internal: /shop"
+            subtitle="● External: https://domain.. ● Internal: /shop"
             placeholder="https://..."
-            rounded
-            variant="solo"
             @blur="addLink"
-            @keydown.enter="addLink"
+            @enter="addLink"
           />
         </div>
       </li>
@@ -248,38 +245,25 @@
 
       <!-- ―――――――――――――――――― Text Font ―――――――――――――――――― -->
 
-      <div v-if="option === 'text-font'" class="flex-grow-1 pa-1">
-        <v-select
+      <div v-if="option === 'text-font'" class="flex-grow-1">
+        <s-setting-font-family
           v-model="text_font"
-          :items="fonts"
-          class="mx-2"
+          :fonts="fonts"
           clearable
-          messages=" "
-          placeholder="Select a font..."
-          rounded
-          variant="solo"
           @update:model-value="setFont"
+          label="Font"
+          icon="font_download"
         >
-          <template v-slot:item="{ item, props }">
-            <v-list-item v-bind="props" @click.stop>
-              <template v-slot:title>
-                <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
-              </template>
-            </v-list-item>
-          </template>
-          <template v-slot:selection="{ item }">
-            <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
-          </template>
-          <template v-slot:message>
-            <div class="mt-1">
-              ● Add font in
-              <b>
-                <v-icon size="small">format_paint</v-icon>
-                Style</b
-              >.
-            </div>
-          </template>
-        </v-select>
+        </s-setting-font-family>
+
+        <s-setting-size
+            v-model="target.style.fontSize"
+            clearable
+            label="Size"
+            icon="format_size"
+        >
+        </s-setting-size>
+
       </div>
 
       <!-- ―――――――――――――――――― Align ―――――――――――――――――― -->
@@ -300,7 +284,6 @@
 
               <v-tooltip
                 activator="parent"
-                attach
                 content-class="bg-black text-white"
                 location="bottom"
               >
@@ -446,6 +429,9 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import SStylerIcon from "../../styler/icon/SStylerIcon.vue";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
+import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
+import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 
 const TextAlign = [
   { val: "start", icon: "format_align_left", title: "Start" },
@@ -500,6 +486,9 @@ export default {
   mixins: [LMixinEvents, LMixinStyler],
 
   components: {
+    SSettingSize,
+    SSettingFontFamily,
+    SSettingTextInput,
     SStylerIcon,
     SStylerTemplate,
   },
@@ -508,7 +497,7 @@ export default {
       required: true,
       type: Object,
     },
-/*
+    /*
     keyText: {
       type: String,
       default: "value",
@@ -518,7 +507,6 @@ export default {
       type: String,
       default: "classes",
     },
-
 
     keyStyle: {
       type: String,
@@ -581,7 +569,7 @@ export default {
     },
 
     fonts() {
-      return this.$builder.style && this.$builder.style.fonts;
+      return this.$builder.style?.fonts;
     },
   },
   watch: {
@@ -600,7 +588,7 @@ export default {
     if (!this.target) {
       throw new Error("Target is required for SStylerText");
     }
-   /* if (!this.keyText) {
+    /* if (!this.keyText) {
       throw new Error(
         "keyText should be define in v-styler:text={keyText:'...'}",
       );
@@ -666,10 +654,10 @@ export default {
         this.el,
         this.target,
         this.keyStyle,
-          this.keyClasses,
-          this.keyBackground,
-          null,
-      {tags:['p','h1','h2','h3','h4','h5']}
+        this.keyClasses,
+        this.keyBackground,
+        null,
+        { tags: ["p", "h1", "h2", "h3", "h4", "h5"] },
       );
     },
 

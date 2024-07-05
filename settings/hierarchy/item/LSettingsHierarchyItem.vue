@@ -50,40 +50,51 @@
 
       <v-spacer></v-spacer>
       <v-btn
-          v-if="isSection"
-          size="x-small"
-          class="ms-1"
-          @click="setExpand(!expanded)" variant="plain" :title="expanded?'Collapse All':'Expand All'"
-          min-width="20"
+        v-if="isSection"
+        size="x-small"
+        class="ms-1"
+        @click="setExpand(!expanded)"
+        variant="plain"
+        :title="expanded ? 'Collapse All' : 'Expand All'"
+        min-width="20"
       >
-        <v-icon>{{expanded?'unfold_more':'unfold_less'}}</v-icon>
+        <v-icon>{{ expanded ? "unfold_more" : "unfold_less" }}</v-icon>
       </v-btn>
     </div>
 
     <v-expand-transition>
       <div v-if="expanded">
-        <l-settings-hierarchy-item
-          v-for="child in object.children"
-          :object="child"
-          class="ms-2"
-          ref="items"
+        <draggable
+          v-model="object.children"
+          tag="div"
+          animation="200"
+          ghostClass="bg-primary"
+          :group="{
+            name: 'hierarchy-children' /*Make it possible to drag and drop element in other sections*/,
+          }"
         >
-        </l-settings-hierarchy-item>
+          <template v-slot:item="{ element, index }">
+            <l-settings-hierarchy-item :object="element" class="ms-2">
+            </l-settings-hierarchy-item>
+          </template>
+        </draggable>
       </div>
     </v-expand-transition>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
+import draggable from "vuedraggable";
 
 export default {
   name: "LSettingsHierarchyItem",
   mixins: [LMixinEvents],
 
   components: {
+    draggable,
     LSettingsHierarchyItem: () => import("./LSettingsHierarchyItem.vue"),
   },
   emits: ["hover-in", "hover-out"],
@@ -112,8 +123,6 @@ export default {
       XGalleryExpandable: { icon: "collections", title: "Expandable Gallery" },
       XGalleryExpandableItem: { icon: "crop_portrait", title: "Gallery Item" },
       XSwiper: { icon: "web_stories", title: "Swiper" },
-
-
     },
   }),
 
@@ -130,17 +139,20 @@ export default {
         this.ElementTypes[this.object.component]?.title || this.object.component
       );
     },
-    isSection(){
-      return this.object.component==='XSection'
-    }
+    isSection() {
+      return this.object.component === "XSection";
+    },
   },
 
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+    // Add method to object as temporary variable:
+    this.object.__setExpand = this.setExpand;
+  },
 
   methods: {
-    onHoverIn(event) {
+    onHoverIn() {
       if (!this.has_classes) {
         //  console.error('onHoverIn objects',this.object)
         return;
@@ -150,7 +162,7 @@ export default {
       //    console.log('onHoverIn objects',this.object)
       this.object.$element?.classList.add("element-focus-editing");
     },
-    onHoverOut(event) {
+    onHoverOut() {
       if (!this.has_classes) {
         // console.error('onHoverOut objects',this.object)
         return;
@@ -179,14 +191,14 @@ export default {
      * IMPORTANT! This method will be called externally from LSettingsHierarchy
      * @param expanded
      */
-   async setExpand(expanded) {
+    async setExpand(expanded: boolean) {
       this.expanded = expanded;
       // Add 200ms wait:
-      //await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 300));
       // Pass to its children:
       this.$nextTick(() => {
-        this.$refs.items?.forEach((item) => {
-          item.setExpand(expanded);
+        this.object.children.forEach((item: LModelElement<any>) => {
+          if (item.__setExpand) item.__setExpand(expanded);
         });
       });
     },

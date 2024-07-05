@@ -90,6 +90,7 @@
         }
       "
       label="Font Size"
+      icon="format_size"
     ></s-setting-size>
 
     <!-- Font Weight -->

@@ -121,12 +121,10 @@ export const LMixinEvents = defineComponent({
     ShowLSettingsProductsFilter(
       el: HTMLElement,
       target: Object,
-      keyFilter: string,
     ) {
       EventBus.$emit("show:LSettingsProductsFilter", {
         el,
         target,
-        keyFilter,
       });
     },
 

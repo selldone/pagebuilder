@@ -38,123 +38,102 @@
       <v-card-text>
         <v-expansion-panels v-model="tab">
           <!-- ████████████████████ Sort ████████████████████ -->
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <div>
-                <div>
-                  <v-icon class="me-1">article</v-icon>
-                  Text / Html
-                </div>
-              </div>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-list-subheader
-                >The content, in text or HTML, you wish to display.
-              </v-list-subheader>
-
-              <v-textarea
-                v-model="target.data.html"
-                placeholder="Write a text or html code here..."
-                variant="outlined"
-              >
-              </v-textarea>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+          <s-setting-expandable
+            title="Text / Html"
+            icon="article"
+            subtitle="The content, in text or HTML, you wish to display."
+          >
+            <s-setting-text-input
+              v-model="target.data.html"
+              placeholder="Write a text or html code here..."
+              variant="outlined"
+              multiple-lines
+            >
+            </s-setting-text-input>
+          </s-setting-expandable>
 
           <!-- ████████████████████ Appearance ████████████████████ -->
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <div>
-                <div>
-                  <v-icon class="me-1">brush</v-icon>
-                  Appearance
-                </div>
-              </div>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-list-subheader>Customize text style.</v-list-subheader>
+          <s-setting-expandable
+            icon="brush"
+            title="Appearance"
+            subtitle="Customize text style."
+          >
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Color ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <s-setting-color
+              v-model="target.style.color"
+              label="Font Color"
+              icon="format_color_text"
+            ></s-setting-color>
 
-              <u-color-selector
-                v-model="target.style.color"
-                class="my-3"
-                title="Font Color"
-              ></u-color-selector>
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font Size ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <s-setting-size
+              v-model="target.style.fontSize"
+              label="Font Size"
+              icon="format_size"
+            ></s-setting-size>
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Font ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <u-dimension-input
-                v-model="target.style.fontSize"
-                class="my-3"
-                label="Font Size"
-              ></u-dimension-input>
+            <s-setting-font-family
+              v-model="target.style.fontFamily"
+              clearable
+              :fonts="builder.style.fonts"
+              label="Font Family"
+              icon="font_download"
+            ></s-setting-font-family>
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Height ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <u-dimension-input
-                v-model="target.style.height"
-                class="my-3"
-                label="Height"
-              ></u-dimension-input>
+            <s-setting-size
+              v-model="target.style.height"
+              label="Height"
+              icon="height"
+            ></s-setting-size>
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <u-number-input
-                v-model="target.data.space"
-                class="my-3"
-                :min="1"
-                label="Space"
-                placeholder="Default is 200"
-                variant="underlined"
-                messages="Distance between items in pixels."
-              ></u-number-input>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+            <s-setting-number-input
+              v-model="target.data.space"
+              :min="1"
+              label="Space"
+              suffix="px"
+              icon="space_bar"
+            ></s-setting-number-input>
+          </s-setting-expandable>
 
           <!-- ████████████████████ Appearance ████████████████████ -->
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <div>
-                <div>
-                  <v-icon class="me-1">animation</v-icon>
-                  Animation
-                </div>
-              </div>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-list-subheader>Customize text animation.</v-list-subheader>
+          <s-setting-expandable
+            icon="animation"
+            title="Animation"
+            subtitle="Customize text animation."
+          >
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Duration ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Duration ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <s-setting-text-input
+              v-model="target.data.duration"
+              label="Duration"
+              placeholder="ex. 10s or 10000ms"
+              icon="timer"
+            ></s-setting-text-input>
 
-              <v-text-field
-                v-model="target.data.duration"
-                class="my-3"
-                label="Duration"
-                placeholder="ex. 10s or 10000ms"
-                variant="underlined"
-              ></v-text-field>
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Repeat ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
+            <s-setting-number-input
+              v-model="target.data.repeat"
+              :min="1"
+              label="Repeat Count"
+              icon="repeat"
+            ></s-setting-number-input>
 
-              <u-number-input
-                v-model="target.data.repeat"
-                class="my-3"
-                :min="1"
-                label="Repeat Count"
-                placeholder="Default is 10"
-                variant="underlined"
-              ></u-number-input>
+            <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Reverse ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
-              <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Reverse ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
-
-              <u-smart-toggle
-                v-model="target.data.reverse"
-                class="my-3"
-                true-title="Reverse Animation"
-              ></u-smart-toggle>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+            <s-setting-switch
+              v-model="target.data.reverse"
+              label="Reverse Animation"
+              icon="settings_backup_restore"
+            ></s-setting-switch>
+          </s-setting-expandable>
         </v-expansion-panels>
       </v-card-text>
     </v-card>
@@ -163,27 +142,38 @@
 
 <script>
 import LEventsName from "../../mixins/events/name/LEventsName";
-import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
-import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
-import _ from "lodash-es";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
-import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
+import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
+import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
+import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
+import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 
 export default {
   name: "LSettingsMarquee",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingSwitch,
+    SSettingFontFamily,
+    SSettingNumberInput,
+    SSettingSize,
+    SSettingColor,
+    SSettingTextInput,
+    SSettingExpandable,
     UNumberInput,
     USmartToggle,
-    UColorSelector,
-    UDimensionInput,
   },
 
-  props: {},
+  props: {
+    builder: { type: Object, required: true },
+  },
   data: () => ({
     tab: null,
 
@@ -191,7 +181,6 @@ export default {
     target: null,
 
     dialog: false,
-
 
     //--------------------------
     key_listener_keydown: null,
@@ -201,12 +190,12 @@ export default {
 
   computed: {},
   watch: {
-  /*  target: {
-      handler() {
-        this.onAcceptDebounced();
-      },
-      deep: true,
-    },*/
+    /*  target: {
+        handler() {
+          this.onAcceptDebounced();
+        },
+        deep: true,
+      },*/
   },
   created() {},
   mounted() {
@@ -261,10 +250,9 @@ export default {
 
   methods: {
     showDialog() {
-      if(!(this.target instanceof XMarqueeObject)){
-        console.error("Target is not an instance of XMarqueeObject")
+      if (!(this.target instanceof XMarqueeObject)) {
+        console.error("Target is not an instance of XMarqueeObject");
       }
-
 
       // Load default values:
       if (!this.target.space) this.target.space = 200;
@@ -277,14 +265,14 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-  /*  onAcceptDebounced: _.debounce(function () {
-      this.onAccept(false);
-    }, 3000),
-
-    onAccept() {
-      if (!this.dialog || this.LOCK) return;
-
-    },*/
+    /*  onAcceptDebounced: _.debounce(function () {
+        this.onAccept(false);
+      }, 3000),
+  
+      onAccept() {
+        if (!this.dialog || this.LOCK) return;
+  
+      },*/
   },
 };
 </script>

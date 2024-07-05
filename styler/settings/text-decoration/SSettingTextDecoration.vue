@@ -21,27 +21,30 @@
         Text Decoration</span
       >
       <template v-slot:append>
-        <v-btn
-          v-if="modelValue"
-          @click="$emit('update:modelValue', null)"
-          color="red"
-          variant="text"
-          size="small"
-          class="ms-1 tnt"
-        >
-          <v-icon class="me-1">layers_clear</v-icon>
-          Remove shadow
-        </v-btn>
+        <v-slide-x-transition leave-absolute>
+          <v-btn
+            v-if="modelValue"
+            @click="$emit('update:modelValue', null)"
+            color="red"
+            variant="text"
+            size="small"
+            class="ms-1 tnt"
+          >
+            <v-icon class="me-1">layers_clear</v-icon>
+            Remove shadow
+          </v-btn>
 
-        <v-btn
-          @click="addTextDecoration()"
-          size="small"
-          class="ms-1 tnt"
-          variant="outlined"
-        >
-          <v-icon start>add_box</v-icon>
-          Add Decoration
-        </v-btn>
+          <v-btn
+            v-else
+            @click="addTextDecoration()"
+            size="small"
+            class="ms-1 tnt"
+            variant="outlined"
+          >
+            <v-icon start>add_box</v-icon>
+            Add Decoration
+          </v-btn>
+        </v-slide-x-transition>
       </template>
     </v-list-item>
 

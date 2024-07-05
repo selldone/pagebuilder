@@ -59,6 +59,7 @@
       </v-btn-toggle>
     </template>
   </v-list-item>
+  <div v-if="subtitle" class="small">{{subtitle}}</div>
 </template>
 
 <script>
@@ -78,6 +79,7 @@ export default defineComponent({
     disabled: Boolean,
     mandatory: Boolean,
     multiple:Boolean,
+    subtitle:{},
   },
   computed: {
     is_object() {

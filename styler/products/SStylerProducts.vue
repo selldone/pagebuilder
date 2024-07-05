@@ -85,13 +85,10 @@ export default {
     SStylerTemplate,
   },
   props: {
-
-
     target: {
       required: true,
       type: Object,
     },
-
 
     /**
      * Set the location of the proper
@@ -106,10 +103,6 @@ export default {
       default: false,
     },
 
-    keyFilter: {
-      type: String,
-      default: "filter",
-    },
     keyFrameCategory: {
       type: String,
       default: "frame_category",
@@ -125,7 +118,6 @@ export default {
 
   computed: {},
   watch: {
-
     /**
      * Reset menu status when it's closed.
      */
@@ -151,7 +143,7 @@ export default {
     },
 
     showQueryBuilderProducts() {
-      this.ShowLSettingsProductsFilter(this.el, this.target, this.keyFilter);
+      this.ShowLSettingsProductsFilter(this.el, this.target);
     },
   },
 };

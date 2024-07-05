@@ -21,13 +21,12 @@
     "
     class="x-page-builder-options-slider"
     color="#1e1e1e"
-    style="--background:#1e1e1e"
+    style="--background: #1e1e1e"
     location="right"
     temporary
     theme="dark"
-
   >
-    <v-card class="text-start" flat>
+    <v-card class="text-start" flat style="padding-bottom: 10vh">
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn
@@ -42,23 +41,15 @@
       </v-card-actions>
 
       <v-card-text>
-        <s-widget-header
-          :title="$t('styler.products.title')"
-          icon="filter_alt"
-        ></s-widget-header>
-        <v-list-subheader></v-list-subheader>
-
-        <v-container>
-          <s-page-products-filter
-            v-if="dialog_pre"
-            v-model="product_filter_view_data"
-            dark
-            has-categories-filter
-            has-count
-            has-product-category-selection
-            has-sort
-          />
-        </v-container>
+        <s-page-products-filter
+          v-if="dialog_pre"
+          v-model="product_filter_view_data"
+          dark
+          has-categories-filter
+          has-count
+          has-product-category-selection
+          has-sort
+        />
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
@@ -68,13 +59,15 @@
 import SPageProductsFilter from "../../components/style/product/SPageProductsFilter.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 
 export default {
   name: "LSettingsProductsFilter",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingGroup,
     SPageProductsFilter,
   },
 
@@ -82,7 +75,6 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keyFilter: null, // ex. filter
 
     //----------------------- Products Filter -----------------------
 
@@ -109,12 +101,11 @@ export default {
     EventBus.$on(
       "show:LSettingsProductsFilter",
 
-      ({ el, target, keyFilter }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.el = el;
         this.target = target;
-        this.keyFilter = keyFilter;
         this.showProductsDialog();
       },
     );
@@ -161,7 +152,7 @@ export default {
         // Make it clone:
         this.product_filter_view_data = Object.assign(
           {},
-          this.target[this.keyFilter],
+          this.target.data.filter,
         );
       }
 
@@ -176,7 +167,7 @@ export default {
     onAcceptProductFilterChange() {
       if (!this.dialog_product_filter) return;
 
-      this.target[this.keyFilter] = this.product_filter_view_data; // Save data in section!
+      this.target.data.filter = this.product_filter_view_data; // Save data in section!
     },
   },
 };

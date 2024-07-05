@@ -266,6 +266,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-select {
+
   .-label {
     font-size: 0.8rem;
   }

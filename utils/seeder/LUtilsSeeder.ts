@@ -48,6 +48,7 @@ import {LSectionGalleryBrandsSeed} from "@selldone/page-builder/sections/gallery
 import {LSectionGallerySwiperSeed} from "@selldone/page-builder/sections/gallery/swiper/LSectionGallerySwiperSeed.ts";
 import {LSectionGalleryScrollSeed} from "@selldone/page-builder/sections/gallery/scroll/LSectionGalleryScrollSeed.ts";
 import {LSectionArticleSeed} from "@selldone/page-builder/sections/article/LSectionArticleSeed.ts";
+import {LSectionStoreListingSeed} from "@selldone/page-builder/sections/store/listing/LSectionStoreListingSeed.ts";
 
 const DEBUG = false;
 
@@ -355,6 +356,8 @@ export class LUtilsSeeder {
       return LSectionGalleryScrollSeed();
     }else if (name === "LSectionArticle") {
       return LSectionArticleSeed();
+    }else if (name === "LSectionStoreListing") {
+      return LSectionStoreListingSeed();
     }
 
 

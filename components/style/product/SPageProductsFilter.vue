@@ -17,64 +17,52 @@
     <!-- ████████████████████ Sort ████████████████████ -->
 
     <div v-if="hasSort" class="mb-5">
-      <s-widget-header
+      <s-setting-group
         :title="$t('global.commons.sort')"
+        :subtitle="$t('styler.products.sort_options')"
         icon="sort"
-      ></s-widget-header>
-      <v-list-subheader>
-        {{ $t("styler.products.sort_options") }}
-      </v-list-subheader>
-
-      <s-products-sort-view
-        v-model="product_sort"
-        v-model:only-available="only_available"
-        active-class="blue-flat"
-        class="mx-2 overflow-auto"
-        two-line
-      />
+      >
+        <s-products-sort-view
+          v-model="product_sort"
+          v-model:only-available="only_available"
+          active-class="blue-flat"
+          class="mx-2 overflow-auto"
+          two-line
+          small-sort-buttons
+        />
+      </s-setting-group>
     </div>
 
     <!-- ━━━━━━━━━━━━━━━━ Mobile vie mode ━━━━━━━━━━━━━━━━ -->
     <!-- ████████████████████ View Mode ████████████████████ -->
-    mode_view:{{mode_view}} / {{mode_view_f}}
-    <h3 class="text-start mb-1 font-weight-light">
-      <v-icon class="me-1">smartphone</v-icon>
-      {{ $t("global.commons.mobile") }}
-    </h3>
-    <div class="text-center">
+    <s-setting-group icon="view_timeline" title="View Mode">
       <b-shop-theme-view-move
         v-model="mode_view"
         icon="shelves"
-        :label="$t('global.commons.products')" dark
+        :label="$t('global.commons.products')"
+        dark
       >
       </b-shop-theme-view-move>
 
       <b-shop-theme-view-move
         v-model="mode_view_f"
         icon="folder"
-        :label="$t('global.commons.categories')" dark
+        :label="$t('global.commons.categories')"
+        dark
       >
       </b-shop-theme-view-move>
-    </div>
-
+    </s-setting-group>
 
     <!-- ████████████████████ Type ████████████████████ -->
 
-    <div
-      v-if="hasProductCategorySelection"
-      class="py-5"
-      style="border-top: dashed thin #777"
-    >
-      <s-widget-header
+    <template v-if="hasProductCategorySelection">
+      <s-setting-group
         :title="
           $t('global.commons.category') + ' / ' + $t('global.commons.product')
         "
         icon="dashboard_customize"
-      ></s-widget-header>
-
-      <v-list-subheader
-        >{{ $t("styler.products.item_types") }}
-      </v-list-subheader>
+        :subtitle="$t('styler.products.item_types')"
+      ></s-setting-group>
 
       <v-btn-toggle
         v-model="selected_mode"
@@ -83,6 +71,7 @@
         divided
         mandatory
         selected-class="blue-flat"
+        variant="outlined"
       >
         <v-btn
           value="all"
@@ -92,6 +81,8 @@
               categories_only = false;
             }
           "
+          size="small"
+          class="tnt"
         >
           <v-icon start>all_inclusive</v-icon>
           {{ $t("global.commons.all") }}
@@ -106,6 +97,8 @@
               categories_only = false;
             }
           "
+          size="small"
+          class="tnt"
         >
           <v-icon start>inventory</v-icon>
           {{ $t("styler.products.product_only") }}
@@ -120,148 +113,151 @@
               categories_only = true;
             }
           "
+          size="small"
+          class="tnt"
         >
           <v-icon start>folder</v-icon>
           {{ $t("styler.products.category_only") }}
         </v-btn>
       </v-btn-toggle>
-    </div>
+    </template>
 
     <!-- ████████████████████ Categories ████████████████████ -->
-    <div class="py-5" style="border-top: dashed thin #777">
-      <s-widget-header
-        :title="$t('global.commons.categories')"
-        icon="folder_open"
-      ></s-widget-header>
+    <s-setting-group
+      :title="$t('global.commons.categories')"
+      icon="folder_open"
+      :subtitle="$t('styler.products.select_categories')"
+    ></s-setting-group>
 
-      <v-list-subheader
-        >{{ $t("styler.products.select_categories") }}
-      </v-list-subheader>
+    <s-setting-toggle
+      v-model="surrounded"
+      :dark="dark"
+      label="Selected Categories"
+      icon="drive_folder_upload"
+      :items="[
+        { value: false, title: 'Inside', icon: 'select_all' },
+        { value: true, title: 'Include', icon: 'deselect' },
+      ]"
+      :subtitle="
+        surrounded
+          ? 'Show only selected categories.'
+          : 'Show items inside selected categories.'
+      "
+    >
+    </s-setting-toggle>
 
-      <u-smart-switch
-        v-model="surrounded"
-        :dark="dark"
-        class="my-3"
-        false-icon="select_all"
-        false-title="Show items inside selected categories."
-        true-icon="deselect"
-        true-title="Show only selected categories."
-      >
-      </u-smart-switch>
+    <ul v-if="surrounded" class="text-start my-5 op-0-6">
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">all_inclusive</v-icon>
+          {{ $t("global.commons.all") }}:
+        </b>
+        Only selected categories and the products inside them will be shown.
+        <v-icon
+          v-if="!products_only && !categories_only"
+          class="mx-1 zoomIn"
+          color="green"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">inventory</v-icon>
+          {{ $t("styler.products.product_only") }}:
+        </b>
+        Only products in selected categories will be shown.
+        <v-icon
+          v-if="products_only && !categories_only"
+          class="mx-1 zoomIn"
+          color="green"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
 
-      <ul v-if="surrounded" class="text-start mb-5">
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">all_inclusive</v-icon>
-            {{ $t("global.commons.all") }}:
-          </b>
-          Only selected categories and the products inside them will be shown.
-          <v-icon
-            v-if="!products_only && !categories_only"
-            class="mx-1 zoomIn"
-            color="green"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">inventory</v-icon>
-            {{ $t("styler.products.product_only") }}:
-          </b>
-          Only products in selected categories will be shown.
-          <v-icon
-            v-if="products_only && !categories_only"
-            class="mx-1 zoomIn"
-            color="green"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">folder</v-icon>
+          {{ $t("styler.products.category_only") }}:
+        </b>
+        Only selected categories will be shown.
+        <v-icon
+          v-if="!products_only && categories_only"
+          class="mx-1"
+          color="green zoomIn"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
+    </ul>
 
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">folder</v-icon>
-            {{ $t("styler.products.category_only") }}:
-          </b>
-          Only selected categories will be shown.
-          <v-icon
-            v-if="!products_only && categories_only"
-            class="mx-1"
-            color="green zoomIn"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
-      </ul>
+    <ul v-else class="text-start my-5 op-0-6">
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">all_inclusive</v-icon>
+          {{ $t("global.commons.all") }}:
+        </b>
+        Only products and sub categories in the selected categories will be
+        shown.
+        <v-icon
+          v-if="!products_only && !categories_only"
+          class="mx-1 zoomIn"
+          color="green"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">inventory</v-icon>
+          {{ $t("styler.products.product_only") }}:
+        </b>
+        Only products in the selected categories will be shown.
+        <v-icon
+          v-if="products_only && !categories_only"
+          class="mx-1 zoomIn"
+          color="green"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
 
-      <ul v-else class="text-start mb-5">
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">all_inclusive</v-icon>
-            {{ $t("global.commons.all") }}:
-          </b>
-          Only products and sub categories in the selected categories will be
-          shown.
-          <v-icon
-            v-if="!products_only && !categories_only"
-            class="mx-1 zoomIn"
-            color="green"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">inventory</v-icon>
-            {{ $t("styler.products.product_only") }}:
-          </b>
-          Only products in the selected categories will be shown.
-          <v-icon
-            v-if="products_only && !categories_only"
-            class="mx-1 zoomIn"
-            color="green"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
+      <li>
+        <b>
+          <v-icon class="me-1" size="small">folder</v-icon>
+          {{ $t("styler.products.category_only") }}:
+        </b>
+        Only sub categories in the selected categories will be shown.
+        <v-icon
+          v-if="!products_only && categories_only"
+          class="mx-1 zoomIn"
+          color="green"
+          size="small"
+          >check_circle
+        </v-icon>
+      </li>
+    </ul>
 
-        <li>
-          <b>
-            <v-icon class="me-1" size="small">folder</v-icon>
-            {{ $t("styler.products.category_only") }}:
-          </b>
-          Only sub categories in the selected categories will be shown.
-          <v-icon
-            v-if="!products_only && categories_only"
-            class="mx-1 zoomIn"
-            color="green"
-            size="small"
-            >check_circle
-          </v-icon>
-        </li>
-      </ul>
-      <b-category-input
-        v-if="hasCategoriesFilter"
-        v-model="categories_value"
-        chips
-        clearable
-        label="Categories list"
-        multiple
-        no-home
-        persistent-placeholder
-        placeholder="Root / Leave it empty to display items in the root."
-      >
-      </b-category-input>
-    </div>
+    <b-category-input
+      v-if="hasCategoriesFilter"
+      v-model="categories_value"
+      chips
+      clearable
+      label="Categories list"
+      multiple
+      no-home
+      variant="outlined"
+      persistent-placeholder
+      placeholder="Root / Leave it empty to display items in the root."
+    >
+    </b-category-input>
 
     <!-- ████████████████████ Tags ████████████████████ -->
-    <div
+    <template
       v-if="!categories_only"
-      class="py-5"
-      style="border-top: dashed thin #777"
     >
-      <s-widget-header icon="label" title="Tags"></s-widget-header>
+      <s-setting-group icon="label" title="Tags"></s-setting-group>
 
       <v-list-subheader>
         <div>
@@ -279,7 +275,8 @@
         multiple
         persistent-placeholder
         placeholder="Write tag and press enter. ex. new collection"
-        variant="underlined"
+        variant="outlined"
+        class="mt-3"
       >
         <template v-slot:chip="{ item, props }">
           <v-chip v-bind="props">
@@ -303,16 +300,12 @@
           </v-chip>
         </template>
       </v-combobox>
-    </div>
+    </template>
 
     <!-- ████████████████████ Vendor ████████████████████ -->
     <!-- ▀▀▀▀▀▀▀▀▀ 🟣 Marketplace 🟣 ▀▀▀▀▀▀▀▀▀ -->
-    <div
-      v-if="is_marketplace"
-      class="py-5"
-      style="border-top: dashed thin #777"
-    >
-      <s-widget-header icon="storefront" title="Vendor"></s-widget-header>
+    <template v-if="is_marketplace">
+      <s-setting-group icon="storefront" title="Vendor"></s-setting-group>
 
       <v-list-subheader
         >Show products only for a selected vendor. You can use this option to
@@ -338,45 +331,42 @@
         v-model="vendor_id"
         :shop="shop"
         label="Vendor"
+        variant="outlined"
         placeholder="Filter by vendor..."
       ></b-vendor-input>
-    </div>
+    </template>
 
     <!-- ████████████████████ Count ████████████████████ -->
-    <div v-if="hasCount" class="py-5" style="border-top: dashed thin #777">
-      <s-widget-header
+    <template v-if="hasCount">
+      <s-setting-group
         :title="$t('global.commons.limit')"
         icon="margin"
-      ></s-widget-header>
+      ></s-setting-group>
 
-      <u-number-input
+      <s-setting-number-input
         v-if="!categories_only"
         v-model="products_count"
         :label="$t('styler.products.limit')"
-        :max="24"
-        :messages="$t('styler.products.limit_message')"
+        :subtitle="$t('styler.products.limit_message')"
+        icon="filter_alt"
         :min="1"
-        :step="1"
-        class="my-6 max-width-field mx-auto"
-        show-buttons
+        :max="24"
         suffix="items"
-      ></u-number-input>
+      ></s-setting-number-input>
 
-      <u-number-input
+      <s-setting-number-input
         v-if="!products_only"
         v-model="categories_count"
         :label="$t('styler.products.categories_limit')"
+        :subtitle="$t('styler.products.categories_limit_msg')"
+        icon="filter_alt"
         :max="24"
-        :messages="$t('styler.products.categories_limit_msg')"
         :min="1"
-        :step="1"
-        class="my-6 max-width-field mx-auto"
         clearable
         placeholder="No limit"
-        show-buttons
         suffix="items"
-      ></u-number-input>
-    </div>
+      ></s-setting-number-input>
+    </template>
   </div>
 </template>
 
@@ -389,10 +379,18 @@ import BVendorInput from "@selldone/components-vue/backoffice/vendor/input/BVend
 import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import BShopThemeViewMove from "@selldone/components-vue/backoffice/shop/theme/view-mode/BShopThemeViewMove.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
+import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 
 export default {
   name: "SPageProductsFilter",
   components: {
+    SSettingNumberInput,
+    SSettingToggle,
+    SSettingSwitch,
+    SSettingGroup,
     BShopThemeViewMove,
     USmartSwitch,
     BVendorInput,
@@ -457,7 +455,7 @@ export default {
     vendor_id: null,
 
     mode_view: ModeView.NORMAL.code,
-    mode_view_f:null,
+    mode_view_f: null,
   }),
 
   watch: {
@@ -496,7 +494,7 @@ export default {
         vendor_id: this.vendor_id,
 
         mode_view: this.mode_view,
-        mode_view_f:this.mode_view_f,
+        mode_view_f: this.mode_view_f,
 
         surrounded: this.surrounded,
       };

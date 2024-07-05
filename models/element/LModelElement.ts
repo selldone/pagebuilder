@@ -55,7 +55,7 @@ export abstract class LModelElement<T> {
     int: number | null = null,
   ): LModelElement<T> {
     if (!element) return this;
-    if (int || int ===0) {
+    if (int || int === 0) {
       this.children.splice(int, 0, element);
     } else {
       this.children.push(element);
@@ -68,9 +68,10 @@ export abstract class LModelElement<T> {
   /**
    * This method is called before saving the element.
    */
-  public callBeforeSave(){
+  public callBeforeSave() {
     // Implement this method in the child class
   }
+
   // ━━━━━━━━━━━━━━━━━ 🥽 Label ━━━━━━━━━━━━━━━━━
 
   /**
@@ -93,10 +94,13 @@ export abstract class LModelElement<T> {
     return this.children.find((child) => child.getLabel() === label) || null;
   }
 
+  // ━━━━━━━━━━━━━━━━━ ⌚ Temporary Variables (Should not save) ━━━━━━━━━━━━━━━━━
+
   /**
    * Use to find corresponding element.
    */
   public $element: HTMLElement | null = null;
+  public __setExpand: Function | null = null;
 
   // ━━━━━━━━━━━━━━━━━ 🍒 Clone ━━━━━━━━━━━━━━━━━
   public clone(): LModelElement<T> {

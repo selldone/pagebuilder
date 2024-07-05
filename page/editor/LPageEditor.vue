@@ -706,7 +706,7 @@
 
     <l-settings-swiper :builder="$builder"></l-settings-swiper>
     <l-settings-column></l-settings-column>
-    <l-settings-marquee></l-settings-marquee>
+    <l-settings-marquee :builder="$builder"></l-settings-marquee>
 
     <l-settings-gallery :builder="$builder"></l-settings-gallery>
 

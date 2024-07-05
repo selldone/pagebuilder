@@ -18,15 +18,35 @@
     class="s--setting-text-input"
     density="compact"
   >
-    <template v-slot:prepend>
+    <template v-if="label" v-slot:prepend>
       <span class="-label me-2 min-width-100">
         <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
         {{ label }}</span
       >
     </template>
-
+    <v-textarea
+      v-if="multipleLines"
+      :clearable="clearable"
+      :counter="counter"
+      :disabled="disabled"
+      :messages="messages ? messages : ''"
+      :model-value="modelValue"
+      :placeholder="placeholder"
+      :rules="rules"
+      class="my-1"
+      color="#1976D2"
+      density="compact"
+      hide-details
+      auto-grow
+      style="min-width: 200px"
+      variant="outlined"
+      @update:model-value="(val) => setValue(val)"
+      @blur="$emit('blur')"
+    >
+    </v-textarea>
     <v-text-field
+      v-else
       :clearable="clearable"
       :counter="counter"
       :disabled="disabled"
@@ -41,6 +61,8 @@
       style="min-width: 200px"
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
+      @blur="$emit('blur')"
+      @keydown.enter.prevent="$emit('enter')"
     >
     </v-text-field>
   </v-list-item>
@@ -59,7 +81,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "SSettingTextInput",
 
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "blur", "enter"],
   props: {
     modelValue: {},
     label: {},
@@ -77,6 +99,7 @@ export default defineComponent({
     },
     rules: {},
     counter: {},
+    multipleLines: Boolean,
   },
   computed: {},
   data() {
