@@ -18,6 +18,7 @@ import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
+import {Section} from "@selldone/page-builder/src/section/section.ts";
 
 const DEBUG = false;
 
@@ -36,7 +37,7 @@ export const LMixinStyler = defineComponent({
       required: true,
     },
     section: {
-      type: Object,
+      type: Section,
       required: true,
     },
 
@@ -150,9 +151,9 @@ export const LMixinStyler = defineComponent({
             });
           },
           /* {
-                                           layoutShift: true,
-                             
-                                         }*/
+                                                     layoutShift: true,
+                                       
+                                                   }*/
         );
       }
     },
@@ -200,10 +201,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                                          if (this.popper) {
-                                                                                            this.popper.destroy();
-                                                                                            this.popper = null;
-                                                                                          }*/
+                                                                                                if (this.popper) {
+                                                                                                  this.popper.destroy();
+                                                                                                  this.popper = null;
+                                                                                                }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!

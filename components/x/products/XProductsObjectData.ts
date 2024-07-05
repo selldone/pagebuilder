@@ -16,15 +16,15 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 import {XRowObjectDataTypes} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export class XProductsObjectData extends LModelData<XProductsObjectData> {
-  align: XRowObjectDataTypes.IAlign = "start";
-  justify: XRowObjectDataTypes.IJustify = "start";
+  align: XRowObjectDataTypes.IAlign = "center";
+  justify: XRowObjectDataTypes.IJustify = "center";
   filter: XProductsObjectData.IFilter = {};
 
   constructor(params?: Partial<XProductsObjectData>) {
     super();
 
-    this.align = params?.align ?? "start";
-    this.justify = params?.justify ?? "start";
+    this.align = params?.align ?? "center";
+    this.justify = params?.justify ?? "center";
     this.filter = params?.filter ?? {};
   }
 

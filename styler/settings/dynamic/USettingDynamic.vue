@@ -22,6 +22,8 @@
     icon="data_object"
     :class="{ 'ps-2 border-start': nested }"
   >
+
+
     <template v-for="item in structure_primitive" :key="item.key">
       <s-setting-text-input
         v-if="item.type === 'string'"
@@ -55,6 +57,8 @@
       </div>
     </template>
   </s-setting-group>
+
+
 
   <!-- ━━━━━━━━━━━━━━━━━━━━ Array ━━━━━━━━━━━━━━━━━━━━ -->
   <u-setting-array
@@ -118,6 +122,10 @@
       </v-fade-transition>
     </v-list>
   </s-setting-group>
+
+
+
+
 </template>
 
 <script>

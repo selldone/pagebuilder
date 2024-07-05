@@ -39,14 +39,20 @@
 
       <v-card-text>
         <!-- ━━━━━━━━━━━━━━━━━━━━ Properties > Edit ━━━━━━━━━━━━━━━━━━━━ -->
-
         <u-setting-dynamic
           :properties-structure="propertiesStructure"
-          v-model="target[keyProperties]"
+          v-model="target.data.properties"
         ></u-setting-dynamic>
+
+        <div v-if="!propertiesDefault || !Object.keys(propertiesDefault).length">
+          <v-icon class="me-1">bolt</v-icon>
+          No properties defined.
+        </div>
+
         <!-- ━━━━━━━━━━━━━━━━━━━━ Properties > Reset Default ━━━━━━━━━━━━━━━━━━━━ -->
 
         <s-setting-group
+            v-if="target.data.properties && Object.keys(target.data.properties).length"
           title="Critical"
           subtitle="Use this section with caution. Resetting the properties will remove all the custom values and reset them to the default values."
         >
@@ -90,7 +96,6 @@ export default {
     el: null,
     section: null,
     target: null,
-    keyProperties: null, // ex. html
     propertiesStructure: null, // Properties structure
     propertiesDefault: null, // Default value of properties in the component
 
@@ -124,7 +129,6 @@ export default {
         el,
         section,
         target,
-        keyProperties,
         propertiesStructure,
         propertiesDefault,
       }) => {
@@ -135,17 +139,16 @@ export default {
         this.el = el;
         this.section = section;
         this.target = target;
-        this.keyProperties = keyProperties;
 
         this.propertiesStructure = propertiesStructure;
         this.propertiesDefault = propertiesDefault;
 
         if (
-          !this.target[this.keyProperties] ||
-          typeof this.target[this.keyProperties] !== "object"
+          !this.target.data.properties ||
+          typeof this.target.data.properties !== "object"
         ) {
           // Deep clone!
-          this.target[this.keyProperties] = JSON.parse(
+          this.target.data.properties = JSON.parse(
             JSON.stringify(this.propertiesDefault),
           );
         }
@@ -204,7 +207,7 @@ export default {
         "Are you sure you want to reset the properties to default?",
         "Yes, Reset Now",
         () => {
-          this.target[this.keyProperties] = JSON.parse(
+          this.target.data.properties = JSON.parse(
             JSON.stringify(this.propertiesDefault),
           );
         },

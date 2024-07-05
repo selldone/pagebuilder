@@ -57,13 +57,78 @@
           </v-tooltip>
         </button>
       </li>
+
+      <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
+
+      <li v-if="hasArrangement">
+        <v-btn
+          :disabled="show_align"
+          class="styler-button"
+          icon
+          size="42"
+          variant="text"
+          @click="show_align = true"
+        >
+          <v-icon size="20">vertical_distribute</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            >Align & Justify Columns
+          </v-tooltip>
+        </v-btn>
+      </li>
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
     <!-- ―――――――――――――――――――― Normal editing tools (sub list) ――――――――――――――――――― -->
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
-    <ul class="styler-list flex-grow-1 w-100"></ul>
+    <ul class="styler-list flex-grow-1 w-100">
+      <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
+
+      <div v-if="show_align" class="d-flex flex-column align-center pa-2">
+        <v-btn-toggle
+          v-model="target.data.align"
+          class="ma-1"
+          rounded="xl"
+          selected-class="green-flat"
+          style="min-height: 48px"
+          theme="dark"
+        >
+          <v-btn v-for="it in ALIGN" :key="it.val" :value="it.val" icon="">
+            <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
+            <v-tooltip
+              v-if="it.title"
+              activator="parent"
+              content-class="bg-black text-white"
+              location="bottom"
+              >{{ it.title }}
+            </v-tooltip>
+          </v-btn>
+        </v-btn-toggle>
+        <v-btn-toggle
+          v-model="target.data.justify"
+          class="ma-1"
+          rounded="xl"
+          selected-class="blue-flat"
+          style="min-height: 48px"
+          theme="dark"
+        >
+          <v-btn v-for="it in JUSTIFY" :key="it.val" :value="it.val" icon>
+            <v-icon class="flip-image-rtl" size="20">{{ it.icon }}</v-icon>
+            <v-tooltip
+              v-if="it.title"
+              activator="parent"
+              content-class="bg-black text-white"
+              location="bottom"
+              >{{ it.title }}
+            </v-tooltip>
+          </v-btn>
+        </v-btn-toggle>
+      </div>
+    </ul>
   </s-styler-template>
 </template>
 
@@ -71,6 +136,8 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import ALIGN from "@selldone/page-builder/src/enums/ALIGN.ts";
+import JUSTIFY from "@selldone/page-builder/src/enums/JUSTIFY.ts";
 
 /**
  * v-styler:products
@@ -102,6 +169,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasArrangement: {
+      type: Boolean,
+      default: false,
+    },
 
     keyFrameCategory: {
       type: String,
@@ -113,18 +184,14 @@ export default {
     },
   },
   data: () => ({
-    option: null,
+    ALIGN: ALIGN,
+    JUSTIFY: JUSTIFY,
+
+    show_align: false,
   }),
 
   computed: {},
-  watch: {
-    /**
-     * Reset menu status when it's closed.
-     */
-    isVisible() {
-      this.option = null;
-    },
-  },
+  watch: {},
   beforeMount() {
     if (!this.target) {
       throw new Error("Target is required for SStylerProducts");
@@ -134,6 +201,7 @@ export default {
 
   methods: {
     showCustomProductFrame() {
+      this.show_align = false;
       this.ShowLSettingsFrame(
         this.el,
         this.target,
@@ -143,6 +211,7 @@ export default {
     },
 
     showQueryBuilderProducts() {
+      this.show_align = false;
       this.ShowLSettingsProductsFilter(this.el, this.target);
     },
   },

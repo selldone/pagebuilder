@@ -27,6 +27,8 @@
 
         '-dot -blue': type === 'column',
 
+        '-dot -pink': type === 'products' ||  type === 'code',
+
 
         '-dot': type === 'section',
       },
@@ -503,6 +505,12 @@ input[type="number"]::-webkit-outer-spin-button {
         background-color: #ffa000;
       }
     }
+    &.-pink {
+      &:after {
+        background-color: #e91e63;
+      }
+    }
+
   }
 
   //------------------ End Styler dot color ------------------

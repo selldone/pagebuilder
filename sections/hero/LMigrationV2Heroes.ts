@@ -37,10 +37,10 @@ export class LMigrationV2Heroes {
     if (!$sectionData.columns) $sectionData.columns = [];
 
     // 1. Add section:
-    const section = XSectionObject.MigrateOld($sectionData, null);
+    const section = XSectionObject.MigrateOld($sectionData);
 
     // 2. Add container:
-    const container = XContainerObject.MigrateOld($sectionData, null);
+    const container = XContainerObject.MigrateOld($sectionData);
     section.addChild(container);
 
     // 3. Add row:

@@ -73,7 +73,7 @@
           </v-row>
 
           <prism-editor
-            v-model="target[keyCode]"
+            v-model="target.data.code"
             :highlight="highlighter"
             class="light-code scrollable-element-light"
             contenteditable="false"
@@ -196,7 +196,7 @@
             width="250"
             rounded="xl"
             @click="
-              target[keyCode] = item.section.data.html;
+              target.data.code = item.section.data.html;
               autoDetectMode();
               sample_dialog = false;
               changed = true;
@@ -249,7 +249,6 @@ export default {
     el: null,
     section: null,
     target: null,
-    keyCode: null, // ex. html
     refresh: null, // A callback refresh function to refresh code in component
 
     //----------------------- Bg image -----------------------
@@ -296,7 +295,7 @@ export default {
     EventBus.$on(
       "show:LSettingsCodeEditor",
 
-      ({ el, section, target, keyCode, refresh }) => {
+      ({ el, section, target, refresh }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -304,7 +303,6 @@ export default {
         this.el = el;
         this.section = section;
         this.target = target;
-        this.keyCode = keyCode;
 
         this.refresh = refresh;
 
@@ -352,27 +350,27 @@ export default {
 
   methods: {
     autoDetectMode() {
-      this.mode = LRawCodeHelper.DetectMode(this.target[this.keyCode]);
+      this.mode = LRawCodeHelper.DetectMode(this.target.data.code);
     },
     highlighter(code) {
       return Prism.highlight(code, Prism.languages.html, "html");
     },
 
     setMode() {
-      this.target[this.keyCode] = this.target[this.keyCode].replace(
+      this.target.data.code = this.target.data.code.replace(
         /<!----vue---->/g,
         "",
       );
 
       if (this.mode === RawCodeMode.MODE_HTML) {
       } else {
-        this.target[this.keyCode] =
-          `<!----vue---->${this.target[this.keyCode]}`;
+        this.target.data.code =
+          `<!----vue---->${this.target.data.code}`;
       }
     },
     refreshScripts() {
       this.busy_scripts = true;
-      this.extractInfoFromScripts(this.target[this.keyCode])
+      this.extractInfoFromScripts(this.target.data.code)
         .then((results) => {
           this.scripts_list = results;
         })

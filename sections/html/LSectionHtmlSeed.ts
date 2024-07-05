@@ -14,9 +14,10 @@
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XProductsObject} from "@selldone/page-builder/components/x/products/XProductsObject.ts";
+import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
+import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 
-export const LSectionStoreListingSeed = () => {
+export const LSectionHtmlSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
   section.classes = [];
@@ -24,10 +25,9 @@ export const LSectionStoreListingSeed = () => {
   // Initialize container and add to section
   const container = XContainerObject.Seed();
   section.addChild(container);
-  container.data.setFluid(true);
 
-  const products = XProductsObject.Seed();
-  container.addChild(products);
+  const code = XCodeObject.Seed();
+  container.addChild(code);
 
   return section;
 };

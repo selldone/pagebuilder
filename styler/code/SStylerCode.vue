@@ -92,6 +92,7 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 
 export default {
   name: "SStylerCode",
@@ -104,7 +105,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XCodeObject,
       // It's the value of v-styler:arg="value"
     },
 
@@ -126,10 +127,13 @@ export default {
     },
 
     /**
-     * {'structure':properties_structure,'value':properties_default}
-     * Structure of properties in the component | Default value of properties in the component
+     * Structure of properties in the component
      */
-    properties: Object,
+    structure: Object,
+    /**
+     * Default value of properties in the component
+     */
+    defaultValues: Object,
     /**
      * A callback refresh function to refresh code in component
      */
@@ -159,7 +163,6 @@ export default {
         this.el,
         this.section,
         this.target,
-        this.keyCode,
         this.refresh,
       );
     },
@@ -169,9 +172,8 @@ export default {
         this.el,
         this.section,
         this.target,
-        this.keyProperties,
-        this.properties.structure,
-        this.properties.value,
+        this.structure,
+        this.defaultValues,
       );
     },
   },

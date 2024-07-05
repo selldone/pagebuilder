@@ -15,8 +15,7 @@
 
 <template>
   <s-products-listing
-    v-styler:row="rowBinding"
-    v-styler:products="{ target: object }"
+    v-styler:products="{ target: object, hasArrangement: true }"
     :align="object.data.align"
     :justify="object.data.justify"
     :force-mode-view="mode_view"
@@ -26,6 +25,7 @@
     :view-only="is_editing"
     landing-page-mode
     silent
+    class="x--products"
   ></s-products-listing>
 </template>
 
@@ -36,14 +36,13 @@ import { XProductsObject } from "@selldone/page-builder/components/x/products/XP
 import SProductsListing from "@selldone/components-vue/storefront/products/listing/SProductsListing.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 
 export default {
   name: "XProducts",
   mixins: [LMixinXComponent],
   directives: { styler: StylerDirective },
 
-  components: { XSection, SProductsListing },
+  components: { SProductsListing },
 
   props: {
     object: {
@@ -65,18 +64,6 @@ export default {
 
     shop() {
       return this.getShop();
-    },
-
-    /**
-     * 🐍 Use compute for better performance.
-     * @return {{target: *}}
-     */
-    rowBinding() {
-      return {
-        target: this.object,
-        hasArrangement: true,
-        hasFluid: true,
-      };
     },
 
     filter() {

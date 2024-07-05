@@ -14,57 +14,62 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
+import {XCodeObjectData, XCodeObjectDataTypes,} from "@selldone/page-builder/components/x/code/XCodeObjectData.ts";
 
-export class XSectionObject extends LModelElement<XSectionObjectData> {
+export class XCodeObject extends LModelElement<XCodeObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XSectionObjectData | null,
-    props: Record<string, any> | null,
+    data: XCodeObjectData | null,
+    props: any,
   ) {
     super(
-      "XSection",
+      "XCode",
       background,
       style,
       classes,
       children,
-      data ? data : new XSectionObjectData(),
+      data
+        ? data
+        : new XCodeObjectData(XCodeObjectDataTypes.Mode.MODE_HTML, "", null),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XSectionObject(null, null, null, null, null, null);
+    return new XCodeObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XSectionObject {
-    return this.NewInstance();
+  static Seed(): XCodeObject {
+    const instance = this.NewInstance();
+    instance.data
+      .setCode(
+        `
+    <h1>
+      <b>SSSSSSSSSSSSSSSSSSSS</b>
+    </h1>
+
+  `,
+      )
+      .setMode(XCodeObjectDataTypes.Mode.MODE_HTML);
+    return instance;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
-
   /**
    * Migrate from V1 to V2
    * @param old
    * @constructor
    */
-  static MigrateOld(old: any): XSectionObject {
-    const data = new XSectionObjectData();
 
-    // console.log("old", old);
-    return new XSectionObject(
-      new LModelBackground(old?.background),
-      old?.style,
-      old?.classes,
-      [],
-      data,
-      null,
-    );
+  static MigrateOld(old: any): XCodeObject {
+    const data = new XCodeObjectData(old.mode, old.html, old.properties);
+
+    return new XCodeObject(null, null, null, [], data, null);
   }
 }

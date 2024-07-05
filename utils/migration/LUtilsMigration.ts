@@ -23,6 +23,9 @@ import {
 import {LMigrationV2GalleryBrands} from "@selldone/page-builder/sections/gallery/brands/LMigrationV2GalleryBrands.ts";
 import {LMigrationV2Swiper} from "@selldone/page-builder/sections/gallery/swiper/LMigrationV2Swiper.ts";
 import {LMigrationV2Scroll} from "@selldone/page-builder/sections/gallery/scroll/LMigrationV2Scroll.ts";
+import {LMigrationV2StoreListing} from "@selldone/page-builder/sections/store/listing/LMigrationV2StoreListing.ts";
+import {LMigrationV2Article} from "@selldone/page-builder/sections/article/LMigrationV2Article.ts";
+import {LMigrationV2Code} from "@selldone/page-builder/sections/html/LMigrationV2Code.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -175,8 +178,17 @@ export class LUtilsMigration {
     } else if (section.name === "LSectionGallerySwiper") {
       section.object = LMigrationV2Swiper.Migrate(section.data);
       section.data = null;
-    }else if (section.name === "LSectionGalleryScroll") {
+    } else if (section.name === "LSectionGalleryScroll") {
       section.object = LMigrationV2Scroll.Migrate(section.data);
+      section.data = null;
+    } else if (section.name === "LSectionStoreListing") {
+      section.object = LMigrationV2StoreListing.Migrate(section.data);
+      section.data = null;
+    } else if (section.name === "LSectionArticle") {
+      section.object = LMigrationV2Article.Migrate(section.data);
+      section.data = null;
+    }else if (section.name === "LSectionHtml") {
+      section.object = LMigrationV2Code.Migrate(section.data);
       section.data = null;
     }
 

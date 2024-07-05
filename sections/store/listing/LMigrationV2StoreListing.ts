@@ -13,37 +13,49 @@
  */
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
-import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XProductsObject} from "@selldone/page-builder/components/x/products/XProductsObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
-export class LMigrationV2TextSections {
+export class LMigrationV2StoreListing {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
 
-    // 1. Add section:
     const section = XSectionObject.MigrateOld($sectionData);
 
-    // 2. Add container:
     const container = XContainerObject.MigrateOld($sectionData);
     section.addChild(container);
 
-    container.addChild(
-      XTextObject.MigrateOld($sectionData.header, "h2", ["mb-5"]),
+    if ($sectionData.title) {
+      const title = XTextObject.Seed($sectionData.title, "h2", [
+        "mb-5",
+        "px-7",
+      ]);
+      container.addChild(title);
+
+      container.data.setFluid(true);
+      container.style.maxWidth = "1550px";
+      container.classes.push("mx-auto");
+    }
+
+    const products = XProductsObject.MigrateOld($sectionData);
+    container.addChild(products);
+
+    if ($sectionData.text) {
+      const text = XTextObject.Seed($sectionData.text, "p", ["mt-5", "px-7"]);
+      container.addChild(text);
+    }
+
+    console.log(
+      "Migrate V2 LSectionStoreListing | $sectionData",
+      $sectionData,
+      "--structure-->",
+      section,
     );
-
-    // 3. Add row:
-    const row = XRowObject.MigrateOld($sectionData);
-    container.addChild(row);
-
-    $sectionData.columns.forEach((_column: any) => {
-      row.addChild(XColumnImageTextObject.MigrateOld(_column));
-    });
 
     return section;
   }

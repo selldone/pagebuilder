@@ -242,14 +242,12 @@ export const LMixinEvents = defineComponent({
       el: HTMLElement,
       section: Section,
       target: Object,
-      keyCode: string,
       refresh: Function,
     ) {
       EventBus.$emit("show:LSettingsCodeEditor", {
         el,
         section,
         target,
-        keyCode,
         refresh,
       });
     },
@@ -257,7 +255,6 @@ export const LMixinEvents = defineComponent({
       el: HTMLElement,
       section: Section,
       target: Object,
-      keyProperties: string,
       propertiesStructure: Object,
       propertiesDefault: Object,
     ) {
@@ -265,7 +262,6 @@ export const LMixinEvents = defineComponent({
         el,
         section,
         target,
-        keyProperties,
         propertiesStructure,
         propertiesDefault,
       });

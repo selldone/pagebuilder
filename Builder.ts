@@ -73,6 +73,7 @@ import XSwiper from "@selldone/page-builder/components/x/swiper/XSwiper.vue";
 import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
 import XArticle from "@selldone/page-builder/components/x/article/XArticle.vue";
 import XProducts from "@selldone/page-builder/components/x/products/XProducts.vue";
+import XCode from "@selldone/page-builder/components/x/code/XCode.vue";
 
 const DEBUG = false;
 
@@ -641,6 +642,7 @@ const XComponents: any[] = [
   XVideoBackground,
   XArticle,
   XProducts,
+  XCode,
 ];
 
 /**

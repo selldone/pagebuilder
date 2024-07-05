@@ -31,7 +31,7 @@ export class LMigrationV2GalleryExpandable {
     if (!$sectionData.columns) $sectionData.columns = [];
 
     // 1. Add section:
-    const section = XSectionObject.MigrateOld($sectionData, null);
+    const section = XSectionObject.MigrateOld($sectionData);
 
     section.addChild(
       XTextObject.MigrateOld($sectionData.title, "h2", ["mb-5"]),
