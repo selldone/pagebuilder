@@ -19,10 +19,10 @@
   font-size: var(--base-font-size);
 
   h1, h2, h3, h4, h5, h6 {
-    font-weight: bolder;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
+    //font-weight: bolder;
+   // margin-left: auto;
+    //margin-right: auto;
+    //max-width: 1200px;
 
 
 
@@ -53,9 +53,9 @@
 
   p {
     font-size: var(--p-font-size);
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
+   // margin-left: auto;
+   // margin-right: auto;
+  //  max-width: 1200px;
   }
 
   small {
@@ -163,20 +163,5 @@
   }
 
 
-  // Old style: (Depricated)
-  /*section{
-    &.is-samin { background: var(--plate-light-1); color: #fff; }
-    &.is-red { background: var(--plate-light-2); color: #fff; }
-    &.is-black { background: var(--plate-light-3); color: #fff; }
-    &.is-green { background: var(--plate-light-4); color: #fff; }
-    &.is-blue { background: var(--plate-light-5); color: #fff; }
-    &.is-white { background: var(--plate-light-6); color: #fff; }
-    &.is-deep-purple { background: var(--plate-light-7); color: #fff; }
-    &.is-teal { background: var(--plate-light-8); color: #fff; }
-    &.is-cyan { background: var(--plate-light-9); color: #fff; }
-    &.is-amber { background: var(--plate-light-10); }
-    &.is-pink { background: #C2185B; color: #fff; }
-    &.is-blue-grey { background: var(--plate-light-11); color: #fff; }
-    &.is-transparent { background: transparent; }
-  }*/
+
 }

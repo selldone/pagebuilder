@@ -13,30 +13,20 @@
  */
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
-import {XSwiperObjectDataTypes} from "@selldone/page-builder/components/x/swiper/XSwiperObjectData.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
 
-export const LSectionGallerySwiperSeed = () => {
+export const LSectionArticleSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
   section.classes = [];
 
-  // Initialize swiper and add to section
-  const swiper = XSwiperObject.Seed();
-  section.addChild(swiper);
+  // Initialize container and add to section
+  const container = XContainerObject.Seed();
+  section.addChild(container);
 
-  swiper.data.effect = XSwiperObjectDataTypes.Effect.Slide;
-  swiper.data.autoHeight = true;
-  swiper.data.height = undefined;
-
-  swiper.children.forEach((container: XContainerObject) => {
-    const row = container.children[0];
-
-    row.style.minHeight = "640px";
-
-    const column = row.children[0];
-  });
+  const article = XArticleObject.Seed();
+  container.addChild(article);
 
   return section;
 };

@@ -154,13 +154,11 @@ export const LMixinEvents = defineComponent({
       el: HTMLElement,
       section: Section,
       target: Object,
-      hasThumbnail: boolean,
     ) {
       EventBus.$emit("show:LSettingsSwiper", {
         el,
         section,
         target,
-        hasThumbnail,
       });
     },
     ShowLSettingsColumn(el: HTMLElement, target: Object) {

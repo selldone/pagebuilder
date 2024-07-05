@@ -29,8 +29,12 @@ interface DataProps {
 
 const LMixinSection = defineComponent({
   props: {
-    sectionData: {}, // Old version
-    sectionObject: {}, // 🪵 New version
+   // sectionData: {}, // Old version
+  //  sectionObject: {}, // 🪵 New version
+    section: {
+      type: Section,
+      required: true,
+    },
   },
   data(): DataProps {
     return {
@@ -44,7 +48,7 @@ const LMixinSection = defineComponent({
     this.$builder = inject("$builder");
 
     // Find corresponding section by id
-    this.$section = this.$builder.find(this.$props.id) as Section;
+    this.$section = this.$props.section;
 
     // Provide section to all children
     provide("$section", this.$section);
@@ -71,14 +75,14 @@ const LMixinSection = defineComponent({
     /**
      * 🪵 New version
      */
-    $sectionObject(){
-      return this.sectionObject;
+    $sectionObject() {
+      return this.section.object;
     },
 
     /**
      * Old version
      */
-    $sectionData() {
+   /* $sectionData() {
       // Tips: Remove unset from style to solve conflict with self element classes by unset attributes!
 
       function removeUnsetStyles(obj: Record<string, any>) {
@@ -102,26 +106,9 @@ const LMixinSection = defineComponent({
         });
       // console.log("$sectionData Updated:",this.sectionData);
       return this.sectionData;
-    },
+    },*/
 
-    /**
-     * Generates grid classes for each column based on the device type.
-     * @returns {string[][]} An array of arrays containing grid classes for each column.
-     */
-    gridClasses(): string[][] {
-      return this.$sectionData.columns.map((column: types.Column) => {
-        return (Object.keys(column.grid ?? {}) as (keyof Grid)[]).map(
-          (device) => {
-            const gridValue = column.grid?.[device];
-            if (!gridValue) {
-              return "";
-            }
-            const prefix = this.$builder.columnsPrefix[device];
-            return `${prefix}${gridValue}`;
-          },
-        );
-      });
-    },
+
   },
 
   watch: {},

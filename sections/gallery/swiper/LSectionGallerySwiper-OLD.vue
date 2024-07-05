@@ -21,7 +21,6 @@
     v-styler:swiper="{
       target: $sectionData,
       keySlide: 'slide',
-      hasThumbnail: true,
     }"
     :object="$sectionData"
     class="pa-0"

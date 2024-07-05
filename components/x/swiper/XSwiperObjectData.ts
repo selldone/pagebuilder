@@ -19,16 +19,16 @@ import type {AutoplayOptions, GridOptions, KeyboardOptions, NavigationOptions, P
  * Class representing button data with various properties.
  */
 export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
-  autoHeight: boolean = false;
+  autoHeight: boolean = true;
   centeredSlides: boolean = false;
   direction: string = "horizontal";
   effect: XSwiperObjectDataTypes.Effect = XSwiperObjectDataTypes.Effect.Slide;
   grabCursor: boolean = false;
-  grid: GridOptions|null = null;
-  height: string | null = "640px";
+  grid: GridOptions | null = null;
+  height: string | null = null;
   initialSlide: number = 0;
   loop: boolean = false;
-  slidesPerGroup: number | "auto" = "auto";
+  slidesPerGroup: number | null = null;
   spaceBetween: number = 0;
 
   pagination: PaginationOptions | null = null;
@@ -36,10 +36,10 @@ export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
   keyboard: KeyboardOptions | null = null;
   navigation: NavigationOptions | null = null;
 
-  slidesPerView: number | "auto" = "auto";
-  slidesPerViewLg: number | "auto" = "auto";
-  slidesPerViewMd: number | "auto" = "auto";
-  slidesPerViewSm: number | "auto" = "auto";
+  slidesPerView: number | null = null;
+  slidesPerViewLg: number | null = null;
+  slidesPerViewMd: number | null = null;
+  slidesPerViewSm: number | null = null;
 
   /**
    * Active Slide Classes
@@ -66,16 +66,16 @@ export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
    * @param active
    */
   constructor({
-    autoHeight = false,
+    autoHeight = true,
     centeredSlides = false,
     direction = "horizontal",
     effect = XSwiperObjectDataTypes.Effect.Slide,
     grabCursor = false,
     grid = null,
-    height = "640px",
+    height = null,
     initialSlide = 0,
     loop = false,
-    slidesPerGroup = "auto",
+    slidesPerGroup = null,
     spaceBetween = 0,
     pagination = null,
     autoplay = null,

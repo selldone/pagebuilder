@@ -27,8 +27,10 @@
           density="compact"
           hide-details
           inset
-          style="min-width: 64px"
-          variant="plain"
+          style="min-width: 100px"
+          variant="outlined"
+          class="v-input-small"
+
           @update:model-value="(val) => setValue(val)"
         >
         </v-select>

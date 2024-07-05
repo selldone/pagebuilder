@@ -14,37 +14,66 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XContainerObjectData} from "@selldone/page-builder/components/x/container/XContainerObjectData.ts";
+import {XArticleObjectData} from "@selldone/page-builder/components/x/article/XArticleObjectData.ts";
 
-export class XContainerObject extends LModelElement<XContainerObjectData> {
+export class XArticleObject extends LModelElement<XArticleObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XContainerObjectData | null,
+    data: XArticleObjectData | null,
     props: any,
   ) {
     super(
-      "XContainer",
+      "XArticle",
       background,
       style,
       classes,
       children,
-      data ? data : new XContainerObjectData(false),
+      data ? data : new XArticleObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XContainerObject(null, null, null, null, null, null);
+    return new XArticleObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XContainerObject {
-    return this.NewInstance();
+  static Seed(): XArticleObject {
+    const instance = this.NewInstance();
+    instance.data.setBody(`
+    <h1>
+      <b>Hello world.</b>
+    </h1>
+    <h2>We are Selldoners.</h2>
+    <p>The #1 operating system for fast-growing companies.</p>
+    
+    <h2>Our Mission</h2>
+    <p>Our mission is to provide the best tools and support for companies looking to scale quickly and efficiently.</p>
+    
+    <h3>Why Choose Us?</h3>
+    <ul>
+      <li><b>Innovation:</b> We continuously innovate to bring you the best solutions.</li>
+      <li><b>Support:</b> Our support team is available 24/7 to assist you.</li>
+      <li><b>Scalability:</b> Our system grows with your business.</li>
+    </ul>
+    
+    <h3>Contact Us</h3>
+    <p>If you have any questions or need further information, please don't hesitate to contact us.</p>
+    
+    <p>Thank you for choosing Selldoners!</p>
+  `);
+    return instance;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ ⚡ Life Cycle ━━━━━━━━━━━━━━━━━
+
+  callBeforeSave() {
+    this.data.setBody(this.$element.purifyBody());
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
@@ -53,9 +82,10 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
    * @param old
    * @constructor
    */
-  static MigrateOld(old: any): XContainerObject {
-    const data = new XContainerObjectData(false);
 
-    return new XContainerObject(null, null, null, [], data, null);
+  static MigrateOld(old: any): XArticleObject {
+    const data = new XArticleObjectData(old.body);
+
+    return new XArticleObject(null, null, null, [], data, null);
   }
 }

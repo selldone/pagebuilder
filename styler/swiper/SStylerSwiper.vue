@@ -33,7 +33,7 @@
 
       <li>
         <button class="styler-button" @click="showEditSlides">
-          <v-icon color="#fff" size="20"> tune</v-icon>
+          <v-icon color="#fff" size="20">view_carousel</v-icon>
 
           <v-tooltip
             activator="parent"
@@ -123,9 +123,7 @@ export default {
     },
 
 
-    hasThumbnail: {
-      default: false,
-    },
+
   },
   data: () => ({
     option: null,
@@ -153,7 +151,6 @@ export default {
         this.el,
         this.section,
         this.target,
-        this.hasThumbnail,
       );
     },
   },

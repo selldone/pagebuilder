@@ -44,13 +44,14 @@
   </component>
 </template>
 
-<script>
+<script lang="ts">
 import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import DataXDirective from "../../../directives/DataXDirective";
 import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
+import {Grid} from "@selldone/page-builder/src/types/types.js";
 
 export default defineComponent({
   name: "XColumn",
@@ -102,6 +103,18 @@ export default defineComponent({
       ]);
       this.$forceUpdate();
     },
+
+
+    calcGridClasses(grid: Grid) {
+      return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
+        if (!grid[device]) {
+          return "";
+        }
+        const prefix = this.$builder.columnsPrefix[device];
+        return `${prefix}${grid[device]}`;
+      });
+    },
+
   },
 });
 </script>

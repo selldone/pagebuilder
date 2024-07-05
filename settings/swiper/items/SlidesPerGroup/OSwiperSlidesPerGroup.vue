@@ -17,6 +17,7 @@
     :disabled="!enable"
     :max="10"
     :min="1"
+    clearable
     has-auto
     icon="view_carousel"
     title="Slide per group"

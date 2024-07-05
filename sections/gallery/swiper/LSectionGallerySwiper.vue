@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
@@ -40,38 +39,7 @@ export default {
       "This section allows for the creation of a fully customizable slideshow.",
   },
 
-  $schema: {
-    classes: types.ClassList,
-    row: types.Row,
-
-    background: types.Background,
-    style: types.Style,
-
-    slide: {
-      effect: "slide",
-      autoplay: true,
-
-      items: [types.Slide],
-      height: "640px",
-      heightThumbs: "180px",
-      loop: false,
-      navigation: true,
-      pagination: "bullets",
-      vertical: false,
-      slidesPerView: 1,
-      spaceBetween: 0,
-      active: null, // Center slide custom class
-
-      thumbnail: {
-        enable: false,
-      },
-    },
-  },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
     augment: {
       // Extra information to show to dynamic show in page content
     },

@@ -25,8 +25,8 @@
   <s-setting-toggle
     v-model="modelValue.data.grid.fill"
     :disabled="!enable"
-    icon="view_stream"
-    title="Fill"
+    icon="view_day"
+    label="Fill"
     :items="['row', 'column']"
   >
   </s-setting-toggle>

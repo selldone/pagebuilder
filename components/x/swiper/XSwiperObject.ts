@@ -48,23 +48,21 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XSwiperObject {
+  static Seed(children_count: number = 3): XSwiperObject {
     const instance = this.NewInstance();
 
-    for (let i = 1; i <= 3; i++) {
-      instance.addChild(this.SeedSlide());
+    for (let i = 1; i <= children_count; i++) {
+      instance.addChild(this.SeedSlide(`Slide Title ${i}`));
     }
 
     return instance;
   }
 
-  static SeedSlide() {
+  static SeedSlide(title_value: string = "Enter your headline here..."):XContainerObject {
     const container = XContainerObject.Seed();
     const row = XRowObject.Seed();
     const column = XColumnObject.Seed(12, 6, 5);
-    const title = XTextObject.Seed("Enter your headline here...", "h2", [
-      "mb-5",
-    ]);
+    const title = XTextObject.Seed(title_value, "h2", ["mb-5"]);
     const subtitle = XTextObject.Seed(
       "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
       "p",

@@ -22,6 +22,7 @@ import {
 } from "@selldone/page-builder/sections/gallery/expandable/LMigrationV2GalleryExpandable.ts";
 import {LMigrationV2GalleryBrands} from "@selldone/page-builder/sections/gallery/brands/LMigrationV2GalleryBrands.ts";
 import {LMigrationV2Swiper} from "@selldone/page-builder/sections/gallery/swiper/LMigrationV2Swiper.ts";
+import {LMigrationV2Scroll} from "@selldone/page-builder/sections/gallery/scroll/LMigrationV2Scroll.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -174,7 +175,12 @@ export class LUtilsMigration {
     } else if (section.name === "LSectionGallerySwiper") {
       section.object = LMigrationV2Swiper.Migrate(section.data);
       section.data = null;
+    }else if (section.name === "LSectionGalleryScroll") {
+      section.object = LMigrationV2Scroll.Migrate(section.data);
+      section.data = null;
     }
+
+
 
 
     else {

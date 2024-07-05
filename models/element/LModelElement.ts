@@ -50,12 +50,27 @@ export abstract class LModelElement<T> {
     this.props = props;
   }
 
-  addChild(element: LModelElement<any> | null): LModelElement<T> {
+  addChild(
+    element: LModelElement<any> | null,
+    int: number | null = null,
+  ): LModelElement<T> {
     if (!element) return this;
-    this.children.push(element);
+    if (int || int ===0) {
+      this.children.splice(int, 0, element);
+    } else {
+      this.children.push(element);
+    }
+
     return this;
   }
 
+  // ━━━━━━━━━━━━━━━━━ ⚡ Life Cycle ━━━━━━━━━━━━━━━━━
+  /**
+   * This method is called before saving the element.
+   */
+  public callBeforeSave(){
+    // Implement this method in the child class
+  }
   // ━━━━━━━━━━━━━━━━━ 🥽 Label ━━━━━━━━━━━━━━━━━
 
   /**
@@ -91,16 +106,13 @@ export abstract class LModelElement<T> {
 
     // If T is an object with a clone method, call it. Otherwise, shallow copy it.
     const cloneData =
-        this.data && isFunction((this.data as any).clone)
-            ? (this.data as any).clone()
-            : null;
+      this.data && isFunction((this.data as any).clone)
+        ? (this.data as any).clone()
+        : null;
     console.log("Clone Data", cloneData);
-
 
     const cloneChildren = this.children.map((child) => child.clone());
     const cloneProps = this.props ? { ...this.props } : null;
-
-
 
     const clonedElement = new (this.constructor as any)(
       cloneBackground,

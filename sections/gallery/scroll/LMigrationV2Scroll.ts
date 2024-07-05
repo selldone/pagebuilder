@@ -22,18 +22,13 @@ import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonO
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
-export class LMigrationV2Swiper {
+export class LMigrationV2Scroll {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
-
-    // Migrate old version:
-    if (!$sectionData.slide.direction)
-      $sectionData.slide.direction = $sectionData.slide.vertical
-        ? "vertical"
-        : "horizontal";
 
     const section = XSectionObject.MigrateOld($sectionData);
     section.classes = [];
@@ -42,16 +37,21 @@ export class LMigrationV2Swiper {
     const swiper = XSwiperObject.MigrateOld($sectionData.slide);
     section.addChild(swiper);
 
+    if (!swiper.data.slidesPerView) swiper.data.slidesPerView = 1;
+
+    if (!swiper.data.slidesPerViewSm) swiper.data.slidesPerViewSm = 2;
+
+    if (!swiper.data.slidesPerViewMd) swiper.data.slidesPerViewMd = 3;
+
+    if (!swiper.data.slidesPerViewLg) swiper.data.slidesPerViewLg = 4;
+
+    if (!swiper.data.spaceBetween) swiper.data.spaceBetween = 30;
+
     $sectionData.slide.items.forEach((_slide: any) => {
       const container = XContainerObject.MigrateOld(_slide.container);
       container.data.setFluid(true);
-      container.style=$sectionData.style?$sectionData.style:{};
-      container.classes=$sectionData.classes?$sectionData.classes:[];
-
-      // Convert old image to slide background
-      if (_slide.image) {
-        container.background.bg_image = _slide.image.src;
-      }
+      container.style = $sectionData.style ? $sectionData.style : {};
+      container.classes = $sectionData.classes ? $sectionData.classes : [];
 
       const row = XRowObject.MigrateOld(_slide.row);
       const column = XColumnObject.Seed(12, 9, 7);
@@ -65,6 +65,8 @@ export class LMigrationV2Swiper {
 
       container.addChild(row);
       row.addChild(column);
+
+      column.addChild(XUploaderObject.MigrateOld(_slide.image));
       column.addChild(title);
       column.addChild(subtitle);
       column.addChild(buttons);
@@ -73,7 +75,7 @@ export class LMigrationV2Swiper {
     });
 
     console.log(
-      "Migrate V2 LSectionGallerySwiper | $sectionData",
+      "Migrate V2 LSectionGalleryScroll | $sectionData",
       $sectionData,
       "--structure-->",
       section,

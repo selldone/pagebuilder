@@ -88,15 +88,6 @@ const LMixinXComponent = defineComponent({
       );
     },
 
-    calcGridClasses(grid: Grid) {
-      return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
-        if (!grid[device]) {
-          return "";
-        }
-        const prefix = this.$builder.columnsPrefix[device];
-        return `${prefix}${grid[device]}`;
-      });
-    },
   },
 });
 export default LMixinXComponent;

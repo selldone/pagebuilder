@@ -17,7 +17,6 @@
   <swiper
     v-styler:swiper="{
       target: object,
-      hasThumbnail: true,
     }"
     :allow-touch-move="allow_touch_move"
     :auto-height="
@@ -46,7 +45,7 @@
     :navigation="navigation"
     :pagination="pagination"
     :slides-per-group="
-      SLIDE_DATA.slidesPerGroup !== 'auto' ? SLIDE_DATA.slidesPerGroup : 1
+      SLIDE_DATA.slidesPerGroup  ? SLIDE_DATA.slidesPerGroup : undefined
     "
     :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
     :slides-per-view="calcSlidesPerView()"

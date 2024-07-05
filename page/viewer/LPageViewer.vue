@@ -40,7 +40,8 @@
       :is="section.name"
       :id="section.uid"
       :augment="augment"
-      :sectionData="section.data"
+      :section="section"
+
       :style="section.get('$sectionData.style')"
     />
 

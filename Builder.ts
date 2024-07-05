@@ -71,6 +71,7 @@ import XGalleryExpandableItem
 import XDiv from "@selldone/page-builder/components/x/div/XDiv.vue";
 import XSwiper from "@selldone/page-builder/components/x/swiper/XSwiper.vue";
 import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
+import XArticle from "@selldone/page-builder/components/x/article/XArticle.vue";
 
 const DEBUG = false;
 
@@ -82,7 +83,7 @@ export namespace builder {
     title: string;
     sections: Section[];
     style: any;
-    css: IPageCss | null | undefined,
+    css: IPageCss | null | undefined;
     columnsPrefix: {
       mobile: string;
       tablet: string;
@@ -135,7 +136,7 @@ const BUILDER_OPTIONS: builder.IOptions = {
   title: "",
   sections: [],
   style: {},
-  css:null,
+  css: null,
   columnsPrefix: {
     mobile: "v-col-",
     tablet: "v-col-sm-",
@@ -289,28 +290,28 @@ export class Builder {
       );
     }
 
-    if (!options.schema) {
-      options.schema = this.components[options.name]?.$schema;
-      if (DEBUG) console.log("Auto assign schema.", options);
-    }
+    /* if (!options.schema) {
+           options.schema = this.components[options.name]?.$schema;
+           if (DEBUG) console.log("Auto assign schema.", options);
+         }*/
 
-    if (!options.schema) {
-      // TODO:Remove this after migration!
-      console.error(
-        "Schema not found for section! Maybe new version!",
-        options,
-        "position",
-        position,
-      );
-    }
+    /* if (!options.schema) {
+           // TODO:Remove this after migration!
+           console.error(
+             "Schema not found for section! Maybe new version!",
+             options,
+             "position",
+             position,
+           );
+         }*/
     const section = new Section(options, force_set_new_uid);
 
     if (DEBUG) console.log("📐 Add section", "section", section);
 
     //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
-    if (has_initialize && options.schema?.$init) {
-      options.schema?.$init(section.data);
-    }
+    /*  if (has_initialize && options.schema?.$init) {
+            options.schema?.$init(section.data);
+          }*/
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     if (position !== undefined) {
@@ -473,7 +474,7 @@ export class Builder {
             name: section.name,
             uid: section.uid,
             data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
-            schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
+            // schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
             object: section.object, //🪵 New Version!
           };
 
@@ -490,7 +491,7 @@ export class Builder {
   export() {
     // Pre save function call: (prepare some stuff in components if needed)
     this.sections.forEach((item) => {
-      if (item.schema.onPreSave) item.schema.onPreSave(item);
+      if (item.object.callBeforeSave) item.object.callBeforeSave();
       console.log("📐 Convert to json.");
     });
 
@@ -636,7 +637,8 @@ const XComponents: any[] = [
   XGalleryExpandableItem,
   XDiv,
   XSwiper,
-  XVideoBackground
+  XVideoBackground,
+  XArticle,
 ];
 
 /**

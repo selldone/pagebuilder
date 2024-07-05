@@ -34,19 +34,16 @@ export namespace Section {
     /**
      * @deprecated
      */
-    schema: {
+  /*  schema: {
       name: string;
       schema: any;
       data: any;
-      /**
-       * The function that will be called when the section is initialized.
-       * Not saved in the data.
-       */
       $init?: Function;
     } & Record<
       string,
       any
-    > /*More optional data (Not save on the model on database)*/;
+    > */
+    /*More optional data (Not save on the model on database)*/
 
     /**
      * New version
@@ -64,9 +61,12 @@ export namespace Section {
     uid: string;
     id: string;
     name: string;
-    schema: Object;
+   // schema: Object;
     object: LModelElement | null;
 
+    /**
+     * @deprecated
+     */
     data: IData | null; // Deprecated! Migrate to new version it will be null!
     //stylers: { instance: App; container: Element }[];
   }
@@ -76,7 +76,11 @@ export class Section implements Section.ISection {
   public uid: string; // New save section ID
   public id: string; // Old save section ID in data.id (deprecated)
   public name: string;
-  public schema: any;
+  //public schema: any;
+
+  /**
+   * @deprecated
+   */
   public data: Section.IData | null = null; // TODO: Deduplicated OLD!
 
   public object: LModelElement | null = null; // 🪵 New Version!
@@ -93,7 +97,7 @@ export class Section implements Section.ISection {
     // this.id=options.data?.id
     options = Object.assign({}, options);
     this.name = options.name;
-    this.schema = options.schema;
+    //this.schema = options.schema;
     this.uid = options.uid;
 
     // Try to migrate from V1 to V2
@@ -122,7 +126,7 @@ export class Section implements Section.ISection {
         options,
       );
 
-      this.data = options.data;
+      //this.data = options.data;
 
     } else {
       console.log(`Create new instance by seeder.`);

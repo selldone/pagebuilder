@@ -121,13 +121,6 @@
         <!-- ████████████████████ Auto Play ████████████████████ -->
         <o-swiper-auto-play v-model="target"></o-swiper-auto-play>
 
-        <!-- ████████████████████ Thumbnail ████████████████████ -->
-
-        <o-swiper-thumbnail
-          v-if="hasThumbnail"
-          v-model="target"
-        ></o-swiper-thumbnail>
-
         <!-- ████████████████████ Modules ████████████████████ -->
         <s-setting-group title="Modules"></s-setting-group>
 
@@ -150,7 +143,6 @@ import SSettingSelect from "../../styler/settings/select/SSettingSelect.vue";
 import SSettingGroup from "../../styler/settings/group/SSettingGroup.vue";
 import OSwiperSize from "../../settings/swiper/items/Size/OSwiperSize.vue";
 import OSwiperAutoPlay from "../../settings/swiper/items/AutoPlay/OSwiperAutoPlay.vue";
-import OSwiperThumbnail from "../../settings/swiper/items/Thumbnail/OSwiperThumbnail.vue";
 import OSwiperEffect from "../../settings/swiper/items/Effect/OSwiperEffect.vue";
 import OSwiperKeyboard from "../../settings/swiper/items/Keyboard/OSwiperKeyboard.vue";
 import OSwiperPagination from "../../settings/swiper/items/Pagination/OSwiperPagination.vue";
@@ -180,7 +172,6 @@ export default {
     LSettingsSwiperSlide,
     OSwiperKeyboard,
     OSwiperEffect,
-    OSwiperThumbnail,
     OSwiperAutoPlay,
     OSwiperSize,
     OSwiperPagination,
@@ -207,7 +198,6 @@ export default {
     el: null,
     section: null,
     target: null,
-    hasThumbnail: false,
 
     //----------------------- Bg image -----------------------
     show_edit_slide: false,
@@ -238,7 +228,7 @@ export default {
     EventBus.$on(
       "show:LSettingsSwiper",
 
-      ({ el, section, target, hasThumbnail }) => {
+      ({ el, section, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -246,7 +236,6 @@ export default {
         this.el = el;
         this.section = section;
         this.target = target;
-        this.hasThumbnail = hasThumbnail;
         this.showDialog();
       },
     );

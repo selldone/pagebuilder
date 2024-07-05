@@ -498,10 +498,9 @@
                       <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                       <component
                         :is="section.name"
-                        :sectionData="section.data"
-                        :sectionObject="section.object/*🪵 New Version!*/"
                         v-if="delay_load > index"
                         :id="section.uid"
+                        :section="section"
                         :ref="'SECTION_' + section.uid"
                         :class="{
                           'move-courser block-pointer-event':
@@ -552,7 +551,6 @@
                       dir="ltr"
                     >
                       <v-btn
-                        :class="{ disabled: !section.data || !section.schema }"
                         class="x-feeder-btn hover-scale-small force-top ml-6"
                         color="#000"
                         icon
@@ -673,11 +671,11 @@
           </v-locale-provider>
         </div>
 
-      <!--  <s-landing-editor-components-menu
-          :components="components"
-          :is-visible="listShown && inEditMode"
-          :isScrollDown="scrollTop > 200"
-        ></s-landing-editor-components-menu>-->
+        <!--  <s-landing-editor-components-menu
+            :components="components"
+            :is-visible="listShown && inEditMode"
+            :isScrollDown="scrollTop > 200"
+          ></s-landing-editor-components-menu>-->
       </div>
     </div>
     <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
@@ -738,14 +736,13 @@
       :section-component="selected_component"
     ></l-feeder-dialog>
 
-
     <!-- ――――――――――――――――――――――  Hierarchy ―――――――――――――――――――― -->
 
-
-    <l-page-editor-side-menu :builder="$builder"    :is-visible="listShown && inEditMode"
-                             :is-scroll-down="scrollTop > 200" ></l-page-editor-side-menu>
-
-
+    <l-page-editor-side-menu
+      :builder="$builder"
+      :is-visible="listShown && inEditMode"
+      :is-scroll-down="scrollTop > 200"
+    ></l-page-editor-side-menu>
   </div>
 </template>
 
@@ -961,7 +958,7 @@ export default defineComponent({
         this.builder.style.dark,
         this.builder.style.bg_position,
         this.builder.style.bg_rotation,
-          null
+        null,
       );
     },
 
@@ -1648,17 +1645,19 @@ export default defineComponent({
     },
 
     getComponents() {
-      return Object.entries(this.$builder.components).map(([originalName, component]) => {
-        const name = LUtilsMigration.MigrateSectionName(originalName);
-        return {
-          name: name,
-          group: component.group,
-          cover: component.cover,
-          label: component.label,
-          help: component.help,
-          schema: component.$schema,
-        };
-      });
+      return Object.entries(this.$builder.components).map(
+        ([originalName, component]) => {
+          const name = LUtilsMigration.MigrateSectionName(originalName);
+          return {
+            name: name,
+            group: component.group,
+            cover: component.cover,
+            label: component.label,
+            help: component.help,
+            schema: component.$schema,
+          };
+        },
+      );
     },
 
     onScroll(e) {

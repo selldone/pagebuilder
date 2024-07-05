@@ -37,7 +37,7 @@
       v-for="section in $builder.sections"
       :key="section.uid"
       :is="section.name"
-      :sectionData="section.data"
+      :section="section"
       :id="section.uid"
       :style="section.get('$sectionData.style')"
     />
