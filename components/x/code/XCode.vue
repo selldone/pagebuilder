@@ -17,8 +17,8 @@
   <div
     v-styler:code="{
       target: object,
-      structure:structure,
-      defaultValues:defaultValues,
+      structure: structure,
+      defaultValues: defaultValues,
       refresh: () => {
         refreshCode();
       },
@@ -50,10 +50,10 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper.ts";
-import { defineComponent, reactive } from "vue";
+import { defineComponent } from "vue";
 import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
-import {isObject} from "lodash-es";
+import { isObject } from "lodash-es";
 
 export default {
   name: "XCode",
@@ -74,10 +74,8 @@ export default {
 
     generated_component: null,
 
-
     structure: {},
-    defaultValues:{},
-
+    defaultValues: {},
   }),
 
   computed: {
@@ -151,24 +149,24 @@ export default {
             let fn = new Function(`return ${CODE_PROPS_PROPERTIES.default}`)();
             let result = fn();
 
-            if (result && typeof result === "object"){
+            if (result && typeof result === "object") {
               // 🦋 Set default values:
               this.defaultValues = result;
             }
-
 
             //console.log(`Properties > Default ${properties.default}`, result);
           }
           // Structure properties: (If defined by user)
           if (CODE_PROPS_PROPERTIES.structure) {
-            let fn = new Function(`return ${CODE_PROPS_PROPERTIES.structure}`)();
+            let fn = new Function(
+              `return ${CODE_PROPS_PROPERTIES.structure}`,
+            )();
             let result = fn();
 
-            if (result && typeof result === "object"){
+            if (result && typeof result === "object") {
               // 🦋 Set structure:
               this.structure = result;
             }
-
 
             console.log(
               `Properties > Structure ${CODE_PROPS_PROPERTIES.structure}`,
@@ -198,18 +196,32 @@ export default {
     },
 
     parseHTML(html) {
+      // Convert `export default` to `const config = ...`
+      if (html.includes("export default")) {
+        html = html.replace(/export\s+default\s*{?/, 'const config = {');
+      }
+      console.log("html --> ", html);
+
       const parser = new DOMParser();
       const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
       const scripts = doc.querySelectorAll("script");
       let scriptContent = "";
+
+      console.log("scripts --> ", scripts);
 
       scripts.forEach((script) => {
         scriptContent += script.textContent;
         script.parentNode.removeChild(script);
       });
 
+      // Try to find HTML:
+      const template = doc.querySelector("div > template");
+      console.log("templates --> ", template);
+
+      let templateContent = template ? template.innerHTML : doc.body.innerHTML;
+
       return {
-        html: doc.body.innerHTML,
+        html: templateContent,
         scriptContent,
       };
     },

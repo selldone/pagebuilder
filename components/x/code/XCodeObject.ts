@@ -50,10 +50,12 @@ export class XCodeObject extends LModelElement<XCodeObjectData> {
     instance.data
       .setCode(
         `
-    <h1>
-      <b>SSSSSSSSSSSSSSSSSSSS</b>
-    </h1>
-
+  <div class="content-section" style="margin: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
+    <h1 style="color: #333;">HTML5 + Vue3 Custom Code Section</h1>
+    <h2 style="color: #666;">You can load HTML5 and Vue3 content dynamically</h2>
+    <p style="color: #999;">This is a paragraph of text that provides some information.</p>
+    <p style="color: #999;">Another paragraph to show more content.</p>
+  </div>
   `,
       )
       .setMode(XCodeObjectDataTypes.Mode.MODE_HTML);

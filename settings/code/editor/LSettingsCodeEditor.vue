@@ -43,7 +43,7 @@
 
           <v-row no-gutters align="center">
             <v-btn-toggle
-              v-model="mode"
+              v-model="target.data.mode"
               class="my-3 overflow-visible"
               rounded="lg"
               selected-class="blue-flat elevation-10"
@@ -350,7 +350,7 @@ export default {
 
   methods: {
     autoDetectMode() {
-      this.mode = LRawCodeHelper.DetectMode(this.target.data.code);
+      this.target.data.setMode(LRawCodeHelper.DetectMode(this.target.data.code));
     },
     highlighter(code) {
       return Prism.highlight(code, Prism.languages.html, "html");
@@ -362,7 +362,7 @@ export default {
         "",
       );
 
-      if (this.mode === RawCodeMode.MODE_HTML) {
+      if (this.target.data.mode === RawCodeMode.MODE_HTML) {
       } else {
         this.target.data.code =
           `<!----vue---->${this.target.data.code}`;
