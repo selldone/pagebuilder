@@ -19,6 +19,7 @@ import {isObject, isString} from "lodash-es";
 import {LUtilsObject} from "../../utils/object/LUtilsObject";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
+import {Page} from "@selldone/core-js/models";
 
 const DEBUG = false;
 export namespace Section {
@@ -28,47 +29,22 @@ export namespace Section {
     [key: string]: any;
   }
 
-  export interface IOptions {
-    name: string;
-    uid: string; // [New] save section ID (previously we saved section ID in data.id)
-    /**
-     * @deprecated
-     */
-  /*  schema: {
-      name: string;
-      schema: any;
-      data: any;
-      $init?: Function;
-    } & Record<
-      string,
-      any
-    > */
-    /*More optional data (Not save on the model on database)*/
-
-    /**
-     * New version
-     */
-    object: LModelElement | null;
-
-    /**
-     * @Deprecated
-     * Old version
-     */
-    data?: IData;
-  }
-
   export interface ISection {
     uid: string;
     id: string;
     name: string;
-   // schema: Object;
+
+    /**
+     * V2
+     */
     object: LModelElement | null;
 
     /**
+     * V1
+     * Deprecated! Migrate to new version it will be null!
      * @deprecated
      */
-    data: IData | null; // Deprecated! Migrate to new version it will be null!
-    //stylers: { instance: App; container: Element }[];
+    data: IData | null;
   }
 }
 
@@ -85,7 +61,7 @@ export class Section implements Section.ISection {
 
   public object: LModelElement | null = null; // 🪵 New Version!
 
-  constructor(options: Section.IOptions, force_set_new_uid: boolean = false) {
+  constructor(options: Page.ISection, force_set_new_uid: boolean = false) {
     LOG(
       `⚽ ${options.name} | Section > Constructor`,
       options,
@@ -103,14 +79,21 @@ export class Section implements Section.ISection {
     // Try to migrate from V1 to V2
     if (!options.object && options.data) {
       // Try to migrate old version:
-      console.log(`Try to migrate section ${options.name} from V1 to V2. options:`,options);
-   try{
-     LUtilsMigration.MigrateSectionV1toV2(options);
-   }catch (e) {
-     console.error(`Migration failed for ${options.name}!`,e)
-
-   }
-      console.log(`After migration ${options.name} from V1 to V2. Data:`,options.data,'Object:',options.object);
+      console.log(
+        `Try to migrate section ${options.name} from V1 to V2. options:`,
+        options,
+      );
+      try {
+        LUtilsMigration.MigrateSectionV1toV2(options);
+      } catch (e) {
+        console.error(`Migration failed for ${options.name}!`, e);
+      }
+      console.log(
+        `After migration ${options.name} from V1 to V2. Data:`,
+        options.data,
+        "Object:",
+        options.object,
+      );
     }
 
     if (options.object && isObject(options.object)) {
@@ -127,7 +110,6 @@ export class Section implements Section.ISection {
       );
 
       //this.data = options.data;
-
     } else {
       console.log(`Create new instance by seeder.`);
 
@@ -140,11 +122,11 @@ export class Section implements Section.ISection {
       );
       if (_object) {
         this.object = _object;
-      }else{
-        console.error(`V2 Seeder does not exist for ${options.name}!`)
+      } else {
+        console.error(`V2 Seeder does not exist for ${options.name}!`);
       }
 
-     // this.data = LUtilsSeeder.seed(options.schema);
+      // this.data = LUtilsSeeder.seed(options.schema);
     }
 
     if (force_set_new_uid || !this.uid /*Auto assign an id!*/) {
@@ -225,6 +207,7 @@ export class Section implements Section.ISection {
   /**
    * Remove empty <br> data.
    * @returns {*|{}}
+   * @deprecated
    */
   removeBRFromSectionData() {
     return LUtilsObject.IterateOverSectionData(this.data, (text: any) => {

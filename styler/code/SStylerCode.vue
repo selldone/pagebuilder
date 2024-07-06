@@ -39,7 +39,8 @@
           variant="text"
           @click="showCodeEditor()"
         >
-          <v-icon size="20">code</v-icon>
+          <img v-if="target.data.mode==='vue'" :src="require('../../assets/images/frameworks/vue.svg')" width="20" height="20">
+          <v-icon v-else size="20">code</v-icon>
 
           <v-tooltip
             activator="parent"

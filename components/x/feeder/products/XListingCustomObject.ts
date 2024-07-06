@@ -14,36 +14,41 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XProductsObjectData} from "@selldone/page-builder/components/x/products/XProductsObjectData.ts";
+import {XListingCustomObjectData} from "@selldone/page-builder/components/x/feeder/products/XListingCustomObjectData.ts";
+import ProductFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/ProductFramesSample.ts";
+import CategoryFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/CategoryFramesSample.ts";
 
-export class XProductsObject extends LModelElement<XProductsObjectData> {
+export class XListingCustomObject extends LModelElement<XListingCustomObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XProductsObjectData | null,
+    data: XListingCustomObjectData | null,
     props: any,
   ) {
     super(
-      "XProducts",
+      "XFeederProducts",
       background,
       style,
       classes,
       children,
-      data ? data : new XProductsObjectData(),
+      data ? data : new XListingCustomObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XProductsObject(null, null, null, null, null, null);
+    const instance= new XListingCustomObject(null, null, null, null, null, null);
+    instance.data.frame_product.code = ProductFramesSample.Curvy_Card;
+    instance.data.frame_category.code = CategoryFramesSample.Curvy_Card;
+    return instance;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XProductsObject {
+  static Seed(): XListingCustomObject {
     const instance = this.NewInstance();
     instance.data.filter.sort = "most_popular";
     instance.data.filter.only_available = true;
@@ -60,11 +65,15 @@ export class XProductsObject extends LModelElement<XProductsObjectData> {
    * @constructor
    */
 
-  static MigrateOld(old: any): XProductsObject {
-    const data = new XProductsObjectData({filter:old.filter});
+  static MigrateOld(old: any): XListingCustomObject {
+    const data = new XListingCustomObjectData({filter:old.filter,
+      frame_category:old.frame_category,
+      frame_product:old.frame_product,
+
+    });
     data.align = old.row?.align;
     data.justify = old.row?.justify;
 
-    return new XProductsObject(null, null, null, [], data, null);
+    return new XListingCustomObject(null, null, null, [], data, null);
   }
 }

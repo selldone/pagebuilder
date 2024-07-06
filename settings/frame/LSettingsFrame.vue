@@ -43,7 +43,7 @@
         <v-expansion-panel>
           <v-expansion-panel-title>
             <div>
-              <v-icon class="me-1" >inventory</v-icon>
+              <v-icon class="me-1">inventory</v-icon>
               Product Frame
             </div>
           </v-expansion-panel-title>
@@ -181,9 +181,7 @@
                 "
                 :item-title="(item) => getName(item)"
                 :item-value="(item) => item"
-
               >
-
               </v-select>
             </div>
 
@@ -227,7 +225,7 @@ import CategoryFramesSample from "../../sections/store/custom-listing/frames/Cat
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsFrame",
@@ -249,8 +247,6 @@ export default {
 
     el: null,
     target: null,
-    keyFrameProduct: "frame_product", // $sectionData.frame - Always should be 'frame_product'
-    keyFrameCategory: "frame_category", // $sectionData.frame - Always should be 'frame_category'
 
     //----------------------- Products Filter -----------------------
 
@@ -313,15 +309,13 @@ export default {
     EventBus.$on(
       "show:LSettingsFrame",
 
-      ({ el, target, keyFrameCategory, keyFrameProduct }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keyFrameCategory = keyFrameCategory;
-        this.keyFrameProduct = keyFrameProduct;
         this.showProductsDialog();
       },
     );
@@ -362,11 +356,8 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.frame_product = Object.assign({}, this.target[this.keyFrameProduct]);
-      this.frame_category = Object.assign(
-        {},
-        this.target[this.keyFrameCategory],
-      );
+      this.frame_product = Object.assign({}, this.target.data.frame_product);
+      this.frame_category = Object.assign({}, this.target.data.frame_category);
 
       // Auto fix frame structure:
 
@@ -397,11 +388,8 @@ export default {
     onFrameCodeChange() {
       if (!this.dialog_frame || this.LOCK) return;
 
-      this.target[this.keyFrameProduct] = Object.assign({}, this.frame_product); // Save data in section!
-      this.target[this.keyFrameCategory] = Object.assign(
-        {},
-        this.frame_category,
-      ); // Save data in section!
+      this.target.data.frame_product = Object.assign({}, this.frame_product); // Save data in section!
+      this.target.data.frame_category = Object.assign({}, this.frame_category); // Save data in section!
 
       // this.dialog_frame = false;
     },

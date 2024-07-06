@@ -102,16 +102,22 @@ export default {
         : LRawCodeHelper.DetectMode(this.object.data.code);
       this.object.data.setMode(mode);
 
-      try {
-        if (mode === RawCodeMode.MODE_VUE) {
+      if (mode === RawCodeMode.MODE_VUE) {
+        try {
           this.generated_component = this.generateComponent(
             this.object.data.code,
           );
-        } else {
-          // Nothing!
+        } catch (e) {
+          this.generated_component = defineComponent({
+            template: `<div class="py-16">
+<b style="color: red;font-size: 2rem">🚫 Can not render! </b><br> ${e.toString()}
+</div>`,
+          });
+
+          //console.error("Error in generating component", e);
         }
-      } catch (error) {
-        console.error("Error generating component:", error);
+      } else {
+        // Nothing!
       }
     },
 
@@ -120,21 +126,42 @@ export default {
       this.structure = {}; // Reset structure.
       this.defaultValues = {}; // Reset default.
 
-      const { html: cleanHTML, scriptContent } = this.parseHTML(html);
+      const {
+        html: cleanHTML,
+        scriptContent,
+        styleContent,
+      } = this.parseHTML(html);
 
       // Assuming scriptContent is something like "{ data: () => ({ foo: 'bar' }), methods: { someMethod() {} } }"
 
       // Remove the script tags and any non-JavaScript content
       let scriptText = scriptContent.replace(/<script>|<\/script>/g, "").trim();
 
-      // Evaluate the script to extract the configuration
-      let config;
-      try {
-        const evalScript = new Function(scriptText + "; return config;");
-        config = evalScript();
-      } catch (error) {
-        console.error("Error evaluating script:", error);
+      function checkForAnyImports(code) {
+        const importRegex = /import\s+.*\s+from\s+['"].*['"];?/;
+
+        if (importRegex.test(code)) {
+          throw new Error(
+            "Restricted import found in the code. You can not use 'import' in the custom code.",
+          );
+        }
       }
+
+      checkForAnyImports(scriptText);
+
+      // Evaluate the script to extract the configuration
+      let config={};
+
+        if(scriptText){
+          try {
+            const evalScript = new Function(scriptText + "; return config;");
+            config = evalScript();
+          } catch (e) {
+           // console.error("Error in evaluating script", e);
+          }
+        }
+
+
 
       // Get properties to create options for the component
       try {
@@ -189,6 +216,15 @@ export default {
           template: cleanHTML,
           //components: {}, // Register local custom components
           ...config,
+          mounted() {
+           // console.log("On mounded custom component!", styleContent);
+            if (styleContent) {
+              const styleElement = document.createElement("style");
+              styleElement.textContent = styleContent;
+              //console.log("On mounded custom component!",  this.$el);
+              this.$el.appendChild(styleElement);
+            }
+          },
         });
       } catch (error) {
         console.error("Error generating component:", error);
@@ -198,21 +234,32 @@ export default {
     parseHTML(html) {
       // Convert `export default` to `const config = ...`
       if (html.includes("export default")) {
-        html = html.replace(/export\s+default\s*{?/, 'const config = {');
+        html = html.replace(/export\s+default\s*{?/, "const config = {");
       }
-      console.log("html --> ", html);
+      //console.log("html --> ", html);
 
       const parser = new DOMParser();
       const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
       const scripts = doc.querySelectorAll("script");
+
+      // Extract scripts:
       let scriptContent = "";
 
-      console.log("scripts --> ", scripts);
+    //  console.log("scripts --> ", scripts);
 
       scripts.forEach((script) => {
         scriptContent += script.textContent;
         script.parentNode.removeChild(script);
       });
+
+      // Extract style:
+      let styleContent = "";
+      const styles = doc.querySelectorAll("style");
+      styles.forEach((style) => {
+        styleContent += style.textContent;
+        style.parentNode.removeChild(style);
+      });
+     // console.log("styles --> ", styleContent);
 
       // Try to find HTML:
       const template = doc.querySelector("div > template");
@@ -223,6 +270,7 @@ export default {
       return {
         html: templateContent,
         scriptContent,
+        styleContent,
       };
     },
   },

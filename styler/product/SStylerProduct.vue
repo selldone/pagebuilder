@@ -57,6 +57,7 @@
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 
 /**
  * v-styler:product
@@ -73,7 +74,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XProductOverviewObject,
     },
 
     /**

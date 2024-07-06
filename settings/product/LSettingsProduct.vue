@@ -41,41 +41,43 @@
       </v-card-actions>
 
       <v-card-text class="text-start">
-        <s-widget-header icon="inventory" title="Product"></s-widget-header>
-        <v-list-subheader
-          >Choose a single product to feature on the homepage.
-        </v-list-subheader>
-        <b-products-select-box
-          v-model="target.id"
-          :shop="getShop()"
-          class="my-5"
-          single-product-select
+        <s-setting-group
+          icon="shelves"
+          title="Product"
+          subtitle="Choose a single product to feature on the homepage."
         >
-        </b-products-select-box>
+        </s-setting-group>
+        <s-setting-product
+          v-model="target.data.product_id"
+          :shop="shop"
+          :label="$t('global.commons.product')"
+          icon="bento"
+        ></s-setting-product>
       </v-card-text>
     </v-card>
   </v-navigation-drawer>
 </template>
 
 <script>
-import BProductsSelectBox from "@selldone/components-vue/backoffice/product/select-box/BProductsSelectBox.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import SSettingProduct from "@selldone/page-builder/styler/settings/product/SSettingProduct.vue";
 
 export default {
   name: "LSettingsProduct",
   mixins: [LMixinEvents],
 
   components: {
-    BProductsSelectBox,
+    SSettingProduct,
+    SSettingGroup,
   },
 
   props: {},
   data: () => ({
     el: null,
     section: null,
-    productPath: null, // $sectionData.product
 
     //----------------------- Product Select -----------------------
 
@@ -89,7 +91,11 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {},
+  computed: {
+    shop() {
+      return this.getShop();
+    },
+  },
   watch: {},
   created() {},
   mounted() {

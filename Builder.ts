@@ -20,7 +20,7 @@ import XColumn from "./components/x/column/XColumn.vue";
 import XSection from "./components/x/section/XSection.vue";
 import XContainer from "./components/x/container/XContainer.vue";
 import XButtons from "./components/x/buttons/XButtons.vue";
-import XCustomProductsList from "./components/x/products-list/XCustomProductsList.vue";
+import XFeederProducts from "./components/x/feeder/products/XFeederProducts.vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
 import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
@@ -74,6 +74,7 @@ import XVideoBackground from "@selldone/page-builder/components/x/video-backgrou
 import XArticle from "@selldone/page-builder/components/x/article/XArticle.vue";
 import XProducts from "@selldone/page-builder/components/x/products/XProducts.vue";
 import XCode from "@selldone/page-builder/components/x/code/XCode.vue";
+import XProductOverview from "@selldone/page-builder/components/x/product-overview/XProductOverview.vue";
 
 const DEBUG = false;
 
@@ -149,10 +150,8 @@ const BUILDER_OPTIONS: builder.IOptions = {
 };
 
 export type IPageCss = {
-  classes: {
-    classes: { selector: string; value: string }[] | null;
-    raw: string | null;
-  };
+  classes: { selector: string; value: string }[] | null;
+  raw: string | null;
 };
 
 export class Builder {
@@ -270,7 +269,7 @@ export class Builder {
    * @param has_initialize  Call $init in schema (prevent change on past section or drop pre built sections)
    */
   add(
-    options: Section.IOptions,
+    options: Page.ISection,
     position: number,
     has_initialize: boolean = false,
     force_set_new_uid: boolean = false,
@@ -497,10 +496,10 @@ export class Builder {
       console.log("📐 Convert to json.");
     });
 
-    this.sections.forEach((section) => {
+    /*this.sections.forEach((section) => {
       // removeBRFromSectionData(section.data);
       Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
-    });
+    });*/
 
     console.log("👢 CSS Style on save ", this.style);
 
@@ -626,7 +625,7 @@ const XComponents: any[] = [
   XSection,
   XContainer,
   XButtons,
-  XCustomProductsList,
+  XFeederProducts,
   XText,
   XUploader,
   XButton,
@@ -643,6 +642,7 @@ const XComponents: any[] = [
   XArticle,
   XProducts,
   XCode,
+  XProductOverview,
 ];
 
 /**

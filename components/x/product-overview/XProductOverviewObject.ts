@@ -14,41 +14,39 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XProductsObjectData} from "@selldone/page-builder/components/x/products/XProductsObjectData.ts";
+import {
+    XProductOverviewObjectData
+} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObjectData.ts";
 
-export class XProductsObject extends LModelElement<XProductsObjectData> {
+export class XProductOverviewObject extends LModelElement<XProductOverviewObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XProductsObjectData | null,
+    data: XProductOverviewObjectData | null,
     props: any,
   ) {
     super(
-      "XProducts",
+      "XProductOverview",
       background,
       style,
       classes,
       children,
-      data ? data : new XProductsObjectData(),
+      data ? data : new XProductOverviewObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XProductsObject(null, null, null, null, null, null);
+    return new XProductOverviewObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XProductsObject {
+  static Seed(): XProductOverviewObject {
     const instance = this.NewInstance();
-    instance.data.filter.sort = "most_popular";
-    instance.data.filter.only_available = true;
-    instance.data.filter.count = 4;
-    instance.data.filter.categories_count = 4;
 
     return instance;
   }
@@ -60,11 +58,9 @@ export class XProductsObject extends LModelElement<XProductsObjectData> {
    * @constructor
    */
 
-  static MigrateOld(old: any): XProductsObject {
-    const data = new XProductsObjectData({filter:old.filter});
-    data.align = old.row?.align;
-    data.justify = old.row?.justify;
+  static MigrateOld(old: any): XProductOverviewObject {
+    const data = new XProductOverviewObjectData(old.product_info?.id);
 
-    return new XProductsObject(null, null, null, [], data, null);
+    return new XProductOverviewObject(null, null, null, [], data, null);
   }
 }

@@ -36,7 +36,6 @@
       </v-card-actions>
 
       <v-card-text v-if="dialog_pre" class="pb-16">
-
         <background-image-editor
           v-model:bg-image="bg_image"
           v-model:bgCustom="bg_custom"
@@ -48,7 +47,6 @@
           v-model:bgVideo="bg_video"
           v-model:bgColor="bg_color"
           v-model:bg-backdrop="bg_backdrop"
-
           :upload-url="upload_bg_url"
           :upload-video-url="upload_video_url"
           dark
@@ -56,7 +54,6 @@
           has-bg-color
           has-backdrop
         >
-
         </background-image-editor>
       </v-card-text>
     </v-card>
@@ -65,7 +62,6 @@
 
 <script>
 import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
-import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
@@ -102,13 +98,13 @@ export default {
     bg_image: null,
     bg_video: null,
     bg_gradient: [],
-    bg_rotation:null,
+    bg_rotation: null,
     bg_size: null,
     bg_custom: null,
     bg_repeat: null,
     dark: null,
     bg_position: "center",
-    bg_backdrop:null,
+    bg_backdrop: null,
 
     //--------------------------
     key_listener_keydown: null,
@@ -140,7 +136,7 @@ export default {
         bg_repeat: this.bg_repeat,
         dark: this.dark,
         bg_position: this.bg_position,
-        bg_backdrop:this.bg_backdrop,
+        bg_backdrop: this.bg_backdrop,
       };
     },
   },
@@ -215,10 +211,13 @@ export default {
       this.bg_image = background ? background.bg_image : null;
       this.bg_video = background ? background.bg_video : null;
 
-      this.bg_gradient = background && background.bg_gradient ? background.bg_gradient : [];
-      this.bg_rotation =background?.bg_rotation ? background.bg_rotation : 45/*deg*/;
+      this.bg_gradient =
+        background && background.bg_gradient ? background.bg_gradient : [];
+      this.bg_rotation = background?.bg_rotation
+        ? background.bg_rotation
+        : 45 /*deg*/;
 
-          this.bg_size = background ? background.bg_size : null;
+      this.bg_size = background ? background.bg_size : null;
       this.bg_custom = background ? background.bg_custom : null;
       this.bg_repeat = background ? background.bg_repeat : null;
       this.dark = background ? background.dark : false;

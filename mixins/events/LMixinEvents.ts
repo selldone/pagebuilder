@@ -17,6 +17,8 @@ import {EventBus} from "@selldone/core-js/events/EventBus";
 import {Section} from "../../src/section/section";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import {StylerOptions} from "../../styler/StylerDirective";
+import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 export const LMixinEvents = defineComponent({
   data() {
@@ -103,7 +105,7 @@ export const LMixinEvents = defineComponent({
 
     ShowLSettingsBackground(
       el: HTMLElement,
-      target: Object,
+      target: LModelElement<any>,
       keyBackground: string,
     ) {
       EventBus.$emit("show:LSettingsBackground", {
@@ -112,7 +114,7 @@ export const LMixinEvents = defineComponent({
         keyBackground,
       });
     },
-    ShowLSettingsProduct(el: HTMLElement, target: Object) {
+    ShowLSettingsProduct(el: HTMLElement, target: XProductOverviewObject) {
       EventBus.$emit("show:LSettingsProduct", {
         el,
         target,
@@ -131,14 +133,10 @@ export const LMixinEvents = defineComponent({
     ShowLSettingsFrame(
       el: HTMLElement,
       target: Object,
-      keyFrameCategory: string,
-      keyFrameProduct: string,
     ) {
       EventBus.$emit("show:LSettingsFrame", {
         el,
         target,
-        keyFrameCategory,
-        keyFrameProduct,
       });
     },
 

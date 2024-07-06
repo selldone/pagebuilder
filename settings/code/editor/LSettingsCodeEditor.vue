@@ -56,7 +56,7 @@
               </v-btn>
               <v-btn variant="outlined" value="vue" class="tnt">
                 <v-avatar :size="24" class="me-1" rounded>
-                  <v-img :src="require('./assets/vue.svg')" />
+                  <v-img :src="require('../../../assets/images/frameworks/vue.svg')" />
                 </v-avatar>
                 Vue
               </v-btn>

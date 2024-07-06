@@ -47,9 +47,9 @@ export class LandingCssHelper {
    * @returns {HTMLStyleElement | null} The updated or newly created style element, or null if CSS text is empty.
    */
   static Inject(css: IPageCss, target: HTMLElement): HTMLStyleElement | null {
-    if(!target){
+    if (!target) {
       console.error("🩴 Target element is not provided for CSS injection.");
-      return ;
+      return null;
     }
     const css_text = LandingCssHelper.Generate(css);
 
@@ -71,7 +71,6 @@ export class LandingCssHelper {
     console.log("🩴 Injected or updated CSS", style);
     return style;
   }
-
 
   /**
    * Extracts valid CSS class names from an IPageCss object.
@@ -97,6 +96,4 @@ export class LandingCssHelper {
     // Return unique class names using a Set to filter out duplicates
     return [...new Set(allClasses)];
   }
-
-
 }

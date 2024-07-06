@@ -154,7 +154,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: Object, // Can be XProductsObject or XListingCustomObject
     },
 
     /**
@@ -174,14 +174,7 @@ export default {
       default: false,
     },
 
-    keyFrameCategory: {
-      type: String,
-      default: "frame_category",
-    },
-    keyFrameProduct: {
-      type: String,
-      default: "frame_product",
-    },
+
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -205,8 +198,6 @@ export default {
       this.ShowLSettingsFrame(
         this.el,
         this.target,
-        this.keyFrameCategory,
-        this.keyFrameProduct,
       );
     },
 
