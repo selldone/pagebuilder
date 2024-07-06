@@ -26,8 +26,12 @@ import {XCollectionObjectData} from "@selldone/page-builder/components/x/collect
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XProductObject} from "@selldone/page-builder/components/x/product/XProductObject.ts";
+import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
+  // Custom elements [Permanent]
+  public button: XButtonObject | null = null;
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -77,7 +81,8 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     desktop: number | null = 4,
     widescreen: number | null = null,
     layout: XColumnImageTextDataTypes.LAYOUTS | null,
-    initialColumnLayout: XColumnImageTextDataTypes.LAYOUTS|null = XColumnImageTextDataTypes.LAYOUTS.NORMAL,
+    initialColumnLayout: XColumnImageTextDataTypes.LAYOUTS | null = XColumnImageTextDataTypes
+      .LAYOUTS.NORMAL,
     initialClassesContent: string[] = [],
     hasImage: boolean = false,
   ): XColumnImageTextObject {

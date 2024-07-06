@@ -40,178 +40,189 @@
       <v-expansion-panels v-model="tab" class="mb-16">
         <!-- ████████████████████ Product ████████████████████ -->
 
-        <v-expansion-panel>
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">inventory</v-icon>
-              Product Frame
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <s-widget-header title="Element Class"></s-widget-header>
+        <s-setting-expandable
+          icon="inventory"
+          title="Product Frame"
+          subtitle="You can allocate classes to the root element of each product. By default, the template code duplicates within a row element. Each product is encapsulated within a 'span' element, and any classes assigned here will be applied to this 'span'. Responsive classes, such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here."
+        >
+          <v-combobox
+            v-model="frame_product.classes"
+            :items="standard_classes"
+            chips
+            class="mt-5"
+            clearable
+            closable-chips
+            label="Element Classes"
+            placeholder="Enter classes for each frame..."
+            persistent-placeholder
+            multiple
+            variant="outlined"
+            @update:model-value="onFrameCodeChange"
+          >
+          </v-combobox>
+          <s-setting-group
+            title="Product Frame Code"
+            icon="code"
+            subtitle="Input the custom code for each product in this area, allowing for the use of dynamic content as demonstrated in the table below."
+          >
+          </s-setting-group>
 
-            <small>
-              You can allocate classes to the root element of each product. By
-              default, the template code duplicates within a row element. Each
-              product is encapsulated within a 'span' element, and any classes
-              assigned here will be applied to this 'span'. Responsive classes,
-              such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here.
-            </small>
-            <v-combobox
-              v-model="frame_product.classes"
-              :items="standard_classes"
-              chips
-              class="mt-2"
-              clearable
-              closable-chips
-              label="Element Classes"
-              multiple
+          <div class="d-flex">
+            <v-spacer></v-spacer>
+            <v-select
+              v-model="val_sample_product"
+              :item-title="(item) => getName(item)"
+              :item-value="(item) => item"
+              :items="Object.keys(ProductFramesSample)"
+              class="max-w-200"
+              label="Samples"
+              prepend-inner-icon="inventory"
               variant="outlined"
-              @update:model-value="onFrameCodeChange"
+              density="comfortable"
+              @update:model-value="
+                (val) => {
+                  frame_product.code = ProductFramesSample[val];
+                  onFrameCodeChange();
+                }
+              "
             >
-            </v-combobox>
-            <s-widget-header title="Product Frame Code"></s-widget-header>
+            </v-select>
+          </div>
 
-            <small>
-              Input the custom code for each product in this area, allowing for
-              the use of dynamic content as demonstrated in the table below.
-            </small>
-
-            <div class="d-flex">
-              <v-spacer></v-spacer>
-              <v-select
-                v-model="val_sample_product"
-                :item-title="(item) => getName(item)"
-                :item-value="(item) => item"
-                :items="Object.keys(ProductFramesSample)"
-                class="max-w-200"
-                label="Samples"
-                prepend-inner-icon="inventory"
-                variant="outlined"
-                @update:model-value="
-                  (val) => {
-                    frame_product.code = ProductFramesSample[val];
-                    onFrameCodeChange();
-                  }
-                "
-              >
-              </v-select>
-            </div>
-
-            <v-textarea
+          <v-sheet class="border pa-2 rounded-lg">
+            <prism-editor
+              style="line-height: normal; font-size: 14px"
+              class="prism-dark"
               v-model="frame_product.code"
-              auto-grow
-              label="Frame code"
-              variant="outlined"
+              :highlight="highlighter"
+              language="html"
+              line-numbers
+              auto-style-line-numbers
               @blur="onFrameCodeChange"
               @change="val_sample_product = null"
-            ></v-textarea>
+            ></prism-editor>
+          </v-sheet>
 
-            <v-table class="my-5 max-w-640 mx-auto small" dense>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Code</th>
-                    <th class="text-left">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(desc, code) in product_codes" :key="code">
-                    <td v-copy>{{ code }}</td>
-                    <td>{{ desc }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-table>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-title class="text-subtitle-2">
+                <v-icon class="me-1">support</v-icon>
+                Help & Dynamic Values
+              </v-expansion-panel-title>
+
+              <v-expansion-panel-text>
+                <v-table class="my-5 max-w-640 mx-auto small" density="compact">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">Code</th>
+                        <th class="text-left">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(desc, code) in product_codes" :key="code">
+                        <td v-copy>{{ code }}</td>
+                        <td>{{ desc }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-table>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </s-setting-expandable>
 
         <!-- ████████████████████ Category ████████████████████ -->
 
-        <v-expansion-panel>
-          <v-expansion-panel-title>
-            <div>
-              <v-icon class="me-1">folder</v-icon>
-              Category Frame
-            </div>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <s-widget-header title="Element Class"></s-widget-header>
-            <small>
-              You can allocate classes to the root element of each product. By
-              default, the template code duplicates within a row element. Each
-              product is encapsulated within a 'span' element, and any classes
-              assigned here will be applied to this 'span'. Responsive classes,
-              such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here.
-            </small>
+        <s-setting-expandable
+          icon="folder"
+          title="Category Frame"
+          subtitle="You can allocate classes to the root element of each product. By default, the template code duplicates within a row element. Each product is encapsulated within a 'span' element, and any classes assigned here will be applied to this 'span'. Responsive classes, such as 'v-col-12', 'v-col-sm-6', and so on, can also be set here."
+        >
+          <v-combobox
+            v-model="frame_category.classes"
+            :items="standard_classes"
+            chips
+            clearable
+            closable-chips
+            label="Element Classes"
+            multiple
+            density="comfortable"
+            variant="outlined"
+            class="mt-5"
+            @update:model-value="onFrameCodeChange"
+          >
+          </v-combobox>
 
-            <v-combobox
-              v-model="frame_category.classes"
-              :items="standard_classes"
-              chips
-              clearable
-              closable-chips
-              label="Element Classes"
-              multiple
+          <s-setting-group
+            title="Category Frame Code"
+            icon="code"
+            subtitle="Input the code for each category in this section, utilizing dynamic content as illustrated in the subsequent table."
+          ></s-setting-group>
+
+          <div class="d-flex">
+            <v-spacer></v-spacer>
+            <v-select
+              v-model="val_sample_category"
+              :items="Object.keys(CategoryFramesSample)"
+              class="max-w-200"
+              label="Samples"
+              prepend-inner-icon="folder"
               variant="outlined"
-              @update:model-value="onFrameCodeChange"
+              @update:model-value="
+                (val) => {
+                  frame_category.code = CategoryFramesSample[val];
+                  onFrameCodeChange();
+                }
+              "
+              :item-title="(item) => getName(item)"
+              :item-value="(item) => item"
             >
-            </v-combobox>
-            <s-widget-header title="Category Frame Code"></s-widget-header>
+            </v-select>
+          </div>
 
-            <small>
-              Input the unique code for each category in this section, utilizing
-              dynamic content as illustrated in the subsequent table.
-            </small>
-
-            <div class="d-flex">
-              <v-spacer></v-spacer>
-              <v-select
-                v-model="val_sample_category"
-                :items="Object.keys(CategoryFramesSample)"
-                class="max-w-200"
-                label="Samples"
-                prepend-inner-icon="folder"
-                variant="outlined"
-                @update:model-value="
-                  (val) => {
-                    frame_category.code = CategoryFramesSample[val];
-                    onFrameCodeChange();
-                  }
-                "
-                :item-title="(item) => getName(item)"
-                :item-value="(item) => item"
-              >
-              </v-select>
-            </div>
-
-            <v-textarea
+          <v-sheet class="border pa-2 rounded-lg">
+            <prism-editor
+              style="line-height: normal; font-size: 14px"
+              class="prism-dark"
               v-model="frame_category.code"
-              auto-grow
-              label="Frame code"
-              variant="outlined"
+              :highlight="highlighter"
+              language="html"
+              line-numbers
+              auto-style-line-numbers
               @blur="onFrameCodeChange"
               @change="val_sample_category = null"
-            ></v-textarea>
+            ></prism-editor>
+          </v-sheet>
 
-            <v-table class="my-5 max-w-640 mx-auto" dense>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Code</th>
-                    <th class="text-left">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(desc, code) in category_codes" :key="code">
-                    <td v-copy>{{ code }}</td>
-                    <td>{{ desc }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-table>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-title class="text-subtitle-2">
+                <v-icon class="me-1">support</v-icon>
+                Help & Dynamic Values
+              </v-expansion-panel-title>
+
+              <v-expansion-panel-text>
+                <v-table class="my-5 max-w-640 mx-auto" density="compact">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">Code</th>
+                        <th class="text-left">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(desc, code) in category_codes" :key="code">
+                        <td v-copy>{{ code }}</td>
+                        <td>{{ desc }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-table>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </s-setting-expandable>
       </v-expansion-panels>
     </v-card>
   </v-navigation-drawer>
@@ -226,12 +237,16 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import { PrismEditor } from "vue-prism-editor";
+import "prismjs/themes/prism-dark.css";
 
 export default {
   name: "LSettingsFrame",
   mixins: [LMixinEvents],
 
-  components: {},
+  components: { PrismEditor, SSettingGroup, SSettingExpandable },
 
   props: {},
   data: () => ({
@@ -355,6 +370,10 @@ export default {
   },
 
   methods: {
+    highlighter(code) {
+      return Prism.highlight(code, Prism.languages.html);
+    },
+
     showProductsDialog() {
       this.frame_product = Object.assign({}, this.target.data.frame_product);
       this.frame_category = Object.assign({}, this.target.data.frame_category);
@@ -386,6 +405,7 @@ export default {
 
     //----------------------------------------------------------------------------
     onFrameCodeChange() {
+      console.log("onFrameCodeChange");
       if (!this.dialog_frame || this.LOCK) return;
 
       this.target.data.frame_product = Object.assign({}, this.frame_product); // Save data in section!

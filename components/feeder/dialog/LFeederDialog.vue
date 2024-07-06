@@ -367,7 +367,7 @@ import { LUtilsSeeder } from "../../../utils/seeder/LUtilsSeeder";
 import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
 import BProductsSelectBox from "@selldone/components-vue/backoffice/product/select-box/BProductsSelectBox.vue";
-import SPageProductsFilter from "../../../components/style/product/SPageProductsFilter.vue";
+import SPageProductsFilter from "../../style/product/filter/SPageProductsFilter.vue";
 import LFeederNewsletter from "../../../components/feeder/newsletter/LFeederNewsletter.vue";
 import LFeederImage from "../../../components/feeder/image/LFeederImage.vue";
 import LAugmentFinder from "../../../components/augment/finder/LAugmentFinder.vue";

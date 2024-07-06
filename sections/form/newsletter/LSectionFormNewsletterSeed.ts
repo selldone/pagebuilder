@@ -16,8 +16,11 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XListingCustomObject} from "@selldone/page-builder/components/x/feeder/products/XListingCustomObject.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.ts";
 
-export const LSectionCustomListingSeed = () => {
+export const LSectionFormNewsletterSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
   section.classes = [];
@@ -28,10 +31,23 @@ export const LSectionCustomListingSeed = () => {
 
   const row = XRowObject.Seed();
   container.addChild(row);
-  row.data.setAlign("stretch").setJustify("center");
 
-  const listing = XListingCustomObject.Seed();
-  row.addChild(listing);
+
+  const column = XColumnObject.Seed(12,8,6);
+  row.addChild(column);
+
+  column.addChild(XTextObject.Seed("Enter your headline here...", "h2", ["mb-2"]));
+  column.addChild(XTextObject.Seed("Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...", "p", ["mb-4"]));
+
+
+  // Add form
+  const form = XFormObject.Seed();
+  column.addChild(form);
+
+
+  // add input to form
+
+
 
   return section;
 };

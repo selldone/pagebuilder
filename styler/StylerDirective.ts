@@ -45,6 +45,7 @@ import SStylerGallery from "../styler/gallery/SStylerGallery.vue";
 import SStylerCode from "../styler/code/SStylerCode.vue";
 import SStylerInput from "@selldone/page-builder/styler/input/SStylerInput.vue";
 import SStylerDiv from "@selldone/page-builder/styler/div/SStylerDiv.vue";
+import SStylerForm from "@selldone/page-builder/styler/form/SStylerForm.vue";
 
 const DEBUG = false;
 
@@ -65,7 +66,9 @@ export namespace StylerOptions {
     | "marquee"
     | "gallery"
     | "code"
-    | "div";
+      | "div"
+      | "form"
+      ;
 
   export interface IButtonsRow {
     target: types.ButtonsRow;
@@ -193,7 +196,11 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerInput;
     } else if (argument === "div") {
       stylerComponent = SStylerDiv;
-    } else {
+    }  else if (argument === "form") {
+      stylerComponent = SStylerForm;
+    }
+
+    else {
       console.error("Styler component not found!", argument);
     }
 

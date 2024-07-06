@@ -123,17 +123,16 @@ export const LMixinEvents = defineComponent({
     ShowLSettingsProductsFilter(
       el: HTMLElement,
       target: Object,
+      options: { view_mode: boolean },
     ) {
       EventBus.$emit("show:LSettingsProductsFilter", {
         el,
         target,
+        options,
       });
     },
 
-    ShowLSettingsFrame(
-      el: HTMLElement,
-      target: Object,
-    ) {
+    ShowLSettingsFrame(el: HTMLElement, target: Object) {
       EventBus.$emit("show:LSettingsFrame", {
         el,
         target,
@@ -146,11 +145,7 @@ export const LMixinEvents = defineComponent({
         target,
       });
     },
-    ShowLSettingsSwiper(
-      el: HTMLElement,
-      section: Section,
-      target: Object,
-    ) {
+    ShowLSettingsSwiper(el: HTMLElement, section: Section, target: Object) {
       EventBus.$emit("show:LSettingsSwiper", {
         el,
         section,
@@ -224,11 +219,7 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsGallery(
-      el: HTMLElement,
-      section: Section,
-      target: Object,
-    ) {
+    ShowLSettingsGallery(el: HTMLElement, section: Section, target: Object) {
       EventBus.$emit("show:LSettingsGallery", {
         el,
         section,
@@ -264,9 +255,6 @@ export const LMixinEvents = defineComponent({
         propertiesDefault,
       });
     },
-
-
-
 
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**

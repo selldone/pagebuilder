@@ -54,6 +54,9 @@ import {LSectionStoreProductSeed} from "@selldone/page-builder/sections/store/pr
 import {
   LSectionCustomListingSeed
 } from "@selldone/page-builder/sections/store/custom-listing/LSectionCustomListingSeed.ts";
+import {
+  LSectionFormNewsletterSeed
+} from "@selldone/page-builder/sections/form/newsletter/LSectionFormNewsletterSeed.ts";
 
 const DEBUG = false;
 
@@ -369,6 +372,8 @@ export class LUtilsSeeder {
       return LSectionStoreProductSeed();
     }else if (name === "LSectionStoreCustomListing") {
       return LSectionCustomListingSeed();
+    }else if (name === "LSectionFormNewsletter") {
+      return LSectionFormNewsletterSeed();
     }
 
 

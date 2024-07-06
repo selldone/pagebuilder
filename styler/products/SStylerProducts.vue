@@ -173,8 +173,6 @@ export default {
       type: Boolean,
       default: false,
     },
-
-
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -195,15 +193,20 @@ export default {
   methods: {
     showCustomProductFrame() {
       this.show_align = false;
-      this.ShowLSettingsFrame(
-        this.el,
-        this.target,
-      );
+      this.ShowLSettingsFrame(this.el, this.target);
     },
 
     showQueryBuilderProducts() {
       this.show_align = false;
-      this.ShowLSettingsProductsFilter(this.el, this.target);
+      this.ShowLSettingsProductsFilter(
+        this.el,
+        this.target,
+        this.custom
+          ? {
+              view_mode: false,
+            }
+          : {  view_mode: true },
+      );
     },
   },
 };

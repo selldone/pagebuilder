@@ -13,7 +13,12 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section :object="$sectionData">
+
+  <x-component :object="$sectionObject" :augment="augment"></x-component>
+
+
+
+  <x-section v-if="0" :object="$sectionData">
     <x-container :object="$sectionData">
       <x-row :object="$sectionData" has-arrangement has-fluid>
         <!-- ██████████████████████ Column 1 ██████████████████████ -->
@@ -133,13 +138,14 @@ import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
 import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
 import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LSectionFormNewsletter",
   directives: { styler: StylerDirective },
   mixins: [LMixinSection],
 
-  components: {XColumn, XRow, XContainer, XSection, XText, XButton },
+  components: {XComponent, XColumn, XRow, XContainer, XSection, XText, XButton },
   cover: require("../../../assets/images/covers/newsletter.svg"),
   label: "Newsletter",
   help: {

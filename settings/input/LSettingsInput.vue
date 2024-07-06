@@ -38,34 +38,104 @@
       </v-card-actions>
 
       <v-card-title>
-        <s-widget-header icon="input" title="Input"></s-widget-header>
-        <v-list-subheader
-          >You can adjust the field property here to customize its appearance.
-        </v-list-subheader>
-        <l-feeder-input v-model="target" ></l-feeder-input>
+        <s-setting-group
+          icon="input"
+          title="Input"
+          subtitle="You can adjust the field property here to customize its appearance."
+        ></s-setting-group>
+
+        <s-setting-text-input
+          label="Label"
+          placeholder="Input label..."
+          v-model="target.data.label"
+        ></s-setting-text-input>
+
+        <s-setting-text-input
+          label="Placeholder"
+          placeholder="Sample of input..."
+          v-model="target.data.placeholder"
+        ></s-setting-text-input>
+
+        <s-setting-text-input
+          label="Message"
+          placeholder="A short message..."
+          v-model="target.data.messages"
+        ></s-setting-text-input>
+
+        <s-setting-text-input
+          label="Hint"
+          placeholder="A short help..."
+          subtitle="It will appear when the user clicks on the input and focusing on it."
+          v-model="target.data.hint"
+        ></s-setting-text-input>
+
+        <s-setting-switch
+          v-model="target.data.persistentPlaceholder"
+          label="Persistent Placeholder"
+        ></s-setting-switch>
+
+        <s-setting-switch
+          v-model="target.data.flat"
+          label="Flat"
+        ></s-setting-switch>
+
+        <s-setting-rounded v-model="target.data.rounded"></s-setting-rounded>
+
+        <s-setting-variant v-model="target.data.variant"></s-setting-variant>
+
+        <s-setting-group icon="opacity" title="Colors">
+          <s-setting-color
+            v-model="target.data.color"
+            label="Color"
+            icon="format_color_text"
+            clearable
+          ></s-setting-color>
+
+          <s-setting-color
+            v-model="target.data.backgroundColor"
+            label="Background"
+            icon="format_color_fill"
+            clearable
+          ></s-setting-color>
+        </s-setting-group>
       </v-card-title>
     </v-card>
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import LFeederInput from "../../components/feeder/input/LFeederInput.vue";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
+import SSettingRounded from "@selldone/page-builder/styler/settings/rounded/SSettingRounded.vue";
+import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
+import SSettingVariant from "@selldone/page-builder/styler/settings/variant/SSettingVariant.vue";
+import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
 
 export default {
   name: "LSettingsInput",
   mixins: [LMixinEvents],
 
-  components: { LFeederInput },
+  components: {
+    SSettingGroup,
+    SSettingVariant,
+    SSettingTextInput,
+    SSettingColor,
+    SSettingRounded,
+    SSettingSwitch,
+    LFeederInput,
+  },
 
   props: {},
   data: () => ({
     el: null,
 
-    target: null,
+    target: null as XInputTextObject | null,
 
     dialog: false,
     dialog_pre: false,
@@ -145,7 +215,6 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2023. Selldone® Business OS™
+  - Copyright (c) 2023-2024. Selldone® Business OS™
   -
   - Author: M.Pajuhaan
   - Web: https://selldone.com
@@ -35,7 +35,7 @@
 
     <!-- ━━━━━━━━━━━━━━━━ Mobile vie mode ━━━━━━━━━━━━━━━━ -->
     <!-- ████████████████████ View Mode ████████████████████ -->
-    <s-setting-group icon="view_timeline" title="View Mode">
+    <s-setting-group v-if="hasViewMode" icon="view_timeline" title="View Mode">
       <b-shop-theme-view-move
         v-model="mode_view"
         icon="shelves"
@@ -254,9 +254,7 @@
     </b-category-input>
 
     <!-- ████████████████████ Tags ████████████████████ -->
-    <template
-      v-if="!categories_only"
-    >
+    <template v-if="!categories_only">
       <s-setting-group icon="label" title="Tags"></s-setting-group>
 
       <v-list-subheader>
@@ -372,15 +370,12 @@
 
 <script>
 import SProductsSortView from "@selldone/components-vue/storefront/product/sort/SProductsSortView.vue";
-import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
-import { ModeView } from "@selldone/core-js/enums/shop/ModeView";
+import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
 import BCategoryInput from "@selldone/components-vue/backoffice/category/input/BCategoryInput.vue";
 import BVendorInput from "@selldone/components-vue/backoffice/vendor/input/BVendorInput.vue";
-import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel";
-import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
+import { BusinessModel } from "@selldone/core-js/enums/shop/BusinessModel.ts";
 import BShopThemeViewMove from "@selldone/components-vue/backoffice/shop/theme/view-mode/BShopThemeViewMove.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 
@@ -389,13 +384,10 @@ export default {
   components: {
     SSettingNumberInput,
     SSettingToggle,
-    SSettingSwitch,
     SSettingGroup,
     BShopThemeViewMove,
-    USmartSwitch,
     BVendorInput,
     BCategoryInput,
-    UNumberInput,
     SProductsSortView,
   },
 
@@ -424,6 +416,8 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    hasViewMode:Boolean,
 
     defaultValue: {
       required: false,

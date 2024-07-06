@@ -35,9 +35,9 @@
         <button
           class="styler-button"
           title="Input Settings"
-          @click="ShowLSettingsInput(el, target)"
+          @click="ShowLSettingsForm(el, target)"
         >
-          <v-icon color="#fff" size="20">input</v-icon>
+          <v-icon color="#fff" size="20">settings_suggest</v-icon>
         </button>
       </li>
     </ul>
@@ -56,10 +56,10 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 
 /**
- * v-styler:input
+ * v-styler:form
  */
 export default {
-  name: "SStylerInput",
+  name: "SStylerForm",
 
   mixins: [LMixinEvents, LMixinStyler],
 

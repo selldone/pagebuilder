@@ -49,6 +49,7 @@
           has-count
           has-product-category-selection
           has-sort
+          :has-view-mode="options?.view_mode"
         />
       </v-card-text>
     </v-card>
@@ -56,18 +57,16 @@
 </template>
 
 <script>
-import SPageProductsFilter from "../../components/style/product/SPageProductsFilter.vue";
+import SPageProductsFilter from "../../components/style/product/filter/SPageProductsFilter.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 
 export default {
   name: "LSettingsProductsFilter",
   mixins: [LMixinEvents],
 
   components: {
-    SSettingGroup,
     SPageProductsFilter,
   },
 
@@ -75,6 +74,8 @@ export default {
   data: () => ({
     el: null,
     target: null,
+
+    options:null,
 
     //----------------------- Products Filter -----------------------
 
@@ -101,11 +102,12 @@ export default {
     EventBus.$on(
       "show:LSettingsProductsFilter",
 
-      ({ el, target }) => {
+      ({ el, target,options }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.el = el;
         this.target = target;
+        this.options = options;
         this.showProductsDialog();
       },
     );

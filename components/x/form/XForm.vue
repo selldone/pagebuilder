@@ -14,78 +14,92 @@
 <!-- ━━━━━━━━━━━━━━━━━━━━━━ X-Text ━━━━━━━━━━━━━━━━━━━━━━ -->
 
 <template>
-  <component
-    v-if="isValid"
-    :is="object.data?.tag"
-    v-styler:text="{
+  <v-form
+    v-styler:form="{
       target: object,
     }"
-    :class="[object?.classes, { 'is-editable': $builder.isEditing }]"
+    :class="[object?.classes, { 'is-editable': is_editing }]"
     :style="[object?.style, backgroundStyle(object.background)]"
-    v-html="object?.data?.value?.applyAugment(augment, $builder.isEditing)"
-  ></component>
+    validate-on="submit lazy"
+    @submit.prevent="submit"
+    class="x--form"
+  >
+    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+    <slot></slot>
+
+    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Submit Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+    <div
+      v-if="button"
+      :style="{
+        textAlign: button.data.align,
+      }"
+    >
+      <x-button
+        v-styler:button="{
+          target: button,
+          hasAlign: true,
+          noLink: true,
+        }"
+        :augment="augment"
+        :object="button"
+        :editing="SHOW_EDIT_TOOLS"
+        type="submit"
+      >
+      </x-button>
+    </div>
+  </v-form>
 </template>
 
 <script>
-import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import XUploader from "../../../components/x/uploader/XUploader.vue";
-import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
-import { isObject } from "lodash-es";
-import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import { XFormObject } from "@selldone/page-builder/components/x/form/XFormObject.ts";
+import XButton from "@selldone/page-builder/components/x/button/XButton.vue";
 
 export default defineComponent({
-  name: "XText",
+  name: "XForm",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XCollection, XProduct, XUploader, XButton },
+  components: { XButton },
   emits: ["update:object"],
   props: {
-    // Fixed:
-    object: { type: XTextObject, required: true },
+    object: { type: XFormObject, required: true },
     augment: {
       // Extra information to show to dynamic show in page content
       required: true,
     },
-
-    // Optional:
-    initialClasses: { type: Array },
-    initialType: { required: true },
   },
   data: () => ({}),
 
   computed: {
-    isValid() {
-      return isObject(this.object);
+    is_editing() {
+      return this.$builder.isEditing;
     },
-  },
-  watch: {},
-  created() {
-    // ♻ Migration from old!
-    if (!isObject(this.object)) {
-      console.log("Need migration header!", this.object);
-      this.$emit("update:object", {
-        tag: this.initialType,
-        value: "" + this.object,
-        classes: this.initialClasses,
-        style: {},
-      });
-    } else {
-      // Set initial classes if not set yet!
-      if (!this.object.classes && this.initialClasses) {
-        this.object.classes = [...this.initialClasses];
-      }
-      if (!this.object.tag) {
-        this.object.tag = this.initialType;
-      }
+
+    button(){
+      return this.object.getButton()
     }
   },
-  methods: {},
+  watch: {},
+  created() {},
+  methods: {
+    async submit(event) {
+      this.loading = true;
+
+      const results = await event;
+
+      this.loading = false;
+
+      alert(JSON.stringify(results, null, 2));
+    },
+  },
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.x--form{
+  text-align: start;
+}
+</style>
