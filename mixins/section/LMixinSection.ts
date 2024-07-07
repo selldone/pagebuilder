@@ -57,7 +57,7 @@ const LMixinSection = defineComponent({
   },
 
   updated() {
-    try {
+    /*try {
       Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
         (el: any) => {
           el.contentEditable = this.$builder.isEditing;
@@ -65,7 +65,7 @@ const LMixinSection = defineComponent({
       );
     } catch (e) {
       console.error("updated | section", e, this);
-    }
+    }*/
   },
 
   computed: {

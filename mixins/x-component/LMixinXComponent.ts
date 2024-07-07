@@ -38,7 +38,7 @@ const LMixinXComponent = defineComponent({
     );
   },
   updated() {
-    try {
+  /*  try {
       if (typeof this.$el.querySelectorAll === "function")
         Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
           (el: any) => {
@@ -47,7 +47,7 @@ const LMixinXComponent = defineComponent({
         );
     } catch (e) {
       console.error("updated | x component", e, this);
-    }
+    }*/
   },
 
   //------------------------------------------------- New Common -------------------------------------------------

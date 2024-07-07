@@ -14,6 +14,7 @@
 
 <template>
   <component
+    v-if="object"
     :is="component"
     :object="object"
     :augment="augment"
@@ -34,6 +35,12 @@
     >
     </x-component>
   </component>
+  <div v-else-if="is_editing">
+    <v-alert color="error">
+      <v-icon>error</v-icon>
+      <span>Component not found! Invalid {object}.</span>
+    </v-alert>
+  </div>
 </template>
 
 <script>
@@ -53,6 +60,10 @@ export default defineComponent({
     },
   },
   computed: {
+    is_editing() {
+      return this.$builder?.isEditing || !this.$builder;
+    },
+
     component() {
       return this.object.component;
     },
@@ -60,8 +71,7 @@ export default defineComponent({
       return this.object.children;
     },
   },
-  mounted() {
-  },
+  mounted() {},
 });
 </script>
 

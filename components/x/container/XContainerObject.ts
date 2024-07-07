@@ -56,7 +56,7 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
   static MigrateOld(old: any): XContainerObject {
     const data = new XContainerObjectData(false);
 
-    if(old.row.fluid || old.fluid){
+    if(old?.row?.fluid || old?.fluid){
         data.setFluid(true);
     }
 
