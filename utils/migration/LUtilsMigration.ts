@@ -28,8 +28,10 @@ import {LMigrationV2Article} from "@selldone/page-builder/sections/article/LMigr
 import {LMigrationV2Code} from "@selldone/page-builder/sections/html/LMigrationV2Code.ts";
 import {LMigrationV2StoreProduct} from "@selldone/page-builder/sections/store/product/LMigrationV2StoreProduct.ts";
 import {
-  LMigrationV2CustomListing
+    LMigrationV2CustomListing
 } from "@selldone/page-builder/sections/store/custom-listing/LMigrationV2CustomListing.ts";
+import {LMigrationV2Newsletter} from "@selldone/page-builder/sections/form/newsletter/LMigrationV2Newsletter.ts";
+import {LMigrationV2BlogsList} from "@selldone/page-builder/sections/blog/list/LMigrationV2BlogsList.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -191,18 +193,22 @@ export class LUtilsMigration {
     } else if (section.name === "LSectionArticle") {
       section.object = LMigrationV2Article.Migrate(section.data);
       section.data = null;
-    }else if (section.name === "LSectionHtml") {
+    } else if (section.name === "LSectionHtml") {
       section.object = LMigrationV2Code.Migrate(section.data);
       section.data = null;
-    }else if (section.name === "LSectionStoreProduct") {
+    } else if (section.name === "LSectionStoreProduct") {
       section.object = LMigrationV2StoreProduct.Migrate(section.data);
       section.data = null;
-    }else if (section.name === "LSectionStoreCustomListing") {
+    } else if (section.name === "LSectionStoreCustomListing") {
       section.object = LMigrationV2CustomListing.Migrate(section.data);
       section.data = null;
+    } else if (section.name === "LSectionFormNewsletter") {
+      section.object = LMigrationV2Newsletter.Migrate(section.data);
+      section.data = null;
+    } else if (section.name === "LSectionBlogList") {
+      section.object = LMigrationV2BlogsList.Migrate(section.data);
+      section.data = null;
     }
-
-
 
 
     else {

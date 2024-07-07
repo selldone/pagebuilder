@@ -15,12 +15,26 @@
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import {XFeederProductsObject} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
 
-export const LSectionCustomListingSeed = () => {
+export const LSectionBlogsListSeed = () => {
   // Initialize section
   const section = XSectionObject.Seed();
   section.classes = [];
+  section.style = { minHeight: "35vh" };
+
+  section.addChild(
+    XTextObject.Seed("Enter your headline here...", "h2", ["my-5"]),
+  );
+
+  section.addChild(
+    XTextObject.Seed(
+      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+      "p",
+      ["my-5"],
+    ),
+  );
 
   // Initialize container and add to section
   const container = XContainerObject.Seed();
@@ -28,9 +42,9 @@ export const LSectionCustomListingSeed = () => {
 
   const row = XRowObject.Seed();
   container.addChild(row);
-  row.data.setAlign("stretch").setJustify("center");
+  row.data.setAlign('stretch')
 
-  const listing = XFeederProductsObject.Seed();
+  const listing = XFeederBlogsObject.Seed();
   row.addChild(listing);
 
   return section;

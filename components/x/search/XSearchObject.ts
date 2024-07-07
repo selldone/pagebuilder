@@ -15,9 +15,13 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
-import {LModelInput} from "@selldone/page-builder/models/input/LModelInput.ts";
+import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
+import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 
 export class XSearchObject extends LModelElement<XSearchObjectData> {
+  // Custom elements [Permanent]
+  public input: XInputTextObject | null = null;
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -45,8 +49,21 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
   static Seed(): XSearchObject {
-    return this.NewInstance();
+   const instance=  this.NewInstance();
+    instance.input = XInputTextObject.Seed();
+    instance.input.data.setVariant('solo')
+
+    return instance;
   }
+
+  public getInput() {
+    if (!this.input) {
+      this.input = XInputTextObject.Seed();
+    }
+
+    return this.input;
+  }
+
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
   /**
@@ -57,9 +74,15 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
   static MigrateOld(old: any): XSearchObject | null {
     if (!old) return null;
 
-    const data = new XSearchObjectData(new LModelInput(old));
+    const data = new XSearchObjectData();
 
-    console.log("Migrate Search Element ", old, "--- old --->", data);
-    return new XSearchObject(null, null, null, [], data, null);
+    const instance = new XSearchObject(null, null, null, [], data, null);
+
+    instance.input = XInputTextObject.MigrateOld(old);
+
+    console.log("Migrate Search Element ", old, "--- instance --->", instance);
+
+
+    return instance;
   }
 }

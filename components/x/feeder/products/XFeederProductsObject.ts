@@ -14,44 +14,46 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
-import {XInputTextObjectData} from "@selldone/page-builder/components/x/input/text/XInputTextObjectData.ts";
-import {isObject} from "lodash-es";
+import {XFeederProductsObjectData} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObjectData.ts";
+import ProductFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/ProductFramesSample.ts";
+import CategoryFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/CategoryFramesSample.ts";
 
-export class XInputTextObject extends LModelElement<XInputTextObjectData> {
-  // Custom elements [Permanent]
-  public button: XButtonObject | null = null;
-
+export class XFeederProductsObject extends LModelElement<XFeederProductsObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XInputTextObjectData | null,
+    data: XFeederProductsObjectData | null,
     props: any,
   ) {
     super(
-      "XInputText",
+      "XFeederProducts",
       background,
       style,
       classes,
       children,
-      data
-        ? data
-        : new XInputTextObjectData("param_" + Math.abs(Math.random() * 999)),
+      data ? data : new XFeederProductsObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    return new XInputTextObject(null, null, null, null, null, null);
+    const instance= new XFeederProductsObject(null, null, null, null, null, null);
+    instance.data.frame_product.code = ProductFramesSample.Curvy_Card;
+    instance.data.frame_category.code = CategoryFramesSample.Curvy_Card;
+    return instance;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XInputTextObject {
+  static Seed(): XFeederProductsObject {
     const instance = this.NewInstance();
+    instance.data.filter.sort = "most_popular";
+    instance.data.filter.only_available = true;
+    instance.data.filter.count = 4;
+    instance.data.filter.categories_count = 4;
 
     return instance;
   }
@@ -63,32 +65,15 @@ export class XInputTextObject extends LModelElement<XInputTextObjectData> {
    * @constructor
    */
 
-  static MigrateOld(old: Record<string, any> | null): XInputTextObject {
-    const data = new XInputTextObjectData("");
+  static MigrateOld(old: any): XFeederProductsObject {
+    const data = new XFeederProductsObjectData({filter:old.filter,
+      frame_category:old.frame_category,
+      frame_product:old.frame_product,
 
-    if (old && isObject(old)) {
-      data
-        .setName(old.name ?? "")
-        .setBackgroundColor(old.color ?? null) // Old version we just had color!
-        .setColor(null)
-        .setFlat(old.flat ?? null)
-        .setHint(old.hint ?? null)
-        .setLabel(old.label ?? null)
-        .setMessages(old.messages ?? null)
-        .setPersistentPlaceholder(old.persistentPlaceholder ?? false)
-        .setPlaceholder(old.placeholder ?? null)
-        .setRounded(old.rounded ?? false)
-        .setVariant(
-          old.solo
-            ? "solo"
-            : old.outlined
-              ? "outlined"
-              : old.filled
-                ? "filled"
-                : "underlined",
-        );
-    }
+    });
+    data.align = old.row?.align;
+    data.justify = old.row?.justify;
 
-    return new XInputTextObject(null, null, null, [], data, null);
+    return new XFeederProductsObject(null, null, null, [], data, null);
   }
 }

@@ -28,36 +28,39 @@
       <span class="me-1">Products Feeder</span>
 
       <v-expand-x-transition group>
-        <v-progress-circular v-if="busy_fetch"     key="l" indeterminate> </v-progress-circular>
+        <v-progress-circular
+          v-if="busy_fetch"
+          key="l"
+          indeterminate
+        ></v-progress-circular>
 
         <v-chip
-            v-if="products?.length"
-            key="p"
-            class="ma-1"
-            size="small"
-            prepend-icon="shelves"
-        ><b>{{ products.length }}</b
-        >x products
+          v-if="products?.length"
+          key="p"
+          class="ma-1"
+          size="small"
+          prepend-icon="shelves"
+          ><b>{{ products.length }}</b
+          >x products
         </v-chip>
         <v-chip
-            v-if="folders?.length"
-            key="c"
-            class="ma-1"
-            size="small"
-            prepend-icon="folder"
-        ><b>{{ folders.length }}</b
-        >x categories
+          v-if="folders?.length"
+          key="c"
+          class="ma-1"
+          size="small"
+          prepend-icon="folder"
+          ><b>{{ folders.length }}</b
+          >x categories
         </v-chip>
-
       </v-expand-x-transition>
-
-
     </v-sheet>
   </v-col>
 
-  <template v-if="busy_fetch" >
-    <v-col v-for="i in 4" cols="6" sm="3" >
-      <v-skeleton-loader     :type="['table-heading', 'list-item-two-line', 'image']" ></v-skeleton-loader>
+  <template v-if="busy_fetch">
+    <v-col v-for="i in 4" :key="i" cols="6" sm="3">
+      <v-skeleton-loader
+        :type="['table-heading', 'list-item-two-line', 'image']"
+      ></v-skeleton-loader>
     </v-col>
   </template>
   <component
@@ -94,7 +97,7 @@
 <script lang="ts">
 import StylerDirective from "../../../../styler/StylerDirective.ts";
 import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts";
-import { XListingCustomObject } from "@selldone/page-builder/components/x/feeder/products/XListingCustomObject.ts";
+import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/index.ts";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 import { Category, Product } from "@selldone/core-js";
@@ -106,7 +109,7 @@ export default {
   mixins: [LMixinXComponent],
   emits: ["update"],
   props: {
-    object: { required: true, type: XListingCustomObject },
+    object: { required: true, type: XFeederProductsObject },
   },
 
   data: () => ({

@@ -16,20 +16,23 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import {XFeederProductsObject} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
-import {isObject} from "lodash-es";
+import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
 
-export class LMigrationV2CustomListing {
+export class LMigrationV2BlogsList {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
-    if (!isObject($sectionData.filter)) {
-      $sectionData.filter = {};
-    }
 
     const section = XSectionObject.MigrateOld($sectionData);
+
+    section.addChild(
+      XTextObject.MigrateOld($sectionData.title, "h2", ["my-5"]),
+    );
+
+    section.addChild(XTextObject.MigrateOld($sectionData.text, "p", ["my-5"]));
 
     const container = XContainerObject.MigrateOld($sectionData);
     section.addChild(container);
@@ -37,11 +40,11 @@ export class LMigrationV2CustomListing {
     const row = XRowObject.MigrateOld($sectionData);
     container.addChild(row);
 
-    const listing = XFeederProductsObject.MigrateOld($sectionData);
-    row.addChild(listing);
+    const blogs = XFeederBlogsObject.MigrateOld($sectionData);
+    row.addChild(blogs);
 
     console.log(
-      "Migrate V2 LSectionStoreCustomListing | $sectionData",
+      "Migrate V2 LSectionBlogList | $sectionData",
       $sectionData,
       "--structure-->",
       section,

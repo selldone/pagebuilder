@@ -12,15 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LModelInput} from "@selldone/page-builder/models/input/LModelInput.ts";
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
 export class XSearchObjectData extends LModelData<XSearchObjectData> {
-  input: LModelInput;
-
-  constructor(input: LModelInput | null) {
+  constructor() {
     super();
-
-    this.input = input ? input : new LModelInput();
   }
 }

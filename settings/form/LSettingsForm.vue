@@ -39,80 +39,130 @@
 
       <v-card-title>
         <s-setting-group
-          icon="input"
-          title="Input"
+          icon="integration_instructions"
+          title="Form"
           subtitle="You can adjust the field property here to customize its appearance."
         ></s-setting-group>
 
+        <s-setting-toggle
+          v-model="target.data.method"
+          :items="['POST', 'GET']"
+          label="Method"
+          icon="upload_file"
+        ></s-setting-toggle>
 
         <s-setting-text-input
-            v-if="!options?.no_name"
-            label="Param Name"
-            icon="label_important_outline"
-            placeholder="Enter the param name e.g. email, name, ..."
-            v-model="target.data.name"
+          v-model="target.data.url"
+          label="Url"
+          icon="link"
+          placeholder="e.g. https://xapi.selldone.com/@{shop_name}/... "
+          subtitle="You can set {shop_name} and {shop_id} as dynamic values."
         ></s-setting-text-input>
 
+        <s-setting-group
+          icon="data_object"
+          title="Hidden Parameters"
+          subtitle="You can add hidden parameters to the form."
+        >
+          <template v-slot:title-action>
+            <s-setting-button
+              label="Add Hidden Param"
+              icon="add_box"
+              @click="
+                target.data.hidden.push({ type: 'string', key: '', value: '' })
+              "
+            >
+            </s-setting-button>
+          </template>
+          <div class="border-between-vertical">
+            <v-row v-for="it in target.data.hidden" dense>
+              <v-col cols="3">
+                <v-select
+                  v-model="it.type"
+                  :items="['string', 'boolean', 'number', 'array']"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  class="v-input-small"
+                  hide-details
+                ></v-select>
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="it.key"
+                  variant="outlined"
+                  density="compact"
+                  class="v-input-small"
+                  rounded="lg"
+                  placeholder="Key..."
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col cols="5">
+                <v-text-field
+                  v-if="it.type === 'string'"
+                  v-model="it.value"
+                  variant="outlined"
+                  density="compact"
+                  class="v-input-small"
+                  rounded="lg"
+                  placeholder="Value..."
+                  hide-details
+                ></v-text-field>
+                <v-number-input
+                  v-else-if="it.type === 'number'"
+                  v-model="it.value"
+                  variant="outlined"
+                  density="compact"
+                  class="v-input-small"
+                  rounded="lg"
+                  placeholder="Value..."
+                  hide-details
+                ></v-number-input>
+                <v-checkbox
+                  v-else-if="it.type === 'boolean'"
+                  v-model="it.value"
+                  class="v-input-small"
+                  hide-details
+                ></v-checkbox>
 
-        <s-setting-text-input
-          label="Label"
-          icon="label"
-          placeholder="Input label..."
-          v-model="target.data.label"
-        ></s-setting-text-input>
+                <v-combobox
+                  v-else-if="it.type === 'array'"
+                  v-model="it.value"
+                  variant="outlined"
+                  density="compact"
+                  class="v-input-small"
+                  rounded="lg"
+                  placeholder="Value..."
+                  hide-details
+                  chips
+                  multiple
+                  closable-chips
+                ></v-combobox>
+              </v-col>
+            </v-row>
+          </div>
+        </s-setting-group>
 
-        <s-setting-text-input
-          label="Placeholder"
-          icon="format_color_text"
-          placeholder="Sample of input..."
-          v-model="target.data.placeholder"
-        ></s-setting-text-input>
+        <s-setting-group
+            class="mt-5"
+          title="Success Message"
+          subtitle="Set the message that will be displayed after the form is successfully submitted."
+          icon="integration_instructions"
+        >
+          <s-setting-text-input
+            v-model="target.data.success.title"
+            label="Title"
+            icon="title"
+            placeholder="Title..."
+          ></s-setting-text-input>
 
-        <s-setting-text-input
-          label="Message"
-          icon="message"
-          placeholder="A short message..."
-          v-model="target.data.messages"
-        ></s-setting-text-input>
-
-        <s-setting-text-input
-          label="Hint"
-          icon="help"
-          placeholder="A short help..."
-          subtitle="It will appear when the user clicks on the input and focusing on it."
-          v-model="target.data.hint"
-        ></s-setting-text-input>
-
-        <s-setting-switch
-          v-model="target.data.persistentPlaceholder"
-          label="Persistent Placeholder"
-          icon="abc"
-        ></s-setting-switch>
-
-        <s-setting-switch
-          v-model="target.data.flat"
-          label="Flat"
-          icon="wb_shade"
-        ></s-setting-switch>
-
-        <s-setting-rounded v-model="target.data.rounded"></s-setting-rounded>
-
-        <s-setting-variant v-model="target.data.variant"></s-setting-variant>
-
-        <s-setting-group icon="opacity" title="Colors">
-          <s-setting-color
-            v-model="target.data.color"
-            label="Color"
-            icon="format_color_text"
-            clearable
-          ></s-setting-color>
-
-          <s-setting-color
-            v-model="target.data.backgroundColor"
-            label="Background"
-            icon="format_color_fill"
-            clearable
-          ></s-setting-color>
+          <s-setting-text-input
+            v-model="target.data.success.message"
+            label="Message"
+            icon="message"
+            placeholder="Message..."
+          ></s-setting-text-input>
         </s-setting-group>
       </v-card-title>
     </v-card>
@@ -121,30 +171,24 @@
 
 <script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
-import LFeederInput from "../../components/feeder/input/LFeederInput.vue";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
-import SSettingRounded from "@selldone/page-builder/styler/settings/rounded/SSettingRounded.vue";
-import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
-import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
-import SSettingVariant from "@selldone/page-builder/styler/settings/variant/SSettingVariant.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
+import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 
 export default {
-  name: "LSettingsInput",
+  name: "LSettingsForm",
   mixins: [LMixinEvents],
 
   components: {
-    SSettingGroup,
-    SSettingVariant,
+    SSettingButton,
     SSettingTextInput,
-    SSettingColor,
-    SSettingRounded,
-    SSettingSwitch,
-    LFeederInput,
+    SSettingToggle,
+    SSettingGroup,
   },
 
   props: {},
@@ -155,7 +199,6 @@ export default {
 
     dialog: false,
     dialog_pre: false,
-    options: null as {no_name:boolean}|null,
 
     //--------------------------
     key_listener_keydown: null,
@@ -174,16 +217,15 @@ export default {
   created() {},
   mounted() {
     EventBus.$on(
-      "show:LSettingsInput",
+      "show:LSettingsForm",
 
-      ({ el, target ,options}) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.options = options;
         this.showDialog();
       },
     );
@@ -215,7 +257,7 @@ export default {
     });
   },
   beforeUnmount() {
-    EventBus.$off("show:LSettingsInput");
+    EventBus.$off("show:LSettingsForm");
     EventBus.$off(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
 
     //――――――――――――――――――――――  REMOVE key listener ――――――――――――――――――――

@@ -123,14 +123,19 @@
 
       <li v-if="option === 'columnWidth'">
         <v-btn-toggle
-          v-model="gridValue"
+          :model-value="gridValue"
           class="mx-1 my-2"
           density="compact"
           mandatory
           rounded
           selected-class="blue-flat"
         >
-          <v-btn :value="null" class="dens-btn" size="small">
+          <v-btn
+            :value="null"
+            @click="setGridValue(null)"
+            class="dens-btn"
+            size="small"
+          >
             <v-icon size="small">close</v-icon>
           </v-btn>
           <v-btn
@@ -183,7 +188,6 @@ export default {
       default: "bottom",
     },
 
-
     removeChild: {
       type: Function,
     },
@@ -191,8 +195,6 @@ export default {
       type: Boolean,
       default: false,
     },
-
-
   },
   data: () => ({
     option: null,
@@ -211,22 +213,23 @@ export default {
     },
   },
   beforeMount() {
-
     if (!this.target) {
       throw new Error("Target is required for SStylerColumn");
     }
 
-    if(!isObject(this.target.data)){
-      console.error("Invalid target data! Maybe its because of migration from V1 to V2! Target:",this.target)
+    if (!isObject(this.target.data)) {
+      console.error(
+        "Invalid target data! Maybe its because of migration from V1 to V2! Target:",
+        this.target,
+      );
       return;
     }
-
 
     if (
       !isObject(this.target.data?.grid) ||
       Array.isArray(this.target.data?.grid)
     ) {
-      console.error("Invalid data.grid! Target:",this.target)
+      console.error("Invalid data.grid! Target:", this.target);
       this.target.data.grid = { mobile: 12, tablet: 6, desktop: 4 };
     }
   },
@@ -264,9 +267,17 @@ export default {
       this.gridValue = this.target.data.grid[device];
     },
     setGridValue(val) {
+      this.gridValue = val;
 
-      val = Math.min(Math.max(val, 0), 12);
-      console.log("Set column value: ",val, " Device: ",this.device, " Target: ",this.target.data.grid)
+      val = val ? Math.min(Math.max(val, 0), 12) : null;
+      console.log(
+        "Set column value: ",
+        val,
+        " Device: ",
+        this.device,
+        " Target: ",
+        this.target.data.grid,
+      );
 
       this.target.data.grid[this.device] = val;
     },

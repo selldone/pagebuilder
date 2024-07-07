@@ -18,6 +18,7 @@ import {Shop} from "@selldone/core-js";
 export class XFormObjectData extends LModelData<XFormObjectData> {
   method: XFormObjectDataTypes.Methods = XFormObjectDataTypes.Methods.POST;
   url: string = "";
+  hidden: XFormObjectDataTypes.IHidden = [];
 
   success: {
     title: string;
@@ -25,14 +26,6 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
   } = {
     title: "Success",
     message: "Thank you for your submission.",
-  };
-
-  error: {
-    title: string;
-    message: string;
-  } = {
-    title: "Error",
-    message: "An error occurred. Please try again.",
   };
 
   constructor(
@@ -57,6 +50,31 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
     return this.url;
   }
 
+  /**
+   * Get the generated parameters for the form.
+   * @param params The object of parameters set by inputs in the form.
+   */
+  public getGeneratedParams(params: Record<string, any>) {
+    const hidden_params = this.hidden.reduce((acc, curr) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    }, {});
+
+    if (this.method === "GET") {
+      return {
+        params: {
+          ...hidden_params,
+          ...params,
+        },
+      };
+    } else {
+      return {
+        ...hidden_params,
+        ...params,
+      };
+    }
+  }
+
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
   public setMethod(method: XFormObjectDataTypes.Methods): XFormObjectData {
     this.method = method;
@@ -74,9 +92,8 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
     return this;
   }
 
-  public setError(title: string, message: string): XFormObjectData {
-    this.error.title = title;
-    this.error.message = message;
+  public setHidden(hidden: XFormObjectDataTypes.IHidden): XFormObjectData {
+    this.hidden = hidden;
     return this;
   }
 }
@@ -88,4 +105,10 @@ export namespace XFormObjectDataTypes {
     POST = "POST",
     GET = "GET",
   }
+
+  export type IHidden = {
+    type: "string" | "boolean" | "number" | "array";
+    key: string;
+    value: any;
+  }[];
 }

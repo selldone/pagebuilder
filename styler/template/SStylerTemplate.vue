@@ -28,6 +28,8 @@
         '-dot -blue': type === 'column',
 
         '-dot -pink': type === 'products' ||  type === 'code',
+        '-dot -indigo': type === 'form',
+        '-dot -cyan': type === 'input',
 
 
         '-dot': type === 'section',
@@ -508,6 +510,16 @@ input[type="number"]::-webkit-outer-spin-button {
     &.-pink {
       &:after {
         background-color: #e91e63;
+      }
+    }
+    &.-indigo {
+      &:after {
+        background-color: #3f51b5;
+      }
+    }
+    &.-cyan {
+      &:after {
+        background-color: #00bcd4;
       }
     }
 

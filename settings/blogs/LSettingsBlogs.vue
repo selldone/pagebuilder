@@ -160,7 +160,7 @@ import SSettingNumberInput from "../../styler/settings/number-input/SSettingNumb
 import SSettingSwitch from "../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingColor from "../../styler/settings/color/SSettingColor.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
 
 export default {
   name: "LSettingsBlogs",
@@ -183,7 +183,6 @@ export default {
 
     el: null,
     target: null,
-    keyFilter: null, // ex. blogs_filter
 
     //----------------------- Products Filter -----------------------
 
@@ -254,14 +253,13 @@ export default {
     EventBus.$on(
       "show:LSettingsBlogs",
 
-      ({ el, target, keyFilter }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keyFilter = keyFilter;
         this.showProductsDialog();
       },
     );

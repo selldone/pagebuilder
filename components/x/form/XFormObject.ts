@@ -61,10 +61,16 @@ export class XFormObject extends LModelElement<XFormObjectData> {
           "{shop_id}" /*Dynamic value will be replaced in the getGeneratedUrl method*/,
           "newsletter",
         ),
-      );
+      )
+      .setHidden([{ type: "array", key: "tags", value: ["newsletter"] }]);
 
     const email = XInputTextObject.Seed();
-    email.data.setPlaceholder("Enter your email john@...").setLabel("Email").setVariant('outlined').setPrependInnerIcon('email')
+    email.data
+      .setName("email")
+      .setPlaceholder("Enter your email john@...")
+      .setLabel("Email")
+      .setVariant("outlined")
+      .setPrependInnerIcon("email");
     instance.addChild(email);
 
     return instance;
@@ -73,7 +79,12 @@ export class XFormObject extends LModelElement<XFormObjectData> {
   public getButton() {
     if (!this.button) {
       this.button = XButtonObject.Seed();
-      this.button.data.setAlign('center').setContent("Subscribe").setColor('#000').setSize('x-large');
+      this.button.data
+        .setAlign("center")
+        .setContent("Subscribe")
+        .setColor("#000")
+        .setSize("x-large");
+      this.button.classes = ["mt-5"];
     }
 
     return this.button;
@@ -89,6 +100,9 @@ export class XFormObject extends LModelElement<XFormObjectData> {
   static MigrateOld(old: any): XFormObject {
     const data = new XFormObjectData();
 
-    return new XFormObject(null, null, null, [], data, null);
+    const instance= new XFormObject(null, null, null, [], data, null);
+    instance.button = XButtonObject.MigrateOld(old.button);
+
+    return instance;
   }
 }

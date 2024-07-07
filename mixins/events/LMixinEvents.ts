@@ -19,6 +19,7 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import {StylerOptions} from "../../styler/StylerDirective";
 import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.ts";
 
 export const LMixinEvents = defineComponent({
   data() {
@@ -139,13 +140,22 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsInput(el: HTMLElement, target: Object) {
+    ShowLSettingsInput(el: HTMLElement, target: Object,options:{no_name:boolean}|null=null) {
       EventBus.$emit("show:LSettingsInput", {
+        el,
+        target,
+        options
+      });
+    },
+
+    ShowLSettingsForm(el: HTMLElement, target: Object) {
+      EventBus.$emit("show:LSettingsForm", {
         el,
         target,
       });
     },
-    ShowLSettingsSwiper(el: HTMLElement, section: Section, target: Object) {
+
+    ShowLSettingsSwiper(el: HTMLElement, section: Section, target: XFormObject) {
       EventBus.$emit("show:LSettingsSwiper", {
         el,
         section,
@@ -204,11 +214,10 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsBlogs(el: HTMLElement, target: Object, keyFilter: string) {
+    ShowLSettingsBlogs(el: HTMLElement, target: Object) {
       EventBus.$emit("show:LSettingsBlogs", {
         el,
         target,
-        keyFilter,
       });
     },
 

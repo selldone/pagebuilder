@@ -34,7 +34,7 @@
       :model-value="modelValue"
       :placeholder="placeholder"
       :rules="rules"
-      class="my-1"
+      class="v-input-small"
       color="#1976D2"
       density="compact"
       hide-details
@@ -54,7 +54,7 @@
       :model-value="modelValue"
       :placeholder="placeholder"
       :rules="rules"
-      class="my-1"
+      class="v-input-small"
       color="#1976D2"
       density="compact"
       hide-details

@@ -15,6 +15,8 @@
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
 export class XInputObjectData extends LModelData<XInputObjectData> {
+  name: string;
+
   backgroundColor: string | null = null;
   color: string | null = null;
   flat: boolean = false;
@@ -30,13 +32,21 @@ export class XInputObjectData extends LModelData<XInputObjectData> {
   prependInnerIcon: string | null = null;
   appendInnerIcon: string | null = null;
 
-  constructor() {
+  constructor(name: string) {
     super();
+    this.name = name;
   }
 
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+
+  public setName(name: string): this {
+    this.name = name;
+    return this;
+  }
+
+
   public setBackgroundColor(backgroundColor: string | null): this {
     this.backgroundColor = backgroundColor;
     return this;

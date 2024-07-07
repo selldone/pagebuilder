@@ -15,20 +15,20 @@
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ Start Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
   <s-storefront-search-box
-    v-styler:input="{target:object.data.input} "
-    :background-color="input.backgroundColor"
-    :color="input.color"
-    :dark="input.dark"
-    :flat="input.flat"
-    :hint="input.hint"
-    :label="input.label"
-    :messages="input.messages"
-    :persistent-placeholder="input.persistentPlaceholder"
-    :placeholder="input.placeholder"
+    v-styler:input="{target:input,options:{no_name:true}} "
+    :background-color="input.data.backgroundColor"
+    :color="input.data.color"
+    :dark="input.data.dark"
+    :flat="input.data.flat"
+    :hint="input.data.hint"
+    :label="input.data.label"
+    :messages="input.data.messages"
+    :persistent-placeholder="input.data.persistentPlaceholder"
+    :placeholder="input.data.placeholder"
     :readonly="isEditing"
-    :rounded="input.rounded"
+    :rounded="input.data.rounded"
     :shop-name="shop?.name"
-    :variant="input.variant"
+    :variant="input.data.variant"
     :single-line="false"
     block
     class="fadeIn delay_300"
@@ -72,7 +72,7 @@ export default {
     },
 
     input(){
-      return this.object.data.input;
+      return this.object.getInput();
     },
     isEditing(){
       return this.$builder.isEditing

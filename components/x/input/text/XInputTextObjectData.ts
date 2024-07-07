@@ -15,8 +15,8 @@
 import {XInputObjectData} from "@selldone/page-builder/components/x/input/XInputObjectData.ts";
 
 export class XInputTextObjectData extends XInputObjectData {
-  constructor() {
-    super();
+  constructor(name:string) {
+    super(name);
   }
 
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━

@@ -15,20 +15,20 @@
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 import {XProductsObjectData} from "@selldone/page-builder/components/x/products/XProductsObjectData.ts";
 
-export class XListingCustomObjectData extends LModelData<XListingCustomObjectData> {
+export class XFeederProductsObjectData extends LModelData<XFeederProductsObjectData> {
   filter: XProductsObjectData.IFilter = {};
 
-  frame_product: XListingCustomObjectData.IFrame = {
+  frame_product: XFeederProductsObjectData.IFrame = {
     classes: [],
     code: null,
   };
 
-  frame_category: XListingCustomObjectData.IFrame = {
+  frame_category: XFeederProductsObjectData.IFrame = {
     classes: [],
     code: null,
   };
 
-  constructor(params?: Partial<XListingCustomObjectData>) {
+  constructor(params?: Partial<XFeederProductsObjectData>) {
     super();
 
 

@@ -14,46 +14,46 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XListingCustomObjectData} from "@selldone/page-builder/components/x/feeder/products/XListingCustomObjectData.ts";
-import ProductFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/ProductFramesSample.ts";
-import CategoryFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/CategoryFramesSample.ts";
+import {XFeederBlogsObjectData} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObjectData.ts";
 
-export class XListingCustomObject extends LModelElement<XListingCustomObjectData> {
+export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
   constructor(
     background: LModelBackground | null,
     style: any,
     classes: string[] | null,
     children: LModelElement<any>[] | null,
-    data: XListingCustomObjectData | null,
+    data: XFeederBlogsObjectData | null,
     props: any,
   ) {
     super(
-      "XFeederProducts",
+      "XFeederBlogs",
       background,
       style,
       classes,
       children,
-      data ? data : new XListingCustomObjectData(),
+      data ? data : new XFeederBlogsObjectData(),
       props,
     );
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    const instance= new XListingCustomObject(null, null, null, null, null, null);
-    instance.data.frame_product.code = ProductFramesSample.Curvy_Card;
-    instance.data.frame_category.code = CategoryFramesSample.Curvy_Card;
-    return instance;
+    return new XFeederBlogsObject(null, null, null, null, null, null);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
-  static Seed(): XListingCustomObject {
+  static Seed(): XFeederBlogsObject {
     const instance = this.NewInstance();
-    instance.data.filter.sort = "most_popular";
-    instance.data.filter.only_available = true;
-    instance.data.filter.count = 4;
-    instance.data.filter.categories_count = 4;
+    instance.data.filter.sortBy = "created_at";
+    instance.data.filter.sortDesc = true;
+    instance.data.filter.limit = 4;
+
+    instance.data.grid.mobile = 12;
+    instance.data.grid.tablet = 6;
+    instance.data.grid.desktop = 3;
+
+    instance.data.card.rounded = "xl";
 
     return instance;
   }
@@ -65,15 +65,26 @@ export class XListingCustomObject extends LModelElement<XListingCustomObjectData
    * @constructor
    */
 
-  static MigrateOld(old: any): XListingCustomObject {
-    const data = new XListingCustomObjectData({filter:old.filter,
-      frame_category:old.frame_category,
-      frame_product:old.frame_product,
+  static MigrateOld(old: any): XFeederBlogsObject {
+    const data = new XFeederBlogsObjectData();
 
-    });
-    data.align = old.row?.align;
-    data.justify = old.row?.justify;
+    data.filter.sortBy = old.blogs_filter?.sortBy;
+    data.filter.sortDesc = old.blogs_filter?.sortDesc;
+    data.filter.limit = old.blogs_filter?.limit;
+    data.filter.offset = old.blogs_filter?.offset;
+    data.filter.search = old.blogs_filter?.search;
+    data.filter.tags = old.blogs_filter?.tags;
 
-    return new XListingCustomObject(null, null, null, [], data, null);
+    data.grid.mobile = old.grid?.mobile;
+    data.grid.tablet = old.grid?.tablet;
+    data.grid.desktop = old.grid?.desktop;
+    data.grid.widescreen = old.grid?.widescreen;
+
+    data.card.color = old.blogs_filter?.style?.color;
+    data.card.dark = old.blogs_filter?.style?.dark;
+    data.card.flat = old.blogs_filter?.style?.flat;
+    data.card.rounded = old.blogs_filter?.style?.rounded;
+
+    return new XFeederBlogsObject(null, null, null, [], data, null);
   }
 }

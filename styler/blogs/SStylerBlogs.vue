@@ -84,9 +84,7 @@ export default {
       default: "top",
     },
 
-    keyFilter: {
-      default: "blogs_filter",
-    },
+
   },
   data: () => ({
     option: null,
@@ -112,7 +110,7 @@ export default {
     //================================= Blogs Filter ===================================
 
     showQueryBuilderBlogs() {
-      this.ShowLSettingsBlogs(this.el, this.target, this.keyFilter);
+      this.ShowLSettingsBlogs(this.el, this.target);
     },
   },
 };

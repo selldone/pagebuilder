@@ -29,17 +29,24 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+
+
       <!-- ―――――――――――――――――― Input ―――――――――――――――――― -->
 
       <li>
         <button
           class="styler-button"
           title="Input Settings"
-          @click="ShowLSettingsInput(el, target)"
+          @click="ShowLSettingsInput(el, target,options)"
         >
           <v-icon color="#fff" size="20">input</v-icon>
         </button>
       </li>
+
+
+      <v-chip v-if="!options?.no_name" class="small me-3 font-weight-bold" size="x-small">
+        {{target.data.name?target.data.name:'⛔ Param Name!'}}
+      </v-chip>
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -71,13 +78,17 @@ export default {
       required: true,
       type: Object,
     },
+    options:{
+      type: Object,
+      default: null
+    },
 
     /**
      * Set the location of the proper
      */
     position: {
       type: String,
-      default: "top",
+      default: "right-start",
     },
   },
   data: () => ({

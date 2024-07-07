@@ -703,6 +703,9 @@
 
     <l-settings-frame></l-settings-frame>
     <l-settings-input></l-settings-input>
+    <l-settings-form></l-settings-form>
+
+
 
     <l-settings-swiper :builder="$builder"></l-settings-swiper>
     <l-settings-column></l-settings-column>
@@ -795,12 +798,14 @@ import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor
 import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
+import LSettingsForm from "@selldone/page-builder/settings/form/LSettingsForm.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LSettingsForm,
     LPageEditorSideMenu,
     LSettingsHierarchy,
     LSettingsCodeProperties,

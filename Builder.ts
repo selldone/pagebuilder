@@ -77,6 +77,7 @@ import XCode from "@selldone/page-builder/components/x/code/XCode.vue";
 import XProductOverview from "@selldone/page-builder/components/x/product-overview/XProductOverview.vue";
 import XForm from "@selldone/page-builder/components/x/form/XForm.vue";
 import XInputText from "@selldone/page-builder/components/x/input/text/XInputText.vue";
+import XFeederBlogs from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogs.vue";
 
 const DEBUG = false;
 
@@ -646,7 +647,8 @@ const XComponents: any[] = [
   XCode,
   XProductOverview,
   XForm,
-  XInputText
+  XInputText,
+  XFeederBlogs
 ];
 
 /**

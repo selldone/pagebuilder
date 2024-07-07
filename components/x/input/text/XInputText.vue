@@ -15,30 +15,31 @@
 
 <template>
   <v-text-field
-      v-styler:input="{ target: object }"
-
-      :model-value="modelValue"
+    v-styler:input="{ target: object }"
+    :model-value="modelValue"
     @update:model-value="(v) => $emit('update:modelValue', v)"
-    :bg-color="object.data.backgroundColor??undefined"
-    :color="object.data.color??undefined"
+    :bg-color="object.data.backgroundColor ?? undefined"
+    :color="object.data.color ?? undefined"
     :flat="object.data.flat"
-    :hint="object.data.hint??undefined"
-    :label="object.data.label??undefined"
+    :hint="object.data.hint ?? undefined"
+    :label="object.data.label ?? undefined"
     :messages="object.data.messages ? object.data.messages : undefined"
     :persistent-placeholder="object.data.persistentPlaceholder"
-    :placeholder="object.data.placeholder??undefined"
+    :placeholder="object.data.placeholder ?? undefined"
     :rounded="object.data.rounded"
     :rules="[
       /*GlobalRules.email(), GlobalRules.required()*/
     ]"
-    :variant="object.data.variant??undefined"
-    :prepend-icon="object.data.prependIcon??undefined"
-    :prepend-inner-icon="object.data.prependInnerIcon??undefined"
-    :append-icon="object.data.appendIcon??undefined"
-    :append-inner-icon="object.data.appendInnerIcon??undefined"
-
-
-
+    :variant="object.data.variant ?? undefined"
+    :prepend-icon="object.data.prependIcon ?? undefined"
+    :prepend-inner-icon="object.data.prependInnerIcon ?? undefined"
+    :append-icon="object.data.appendIcon ?? undefined"
+    :append-inner-icon="object.data.appendInnerIcon ?? undefined"
+    :error-messages="
+      !object.data.name
+        ? ['⛔ Please set a param name for the input in the input settings.']
+        : undefined
+    "
     class="x--input-text"
   ></v-text-field>
 </template>
