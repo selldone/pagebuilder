@@ -91,7 +91,7 @@
       clearable
     ></s-setting-select>
 
-    <v-row dense :class="{disabled:position==='static'}">
+    <v-row dense :class="{disabled:position==='static' || !position}">
       <v-col cols="6">
         <s-setting-size
           :model-value="top"
