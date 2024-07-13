@@ -15,8 +15,15 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XProductsObjectData} from "@selldone/page-builder/components/x/products/XProductsObjectData.ts";
+import {
+  XProductOverviewObjectData
+} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObjectData.ts";
 
 export class XProductsObject extends LModelElement<XProductsObjectData> {
+
+  public static ComponentName="XProducts";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,7 +33,7 @@ export class XProductsObject extends LModelElement<XProductsObjectData> {
     props: any,
   ) {
     super(
-      "XProducts",
+        XProductsObject.ComponentName,
       background,
       style,
       classes,
@@ -67,4 +74,17 @@ export class XProductsObject extends LModelElement<XProductsObjectData> {
 
     return new XProductsObject(null, null, null, [], data, null);
   }
+
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+      json: Record<string, any>,
+  ): XProductsObject {
+    return this._JsonToInstance(json, XProductsObjectData);
+  }
+
+
+
+
 }

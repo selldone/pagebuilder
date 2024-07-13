@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XMarqueeObjectData} from "@selldone/page-builder/components/x/marquee/XMarqueeObjectData.ts";
 
 export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
+  public static ComponentName = "XMarquee";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,12 +28,12 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
     props: any,
   ) {
     super(
-      "XMarquee",
+      XMarqueeObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XMarqueeObjectData(""),
+      data ? data : new XMarqueeObjectData({}),
       props,
     );
   }
@@ -46,9 +48,9 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
   static Seed(): XMarqueeObject {
     const instance = this.NewInstance();
     instance.data.setHtml("Write some text here...");
-    instance.style.fontSize='2rem'
-    instance.style.color='#ffffff'
-    instance.background.bg_color='#673AB7'
+    instance.style.fontSize = "2rem";
+    instance.style.color = "#ffffff";
+    instance.background.bg_color = "#673AB7";
     console.log("Instance Marquee --->", instance);
 
     return instance;
@@ -62,20 +64,20 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
    */
 
   static MigrateOld(old: any): XMarqueeObject {
-    const data = new XMarqueeObjectData(
-      old.text_loop.html,
-      old.text_loop.duration,
-      old.text_loop.space,
-      old.text_loop.repeat,
-      old.text_loop.reverse,
-    );
+    const data = new XMarqueeObjectData({
+      html: old.text_loop.html,
+      duration: old.text_loop.duration,
+      space: old.text_loop.space,
+      repeat: old.text_loop.repeat,
+      reverse: old.text_loop.reverse,
+    });
 
     const style = old.style ? old.style : {};
     style.height = old.text_loop.height;
     style.color = old.text_loop.font_color;
     style.fontSize = old.text_loop.font_size;
 
-    return new XMarqueeObjectData(
+    return new XMarqueeObject(
       new LModelBackground(old?.background),
       style,
       old?.classes,
@@ -83,5 +85,11 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
       data,
       null,
     );
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XMarqueeObject {
+    return this._JsonToInstance(json, XMarqueeObjectData);
   }
 }

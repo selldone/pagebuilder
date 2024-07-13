@@ -15,10 +15,14 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
+import {XCodeObjectData} from "@selldone/page-builder/components/x/code/XCodeObjectData.ts";
 
 export class XCollectionObject extends LModelElement<XCollectionObjectData> {
+  public static ComponentName="XCollection";
+
+
   static Seed(): XCollectionObject {
-    const data = new XCollectionObjectData([]);
+    const data = new XCollectionObjectData({});
 
     return new XCollectionObject(null, null, null, null, data, null);
   }
@@ -32,13 +36,20 @@ export class XCollectionObject extends LModelElement<XCollectionObjectData> {
     props: any,
   ) {
     super(
-      "XCollection",
+        XCollectionObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XCollectionObjectData(null),
+      data ? data : new XCollectionObjectData({}),
       props,
     );
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XCollectionObject {
+    return this._JsonToInstance(json, XCollectionObjectData);
+  }
+
 }

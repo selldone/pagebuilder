@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 
 export class XSectionObject extends LModelElement<XSectionObjectData> {
+  public static ComponentName = "XSection";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,7 +28,7 @@ export class XSectionObject extends LModelElement<XSectionObjectData> {
     props: Record<string, any> | null,
   ) {
     super(
-      "XSection",
+      XSectionObject.ComponentName,
       background,
       style,
       classes,
@@ -66,5 +68,13 @@ export class XSectionObject extends LModelElement<XSectionObjectData> {
       data,
       null,
     );
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): LModelElement<XSectionObjectData> {
+    return this._JsonToInstance(json, XSectionObjectData);
   }
 }

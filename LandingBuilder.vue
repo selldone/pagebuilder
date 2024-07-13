@@ -526,6 +526,7 @@ export default {
 
     // Call when user select local template: (Raw template):
     onSave() {
+      console.log('Page buildr | On Save')
       const content = this.$refs.vueBuilder.getJson();
       //const html_content = this.$refs.vueBuilder.getHtml();
       const html_content = ""; // no need anymore!

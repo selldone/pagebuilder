@@ -18,6 +18,8 @@ import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonO
 import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export class XButtonsObject extends LModelElement<XRowObjectData> {
+  public static ComponentName = "XButtons";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -27,12 +29,12 @@ export class XButtonsObject extends LModelElement<XRowObjectData> {
     props: Record<string, any> | null,
   ) {
     super(
-      "XButtons",
+      XButtonsObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XRowObjectData("center", "center", false),
+      data ? data : new XRowObjectData({align:"center",justify: "center",no_wrap: false}),
       props,
     );
   }
@@ -58,9 +60,6 @@ export class XButtonsObject extends LModelElement<XRowObjectData> {
    * @constructor
    */
   static MigrateOld(btn_row: any, buttons: []): XButtonsObject {
-    const align = btn_row?.align ?? null;
-    const justify = btn_row?.justify ?? null;
-    const no_wrap = btn_row?.no_wrap ?? null;
 
     const row_buttons = new XButtonsObject(
       new LModelBackground(btn_row?.background),
@@ -68,7 +67,7 @@ export class XButtonsObject extends LModelElement<XRowObjectData> {
       btn_row?.classes,
       [],
 
-      new XRowObjectData(align, justify, no_wrap),
+      new XRowObjectData(btn_row),
       null,
     );
 
@@ -82,5 +81,11 @@ export class XButtonsObject extends LModelElement<XRowObjectData> {
     console.log("Migrate Buttons | ", btn_row, "--to-->", row_buttons);
 
     return row_buttons;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XButtonsObject {
+    return this._JsonToInstance(json, XRowObjectData);
   }
 }

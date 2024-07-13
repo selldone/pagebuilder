@@ -81,19 +81,18 @@ export default defineComponent({
   computed: {
     buttons() {
       // New version:
-      if (this.object instanceof LModelElement) {
+      if (this.object instanceof XButtonsObject) {
         return this.object.children;
       }
       console.error("❗Old buttons version!");
-      // Old version: TODO: Remove this block
-      return this.object.buttons;
+return [];
     },
   },
 
   created() {
     console.log("XButtons created | Object: ", this.object);
     // New version:
-    if (this.object instanceof LModelElement) {
+    if (this.object instanceof XButtonsObject) {
       return;
     }
     console.error(

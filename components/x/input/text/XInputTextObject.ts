@@ -19,6 +19,8 @@ import {XInputTextObjectData} from "@selldone/page-builder/components/x/input/te
 import {isObject} from "lodash-es";
 
 export class XInputTextObject extends LModelElement<XInputTextObjectData> {
+  public static ComponentName = "XInputText";
+
   // Custom elements [Permanent]
   public button: XButtonObject | null = null;
 
@@ -31,14 +33,16 @@ export class XInputTextObject extends LModelElement<XInputTextObjectData> {
     props: any,
   ) {
     super(
-      "XInputText",
+      XInputTextObject.ComponentName,
       background,
       style,
       classes,
       children,
       data
         ? data
-        : new XInputTextObjectData("param_" + Math.abs(Math.random() * 999)),
+        : new XInputTextObjectData({
+            name: "param_" + Math.abs(Math.random() * 999),
+          }),
       props,
     );
   }
@@ -64,7 +68,7 @@ export class XInputTextObject extends LModelElement<XInputTextObjectData> {
    */
 
   static MigrateOld(old: Record<string, any> | null): XInputTextObject {
-    const data = new XInputTextObjectData("");
+    const data = new XInputTextObjectData({ name: "" });
 
     if (old && isObject(old)) {
       data
@@ -90,5 +94,11 @@ export class XInputTextObject extends LModelElement<XInputTextObjectData> {
     }
 
     return new XInputTextObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XInputTextObject {
+    return this._JsonToInstance(json, XInputTextObjectData);
   }
 }

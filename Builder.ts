@@ -14,13 +14,6 @@
 
 import {Section} from "./src/section/section";
 import {App, reactive} from "vue";
-import XColumnImageText from "./components/x/column-image-text/XColumnImageText.vue";
-import XRow from "./components/x/row/XRow.vue";
-import XColumn from "./components/x/column/XColumn.vue";
-import XSection from "./components/x/section/XSection.vue";
-import XContainer from "./components/x/container/XContainer.vue";
-import XButtons from "./components/x/buttons/XButtons.vue";
-import XFeederProducts from "./components/x/feeder/products/XFeederProducts.vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
 import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
@@ -57,29 +50,13 @@ import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
-import XButton from "@selldone/page-builder/components/x/button/XButton.vue";
-import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
-import XLottie from "@selldone/page-builder/components/x/lottie/XLottie.vue";
-import XSearch from "@selldone/page-builder/components/x/search/XSearch.vue";
-import XMarquee from "@selldone/page-builder/components/x/marquee/XMarquee.vue";
-import XGalleryExpandable from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandable.vue";
-import XGalleryExpandableItem
-  from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItem.vue";
-import XDiv from "@selldone/page-builder/components/x/div/XDiv.vue";
-import XSwiper from "@selldone/page-builder/components/x/swiper/XSwiper.vue";
-import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
-import XArticle from "@selldone/page-builder/components/x/article/XArticle.vue";
-import XProducts from "@selldone/page-builder/components/x/products/XProducts.vue";
-import XCode from "@selldone/page-builder/components/x/code/XCode.vue";
-import XProductOverview from "@selldone/page-builder/components/x/product-overview/XProductOverview.vue";
-import XForm from "@selldone/page-builder/components/x/form/XForm.vue";
-import XInputText from "@selldone/page-builder/components/x/input/text/XInputText.vue";
-import XFeederBlogs from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogs.vue";
+import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
+import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {util} from "prismjs";
+import type = util.type;
 
-const DEBUG = false;
+const DEBUG = true;
 
 export namespace builder {
   export interface IOptions {
@@ -295,27 +272,27 @@ export class Builder {
     }
 
     /* if (!options.schema) {
-           options.schema = this.components[options.name]?.$schema;
-           if (DEBUG) console.log("Auto assign schema.", options);
-         }*/
+               options.schema = this.components[options.name]?.$schema;
+               if (DEBUG) console.log("Auto assign schema.", options);
+             }*/
 
     /* if (!options.schema) {
-           // TODO:Remove this after migration!
-           console.error(
-             "Schema not found for section! Maybe new version!",
-             options,
-             "position",
-             position,
-           );
-         }*/
+               // TODO:Remove this after migration!
+               console.error(
+                 "Schema not found for section! Maybe new version!",
+                 options,
+                 "position",
+                 position,
+               );
+             }*/
     const section = new Section(options, force_set_new_uid);
 
     if (DEBUG) console.log("📐 Add section", "section", section);
 
     //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
     /*  if (has_initialize && options.schema?.$init) {
-            options.schema?.$init(section.data);
-          }*/
+                options.schema?.$init(section.data);
+              }*/
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     if (position !== undefined) {
@@ -467,19 +444,40 @@ export class Builder {
 
     if (content.sections && Array.isArray(content.sections)) {
       this.sections = content.sections
-        .map((section) => {
+        .map((_section) => {
           //console.debug("Add section > ", section);
-          if (!this.components[section.name]) {
-            console.error("Component not found", section.name);
-            return null;
+          /*if (!this.components[section.name]) {
+                      console.error("Component not found", section.name);
+                      return null;
+                    }*/
+          let object = null;
+
+          if (_section.object instanceof LModelElement) {
+            console.log(
+              "🪵 Load object from instance. Object is instance of LModelElement...",
+              _section.object,
+            );
+            object = _section.object;
+          } else {
+            console.log(
+              "🪵 Load object from json. Object is not instance of LModelElement!",
+              _section.object,
+              type(_section.object),
+            );
+            object = LUtilsLoader.JsonObjectToInstance(_section.object);
+            console.log(
+                "🪵 Convert json to object instance -> ",
+                object,
+                type(object),
+            );
           }
 
           const sectionData = {
-            name: section.name,
-            uid: section.uid,
-            data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
+            name: _section.name,
+            uid: _section.uid,
+            // data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
             // schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
-            object: section.object, //🪵 New Version!
+            object: object, //🪵 New Version!
           };
 
           return new Section(sectionData);
@@ -500,9 +498,9 @@ export class Builder {
     });
 
     /*this.sections.forEach((section) => {
-      // removeBRFromSectionData(section.data);
-      Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
-    });*/
+          // removeBRFromSectionData(section.data);
+          Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
+        });*/
 
     console.log("👢 CSS Style on save ", this.style);
 
@@ -511,7 +509,7 @@ export class Builder {
       sections: this.sections.map((s) => ({
         uid: s.uid, // New unique id saved in backend. Previous id was added to data.id
         name: s.name,
-        data: s.data, // Should be removed after migration (if we have s.object)
+        // data: s.data, // Should be removed after migration (if we have s.object)
         object: s.object,
       })),
       style: this.style,
@@ -621,41 +619,11 @@ function initializeSections(app: App, ignoreSections?: string[]) {
   );
 }
 
-const XComponents: any[] = [
-  XColumnImageText,
-  XRow,
-  XColumn,
-  XSection,
-  XContainer,
-  XButtons,
-  XFeederProducts,
-  XText,
-  XUploader,
-  XButton,
-  XProduct,
-  XCollection,
-  XLottie,
-  XSearch,
-  XMarquee,
-  XGalleryExpandable,
-  XGalleryExpandableItem,
-  XDiv,
-  XSwiper,
-  XVideoBackground,
-  XArticle,
-  XProducts,
-  XCode,
-  XProductOverview,
-  XForm,
-  XInputText,
-  XFeederBlogs
-];
-
 /**
  * Initialize especial components
  */
 function initializeXComponents(app: App) {
-  XComponents.forEach((_component) => {
+  LUtilsComponents.XComponents.forEach((_component) => {
     if (_component) {
       app.component(_component.name, _component);
     } else

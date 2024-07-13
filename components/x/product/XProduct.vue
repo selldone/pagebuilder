@@ -165,7 +165,7 @@ export default {
       !isObject(this.object.data) ||
       Array.isArray(this.object.data)
     )
-      this.object.data = new XProductObjectData();
+      this.object.data = new XProductObjectData({});
 
     this.getProductInfo();
   },

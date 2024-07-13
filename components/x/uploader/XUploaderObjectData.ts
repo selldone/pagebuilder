@@ -21,11 +21,29 @@ export class XUploaderObjectData extends LModelData<XUploaderObjectData> {
 
   link: string | null;
 
-  constructor(src: string | null, setting: null | XUploaderDataTypes.Setting) {
-    super();
-    this.src = src;
-    this.setting = setting ? setting : new XUploaderDataTypes.Setting();
-    this.link = null;
+  //TODO: Make it abstract class and set params input!
+
+  constructor(params: {
+    src?: string | null;
+    setting?: XUploaderDataTypes.Setting | null;
+    link?: string | null;
+  }) {
+    super(); // Calling the constructor of the base class
+
+    // Initialize src directly; it defaults to null if not provided
+    this.src = params.src ?? null;
+
+    // Initialize setting with a default new Setting object if not provided
+    if (params.setting instanceof XUploaderDataTypes.Setting) {
+      this.setting = params.setting;
+    } else {
+      this.setting = new XUploaderDataTypes.Setting(
+        params.setting ?? undefined,
+      );
+    }
+
+    // Initialize link to null
+    this.link = params.link ?? null;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

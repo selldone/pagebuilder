@@ -18,19 +18,18 @@ import {XProductsObjectData} from "@selldone/page-builder/components/x/products/
 export class XFeederProductsObjectData extends LModelData<XFeederProductsObjectData> {
   filter: XProductsObjectData.IFilter = {};
 
-  frame_product: XFeederProductsObjectData.IFrame = {
+  frame_product: XFeederProductsObjectDataTypes.IFrame = {
     classes: [],
     code: null,
   };
 
-  frame_category: XFeederProductsObjectData.IFrame = {
+  frame_category: XFeederProductsObjectDataTypes.IFrame = {
     classes: [],
     code: null,
   };
 
   constructor(params?: Partial<XFeederProductsObjectData>) {
     super();
-
 
     this.filter = params?.filter ?? {};
     this.frame_product = params?.frame_product ?? {
@@ -41,7 +40,6 @@ export class XFeederProductsObjectData extends LModelData<XFeederProductsObjectD
       classes: [],
       code: null,
     };
-
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -51,7 +49,7 @@ export class XFeederProductsObjectData extends LModelData<XFeederProductsObjectD
 
 // ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 
-export namespace XListingCustomObjectData {
+export namespace XFeederProductsObjectDataTypes {
   export type IFrame = {
     classes: string[];
     code: string | null;

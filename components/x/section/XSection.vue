@@ -17,7 +17,10 @@
     :id="object.id"
     v-data-x="object.style"
     v-styler:section="sectionBinding"
-    :class="[object.classes, { '-no-padding': noDefaultPadding ,'-dark':object.background?.dark}]"
+    :class="[
+      object.classes,
+      { '-no-padding': noDefaultPadding, '-dark': object.background?.dark },
+    ]"
     :style="[background_style, object.style]"
     class="section"
   >
@@ -32,11 +35,12 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import XVideoBackground from "../../../components/x/video-background/XVideoBackground.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import DataXDirective from "../../../directives/DataXDirective";
+import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 
 export default {
   name: "XSection",
@@ -45,7 +49,7 @@ export default {
   components: { XVideoBackground },
 
   props: {
-    object: { required: true },
+    object: { required: true, type: XSectionObject },
     noDefaultPadding: Boolean,
   },
   data: () => ({}),

@@ -17,10 +17,13 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XContainerObjectData extends LModelData<XContainerObjectData> {
   fluid: boolean | null;
 
-  constructor(fluid: boolean | null) {
-    super();
+  constructor(params: {
+    fluid?: boolean | null
+  }) {
+    super(); // Calling the constructor of the base class
 
-    this.fluid = !!fluid;
+    // Use the double NOT operator (!! ) to convert the fluid value to a boolean
+    this.fluid = !!params.fluid;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

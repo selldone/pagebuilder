@@ -22,30 +22,32 @@
       title="Image"
       @click:add="
         lock = false;
-        modelValue.src = '{{key}}';
+        object.data.src = '{{key}}';
       "
     >
     </s-widget-header>
     <v-text-field
-      v-model="modelValue.src"
+      v-model="object.data.src"
       :append-inner-icon="lock ? 'lock' : 'lock_open'"
       :readonly="lock"
       label="Image path"
       messages="You can input an image URL or a dynamic value like { { key } }. This dynamic value can even be part of a complete URL."
       variant="underlined"
-      @change="$emit('change', modelValue)"
       @click:append-inner="lock = !lock"
     ></v-text-field>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+
 export default {
   name: "LFeederImage",
   components: {},
-  emits: ["change"],
   props: {
-    modelValue: {},
+    object: {
+      type: XUploaderObject,
+    },
   },
   data: () => {
     return {
@@ -54,7 +56,7 @@ export default {
   },
   methods: {},
   created() {
-    this.lock = !this.modelValue?.src?.includes("{{");
+    this.lock = !this.object?.data.src?.includes("{{");
   },
 };
 </script>

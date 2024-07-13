@@ -13,12 +13,15 @@
  */
 
 import {
-  XUploaderDataTypes,
-  XUploaderObjectData,
+    XUploaderDataTypes,
+    XUploaderObjectData,
 } from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
 export class XLottieObjectData extends XUploaderObjectData {
-  constructor(src: string | null, setting: null | XUploaderDataTypes.Setting) {
-    super(src, setting);
+  constructor(params: {
+    src?: string | null;
+    setting?: XUploaderDataTypes.Setting | null;
+  }) {
+    super({ src: params.src ?? null, setting: params.setting ?? null }); // Passing the parameters to the base class constructor with null as default
   }
 }

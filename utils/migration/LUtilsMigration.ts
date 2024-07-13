@@ -32,6 +32,7 @@ import {
 } from "@selldone/page-builder/sections/store/custom-listing/LMigrationV2CustomListing.ts";
 import {LMigrationV2Newsletter} from "@selldone/page-builder/sections/form/newsletter/LMigrationV2Newsletter.ts";
 import {LMigrationV2BlogsList} from "@selldone/page-builder/sections/blog/list/LMigrationV2BlogsList.ts";
+import {LMigrationV2Marquee} from "@selldone/page-builder/sections/text/marquee/LMigrationV2Marquee.ts";
 
 export class LUtilsMigration {
   public static MigratePageContent = (obj: Page.IContent) => {
@@ -208,7 +209,13 @@ export class LUtilsMigration {
     } else if (section.name === "LSectionBlogList") {
       section.object = LMigrationV2BlogsList.Migrate(section.data);
       section.data = null;
+    } else if (section.name === "LSectionTextMarquee") {
+      section.object = LMigrationV2Marquee.Migrate(section.data);
+      section.data = null;
     }
+
+
+
 
 
     else {
@@ -242,6 +249,8 @@ function replaceStringInObject(
   searchValue: string,
   replaceValue: string,
 ) {
+  //console.error("HER!!!!!!!!!!!!!!!!")
+  //return value; // TODO!~
   if (Array.isArray(value)) {
     value.forEach((item, index) => {
       value[index] = replaceStringInObject(item, searchValue, replaceValue);

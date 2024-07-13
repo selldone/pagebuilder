@@ -13,56 +13,13 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-  <x-section v-if="false" :object="$sectionData">
-    <x-container :object="$sectionData">
-      <x-row :object="$sectionData" has-arrangement has-fluid>
-        <!-- ██████████████████████ Column 1 ██████████████████████ -->
-
-        <x-column :object="$sectionData.columns[0]">
-          <x-text
-            v-model:object="$sectionData.title"
-            :augment="augment"
-            initial-type="h1"
-            :initial-classes="['mb-2']"
-          ></x-text>
-
-          <x-text
-            v-model:object="$sectionData.content"
-            :augment="augment"
-            initial-type="p"
-            :initial-classes="['mb-4']"
-          ></x-text>
-
-          <!--  ▛▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▜ -->
-          <x-buttons :augment="augment" :object="$sectionData"></x-buttons>
-          <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ CALL TO ACTION PATTERN ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
-        </x-column>
-        <!-- ██████████████████████ Column 2 ██████████████████████ -->
-
-        <x-column :object="$sectionData.columns[1]">
-          <x-uploader v-model:object="$sectionData.image" :augment="augment" />
-        </x-column>
-      </x-row>
-    </x-container>
-  </x-section>
-
-
   <x-component :object="$sectionObject" :augment="augment"></x-component>
-
-
 </template>
 
 <script>
 import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
-import XUploader from "../../../components/x/uploader/XUploader.vue";
-import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XSection from "@selldone/page-builder/components/x/section/XSection.vue";
-import XContainer from "@selldone/page-builder/components/x/container/XContainer.vue";
-import XRow from "@selldone/page-builder/components/x/row/XRow.vue";
-import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
-import XButtons from "@selldone/page-builder/components/x/buttons/XButtons.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
@@ -71,13 +28,6 @@ export default {
   mixins: [LMixinSection],
   components: {
     XComponent,
-    XButtons,
-    XColumn,
-    XRow,
-    XContainer,
-    XSection,
-    XText,
-    XUploader,
   },
   cover: require("../../../assets/images/covers/hero-2.svg"),
   group: "Hero",
@@ -87,54 +37,6 @@ export default {
     video: "/app/videos/page-builder/Sectionherovertical.mp4",
   },
 
-  $schema: {
-    classes: types.ClassList,
-    row: types.Row,
-
-    // Background & Style:
-    background: types.Background,
-    style: types.Style,
-
-    // Contents:
-    title: types.Title,
-    content: types.Text,
-    image: types.Image,
-
-    // Buttons:
-    buttons: [],
-    btn_row: types.Row,
-
-    // Columns:
-    columns: [
-      {
-        grid: {
-          mobile: 12,
-          tablet: 12,
-          desktop: 12,
-          widescreen: null,
-        },
-      },
-      {
-        grid: {
-          mobile: 12,
-          tablet: 10,
-          desktop: 8,
-          widescreen: null,
-        },
-      },
-    ],
-
-    /**
-     * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
-     */
-    $init: (data) => {
-      data.classes = [
-        "min-height-80vh",
-        "d-flex" /*Keep row fill container! Important.*/,
-      ];
-      data.row.align = "center";
-    },
-  },
   props: {
     id: {
       type: Number,
@@ -150,9 +52,7 @@ export default {
 
   watch: {},
 
-  created() {
-
-  },
+  created() {},
 };
 </script>
 <style lang="scss" scoped></style>

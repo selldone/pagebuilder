@@ -116,13 +116,13 @@
           ></v-text-field>
         </div>
         <v-row
-          v-if="themes && selected_category === 'raw'"
+          v-if="selected_category === 'raw'"
           justify="start"
           align="center"
         >
           <v-fade-transition group hide-on-leave>
             <v-col
-              v-for="(theme, index) in themes"
+              v-for="(theme, index) in RawTemplate.List"
               :key="'raw-' + index"
               cols="12"
               lg="3"
@@ -176,7 +176,6 @@
               lg="3"
               md="4"
               sm="6"
-
             >
               <l-template-card
                 :loading="busy_get_template === item.id"
@@ -194,9 +193,10 @@
   </v-card>
 </template>
 
-<script>
+<script >
 import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
 import _ from "lodash-es";
+import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 
 /**
  * <l-templates-list>
@@ -206,14 +206,18 @@ export default {
   components: { LTemplateCard },
   emits: ["select:page", "select:raw-theme"],
   props: {
-    themes: {
-      type: Array,
-    },
     hasHeader: { type: Boolean },
-    clickable:Boolean,
+    clickable: Boolean,
+
+    hasRawTemplates: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
+      RawTemplate: RawTemplate,
+
       drawer: false,
       selected_category: "raw",
 
@@ -231,12 +235,9 @@ export default {
   },
 
   computed: {
-    has_raw_themes() {
-      return this.themes?.length;
-    },
     categories() {
       return [
-        ...(this.has_raw_themes
+        ...(this.hasRawTemplates
           ? [{ code: "raw", title: "landing_categories.raw" }]
           : []),
 
@@ -279,7 +280,7 @@ export default {
       return;
     }
 
-    if (!this.has_raw_themes) {
+    if (!this.hasRawTemplates) {
       this.selected_category = "*";
     }
 
@@ -325,7 +326,7 @@ export default {
     },
 
     selectRawTheme(theme) {
-      this.$emit("select:raw-theme", theme);
+      this.$emit("select:raw-theme", theme.generate());
     },
 
     loadTemplate(item) {

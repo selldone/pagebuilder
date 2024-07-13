@@ -14,11 +14,15 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XFeederProductsObjectData} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObjectData.ts";
+import {
+  XFeederProductsObjectData
+} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObjectData.ts";
 import ProductFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/ProductFramesSample.ts";
 import CategoryFramesSample from "@selldone/page-builder/sections/store/custom-listing/frames/CategoryFramesSample.ts";
 
 export class XFeederProductsObject extends LModelElement<XFeederProductsObjectData> {
+  public static ComponentName = "XFeederProducts";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -28,7 +32,7 @@ export class XFeederProductsObject extends LModelElement<XFeederProductsObjectDa
     props: any,
   ) {
     super(
-      "XFeederProducts",
+      XFeederProductsObject.ComponentName,
       background,
       style,
       classes,
@@ -40,7 +44,14 @@ export class XFeederProductsObject extends LModelElement<XFeederProductsObjectDa
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
   static NewInstance() {
-    const instance= new XFeederProductsObject(null, null, null, null, null, null);
+    const instance = new XFeederProductsObject(
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+    );
     instance.data.frame_product.code = ProductFramesSample.Curvy_Card;
     instance.data.frame_category.code = CategoryFramesSample.Curvy_Card;
     return instance;
@@ -66,14 +77,22 @@ export class XFeederProductsObject extends LModelElement<XFeederProductsObjectDa
    */
 
   static MigrateOld(old: any): XFeederProductsObject {
-    const data = new XFeederProductsObjectData({filter:old.filter,
-      frame_category:old.frame_category,
-      frame_product:old.frame_product,
-
+    const data = new XFeederProductsObjectData({
+      filter: old.filter,
+      frame_category: old.frame_category,
+      frame_product: old.frame_product,
     });
-    data.align = old.row?.align;
-    data.justify = old.row?.justify;
+    //   data.align = old.row?.align;
+    //   data.justify = old.row?.justify;
 
     return new XFeederProductsObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XFeederProductsObject {
+    return this._JsonToInstance(json, XFeederProductsObjectData);
   }
 }

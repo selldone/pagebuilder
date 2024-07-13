@@ -18,8 +18,8 @@ import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XCollectionObject} from "@selldone/page-builder/components/x/collection/XCollectionObject.ts";
 import {
-  XColumnImageTextDataTypes,
-  XColumnImageTextObjectData,
+    XColumnImageTextDataTypes,
+    XColumnImageTextObjectData,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
@@ -29,6 +29,8 @@ import {XProductObject} from "@selldone/page-builder/components/x/product/XProdu
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
+  public static ComponentName = "XColumnImageText";
+
   // Custom elements [Permanent]
   public button: XButtonObject | null = null;
 
@@ -41,17 +43,17 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     props: any,
   ) {
     super(
-      "XColumnImageText",
+      XColumnImageTextObject.ComponentName,
       background,
       style,
       classes,
       children,
       data
         ? data
-        : new XColumnImageTextObjectData(
-            new LModelGrid({ mobile: 12, tablet: 6, desktop: 4 }),
-            XColumnImageTextDataTypes.LAYOUTS.NORMAL,
-          ),
+        : new XColumnImageTextObjectData({
+            grid: new LModelGrid({ mobile: 12, tablet: 6, desktop: 4 }),
+            layout: XColumnImageTextDataTypes.LAYOUTS.NORMAL,
+          }),
       props,
     );
   }
@@ -155,10 +157,10 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
       old.layout = XColumnImageTextDataTypes.LAYOUTS.NORMAL;
     }
 
-    const data = new XColumnImageTextObjectData(
-      new LModelGrid(old?.grid),
-      old.layout,
-    );
+    const data = new XColumnImageTextObjectData({
+      grid: new LModelGrid(old?.grid),
+      layout: old.layout,
+    });
     console.log(
       "Migrate LModelElementXColumnImageText | data:",
       old,
@@ -200,7 +202,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
           null,
           null,
           null,
-          new XProductObjectData(old.product_info?.id),
+          new XProductObjectData({ id: old.product_info?.id }),
           null,
         ).setLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT),
       );
@@ -218,13 +220,32 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
           null,
           null,
           null,
-          new XCollectionObjectData(_children),
+          new XCollectionObjectData({ children: _children }),
           null,
         ).setLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION),
       );
     }
 
     return column;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XColumnImageTextObject {
+    const instance = this._JsonToInstance(json, XColumnImageTextObjectData);
+    if (json.button) {
+      instance.button = XButtonObject.JsonToInstance(json.button);
+      console.log(
+        "Add button to XColumnImageTextObject -->",
+        json.button,
+        "-->",
+        instance.button,
+      );
+    }
+
+    return instance;
   }
 }
 

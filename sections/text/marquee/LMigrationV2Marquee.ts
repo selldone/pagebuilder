@@ -13,14 +13,11 @@
  */
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
-import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
-import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 
-export class LMigrationV2TextSections {
+export class LMigrationV2Marquee {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
@@ -28,22 +25,9 @@ export class LMigrationV2TextSections {
 
     // 1. Add section:
     const section = XSectionObject.MigrateOld($sectionData);
+    section.classes = ["pa-0"];
 
-    // 2. Add container:
-    const container = XContainerObject.MigrateOld($sectionData);
-    section.addChild(container);
-
-    container.addChild(
-      XTextObject.MigrateOld($sectionData.header, "h2", ["mb-5"]),
-    );
-
-    // 3. Add row:
-    const row = XRowObject.MigrateOld($sectionData);
-    container.addChild(row);
-
-    $sectionData.columns?.forEach((_column: any) => {
-      row.addChild(XColumnImageTextObject.MigrateOld(_column));
-    });
+    section.addChild(XMarqueeObject.MigrateOld($sectionData));
 
     return section;
   }

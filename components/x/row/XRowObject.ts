@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export class XRowObject extends LModelElement<XRowObjectData> {
+  public static ComponentName = "XRow";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,12 +28,18 @@ export class XRowObject extends LModelElement<XRowObjectData> {
     props: Record<string, any> | null,
   ) {
     super(
-      "XRow",
+      XRowObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XRowObjectData("center", "center", false),
+      data
+        ? data
+        : new XRowObjectData({
+            align: "center",
+            justify: "center",
+            no_wrap: false,
+          }),
       props,
     );
   }
@@ -54,13 +62,15 @@ export class XRowObject extends LModelElement<XRowObjectData> {
    * @constructor
    */
   static MigrateOld(old: any): XRowObject {
-    const data = new XRowObjectData(
-      old?.row?.align,
-      old?.row?.justify,
-      old?.row?.no_wrap,
-    );
+    const data = new XRowObjectData(old?.row);
 
     console.log("Migrate Row | Old: ", old, " | Data: ", data);
     return new XRowObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XRowObject {
+    return this._JsonToInstance(json, XRowObjectData);
   }
 }

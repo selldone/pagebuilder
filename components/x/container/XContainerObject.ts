@@ -15,8 +15,12 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XContainerObjectData} from "@selldone/page-builder/components/x/container/XContainerObjectData.ts";
+import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
 
 export class XContainerObject extends LModelElement<XContainerObjectData> {
+  public static ComponentName="XContainer";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,12 +30,12 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
     props: any,
   ) {
     super(
-      "XContainer",
+        XContainerObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XContainerObjectData(false),
+      data ? data : new XContainerObjectData({fluid:false}),
       props,
     );
   }
@@ -54,7 +58,7 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
    * @constructor
    */
   static MigrateOld(old: any): XContainerObject {
-    const data = new XContainerObjectData(false);
+    const data = new XContainerObjectData({fluid:false});
 
     if(old?.row?.fluid || old?.fluid){
         data.setFluid(true);
@@ -62,4 +66,11 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
 
     return new XContainerObject(null, null, null, [], data, null);
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XContainerObject {
+    return this._JsonToInstance(json, XContainerObjectData);
+  }
+
 }

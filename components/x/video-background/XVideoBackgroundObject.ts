@@ -19,6 +19,8 @@ import {
 } from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObjectData.ts";
 
 export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObjectData> {
+  public static ComponentName = "XVideoBackground";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -28,12 +30,12 @@ export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObject
     props: any,
   ) {
     super(
-      "XVideoBackground",
+      XVideoBackgroundObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XVideoBackgroundObjectData(),
+      data ? data : new XVideoBackgroundObjectData({}),
       props,
     );
   }
@@ -51,23 +53,11 @@ export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObject
     return instance;
   }
 
-  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
-  /**
-   * Migrate from V1 to V2
-   * @param old
-   * @constructor
-   */
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
 
-  static MigrateOld(old: any): XVideoBackgroundObject {
-    const data = new XVideoBackgroundObjectData();
-
-    return new XVideoBackgroundObject(
-      new LModelBackground(old?.background),
-      old?.style,
-      old?.classes,
-      [],
-      data,
-      null,
-    );
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XVideoBackgroundObject {
+    return this._JsonToInstance(json, XVideoBackgroundObjectData);
   }
 }

@@ -15,6 +15,8 @@
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {isFunction} from "lodash-es";
 
+// Define an interface for common functionality
+
 export abstract class LModelElement<T> {
   component: string;
 
@@ -130,5 +132,68 @@ export abstract class LModelElement<T> {
     clonedElement.label = this.label;
 
     return clonedElement;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Helpers ━━━━━━━━━━━━━━━━━
+
+  // Utility function to find all nested children of a specific type
+  findChildrenOfType(
+    object: LModelElement<T>,
+    type: any,
+    deep: boolean = true,
+  ) {
+    const results: LModelElement<T>[] = [];
+
+    // Recursive function to navigate through all children
+    function searchChildren(children: LModelElement<T>[]) {
+      children.forEach((child) => {
+        if (child instanceof type) {
+          results.push(child);
+        }
+        if (deep && child.children) {
+          searchChildren(child.children);
+        }
+      });
+    }
+
+    if (object.children) {
+      searchChildren(object.children);
+    }
+
+    return results;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  /**
+   * Convert JSON to Instance
+   * This static method should be implemented in each subclass to ensure proper typing and instance creation.
+   */
+  protected static _JsonToInstance<T, U extends LModelElement<T>>(
+    this: new (...args: any[]) => U,
+    json: Record<string, any> | null,
+    dataConstructor: new (data: any) => T,
+  ): U {
+    console.log("_JsonToInstance -->", this, json);
+    const instance = new this(
+      new LModelBackground(json?.background),
+      json?.style,
+      json?.classes,
+      [],
+      new dataConstructor(json?.data), // Instantiate T using the constructor passed
+      json?.props,
+    );
+
+    return instance;
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
+
+export namespace LModelElementTypes {
+  export interface IModelElement {
+    new (...args: any[]): LModelElement<any>; // Ensure constructor signature
+    ComponentName: string; // Static property must be present
+    JsonToInstance: (json: Record<string, any>) => LModelElement<any>; // Static method
   }
 }

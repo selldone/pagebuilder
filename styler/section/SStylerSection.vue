@@ -422,7 +422,7 @@ export default {
     },
 
     showStyleDialog() {
-      this.ShowLSettingsBackground(this.el, this.target, `background`);
+      this.ShowLSettingsBackground(this.el, this.target);
     },
 
     removeSection() {

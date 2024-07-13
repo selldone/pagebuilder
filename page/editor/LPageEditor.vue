@@ -27,8 +27,8 @@
       :themes="themes"
       has-header
       clickable
-      @select:raw-theme="(_raw) => addTheme(_raw)"
-      @select:page="(_page) => loadTemplate(_page)"
+      @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
+      @select:page="(_page) => loadPageTemplate(_page)"
     ></l-templates-list>
 
     <!-- ████████████████████████ Editor ████████████████████████ -->
@@ -1534,13 +1534,14 @@ export default defineComponent({
       }, 100);
     },
 
-    addTheme(theme) {
+    loadRawTemplate(theme) {
+      console.log('Page buildr | Load raw template')
       this.setPage(theme, null, true);
 
       this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
     },
 
-    loadTemplate(page) {
+    loadPageTemplate(page) {
       this.setPage(page.content, page.css, false);
 
       //update random title:

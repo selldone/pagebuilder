@@ -30,22 +30,25 @@ export class XTextObjectData extends LModelData<XTextObjectData> {
 
   /**
    * Creates an instance of XTextData.
-   * @param value - HTML or text value.
-   * @param tag - Custom HTML tag.
+   *
    */
-  constructor(
-    value: string | null = null,
-    tag: XTextObjectDataTypes.ITag | null = null,
-  ) {
-    super();
-    this.value = value;
-    this.tag = tag ? tag : "p";
+  constructor(params: {
+    value?: string | null;
+    tag?: XTextObjectDataTypes.ITag | null;
+  }) {
+    super(); // Calling the constructor of the base class
+
+    // Initialize value with null if not provided
+    this.value = params.value ?? null;
+
+    // Use the logical OR operator to provide "p" as a default value if tag is not provided
+    this.tag = params.tag ?? "p";
   }
 
   // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
 
   static NewInstance() {
-    return new XTextObjectData(null, "p");
+    return new XTextObjectData({ value: null, tag: "p" });
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

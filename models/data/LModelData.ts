@@ -14,7 +14,7 @@
 
 import {DeepCloneable} from "@selldone/page-builder/utils/clone/DeepCloneable.ts";
 
-export class LModelData<T> extends DeepCloneable<T> {
+export abstract class LModelData<T> extends DeepCloneable<T> {
   constructor() {
     super();
   }

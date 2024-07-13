@@ -88,7 +88,6 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keyBackground: null, // background
 
     //----------------------- Bg image -----------------------
     show_edit_style: false,
@@ -156,14 +155,13 @@ export default {
     EventBus.$on(
       "show:LSettingsBackground",
 
-      ({ el, target, keyBackground }) => {
+      ({ el, target }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keyBackground = keyBackground;
         this.showSizeDialog();
       },
     );
@@ -204,7 +202,7 @@ export default {
 
   methods: {
     showSizeDialog() {
-      const background = this.target[this.keyBackground];
+      const background = this.target.background;
 
       this.bg_color = background ? background.bg_color : null;
 
@@ -243,9 +241,9 @@ export default {
     setBackground() {
       if (!this.show_edit_style || this.LOCK) return;
 
-      this.target[this.keyBackground] = this.in_background; // Save data in section!
+      this.target.background = this.in_background; // Save data in section!
 
-      const background = this.target[this.keyBackground];
+      const background = this.target.background;
 
       const style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
         background.bg_custom,

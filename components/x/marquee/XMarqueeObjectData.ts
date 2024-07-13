@@ -21,20 +21,20 @@ export class XMarqueeObjectData extends LModelData<XMarqueeObjectData> {
   repeat: number;
   reverse: boolean;
 
-  constructor(
-    html: string,
-    duration: string = "10s",
-    space: number = 200,
-    repeat: number = 10,
-    reverse: boolean = false,
-  ) {
-    super();
+  constructor(params: {
+    html?: string;
+    duration?: string;
+    space?: number;
+    repeat?: number;
+    reverse?: boolean;
+  }) {
+    super(); // Calling the constructor of the base class
 
-    this.html = html;
-    this.duration = duration ? duration : "10s";
-    this.space = space ? space : 200;
-    this.repeat = repeat ? repeat : 10;
-    this.reverse = reverse;
+    this.html = params.html ?? "";
+    this.duration = params.duration ?? "10s";
+    this.space = params.space ?? 200;
+    this.repeat = params.repeat ?? 10;
+    this.reverse = params.reverse ?? false;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

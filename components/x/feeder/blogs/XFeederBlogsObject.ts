@@ -15,8 +15,13 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XFeederBlogsObjectData} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObjectData.ts";
+import {XContainerObjectData} from "@selldone/page-builder/components/x/container/XContainerObjectData.ts";
 
 export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
+
+  public static ComponentName="XFeederBlogs";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,7 +31,7 @@ export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
     props: any,
   ) {
     super(
-      "XFeederBlogs",
+        XFeederBlogsObject.ComponentName,
       background,
       style,
       classes,
@@ -87,4 +92,11 @@ export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
 
     return new XFeederBlogsObject(null, null, null, [], data, null);
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XFeederBlogsObject {
+    return this._JsonToInstance(json, XFeederBlogsObjectData);
+  }
+
 }

@@ -21,17 +21,18 @@ export class XCodeObjectData extends LModelData<XCodeObjectData> {
 
   properties: Record<string, any> | null = null;
 
-  constructor(
-    mode: XCodeObjectDataTypes.Mode | null,
-    code: string = "",
-    properties: Record<string, any> | null,
-  ) {
-    super();
-    this.mode = mode;
-    this.code = code;
-    this.properties = properties;
-  }
+  constructor(params: {
+    mode?: XCodeObjectDataTypes.Mode,
+    code?: string,
+    properties?: Record<string, any>
+  }) {
+    super(); // Calling the constructor of the base class
 
+    // Use nullish coalescing operator to provide default values
+    this.mode = params.mode ?? null; // default to null if mode is not provided
+    this.code = params.code ?? "";  // default to empty string if code is not provided
+    this.properties = params.properties ?? null; // default to null if properties are not provided
+  }
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
 
   public setCode(code: string): XCodeObjectData {

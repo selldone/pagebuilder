@@ -13,8 +13,6 @@
   -->
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
-
-
   <x-component :object="$sectionObject" :augment="augment"></x-component>
 </template>
 
@@ -55,11 +53,7 @@ export default {
       // Extra information to show to dynamic show in page content
     },
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
 };
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

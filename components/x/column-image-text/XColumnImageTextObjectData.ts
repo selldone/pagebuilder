@@ -19,14 +19,20 @@ export class XColumnImageTextObjectData extends LModelData<XColumnImageTextObjec
   grid: LModelGrid | null;
   layout: XColumnImageTextDataTypes.LAYOUTS;
 
-  constructor(
-    grid: LModelGrid | null,
-    layout: XColumnImageTextDataTypes.LAYOUTS,
-  ) {
-    super();
+  constructor(params: {
+    grid?: LModelGrid | null;
+    layout: XColumnImageTextDataTypes.LAYOUTS; // Making layout mandatory as in your original constructor
+  }) {
+    super(); // Calling the constructor of the base class
 
-    this.grid = grid;
-    this.layout = layout;
+    // Check if 'grid' is an instance of LModelGrid or null
+    if (params.grid instanceof LModelGrid) {
+      this.grid = params.grid;
+    } else {
+      this.grid = new LModelGrid(params.grid ?? null);
+    }
+
+    this.layout = params.layout; // Direct assignment since 'layout' is a required field
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

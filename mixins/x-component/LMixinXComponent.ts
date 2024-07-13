@@ -37,18 +37,7 @@ const LMixinXComponent = defineComponent({
       this.$section ? "✅" : "❌",
     );
   },
-  updated() {
-  /*  try {
-      if (typeof this.$el.querySelectorAll === "function")
-        Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
-          (el: any) => {
-            el.contentEditable = this.$builder.isEditing;
-          },
-        );
-    } catch (e) {
-      console.error("updated | x component", e, this);
-    }*/
-  },
+
 
   //------------------------------------------------- New Common -------------------------------------------------
 

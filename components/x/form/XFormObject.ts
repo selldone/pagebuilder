@@ -19,6 +19,8 @@ import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonO
 import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
 
 export class XFormObject extends LModelElement<XFormObjectData> {
+  public static ComponentName = "XForm";
+
   // Custom elements [Permanent]
   public button: XButtonObject | null = null;
 
@@ -31,12 +33,12 @@ export class XFormObject extends LModelElement<XFormObjectData> {
     props: any,
   ) {
     super(
-      "XForm",
+      XFormObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XFormObjectData(),
+      data ? data : new XFormObjectData({}),
       props,
     );
   }
@@ -98,11 +100,19 @@ export class XFormObject extends LModelElement<XFormObjectData> {
    */
 
   static MigrateOld(old: any): XFormObject {
-    const data = new XFormObjectData();
+    const data = new XFormObjectData({});
 
-    const instance= new XFormObject(null, null, null, [], data, null);
+    const instance = new XFormObject(null, null, null, [], data, null);
     instance.button = XButtonObject.MigrateOld(old.button);
 
+    return instance;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XFormObject {
+    const instance = this._JsonToInstance(json, XFormObjectData);
+    instance.button = XButtonObject.JsonToInstance(json.button);
     return instance;
   }
 }

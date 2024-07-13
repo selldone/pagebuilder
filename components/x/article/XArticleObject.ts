@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XArticleObjectData} from "@selldone/page-builder/components/x/article/XArticleObjectData.ts";
 
 export class XArticleObject extends LModelElement<XArticleObjectData> {
+  public static ComponentName = "XArticle";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,7 +28,7 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
     props: any,
   ) {
     super(
-      "XArticle",
+      XArticleObject.ComponentName,
       background,
       style,
       classes,
@@ -73,7 +75,7 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
   // ━━━━━━━━━━━━━━━━━ ⚡ Life Cycle ━━━━━━━━━━━━━━━━━
 
   callBeforeSave() {
-    this.data.setBody(this.$element.purifyBody());
+    this.data.setBody(this.$element!.purifyBody());
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
@@ -87,5 +89,11 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
     const data = new XArticleObjectData(old.body);
 
     return new XArticleObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XArticleObject {
+    return this._JsonToInstance(json, XArticleObjectData);
   }
 }

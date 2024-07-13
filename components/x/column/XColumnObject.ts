@@ -18,6 +18,8 @@ import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XCol
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 
 export class XColumnObject extends LModelElement<XColumnObjectData> {
+  public static ComponentName = "XColumn";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -27,16 +29,16 @@ export class XColumnObject extends LModelElement<XColumnObjectData> {
     props: any,
   ) {
     super(
-      "XColumn",
+      XColumnObject.ComponentName,
       background,
       style,
       classes,
       children,
       data
         ? data
-        : new XColumnObjectData(
-            new LModelGrid({ mobile: 12, tablet: 6, desktop: 4 }),
-          ),
+        : new XColumnObjectData({
+            grid: new LModelGrid({ mobile: 12, tablet: 6, desktop: 4 }),
+          }),
       props,
     );
   }
@@ -74,14 +76,13 @@ export class XColumnObject extends LModelElement<XColumnObjectData> {
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
 
-
   /**
    * Migrate from V1 to V2
    * @param old
    * @constructor
    */
   static MigrateOld(old: any): XColumnObject {
-    const data = new XColumnObjectData(new LModelGrid(old?.grid));
+    const data = new XColumnObjectData({ grid: old?.grid });
 
     return new XColumnObject(
       new LModelBackground(old?.background),
@@ -91,5 +92,11 @@ export class XColumnObject extends LModelElement<XColumnObjectData> {
       data,
       null,
     );
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XColumnObject {
+    return this._JsonToInstance(json, XColumnObjectData);
   }
 }

@@ -16,6 +16,10 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 
 export class XDivObject extends LModelElement<null> {
+
+  public static ComponentName="XDive";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -25,7 +29,7 @@ export class XDivObject extends LModelElement<null> {
     props: any,
   ) {
     super(
-      "XGalleryExpandable",
+        XDivObject.ComponentName,
       background,
       style,
       classes,

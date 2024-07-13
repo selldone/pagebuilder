@@ -18,6 +18,8 @@ import {XLottieObjectData} from "@selldone/page-builder/components/x/lottie/XLot
 import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 
 export class XLottieObject extends LModelElement<XLottieObjectData> {
+  public static ComponentName = "XLottie";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -27,12 +29,12 @@ export class XLottieObject extends LModelElement<XLottieObjectData> {
     props: any,
   ) {
     super(
-      "XLottie",
+      XLottieObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XLottieObjectData(null),
+      data ? data : new XLottieObjectData({}),
       props,
     );
   }
@@ -40,12 +42,18 @@ export class XLottieObject extends LModelElement<XLottieObjectData> {
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
   static Seed(): XLottieObject {
-    const data = new XLottieObjectData(
-      "/animation/23222-checkmark.json",
-      new XUploaderDataTypes.Setting(),
-    );
+    const data = new XLottieObjectData({
+      src: "/animation/23222-checkmark.json",
+      setting: new XUploaderDataTypes.Setting(),
+    });
     console.log("data lottie --->", data);
 
     return new XLottieObject(null, null, null, null, data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XLottieObject {
+    return this._JsonToInstance(json, XLottieObjectData);
   }
 }

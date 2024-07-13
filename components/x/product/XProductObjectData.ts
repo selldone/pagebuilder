@@ -17,9 +17,13 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XProductObjectData extends LModelData<XProductObjectData> {
   id: number | null;
 
-  constructor(id: number | null) {
-    super();
+  constructor(params: {
+    id?: number | null
+  }) {
+    super(); // Calling the constructor of the base class
 
-    this.id = id;
+    // Initialize id, default to null if not provided
+    this.id = params.id ?? null;
   }
+
 }

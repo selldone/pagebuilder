@@ -75,10 +75,10 @@ export class LMigrationV2Heroes {
       column_2.addChild(XUploaderObject.MigrateOld($sectionData.image));
 
       if ($sectionData.lottie) {
-        const data_lottie = new XLottieObjectData(
-          $sectionData.lottie.src,
-          new XUploaderDataTypes.Setting($sectionData.lottie.setting),
-        );
+        const data_lottie = new XLottieObjectData({
+          src: $sectionData.lottie.src,
+          setting: new XUploaderDataTypes.Setting($sectionData.lottie.setting),
+        });
 
         new XLottieObject(
           new LModelBackground($sectionData.lottie.background),

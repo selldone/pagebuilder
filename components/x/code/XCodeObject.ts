@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XCodeObjectData, XCodeObjectDataTypes,} from "@selldone/page-builder/components/x/code/XCodeObjectData.ts";
 
 export class XCodeObject extends LModelElement<XCodeObjectData> {
+  public static ComponentName = "XCode";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,14 +28,18 @@ export class XCodeObject extends LModelElement<XCodeObjectData> {
     props: any,
   ) {
     super(
-      "XCode",
+      XCodeObject.ComponentName,
       background,
       style,
       classes,
       children,
       data
         ? data
-        : new XCodeObjectData(XCodeObjectDataTypes.Mode.MODE_HTML, "", null),
+        : new XCodeObjectData({
+            mode: XCodeObjectDataTypes.Mode.MODE_HTML,
+            code: "",
+            properties: null,
+          }),
       props,
     );
   }
@@ -70,8 +76,18 @@ export class XCodeObject extends LModelElement<XCodeObjectData> {
    */
 
   static MigrateOld(old: any): XCodeObject {
-    const data = new XCodeObjectData(old.mode, old.html, old.properties);
+    const data = new XCodeObjectData({
+      mode: old.mode,
+      code: old.html,
+      properties: old.properties,
+    });
 
     return new XCodeObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XCodeObject {
+    return this._JsonToInstance(json, XCodeObjectData);
   }
 }

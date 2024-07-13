@@ -19,8 +19,13 @@ import {
   XUploaderObjectData,
 } from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
+import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 
 export class XUploaderObject extends LModelElement<XUploaderObjectData> {
+
+  public static ComponentName="XUploader";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -30,14 +35,14 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     props: any,
   ) {
     super(
-      "XUploader",
+        XUploaderObject.ComponentName,
       background,
       style,
       classes,
       children,
       data
         ? data
-        : new XUploaderObjectData(null, new XUploaderDataTypes.Setting()),
+        : new XUploaderObjectData({}),
       props,
     );
   }
@@ -80,7 +85,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
 
   static MigrateOld(old: any): XUploaderObject | null {
     if (!old) return null;
-    const data = new XUploaderObjectData(old?.src, old?.setting);
+    const data = new XUploaderObjectData(old);
 
 
     const out= new XUploaderObject(
@@ -95,4 +100,11 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     console.log("Migration Image | ---------->", old, "--->", out);
     return out;
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XUploaderObject {
+    return this._JsonToInstance(json, XUploaderObjectData);
+  }
+
 }

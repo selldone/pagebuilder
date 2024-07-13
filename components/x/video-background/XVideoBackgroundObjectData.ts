@@ -21,7 +21,7 @@ export class XVideoBackgroundObjectData extends LModelData<XVideoBackgroundObjec
   /**
    * Creates an instance of XButtonData.
    */
-  constructor() {
+  constructor(params:{}) {
     super();
   }
 

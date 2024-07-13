@@ -15,13 +15,15 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {
-  XGalleryExpandableObjectData
+    XGalleryExpandableObjectData
 } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObjectData.ts";
 import {
-  XGalleryExpandableItemObject
+    XGalleryExpandableItemObject
 } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 
 export class XGalleryExpandableObject extends LModelElement<XGalleryExpandableObjectData> {
+  public static ComponentName = "XGalleryExpandable";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -31,7 +33,7 @@ export class XGalleryExpandableObject extends LModelElement<XGalleryExpandableOb
     props: any,
   ) {
     super(
-      "XGalleryExpandable",
+      XGalleryExpandableObject.ComponentName,
       background,
       style,
       classes,
@@ -87,6 +89,14 @@ export class XGalleryExpandableObject extends LModelElement<XGalleryExpandableOb
     });
 
     return out;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XGalleryExpandableObject {
+    return this._JsonToInstance(json, XGalleryExpandableObjectData);
   }
 }
 

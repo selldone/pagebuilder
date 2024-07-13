@@ -16,11 +16,9 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {
-  XColumnImageTextObject
-} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
-export const LSectionTextTwoColumnsSeed = () => {
+export const LSectionTextTwoColumnsSeed = (): XSectionObject => {
   // Initialize section
   const section = XSectionObject.Seed();
 
@@ -37,8 +35,12 @@ export const LSectionTextTwoColumnsSeed = () => {
   container.addChild(row);
 
   // Initialize columns
-  row.addChild(XColumnImageTextObject.Seed(12, 6, 5,null,'x-layout-title-content'));
-  row.addChild(XColumnImageTextObject.Seed(12, 6, 5,null,'x-layout-title-content'));
+  row.addChild(
+    XColumnImageTextObject.Seed(12, 6, 5, null, "x-layout-title-content"),
+  );
+  row.addChild(
+    XColumnImageTextObject.Seed(12, 6, 5, null, "x-layout-title-content"),
+  );
 
   return section;
 };

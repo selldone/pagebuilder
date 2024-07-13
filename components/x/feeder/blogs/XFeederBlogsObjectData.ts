@@ -17,10 +17,10 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XFeederBlogsObjectData extends LModelData<XFeederBlogsObjectData> {
   filter: XFeederBlogsObjectDataTypes.IFilter = {};
   grid: {
-    mobile: number;
-    tablet: number;
-    desktop: number;
-    widescreen: number;
+    mobile?: number;
+    tablet?: number;
+    desktop?: number;
+    widescreen?: number;
   };
 
   card: XFeederBlogsObjectDataTypes.ICard = {};
@@ -28,14 +28,13 @@ export class XFeederBlogsObjectData extends LModelData<XFeederBlogsObjectData> {
   constructor(params?: Partial<XFeederBlogsObjectData>) {
     super();
 
-    this.filter = params?.filter ?? {};
-    this.grid = params?.grid ?? {
+    this.filter = params?.filter ?? {
       offset: 0,
       limit: 4,
       sortBy: "created_at",
       sortDesc: true,
-      search: null,
     };
+    this.grid = params?.grid ?? {};
 
     this.card = params?.card ?? {};
   }

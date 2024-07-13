@@ -17,10 +17,11 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XProductOverviewObjectData extends LModelData<XProductOverviewObjectData> {
   product_id: number | null = null;
 
-  constructor(product_id: number | null = null) {
-    super();
+  constructor(params: { product_id?: number | null }) {
+    super(); // Calling the constructor of the base class
 
-    this.product_id = product_id;
+    // Use the nullish coalescing operator to default to null if product_id is not provided
+    this.product_id = params.product_id ?? null;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

@@ -15,7 +15,7 @@
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
 export class XSearchObjectData extends LModelData<XSearchObjectData> {
-  constructor() {
+  constructor(params:{}) {
     super();
   }
 }

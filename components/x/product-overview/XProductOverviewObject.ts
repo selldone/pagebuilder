@@ -15,10 +15,12 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {
-    XProductOverviewObjectData
+  XProductOverviewObjectData
 } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObjectData.ts";
 
 export class XProductOverviewObject extends LModelElement<XProductOverviewObjectData> {
+  public static ComponentName = "XProductOverview";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -28,12 +30,12 @@ export class XProductOverviewObject extends LModelElement<XProductOverviewObject
     props: any,
   ) {
     super(
-      "XProductOverview",
+      XProductOverviewObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XProductOverviewObjectData(),
+      data ? data : new XProductOverviewObjectData({}),
       props,
     );
   }
@@ -59,8 +61,18 @@ export class XProductOverviewObject extends LModelElement<XProductOverviewObject
    */
 
   static MigrateOld(old: any): XProductOverviewObject {
-    const data = new XProductOverviewObjectData(old.product_info?.id);
+    const data = new XProductOverviewObjectData({
+      product_id: old.product_info?.id,
+    });
 
     return new XProductOverviewObject(null, null, null, [], data, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XProductOverviewObject {
+    return this._JsonToInstance(json, XProductOverviewObjectData);
   }
 }

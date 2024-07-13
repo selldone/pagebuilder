@@ -18,6 +18,8 @@ import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/com
 import {isString} from "lodash-es";
 
 export class XTextObject extends LModelElement<XTextObjectData> {
+  public static ComponentName = "XText";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -27,12 +29,12 @@ export class XTextObject extends LModelElement<XTextObjectData> {
     props: any,
   ) {
     super(
-      "XText",
+      XTextObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XTextObjectData("", "p"),
+      data ? data : new XTextObjectData({ value: "", tag: "p" }),
       props,
     );
   }
@@ -76,10 +78,10 @@ export class XTextObject extends LModelElement<XTextObjectData> {
   ): XTextObject {
     if (!old) old = "";
 
-    const data = new XTextObjectData(
-      isString(old) ? old : old.value ?? null,
-      old.tag ?? initialType,
-    );
+    const data = new XTextObjectData({
+      value: isString(old) ? old : old.value ?? null,
+      tag: old.tag ?? initialType,
+    });
 
     console.log("Text Element ", old, "--- old --->", data);
     return new XTextObject(
@@ -90,5 +92,11 @@ export class XTextObject extends LModelElement<XTextObjectData> {
       data,
       null,
     );
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XTextObject {
+    return this._JsonToInstance(json, XTextObjectData);
   }
 }

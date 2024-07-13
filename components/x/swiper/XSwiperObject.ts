@@ -20,8 +20,13 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
 
 export class XSwiperObject extends LModelElement<XSwiperObjectData> {
+
+  public static ComponentName="XSwiper";
+
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -31,7 +36,7 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
     props: any,
   ) {
     super(
-      "XSwiper",
+        XSwiperObject.ComponentName,
       background,
       style,
       classes,
@@ -90,4 +95,13 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
 
     return new XSwiperObject(null, null, null, [], data, null);
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XSwiperObject {
+    return this._JsonToInstance(json, XSwiperObjectData);
+  }
+
+
+
 }

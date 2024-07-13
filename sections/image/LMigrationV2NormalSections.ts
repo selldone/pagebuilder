@@ -55,7 +55,7 @@ export class LMigrationV2NormalSections {
     const row = XRowObject.MigrateOld($sectionData);
     container.addChild(row);
 
-    $sectionData.columns.forEach((_column: any) => {
+    $sectionData.columns?.forEach((_column: any) => {
       row.addChild(XColumnImageTextObject.MigrateOld(_column));
     });
 

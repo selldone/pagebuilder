@@ -17,6 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XButtonObjectData} from "@selldone/page-builder/components/x/button/XButtonObjectData.ts";
 
 export class XButtonObject extends LModelElement<XButtonObjectData> {
+  public static ComponentName = "XButton";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -26,7 +28,7 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
     props: any,
   ) {
     super(
-      "XButton",
+      XButtonObject.ComponentName,
       background,
       style,
       classes,
@@ -82,5 +84,11 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
       data,
       null,
     );
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XButtonObject {
+    return this._JsonToInstance(json, XButtonObjectData);
   }
 }

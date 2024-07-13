@@ -28,14 +28,12 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
     message: "Thank you for your submission.",
   };
 
-  constructor(
-    method: XFormObjectDataTypes.Methods = XFormObjectDataTypes.Methods.POST,
-    url: string = "",
-  ) {
-    super();
+  constructor(params: { method?: XFormObjectDataTypes.Methods; url?: string }) {
+    super(); // Calling the constructor of the base class
 
-    this.method = method;
-    this.url = url;
+    // Assigning default values if not provided
+    this.method = params.method ?? XFormObjectDataTypes.Methods.POST;
+    this.url = params.url ?? "";
   }
 
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━

@@ -107,12 +107,10 @@ export const LMixinEvents = defineComponent({
     ShowLSettingsBackground(
       el: HTMLElement,
       target: LModelElement<any>,
-      keyBackground: string,
     ) {
       EventBus.$emit("show:LSettingsBackground", {
         el,
         target,
-        keyBackground,
       });
     },
     ShowLSettingsProduct(el: HTMLElement, target: XProductOverviewObject) {

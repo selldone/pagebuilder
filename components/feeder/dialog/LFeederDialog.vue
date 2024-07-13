@@ -20,7 +20,7 @@
     transition="dialog-bottom-transition"
     @update:model-value="(val) => $emit('update:modelValue', val)"
   >
-    <v-card v-if="section_data" class="text-start">
+    <v-card v-if="section_object" class="text-start">
       <v-card-title>
         <v-icon class="me-1" color="#333">donut_large</v-icon>
         Feeder
@@ -31,7 +31,7 @@
       </v-card-title>
       <v-card-text>
         <!-- ████████████████████ Background ████████████████████ -->
-        <div v-if="schema.background" class="widget-box mb-5">
+        <div v-if="section_object.background" class="widget-box mb-5">
           <s-widget-header
             icon="wallpaper"
             title="Background"
@@ -43,22 +43,25 @@
           </v-list-subheader>
 
           <v-sheet
-            :dark="section_data.background.dark"
-            :style="backgroundStyle(section_data.background)"
+            :dark="section_object.background.dark"
+            :style="backgroundStyle(section_object.background)"
             class="rounded-lg min-h-100 d-flex align-center justify-center pa-2"
-            @click="
-              ShowLSettingsBackground(
-                sectionElement,
-                section,
-                '$sectionData.background',
-              )
-            "
+            @click="ShowLSettingsBackground(sectionElement, section_object)"
           >
-            <span class="small">Background Preview</span>
+            <span
+              class="small pa-2 pen usn rounded-sm"
+              style="backdrop-filter: blur(4px)"
+              :style="
+                section_object.background.dark
+                  ? 'background: #00000099;color:#fff'
+                  : 'background: #ffffff99;color:#000'
+              "
+              >Background Preview</span
+            >
           </v-sheet>
 
           <u-smart-switch
-            v-model="section_data.background.dark"
+            v-model="section_object.background.dark"
             class="my-3"
             false-description="Use this when you want the default text color to be black."
             false-icon="light_mode"
@@ -71,48 +74,54 @@
         </div>
 
         <!-- ████████████████████ Main Title / Content ████████████████████ -->
-        <div v-if="schema.title || schema.content" class="widget-box mb-5">
-          <s-widget-header
-            icon="sort"
-            title="Title & Subtitle"
-          ></s-widget-header>
+        <div v-if="textChildren?.length" class="widget-box mb-5">
+          <s-widget-header icon="notes" title="Value"></s-widget-header>
           <v-list-subheader
-            >You can modify the primary section heading and subheading in this
-            area.
+            >Enter the html value of the text element here.
           </v-list-subheader>
-          <v-textarea
-            v-if="schema.title"
-            v-model="section_data.title.value"
-            :rows="2"
-            auto-grow
-            label="Title"
-            messages=" "
-            variant="underlined"
-          >
-            <template v-slot:message>
-              <l-augment-finder
-                :model-value="section_data.title.value"
-              ></l-augment-finder>
-            </template>
-          </v-textarea>
-          <v-textarea
-            v-if="schema.content"
-            v-model="section_data.content.value"
-            :rows="2"
-            auto-grow
-            label="Description"
-            variant="underlined"
-          >
-            <template v-slot:message>
-              <l-augment-finder
-                :model-value="section_data.content.value"
-              ></l-augment-finder>
-            </template>
-          </v-textarea>
+
+          <div class="border-between-vertical">
+            <v-row v-for="child in textChildren" no-gutters class="py-2">
+              <v-textarea
+                v-model="child.data.value"
+                :rows="2"
+                auto-grow
+                label="Title"
+                messages=" "
+                variant="underlined"
+              >
+                <template v-slot:message>
+                  <l-augment-finder
+                    :model-value="child.data.value"
+                  ></l-augment-finder>
+                </template>
+              </v-textarea>
+
+              <v-select
+                v-model="child.data.tag"
+                :items="[
+                  'p',
+                  'h1',
+                  'h2',
+                  'h3',
+                  'h4',
+                  'h5',
+                  'h6',
+                  'span',
+                  'div',
+                ]"
+                auto-grow
+                label="Tag"
+                variant="plain"
+                style="max-width: 84px"
+              >
+              </v-select>
+            </v-row>
+          </div>
         </div>
 
         <!-- ████████████████████ Buttons ████████████████████ -->
-        <div v-if="schema.buttons" class="widget-box mb-5">
+        <div v-if="buttonChildren?.length" class="widget-box mb-5">
           <s-widget-header
             add-caption="Add Button"
             add-text
@@ -126,95 +135,85 @@
 
           <div class="border-between-vertical">
             <div
-              v-for="(button, i) in section_data.buttons"
+              v-for="(child, i) in buttonChildren"
               :key="i"
               class="py-2 d-flex"
             >
-              <div class="flex-grow-1">
-                <v-text-field
-                  v-model="button.content"
-                  label="Button Caption"
-                  placeholder="Write a call to action e.g View Now"
-                  variant="underlined"
-                ></v-text-field>
-                <v-text-field
-                  v-model="button.href"
-                  append-icon="link"
-                  label="Link"
-                  placeholder="https://...  or relative path e.g. /products/..."
-                  variant="underlined"
-                ></v-text-field>
-              </div>
-              <v-btn
-                class="ma-1"
-                icon
-                title="Delete button"
-                variant="text"
-                @click="
-                  Remove(section_data.buttons, button);
-                  $forceUpdate();
-                  sectionComponent.$forceUpdate();
-                "
-              >
-                <v-icon color="red">close</v-icon>
-              </v-btn>
+              <v-text-field
+                v-model="child.data.content"
+                label="Button Caption"
+                placeholder="Write a call to action e.g View Now"
+                variant="underlined"
+              ></v-text-field>
+              <v-text-field
+                v-model="child.data.href"
+                append-inner-icon="link"
+                label="Link"
+                placeholder="https://...  or relative path e.g. /products/..."
+                variant="underlined"
+              ></v-text-field>
             </div>
           </div>
         </div>
 
-        <!-- ████████████████████ Search ████████████████████ -->
-        <div v-if="schema.search" class="widget-box mb-5">
+        <!-- ████████████████████ Search ████████████████████
+        <div v-if="searchChildren?.length" class="widget-box mb-5">
           <s-widget-header icon="search" title="Search"></s-widget-header>
           <v-list-subheader
-            >Modify the appearance of the search box here.
+            >Modify the appearance of the input
           </v-list-subheader>
 
-          <s-storefront-search-box
-            :background-color="section_data.search.color"
-            :dark="section_data.search.dark"
-            :filled="section_data.search.filled"
-            :flat="section_data.search.flat"
-            :solo="section_data.search.solo"
-            block
-            expand-input
-            label="Preview of search box..."
-            no-qr
-            readonly
-          ></s-storefront-search-box>
+          <div v-for="child in searchChildren">
+            <s-storefront-search-box
+                :background-color="child.data.color"
+                :dark="section_data.search.dark"
+                :filled="section_data.search.filled"
+                :flat="section_data.search.flat"
+                :solo="section_data.search.solo"
+                block
+                expand-input
+                label="Preview of search box..."
+                no-qr
+                readonly
+            ></s-storefront-search-box>
 
-          <u-text-value-dashed>
-            <template v-slot:label>Search Box</template>
-            <u-color-selector
-              v-model="section_data.search.color"
-              nullable
-            ></u-color-selector>
-          </u-text-value-dashed>
+            <u-text-value-dashed>
+              <template v-slot:label>Search Box</template>
+              <u-color-selector
+                  v-model="section_data.search.color"
+                  nullable
+              ></u-color-selector>
+            </u-text-value-dashed>
 
-          <u-smart-toggle
-            v-model="section_data.search.dark"
-            true-description="Configure this setting if the search box has a dark background."
-            true-title="Dark Mode"
-          ></u-smart-toggle>
-          <u-smart-toggle
-            v-model="section_data.search.filled"
-            true-description="The search box was filled with a background."
-            true-title="Filled"
-          ></u-smart-toggle>
+            <u-smart-toggle
+                v-model="section_data.search.dark"
+                true-description="Configure this setting if the search box has a dark background."
+                true-title="Dark Mode"
+            ></u-smart-toggle>
+            <u-smart-toggle
+                v-model="section_data.search.filled"
+                true-description="The search box was filled with a background."
+                true-title="Filled"
+            ></u-smart-toggle>
 
-          <u-smart-toggle
-            v-model="section_data.search.solo"
-            true-description="In solo mode, a box is accentuated by a shadow for emphasis."
-            true-title="Solo"
-          ></u-smart-toggle>
+            <u-smart-toggle
+                v-model="section_data.search.solo"
+                true-description="In solo mode, a box is accentuated by a shadow for emphasis."
+                true-title="Solo"
+            ></u-smart-toggle>
 
-          <u-smart-toggle
-            v-model="section_data.search.flat"
-            true-description="When set to solo mode, the search box becomes flat."
-            true-title="Flat"
-          ></u-smart-toggle>
+            <u-smart-toggle
+                v-model="section_data.search.flat"
+                true-description="When set to solo mode, the search box becomes flat."
+                true-title="Flat"
+            ></u-smart-toggle>
+          </div>
+
+
+
         </div>
-
-        <!-- ████████████████████ Product ████████████████████ -->
+-->
+        <!-- ████████████████████ Product ████████████████████
         <div
           v-if="schema.product_info && section_data.product_info"
           class="widget-box mb-5"
@@ -241,8 +240,8 @@
           >
           </b-products-select-box>
         </div>
-
-        <!-- ████████████████████ Products & Categories ████████████████████ -->
+ -->
+        <!-- ████████████████████ Products & Categories ████████████████████
         <div
           v-if="schema.filter && section_data.filter"
           class="widget-box mb-5"
@@ -264,8 +263,8 @@
             has-sort
           />
         </div>
-
-        <!-- ████████████████████ Row ████████████████████ -->
+-->
+        <!-- ████████████████████ Row ████████████████████
         <div v-if="schema.row" class="widget-box mb-5">
           <s-widget-header icon="view_week" title="Row"></s-widget-header>
           <v-list-subheader
@@ -286,8 +285,8 @@
             true-title="Fill width"
           ></u-smart-toggle>
         </div>
-
-        <!-- ████████████████████ Column ████████████████████ -->
+ -->
+        <!-- ████████████████████ Column ████████████████████
         <l-feeder-column
           v-if="schema.columns?.length"
           v-model:column="section_data"
@@ -312,16 +311,17 @@
           v-model:column="section_data.columnC"
           label="Column C"
         ></l-feeder-column>
-
+-->
         <!-- ████████████████████ Image ████████████████████ -->
 
         <l-feeder-image
-          v-if="schema.image && section_data.image"
-          v-model="section_data.image"
+          v-for="child in children_x_uploader"
+          :object="child"
+          class="mb-5"
         >
         </l-feeder-image>
 
-        <!-- ████████████████████ Newsletter ████████████████████ -->
+        <!-- ████████████████████ Newsletter ████████████████████
         <div
           v-if="schema.newsletter && section_data.newsletter"
           class="widget-box mb-5"
@@ -337,6 +337,7 @@
           <l-feeder-newsletter v-model="section_data.newsletter">
           </l-feeder-newsletter>
         </div>
+        -->
       </v-card-text>
 
       <v-card-actions>
@@ -356,7 +357,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LFeederAlign from "../../../components/feeder/align/LFeederAlign.vue";
@@ -374,11 +375,17 @@ import LAugmentFinder from "../../../components/augment/finder/LAugmentFinder.vu
 import UTextValueDashed from "@selldone/components-vue/ui/text/value-dashed/UTextValueDashed.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import LFeederColumn from "../column/LFeederColumn.vue";
+import { Section } from "@selldone/page-builder/src/section/section.ts";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.js";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 
 export default {
   name: "LFeederDialog",
   mixins: [LMixinEvents],
   components: {
+    SSettingToggle,
     LAugmentFinder,
     LFeederImage,
     LFeederNewsletter,
@@ -396,7 +403,7 @@ export default {
 
   props: {
     modelValue: {}, // Dialog
-    section: { required: true },
+    section: { required: true, type: Section },
     sectionComponent: { required: true },
   },
   data: () => ({
@@ -407,15 +414,38 @@ export default {
     section_data() {
       return this.section?.data;
     },
-    schema() {
-      return this.section?.schema;
+    section_object() {
+      return this.section?.object;
     },
+
     sectionElement() {
       return this.sectionComponent?.$el;
     },
+
+    textChildren() {
+      return this.section_object.findChildrenOfType(
+        this.section_object,
+        XTextObject,
+        true,
+      );
+    },
+    buttonChildren() {
+      return this.section_object.findChildrenOfType(
+        this.section_object,
+        XButtonObject,
+        true,
+      );
+    },
+    children_x_uploader() {
+      return this.section_object.findChildrenOfType(
+        this.section_object,
+        XUploaderObject,
+        true,
+      );
+    },
   },
   watch: {
-    section_data() {
+    section_object() {
       this.assignValues();
     },
   },
@@ -433,10 +463,10 @@ export default {
     },
 
     onAccept() {
-      if (this.schema.filter) {
-        // Section has products and categories filter:
-        this.section_data.filter = this.filter_clone;
-      }
+      /* if (this.schema.filter) {
+         // Section has products and categories filter:
+         this.section_data.filter = this.filter_clone;
+       }*/
 
       this.$emit("update:modelValue", false);
     },
@@ -452,8 +482,8 @@ export default {
         background.bg_color,
         background.dark,
         background.bg_position,
-          background.bg_rotation,
-          background.bg_backdrop,
+        background.bg_rotation,
+        background.bg_backdrop,
       );
     },
 

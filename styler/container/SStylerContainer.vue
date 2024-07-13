@@ -151,7 +151,7 @@ export default {
 
   methods: {
     showStyleDialog() {
-      this.ShowLSettingsBackground(this.el, this.target, `background`);
+      this.ShowLSettingsBackground(this.el, this.target);
     },
 
     showMasterDesignDialog() {

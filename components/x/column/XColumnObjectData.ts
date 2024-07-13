@@ -18,9 +18,14 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XColumnObjectData extends LModelData<XColumnObjectData> {
   public grid: LModelGrid;
 
-  constructor(grid: LModelGrid | null) {
-    super();
+  constructor(params: { grid?: LModelGrid }) {
+    super(); // Calling the constructor of the base class
 
-    this.grid = grid ? grid : new LModelGrid({});
+    // Use the logical OR operator to provide a default new LModelGrid instance if grid is not provided
+    if (params.grid instanceof LModelGrid) {
+      this.grid = params.grid;
+    } else {
+      this.grid = new LModelGrid(params.grid ?? {});
+    }
   }
 }

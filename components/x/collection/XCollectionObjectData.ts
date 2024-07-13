@@ -20,10 +20,13 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 export class XCollectionObjectData extends LModelData<XCollectionObjectData> {
   children: XCollectionDataTypes.IChildren[];
 
-  constructor(children: XCollectionDataTypes.IChildren[] | null) {
-    super();
+  constructor(params: {
+    children?: XCollectionDataTypes.IChildren[]
+  }) {
+    super(); // Calling the constructor of the base class
 
-    this.children = children ? children : [];
+    // Use the logical OR operator to provide a default empty array if children is not provided
+    this.children = params.children ?? [];
   }
 }
 

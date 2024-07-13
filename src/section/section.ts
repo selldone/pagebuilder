@@ -20,6 +20,7 @@ import {LUtilsObject} from "../../utils/object/LUtilsObject";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import {Page} from "@selldone/core-js/models";
+import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 
 const DEBUG = false;
 export namespace Section {
@@ -37,7 +38,7 @@ export namespace Section {
     /**
      * V2
      */
-    object: LModelElement | null;
+    object: LModelElement<any> | null;
 
     /**
      * V1
@@ -50,7 +51,7 @@ export namespace Section {
 
 export class Section implements Section.ISection {
   public uid: string; // New save section ID
-  public id: string; // Old save section ID in data.id (deprecated)
+ // public id: string; // Old save section ID in data.id (deprecated)
   public name: string;
   //public schema: any;
 
@@ -59,7 +60,7 @@ export class Section implements Section.ISection {
    */
   public data: Section.IData | null = null; // TODO: Deduplicated OLD!
 
-  public object: LModelElement | null = null; // 🪵 New Version!
+  public object: LModelElement<any> | null = null; // 🪵 New Version!
 
   constructor(options: Page.ISection, force_set_new_uid: boolean = false) {
     LOG(
@@ -97,11 +98,13 @@ export class Section implements Section.ISection {
     }
 
     if (options.object && isObject(options.object)) {
-      console.log(
-        `🪵 ${options.name} | New version load data in section...`,
-        options,
-      );
-      this.object = options.object /* || LUtilsSeeder.seed(options.schema)*/; // TODO: Should seed generate new version compatible data!
+      console.log(`🪵 ${options.name} | New version load data in section...`, options,);
+
+        console.log(`🪵 ${options.name} | object is instance of LModelElement...`, options,);
+        this.object = options.object /* || LUtilsSeeder.seed(options.schema)*/; // TODO: Should seed generate new version compatible data!
+
+
+
     } else if (options.data) {
       /*Old Version*/
       console.log(

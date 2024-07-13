@@ -16,9 +16,13 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
 import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
-import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export class XSearchObject extends LModelElement<XSearchObjectData> {
+
+  public static ComponentName="XSearch";
+
+
   // Custom elements [Permanent]
   public input: XInputTextObject | null = null;
 
@@ -31,12 +35,12 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
     props: any,
   ) {
     super(
-      "XSearch",
+        XSearchObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XSearchObjectData(),
+      data ? data : new XSearchObjectData({}),
       props,
     );
   }
@@ -49,9 +53,9 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
   // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
 
   static Seed(): XSearchObject {
-   const instance=  this.NewInstance();
+    const instance = this.NewInstance();
     instance.input = XInputTextObject.Seed();
-    instance.input.data.setVariant('solo')
+    instance.input.data.setVariant("solo");
 
     return instance;
   }
@@ -64,7 +68,6 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
     return this.input;
   }
 
-
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
   /**
    * Migrate from V1 to V2
@@ -74,7 +77,7 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
   static MigrateOld(old: any): XSearchObject | null {
     if (!old) return null;
 
-    const data = new XSearchObjectData();
+    const data = new XSearchObjectData({});
 
     const instance = new XSearchObject(null, null, null, [], data, null);
 
@@ -82,7 +85,15 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
 
     console.log("Migrate Search Element ", old, "--- instance --->", instance);
 
-
     return instance;
   }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(json: Record<string, any>): XSearchObject {
+    return this._JsonToInstance(json, XSearchObjectData);
+  }
+
+
+
 }

@@ -15,8 +15,7 @@
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
 export class XSectionObjectData extends LModelData<XSectionObjectData> {
-  constructor() {
+  constructor(params?:any) {
     super();
-
   }
 }
