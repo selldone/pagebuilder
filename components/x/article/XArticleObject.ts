@@ -33,7 +33,7 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
       style,
       classes,
       children,
-      data ? data : new XArticleObjectData(),
+      data ? data : new XArticleObjectData({}),
       props,
     );
   }
@@ -72,11 +72,9 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
     return instance;
   }
 
-  // ━━━━━━━━━━━━━━━━━ ⚡ Life Cycle ━━━━━━━━━━━━━━━━━
 
-  callBeforeSave() {
-    this.data.setBody(this.$element!.purifyBody());
-  }
+
+
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
   /**
@@ -86,7 +84,7 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
    */
 
   static MigrateOld(old: any): XArticleObject {
-    const data = new XArticleObjectData(old.body);
+    const data = new XArticleObjectData({ body: old.body });
 
     return new XArticleObject(null, null, null, [], data, null);
   }

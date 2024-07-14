@@ -16,27 +16,37 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XSwiperObjectDataTypes} from "@selldone/page-builder/components/x/swiper/XSwiperObjectData.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/slideshow.svg";
 
-export const LSectionGallerySwiperSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionGallerySwiper {
+  static group = "Gallery";
 
-  // Initialize swiper and add to section
-  const swiper = XSwiperObject.Seed();
-  section.addChild(swiper);
+  static cover = coverImage;
+  static label = "Slide Show";
+  static help = {
+    title:       "This section allows for the creation of a fully customizable slideshow.",
+  };
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  swiper.data.effect = XSwiperObjectDataTypes.Effect.Slide;
-  swiper.data.autoHeight = true;
-  swiper.data.height = undefined;
+    // Initialize swiper and add to section
+    const swiper = XSwiperObject.Seed();
+    section.addChild(swiper);
 
-  swiper.children.forEach((container: XContainerObject) => {
-    const row = container.children[0];
+    swiper.data.effect = XSwiperObjectDataTypes.Effect.Slide;
+    swiper.data.autoHeight = true;
+    swiper.data.height = undefined;
 
-    row.style.minHeight = "640px";
+    swiper.children.forEach((container: XContainerObject) => {
+      const row = container.children[0];
 
-    const column = row.children[0];
-  });
+      row.style.minHeight = "640px";
 
-  return section;
-};
+      const column = row.children[0];
+    });
+
+    return section;
+  };
+}

@@ -13,15 +13,16 @@
  */
 
 import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
-import {LUtilsSeeder} from "../../utils/seeder/LUtilsSeeder";
-import * as types from "../../src/types/types";
-import {Background, Column, Grid} from "../../src/types/types";
+import {Background} from "../../src/types/types";
 import {defineComponent, inject, provide} from "vue";
 import {Section} from "../../src/section/section";
 import Builder from "../../Builder.ts";
 
 const DEBUG = false;
 
+/**
+ * @deprecated
+ */
 interface DataProps {
   $builder: Builder | null; // Replace 'any' with the actual type of $builder
   $section: Section | null;
@@ -29,11 +30,14 @@ interface DataProps {
 
 const LMixinSection = defineComponent({
   props: {
-   // sectionData: {}, // Old version
-  //  sectionObject: {}, // 🪵 New version
+    // sectionData: {}, // Old version
+    //  sectionObject: {}, // 🪵 New version
     section: {
       type: Section,
       required: true,
+    },
+    augment: {
+      // Extra information to show to dynamic show in page content
     },
   },
   data(): DataProps {
@@ -58,14 +62,14 @@ const LMixinSection = defineComponent({
 
   updated() {
     /*try {
-      Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
-        (el: any) => {
-          el.contentEditable = this.$builder.isEditing;
-        },
-      );
-    } catch (e) {
-      console.error("updated | section", e, this);
-    }*/
+          Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
+            (el: any) => {
+              el.contentEditable = this.$builder.isEditing;
+            },
+          );
+        } catch (e) {
+          console.error("updated | section", e, this);
+        }*/
   },
 
   computed: {
@@ -82,33 +86,31 @@ const LMixinSection = defineComponent({
     /**
      * Old version
      */
-   /* $sectionData() {
-      // Tips: Remove unset from style to solve conflict with self element classes by unset attributes!
-
-      function removeUnsetStyles(obj: Record<string, any>) {
-        Object.keys(obj).forEach((key) => {
-          if (obj[key] === "unset") obj[key] = null;
-        });
-      }
-
-      // 1. Remove main style:
-      if (
-        (this.$section as Section).data.style &&
-        !Array.isArray(this.sectionData.style)
-      )
-        removeUnsetStyles(this.sectionData.style);
-
-      // 2. Remove columns style:
-      if (this.sectionData.columns)
-        (this.$section as Section).data.columns.forEach((col: Column) => {
-          if (col.style && !Array.isArray(col.style))
-            removeUnsetStyles(col.style);
-        });
-      // console.log("$sectionData Updated:",this.sectionData);
-      return this.sectionData;
-    },*/
-
-
+    /* $sectionData() {
+           // Tips: Remove unset from style to solve conflict with self element classes by unset attributes!
+     
+           function removeUnsetStyles(obj: Record<string, any>) {
+             Object.keys(obj).forEach((key) => {
+               if (obj[key] === "unset") obj[key] = null;
+             });
+           }
+     
+           // 1. Remove main style:
+           if (
+             (this.$section as Section).data.style &&
+             !Array.isArray(this.sectionData.style)
+           )
+             removeUnsetStyles(this.sectionData.style);
+     
+           // 2. Remove columns style:
+           if (this.sectionData.columns)
+             (this.$section as Section).data.columns.forEach((col: Column) => {
+               if (col.style && !Array.isArray(col.style))
+                 removeUnsetStyles(col.style);
+             });
+           // console.log("$sectionData Updated:",this.sectionData);
+           return this.sectionData;
+         },*/
   },
 
   watch: {},
@@ -131,10 +133,6 @@ const LMixinSection = defineComponent({
         background.bg_rotation,
         background.bg_backdrop,
       );
-    },
-
-    getInstance(type: any) {
-      return LUtilsSeeder.seed(type);
     },
   },
 });

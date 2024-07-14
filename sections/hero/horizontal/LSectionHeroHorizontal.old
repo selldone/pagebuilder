@@ -39,38 +39,14 @@ export default defineComponent({
 
   group: "Hero",
 
-  props: {
-    /**
-     * 🪵 New version!
-     */
-    object: {},
-
-    id: {
-      type: Number,
-      required: true,
-    },
-    augment: {
-      // Extra information to show to dynamic show in page content
-    },
-  },
+  props: {},
 
   data: () => ({}),
 
   computed: {},
   watch: {},
   beforeCreate() {},
-  created() {
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━ 🪵 Convert to new page: ━━━━━━━━━━━━━━━━━━━━━━━━━━
-    if (this.$sectionObject) {
-      console.log("🪵 New version detected!", this.$sectionObject);
-      return; //🪵 New version!
-    }
-    console.log(
-      "❗Load old data! It should migrate before here.",
-      "LSectionHeroHorizontal | Section Data:",
-      this.$sectionData,
-    );
-  },
+  created() {},
 
   methods: {},
 });

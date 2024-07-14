@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import * as types from "../../../src/types/types";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinSection from "../../../mixins/section/LMixinSection";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
@@ -36,90 +35,13 @@ export default {
       "This section is handy for displaying a collection of images accompanied by titles and brief descriptions.",
   },
 
-  $schema: {
-    classes: types.ClassList,
-
-    row: types.Row,
-
-    background: types.Background,
-    style: types.Style,
-
-    title: types.Title,
-    content: types.Text,
-
-    columns: [
-      {
-        title: types.Title,
-        image: types.Image,
-        content: types.Text,
-        button: null,
-        grid: {
-          mobile: 12,
-          tablet: 4,
-          desktop: 3,
-          widescreen: null,
-        },
-      },
-      {
-        title: types.Title,
-        image: types.Image,
-        content: types.Text,
-        button: null,
-        grid: {
-          mobile: 12,
-          tablet: 4,
-          desktop: 3,
-          widescreen: null,
-        },
-      },
-      {
-        title: types.Title,
-        image: types.Image,
-        content: types.Text,
-        button: null,
-        grid: {
-          mobile: 12,
-          tablet: 4,
-          desktop: 3,
-          widescreen: null,
-        },
-      },
-    ],
-
-    // Buttons:
-    buttons: [],
-    btn_row: types.Row,
-
-    /**
-     * Set up custom default values, such as classes, when establishing a new section to streamline the initialization process.
-     */
-    $init: (data) => {
-
-    },
-  },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
     augment: {
       // Extra information to show to dynamic show in page content
     },
   },
 
-  data: () => ({
-    ItemType: {
-      title: types.Title,
-      image: types.Image,
-      content: types.Text,
-      grid: {
-        mobile: 12,
-        tablet: 4,
-        desktop: 3,
-        widescreen: null,
-      },
-    },
-  }),
+  data: () => ({}),
   watch: {},
 };
 </script>

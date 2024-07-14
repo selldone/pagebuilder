@@ -15,31 +15,6 @@
 import {Section} from "./src/section/section";
 import {App, reactive} from "vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
-import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
-import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
-import LSectionHeroLottie from "./sections/hero/lottie/LSectionHeroLottie.vue";
-import Section2TextColumns from "./sections/text/two-columns/LSectionTextTwoColumns.vue";
-import LSectionTextThreeColumns from "./sections/text/three-columns/LSectionTextThreeColumns.vue";
-import LSectionTextNumbers from "./sections/text/numbers/LSectionTextNumbers.vue";
-import LSectionImageIntro from "./sections/image/intro/LSectionImageIntro.vue";
-import LSectionImageFeatures from "./sections/image/features/LSectionImageFeatures.vue";
-import LSectionImageSocials from "./sections/image/socials/LSectionImageSocials.vue";
-import LSectionTextMarquee from "./sections/text/marquee/LSectionTextMarquee.vue";
-import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGalleryExpandable.vue";
-import LSectionGalleryBrands from "./sections/gallery/brands/LSectionGalleryBrands.vue";
-import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
-import LSectionStoreProduct from "./sections/store/product/LSectionStoreProduct.vue";
-import LSectionStoreCustomListing from "./sections/store/custom-listing/LSectionStoreCustomListing.vue";
-import LSectionArticle from "./sections/article/LSectionArticle.vue";
-import LSectionHtml from "./sections/html/LSectionHtml.vue";
-import LSectionGallerySwiper from "./sections/gallery/swiper/LSectionGallerySwiper.vue";
-import LSectionGalleryScroll from "./sections/gallery/scroll/LSectionGalleryScroll.vue";
-import LSectionFormNewsletter from "./sections/form/newsletter/LSectionFormNewsletter.vue";
-import LSectionImageTwoColumns from "./sections/image/two-columns/LSectionImageTwoColumns.vue";
-import LSectionImageThreeColumns from "./sections/image/three-columns/LSectionImageThreeColumns.vue";
-import LSectionImageCards from "./sections/image/cards/LSectionImageCards.vue";
-import LSectionBlogList from "./sections/blog/list/LSectionBlogList.vue";
-import LSectionHeroSearch from "./sections/hero/search/LSectionHeroSearch.vue";
 import XVariants from "./components/x/variants/XVariants.vue";
 import XCountDown from "./components/x/count-down/XCountDown.vue";
 import XRating from "./components/x/rating/XRating.vue";
@@ -51,17 +26,14 @@ import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
-import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
-import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {util} from "prismjs";
-import type = util.type;
 
 const DEBUG = true;
 
 export namespace builder {
   export interface IOptions {
     mode: Mode;
-    themes: any[];
+
 
     title: string;
     sections: Section[];
@@ -114,7 +86,6 @@ export const Components: Record<string, any> = {};
  */
 const BUILDER_OPTIONS: builder.IOptions = {
   mode: "edit",
-  themes: [],
 
   title: "",
   sections: [],
@@ -143,7 +114,6 @@ export class Builder {
   public style: any;
   public css: IPageCss | null | undefined; // Pre compiled CSS
   public columnsPrefix: any;
-  public themes: any[];
   public server: builder.IServer | undefined | null;
 
   // Local variables:
@@ -153,6 +123,9 @@ export class Builder {
   public isHideExtra: boolean;
   public isSorting: boolean;
   public isRendered: boolean;
+  /**
+   * @deprecated
+   */
   public components: Record<string, any>;
   public cloneStyle: boolean;
   public cloneObject: any;
@@ -201,7 +174,6 @@ export class Builder {
     this.style = options.style;
     this.css = options.css;
     this.columnsPrefix = options.columnsPrefix;
-    this.themes = options.themes;
     this.server = options.server;
 
     // Local variables:
@@ -236,7 +208,7 @@ export class Builder {
     LOG("⚽ 2. Start Install...");
 
     initializeXComponents(app);
-    initializeSections(app, options.ignoreSections);
+    //initializeSections(app, options.ignoreSections);
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
@@ -246,12 +218,10 @@ export class Builder {
    * Creates and adds a new section to the list of sections.
    * @param {*} options
    * @param position
-   * @param has_initialize  Call $init in schema (prevent change on past section or drop pre built sections)
    */
   add(
     options: Page.ISection,
     position: number,
-    has_initialize: boolean = false,
     force_set_new_uid: boolean = false,
   ) {
     if (DEBUG)
@@ -260,39 +230,52 @@ export class Builder {
         options,
         "position",
         position,
-        has_initialize,
         force_set_new_uid,
       );
 
-    options.name = LUtilsMigration.MigrateSectionName(options.name);
-    if (!this.components[options.name]) {
-      throw new Error(
-        `Component [<b>${options.name}</b>] not found! The section name is invalid! Maybe it's removed from the page builder.`,
-      );
-    }
+    /* if (!this.components[options.name]) {
+           throw new Error(
+             `Component [<b>${options.name}</b>] not found! The section name is invalid! Maybe it's removed from the page builder.`,
+           );
+         }*/
 
     /* if (!options.schema) {
-               options.schema = this.components[options.name]?.$schema;
-               if (DEBUG) console.log("Auto assign schema.", options);
-             }*/
+                               options.schema = this.components[options.name]?.$schema;
+                               if (DEBUG) console.log("Auto assign schema.", options);
+                             }*/
 
     /* if (!options.schema) {
-               // TODO:Remove this after migration!
-               console.error(
-                 "Schema not found for section! Maybe new version!",
-                 options,
-                 "position",
-                 position,
-               );
-             }*/
+                               // TODO:Remove this after migration!
+                               console.error(
+                                 "Schema not found for section! Maybe new version!",
+                                 options,
+                                 "position",
+                                 position,
+                               );
+                             }*/
+    /*
+            if (options.object instanceof LModelElement) {
+              console.log(
+                "🪵 Load object from instance. Object is instance of LModelElement...",
+                options.object,
+              );
+            } else {
+              options.object = LUtilsLoader.JsonObjectToInstance(options.object);
+              console.log(
+                "🪵 Convert json to object instance -> ",
+                options.object,
+                type(options.object),
+              );
+            }*/
+
     const section = new Section(options, force_set_new_uid);
 
     if (DEBUG) console.log("📐 Add section", "section", section);
 
     //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
     /*  if (has_initialize && options.schema?.$init) {
-                options.schema?.$init(section.data);
-              }*/
+                                options.schema?.$init(section.data);
+                              }*/
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     if (position !== undefined) {
@@ -303,12 +286,12 @@ export class Builder {
   }
 
   /**
-   * Finds a section with the specified id.
+   * Finds a section with the specified uid.
    *
-   * @param {String|Number} id
+   * @param {String|Number} uid
    */
-  find(id: string) {
-    return this.sections.find((s) => s.uid === id);
+  find(uid: string) {
+    return this.sections.find((s) => s.uid === uid);
   }
 
   /**
@@ -447,37 +430,35 @@ export class Builder {
         .map((_section) => {
           //console.debug("Add section > ", section);
           /*if (!this.components[section.name]) {
-                      console.error("Component not found", section.name);
-                      return null;
-                    }*/
-          let object = null;
-
-          if (_section.object instanceof LModelElement) {
-            console.log(
-              "🪵 Load object from instance. Object is instance of LModelElement...",
-              _section.object,
-            );
-            object = _section.object;
-          } else {
-            console.log(
-              "🪵 Load object from json. Object is not instance of LModelElement!",
-              _section.object,
-              type(_section.object),
-            );
-            object = LUtilsLoader.JsonObjectToInstance(_section.object);
-            console.log(
-                "🪵 Convert json to object instance -> ",
-                object,
-                type(object),
-            );
-          }
+                                                              console.error("Component not found", section.name);
+                                                              return null;
+                                                            }*/
+          /*   let object = null;
+             
+                       if (_section.object instanceof LModelElement) {
+                         console.log(
+                           "🪵 Load object from instance. Object is instance of LModelElement...",
+                           _section.object,
+                         );
+                         object = _section.object;
+                       } else {
+                         console.log(
+                           "🪵 Load object from json. Object is not instance of LModelElement!",
+                           _section.object,
+                           type(_section.object),
+                         );
+                         object = LUtilsLoader.JsonObjectToInstance(_section.object);
+                         console.log(
+                           "🪵 Convert json to object instance -> ",
+                           object,
+                           type(object),
+                         );
+                       }*/
 
           const sectionData = {
-            name: _section.name,
+            label: _section.label,
             uid: _section.uid,
-            // data: from_theme ? null : section.data, // TODO: Deduplicated OLD!
-            // schema: this.components[section.name]?.$schema, // We do not save schema in page json data!
-            object: object, //🪵 New Version!
+            object: _section.object, //🪵 New Version!
           };
 
           return new Section(sectionData);
@@ -492,26 +473,24 @@ export class Builder {
    */
   export() {
     // Pre save function call: (prepare some stuff in components if needed)
-    this.sections.forEach((item) => {
-      if (item.object.callBeforeSave) item.object.callBeforeSave();
-      console.log("📐 Convert to json.");
-    });
+    /*this.sections.forEach((item) => {
+      if (!item.object){
+        throw new Error(`Invalid section object! Section Name: ${item.label}`);
+      }
+     console.log('item.object',item.object)
+      if (item.object?.callBeforeSave) item.object?.callBeforeSave();
+    });*/
 
     /*this.sections.forEach((section) => {
-          // removeBRFromSectionData(section.data);
-          Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
-        });*/
+                          // removeBRFromSectionData(section.data);
+                          Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
+                        });*/
 
     console.log("👢 CSS Style on save ", this.style);
 
     return {
       title: this.title,
-      sections: this.sections.map((s) => ({
-        uid: s.uid, // New unique id saved in backend. Previous id was added to data.id
-        name: s.name,
-        // data: s.data, // Should be removed after migration (if we have s.object)
-        object: s.object,
-      })),
+      sections: this.sections.map((section) => section.toJson()),
       style: this.style,
     };
   }
@@ -563,38 +542,13 @@ export class Builder {
   }
 }
 
-const SectionComponents: any[] = [
-  LSectionHeroHorizontal,
-  LSectionHeroVertical,
-  LSectionHeroLottie,
-  Section2TextColumns,
-  LSectionTextThreeColumns,
-  LSectionTextNumbers,
-  LSectionImageIntro,
-  LSectionImageFeatures,
-  LSectionImageSocials,
-  LSectionTextMarquee,
-  LSectionGalleryExpandable,
-  LSectionGalleryBrands,
-  LSectionStoreListing,
-  LSectionStoreProduct,
-  LSectionStoreCustomListing,
-  LSectionArticle,
-  LSectionHtml,
-  LSectionGallerySwiper,
-  LSectionGalleryScroll,
-  LSectionFormNewsletter,
-  LSectionImageTwoColumns,
-  LSectionImageThreeColumns,
-  LSectionImageCards,
-  LSectionBlogList,
-  LSectionHeroSearch,
-];
+
 
 /**
  * Adds a component section to the builder and arguments it with the styler.
  */
-function initializeSections(app: App, ignoreSections?: string[]) {
+
+/*function initializeSections(app: App, ignoreSections?: string[]) {
   //console.log("🔧",  "Installing components...",SectionComponents);
 
   SectionComponents.forEach((_component) => {
@@ -617,7 +571,7 @@ function initializeSections(app: App, ignoreSections?: string[]) {
     "color:#0288D1;font-weight: 800;",
     "color:#333",
   );
-}
+}*/
 
 /**
  * Initialize especial components

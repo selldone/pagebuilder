@@ -16,7 +16,7 @@ import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
 import {defineComponent, inject} from "vue";
 import Builder from "../../Builder.ts";
 import {Section} from "../../src/section/section";
-import {Background, Grid} from "../../src/types/types";
+import {Background} from "../../src/types/types";
 
 const LMixinXComponent = defineComponent({
   data: () => ({
@@ -37,7 +37,6 @@ const LMixinXComponent = defineComponent({
       this.$section ? "✅" : "❌",
     );
   },
-
 
   //------------------------------------------------- New Common -------------------------------------------------
 
@@ -76,7 +75,6 @@ const LMixinXComponent = defineComponent({
         background.bg_backdrop,
       );
     },
-
   },
 });
 export default LMixinXComponent;

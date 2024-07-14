@@ -27,7 +27,13 @@
           >arrow_drop_down</v-icon
         >
         <v-icon class="me-1">{{ icon }}</v-icon>
-        {{ title }}
+
+        <span
+          :contenteditable="hasEditableTitle"
+          @blur="(e) => (section.label = e.target.innerText)"
+          v-text="title"
+        >
+        </span>
       </span>
 
       <v-btn
@@ -49,6 +55,7 @@
       </v-btn>
 
       <v-spacer></v-spacer>
+
       <v-btn
         v-if="isSection"
         size="x-small"
@@ -86,7 +93,6 @@
 <script lang="ts">
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import Builder from "@selldone/page-builder/Builder.ts";
 import draggable from "vuedraggable";
 
 export default {
@@ -99,8 +105,9 @@ export default {
   },
   emits: ["hover-in", "hover-out"],
   props: {
-    builder: { type: Builder, required: true },
     object: { type: LModelElement, required: true },
+    hasEditableTitle: Boolean,
+    section: {},
   },
   data: () => ({
     dialog: false,
@@ -124,6 +131,8 @@ export default {
       XGalleryExpandableItem: { icon: "crop_portrait", title: "Gallery Item" },
       XSwiper: { icon: "web_stories", title: "Swiper" },
     },
+
+    edit_label: false,
   }),
 
   computed: {
@@ -135,6 +144,9 @@ export default {
       return this.ElementTypes[this.object.component]?.icon || "highlight_alt";
     },
     title() {
+      if (this.section && this.hasEditableTitle) {
+        return this.section.label;
+      }
       return (
         this.ElementTypes[this.object.component]?.title || this.object.component
       );

@@ -17,12 +17,10 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XFormObjectData, XFormObjectDataTypes,} from "@selldone/page-builder/components/x/form/XFormObjectData.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
 export class XFormObject extends LModelElement<XFormObjectData> {
   public static ComponentName = "XForm";
-
-  // Custom elements [Permanent]
-  public button: XButtonObject | null = null;
 
   constructor(
     background: LModelBackground | null,
@@ -75,21 +73,28 @@ export class XFormObject extends LModelElement<XFormObjectData> {
       .setPrependInnerIcon("email");
     instance.addChild(email);
 
+
     return instance;
   }
 
-  public getButton() {
-    if (!this.button) {
-      this.button = XButtonObject.Seed();
-      this.button.data
-        .setAlign("center")
-        .setContent("Subscribe")
-        .setColor("#000")
-        .setSize("x-large");
-      this.button.classes = ["mt-5"];
-    }
+  // ━━━━━━━━━━━━━━━━━ Labeled Children ━━━━━━━━━━━━━━━━━
 
-    return this.button;
+  /**
+   * Mandatory!
+   */
+  getButton(): XTextObject | null {
+    let button = this.findChildByLabel(XFormObjectTypes.LABELS.ACTION);
+    if (button) return button;
+
+    button = XButtonObject.Seed().setLabel(XFormObjectTypes.LABELS.ACTION);
+    button.data
+      .setAlign("center")
+      .setContent("Subscribe")
+      .setColor("#000")
+      .setSize("x-large");
+    button.classes = ["mt-5"];
+
+    return button;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
@@ -103,7 +108,11 @@ export class XFormObject extends LModelElement<XFormObjectData> {
     const data = new XFormObjectData({});
 
     const instance = new XFormObject(null, null, null, [], data, null);
-    instance.button = XButtonObject.MigrateOld(old.button);
+    instance.addChild(
+      XButtonObject.MigrateOld(old.button).setLabel(
+        XFormObjectTypes.LABELS.ACTION,
+      ),
+    );
 
     return instance;
   }
@@ -112,7 +121,18 @@ export class XFormObject extends LModelElement<XFormObjectData> {
 
   public static JsonToInstance(json: Record<string, any>): XFormObject {
     const instance = this._JsonToInstance(json, XFormObjectData);
-    instance.button = XButtonObject.JsonToInstance(json.button);
     return instance;
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
+
+export namespace XFormObjectTypes {
+  /**
+   * We use these labels to distinguished between specific children elements in the XColumnImageTextObject from other children elements.
+   * User can not remove these element, and they will be shown base on the layout type.
+   */
+  export enum LABELS {
+    ACTION = "action",
   }
 }

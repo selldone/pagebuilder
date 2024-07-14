@@ -808,7 +808,7 @@ export default {
 
       return axios
         .post(url, {
-          name: section.name,
+          name: section.name, // TODO: CChange to V2
           data: section.data,
           prompt: this.prompt,
         })

@@ -246,7 +246,7 @@ export default defineComponent({
   computed: {
     is_row() {
       return (
-        ["LSectionTextMarquee"].includes(this.section.name) ||
+     //   ["LSectionTextMarquee"].includes(this.section.name) ||
         this.el_height < 200
       );
     },

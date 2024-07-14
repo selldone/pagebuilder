@@ -13,21 +13,20 @@
  */
 
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
+import {isString} from "lodash-es";
 
 export class XArticleObjectData extends LModelData<XArticleObjectData> {
   body: string = "";
 
-  constructor(
-      body: string = "",
-  ) {
+  constructor(params: { body?: string }) {
     super();
-    this.body = body;
+    this.body = isString(params?.body) ? params.body : `${params?.body}`;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
 
   public setBody(body: string): XArticleObjectData {
-    this.body = body;
+    this.body = isString(body) ? body : `${body}`;
     return this;
   }
 }

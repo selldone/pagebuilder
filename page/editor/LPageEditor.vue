@@ -24,7 +24,6 @@
 
     <l-templates-list
       v-if="show_templates"
-      :themes="themes"
       has-header
       clickable
       @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
@@ -36,11 +35,7 @@
       :class="{ hidden: show_templates }"
       :style="{ 'max-height': max_h }"
       class="designer-container"
-      @mouseup="
-        $builder.isEditing && components && components.length
-          ? onSaveHistory()
-          : undefined
-      "
+      @mouseup="$builder.isEditing ? onSaveHistory() : undefined"
       @mousemove="(e) => (lastCursorY = e.clientY)"
     >
       <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
@@ -444,27 +439,27 @@
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                     <div
                       v-if="
-                        $builder.isEditing && section.data?.style?.marginTop
+                        $builder.isEditing && section.object?.style?.marginTop
                       "
                       :class="{
-                        '--reverse': parseInt(section.data.style.marginTop) < 0,
+                        '--reverse': parseInt(section.object.style.marginTop) < 0,
                       }"
-                      :margin="section.data.style.marginTop"
-                      :style="{ '--margin': section.data.style.marginTop }"
+                      :margin="section.object.style.marginTop"
+                      :style="{ '--margin': section.object.style.marginTop }"
                       class="arrow-margin -top"
                       title="Top Margin"
                       @mousedown.prevent
                     ></div>
                     <div
                       v-if="
-                        $builder.isEditing && section.data?.style?.marginBottom
+                        $builder.isEditing && section.object?.style?.marginBottom
                       "
                       :class="{
                         '--reverse':
-                          parseInt(section.data.style.marginBottom) < 0,
+                          parseInt(section.object.style.marginBottom) < 0,
                       }"
-                      :margin="section.data.style.marginBottom"
-                      :style="{ '--margin': section.data.style.marginBottom }"
+                      :margin="section.object.style.marginBottom"
+                      :style="{ '--margin': section.object.style.marginBottom }"
                       class="arrow-margin -bottom"
                       title="Bottom Margin"
                       @mousedown.prevent
@@ -480,7 +475,7 @@
 
                         'show-name': listShown && inEditMode,
                       }"
-                      :section-name="$builder.components[section.name].label"
+                      :section-name="section.label"
                       class="position-relative d-flex flex-column target-drop"
                       @dragover="
                         (e) =>
@@ -496,9 +491,10 @@
                       "
                     >
                       <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <component
-                        :is="section.name"
+                      <x-component
                         v-if="delay_load > index"
+                        :object="section.object"
+                        :augment="null"
                         :id="section.uid"
                         :section="section"
                         :ref="'SECTION_' + section.uid"
@@ -510,7 +506,6 @@
                           pen: drop_section,
                           'hover-z-10': $builder.isEditing,
                         }"
-                        :style="section.get('$sectionData.style')"
                       />
                       <div
                         v-else
@@ -705,8 +700,6 @@
     <l-settings-input></l-settings-input>
     <l-settings-form></l-settings-form>
 
-
-
     <l-settings-swiper :builder="$builder"></l-settings-swiper>
     <l-settings-column></l-settings-column>
     <l-settings-marquee :builder="$builder"></l-settings-marquee>
@@ -742,6 +735,7 @@
     <!-- ――――――――――――――――――――――  Hierarchy ―――――――――――――――――――― -->
 
     <l-page-editor-side-menu
+      v-if="!show_templates"
       :builder="$builder"
       :is-visible="listShown && inEditMode"
       :is-scroll-down="scrollTop > 200"
@@ -799,12 +793,14 @@ import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/Landing
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
 import LSettingsForm from "@selldone/page-builder/settings/form/LSettingsForm.vue";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    XComponent,
     LSettingsForm,
     LPageEditorSideMenu,
     LSettingsHierarchy,
@@ -1074,7 +1070,6 @@ export default defineComponent({
     this.setPage(this.initialPageData, this.initialPageCss, false);
     this.setModelInBuilder();
 
-    this.themes = this.$builder.themes;
   },
   mounted() {
     this.$builder.rootEl = this.$refs.artboard;
@@ -1099,11 +1094,13 @@ export default defineComponent({
       filter: ".ignore-elements",
 
       onAdd(evt) {
-        const section_name = evt.item.getAttribute("section-name");
-        const section = _self.components.find((it) => it.name === section_name);
+        const seed = evt.item.seed;
+        console.log('Drop seed',seed,'Event item',evt.item)
 
-        if (section) {
-          _self.addSection(section, evt.newIndex);
+        if (seed) {
+          _self.addSection(seed(), evt.newIndex);
+        }else{
+          console.error('Seed function is not attached!')
         }
 
         evt.item.remove();
@@ -1354,10 +1351,7 @@ export default defineComponent({
     //――――――――――――――――――――――  Copy Section ――――――――――――――――――――
 
     copySection(section) {
-      this.copy_section = JSON.stringify({
-        name: section.name,
-        data: section.data,
-      });
+      this.copy_section = JSON.stringify(section.toJson()); //TODO: V1 !CHECK!
       this.copyToClipboard(
         this.copy_section,
         "Copy Section Data & Structure",
@@ -1365,10 +1359,7 @@ export default defineComponent({
       );
     },
     saveSectionToRepository(section) {
-      const _section = JSON.stringify({
-        name: section.name,
-        data: section.data,
-      });
+      const _section = JSON.stringify(section.toJson()); //TODO: V2 Check
       EventBus.$emit("show:LPageEditorElementsRepository:Add-My-Section", {
         section: _section,
       });
@@ -1388,8 +1379,8 @@ export default defineComponent({
 
       try {
         let section = JSON.parse(this.copy_section);
-        if (section.name && section.data) {
-          this.builder.add(section, index, false, true);
+        if (section.object) {
+          this.builder.add(section, index, true);
           this.onSaveHistory();
           this.autoLoadSectionFonts(section);
           return;
@@ -1504,18 +1495,18 @@ export default defineComponent({
       checking(content);
     },
 
-    newSection() {
-      // add the section immediately if none are present.
-      if (this.components.length === 1) {
-        this.addSection(this.components[0]);
-        return;
-      }
-      this.toggleListVisibility();
-    },
+    /*  newSection() {
+     // add the section immediately if none are present.
+  if (this.components.length === 1) {
+       this.addSection(this.components[0]);
+       return;
+     }
+     this.toggleListVisibility();
+   },*/
     addSection(section, position) {
       //console.log("addSection", section, "position", position);
 
-      this.$builder.add(section, position, true, true);
+      this.$builder.add(section, position, true);
 
       this.onSaveHistory();
     },
@@ -1535,7 +1526,7 @@ export default defineComponent({
     },
 
     loadRawTemplate(theme) {
-      console.log('Page buildr | Load raw template')
+      console.log("Page buildr | Load raw template",theme);
       this.setPage(theme, null, true);
 
       this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
@@ -1634,6 +1625,9 @@ export default defineComponent({
       this.$builder.isHideExtra = !this.$builder.isHideExtra;
     },
 
+    /**
+     * Important: Externally called!
+     */
     toggleListVisibility() {
       // BUG: when in sort mode drop new section that section can't be edited!
       if (!this.listShown && this.$builder.isSorting) this.toggleSort();
@@ -1683,7 +1677,7 @@ export default defineComponent({
           if (json && json.name && json.data) {
             event.preventDefault();
             // console.log("added!");
-            this.$builder.add(json, index + 1, false, true);
+            this.$builder.add(json, index + 1, true);
             this.autoLoadSectionFonts(json);
           }
         } catch (e) {

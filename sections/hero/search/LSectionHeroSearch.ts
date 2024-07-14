@@ -17,11 +17,10 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/hero-lottie.svg";
+import {XSearchObject} from "@selldone/page-builder/components/x/search/XSearchObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/hero-search.svg";
 
-export class LSectionHeroLottie {
+export class LSectionHeroSearch {
   static group = "Hero";
 
   static cover = coverImage;
@@ -31,11 +30,11 @@ export class LSectionHeroLottie {
     video: "/app/videos/page-builder/Lottie.m4v",
   };
 
-  static  Seed = () => {
+  static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
     section.classes = [
-      "min-height-80vh",
+      "text-center",
       "d-flex" /*Keep row fill container! Important.*/,
     ];
 
@@ -48,30 +47,32 @@ export class LSectionHeroLottie {
     container.addChild(row);
 
     // Initialize and configure first column
-    const column1 = XColumnObject.Seed(12, 6, 8);
+    const column1 = XColumnObject.Seed(12, 10, 8);
     row.addChild(column1);
 
     column1.addChild(
-        XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]),
+      XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]),
     );
     column1.addChild(
-        XTextObject.Seed(
-            "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-            "p",
-            ["mb-4"],
-        ),
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        ["mb-4"],
+      ),
     );
-    column1.addChild(XButtonsObject.Seed());
+    column1.addChild(XSearchObject.Seed());
 
     // Initialize and configure second column
-    const column2 = XColumnObject.Seed(12, 6, 4);
+    const column2 = XColumnObject.Seed(12, 10, 8);
     row.addChild(column2);
-
-    column2.addChild(XLottieObject.Seed());
+    column2.addChild(
+      XTextObject.Seed(
+        "You can add more detail and guide about the search here...",
+        "p",
+        ["my-5"],
+      ),
+    );
 
     return section;
   };
-
-
 }
-

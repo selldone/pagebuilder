@@ -39,6 +39,11 @@ export class LUtilsLoader {
     return out;
   }
 
+  /**
+   * Convert json value of a LModelElement to an instance of the class
+   * @param json
+   * @constructor
+   */
   static JsonObjectToInstance(
     json: Record<string, any>,
   ): LModelElement<any> | null {

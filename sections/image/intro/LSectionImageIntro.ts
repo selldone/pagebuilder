@@ -16,50 +16,58 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/social-2.svg";
+import {
+  XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
-export const LSectionImageCardsSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionImageIntro {
+  static group = "Image & Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Text, Image, Text";
+  static help = {
+    title:
+      "This section displays a large image accompanied by a title and description overlaying it.",
+  };
 
-  container.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
-  );
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  container.addChild(
-    XTextObject.Seed(
-      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-      "p",
-      [],
-    ),
-  );
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  container.addChild(XButtonsObject.Seed());
+    container.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+    );
 
-  // Initialize row and add to container
-  const row = XRowObject.Seed();
-  container.addChild(row);
+    const image = XUploaderObject.Seed();
+    image.data.setting.size.max_w = "600px";
+    image.data.setting.size.max_h = "600px";
+    container.addChild(image);
 
-  for (let i = 1; i <= 3; i++) {
+    // Initialize row and add to container
+    const row = XRowObject.Seed();
+    container.addChild(row);
+
     row.addChild(
       XColumnImageTextObject.Seed(
         12,
-        4,
-        3,
+        10,
+        8,
         null,
-        "x-layout-normal",
+          XColumnImageTextDataTypes.LAYOUTS.MIDDLE,
         null,
         [],
-        true,
+        false,
       ),
     );
-  }
 
-  return section;
-};
+    return section;
+  };
+}

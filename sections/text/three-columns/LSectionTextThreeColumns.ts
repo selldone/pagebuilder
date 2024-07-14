@@ -17,39 +17,43 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/section-2.svg";
 
-export const LSectionTextNumbersSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
+export class LSectionTextThreeColumns {
+  static group = "Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Three columns";
+  static help = {
+    title: "This section show three columns of texts.",
+  };
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
 
-  container.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
-  );
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  // Initialize row and add to container
-  const row = XRowObject.Seed();
-  container.addChild(row);
-
-  // Initialize columns
-  for (let i = 1; i <= 3; i++) {
-    const col = XColumnImageTextObject.Seed(
-      12,
-      4,
-      3,
-      null,
-      "x-layout-content-title",
-      null,
-      ["text-h1"],
+    container.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
     );
 
-    (col.children[1] as XTextObject).data.setValue(Math.abs(Math.round(999)));
+    // Initialize row and add to container
+    const row = XRowObject.Seed();
+    container.addChild(row);
 
-    row.addChild(col);
-  }
+    // Initialize columns
+    row.addChild(
+      XColumnImageTextObject.Seed(12, 4, 3, null, "x-layout-title-content"),
+    );
+    row.addChild(
+      XColumnImageTextObject.Seed(12, 4, 3, null, "x-layout-title-content"),
+    );
+    row.addChild(
+      XColumnImageTextObject.Seed(12, 4, 3, null, "x-layout-title-content"),
+    );
 
-  return section;
-};
+    return section;
+  };
+}

@@ -16,8 +16,9 @@ import {defineComponent, inject} from "vue";
 import _ from "lodash-es";
 import Builder from "../../Builder.ts";
 import {Section} from "../../src/section/section";
+import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 
-const DEBUG = false;
+const DEBUG = true;
 
 export const LMixinHistory = defineComponent({
   data() {
@@ -93,15 +94,15 @@ export const LMixinHistory = defineComponent({
       ); // Keep only data, id , name
 
       // 1. Check section exist:
-      const exists: Section[] = [];
+      const exists_sections: Section[] = [];
       raw_sections.forEach((raw: Section.ISection) => {
         // Keep real sections
-        const found = this.builder.find(raw.id);
-        if (found && found.name === raw.name) {
-          exists.push(found);
+        const found = this.builder.find(raw.uid);
+        if (found) {
+          exists_sections.push(found);
         }
       });
-      if (DEBUG) console.log("goUndo", "1 exists", exists);
+      if (DEBUG) console.log("Load Local History", "1 exists", exists_sections);
 
       //2. Remove all:
       this.builder.sections.splice(0, this.builder.sections.length);
@@ -109,19 +110,23 @@ export const LMixinHistory = defineComponent({
       // 3. Create new section:
       let index = 0;
       raw_sections.forEach((raw: Section.ISection) => {
-        const found = exists.find(
-          (it) => it.id === raw.id && it.name === raw.name,
+     /*   const found_section = exists_sections.find(
+          (it) => it.uid === raw.uid,
         );
-        if (found) {
-          Object.assign(found.data, raw.data); // 🪱 Keep data link from component <-> v-styler <-> styler component
+
+        const instance= LUtilsLoader.JsonObjectToInstance(raw);*/
+        this.builder.add(raw, index, false);
+       /*
+        if (found_section) {
+          found_section.object=instance;// 🪱 Keep data link from component <-> v-styler <-> styler component
 
           //found.data = raw.data;
-          if (DEBUG) console.log("goUndo", "3 Update", found);
-          this.builder.sections.push(found);
+          if (DEBUG) console.log("Load Local History", "3 Update", found_section);
+          this.builder.sections.push(found_section);
         } else {
           this.builder.add(raw, index, false, false);
-          if (DEBUG) console.log("goUndo", "3 Add", raw);
-        }
+          if (DEBUG) console.log("Load Local History", "3 Add", raw);
+        }*/
         index++;
       });
     },
@@ -157,8 +162,8 @@ export const LMixinHistory = defineComponent({
       callback,
     ) {
       // Keep only data, id , name
-      const filtered = sections.map(function (i: Section) {
-        return { name: i.name, id: i.id, uid: i.uid, data: i.data };
+      const filtered = sections.map(function (section: Section) {
+        return section.toJson() ;
       });
 
       const clone = JSON.stringify(filtered).trim();

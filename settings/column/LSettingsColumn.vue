@@ -159,7 +159,9 @@
                     </v-icon>
                   </div>
                   <div class="--contents my-2">
-                    <h3 v-if="item !== 'x-layout-middle'" class="--title">Title...</h3>
+                    <h3 v-if="item !== 'x-layout-middle'" class="--title">
+                      Title...
+                    </h3>
                     <p class="--content m-0 single-line">Content...</p>
                   </div>
                 </div>
@@ -185,7 +187,7 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 
@@ -196,6 +198,7 @@ import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
+import { XColumnImageTextObjectTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 const LAYOUTS = [
   "product",
@@ -227,7 +230,7 @@ export default {
     standard_classes: LUtilsClasses.StandardClasses(),
 
     el: null,
-    target: null,
+    target: null as XColumnImageTextObject | null,
 
     //----------------------- Bg image -----------------------
     show_edit_layout: false,
@@ -241,7 +244,11 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {},
+  computed: {
+    button() {
+      return this.target.getActionChild();
+    },
+  },
   watch: {
     show_edit_layout(dialog) {
       // Keep highlight active element:
@@ -255,11 +262,16 @@ export default {
     },
 
     has_button(has) {
-      // TODO: Add button as child!
       if (has) {
-        this.target.button = XButtonObject.Seed();
+        if (!this.button) {
+          this.target.addChild(
+            XButtonObject.Seed().setLabel(
+              XColumnImageTextObjectTypes.LABELS.ACTION,
+            ),
+          );
+        }
       } else {
-        this.target.button = null;
+        this.target.removeChild(this.button);
       }
     },
   },
@@ -315,7 +327,7 @@ export default {
 
   methods: {
     showDialog() {
-      this.has_button = !!this.target.button;
+      this.has_button = !!this.button;
 
       this.dialog_pre = false;
       this.$nextTick(() => {

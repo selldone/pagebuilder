@@ -18,7 +18,7 @@ import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
-import {Section} from "@selldone/page-builder/src/section/section.ts";
+//import {Section} from "@selldone/page-builder/src/section/section.ts";
 
 const DEBUG = false;
 
@@ -37,7 +37,7 @@ export const LMixinStyler = defineComponent({
       required: true,
     },
     section: {
-      type: Section,
+   //   type: Section, /*Uncaught ReferenceError: can't access lexical declaration 'Section' before initialization*/
       required: true,
     },
 
@@ -345,7 +345,7 @@ export const LMixinStyler = defineComponent({
 
     //――――――――――――――――――――――  Element Helpers ――――――――――――――――――――
 
-    setTextRootElementStyle(
+    setTextRootElementStyleXXXXXXXXXXX(
       property: "font-family",
       value: string,
       remove_from_all_children: boolean = false,
@@ -377,6 +377,7 @@ export const LMixinStyler = defineComponent({
       child.style[property] = value;
       // Force set value on content! (not trigger styler hide!)
       if (this.type === "button") {
+        this.ta
         this.section.set(this.name + ".content", this.el.innerHTML);
       } else if (this.type === "text") {
         this.section.set(this.name, this.el.innerHTML);

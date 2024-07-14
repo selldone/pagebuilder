@@ -52,11 +52,24 @@ export default {
       return this.$builder.isEditing;
     },
   },
+  watch: {
+    object() {
+      // ━━━━━━━━━━━━━━━━━ ⚡ Linked Object Life Cycle ━━━━━━━━━━━━━━━━━
+      this.object.callBeforeSave = () => {
+        this.object.data.body = this.$refs.article.purifyBody();
+      };
+    },
+  },
 
   mounted() {
     if (this.$refs.article) {
       this.$refs.article.processAfterChangeBody(); //Assign full screen click...
     }
+
+    // ━━━━━━━━━━━━━━━━━ ⚡ Linked Object Life Cycle ━━━━━━━━━━━━━━━━━
+    this.object.callBeforeSave = () => {
+      this.object.data.body = this.$refs.article.purifyBody();
+    };
   },
 
   methods: {

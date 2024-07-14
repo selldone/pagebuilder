@@ -47,9 +47,10 @@
     >
       <template v-slot:item="{ element, index }">
         <l-settings-hierarchy-item
-          :builder="builder"
           :object="element.object"
+          :section="element"
           class="mx-2"
+          has-editable-title
         >
         </l-settings-hierarchy-item>
       </template>

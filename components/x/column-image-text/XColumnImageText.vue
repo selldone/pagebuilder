@@ -60,7 +60,6 @@
         :augment="augment"
         class="--title"
       ></x-text>
-
       <x-uploader
         v-if="
           image &&
@@ -113,15 +112,15 @@
     </div>
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <div
-      v-if="object.button"
+      v-if="button"
       :style="{
-        textAlign: object.button.data.align,
+        textAlign: button.data.align,
       }"
     >
       <x-button
-        v-styler:button="{ target: object.button, hasAlign: true }"
+        v-styler:button="{ target: button, hasAlign: true }"
         :augment="augment"
-        :object="object.button"
+        :object="button"
         :editing="SHOW_EDIT_TOOLS"
         class="m-2"
       >
@@ -199,31 +198,25 @@ export default defineComponent({
     },
 
     title() {
-      return this.object.findChildByLabel(
-        XColumnImageTextObjectTypes.LABELS.TITLE,
-      );
+      return this.object.getTitleChild();
     },
 
     content() {
-      return this.object.findChildByLabel(
-        XColumnImageTextObjectTypes.LABELS.CONTENT,
-      );
+      return this.object.getContentChild();
     },
     image() {
-      return this.object.findChildByLabel(
-        XColumnImageTextObjectTypes.LABELS.IMAGE,
-      );
+      return this.object.getImageChild();
     },
 
     product() {
-      return this.object.findChildByLabel(
-        XColumnImageTextObjectTypes.LABELS.PRODUCT,
-      );
+      return this.object.getProductChild();
     },
     collection() {
-      return this.object.findChildByLabel(
-        XColumnImageTextObjectTypes.LABELS.COLLECTION,
-      );
+      return this.object.getCollectionChild();
+    },
+
+    button(){
+      return this.object.getActionChild()
     },
 
     other_children() {
@@ -233,7 +226,10 @@ export default defineComponent({
           c !== this.content &&
           c !== this.image &&
           c !== this.product &&
-          c !== this.collection,
+          c !== this.collection &&
+          c !== this.button
+
+          ,
       );
     },
   },

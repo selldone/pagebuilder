@@ -20,49 +20,39 @@ import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnO
 import {
     XColumnImageTextDataTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/two-columns.svg";
 
-export const LSectionImageThreeColumnsSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionImageTwoColumns {
+  static group = "Image & Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Two column";
+  static help = {
+    title:
+      "This section contains three horizontal subsections, and you have the option to add more sub-columns within each column.",
+    video: "/app/videos/page-builder/Sectiontwocol.mp4",
+  };
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  // Initialize row and add to container
-  const row = XRowObject.Seed();
-  container.addChild(row);
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  // Column A:
-  const column_A = XColumnObject.Seed(12, 6, 6, null);
-  row.addChild(column_A);
+    // Initialize row and add to container
+    const row = XRowObject.Seed();
+    container.addChild(row);
 
-  const column_A_row = XRowObject.Seed();
-  column_A.addChild(column_A_row);
+    // Column A:
+    const column_A = XColumnObject.Seed(12, 6, 8, null);
+    row.addChild(column_A);
 
-  column_A_row.addChild(
-    XColumnImageTextObject.Seed(
-      12,
-      null,
-      null,
-      null,
-      XColumnImageTextDataTypes.LAYOUTS.NORMAL,
-      null,
-      [],
-      true,
-    ),
-  );
+    const column_A_row = XRowObject.Seed();
+    column_A.addChild(column_A_row);
 
-  // Column B:
-  const column_B = XColumnObject.Seed(6, 3, 3, null);
-  row.addChild(column_B);
-
-  const column_B_row = XRowObject.Seed();
-  column_B.addChild(column_B_row);
-
-  for (let i = 1; i <= 2; i++) {
-    column_B_row.addChild(
+    column_A_row.addChild(
       XColumnImageTextObject.Seed(
         12,
         null,
@@ -74,18 +64,16 @@ export const LSectionImageThreeColumnsSeed = () => {
         true,
       ),
     );
-  }
 
-  // Column C:
-  const column_C = XColumnObject.Seed(6, 3, 3, null);
-  row.addChild(column_C);
+    // Column B:
+    const column_B = XColumnObject.Seed(12, 6, 4, null);
+    row.addChild(column_B);
 
-  const column_C_row = XRowObject.Seed();
-  column_C.addChild(column_C_row);
+    const column_B_row = XRowObject.Seed();
+    column_B.addChild(column_B_row);
 
-  for (let i = 1; i <= 2; i++) {
-    column_C_row.addChild(
-      XColumnImageTextObject.Seed(
+    for (let i = 1; i <= 3; i++) {
+      const child = XColumnImageTextObject.Seed(
         12,
         null,
         null,
@@ -94,9 +82,13 @@ export const LSectionImageThreeColumnsSeed = () => {
         null,
         [],
         true,
-      ),
-    );
-  }
+      );
+      const image = child.getImageChild();
+      image?.data.setting.setAspect(2);
 
-  return section;
-};
+      column_B_row.addChild(child);
+    }
+
+    return section;
+  };
+}

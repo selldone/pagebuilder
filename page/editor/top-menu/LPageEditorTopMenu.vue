@@ -113,7 +113,7 @@
           <v-btn
             :color="pageBuilder.listShown ? '#0b77bf' : '#333'"
             stacked
-            @click.stop="pageBuilder.newSection"
+            @click.stop="pageBuilder.toggleListVisibility"
           >
             <v-icon>construction</v-icon>
 
@@ -899,18 +899,18 @@ export default {
           const valid_sections = [];
 
           template.content.sections.forEach((section) => {
-            if (!section.name || !section.data) {
+            if (!section.object) {
               this.showErrorAlert(null, `Invalid section structure detected!`);
               return;
             }
-            if (components[section.name]) {
+           // if (components[section.name]) { TODO: CHECK V2
               valid_sections.push(section);
-            } else {
+           /* } else {
               this.showErrorAlert(
                 null,
                 `This section in the landing file not found: ${section.name}`,
               );
-            }
+            }*/
           });
 
           this.page.content.sections = valid_sections;

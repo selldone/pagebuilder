@@ -75,7 +75,7 @@ export namespace XUploaderDataTypes {
       max_w: any;
       min_h: any;
       min_w: any;
-    } | null;
+    };
 
     constructor(data?: Partial<Setting>) {
       this.aspect = (data && data.aspect) || null;
@@ -125,16 +125,14 @@ export namespace XUploaderDataTypes {
       return this;
     }
 
-    public setSize(
-      size: {
-        h: any;
-        w: any;
-        max_h: any;
-        max_w: any;
-        min_h: any;
-        min_w: any;
-      } | null,
-    ) {
+    public setSize(size: {
+      h: any;
+      w: any;
+      max_h: any;
+      max_w: any;
+      min_h: any;
+      min_w: any;
+    }) {
       this.size = size;
       return this;
     }

@@ -16,24 +16,8 @@ import {App} from "vue";
 import Builder, {builder} from "./Builder";
 
 import "./styles/page-builder.scss";
-import LSectionHeroHorizontal from "./sections/hero/horizontal/LSectionHeroHorizontal.vue";
-import LSectionHeroVertical from "./sections/hero/vertical/LSectionHeroVertical.vue";
-
-import Section2TextColumns from "./sections/text/two-columns/LSectionTextTwoColumns.vue";
-import LSectionTextThreeColumns from "./sections/text/three-columns/LSectionTextThreeColumns.vue";
-import LSectionTextNumbers from "./sections/text/numbers/LSectionTextNumbers.vue";
-import LSectionImageFeatures from "./sections/image/features/LSectionImageFeatures.vue";
-import LSectionImageSocials from "./sections/image/socials/LSectionImageSocials.vue";
-
-import LSectionGalleryExpandable from "./sections/gallery/expandable/LSectionGalleryExpandable.vue";
-
-import LSectionStoreListing from "./sections/store/listing/LSectionStoreListing.vue";
 import {isFunction} from "lodash-es";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
-
-import brandingImage from "./assets/images/themes/branding.jpg";
-import campaignImage from "./assets/images/themes/campaign.jpg";
-import productsImage from "./assets/images/themes/products.jpg";
 
 export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
   console.log("⚽ 1. Setup Page builder");
@@ -70,9 +54,6 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
       }
     }
 
-    // Use sample themes if not provided
-    if (!options.themes) options.themes = SampleThemes;
-
     // install the builder
     app.use(Builder, options);
   } else {
@@ -82,38 +63,3 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
     );
   }
 }
-
-const SampleThemes = [
-  {
-    name: "Branding",
-    sections: [
-      LSectionHeroHorizontal,
-      Section2TextColumns,
-      LSectionTextNumbers,
-      LSectionImageFeatures,
-    ],
-    image: brandingImage,
-  },
-  {
-    name: "Campaign",
-    sections: [
-      LSectionHeroVertical,
-      LSectionTextThreeColumns,
-      LSectionImageFeatures,
-      LSectionImageSocials,
-    ],
-    image: campaignImage,
-  },
-  {
-    name: "Products",
-    sections: [
-      LSectionHeroVertical,
-      LSectionStoreListing,
-      LSectionTextThreeColumns,
-      LSectionImageSocials,
-      LSectionGalleryExpandable,
-      Section2TextColumns,
-    ],
-    image: productsImage,
-  },
-];

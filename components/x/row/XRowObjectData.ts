@@ -28,9 +28,9 @@ export class XRowObjectData extends LModelData<XRowObjectData> {
     super(); // Calling the constructor of the base class
 
     // Use nullish coalescing operator to provide default values
-    this.align = params.align ?? "center";
-    this.justify = params.justify ?? "center";
-    this.no_wrap = params.no_wrap ?? false;
+    this.align = params?.align ?? "center";
+    this.justify = params?.justify ?? "center";
+    this.no_wrap = params?.no_wrap ?? false;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

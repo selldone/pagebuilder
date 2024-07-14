@@ -25,7 +25,7 @@ export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
   effect: XSwiperObjectDataTypes.Effect = XSwiperObjectDataTypes.Effect.Slide;
   grabCursor: boolean = false;
   grid: GridOptions | null = null;
-  height: string | null = null;
+  height: string | undefined = undefined;
   initialSlide: number = 0;
   loop: boolean = false;
   slidesPerGroup: number | null = null;
@@ -48,58 +48,16 @@ export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
 
   /**
    *
-   * @param autoHeight
-   * @param centeredSlides
-   * @param direction
-   * @param effect
-   * @param grabCursor
-   * @param grid
-   * @param height
-   * @param initialSlide
-   * @param loop
-   * @param slidesPerGroup
-   * @param spaceBetween
-   * @param pagination
-   * @param autoplay
-   * @param keyboard
-   * @param navigation
-   * @param active
+   * @param params
    */
-  constructor({
-    autoHeight = true,
-    centeredSlides = false,
-    direction = "horizontal",
-    effect = XSwiperObjectDataTypes.Effect.Slide,
-    grabCursor = false,
-    grid = null,
-    height = null,
-    initialSlide = 0,
-    loop = false,
-    slidesPerGroup = null,
-    spaceBetween = 0,
-    pagination = null,
-    autoplay = null,
-    keyboard = null,
-    navigation = null,
-    active = null,
-  }: Partial<XSwiperObjectData> = {}) {
+  constructor(params: Partial<XSwiperObjectData> = {}) {
     super();
-    this.autoHeight = autoHeight;
-    this.centeredSlides = centeredSlides;
-    this.direction = direction;
-    this.effect = effect;
-    this.grabCursor = grabCursor;
-    this.grid = grid;
-    this.height = height;
-    this.initialSlide = initialSlide;
-    this.loop = loop;
-    this.slidesPerGroup = slidesPerGroup;
-    this.spaceBetween = spaceBetween;
-    this.pagination = pagination;
-    this.autoplay = autoplay;
-    this.keyboard = keyboard;
-    this.navigation = navigation;
-    this.active = active;
+    Object.assign(this, params);
+
+    this.direction = params?.direction ?? "horizontal";
+    this.effect = params?.effect ?? XSwiperObjectDataTypes.Effect.Slide;
+    this.initialSlide = params?.initialSlide ?? 0;
+    this.spaceBetween = params?.spaceBetween ?? 0;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

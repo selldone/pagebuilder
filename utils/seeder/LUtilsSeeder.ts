@@ -17,47 +17,6 @@ import ProductFramesSample from "../../sections/store/custom-listing/frames/Prod
 import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
 import imagePlaceholder from "../../assets/images/samples/image-placeholder.png";
-import {
-  LSectionHeroHorizontalSeed
-} from "@selldone/page-builder/sections/hero/horizontal/LSectionHeroHorizontalSeed.ts";
-import {LSectionHeroVerticalSeed} from "@selldone/page-builder/sections/hero/vertical/LSectionHeroVerticalSeed.ts";
-import {LSectionHeroLottieSeed} from "@selldone/page-builder/sections/hero/lottie/LSectionHeroLottieSeed.ts";
-import {LSectionHeroSearchSeed} from "@selldone/page-builder/sections/hero/search/LSectionHeroSearchSeed.ts";
-import {
-  LSectionTextTwoColumnsSeed
-} from "@selldone/page-builder/sections/text/two-columns/LSectionTextTwoColumnsSeed.ts";
-import {
-  LSectionTextThreeColumnsSeed
-} from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumnsSeed.ts";
-import {LSectionTextNumbersSeed} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbersSeed.ts";
-import {LSectionImageSocialsSeed} from "@selldone/page-builder/sections/image/socials/LSectionImageSocialsSeed.ts";
-import {LSectionImageCardsSeed} from "@selldone/page-builder/sections/image/cards/LSectionImageCardsSeed.ts";
-import {LSectionImageFeaturesSeed} from "@selldone/page-builder/sections/image/features/LSectionImageFeaturesSeed.ts";
-import {LSectionImageIntroSeed} from "@selldone/page-builder/sections/image/intro/LSectionImageIntroSeed.ts";
-import {LSectionTextMarqueeSeed} from "@selldone/page-builder/sections/text/marquee/LSectionTextMarqueeSeed.ts";
-import {
-  LSectionImageTwoColumnsSeed
-} from "@selldone/page-builder/sections/image/two-columns/LSectionImageTwoColumnsSeed.ts";
-import {
-  LSectionImageThreeColumnsSeed
-} from "@selldone/page-builder/sections/image/three-columns/LSectionImageThreeColumnsSeed.ts";
-import {
-  LSectionGalleryExpandableSeed
-} from "@selldone/page-builder/sections/gallery/expandable/LSectionGalleryExpandableSeed.ts";
-import {LSectionGalleryBrandsSeed} from "@selldone/page-builder/sections/gallery/brands/LSectionGalleryBrandsSeed.ts";
-import {LSectionGallerySwiperSeed} from "@selldone/page-builder/sections/gallery/swiper/LSectionGallerySwiperSeed.ts";
-import {LSectionGalleryScrollSeed} from "@selldone/page-builder/sections/gallery/scroll/LSectionGalleryScrollSeed.ts";
-import {LSectionArticleSeed} from "@selldone/page-builder/sections/article/LSectionArticleSeed.ts";
-import {LSectionStoreListingSeed} from "@selldone/page-builder/sections/store/listing/LSectionStoreListingSeed.ts";
-import {LSectionHtmlSeed} from "@selldone/page-builder/sections/html/LSectionHtmlSeed.ts";
-import {LSectionStoreProductSeed} from "@selldone/page-builder/sections/store/product/LSectionStoreProductSeed.ts";
-import {
-  LSectionCustomListingSeed
-} from "@selldone/page-builder/sections/store/custom-listing/LSectionCustomListingSeed.ts";
-import {
-  LSectionFormNewsletterSeed
-} from "@selldone/page-builder/sections/form/newsletter/LSectionFormNewsletterSeed.ts";
-import {LSectionBlogsListSeed} from "@selldone/page-builder/sections/blog/list/LSectionBlogsListSeed.ts";
 
 const DEBUG = false;
 
@@ -324,68 +283,67 @@ export class LUtilsSeeder {
     return out;
   }
 
-  static SeedNew(name: string) {
-    console.log("🪵 Seed", name);
-
-    if (name === "LSectionHeroHorizontal") {
-      return LSectionHeroHorizontalSeed();
-    } else if (name === "LSectionHeroVertical") {
-      return LSectionHeroVerticalSeed();
-    } else if (name === "LSectionHeroLottie") {
-      return LSectionHeroLottieSeed();
-    } else if (name === "LSectionHeroSearch") {
-      return LSectionHeroSearchSeed();
-    } else if (name === "LSectionTextTwoColumns") {
-      return LSectionTextTwoColumnsSeed();
-    } else if (name === "LSectionTextThreeColumns") {
-      return LSectionTextThreeColumnsSeed();
-    } else if (name === "LSectionTextNumbers") {
-      return LSectionTextNumbersSeed();
-    } else if (name === "LSectionImageSocials") {
-      return LSectionImageSocialsSeed();
-    } else if (name === "LSectionImageCards") {
-      return LSectionImageCardsSeed();
-    } else if (name === "LSectionImageFeatures") {
-      return LSectionImageFeaturesSeed();
-    } else if (name === "LSectionImageIntro") {
-      return LSectionImageIntroSeed();
-    } else if (name === "LSectionTextMarquee") {
-      return LSectionTextMarqueeSeed();
-    } else if (name === "LSectionImageTwoColumns") {
-      return LSectionImageTwoColumnsSeed();
-    } else if (name === "LSectionImageThreeColumns") {
-      return LSectionImageThreeColumnsSeed();
-    } else if (name === "LSectionGalleryExpandable") {
-      return LSectionGalleryExpandableSeed();
-    }else if (name === "LSectionGalleryBrands") {
-      return LSectionGalleryBrandsSeed();
-    }else if (name === "LSectionGallerySwiper") {
-      return LSectionGallerySwiperSeed();
-    }else if (name === "LSectionGalleryScroll") {
-      return LSectionGalleryScrollSeed();
-    }else if (name === "LSectionArticle") {
-      return LSectionArticleSeed();
-    }else if (name === "LSectionStoreListing") {
-      return LSectionStoreListingSeed();
-    }else if (name === "LSectionHtml") {
-      return LSectionHtmlSeed();
-    }else if (name === "LSectionStoreProduct") {
-      return LSectionStoreProductSeed();
-    }else if (name === "LSectionStoreCustomListing") {
-      return LSectionCustomListingSeed();
-    }else if (name === "LSectionFormNewsletter") {
-      return LSectionFormNewsletterSeed();
-    }else if (name === "LSectionBlogList") {
-      return LSectionBlogsListSeed();
-    }
-
-
-
-
-
-
-
-    console.error("🚨 Seed not found", name);
-    return null;
-  }
+  /**
+   * @deprecated
+   * @param name
+   * @constructor
+   */
+  /* static SeedNew(name: string) {
+       console.log("🪵 Seed", name);
+   
+       if (name === "LSectionHeroHorizontal") {
+         return LSectionHeroHorizontal.Seed();
+       } else if (name === "LSectionHeroVertical") {
+         return LSectionHeroVertical.Seed();
+       } else if (name === "LSectionHeroLottie") {
+         return LSectionHeroLottie.Seed();
+       } else if (name === "LSectionHeroSearch") {
+         return LSectionHeroSearch.Seed();
+       } else if (name === "LSectionTextTwoColumns") {
+         return LSectionTextTwoColumns.Seed();
+       } else if (name === "LSectionTextThreeColumns") {
+         return LSectionTextThreeColumns.Seed();
+       } else if (name === "LSectionTextNumbers") {
+         return LSectionTextNumbers.Seed();
+       } else if (name === "LSectionImageSocials") {
+         return LSectionImageSocials.Seed();
+       } else if (name === "LSectionImageCards") {
+         return LSectionImageCards.Seed();
+       } else if (name === "LSectionImageFeatures") {
+         return LSectionImageFeatures.Seed();
+       } else if (name === "LSectionImageIntro") {
+         return LSectionImageIntro > Seed();
+       } else if (name === "LSectionTextMarquee") {
+         return LSectionTextMarquee.Seed();
+       } else if (name === "LSectionImageTwoColumns") {
+         return LSectionImageTwoColumns.Seed();
+       } else if (name === "LSectionImageThreeColumns") {
+         return LSectionImageThreeColumns.Seed();
+       } else if (name === "LSectionGalleryExpandable") {
+         return LSectionGalleryExpandable.Seed();
+       } else if (name === "LSectionGalleryBrands") {
+         return LSectionGalleryBrands.Seed();
+       } else if (name === "LSectionGallerySwiper") {
+         return LSectionGallerySwiper.Seed();
+       } else if (name === "LSectionGalleryScroll") {
+         return LSectionGalleryScroll.Seed();
+       } else if (name === "LSectionArticle") {
+         return LSectionArticle.Seed();
+       } else if (name === "LSectionStoreListing") {
+         return LSectionStoreListing.Seed();
+       } else if (name === "LSectionHtml") {
+         return LSectionHtml.Seed();
+       } else if (name === "LSectionStoreProduct") {
+         return LSectionStoreProduct.Seed();
+       } else if (name === "LSectionStoreCustomListing") {
+         return LMigrationV2CustomListing.Seed();
+       } else if (name === "LSectionFormNewsletter") {
+         return LSectionFormNewsletter.Seed();
+       } else if (name === "LSectionBlogList") {
+         return LSectionBlogList.Seed();
+       }
+   
+       console.error("🚨 Seed not found", name);
+       return null;
+     }*/
 }

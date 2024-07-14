@@ -15,63 +15,65 @@
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/hero-lottie.svg";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {
+    XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/social-3.svg";
 
-export class LSectionHeroLottie {
-  static group = "Hero";
+export class LSectionImageFeatures {
+  static group = "Image & Text";
 
   static cover = coverImage;
-  static label = "Animate Hero - Lottie Files";
+  static label = "Features";
   static help = {
-    title: "Use this section to display Lottie animation files.",
-    video: "/app/videos/page-builder/Lottie.m4v",
+    title:
+      "This section is handy for displaying a collection of images accompanied by titles and brief descriptions.",
   };
-
-  static  Seed = () => {
+  static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
-    section.classes = [
-      "min-height-80vh",
-      "d-flex" /*Keep row fill container! Important.*/,
-    ];
+    section.classes = [];
 
     // Initialize container and add to section
     const container = XContainerObject.Seed();
     section.addChild(container);
 
+    container.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+    );
+
+    container.addChild(
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        [],
+      ),
+    );
+
+    container.addChild(XButtonsObject.Seed());
+
     // Initialize row and add to container
     const row = XRowObject.Seed();
     container.addChild(row);
 
-    // Initialize and configure first column
-    const column1 = XColumnObject.Seed(12, 6, 8);
-    row.addChild(column1);
-
-    column1.addChild(
-        XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]),
-    );
-    column1.addChild(
-        XTextObject.Seed(
-            "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-            "p",
-            ["mb-4"],
+    for (let i = 1; i <= 3; i++) {
+      row.addChild(
+        XColumnImageTextObject.Seed(
+          12,
+          4,
+          3,
+          null,
+          XColumnImageTextDataTypes.LAYOUTS.MIDDLE,
+          null,
+          [],
+          true,
         ),
-    );
-    column1.addChild(XButtonsObject.Seed());
-
-    // Initialize and configure second column
-    const column2 = XColumnObject.Seed(12, 6, 4);
-    row.addChild(column2);
-
-    column2.addChild(XLottieObject.Seed());
+      );
+    }
 
     return section;
   };
-
-
 }
-

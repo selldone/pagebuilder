@@ -15,9 +15,13 @@
 import {XInputObjectData} from "@selldone/page-builder/components/x/input/XInputObjectData.ts";
 
 export class XInputTextObjectData extends XInputObjectData {
-  constructor(params: { name: string }) {
-    super(params.name); // Passing the name to the base class constructor
+  constructor(params: {
+    name: string;
+    [key: string]: any /*To allow extra properties*/;
+  }) {
+    super(params); // Passing the name to the base class constructor
   }
+
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

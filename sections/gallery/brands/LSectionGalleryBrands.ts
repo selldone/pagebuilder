@@ -13,31 +13,28 @@
  */
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/hero-lottie.svg";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/gallery-2.svg";
 
-export class LSectionHeroLottie {
-  static group = "Hero";
+export class LSectionGalleryBrands {
+  static group = "Gallery";
 
   static cover = coverImage;
-  static label = "Animate Hero - Lottie Files";
+  static label = "Brands Gallery";
   static help = {
-    title: "Use this section to display Lottie animation files.",
-    video: "/app/videos/page-builder/Lottie.m4v",
+    title:
+      "In this section, display numerous compact visuals, such as brand logos.",
   };
 
-  static  Seed = () => {
+  static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
-    section.classes = [
-      "min-height-80vh",
-      "d-flex" /*Keep row fill container! Important.*/,
-    ];
+    section.classes = [];
 
     // Initialize container and add to section
     const container = XContainerObject.Seed();
@@ -47,31 +44,35 @@ export class LSectionHeroLottie {
     const row = XRowObject.Seed();
     container.addChild(row);
 
-    // Initialize and configure first column
-    const column1 = XColumnObject.Seed(12, 6, 8);
-    row.addChild(column1);
-
-    column1.addChild(
-        XTextObject.Seed("Enter your headline here...", "h1", ["mb-2"]),
+    // Col A:
+    const col_A = XColumnObject.Seed(12, 4, 6);
+    row.addChild(col_A);
+    col_A.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-3"]),
     );
-    column1.addChild(
-        XTextObject.Seed(
-            "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-            "p",
-            ["mb-4"],
-        ),
+    col_A.addChild(
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        [],
+      ),
     );
-    column1.addChild(XButtonsObject.Seed());
+    col_A.addChild(XButtonsObject.Seed());
 
-    // Initialize and configure second column
-    const column2 = XColumnObject.Seed(12, 6, 4);
-    row.addChild(column2);
+    // Col B:
+    const col_B = XColumnObject.Seed(12, 8, 6);
+    row.addChild(col_B);
+    const col_B_row = XRowObject.Seed();
+    col_B.addChild(col_B_row);
 
-    column2.addChild(XLottieObject.Seed());
+    for (let i = 0; i < 12; i++) {
+      const small_col = XColumnObject.Seed(4, 3, 2).addChild(
+        XUploaderObject.Seed(),
+      );
+
+      col_B_row.addChild(small_col);
+    }
 
     return section;
   };
-
-
 }
-

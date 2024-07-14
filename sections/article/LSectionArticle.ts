@@ -14,20 +14,31 @@
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XProductsObject} from "@selldone/page-builder/components/x/products/XProductsObject.ts";
+import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/article.svg";
 
-export const LSectionStoreListingSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionArticle {
+  static group = "Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
-  container.data.setFluid(true);
+  static cover = coverImage;
+  static label = "Article";
+  static help = {
+    title:
+      "Use this section to show an article with features like what you have in your blog and product description with inline editor. Please just use one of this section each page.",
+  };
 
-  const products = XProductsObject.Seed();
-  container.addChild(products);
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  return section;
-};
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
+
+    const article = XArticleObject.Seed();
+    container.addChild(article);
+
+    return section;
+  };
+}

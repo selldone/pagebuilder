@@ -15,17 +15,18 @@
 import brandingImage from "@selldone/page-builder/assets/images/themes/branding.jpg";
 import campaignImage from "@selldone/page-builder/assets/images/themes/campaign.jpg";
 import productsImage from "@selldone/page-builder/assets/images/themes/products.jpg";
-import LSectionHeroHorizontal from "@selldone/page-builder/sections/hero/horizontal/LSectionHeroHorizontal.vue";
-import Section2TextColumns from "@selldone/page-builder/sections/text/two-columns/LSectionTextTwoColumns.vue";
-import LSectionTextNumbers from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbers.vue";
-import LSectionImageFeatures from "@selldone/page-builder/sections/image/features/LSectionImageFeatures.vue";
-import LSectionHeroVertical from "@selldone/page-builder/sections/hero/vertical/LSectionHeroVertical.vue";
-import LSectionTextThreeColumns from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumns.vue";
-import LSectionImageSocials from "@selldone/page-builder/sections/image/socials/LSectionImageSocials.vue";
-import LSectionStoreListing from "@selldone/page-builder/sections/store/listing/LSectionStoreListing.vue";
-import LSectionGalleryExpandable
-    from "@selldone/page-builder/sections/gallery/expandable/LSectionGalleryExpandable.vue";
-import {LUtilsSeeder} from "@selldone/page-builder/utils/seeder/LUtilsSeeder.ts";
+import {LSectionHeroHorizontal} from "@selldone/page-builder/sections/hero/horizontal/LSectionHeroHorizontal.ts";
+import {
+    LSectionGalleryExpandable
+} from "@selldone/page-builder/sections/gallery/expandable/LSectionGalleryExpandable.ts";
+import {LSectionHeroVertical} from "@selldone/page-builder/sections/hero/vertical/LSectionHeroVertical.ts";
+import {LSectionImageFeatures} from "@selldone/page-builder/sections/image/features/LSectionImageFeatures.ts";
+import {LSectionImageSocials} from "@selldone/page-builder/sections/image/socials/LSectionImageSocials.ts";
+import {LSectionStoreListing} from "@selldone/page-builder/sections/store/listing/LSectionStoreListing.ts";
+import {LSectionTextNumbers} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbers.ts";
+import {LSectionTextThreeColumns} from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumns.ts";
+import {LSectionTextTwoColumns} from "@selldone/page-builder/sections/text/two-columns/LSectionTextTwoColumns.ts";
+import {Page} from "@selldone/core-js/models";
 
 export class RawTemplate {
   constructor(name: string, sections: any[], image: string) {
@@ -43,7 +44,7 @@ export class RawTemplate {
       "Branding",
       [
         LSectionHeroHorizontal,
-        Section2TextColumns,
+        LSectionTextTwoColumns,
         LSectionTextNumbers,
         LSectionImageFeatures,
       ],
@@ -69,20 +70,21 @@ export class RawTemplate {
         LSectionTextThreeColumns,
         LSectionImageSocials,
         LSectionGalleryExpandable,
-        Section2TextColumns,
+        LSectionTextTwoColumns,
       ],
       productsImage,
     ),
   ];
 
-  public generate() {
+  public generate(): Page.IContent {
     return {
       title: `Raw Template ${this.name}`,
       sections: this.sections.map((_section_component) => {
+        console.log("_section_component", _section_component);
         return {
-          name: _section_component.name,
+          label: _section_component.label,
           uid: `auto_${Math.round(Math.random() * 99999999999)}`,
-          object: LUtilsSeeder.SeedNew(_section_component.name),
+          object: _section_component.Seed(),
         };
       }),
     };

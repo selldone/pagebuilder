@@ -16,53 +16,42 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/section-1.svg";
 
-export const LSectionImageSocialsSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionTextTwoColumns {
+  static group = "Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Two columns";
+  static help = {
+    title: "This section show two columns of texts.",
+  };
 
-  container.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
-  );
+  static Seed = (): XSectionObject => {
+    // Initialize section
+    const section = XSectionObject.Seed();
 
-  container.addChild(
-    XTextObject.Seed(
-      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-      "p",
-      [],
-    ),
-  );
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  container.addChild(XButtonsObject.Seed());
+    container.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+    );
 
-  // Initialize row and add to container
-  const row = XRowObject.Seed();
-  container.addChild(row);
+    // Initialize row and add to container
+    const row = XRowObject.Seed();
+    container.addChild(row);
 
-  for (let i = 1; i <= 3; i++) {
-    const  column=   XColumnImageTextObject.Seed(
-            12,
-            6,
-            4,
-            null,
-            "x-layout-row",
-            null,
-            [],
-            true,
-        );
-    row.addChild(column);
+    // Initialize columns
+    row.addChild(
+      XColumnImageTextObject.Seed(12, 6, 5, null, "x-layout-title-content"),
+    );
+    row.addChild(
+      XColumnImageTextObject.Seed(12, 6, 5, null, "x-layout-title-content"),
+    );
 
-
-  const image=  column.getImageChild()
-    image?.data.setting.setAspect(1).setRound(true)
-  }
-
-  return section;
-};
+    return section;
+  };
+}

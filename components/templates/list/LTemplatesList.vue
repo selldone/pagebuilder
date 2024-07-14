@@ -124,13 +124,14 @@
             <v-col
               v-for="(theme, index) in RawTemplate.List"
               :key="'raw-' + index"
-              cols="12"
-              lg="3"
-              md="4"
-              sm="6"
+              lg="2"
+              md="3"
+              sm="4"
+              cols="6"
+
             >
               <v-card
-                class="rounded-2rem position-relative border overflow-hidden pa-4"
+                class="rounded-2rem position-relative border overflow-hidden pa-2"
                 color="#333"
                 variant="outlined"
                 @click="selectRawTheme(theme)"
@@ -138,7 +139,7 @@
                 <v-img
                   :src="theme.image"
                   aspect-ratio="1"
-                  class="rounded-2rem"
+                  class="rounded-2rem elevation-3"
                   cover
                 >
                   <v-chip
@@ -149,7 +150,7 @@
                     >raw
                   </v-chip>
                 </v-img>
-                <v-card-title>
+                <v-card-title class="text-subtitle-2">
                   {{ theme.name }}
                 </v-card-title>
               </v-card>
@@ -172,10 +173,10 @@
             <v-col
               v-for="item in templates"
               :key="'tem-' + item.id"
-              cols="12"
-              lg="3"
-              md="4"
-              sm="6"
+              lg="2"
+              md="3"
+              sm="4"
+              cols="6"
             >
               <l-template-card
                 :loading="busy_get_template === item.id"
@@ -183,7 +184,7 @@
                 @select="clickable ? loadTemplate(item) : undefined"
                 :clickable="clickable"
                 variant="outlined"
-                min-width="280"
+                size="default"
               ></l-template-card>
             </v-col>
           </v-fade-transition>
@@ -326,6 +327,7 @@ export default {
     },
 
     selectRawTheme(theme) {
+      console.log("select:raw-theme", theme);
       this.$emit("select:raw-theme", theme.generate());
     },
 

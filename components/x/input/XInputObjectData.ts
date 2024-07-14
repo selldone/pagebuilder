@@ -32,9 +32,14 @@ export class XInputObjectData extends LModelData<XInputObjectData> {
   prependInnerIcon: string | null = null;
   appendInnerIcon: string | null = null;
 
-  constructor(name: string) {
+  constructor(params: {
+    name: string;
+    [key: string]: any /*To allow extra properties*/;
+  }) {
     super();
-    this.name = name;
+    this.name = params.name;
+    // Assign provided properties to the class instance
+    Object.assign(this, params);
   }
 
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━
@@ -45,7 +50,6 @@ export class XInputObjectData extends LModelData<XInputObjectData> {
     this.name = name;
     return this;
   }
-
 
   public setBackgroundColor(backgroundColor: string | null): this {
     this.backgroundColor = backgroundColor;

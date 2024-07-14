@@ -31,8 +31,8 @@
     <ul class="styler-list">
       <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
 
-      <li >
-        <button class="styler-button" @click="showMasterDesignDialog()" >
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
           <v-icon size="20">architecture</v-icon>
 
           <v-tooltip
@@ -113,7 +113,7 @@
         >
           <v-icon size="20">font_download</v-icon>
           <v-icon
-            v-if="text_font"
+            v-if="target.style.fontFamily"
             class="absolute-bottom-end"
             color="#fff"
             icon="check_circle"
@@ -128,11 +128,11 @@
             max-width="320"
             >Font
             <v-chip
-              v-if="text_font"
-              :style="{ fontFamily: text_font }"
+              v-if="target.style.fontFamily"
+              :style="{ fontFamily: target.style.fontFamily }"
               class="mx-1"
               size="x-small"
-              >{{ text_font }}
+              >{{ target.style.fontFamily }}
             </v-chip>
           </v-tooltip>
         </button>
@@ -247,23 +247,21 @@
 
       <div v-if="option === 'text-font'" class="flex-grow-1">
         <s-setting-font-family
-          v-model="text_font"
+          v-model="target.style.fontFamily"
           :fonts="fonts"
           clearable
-          @update:model-value="setFont"
           label="Font"
           icon="font_download"
         >
         </s-setting-font-family>
 
         <s-setting-size
-            v-model="target.style.fontSize"
-            clearable
-            label="Size"
-            icon="format_size"
+          v-model="target.style.fontSize"
+          clearable
+          label="Size"
+          icon="format_size"
         >
         </s-setting-size>
-
       </div>
 
       <!-- ―――――――――――――――――― Align ―――――――――――――――――― -->
@@ -423,7 +421,7 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
@@ -540,7 +538,6 @@ export default {
     url: "",
     text_color_display: null, // Just for display!
 
-    text_font: null,
 
     text_gradient_mode: false,
     uppercase: false,
@@ -594,7 +591,6 @@ export default {
       );
     }*/
 
-    this.text_font = this.el.firstChild?.style?.fontFamily;
 
     this.el.contentEditable = "true";
 
@@ -663,7 +659,6 @@ export default {
 
     calculateSelectedTextStyle() {
       this.text_color_display = this.getSelectedTextColor();
-      this.text_font = this.getSelectedTextFont();
       this.url = this.getSelectedTextLink();
 
       /*console.log(
@@ -707,11 +702,8 @@ export default {
       event.preventDefault();
     },
 
-    setFont(font) {
-      // console.log("📐 Set font", font, this.el);
-      this.restoreSelection();
-      this.setTextRootElementStyle("font-family", font, true);
-    },
+
+
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Upper /Normal case ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 

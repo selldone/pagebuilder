@@ -33,13 +33,13 @@
     ]"
     class="page-content"
   >
-    <component
+    <x-component
       v-for="section in $builder.sections"
       :key="section.uid"
-      :is="section.name"
       :section="section"
       :id="section.uid"
-      :style="section.get('$sectionData.style')"
+      :object="section.object"
+      :augment="augment"
     />
     <!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
   </div>
@@ -51,9 +51,11 @@ import { LUtilsTypo } from "../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../utils/colors/LUtilsColors";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { cleanDOM } from "../utils/html/LUtilsHtml";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LPagePopup",
+  components: { XComponent },
   props: {
     data: {
       type: Object,

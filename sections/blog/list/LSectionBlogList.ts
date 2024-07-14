@@ -17,35 +17,47 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/blogs.svg";
 
-export const LSectionBlogsListSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
-  section.style = { minHeight: "35vh" };
+export class LSectionBlogList {
+  static group = "Blogs";
 
-  section.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["my-5"]),
-  );
+  static cover = coverImage;
+  static label = "Blogs list";
+  static help = {
+    title:
+      "Utilize this section to display a collection of blog posts, with the option to apply filters.",
+  };
 
-  section.addChild(
-    XTextObject.Seed(
-      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-      "p",
-      ["my-5"],
-    ),
-  );
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
+    section.style = { minHeight: "35vh" };
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+    section.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["my-5"]),
+    );
 
-  const row = XRowObject.Seed();
-  container.addChild(row);
-  row.data.setAlign('stretch')
+    section.addChild(
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        ["my-5"],
+      ),
+    );
 
-  const listing = XFeederBlogsObject.Seed();
-  row.addChild(listing);
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  return section;
-};
+    const row = XRowObject.Seed();
+    container.addChild(row);
+    row.data.setAlign("stretch");
+
+    const listing = XFeederBlogsObject.Seed();
+    row.addChild(listing);
+
+    return section;
+  };
+}

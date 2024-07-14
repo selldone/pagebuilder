@@ -41,6 +41,7 @@ import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import DataXDirective from "../../../directives/DataXDirective";
 import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import { provide } from "vue";
 
 export default {
   name: "XSection",
@@ -51,6 +52,7 @@ export default {
   props: {
     object: { required: true, type: XSectionObject },
     noDefaultPadding: Boolean,
+    section: { required: true, type: Object },
   },
   data: () => ({}),
   computed: {
@@ -66,6 +68,17 @@ export default {
       return this.backgroundStyle(this.object.background);
     },
   },
+
+  beforeCreate() {
+    // Find corresponding section by id
+    this.$section = this.$props.section;
+
+    // Provide section to all children
+    provide("$section", this.$section);
+
+    console.log("XSection | this.$section", this.$section, this.$props);
+  },
+
   created() {},
 };
 </script>

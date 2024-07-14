@@ -31,9 +31,6 @@ import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonO
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
   public static ComponentName = "XColumnImageText";
 
-  // Custom elements [Permanent]
-  public button: XButtonObject | null = null;
-
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -94,7 +91,13 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
       .setTablet(tablet)
       .setDesktop(desktop)
       .setWidescreen(widescreen);
-    instance.data.setLayout(layout ? layout : initialColumnLayout);
+
+    const layout_code = layout
+      ? layout
+      : initialColumnLayout
+        ? initialColumnLayout
+        : XColumnImageTextDataTypes.LAYOUTS.NORMAL;
+    instance.data.setLayout(layout_code);
 
     // Add initial children:
     instance.addChild(
@@ -141,6 +144,10 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
 
   getContentChild(): XTextObject | null {
     return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.CONTENT);
+  }
+
+  getActionChild(): XTextObject | null {
+    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.ACTION);
   }
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
@@ -195,6 +202,14 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
         ),
       );
 
+    if (old.button) {
+      column.addChild(
+        XButtonObject.MigrateOld(old.button)!.setLabel(
+          XColumnImageTextObjectTypes.LABELS.ACTION,
+        ),
+      );
+    }
+
     if (old.layout === "product") {
       column.addChild(
         new XProductObject(
@@ -235,15 +250,6 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     json: Record<string, any>,
   ): XColumnImageTextObject {
     const instance = this._JsonToInstance(json, XColumnImageTextObjectData);
-    if (json.button) {
-      instance.button = XButtonObject.JsonToInstance(json.button);
-      console.log(
-        "Add button to XColumnImageTextObject -->",
-        json.button,
-        "-->",
-        instance.button,
-      );
-    }
 
     return instance;
   }
@@ -262,5 +268,6 @@ export namespace XColumnImageTextObjectTypes {
     IMAGE = "image",
     PRODUCT = "product",
     COLLECTION = "collection",
+    ACTION = "action",
   }
 }

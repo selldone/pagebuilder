@@ -21,7 +21,7 @@
     :min-width="minWidth"
     :ripple="clickable"
     :to="need_become_premium ? undefined : to"
-    class="rounded-2rem position-relative overflow-hidden pa-2"
+    class="rounded-2rem position-relative overflow-hidden pa-2 border"
     @click="need_become_premium ? showNeedSubscribePremium() : $emit('select')"
     :variant="variant"
     :style="!clickable && !to ? 'cursor: initial' : undefined"
@@ -29,15 +29,18 @@
     <v-img
       :src="getShopImagePath(template.image)"
       aspect-ratio="1"
-      class="rounded-2rem"
+      class="rounded-2rem elevation-3"
       cover
     >
+      <template v-slot:placeholder>
+        <v-icon class="center-absolute op-0-3" size="48">layers</v-icon>
+      </template>
       <div class="ma-2 absolute-bottom-end">
         <v-chip
           v-if="template.premium"
           class="ma-1"
           color="#673AB7"
-          size="small"
+          size="x-small"
           variant="flat"
           title="This template is accessible exclusively for premium users who have subscribed to premium content."
         >
@@ -48,7 +51,7 @@
           v-if="template.hot"
           class="ma-1"
           color="#D32F2F"
-          size="small"
+          size="x-small"
           variant="flat"
         >
           <v-icon start>local_fire_department</v-icon>

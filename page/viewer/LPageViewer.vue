@@ -34,15 +34,13 @@
     ]"
     class="page-content"
   >
-    <component
+    <x-component
       v-for="section in sections"
       :key="section.uid"
-      :is="section.name"
       :id="section.uid"
+      :object="section.object"
       :augment="augment"
       :section="section"
-
-      :style="section.get('$sectionData.style')"
     />
 
     <!--  IMPORTANT : UNIQUE ID OF RENDERED ITEM TO PREVENT WITH BUILDER STYLER!  CAN NOT DO THIS NOW! COMPONENT NOT RENDER!-->
@@ -59,9 +57,11 @@ import Builder from "../../Builder.ts";
 import { provide } from "vue";
 import { cleanDOM } from "../../utils/html/LUtilsHtml";
 import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
+import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
   name: "LPageViewer",
+  components: { XComponent },
   props: {
     initialPageData: {
       type: Object,
@@ -96,7 +96,7 @@ export default {
         this.style.dark,
         this.style.bg_position,
         this.style.bg_rotation,
-          null
+        null,
       );
     },
 
@@ -137,7 +137,6 @@ export default {
   created() {
     console.style("<b>🪐 Render page</b>");
     this.$builder.setContent(this.initialPageData);
-
   },
 
   mounted() {
@@ -146,10 +145,9 @@ export default {
       this.initAnimations(this.$refs.render_container);
 
       LandingCssHelper.Inject(
-          this.initialPageCss /*Css*/,
-          this.$refs.render_container,
+        this.initialPageCss /*Css*/,
+        this.$refs.render_container,
       );
-
     });
   },
 

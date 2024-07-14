@@ -13,7 +13,7 @@
  */
 
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {isFunction} from "lodash-es";
+import {isFunction, isObject} from "lodash-es";
 
 // Define an interface for common functionality
 
@@ -24,7 +24,7 @@ export abstract class LModelElement<T> {
 
   background: LModelBackground;
 
-  style: Record<string, any>;
+  style: Partial<CSSStyleDeclaration>;
 
   classes: string[];
 
@@ -61,6 +61,14 @@ export abstract class LModelElement<T> {
       this.children.splice(int, 0, element);
     } else {
       this.children.push(element);
+    }
+
+    return this;
+  }
+
+  removeChild(child: LModelElement<any> | null): LModelElement<T> {
+    if (child) {
+      this.children.splice(this.children.indexOf(child), 1);
     }
 
     return this;
@@ -175,16 +183,48 @@ export abstract class LModelElement<T> {
     dataConstructor: new (data: any) => T,
   ): U {
     console.log("_JsonToInstance -->", this, json);
+
+    const style =
+      json?.style && isObject(json?.style) && !Array.isArray(json?.style)
+        ? json?.style
+        : {};
+
+    const classes = Array.isArray(json?.classes) ? json.classes : [];
+
+    const props =
+      json?.props && isObject(json?.props) && !Array.isArray(json?.props)
+        ? json?.props
+        : {};
+
     const instance = new this(
       new LModelBackground(json?.background),
-      json?.style,
-      json?.classes,
+      style,
+      classes,
       [],
       new dataConstructor(json?.data), // Instantiate T using the constructor passed
-      json?.props,
+      props,
     );
-
+    instance.setLabel(json?.label || null);
     return instance;
+  }
+
+  /**
+   * Export the element to JSON
+   */
+  toJson(): Record<string, any> {
+    if (isFunction(this.callBeforeSave)) this.callBeforeSave();
+
+    return {
+      component: this.component,
+      id: this.id,
+      background: this.background,
+      style: this.style,
+      classes: this.classes,
+      data: this.data,
+      props: this.props,
+      children: this.children.map((child) => child.toJson()),
+      label: this.label,
+    };
   }
 }
 

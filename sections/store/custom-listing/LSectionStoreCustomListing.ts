@@ -16,22 +16,34 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XFeederProductsObject} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/products-list-custom.svg";
 
-export const LSectionCustomListingSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LMigrationV2CustomListing {
+  static group = "Products";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Custom products listing";
+  static help = {
+    title:
+      "This section displays products and categories using customized HTML code. You can apply filters to showcase specific categories or products. Additionally, you can incorporate dynamic values within the HTML template codes.",
+  };
 
-  const row = XRowObject.Seed();
-  container.addChild(row);
-  row.data.setAlign("stretch").setJustify("center");
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  const listing = XFeederProductsObject.Seed();
-  row.addChild(listing);
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  return section;
-};
+    const row = XRowObject.Seed();
+    container.addChild(row);
+    row.data.setAlign("stretch").setJustify("center");
+
+    const listing = XFeederProductsObject.Seed();
+    row.addChild(listing);
+
+    return section;
+  };
+}

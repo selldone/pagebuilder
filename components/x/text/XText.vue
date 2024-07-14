@@ -16,13 +16,13 @@
 <template>
   <component
     v-if="isValid"
-    :is="object.data?.tag"
+    :is="object.data.tag"
     v-styler:text="{
       target: object,
     }"
-    :class="[object?.classes, { 'is-editable': $builder.isEditing }]"
-    :style="[object?.style, backgroundStyle(object.background)]"
-    v-html="object?.data?.value?.applyAugment(augment, $builder.isEditing)"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, backgroundStyle(object.background)]"
+    v-html="object.data?.value?.applyAugment(augment, $builder.isEditing)"
   ></component>
 </template>
 

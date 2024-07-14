@@ -431,12 +431,6 @@ export default {
 
     toggleDarkMode() {
       this.target.background.dark = !this.target.background.dark;
-
-      // Force deep update:
-
-      this.section.set(`$sectionData.background`, (background) => {
-        background.dark = this.target.background.dark;
-      });
     },
 
     changeBgStyle() {

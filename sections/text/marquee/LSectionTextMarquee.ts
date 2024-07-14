@@ -13,14 +13,25 @@
  */
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
+import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/section-infinite-text.png";
 
-export const LSectionStoreProductSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
+export class LSectionTextMarquee {
+  static group = "Text";
 
-  const product = XProductOverviewObject.Seed();
-  section.addChild(product);
+  static cover = coverImage;
+  static label = "Infinite Marquee";
+  static help = {
+    title:
+      "Add an infinite scrolling text or HTML, also known as a marquee view.",
+  };
 
-  return section;
-};
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = ["pa-0"];
+    section.addChild(XMarqueeObject.Seed());
+
+    return section;
+  };
+}

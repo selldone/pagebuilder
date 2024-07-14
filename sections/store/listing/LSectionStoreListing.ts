@@ -14,18 +14,17 @@
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/html.svg";
+import {XProductsObject} from "@selldone/page-builder/components/x/products/XProductsObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/products.svg";
 
-export class LSectionHtml {
-  static group = "Basic";
+export class LSectionStoreListing {
+  static group = "Products";
 
   static cover = coverImage;
-  static label = "Raw Html";
+  static label = "Products & categories list";
   static help = {
     title:
-      "This section allows you to insert raw HTML code and iframes, such as embedding YouTube videos.",
-    video: "/app/videos/page-builder/RawHtml.m4v",
+      "This section displays a list of products and categories similar to your primary shop listing page. You can apply filters to showcase specific categories or products.",
   };
 
   static Seed = () => {
@@ -36,9 +35,10 @@ export class LSectionHtml {
     // Initialize container and add to section
     const container = XContainerObject.Seed();
     section.addChild(container);
+    container.data.setFluid(true);
 
-    const code = XCodeObject.Seed();
-    container.addChild(code);
+    const products = XProductsObject.Seed();
+    container.addChild(products);
 
     return section;
   };

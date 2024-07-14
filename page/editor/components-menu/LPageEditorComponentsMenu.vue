@@ -13,35 +13,42 @@
   -->
 
 <template>
-
   <!-- ████████████████████ Toolbar ████████████████████ -->
 
-  <v-toolbar density="compact" color="#222" height="52" style="border-bottom: solid #111 thin">
+  <v-toolbar
+    density="compact"
+    color="#222"
+    height="52"
+    style="border-bottom: solid #111 thin"
+  >
     <v-toolbar-title style="font-size: 12px"><b>Sections</b></v-toolbar-title>
   </v-toolbar>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  List ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
   <div ref="menu" class="l--page-editor-components-menu">
-    <div class="-groups border-between-vertical mx-2" style="--border-color:#000">
+    <div
+      class="-groups border-between-vertical mx-2"
+      style="--border-color: #000"
+    >
       <div v-for="(group, name) in groups" :key="name" class="-group mb-2 pb-3">
         <div class="-group-header">
           {{ name }}
         </div>
         <v-row class="-group-body px-2" dense justify="space-around">
           <span
-            v-for="(section, index) in group"
+            v-for="(item, index) in group"
             :key="index"
-            :section-name="section.name"
+            v-attach:seed="
+              () => {
+                return { object: item.Seed(), label: item.label };
+              } /*Use in drop*/
+            "
             class="-item-element hover-scale-small"
             draggable="true"
-            @mouseenter="(e) => showMenu(e, section)"
+            @mouseenter="(e) => showMenu(e, item)"
             @mouseleave="hideMenu()"
           >
-            <img
-              v-if="section.cover"
-              :src="section.cover"
-              class="-item-image"
-            />
+            <img v-if="item.cover" :src="item.cover" class="-item-image" />
           </span>
         </v-row>
       </div>
@@ -92,23 +99,25 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import Sortable from "sortablejs";
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
-import { LUtilsMigration } from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
+import { DefaultSections } from "@selldone/page-builder/sections/DefaultSections.ts";
+import AttachDirective from "@selldone/page-builder/directives/AttachDirective.ts";
 
 export default defineComponent({
   name: "SLandingEditorComponentsMenu",
   emits: ["update:isDragged"],
+  directives: {
+    attach: AttachDirective,
+  },
   props: {
     builder: { type: Builder, required: true },
   },
   data() {
     return {
-      components: this.getComponents(),
-
       VideoHelper: VideoHelper,
 
       expanded: 0,
@@ -180,7 +189,7 @@ export default defineComponent({
       let group_no_category = [];
 
       // group sections together
-      this.components.forEach((section) => {
+      DefaultSections.List.forEach((section) => {
         let sectionGroup = section.group;
         if (!sectionGroup) {
           group_no_category.push(section);
@@ -198,27 +207,12 @@ export default defineComponent({
       }
       this.groups = groups;
     },
-
-    getComponents() {
-      return Object.entries(this.builder.components).map(([originalName, component]) => {
-        const name = LUtilsMigration.MigrateSectionName(originalName);
-        return {
-          name: name,
-          group: component.group,
-          cover: component.cover,
-          label: component.label,
-          help: component.help,
-          schema: component.$schema,
-        };
-      });
-    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .l--page-editor-components-menu {
-
   text-align: center;
   user-select: none;
 
@@ -227,10 +221,8 @@ export default defineComponent({
 
   color: #fff;
 
-
   .-group {
     .-group-body {
-
       .-item-element {
         position: relative;
         cursor: pointer;

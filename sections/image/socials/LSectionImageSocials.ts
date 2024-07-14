@@ -18,48 +18,62 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/social-4.svg";
 
-export const LSectionImageFeaturesSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionImageSocials {
+  static group = "Image & Text";
 
-  // Initialize container and add to section
-  const container = XContainerObject.Seed();
-  section.addChild(container);
+  static cover = coverImage;
+  static label = "Text, Image, Text";
+  static help = {
+    title:
+      "This section displays a large image accompanied by a title and description overlaying it.",
+  };
 
-  container.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
-  );
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  container.addChild(
-    XTextObject.Seed(
-      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-      "p",
-      [],
-    ),
-  );
+    // Initialize container and add to section
+    const container = XContainerObject.Seed();
+    section.addChild(container);
 
-  container.addChild(XButtonsObject.Seed());
+    container.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+    );
 
-  // Initialize row and add to container
-  const row = XRowObject.Seed();
-  container.addChild(row);
+    container.addChild(
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        [],
+      ),
+    );
 
-  for (let i = 1; i <= 3; i++) {
-    row.addChild(
-      XColumnImageTextObject.Seed(
+    container.addChild(XButtonsObject.Seed());
+
+    // Initialize row and add to container
+    const row = XRowObject.Seed();
+    container.addChild(row);
+
+    for (let i = 1; i <= 3; i++) {
+      const column = XColumnImageTextObject.Seed(
         12,
+        6,
         4,
-        3,
         null,
-        "x-layout-middle",
+        "x-layout-row",
         null,
         [],
         true,
-      ),
-    );
-  }
+      );
+      row.addChild(column);
 
-  return section;
-};
+      const image = column.getImageChild();
+      image?.data.setting.setAspect(1).setRound(true);
+    }
+
+    return section;
+  };
+}

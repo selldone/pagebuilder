@@ -26,7 +26,7 @@
         Feeder
         <v-spacer></v-spacer>
         <v-chip color="#fafafa" label size="x-small" title="Section Code"
-          >{{ section.name }}
+          >{{ section.label }}
         </v-chip>
       </v-card-title>
       <v-card-text>

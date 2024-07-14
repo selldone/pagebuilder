@@ -18,25 +18,37 @@ import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButto
 import {
   XGalleryExpandableObject
 } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/gallery-1.svg";
 
-export const LSectionGalleryExpandableSeed = () => {
-  // Initialize section
-  const section = XSectionObject.Seed();
-  section.classes = [];
+export class LSectionGalleryExpandable {
+  static group = "Gallery";
 
-  section.addChild(
-    XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
-  );
-  section.addChild(
-    XTextObject.Seed(
-      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
-      "p",
-      [],
-    ),
-  );
-  section.addChild(XButtonsObject.Seed());
+  static cover = coverImage;
+  static label = "Expandable Gallery";
+  static help = {
+    title:
+      "This section presents an image gallery featuring horizontally expandable slides.",
+  };
 
-  section.addChild(XGalleryExpandableObject.Seed());
+  static Seed = () => {
+    // Initialize section
+    const section = XSectionObject.Seed();
+    section.classes = [];
 
-  return section;
-};
+    section.addChild(
+      XTextObject.Seed("Enter your headline here...", "h2", ["mb-5"]),
+    );
+    section.addChild(
+      XTextObject.Seed(
+        "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+        "p",
+        [],
+      ),
+    );
+    section.addChild(XButtonsObject.Seed());
+
+    section.addChild(XGalleryExpandableObject.Seed());
+
+    return section;
+  };
+}
