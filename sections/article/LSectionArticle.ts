@@ -15,7 +15,7 @@
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/article.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionArticle.svg";
 
 export class LSectionArticle {
   static group = "Text";

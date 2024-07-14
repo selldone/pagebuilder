@@ -442,7 +442,8 @@
                         $builder.isEditing && section.object?.style?.marginTop
                       "
                       :class="{
-                        '--reverse': parseInt(section.object.style.marginTop) < 0,
+                        '--reverse':
+                          parseInt(section.object.style.marginTop) < 0,
                       }"
                       :margin="section.object.style.marginTop"
                       :style="{ '--margin': section.object.style.marginTop }"
@@ -452,7 +453,8 @@
                     ></div>
                     <div
                       v-if="
-                        $builder.isEditing && section.object?.style?.marginBottom
+                        $builder.isEditing &&
+                        section.object?.style?.marginBottom
                       "
                       :class="{
                         '--reverse':
@@ -665,64 +667,16 @@
             </div>
           </v-locale-provider>
         </div>
-
-        <!--  <s-landing-editor-components-menu
-            :components="components"
-            :is-visible="listShown && inEditMode"
-            :isScrollDown="scrollTop > 200"
-          ></s-landing-editor-components-menu>-->
       </div>
     </div>
-    <!-- ――――――――――――――――――――――  Dialog Master Page Style ―――――――――――――――――――― -->
-
-    <LSettingsPageStyle :builder="$builder"></LSettingsPageStyle>
-    <LSettingsPageTypography
-      :builder="$builder"
-      @change="$forceUpdate()"
-    ></LSettingsPageTypography>
-
-    <!-- ――――――――――――――――――――――  Dialog Master Style ―――――――――――――――――――― -->
-
-    <l-settings-class-style :builder="$builder"></l-settings-class-style>
-    <l-settings-background :builder="$builder"></l-settings-background>
-    <l-settings-product></l-settings-product>
-    <l-settings-products-filter></l-settings-products-filter>
-
-    <l-settings-animation></l-settings-animation>
-
-    <l-settings-color></l-settings-color>
-
-    <l-settings-blogs></l-settings-blogs>
-
-    <l-settings-link></l-settings-link>
-
-    <l-settings-frame></l-settings-frame>
-    <l-settings-input></l-settings-input>
-    <l-settings-form></l-settings-form>
-
-    <l-settings-swiper :builder="$builder"></l-settings-swiper>
-    <l-settings-column></l-settings-column>
-    <l-settings-marquee :builder="$builder"></l-settings-marquee>
-
-    <l-settings-gallery :builder="$builder"></l-settings-gallery>
-
-    <l-settings-code-editor :builder="$builder"></l-settings-code-editor>
-    <l-settings-code-properties
-      :builder="$builder"
-    ></l-settings-code-properties>
-
-    <!-- ――――――――――――――――――――――  Dialog Master Style Image ―――――――――――――――――――― -->
-
-    <l-settings-image-size></l-settings-image-size>
-    <l-settings-image-layers :builder="$builder"></l-settings-image-layers>
 
     <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
-    <l-page-editor-components-menu
+    <l-page-editor-repository
       v-if="inEditMode && !show_templates"
       :scale-down-mode="scale_down"
     >
-    </l-page-editor-components-menu>
+    </l-page-editor-repository>
 
     <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
     <l-feeder-dialog
@@ -732,107 +686,62 @@
       :section-component="selected_component"
     ></l-feeder-dialog>
 
-    <!-- ――――――――――――――――――――――  Hierarchy ―――――――――――――――――――― -->
+    <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
 
     <l-page-editor-side-menu
       v-if="!show_templates"
-      :builder="$builder"
       :is-visible="listShown && inEditMode"
       :is-scroll-down="scrollTop > 200"
     ></l-page-editor-side-menu>
+
+    <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
+    <l-settings></l-settings>
   </div>
 </template>
 
 <script>
 import Sortable from "sortablejs";
-import SStylerIcon from "../../styler/icon/SStylerIcon.vue";
 
 import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
-import LSettingsPageStyle from "../../settings/page/style/LSettingsPageStyle.vue";
-import LSettingsClassStyle from "../../settings/class-style/LSettingsClassStyle.vue";
-import LSettingsBlogs from "../../settings/blogs/LSettingsBlogs.vue";
-import LPageEditorComponentsMenu from "../../page/editor/elements-repository/LPageEditorElementsRepository.vue";
+import LPageEditorRepository from "@selldone/page-builder/page/editor/repository/LPageEditorRepository.vue";
 import LFeederDialog from "../../components/feeder/dialog/LFeederDialog.vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
-import LSettingsSwiper from "../../settings/swiper/LSettingsSwiper.vue";
-import LSettingsPageTypography from "../../settings/page/typography/LSettingsPageTypography.vue";
 import { LUtilsTypo } from "../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
-import LSettingsMarquee from "../../settings/marquee/LSettingsMarquee.vue";
 import PNoteDigest from "../../components/note/digest/PNoteDigest.vue";
 import LTemplatesList from "../../components/templates/list/LTemplatesList.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinNote } from "../../mixins/note/LMixinNote";
-import SLandingEditorComponentsMenu from "../../page/editor/components-menu/LPageEditorComponentsMenu.vue";
-import SLandingSectionSideBar from "../../components/section/side-bar/SLandingSectionSideBar.vue";
 import { LMixinHistory } from "../../mixins/history/LMixinHistory";
 import { defineComponent, provide } from "vue";
 import { LUtilsMigration } from "../../utils/migration/LUtilsMigration";
-import LSettingsProduct from "../../settings/product/LSettingsProduct.vue";
-import LSettingsBackground from "../../settings/background/LSettingsBackground.vue";
-import LSettingsProductsFilter from "../../settings/products-filter/LSettingsProductsFilter.vue";
-import LSettingsAnimation from "../../settings/animation/LSettingsAnimation.vue";
-import LSettingsColor from "../../settings/color/LSettingsColor.vue";
-import LSettingsImageSize from "../../settings/image/size/LSettingsImageSize.vue";
-import LSettingsImageLayers from "../../settings/image/layers/LSettingsImageLayers.vue";
-import LSettingsLink from "../../settings/link/LSettingsLink.vue";
-import LSettingsFrame from "../../settings/frame/LSettingsFrame.vue";
-import LSettingsInput from "../../settings/input/LSettingsInput.vue";
-import LSettingsColumn from "../../settings/column/LSettingsColumn.vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import LSettingsGallery from "../../settings/gallery/LSettingsGallery.vue";
 import Builder from "../../Builder.ts";
 import { LUtilsFont } from "../../utils/font/LUtilsFont";
-import LSettingsCodeEditor from "@selldone/page-builder/settings/code/editor/LSettingsCodeEditor.vue";
-import LSettingsCodeProperties from "@selldone/page-builder/settings/code/editor/LSettingsCodeProperties.vue";
 import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
-import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
-import LSettingsForm from "@selldone/page-builder/settings/form/LSettingsForm.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
+import LSettings from "@selldone/page-builder/settings/LSettings.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LSettings,
     XComponent,
-    LSettingsForm,
     LPageEditorSideMenu,
-    LSettingsHierarchy,
-    LSettingsCodeProperties,
-    LSettingsCodeEditor,
-    LSettingsGallery,
-    SLandingSectionSideBar,
-    SLandingEditorComponentsMenu,
+
     LTemplatesList,
     PNoteDigest,
-    LSettingsMarquee,
-    LSettingsPageTypography,
-    LSettingsColumn,
-    LSettingsSwiper,
-    LSettingsInput,
-    LSettingsFrame,
+
     UButtonAiSmall,
     LFeederDialog,
-    LPageEditorComponentsMenu,
-    LSettingsLink,
-    LSettingsBlogs,
-    LSettingsImageLayers,
-    LSettingsImageSize,
-    LSettingsColor,
-    LSettingsAnimation,
-    LSettingsProductsFilter,
-    LSettingsProduct,
-    LSettingsClassStyle,
-    LSettingsBackground,
-    LSettingsPageStyle,
-
-    SStylerIcon,
+    LPageEditorRepository,
   },
   emits: ["update:preview", "changeMode", "scale", "saved", "load:template"],
   props: {
@@ -1069,7 +978,6 @@ export default defineComponent({
     // sets the initial data.
     this.setPage(this.initialPageData, this.initialPageCss, false);
     this.setModelInBuilder();
-
   },
   mounted() {
     this.$builder.rootEl = this.$refs.artboard;
@@ -1095,12 +1003,12 @@ export default defineComponent({
 
       onAdd(evt) {
         const seed = evt.item.seed;
-        console.log('Drop seed',seed,'Event item',evt.item)
+        console.log("Drop seed", seed, "Event item", evt.item);
 
         if (seed) {
           _self.addSection(seed(), evt.newIndex);
-        }else{
-          console.error('Seed function is not attached!')
+        } else {
+          console.error("Seed function is not attached!");
         }
 
         evt.item.remove();
@@ -1526,7 +1434,7 @@ export default defineComponent({
     },
 
     loadRawTemplate(theme) {
-      console.log("Page buildr | Load raw template",theme);
+      console.log("Page buildr | Load raw template", theme);
       this.setPage(theme, null, true);
 
       this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
@@ -1587,7 +1495,7 @@ export default defineComponent({
       LandingCssHelper.Inject(css /*Custom Css*/, this.$refs.pagecontent);
 
       this.inEditMode = true;
-      this.$builder.setContent(content, from_theme);
+      this.$builder.setContent(content);
 
       this.loadNextDelayed();
 

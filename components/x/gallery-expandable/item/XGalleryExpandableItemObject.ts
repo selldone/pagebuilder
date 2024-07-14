@@ -15,15 +15,17 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {
-  XGalleryExpandableItemObjectData
+    XGalleryExpandableItemObjectData
 } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObjectData.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {
-  XColumnImageTextObjectTypes
+    XColumnImageTextObjectTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export class XGalleryExpandableItemObject extends LModelElement<XGalleryExpandableItemObjectData> {
+  public static ComponentName = "XGalleryExpandableItem";
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -33,7 +35,7 @@ export class XGalleryExpandableItemObject extends LModelElement<XGalleryExpandab
     props: any,
   ) {
     super(
-      "XGalleryExpandableItem",
+      XGalleryExpandableItemObject.ComponentName,
       background,
       style,
       classes,
@@ -129,6 +131,14 @@ export class XGalleryExpandableItemObject extends LModelElement<XGalleryExpandab
     );
 
     return out;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
+
+  public static JsonToInstance(
+    json: Record<string, any>,
+  ): XGalleryExpandableItemObject {
+    return this._JsonToInstance(json, XGalleryExpandableItemObjectData);
   }
 }
 

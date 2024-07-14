@@ -17,7 +17,7 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/section-1.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionTextTwoColumns.svg";
 
 export class LSectionTextTwoColumns {
   static group = "Text";

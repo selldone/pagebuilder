@@ -154,6 +154,7 @@ import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSi
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
+import {inject} from "vue";
 
 export default {
   name: "LSettingsMarquee",
@@ -172,7 +173,7 @@ export default {
   },
 
   props: {
-    builder: { type: Object, required: true },
+
   },
   data: () => ({
     tab: null,
@@ -188,7 +189,13 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {},
+  computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
+
+  },
   watch: {
     /*  target: {
         handler() {

@@ -16,7 +16,7 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XSwiperObjectDataTypes} from "@selldone/page-builder/components/x/swiper/XSwiperObjectData.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/slideshow.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionGallerySwiper.svg";
 
 export class LSectionGallerySwiper {
   static group = "Gallery";

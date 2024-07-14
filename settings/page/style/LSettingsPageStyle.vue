@@ -129,230 +129,226 @@
 
         <!-- ████████████████████ Colors Plate ████████████████████ -->
 
-        <s-setting-expandable icon="palette" title="Colors Plate"
+        <s-setting-expandable
+          icon="palette"
+          title="Colors Plate"
+          subtitle="Here, you have the option to personalize the color variables of the page."
+        >
+          <!-- Class: is-samin  -->
+          <s-setting-color
+            v-model="style.plate_light_1"
+            clearable
+            label="Light Color 1"
+            @change="$forceUpdate()"
+            class="border-start-white-thin"
+          ></s-setting-color>
 
+          <s-setting-color
+            v-model="style.plate_dark_1"
+            clearable
+            label="Dark Color 1"
+            @change="$forceUpdate()"
+            class="border-start-white-thin"
+          ></s-setting-color>
+          <hr />
 
-                              subtitle="Here, you have the option to personalize the color variables of the page.">
+          <!-- Class: is-red  -->
+          <s-setting-color
+            v-model="style.plate_light_2"
+            clearable
+            label="Light Color 2"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
+          <s-setting-color
+            v-model="style.plate_dark_2"
+            clearable
+            label="Dark Color 2"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
+          <!-- Class: is-black  -->
+          <s-setting-color
+            v-model="style.plate_light_3"
+            clearable
+            label="Light Color 3"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-samin  -->
-            <s-setting-color
-              v-model="style.plate_light_1"
-              clearable
-              label="Light Color 1"
-              @change="$forceUpdate()"
-              class="border-start-white-thin"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_3"
+            clearable
+            label="Dark Color 3"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_1"
-              clearable
-              label="Dark Color 1"
-              @change="$forceUpdate()"
-              class="border-start-white-thin"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-green  -->
+          <s-setting-color
+            v-model="style.plate_light_4"
+            clearable
+            label="Light Color 4"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-red  -->
-            <s-setting-color
-              v-model="style.plate_light_2"
-              clearable
-              label="Light Color 2"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_4"
+            clearable
+            label="Dark Color 4"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <s-setting-color
-              v-model="style.plate_dark_2"
-              clearable
-              label="Dark Color 2"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <hr />
 
-            <!-- Class: is-black  -->
-            <s-setting-color
-              v-model="style.plate_light_3"
-              clearable
-              label="Light Color 3"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <!-- Class: is-blue  -->
+          <s-setting-color
+            v-model="style.plate_light_5"
+            clearable
+            label="Light Color 5"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <s-setting-color
-              v-model="style.plate_dark_3"
-              clearable
-              label="Dark Color 3"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <s-setting-color
+            v-model="style.plate_dark_5"
+            clearable
+            label="Dark Color 5"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <!-- Class: is-green  -->
-            <s-setting-color
-              v-model="style.plate_light_4"
-              clearable
-              label="Light Color 4"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <!-- Class: is-white  -->
+          <s-setting-color
+            v-model="style.plate_light_6"
+            clearable
+            label="Light Color 6"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <s-setting-color
-              v-model="style.plate_dark_4"
-              clearable
-              label="Dark Color 4"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_6"
+            clearable
+            label="Dark Color 6"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <hr />
+          <!-- Class: is-deep-purple  -->
+          <s-setting-color
+            v-model="style.plate_light_7"
+            clearable
+            label="Light Color 7"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-blue  -->
-            <s-setting-color
-              v-model="style.plate_light_5"
-              clearable
-              label="Light Color 5"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_7"
+            clearable
+            label="Dark Color 7"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_5"
-              clearable
-              label="Dark Color 5"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-teal  -->
+          <s-setting-color
+            v-model="style.plate_light_8"
+            clearable
+            label="Light Color 8"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-white  -->
-            <s-setting-color
-              v-model="style.plate_light_6"
-              clearable
-              label="Light Color 6"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_8"
+            clearable
+            label="Dark Color 8"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_6"
-              clearable
-              label="Dark Color 6"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-cyan  -->
+          <s-setting-color
+            v-model="style.plate_light_9"
+            clearable
+            label="Light Color 9"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-deep-purple  -->
-            <s-setting-color
-              v-model="style.plate_light_7"
-              clearable
-              label="Light Color 7"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_9"
+            clearable
+            label="Dark Color 9"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_7"
-              clearable
-              label="Dark Color 7"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-amber -->
+          <s-setting-color
+            v-model="style.plate_light_10"
+            clearable
+            label="Light Color 10"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-teal  -->
-            <s-setting-color
-              v-model="style.plate_light_8"
-              clearable
-              label="Light Color 8"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_10"
+            clearable
+            label="Dark Color 10"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_8"
-              clearable
-              label="Dark Color 8"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-pink -->
+          <s-setting-color
+            v-model="style.plate_light_11"
+            clearable
+            label="Light Color 11"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-cyan  -->
-            <s-setting-color
-              v-model="style.plate_light_9"
-              clearable
-              label="Light Color 9"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
+          <s-setting-color
+            v-model="style.plate_dark_11"
+            clearable
+            label="Dark Color 11"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
+          <hr />
 
-            <s-setting-color
-              v-model="style.plate_dark_9"
-              clearable
-              label="Dark Color 9"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
+          <!-- Class: is-blue-grey -->
+          <s-setting-color
+            v-model="style.plate_light_12"
+            clearable
+            label="Light Color 12"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
 
-            <!-- Class: is-amber -->
-            <s-setting-color
-              v-model="style.plate_light_10"
-              clearable
-              label="Light Color 10"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-
-            <s-setting-color
-              v-model="style.plate_dark_10"
-              clearable
-              label="Dark Color 10"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
-
-            <!-- Class: is-pink -->
-            <s-setting-color
-              v-model="style.plate_light_11"
-              clearable
-              label="Light Color 11"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-
-            <s-setting-color
-              v-model="style.plate_dark_11"
-              clearable
-              label="Dark Color 11"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-            <hr />
-
-            <!-- Class: is-blue-grey -->
-            <s-setting-color
-              v-model="style.plate_light_12"
-              clearable
-              label="Light Color 12"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-
-            <s-setting-color
-              v-model="style.plate_dark_12"
-              clearable
-              label="Dark Color 12"
-              class="border-start-white-thin"
-              @change="$forceUpdate()"
-            ></s-setting-color>
-
-
+          <s-setting-color
+            v-model="style.plate_dark_12"
+            clearable
+            label="Dark Color 12"
+            class="border-start-white-thin"
+            @change="$forceUpdate()"
+          ></s-setting-color>
         </s-setting-expandable>
       </v-expansion-panels>
     </v-card>
@@ -360,12 +356,8 @@
 </template>
 
 <script>
-import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
-
-import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import LEventsName from "../../../mixins/events/name/LEventsName";
-import USmartSelect from "@selldone/components-vue/ui/smart/select/USmartSelect.vue";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
@@ -374,6 +366,7 @@ import SSettingColor from "../../../styler/settings/color/SSettingColor.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import { inject } from "vue";
 
 export default {
   name: "LSettingsPageStyle",
@@ -384,19 +377,11 @@ export default {
     SSettingToggle,
     SSettingGroup,
     SSettingColor,
-    USmartSelect,
-    USmartSwitch,
 
-    UColorSelector,
     BackgroundImageEditor,
   },
 
-  props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: {},
   data: () => ({
     tab: null,
     style: null,
@@ -409,6 +394,11 @@ export default {
   }),
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
+
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },

@@ -19,7 +19,7 @@ import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnO
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XLottieObject} from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/hero-lottie.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionHeroLottie.svg";
 
 export class LSectionHeroLottie {
   static group = "Hero";

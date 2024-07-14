@@ -14,7 +14,7 @@
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XMarqueeObject} from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/section-infinite-text.png";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionTextMarquee.png";
 
 export class LSectionTextMarquee {
   static group = "Text";

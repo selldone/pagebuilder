@@ -18,7 +18,7 @@ import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButto
 import {
   XGalleryExpandableObject
 } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/gallery-1.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionGalleryExpandable.svg";
 
 export class LSectionGalleryExpandable {
   static group = "Gallery";

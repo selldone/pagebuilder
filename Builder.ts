@@ -26,14 +26,12 @@ import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
-import {util} from "prismjs";
 
 const DEBUG = true;
 
 export namespace builder {
   export interface IOptions {
     mode: Mode;
-
 
     title: string;
     sections: Section[];
@@ -51,9 +49,6 @@ export namespace builder {
     server?: IServer;
     type?: ModelType;
     model?: IModel;
-
-    /** Ignore sections name to do not show in the list */
-    ignoreSections?: string[];
   }
 
   export interface IState {
@@ -208,7 +203,6 @@ export class Builder {
     LOG("⚽ 2. Start Install...");
 
     initializeXComponents(app);
-    //initializeSections(app, options.ignoreSections);
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
@@ -218,10 +212,11 @@ export class Builder {
    * Creates and adds a new section to the list of sections.
    * @param {*} options
    * @param position
+   * @param force_set_new_uid
    */
   add(
     options: Page.ISection,
-    position: number,
+    position: number | undefined | null,
     force_set_new_uid: boolean = false,
   ) {
     if (DEBUG)
@@ -233,52 +228,13 @@ export class Builder {
         force_set_new_uid,
       );
 
-    /* if (!this.components[options.name]) {
-           throw new Error(
-             `Component [<b>${options.name}</b>] not found! The section name is invalid! Maybe it's removed from the page builder.`,
-           );
-         }*/
-
-    /* if (!options.schema) {
-                               options.schema = this.components[options.name]?.$schema;
-                               if (DEBUG) console.log("Auto assign schema.", options);
-                             }*/
-
-    /* if (!options.schema) {
-                               // TODO:Remove this after migration!
-                               console.error(
-                                 "Schema not found for section! Maybe new version!",
-                                 options,
-                                 "position",
-                                 position,
-                               );
-                             }*/
-    /*
-            if (options.object instanceof LModelElement) {
-              console.log(
-                "🪵 Load object from instance. Object is instance of LModelElement...",
-                options.object,
-              );
-            } else {
-              options.object = LUtilsLoader.JsonObjectToInstance(options.object);
-              console.log(
-                "🪵 Convert json to object instance -> ",
-                options.object,
-                type(options.object),
-              );
-            }*/
-
+    //━━━━━━━━━━━━━━━ Create Section Instance ━━━━━━━━━━━━━━━
     const section = new Section(options, force_set_new_uid);
 
     if (DEBUG) console.log("📐 Add section", "section", section);
+    //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    //━━━━━━━━━━━━━━━ Apply init function ━━━━━━━━━━━━━━━
-    /*  if (has_initialize && options.schema?.$init) {
-                                options.schema?.$init(section.data);
-                              }*/
-    //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-    if (position !== undefined) {
+    if (position !== undefined && position !== null) {
       this.sections.splice(position, 0, section);
       return;
     }
@@ -313,17 +269,6 @@ export class Builder {
     const section = this.sections[oldIndex];
     this.sections.splice(oldIndex, 1);
     this.sections.splice(newIndex, 0, section);
-  }
-
-  /**
-   * Constructs a document fragment.
-   */
-  outputFragment() {
-    const frag = document.createDocumentFragment();
-    frag.appendChild(document.head.cloneNode(true));
-    frag.appendChild(this.rootEl.cloneNode(true));
-
-    return frag;
   }
 
   /**
@@ -409,7 +354,7 @@ export class Builder {
    * Load page content from a JSON object.
    * @param content
    */
-  setContent(content: Page.IContent, from_theme: boolean = false) {
+  setContent(content: Page.IContent) {
     LOG("⚽ Set -----> content", content);
 
     content = LUtilsMigration.MigratePageContent(content);
@@ -428,40 +373,7 @@ export class Builder {
     if (content.sections && Array.isArray(content.sections)) {
       this.sections = content.sections
         .map((_section) => {
-          //console.debug("Add section > ", section);
-          /*if (!this.components[section.name]) {
-                                                              console.error("Component not found", section.name);
-                                                              return null;
-                                                            }*/
-          /*   let object = null;
-             
-                       if (_section.object instanceof LModelElement) {
-                         console.log(
-                           "🪵 Load object from instance. Object is instance of LModelElement...",
-                           _section.object,
-                         );
-                         object = _section.object;
-                       } else {
-                         console.log(
-                           "🪵 Load object from json. Object is not instance of LModelElement!",
-                           _section.object,
-                           type(_section.object),
-                         );
-                         object = LUtilsLoader.JsonObjectToInstance(_section.object);
-                         console.log(
-                           "🪵 Convert json to object instance -> ",
-                           object,
-                           type(object),
-                         );
-                       }*/
-
-          const sectionData = {
-            label: _section.label,
-            uid: _section.uid,
-            object: _section.object, //🪵 New Version!
-          };
-
-          return new Section(sectionData);
+          return new Section(_section);
         })
         .filter((s) => !!s) as Section[];
     }
@@ -472,20 +384,6 @@ export class Builder {
    * Outputs a JSON representation of the builder that can be used for rendering with the renderer component.
    */
   export() {
-    // Pre save function call: (prepare some stuff in components if needed)
-    /*this.sections.forEach((item) => {
-      if (!item.object){
-        throw new Error(`Invalid section object! Section Name: ${item.label}`);
-      }
-     console.log('item.object',item.object)
-      if (item.object?.callBeforeSave) item.object?.callBeforeSave();
-    });*/
-
-    /*this.sections.forEach((section) => {
-                          // removeBRFromSectionData(section.data);
-                          Object.assign(section.data, section.removeBRFromSectionData()); // 🪱 Keep data link from component <-> v-styler <-> styler component
-                        });*/
-
     console.log("👢 CSS Style on save ", this.style);
 
     return {
@@ -541,37 +439,6 @@ export class Builder {
     return this.server.uploadVideoUrl(this.type, this.model!);
   }
 }
-
-
-
-/**
- * Adds a component section to the builder and arguments it with the styler.
- */
-
-/*function initializeSections(app: App, ignoreSections?: string[]) {
-  //console.log("🔧",  "Installing components...",SectionComponents);
-
-  SectionComponents.forEach((_component) => {
-    //console.log("🔧", _component, _component?.name, "Install");
-
-    if (ignoreSections?.includes(_component.name)) return;
-
-    if (_component) {
-      Components[_component.name] = _component;
-      app.component(_component.name, _component);
-    } else
-      console.error(
-        "🔧 A Section Component not fount in the source code of page builder! It's a build problem!,",
-      );
-  });
-
-  // reset to prevent duplications.
-  console.log(
-    "%c♻ Selldone plugins %c: Install ☀ ☄",
-    "color:#0288D1;font-weight: 800;",
-    "color:#333",
-  );
-}*/
 
 /**
  * Initialize especial components

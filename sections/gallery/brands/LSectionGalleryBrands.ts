@@ -19,7 +19,7 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/gallery-2.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionGalleryBrands.svg";
 
 export class LSectionGalleryBrands {
   static group = "Gallery";

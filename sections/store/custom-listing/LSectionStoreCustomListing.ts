@@ -16,7 +16,7 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XFeederProductsObject} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/products-list-custom.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LMigrationV2CustomListing.svg";
 
 export class LMigrationV2CustomListing {
   static group = "Products";

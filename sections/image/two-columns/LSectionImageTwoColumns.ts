@@ -20,7 +20,7 @@ import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnO
 import {
     XColumnImageTextDataTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/two-columns.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionImageTwoColumns.svg";
 
 export class LSectionImageTwoColumns {
   static group = "Image & Text";

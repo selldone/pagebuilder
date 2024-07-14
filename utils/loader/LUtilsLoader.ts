@@ -49,7 +49,13 @@ export class LUtilsLoader {
   ): LModelElement<any> | null {
     const clazz = this.ClassesList[json.component];
     if (!clazz) {
-      console.error("Class not found", this.ClassesList, json.component, json);
+      console.error(
+        "LUtilsLoader | JsonObjectToInstance | Class not found! Component:",
+        json.component,
+        "List:",
+        this.ClassesList,
+        json,
+      );
       return null;
     }
 

@@ -45,7 +45,7 @@
       animation="200"
       ghostClass="bg-primary"
     >
-      <template v-slot:item="{ element, index }">
+      <template v-slot:item="{ element }">
         <l-settings-hierarchy-item
           :object="element.object"
           :section="element"

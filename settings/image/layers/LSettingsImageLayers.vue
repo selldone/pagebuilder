@@ -125,6 +125,7 @@ import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import {inject} from "vue";
 
 /**
  * <l-settings-image-layers>
@@ -139,10 +140,7 @@ export default {
   },
 
   props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
+
   },
   data: () => ({
     el: null,
@@ -167,6 +165,10 @@ export default {
   }),
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },

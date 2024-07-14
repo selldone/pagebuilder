@@ -18,7 +18,7 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/social-2.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionImageIntro.svg";
 import {
   XColumnImageTextDataTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";

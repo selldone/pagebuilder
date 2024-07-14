@@ -18,7 +18,7 @@ import {XSwiperObjectDataTypes} from "@selldone/page-builder/components/x/swiper
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/scroll-view.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionGalleryScroll.svg";
 
 export class LSectionGalleryScroll {
   static group = "Gallery";

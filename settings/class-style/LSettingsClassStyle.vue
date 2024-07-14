@@ -306,6 +306,7 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtilsBackground";
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
 import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
+import {inject} from "vue";
 
 const STYLE_TABS = [
   "size",
@@ -342,7 +343,7 @@ export default {
   },
 
   props: {
-    builder: { type: Object, required: true },
+
   },
   data: () => ({
     el_style: null,
@@ -427,6 +428,11 @@ export default {
   }),
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
+
     global_variables() {
       return LUtilsColors.GenerateColorsStyle(this.builder.style);
     },

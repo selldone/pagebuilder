@@ -55,6 +55,9 @@
       </v-btn>
 
       <v-spacer></v-spacer>
+      <v-img v-if="object.data.src" :src="object.data.src" width="20" height="20" rounded="lg"  class="ms-1 flex-grow-0"></v-img>
+
+      <v-chip v-if="object.label" size="x-small"  class="ms-1 px-1" label density="comfortable">{{object.label}}</v-chip>
 
       <v-btn
         v-if="isSection"
@@ -80,7 +83,7 @@
             name: 'hierarchy-children' /*Make it possible to drag and drop element in other sections*/,
           }"
         >
-          <template v-slot:item="{ element, index }">
+          <template v-slot:item="{ element }">
             <l-settings-hierarchy-item :object="element" class="ms-2">
             </l-settings-hierarchy-item>
           </template>

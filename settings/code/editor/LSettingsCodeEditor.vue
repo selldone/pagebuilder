@@ -229,6 +229,7 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper";
+import {inject} from "vue";
 
 export default {
   name: "LSettingsCodeEditor",
@@ -240,10 +241,7 @@ export default {
   },
 
   props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
+
   },
   data: () => ({
     el: null,
@@ -272,6 +270,10 @@ export default {
   }),
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
     effect() {
       return this.target?.effect;
     },

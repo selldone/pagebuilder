@@ -93,6 +93,7 @@ import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
+import {inject} from "vue";
 
 export default {
   name: "LSettingsGallery",
@@ -107,10 +108,7 @@ export default {
   },
 
   props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
+
   },
   data() {
     return {
@@ -130,6 +128,10 @@ export default {
   },
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
     slides() {
       return this.target.children.filter(
         (c) => c instanceof XGalleryExpandableItemObject,

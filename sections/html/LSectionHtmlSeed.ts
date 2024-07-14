@@ -15,7 +15,7 @@
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/html.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionHtml.svg";
 
 export class LSectionHtml {
   static group = "Basic";

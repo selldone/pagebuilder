@@ -199,6 +199,7 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
+import {inject} from "vue";
 
 export default {
   name: "LSettingsPageTypography",
@@ -213,10 +214,7 @@ export default {
   },
   emits: ["change"],
   props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
+
   },
   data: () => ({
     PageBuilderTypoHelper: LUtilsTypo,
@@ -233,6 +231,13 @@ export default {
   }),
 
   computed: {
+
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
+
+
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },

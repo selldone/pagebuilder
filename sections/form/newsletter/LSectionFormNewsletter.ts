@@ -18,7 +18,7 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/newsletter.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionFormNewsletter.svg";
 
 export class LSectionFormNewsletter {
   static group = "Form";

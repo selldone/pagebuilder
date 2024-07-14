@@ -186,7 +186,7 @@ export default defineComponent({
 
     generateGroups() {
       let groups = {};
-      let group_no_category = [];
+      let group_no_category:any[] = [];
 
       // group sections together
       DefaultSections.List.forEach((section) => {

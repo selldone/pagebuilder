@@ -17,7 +17,7 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/blogs.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionBlogList.svg";
 
 export class LSectionBlogList {
   static group = "Blogs";

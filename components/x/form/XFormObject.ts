@@ -120,8 +120,7 @@ export class XFormObject extends LModelElement<XFormObjectData> {
   // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
 
   public static JsonToInstance(json: Record<string, any>): XFormObject {
-    const instance = this._JsonToInstance(json, XFormObjectData);
-    return instance;
+    return this._JsonToInstance(json, XFormObjectData);
   }
 }
 

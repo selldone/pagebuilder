@@ -21,7 +21,7 @@ import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column
 import {
     XColumnImageTextDataTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/social-3.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionImageFeatures.svg";
 
 export class LSectionImageFeatures {
   static group = "Image & Text";

@@ -78,8 +78,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import Builder from "@selldone/page-builder/Builder";
+import { defineComponent, inject } from "vue";
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 import SLandingEditorComponentsMenu from "@selldone/page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
 
@@ -88,8 +87,6 @@ export default defineComponent({
   components: { SLandingEditorComponentsMenu, LSettingsHierarchy },
 
   props: {
-    builder: { type: Builder, required: true },
-
     isVisible: Boolean,
     isScrollDown: Boolean,
   },
@@ -100,6 +97,11 @@ export default defineComponent({
   }),
 
   computed: {
+    builder() {
+      // Get builder from main page editor/viewer
+      return inject("$builder");
+    },
+
     width() {
       return this.$vuetify.display.xlAndUp
         ? 320

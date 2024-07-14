@@ -19,14 +19,15 @@
     :class="{ collapse: collapse }"
     class="r-con c-container -force-rounded p-2 fadeIn"
   >
-    <v-expand-transition >
+    <v-expand-transition>
       <div v-if="!collapse" class="-header">
-        Drag & Drop <div class="small">Pre-built sections</div>
+        Drag & Drop
+        <div class="small">Pre-built sections</div>
       </div>
     </v-expand-transition>
 
     <div
-      class="c-widget  pa-2 flex-grow-1 d-flex flex-column position-relative overflow-hidden"
+      class="c-widget pa-2 flex-grow-1 d-flex flex-column position-relative overflow-hidden"
     >
       <v-text-field
         v-model="search"
@@ -37,7 +38,7 @@
         placeholder="Search..."
         variant="solo"
         @click:append.stop="collapse = !collapse"
-        @focus="collapse=false"
+        @focus="collapse = false"
       ></v-text-field>
 
       <v-expand-transition leave-absolute>
@@ -58,17 +59,23 @@
                 cover
                 height="100%"
               >
-                <v-btn
+                <v-sheet
                   v-if="item.shop_id"
-                  class="absolute-top-end"
-                  icon
-                  size="small"
-                  title="Edit element"
-                  variant="flat"
-                  @click.stop="showEdit(item)"
+                  color="#eee"
+                  class="pa-1 absolute-top-end"
+                  rounded="circle"
                 >
-                  <v-icon>edit</v-icon>
-                </v-btn>
+                  <v-btn
+                    icon
+                    size="28"
+                    title="Edit element"
+                    variant="flat"
+                    elevation="3"
+                    @click.stop="showEdit(item)"
+                  >
+                    <v-icon size="16">edit</v-icon>
+                  </v-btn>
+                </v-sheet>
               </v-img>
               <div class="label single-line">
                 {{ item.title }}
@@ -232,7 +239,7 @@ import { EventBus } from "@selldone/core-js/events/EventBus";
 import { LUtilsFont } from "../../../utils/font/LUtilsFont";
 
 export default {
-  name: "LPageEditorComponentsMenu",
+  name: "LPageEditorRepository",
   mixins: [LMixinEvents],
 
   components: { SImageUploader },
@@ -505,7 +512,7 @@ export default {
   z-index: 1;
   transition: all 0.5s ease-in-out;
 
-  .-header{
+  .-header {
     text-shadow: #0c1818 2px 2px 8px;
     text-align: center;
     color: #fff;

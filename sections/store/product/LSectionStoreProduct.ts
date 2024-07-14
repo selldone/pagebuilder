@@ -14,7 +14,7 @@
 
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/product.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionStoreProduct.svg";
 
 export class LSectionStoreProduct {
   static group = "Products";

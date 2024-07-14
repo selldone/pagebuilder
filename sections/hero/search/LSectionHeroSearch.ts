@@ -18,7 +18,7 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XSearchObject} from "@selldone/page-builder/components/x/search/XSearchObject.ts";
-import coverImage from "@selldone/page-builder/assets/images/covers/hero-search.svg";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionHeroSearch.svg";
 
 export class LSectionHeroSearch {
   static group = "Hero";
