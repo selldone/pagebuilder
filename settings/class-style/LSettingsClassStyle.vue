@@ -284,7 +284,7 @@
 import ShadowCollection from "../../src/enums/ShadowCollection";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _, { isObject } from "lodash-es";
+import _, {isObject, trim} from "lodash-es";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
@@ -1012,6 +1012,7 @@ export default {
       const cur_classes = classes;
 
       // console.log(' Set classes', 'cur_classes',cur_classes)
+      this.in_classes= this.in_classes.map(c=>trim(c)).unique()
 
       const deletes = cur_classes.filter(
         (element) => !this.in_classes.includes(element),

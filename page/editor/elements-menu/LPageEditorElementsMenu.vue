@@ -102,6 +102,7 @@ export default defineComponent({
         },
         sort: false,
 
+
         onStart: function (/**Event*/ evt) {
           const item_seed = evt.item.getAttribute("data-seed");
           evt.item._dragData = item_seed; // Store data directly on the item
@@ -229,16 +230,5 @@ export default defineComponent({
   }
 }
 
-.sortable-ghost {
-  background-color: #0c91d3;
-  opacity: 0.9;
-  height: max-content;
-  box-shadow: 0 0 2px 1px #0c91d3;
 
-  .-item-image {
-    width: 100%;
-    height: auto;
-    background: #1976d2;
-  }
-}
 </style>

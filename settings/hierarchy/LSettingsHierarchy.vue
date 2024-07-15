@@ -33,7 +33,7 @@
         :title="lock_scroll ? 'Lock Scroll' : 'Scroll to Element'"
         min-width="32"
       >
-        <v-icon>{{ lock_scroll ? "lock" : "lock_open" }} </v-icon>
+        <v-icon>{{ lock_scroll ? "lock" : "lock_open" }}</v-icon>
       </v-btn>
 
       <v-btn
@@ -63,10 +63,49 @@
           class="mx-2"
           has-editable-title
           :lock-scroll="lock_scroll"
+          @right-click="
+            (val) => {
+              menu_selected_item = val;
+              menu = true;
+            }
+          "
         >
         </l-settings-hierarchy-item>
       </template>
     </draggable>
+    <v-menu
+      v-if="menu_selected_item"
+      v-model="menu"
+      :activator="menu_selected_item.activator"
+      :close-on-content-click="true"
+      location="end"
+      max-width="320"
+      width="90vw"
+    >
+      <v-card class="text-start">
+        <v-card-title class="text-subtitle-2 border-bottom">
+          <v-icon class="me-1">{{ menu_selected_item.icon }}</v-icon>
+          {{ menu_selected_item.title }}
+        </v-card-title>
+
+        <v-list density="compact">
+          <v-list-item
+            title="Classes & Style"
+            subtitle="Change element appearance."
+            prepend-icon="architecture"
+            @click="showMasterDesignDialog(menu_selected_item)"
+          >
+          </v-list-item>
+          <v-list-item
+            title="Delete Element"
+            subtitle="Remove element and all its children."
+            prepend-icon="close"
+            @click="deleteItem(menu_selected_item)"
+          >
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
   </div>
 </template>
 
@@ -75,10 +114,12 @@ import LSettingsHierarchyItem from "@selldone/page-builder/settings/hierarchy/it
 import Builder from "@selldone/page-builder/Builder";
 import draggable from "vuedraggable";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
+import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
+import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 
 export default {
   name: "LSettingsHierarchy",
-  mixins: [],
+  mixins: [LMixinEvents],
   components: { draggable, LSettingsHierarchyItem },
 
   props: {
@@ -87,6 +128,10 @@ export default {
   data: () => ({
     expanded: false,
     lock_scroll: false,
+
+    //---------------------
+    menu: false,
+    menu_selected_item: null,
   }),
 
   computed: {
@@ -110,7 +155,34 @@ export default {
   },
   beforeUnmount() {},
 
-  methods: {},
+  methods: {
+    showMasterDesignDialog({
+      object,
+    }: {
+      object: LModelElement;
+      section: Section;
+      parent: Section;
+    }) {
+      this.ShowLSettingsClassStyle(object.$element, object.$element, object);
+    },
+
+    deleteItem({
+      object,
+      section,
+      parent,
+    }: {
+      object: LModelElement;
+      section: Section;
+      parent: Section;
+    }) {
+      if (!parent) {
+        // In the root
+        this.builder.remove(section);
+      } else {
+        parent.removeChild(object);
+      }
+    },
+  },
 };
 </script>
 

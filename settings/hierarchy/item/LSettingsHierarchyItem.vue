@@ -18,7 +18,20 @@
     @mouseenter="onHoverIn"
     @mouseleave="onHoverOut"
   >
-    <div class="d-flex align-center single-line">
+    <div
+      class="d-flex align-center single-line"
+      @contextmenu.prevent="
+        (ev) =>
+          $emit('right-click', {
+            activator: ev.target,
+            parent: parent,
+            object: object,
+            section: section,
+            icon,
+            title,
+          })
+      "
+    >
       <div @click="expanded = !expanded" class="pp overflow-hidden">
         <v-icon
           v-if="object.children?.length"
@@ -99,9 +112,11 @@
         >
           <template v-slot:item="{ element }">
             <l-settings-hierarchy-item
+              :parent="object"
               :object="element"
               :lock-scroll="lockScroll"
               class="ms-2"
+              @right-click="(ev) => $emit('right-click', ev)"
             >
             </l-settings-hierarchy-item>
           </template>
@@ -140,6 +155,7 @@ import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLotti
 import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";
 import { XVideoBackgroundObject } from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObject.ts";
+import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 
 export default {
   name: "LSettingsHierarchyItem",
@@ -149,9 +165,10 @@ export default {
     draggable,
     LSettingsHierarchyItem: () => import("./LSettingsHierarchyItem.vue"),
   },
-  emits: ["hover-in", "hover-out"],
+  emits: ["hover-in", "hover-out", "right-click"],
   props: {
     object: { type: LModelElement, required: true },
+    parent: { type: LModelElement, required: false },
     hasEditableTitle: Boolean,
     section: {},
     lockScroll: Boolean,
@@ -216,7 +233,7 @@ export default {
 
   watch: {},
   created() {
-    this.debouncedScrollToElement = debounce(this.scrollToElement, 300, {
+    this.debouncedScrollToElement = debounce(this.scrollToElement, 500, {
       leading: true,
       trailing: true,
     });
@@ -265,11 +282,14 @@ export default {
     },
 
     scrollToElement() {
+
+      ScrollHelper.scrollToElement(this.object.$element, 0, "smooth",true);
+     /*
       this.object.$element.scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "center",
-      });
+      });*/
     },
 
     /**
