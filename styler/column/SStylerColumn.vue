@@ -160,6 +160,8 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import SStylerToolsDevices from "../../styler/tools/devices/SStylerToolsDevices.vue";
 import { isObject } from "lodash-es";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 /**
  * v-styler:column
@@ -177,7 +179,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XColumnObject || XColumnImageTextObject,
     },
 
     /**
@@ -245,15 +247,7 @@ export default {
     showMasterDesignDialog() {
       // Class and style is in the same level of grid!!! not it's child!
 
-      this.ShowLSettingsClassStyle(
-        this.el,
-        this.el,
-        this.target,
-        `style`,
-        `classes`,
-        "background",
-        "grid",
-      );
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
     },
 
     showStyleDialog() {

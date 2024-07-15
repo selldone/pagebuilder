@@ -19,6 +19,12 @@ import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 
 export class XColumnObject extends LModelElement<XColumnObjectData> {
   public static ComponentName = "XColumn";
+  public static Info = {
+    group:'Layout',
+    icon:'splitscreen',
+    title:'Column'
+  };
+
 
   constructor(
     background: LModelBackground | null,

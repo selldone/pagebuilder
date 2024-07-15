@@ -15,11 +15,14 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XContainerObjectData} from "@selldone/page-builder/components/x/container/XContainerObjectData.ts";
-import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
 
 export class XContainerObject extends LModelElement<XContainerObjectData> {
-  public static ComponentName="XContainer";
-
+  public static ComponentName = "XContainer";
+  public static Info = {
+    group:'Layout',
+    icon:'aspect_ratio',
+    title:'Container'
+  };
 
   constructor(
     background: LModelBackground | null,
@@ -30,12 +33,12 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
     props: any,
   ) {
     super(
-        XContainerObject.ComponentName,
+      XContainerObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data ? data : new XContainerObjectData({fluid:false}),
+      data ? data : new XContainerObjectData({ fluid: false }),
       props,
     );
   }
@@ -58,10 +61,10 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
    * @constructor
    */
   static MigrateOld(old: any): XContainerObject {
-    const data = new XContainerObjectData({fluid:false});
+    const data = new XContainerObjectData({ fluid: false });
 
-    if(old?.row?.fluid || old?.fluid){
-        data.setFluid(true);
+    if (old?.row?.fluid || old?.fluid) {
+      data.setFluid(true);
     }
 
     return new XContainerObject(null, null, null, [], data, null);
@@ -72,5 +75,4 @@ export class XContainerObject extends LModelElement<XContainerObjectData> {
   public static JsonToInstance(json: Record<string, any>): XContainerObject {
     return this._JsonToInstance(json, XContainerObjectData);
   }
-
 }

@@ -20,6 +20,11 @@ import {
 
 export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObjectData> {
   public static ComponentName = "XVideoBackground";
+  public static Info = {
+    group:'Video',
+    icon:'video_library',
+    title:'Video Background'
+  };
 
   constructor(
     background: LModelBackground | null,

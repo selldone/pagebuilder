@@ -18,6 +18,11 @@ import {XProductObjectData} from "@selldone/page-builder/components/x/product/XP
 
 export class XProductObject extends LModelElement<XProductObjectData> {
   public static ComponentName = "XProduct";
+  public static Info = {
+    group:'Store',
+    icon:'inventory',
+    title:'Product'
+  };
 
   constructor(
     background: LModelBackground | null,

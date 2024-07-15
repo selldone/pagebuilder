@@ -16,20 +16,25 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {XCollectionObject} from "@selldone/page-builder/components/x/collection/XCollectionObject.ts";
 import {
-    XColumnImageTextDataTypes,
-    XColumnImageTextObjectData,
+  XColumnImageTextDataTypes,
+  XColumnImageTextObjectData,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
-import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XProductObject} from "@selldone/page-builder/components/x/product/XProductObject.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
   public static ComponentName = "XColumnImageText";
+  public static Info = {
+    group:'Layout',
+    icon:'broken_image',
+    title:'Stylish Column'
+  };
+
 
   constructor(
     background: LModelBackground | null,
@@ -101,7 +106,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
 
     // Add initial children:
     instance.addChild(
-      XTextObject.Seed("Enter your title here...", "h2", null).setLabel(
+      XTextObject.Seed("Enter your title here...", "h3", null).setLabel(
         XColumnImageTextObjectTypes.LABELS.TITLE,
       ),
     );
@@ -126,24 +131,91 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
 
   // ━━━━━━━━━━━━━━━━━ Labeled Children ━━━━━━━━━━━━━━━━━
 
-  getImageChild(): XUploaderObject | null {
-    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.IMAGE);
+  getImageChild(force_seed: false): XUploaderObject | null {
+    let image = this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.IMAGE);
+    if (image || !force_seed) return image;
+
+    image = XUploaderObject.Seed().setLabel(
+      XColumnImageTextObjectTypes.LABELS.IMAGE,
+    );
+    this.addChild(image);
+
+    return image;
   }
 
-  getProductChild(): XProductObject | null {
-    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT);
+  getProductChild(force_seed: false): XProductObject | null {
+    let product = this.findChildByLabel(
+      XColumnImageTextObjectTypes.LABELS.PRODUCT,
+    );
+    if (product || !force_seed) return product;
+
+    product = XProductObject.Seed().setLabel(
+      XColumnImageTextObjectTypes.LABELS.PRODUCT,
+    );
+
+    this.addChild(product);
+
+    return product;
   }
 
-  getCollectionChild(): XCollectionObject | null {
-    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION);
+  getCollectionChild(force_seed: false): XRowObject | null {
+    let collection = this.findChildByLabel(
+      XColumnImageTextObjectTypes.LABELS.COLLECTION,
+    );
+
+    if (collection || !force_seed) return collection;
+
+    collection = XRowObject.Seed().setLabel(
+      XColumnImageTextObjectTypes.LABELS.COLLECTION,
+    );
+    this.addChild(collection);
+
+    for (let i = 0; i < 4; i++) {
+      const _column = XColumnObject.Seed(6, null, null, null);
+
+      _column.addChild(
+        XTextObject.Seed("Write your header here", "p", [
+          "text-subtitle-2",
+          "line-height-normal",
+        ]),
+      );
+      _column.addChild(XUploaderObject.Seed());
+
+      collection.addChild(_column);
+    }
+
+    return collection;
   }
 
-  getTitleChild(): XTextObject | null {
-    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.TITLE);
+  getTitleChild(force_seed: false): XTextObject | null {
+    let title = this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.TITLE);
+
+    if (title || !force_seed) return title;
+
+    title = XTextObject.Seed("Enter your title here...", "h3", null).setLabel(
+      XColumnImageTextObjectTypes.LABELS.TITLE,
+    );
+
+    this.addChild(title);
+
+    return title;
   }
 
-  getContentChild(): XTextObject | null {
-    return this.findChildByLabel(XColumnImageTextObjectTypes.LABELS.CONTENT);
+  getContentChild(force_seed: false): XTextObject | null {
+    let content = this.findChildByLabel(
+      XColumnImageTextObjectTypes.LABELS.CONTENT,
+    );
+
+    if (content || !force_seed) return content;
+
+    content = XTextObject.Seed(
+      "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
+      "p",
+    ).setLabel(XColumnImageTextObjectTypes.LABELS.CONTENT);
+
+    this.addChild(content);
+
+    return content;
   }
 
   getActionChild(): XTextObject | null {
@@ -178,37 +250,17 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     const column = new XColumnImageTextObject(
       new LModelBackground(old?.background),
       old?.style,
-      old?.classes,
+      null,
       [],
       data,
       null,
     );
 
     column.addChild(
-      XTextObject.MigrateOld(old.title, "h2", []).setLabel(
+      XTextObject.MigrateOld(old.title, "h3", []).setLabel(
         XColumnImageTextObjectTypes.LABELS.TITLE,
       ),
     );
-    column.addChild(
-      XTextObject.MigrateOld(old.content, "p", []).setLabel(
-        XColumnImageTextObjectTypes.LABELS.CONTENT,
-      ),
-    );
-
-    if (old.image)
-      column.addChild(
-        XUploaderObject.MigrateOld(old.image)!.setLabel(
-          XColumnImageTextObjectTypes.LABELS.IMAGE,
-        ),
-      );
-
-    if (old.button) {
-      column.addChild(
-        XButtonObject.MigrateOld(old.button)!.setLabel(
-          XColumnImageTextObjectTypes.LABELS.ACTION,
-        ),
-      );
-    }
 
     if (old.layout === "product") {
       column.addChild(
@@ -222,23 +274,49 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
         ).setLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT),
       );
     } else if (old.layout === "collection") {
-      const _children = old.columns.map((_column: any) => {
-        return {
-          column: XColumnObject.MigrateOld(_column),
-          title: XTextObject.MigrateOld(_column.title, "h3", []),
-          image: XUploaderObject.MigrateOld(_column.image),
-        };
+      // Add row:
+      const _row = XRowObject.MigrateOld(old);
+
+      //Add columns:
+      old.columns.forEach((_column_old: any) => {
+        const _column = XColumnObject.MigrateOld(_column_old);
+
+        _column.addChild(
+          XTextObject.MigrateOld(_column_old.title, "p", [
+            "text-subtitle-2",
+            "line-height-normal",
+          ]),
+        );
+        _column.addChild(XUploaderObject.MigrateOld(_column_old.image));
+
+        _row.addChild(_column);
       });
+
       column.addChild(
-        new XCollectionObject(
-          null,
-          null,
-          null,
-          null,
-          new XCollectionObjectData({ children: _children }),
-          null,
-        ).setLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION),
+        _row.setLabel(XColumnImageTextObjectTypes.LABELS.COLLECTION),
       );
+    } else {
+      column.addChild(
+        XTextObject.MigrateOld(old.content, "p", []).setLabel(
+          XColumnImageTextObjectTypes.LABELS.CONTENT,
+        ),
+      );
+
+      if (old.image)
+        column.addChild(
+          XUploaderObject.MigrateOld(old.image)!.setLabel(
+            XColumnImageTextObjectTypes.LABELS.IMAGE,
+          ),
+        );
+    }
+
+    if (old.button) {
+      const button = XButtonObject.MigrateOld(old.button)!.setLabel(
+        XColumnImageTextObjectTypes.LABELS.ACTION,
+      );
+
+      button.classes = ["ma-2"];
+      column.addChild(button);
     }
 
     return column;

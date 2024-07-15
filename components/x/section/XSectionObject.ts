@@ -18,6 +18,11 @@ import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XS
 
 export class XSectionObject extends LModelElement<XSectionObjectData> {
   public static ComponentName = "XSection";
+  public static Info = {
+    group:'Layout',
+    icon:'crop_din',
+    title:'Section'
+  };
 
   constructor(
     background: LModelBackground | null,

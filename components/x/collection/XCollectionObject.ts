@@ -14,18 +14,21 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XCollectionObjectData} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
-import {XCodeObjectData} from "@selldone/page-builder/components/x/code/XCodeObjectData.ts";
+import {
+  XCollectionDataTypes,
+  XCollectionObjectData,
+} from "@selldone/page-builder/components/x/collection/XCollectionObjectData.ts";
+import {XColumnObjectData} from "@selldone/page-builder/components/x/column/XColumnObjectData.ts";
+import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
+import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
+import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
 
+/**
+ * @deprecated
+ */
 export class XCollectionObject extends LModelElement<XCollectionObjectData> {
-  public static ComponentName="XCollection";
-
-
-  static Seed(): XCollectionObject {
-    const data = new XCollectionObjectData({});
-
-    return new XCollectionObject(null, null, null, null, data, null);
-  }
+  public static ComponentName = "XCollection";
 
   constructor(
     background: LModelBackground | null,
@@ -36,7 +39,7 @@ export class XCollectionObject extends LModelElement<XCollectionObjectData> {
     props: any,
   ) {
     super(
-        XCollectionObject.ComponentName,
+      XCollectionObject.ComponentName,
       background,
       style,
       classes,
@@ -46,10 +49,44 @@ export class XCollectionObject extends LModelElement<XCollectionObjectData> {
     );
   }
 
+  // ━━━━━━━━━━━━━━━━━ 🥪 Instance ━━━━━━━━━━━━━━━━━
+  static NewInstance() {
+    return new XCollectionObject(null, null, null, null, null, null);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🫘 Seed ━━━━━━━━━━━━━━━━━
+
+  static Seed(): XCollectionObject {
+    const instance = this.NewInstance();
+
+    const items: XCollectionDataTypes.IItem[] = [];
+
+    for (let i = 0; i < 4; i++) {
+      items.push({
+        column: new XColumnObjectData({
+          grid: new (LModelGrid({ mobile: 6 }))(),
+        }),
+        title: new XTextObjectData({ value: "Title", tag: "h3" }),
+        image: new XUploaderObjectData({ src: imagePlaceholder }),
+      });
+    }
+
+    instance.data.setItems(items);
+    return instance;
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
+  /**
+   * Migrate from V1 to V2
+   * @param old
+   * @constructor
+   */
+
+  static MigrateOld(old: any): XCollectionObject {}
+
   // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
 
   public static JsonToInstance(json: Record<string, any>): XCollectionObject {
     return this._JsonToInstance(json, XCollectionObjectData);
   }
-
 }

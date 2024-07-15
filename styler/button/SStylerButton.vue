@@ -614,9 +614,7 @@ export default {
         this.el,
         this.el,
         this.target,
-        `style`,
-        `classes`,
-        "background",
+
         null,
       );
     },

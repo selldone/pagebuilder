@@ -23,7 +23,6 @@ import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
 import XButton from "@selldone/page-builder/components/x/button/XButton.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import XLottie from "@selldone/page-builder/components/x/lottie/XLottie.vue";
 import XSearch from "@selldone/page-builder/components/x/search/XSearch.vue";
 import XMarquee from "@selldone/page-builder/components/x/marquee/XMarquee.vue";
@@ -45,7 +44,6 @@ import {LModelElementTypes} from "@selldone/page-builder/models/element/LModelEl
 import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
-import {XCollectionObject} from "@selldone/page-builder/components/x/collection/XCollectionObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
@@ -85,7 +83,7 @@ export class LUtilsComponents {
     XUploader,
     XButton,
     XProduct,
-    XCollection,
+    //XCollection,
     XLottie,
     XSearch,
     XMarquee,
@@ -109,7 +107,7 @@ export class LUtilsComponents {
     XButtonsObject,
 
     XCodeObject,
-    XCollectionObject,
+    // XCollectionObject,
     XColumnObject,
     XColumnImageTextObject,
     XContainerObject,

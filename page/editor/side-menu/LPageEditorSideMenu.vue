@@ -17,7 +17,7 @@
     color="#222"
     class="l--page-editor-side-menu no-inv overflow-hidden"
     :class="{
-      'is-visiable': isVisible,
+      'is-visible': isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': is_dragged,
       '-small': $vuetify.display.xs,
@@ -25,6 +25,21 @@
     :width="!tab ? 58 : width"
   >
     <div class="l-buttons">
+
+      <v-btn
+          variant="text"
+          min-width="46"
+          min-height="46"
+          rounded="lg"
+          class="ma-1"
+          @click="toggle('navigation')"
+      >
+        <v-icon> account_tree</v-icon>
+        <v-tooltip activator="parent">
+          {{ $t("page_builder.design.tools.hierarchy") }}
+        </v-tooltip>
+      </v-btn>
+
       <v-btn
         variant="text"
         min-width="46"
@@ -38,32 +53,21 @@
       </v-btn>
 
       <v-btn
-        variant="text"
-        min-width="46"
-        min-height="46"
-        rounded="lg"
-        class="ma-1"
-        @click="toggle('navigation')"
+          variant="text"
+          min-width="46"
+          min-height="46"
+          rounded="lg"
+          class="ma-1"
+          @click="toggle('elements')"
       >
-        <v-icon> account_tree</v-icon>
-        <v-tooltip activator="parent">
-          {{ $t("page_builder.design.tools.hierarchy") }}
-        </v-tooltip>
+        <v-icon>yard</v-icon>
+        <v-tooltip activator="parent"> Elements</v-tooltip>
       </v-btn>
     </div>
 
     <div class="l-window overflow-auto thin-scroll">
       <v-tabs-window :model-value="tab">
-        <v-tabs-window-item
-          value="sections"
-          eager
-          :style="{ width: min_width_window + 'px' }"
-        >
-          <s-landing-editor-components-menu
-            :builder="builder"
-            @update:is-dragged="(val) => (is_dragged = val)"
-          ></s-landing-editor-components-menu>
-        </v-tabs-window-item>
+
 
         <v-tabs-window-item
           value="navigation"
@@ -72,6 +76,28 @@
         >
           <l-settings-hierarchy :builder="builder"></l-settings-hierarchy>
         </v-tabs-window-item>
+
+        <v-tabs-window-item
+            value="sections"
+            eager
+            :style="{ width: min_width_window + 'px' }"
+        >
+          <l-page-editor-components-menu
+              :builder="builder"
+              @update:is-dragged="(val) => (is_dragged = val)"
+          ></l-page-editor-components-menu>
+        </v-tabs-window-item>
+        <v-tabs-window-item
+            value="elements"
+            eager
+            :style="{ width: min_width_window + 'px' }"
+        >
+          <LPageEditorElementsMenu
+              :builder="builder"
+              @update:is-dragged="(val) => (is_dragged = val)"
+          ></LPageEditorElementsMenu>
+        </v-tabs-window-item>
+
       </v-tabs-window>
     </div>
   </v-sheet>
@@ -80,11 +106,12 @@
 <script>
 import { defineComponent, inject } from "vue";
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
-import SLandingEditorComponentsMenu from "@selldone/page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
+import LPageEditorComponentsMenu from "@selldone/page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
+import LPageEditorElementsMenu from "@selldone/page-builder/page/editor/elements-menu/LPageEditorElementsMenu.vue";
 
 export default defineComponent({
   name: "LPageEditorSideMenu",
-  components: { SLandingEditorComponentsMenu, LSettingsHierarchy },
+  components: { LPageEditorComponentsMenu, LSettingsHierarchy ,LPageEditorElementsMenu},
 
   props: {
     isVisible: Boolean,
@@ -152,7 +179,7 @@ export default defineComponent({
   opacity: 0;
   transform: translateX(-200px);
 
-  &.is-visiable {
+  &.is-visible {
     opacity: 1;
     transform: translateX(0);
   }

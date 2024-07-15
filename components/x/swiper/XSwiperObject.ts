@@ -25,7 +25,11 @@ import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSea
 export class XSwiperObject extends LModelElement<XSwiperObjectData> {
 
   public static ComponentName="XSwiper";
-
+  public static Info = {
+    group:'Layout',
+    icon:'web_stories',
+    title:'Swiper'
+  };
 
   constructor(
     background: LModelBackground | null,

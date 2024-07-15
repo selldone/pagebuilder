@@ -20,7 +20,11 @@ import {XContainerObjectData} from "@selldone/page-builder/components/x/containe
 export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
 
   public static ComponentName="XFeederBlogs";
-
+  public static Info = {
+    group:'Feeder',
+    icon:'description',
+    title:'Blogs'
+  };
 
   constructor(
     background: LModelBackground | null,

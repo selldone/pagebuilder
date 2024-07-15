@@ -495,26 +495,8 @@ export default {
       required: true,
       type: Object,
     },
-    /*
-    keyText: {
-      type: String,
-      default: "value",
-    },*/
 
-    keyClasses: {
-      type: String,
-      default: "classes",
-    },
 
-    keyStyle: {
-      type: String,
-      default: "style",
-    },
-
-    keyBackground: {
-      type: String,
-      default: "background",
-    },
 
     /**
      * Set the location of the proper
@@ -649,10 +631,6 @@ export default {
         this.el,
         this.el,
         this.target,
-        this.keyStyle,
-        this.keyClasses,
-        this.keyBackground,
-        null,
         { tags: ["p", "h1", "h2", "h3", "h4", "h5"] },
       );
     },

@@ -145,7 +145,6 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keySetting: null, // setting
     updateCallback: null,
 
     src: null,
@@ -192,13 +191,12 @@ export default {
     EventBus.$on(
       "show:LSettingsImageLayers",
 
-      ({ el, target, keySetting, src, updateCallback }) => {
+      ({ el, target, src, updateCallback }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keySetting = keySetting;
         this.updateCallback = updateCallback;
 
         this.src = src; // Used in Preview
@@ -243,11 +241,11 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.bg = this.target[this.keySetting].bg
-        ? Object.assign({}, this.target[this.keySetting].bg)
+      this.bg = this.target.setting.bg
+        ? Object.assign({}, this.target.setting.bg)
         : {};
-      this.fg = this.target[this.keySetting].fg
-        ? Object.assign({}, this.target[this.keySetting].fg)
+      this.fg = this.target.setting.fg
+        ? Object.assign({}, this.target.setting.fg)
         : {};
 
       this.dialog_pre = false;
@@ -266,12 +264,12 @@ export default {
     setLayers() {
       if (!this.dialog_layers || this.LOCK) return;
 
-      this.target[this.keySetting].bg = this.bg;
-      this.target[this.keySetting].fg = this.fg;
+      this.target.setting.bg = this.bg;
+      this.target.setting.fg = this.fg;
 
       if (this.updateCallback) this.updateCallback(); // Force update component!
 
-      console.log("🔧 Set layers", this.target[this.keySetting]);
+      console.log("🔧 Set layers", this.target.setting);
     },
   },
 };

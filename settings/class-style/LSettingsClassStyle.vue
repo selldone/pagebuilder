@@ -349,10 +349,6 @@ export default {
     el_style: null,
     el_class: null,
     target: null,
-    keyStyle: null, // style
-    keyClass: null, // classes
-    keyBackground: null, // background
-    //keyGrid: null, // grid
     options: {},
 
     // ---------------------------------
@@ -702,9 +698,6 @@ export default {
         el_style,
         el_class,
         target,
-        keyStyle,
-        keyClass,
-        keyBackground,
         options,
       }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
@@ -715,9 +708,7 @@ export default {
         this.el_class = el_class;
 
         this.target = target;
-        this.keyStyle = keyStyle;
-        this.keyClass = keyClass;
-        this.keyBackground = keyBackground;
+
 
         this.options = options;
 
@@ -765,7 +756,7 @@ export default {
       // Add wait:
       await this.$nextTick();
 
-      this.background = this.target[this.keyBackground];
+      this.background = this.target.background;
       if (
         !this.background ||
         !isObject(this.background) ||
@@ -775,12 +766,12 @@ export default {
 
       //  this.Selected_tab = this.has_size ? STYLE_TABS[0] : STYLE_TABS[1];
 
-      let classes = this.target[this.keyClass];
+      let classes = this.target.classes;
       if (!classes) classes = [];
       this.in_classes = classes.unique();
 
       //console.log(' this.in_classes', this.in_classes,this.el_class.className)
-      let style = this.target[this.keyStyle];
+      let style = this.target.style;
       if (!style || Array.isArray(style)) style = {};
 
       this.in_width = this.el_style.style.width;
@@ -992,7 +983,7 @@ export default {
       safeSetStyle("textTransform", this.in_typeface_textTransform);
       safeSetStyle("textShadow", this.shadow_text_gen);
 
-      let style = this.target[this.keyStyle];
+      let style = this.target.style;
       if (!style || Array.isArray(style)) style = {};
 
       // Keep other style values and filter!
@@ -1011,12 +1002,12 @@ export default {
 
       //  style = Object.assign(style, filtered_style);
 
-      this.target[this.keyStyle] = style; // Save data in section!
+      this.target.style = style; // Save data in section!
 
       // ━━━━━━━━━━━━━━━ 🌸 Class ━━━━━━━━━━━━━━━
       // Save Custom Classes
       // Set classes:
-      let classes = this.target[this.keyClass];
+      let classes = this.target.classes;
       if (!classes) classes = [];
       const cur_classes = classes;
 
@@ -1034,7 +1025,7 @@ export default {
       this.el_class.classList.remove(...deletes);
       this.el_class.classList.add(...adds);
 
-      this.target[this.keyClass] = this.in_classes; // Save data in section!
+      this.target.classes = this.in_classes; // Save data in section!
 
       // ━━━━━━━━━━━━━━━ 🌼 Background ━━━━━━━━━━━━━━━
       const background = this.background;
@@ -1058,7 +1049,7 @@ export default {
           this.el_style.style[key] = bg_style[key];
         });
       }
-      this.target[this.keyBackground] = background; // Save data in section!
+      this.target.background = background; // Save data in section!
     },
   },
 };

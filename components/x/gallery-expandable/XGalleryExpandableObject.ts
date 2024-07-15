@@ -23,6 +23,11 @@ import {
 
 export class XGalleryExpandableObject extends LModelElement<XGalleryExpandableObjectData> {
   public static ComponentName = "XGalleryExpandable";
+  public static Info = {
+    group:'Image',
+    icon:'collections',
+    title:'Expandable Gallery'
+  };
 
   constructor(
     background: LModelBackground | null,

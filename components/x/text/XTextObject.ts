@@ -19,7 +19,11 @@ import {isString} from "lodash-es";
 
 export class XTextObject extends LModelElement<XTextObjectData> {
   public static ComponentName = "XText";
-
+  public static Info = {
+    group:'Text',
+    icon:'title',
+    title:'Text'
+  };
   constructor(
     background: LModelBackground | null,
     style: any,

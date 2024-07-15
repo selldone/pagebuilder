@@ -169,4 +169,5 @@ $outline-width: 4px;
 // Highlight an element when editing dialog open:
 .element-focus-editing {
   outline: #1e1e1e 16px double !important;
+  z-index: 99;
 }

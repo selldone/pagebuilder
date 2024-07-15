@@ -22,7 +22,11 @@ import {
 export class XProductsObject extends LModelElement<XProductsObjectData> {
 
   public static ComponentName="XProducts";
-
+  public static Info = {
+    group:'Store',
+    icon:'shelves',
+    title:'Products'
+  };
 
   constructor(
     background: LModelBackground | null,

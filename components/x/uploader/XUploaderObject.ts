@@ -14,17 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {
-  XUploaderDataTypes,
-  XUploaderObjectData,
-} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import {XUploaderObjectData,} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
-import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 
 export class XUploaderObject extends LModelElement<XUploaderObjectData> {
-
-  public static ComponentName="XUploader";
-
+  public static ComponentName = "XUploader";
+  public static Info = {
+    group:'Image',
+    icon:'wallpaper',
+    title:'Image'
+  };
 
   constructor(
     background: LModelBackground | null,
@@ -35,14 +34,12 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     props: any,
   ) {
     super(
-        XUploaderObject.ComponentName,
+      XUploaderObject.ComponentName,
       background,
       style,
       classes,
       children,
-      data
-        ? data
-        : new XUploaderObjectData({}),
+      data ? data : new XUploaderObjectData({}),
       props,
     );
   }
@@ -63,7 +60,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
    */
 
   static Seed(
-    aspect: number|null = 1,
+    aspect: number | null = 1,
     contain: boolean = false,
     round: boolean = false,
     initialClasses: string[] = ["ma-auto"],
@@ -71,7 +68,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     const instance = XUploaderObject.NewInstance();
     instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
     instance.classes = initialClasses;
-    instance.data.setSrc(imagePlaceholder)
+    instance.data.setSrc(imagePlaceholder);
 
     return instance;
   }
@@ -87,8 +84,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     if (!old) return null;
     const data = new XUploaderObjectData(old);
 
-
-    const out= new XUploaderObject(
+    const out = new XUploaderObject(
       new LModelBackground(old?.background),
       old?.style,
       old?.classes,
@@ -106,5 +102,4 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
   public static JsonToInstance(json: Record<string, any>): XUploaderObject {
     return this._JsonToInstance(json, XUploaderObjectData);
   }
-
 }

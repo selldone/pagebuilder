@@ -45,8 +45,8 @@
           class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3 rounded-lg"
         >
           <v-img
-            :aspect-ratio="target[keySize].aspect"
-            :cover="!target[keySize].contain"
+            :aspect-ratio="setting.aspect"
+            :cover="!setting.contain"
             :height="h"
             :max-height="max_h"
             :max-width="max_w"
@@ -96,7 +96,6 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keySize: null, // size
     updateCallback: null,
 
     src: null,
@@ -120,7 +119,11 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {},
+  computed: {
+    setting(){
+      return this.target.data.setting
+    }
+  },
   watch: {
     w() {
       this.setSizeDebounced();
@@ -152,14 +155,13 @@ export default {
     EventBus.$on(
       "show:LSettingsImageSize",
 
-      ({ el, target, keySize, src, updateCallback }) => {
+      ({ el, target, src, updateCallback }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
 
         this.el = el;
         this.target = target;
-        this.keySize = keySize;
         this.updateCallback = updateCallback;
 
         this.src = src; // Used in Preview
@@ -213,7 +215,7 @@ export default {
       });
     },
     assignSizes() {
-      let size = this.target[this.keySize];
+      let size = this.setting.size
       if (!this.isObject(size)) {
         size = {};
       } else {
@@ -229,7 +231,7 @@ export default {
     },
 
     toggleSizeMode() {
-      this.target[this.keySize] = {
+      this.setting.size = {
         w: "100%",
         h: "100%",
         min_h: "100%",
@@ -263,7 +265,7 @@ export default {
       };
       // console.log("setSize", new_size);
 
-      this.target[this.keySize] = new_size; // Save data in section!
+      this.setting.size = new_size; // Save data in section!
 
       if (this.updateCallback) this.updateCallback(); // Force update component!
 

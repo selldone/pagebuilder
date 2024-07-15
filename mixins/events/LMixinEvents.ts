@@ -20,6 +20,9 @@ import {StylerOptions} from "../../styler/StylerDirective";
 import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.ts";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export const LMixinEvents = defineComponent({
   data() {
@@ -60,9 +63,6 @@ export const LMixinEvents = defineComponent({
       el_style: HTMLElement,
       el_class: HTMLElement,
       target: Object,
-      keyStyle: string,
-      keyClass: string,
-      keyBackground: string,
       options = {},
     ) {
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
@@ -70,9 +70,6 @@ export const LMixinEvents = defineComponent({
         el_style,
         el_class,
         target,
-        keyStyle,
-        keyClass,
-        keyBackground,
         options,
       });
     },
@@ -104,10 +101,7 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsBackground(
-      el: HTMLElement,
-      target: LModelElement<any>,
-    ) {
+    ShowLSettingsBackground(el: HTMLElement, target: LModelElement<any>) {
       EventBus.$emit("show:LSettingsBackground", {
         el,
         target,
@@ -138,11 +132,15 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsInput(el: HTMLElement, target: Object,options:{no_name:boolean}|null=null) {
+    ShowLSettingsInput(
+      el: HTMLElement,
+      target: Object,
+      options: { no_name: boolean } | null = null,
+    ) {
       EventBus.$emit("show:LSettingsInput", {
         el,
         target,
-        options
+        options,
       });
     },
 
@@ -153,14 +151,21 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-    ShowLSettingsSwiper(el: HTMLElement, section: Section, target: XFormObject) {
+    ShowLSettingsSwiper(
+      el: HTMLElement,
+      section: Section,
+      target: XFormObject,
+    ) {
       EventBus.$emit("show:LSettingsSwiper", {
         el,
         section,
         target,
       });
     },
-    ShowLSettingsColumn(el: HTMLElement, target: Object) {
+    ShowLSettingsColumn(
+      el: HTMLElement,
+      target: XColumnObject | XColumnImageTextObject,
+    ) {
       EventBus.$emit("show:LSettingsColumn", {
         el,
         target,
@@ -169,30 +174,26 @@ export const LMixinEvents = defineComponent({
 
     ShowLSettingsImageSize(
       el: HTMLElement,
-      target: Object,
-      keySize: string,
+      target: XUploaderObject,
       src: string | null,
       updateCallback: () => void,
     ) {
       EventBus.$emit("show:LSettingsImageSize", {
         el,
         target,
-        keySize,
         src,
         updateCallback,
       });
     },
     ShowLSettingsImageLayers(
       el: HTMLElement,
-      target: Object,
-      keySetting: string,
+      target: XUploaderObject,
       src: string | null,
       updateCallback: () => void,
     ) {
       EventBus.$emit("show:LSettingsImageLayers", {
         el,
         target,
-        keySetting,
         src,
         updateCallback,
       });

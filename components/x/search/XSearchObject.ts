@@ -21,6 +21,11 @@ import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObject
 export class XSearchObject extends LModelElement<XSearchObjectData> {
 
   public static ComponentName="XSearch";
+  public static Info = {
+    group:'Store',
+    icon:'search',
+    title:'Search'
+  };
 
 
   // Custom elements [Permanent]

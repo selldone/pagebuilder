@@ -461,7 +461,7 @@ export const LMixinStyler = defineComponent({
         function IsValidJsonSectionString(str: any) {
           try {
             const json = JSON.parse(str);
-            return json.name && json.data && Object.keys(json.data).length > 0;
+            return !!json?.object ;
           } catch (e) {}
           return false;
         }

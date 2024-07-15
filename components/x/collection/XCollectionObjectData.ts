@@ -17,23 +17,30 @@ import {XTextObjectData} from "@selldone/page-builder/components/x/text/XTextObj
 import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
+/**
+ * @deprecated
+ */
 export class XCollectionObjectData extends LModelData<XCollectionObjectData> {
-  children: XCollectionDataTypes.IChildren[];
+  items: XCollectionDataTypes.IItem[];
 
-  constructor(params: {
-    children?: XCollectionDataTypes.IChildren[]
-  }) {
+  constructor(params: { items?: XCollectionDataTypes.IItem[] }) {
     super(); // Calling the constructor of the base class
 
-    // Use the logical OR operator to provide a default empty array if children is not provided
-    this.children = params.children ?? [];
+    // Use the logical OR operator to provide a default empty array if items is not provided
+    this.items = params.items ?? [];
+  }
+
+  // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
+  public setItems(items: XCollectionDataTypes.IItem[]) {
+    this.items = items;
+    return this;
   }
 }
 
 // ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 
 export namespace XCollectionDataTypes {
-  export interface IChildren {
+  export interface IItem {
     column: XColumnObjectData;
     title: XTextObjectData;
     image: XUploaderObjectData;

@@ -19,6 +19,9 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import coverImage from "@selldone/page-builder/assets/images/covers/LSectionImageSocials.svg";
+import {
+  XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export class LSectionImageSocials {
   static group = "Image & Text";
@@ -63,7 +66,7 @@ export class LSectionImageSocials {
         6,
         4,
         null,
-        "x-layout-row",
+        XColumnImageTextDataTypes.LAYOUTS.ROW,
         null,
         [],
         true,
@@ -71,7 +74,7 @@ export class LSectionImageSocials {
       row.addChild(column);
 
       const image = column.getImageChild();
-      image?.data.setting.setAspect(1).setRound(true);
+      image?.data.setting.setAspect(1).setRound(true).setSize({h:'120px',w:'120px'});
     }
 
     return section;

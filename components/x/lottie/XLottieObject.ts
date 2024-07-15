@@ -19,6 +19,11 @@ import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/X
 
 export class XLottieObject extends LModelElement<XLottieObjectData> {
   public static ComponentName = "XLottie";
+  public static Info = {
+    group:'Animation',
+    icon:'theaters',
+    title:'Lottie'
+  };
 
   constructor(
     background: LModelBackground | null,

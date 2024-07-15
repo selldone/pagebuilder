@@ -20,6 +20,11 @@ import {isObject} from "lodash-es";
 
 export class XInputTextObject extends LModelElement<XInputTextObjectData> {
   public static ComponentName = "XInputText";
+  public static Info = {
+    group:'Form',
+    icon:'input',
+    title:'Input'
+  };
 
   // Custom elements [Permanent]
   public button: XButtonObject | null = null;

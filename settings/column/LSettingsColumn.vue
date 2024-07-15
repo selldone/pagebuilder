@@ -264,11 +264,12 @@ export default {
     has_button(has) {
       if (has) {
         if (!this.button) {
-          this.target.addChild(
-            XButtonObject.Seed().setLabel(
-              XColumnImageTextObjectTypes.LABELS.ACTION,
-            ),
+          const button = XButtonObject.Seed().setLabel(
+            XColumnImageTextObjectTypes.LABELS.ACTION,
           );
+          button.classes = ["ma-2"];
+
+          this.target.addChild(button);
         }
       } else {
         this.target.removeChild(this.button);

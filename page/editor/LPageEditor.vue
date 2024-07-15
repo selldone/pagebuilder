@@ -53,88 +53,16 @@
         <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
         <v-slide-x-reverse-transition leave-absolute>
-          <div
+          <l-page-editor-artboard-view-mode
             v-if="
               !$builder.isAnimation &&
               !$builder.isTracking &&
               ($vuetify.display.xlAndUp || scale_down)
             "
-            :class="{
-              '-scale-down': scale_down,
-              '-small': $vuetify.display.xs,
-            }"
-            class="side-menu zoomIn"
+            :fullscreen="!scale_down"
+            v-model:render-mode="render_mode"
           >
-            <b>View</b>
-            <v-btn
-              :color="!render_mode ? 'amber' : undefined"
-              icon
-              variant="text"
-              @click="render_mode = null"
-            >
-              <v-icon>burst_mode</v-icon>
-            </v-btn>
-            <v-btn
-              :color="render_mode === 'simple' ? 'amber' : undefined"
-              icon
-              variant="text"
-              @click="render_mode = 'simple'"
-            >
-              <v-icon>apps</v-icon>
-            </v-btn>
-            <v-btn
-              :color="render_mode === 'wire' ? 'amber' : undefined"
-              icon
-              variant="text"
-              @click="render_mode = 'wire'"
-            >
-              <v-icon>grid_on</v-icon>
-            </v-btn>
-
-            <v-expand-transition>
-              <div v-if="render_mode === 'wire'" class="d-flex flex-column">
-                <hr />
-                <v-btn
-                  :color="show_classes ? '#512DA8' : undefined"
-                  class="mb-3"
-                  icon
-                  variant="text"
-                  @click="
-                    show_classes = !show_classes;
-                    show_styles = false;
-                  "
-                >
-                  <v-icon>architecture</v-icon>
-                  <v-tooltip
-                    content-class="bg-deep-purple-accent-3"
-                    activator="parent"
-                    location="right"
-                    :open-delay="500"
-                    >Show Classes
-                  </v-tooltip>
-                </v-btn>
-                <v-btn
-                  :color="show_styles ? '#512DA8' : undefined"
-                  class="mb-3"
-                  icon
-                  variant="text"
-                  @click="
-                    show_styles = !show_styles;
-                    show_classes = false;
-                  "
-                >
-                  <v-icon>format_paint</v-icon>
-                  <v-tooltip
-                    content-class="bg-deep-purple-accent-3"
-                    activator="parent"
-                    location="right"
-                    :open-delay="500"
-                    >Show Style
-                  </v-tooltip>
-                </v-btn>
-              </div>
-            </v-expand-transition>
-          </div>
+          </l-page-editor-artboard-view-mode>
         </v-slide-x-reverse-transition>
 
         <div
@@ -343,95 +271,12 @@
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <div
-                      :class="{
-                        '-single': !aiAutoFillFunction && !has_note,
-                        '-double':
-                          (!aiAutoFillFunction && has_note) ||
-                          (aiAutoFillFunction && !has_note),
-                        '-triple': aiAutoFillFunction && has_note,
-                      }"
-                      class="x-feeder"
-                      dir="ltr"
-                    >
-                      <v-btn
-                        class="x-feeder-btn hover-scale-small force-top ml-6"
-                        color="#000"
-                        icon
-                        size="x-large"
-                        variant="flat"
-                        @click="showFeeder(section)"
-                      >
-                        <v-icon size="36">donut_large</v-icon>
-                        <v-tooltip
-                          activator="parent"
-                          content-class="bg-black text-start"
-                          location="bottom"
-                          :open-delay="500"
-                        >
-                          <b>Feed</b><br />
-                          Simple edit section contents.
-                        </v-tooltip>
-                      </v-btn>
-
-                      <u-button-ai-small
-                        v-if="aiAutoFillFunction"
-                        :loading="loading_ai.includes(section)"
-                        class="x-feeder-btn hover-scale-small force-top ml-6"
-                        icon
-                        tooltip="<b>AI</b><br>Auto generate contents."
-                        tooltip-location="bottom"
-                        x-large
-                        :open-delay="500"
-                        @click="autoComplete(section)"
-                      >
-                      </u-button-ai-small>
-
-                      <v-badge
-                        v-if="has_note"
-                        :content="
-                          numeralFormat(
-                            notes?.filter((n) => n.element_id === section.uid)
-                              ?.length,
-                            '0a',
-                          )
-                        "
-                        :model-value="
-                          notes?.filter((n) => n.element_id === section.uid)
-                            ?.length > 0
-                        "
-                        color="#000"
-                      >
-                        <v-btn
-                          :color="
-                            notes?.filter((n) => n.element_id === section.uid)
-                              ?.length
-                              ? 'amber'
-                              : '#000'
-                          "
-                          class="x-feeder-btn hover-scale-small force-top"
-                          icon
-                          size="x-large"
-                          variant="flat"
-                          @click="showWriteNote(section)"
-                        >
-                          <v-icon size="36">sticky_note_2</v-icon>
-                          <v-tooltip
-                            activator="parent"
-                            content-class="bg-black"
-                            location="bottom"
-                            :open-delay="500"
-                          >
-                            <b>Message</b> ({{
-                              notes?.filter((n) => n.element_id === section.uid)
-                                ?.length
-                            }})<br />
-
-                            Write a reminder note or message to your agency.
-                          </v-tooltip>
-                        </v-btn>
-                      </v-badge>
-                    </div>
+                    <l-page-editor-artboard-side-extended
+                      :hasNote="has_note"
+                      :aiAutoFillFunction="aiAutoFillFunction"
+                      @click:note="showWriteNote(section)"
+                      @click:feeder="showFeeder(section)"
+                    ></l-page-editor-artboard-side-extended>
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
                     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
@@ -512,7 +357,6 @@ import Sortable from "sortablejs";
 import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
 import LPageEditorRepository from "@selldone/page-builder/page/editor/repository/LPageEditorRepository.vue";
 import LFeederDialog from "../../components/feeder/dialog/LFeederDialog.vue";
-import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LUtilsTypo } from "../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import PNoteDigest from "../../components/note/digest/PNoteDigest.vue";
@@ -535,12 +379,17 @@ import XComponent from "@selldone/page-builder/components/x/component/XComponent
 import LSettings from "@selldone/page-builder/settings/LSettings.vue";
 import SLandingSectionSideBar from "@selldone/page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
 import LPageEditorArtboardTopBar from "@selldone/page-builder/page/editor/artboard/top-bar/LPageEditorArtboardTopBar.vue";
+import LPageEditorArtboardSideExtended from "@selldone/page-builder/page/editor/artboard/side-extended/LPageEditorArtboardSideExtended.vue";
+import LPageEditorArtboardViewMode from "@selldone/page-builder/page/editor/artboard/view-mode/LPageEditorArtboardViewMode.vue";
+import { LUtilsLoader } from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinNote, LMixinEvents, LMixinHistory],
   components: {
+    LPageEditorArtboardViewMode,
+    LPageEditorArtboardSideExtended,
     LPageEditorArtboardTopBar,
     SLandingSectionSideBar,
     LSettings,
@@ -550,7 +399,6 @@ export default defineComponent({
     LTemplatesList,
     PNoteDigest,
 
-    UButtonAiSmall,
     LFeederDialog,
     LPageEditorRepository,
   },
@@ -815,18 +663,27 @@ export default defineComponent({
       filter: ".ignore-elements",
 
       onAdd(evt) {
-        const seed = evt.item.seed;
-        console.log("Drop seed", seed, "Event item", evt.item);
+        try {
+          const seed = evt.item._dragData;
+         // console.log("Drop seed", seed, "Event item", evt.item);
 
-        if (seed) {
-          _self.addSection(seed(), evt.newIndex);
-        } else {
-          console.error("Seed function is not attached!");
+          if (seed) {
+            const json=JSON.parse(seed);
+            const object = LUtilsLoader.JsonObjectToInstance(
+                json  .object
+            );
+const instance={object:object,label:json.label}
+            _self.addSection(instance, evt.newIndex);
+          } else {
+            console.error("Seed data is not attached!");
+          }
+
+          evt.item.remove();
+
+          //console.log("sortable : onAdd");
+        } catch (e) {
+          console.error("Error onAdd Section", e);
         }
-
-        evt.item.remove();
-
-        //console.log("sortable : onAdd");
       },
       onUpdate(evt) {
         _self.$builder.sort(evt.oldIndex, evt.newIndex);
@@ -1049,7 +906,7 @@ export default defineComponent({
         function IsValidJsonSectionString(str) {
           try {
             let json = JSON.parse(str);
-            return json.name && json.data && Object.keys(json.data).length > 0;
+            return !!json?.object;
           } catch (e) {}
           return false;
         }
@@ -1395,7 +1252,7 @@ export default defineComponent({
         try {
           const json = JSON.parse(text);
 
-          if (json && json.name && json.data) {
+          if (json?.object /*V2*/ || json?.data /*V1*/) {
             event.preventDefault();
             // console.log("added!");
             this.$builder.add(json, index + 1, true);
@@ -1440,24 +1297,6 @@ export default defineComponent({
       this.selected_section = section;
       this.selected_component = this.$refs[`SECTION_${section.uid}`][0]; // v-for return refs in array!
       this.dialog_feeder = true;
-    },
-
-    autoComplete(section) {
-      const promise = this.aiAutoFillFunction(section);
-      if (!promise) return;
-
-      // console.log("section -> ", section);
-      this.loading_ai.push(section);
-
-      promise
-        .then((generated) => {
-          console.log("🆎 AI created content.", section, generated);
-          Object.assign(section.data, generated);
-        })
-        .finally(() => {})
-        .finally(() => {
-          this.loading_ai.remove(section);
-        });
     },
 
     showWriteNote(section) {
@@ -1665,90 +1504,6 @@ p {
     text-align: center;
     font-size: 30px;
     color: $dark;
-  }
-}
-
-.menu {
-  user-select: none;
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  margin: 0;
-  width: 250px;
-  background: $white;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  list-style: none;
-  transition: 0.4s;
-  box-shadow: 1px 0 10px rgba($dark, 20%);
-  transform: translate3d(-100%, 0, 0);
-
-  &.is-visiable {
-    transform: translate3d(0, 0, 0);
-  }
-
-  &-body {
-    display: none;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    .menu-group & {
-      width: 90%;
-      margin: 10px auto;
-    }
-
-    .menu-group.is-visiable & {
-      display: block;
-    }
-  }
-
-  &-icon {
-    width: 24px;
-    height: 24px;
-    fill: $gray;
-    transition: 0.2s;
-
-    .menu-group.is-visiable & {
-      transform: rotate(180deg);
-    }
-  }
-
-  &-element {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 50px;
-    border-radius: 5px;
-    background: #fafafa;
-    transition: 0.3s;
-    cursor: pointer;
-    color: $white;
-    overflow: hidden;
-    user-select: none;
-
-    &:not(:last-child) {
-      margin-bottom: 10px;
-    }
-  }
-
-  &-elementImage {
-    max-width: 100%;
-    pointer-events: none;
-  }
-
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 5px;
-    border-bottom: 1px solid rgba($black, 5%);
   }
 }
 
@@ -2385,38 +2140,6 @@ label {
       }
 
       // End section
-    }
-  }
-}
-
-.side-menu {
-  position: absolute;
-  right: -80px;
-  top: 140px;
-  background: #7577fa;
-  display: flex;
-  flex-direction: column;
-  border-radius: 6px;
-  padding: 4px;
-  text-align: center;
-  transition: all ease-in-out 0.25s;
-  transition-delay: 0s;
-  font-size: 10px;
-  color: #fff;
-
-  &.-scale-down {
-    right: calc(25% - 64px);
-    transition-delay: 0.1s;
-    transition-duration: 0.5s;
-  }
-
-  &.-small {
-    font-size: 8px;
-    right: calc(25% - 48px);
-    top: 100px;
-
-    .v-btn {
-      --v-btn-height: 20px;
     }
   }
 }

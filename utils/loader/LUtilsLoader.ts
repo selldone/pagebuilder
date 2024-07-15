@@ -40,13 +40,13 @@ export class LUtilsLoader {
   }
 
   /**
-   * Convert json value of a LModelElement to an instance of the class
-   * @param json
-   * @constructor
+   * Converts a JSON object back to an instance of LModelElement.
+   * @param {object} json - The JSON object to convert.
+   * @returns {LModelElement<T>} The instance of LModelElement.
    */
-  static JsonObjectToInstance(
+  static JsonObjectToInstance<T>(
     json: Record<string, any>,
-  ): LModelElement<any> | null {
+  ): LModelElement<T> | null {
     const clazz = this.ClassesList[json.component];
     if (!clazz) {
       console.error(

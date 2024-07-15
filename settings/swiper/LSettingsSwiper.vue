@@ -161,6 +161,7 @@ import LSettingsSwiperSlide from "@selldone/page-builder/settings/swiper/slide/L
 import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 import {inject} from "vue";
+import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 
 export default {
   name: "LSettingsSwiper",
@@ -295,7 +296,7 @@ export default {
     addSlide() {
       const slide = this.target.children[0];
 
-      this.target.addChild(slide ? slide.clone() : XSwiperObject.SeedSlide());
+      this.target.addChild(slide ? LUtilsClone.CloneElement(slide): XSwiperObject.SeedSlide());
       //this.refresh();
     },
 

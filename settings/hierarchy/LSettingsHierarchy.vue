@@ -28,9 +28,20 @@
       <v-spacer></v-spacer>
       <v-btn
         size="small"
+        @click="lock_scroll = !lock_scroll"
+        variant="text"
+        :title="lock_scroll ? 'Lock Scroll' : 'Scroll to Element'"
+        min-width="32"
+      >
+        <v-icon>{{ lock_scroll ? "lock" : "lock_open" }} </v-icon>
+      </v-btn>
+
+      <v-btn
+        size="small"
         @click="expanded = !expanded"
         variant="text"
         :title="expanded ? 'Collapse All' : 'Expand All'"
+        min-width="32"
       >
         <v-icon
           >{{ expanded ? "unfold_more_double" : "unfold_less_double" }}
@@ -51,6 +62,7 @@
           :section="element"
           class="mx-2"
           has-editable-title
+          :lock-scroll="lock_scroll"
         >
         </l-settings-hierarchy-item>
       </template>
@@ -74,6 +86,7 @@ export default {
   },
   data: () => ({
     expanded: false,
+    lock_scroll: false,
   }),
 
   computed: {

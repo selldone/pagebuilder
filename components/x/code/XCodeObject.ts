@@ -18,6 +18,13 @@ import {XCodeObjectData, XCodeObjectDataTypes,} from "@selldone/page-builder/com
 
 export class XCodeObject extends LModelElement<XCodeObjectData> {
   public static ComponentName = "XCode";
+  public static Info = {
+    group:'Raw',
+    icon:'code',
+    title:'Code'
+  };
+
+
 
   constructor(
     background: LModelBackground | null,

@@ -20,9 +20,10 @@
         initial-type="h3"
         :initial-classes="['mb-2']"
       ></x-text>-->
+    {{object.data.items}}
     <x-row
       :column-structure="ItemType"
-      :object="object"
+      :object="object.data.row"
       add-column
       has-arrangement
       ><!-- Only addable can remove col-->
@@ -71,7 +72,9 @@ import { XCollectionObject } from "@selldone/page-builder/components/x/collectio
 const XText = defineAsyncComponent(
   () => import("@selldone/page-builder/components/x/text/XText.vue"),
 );
-
+/**
+ * @deprecated
+ */
 export default {
   name: "XCollection",
   directives: { styler: StylerDirective },

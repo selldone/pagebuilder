@@ -27,13 +27,9 @@
 </template>
 
 <script>
-import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import XUploader from "../../../components/x/uploader/XUploader.vue";
-import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import { isObject } from "lodash-es";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
@@ -42,7 +38,7 @@ export default defineComponent({
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XCollection, XProduct, XUploader, XButton },
+  components: {},
   emits: ["update:object"],
   props: {
     // Fixed:

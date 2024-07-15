@@ -20,6 +20,11 @@ import {
 
 export class XProductOverviewObject extends LModelElement<XProductOverviewObjectData> {
   public static ComponentName = "XProductOverview";
+  public static Info = {
+    group:'Store',
+    icon:'ramen_dining',
+    title:'Product Overview'
+  };
 
   constructor(
     background: LModelBackground | null,

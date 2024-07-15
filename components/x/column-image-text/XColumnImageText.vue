@@ -32,19 +32,16 @@
     </template>
 
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
-    <x-collection
-      v-else-if="layout === 'collection' && collection"
-      :object="collection"
-      :augment="augment"
-    >
-    </x-collection>
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Custom ━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  <x-custom
-         v-else-if="layout === 'custom'"
-         :object="object"
-         :augment="augment"
-     >
-     </x-custom>-->
+    <template v-else-if="layout === 'collection' && collection">
+      <x-component
+        v-for="(child, index) in other_children_collection_layout"
+        :object="child"
+        :augment="augment"
+        :remove-child="() => object.children.splice(index, 1)"
+      >
+      </x-component>
+    </template>
+
     <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
 
     <div v-else :class="layout_class" class="position-relative">
@@ -102,7 +99,7 @@
 
         <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
         <x-component
-          v-for="(child, index) in other_children"
+          v-for="(child, index) in other_children_normal_layouts"
           :object="child"
           :augment="augment"
           :remove-child="() => object.children.splice(index, 1)"
@@ -110,6 +107,7 @@
         </x-component>
       </div>
     </div>
+
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <div
       v-if="button"
@@ -122,35 +120,25 @@
         :augment="augment"
         :object="button"
         :editing="SHOW_EDIT_TOOLS"
-        class="m-2"
       >
       </x-button>
     </div>
   </x-column>
 </template>
 
-<script>
+<script lang="ts">
 import XButton from "../../../components/x/button/XButton.vue";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
-import { defineAsyncComponent, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
-//import XCollection from "@selldone/page-builder/components/x/collection/XCollection.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
 import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
-import {
-  XColumnImageTextObject,
-  XColumnImageTextObjectTypes,
-} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
-
-// Asynchronously load components
-const XCollection = defineAsyncComponent(
-  () =>
-    import("@selldone/page-builder/components/x/collection/XCollection.vue"),
-);
+import { XColumnImageTextObject } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
+import { XColumnImageTextDataTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export default defineComponent({
   name: "XColumnImageText",
@@ -161,7 +149,6 @@ export default defineComponent({
     XComponent,
     XColumn,
     XText,
-    XCollection,
     XProduct,
     XUploader,
     XButton,
@@ -186,12 +173,11 @@ export default defineComponent({
   },
   data: () => ({
     standard_classes: LUtilsClasses.StandardClasses(),
-
   }),
 
   computed: {
-    layout(){
-      return this.object.data.layout
+    layout() {
+      return this.object.data.layout;
     },
     layout_class() {
       return this.layout ? this.layout : "x-layout-normal";
@@ -215,11 +201,11 @@ export default defineComponent({
       return this.object.getCollectionChild();
     },
 
-    button(){
-      return this.object.getActionChild()
+    button() {
+      return this.object.getActionChild();
     },
 
-    other_children() {
+    other_children_normal_layouts() {
       return this.object.children?.filter(
         (c) =>
           c !== this.title &&
@@ -227,14 +213,81 @@ export default defineComponent({
           c !== this.image &&
           c !== this.product &&
           c !== this.collection &&
-          c !== this.button
-
-          ,
+          c !== this.button,
       );
+    },
+
+    other_children_collection_layout() {
+      return this.object.children?.filter((c) => c !== this.button);
     },
   },
   watch: {
+    layout() {
+      // Auto config layout:
+      if (this.layout === XColumnImageTextDataTypes.LAYOUTS.PRODUCT) {
+        this.object.getTitleChild(true);
+        this.object.getProductChild(true);
+        this.object.removeChild(this.content);
+        this.object.removeChild(this.collection);
+        this.object.removeChild(this.image);
+      } else if (this.layout === XColumnImageTextDataTypes.LAYOUTS.COLLECTION) {
+        this.object.getTitleChild(true);
+        this.object.getCollectionChild(true);
+        this.object.removeChild(this.content);
+        this.object.removeChild(this.product);
+        this.object.removeChild(this.image);
+      }
 
+      if (
+        [
+          XColumnImageTextDataTypes.LAYOUTS.NORMAL,
+
+          XColumnImageTextDataTypes.LAYOUTS.REVERSE,
+          XColumnImageTextDataTypes.LAYOUTS.ROW,
+          XColumnImageTextDataTypes.LAYOUTS.ROW_REVERSE,
+          XColumnImageTextDataTypes.LAYOUTS.MIDDLE,
+        ].includes(this.layout)
+      ) {
+        this.object.getImageChild(true);
+        this.object.getTitleChild(true);
+        this.object.getContentChild(true);
+        this.object.removeChild(this.collection);
+        this.object.removeChild(this.product);
+      }
+
+      if (
+        [
+          XColumnImageTextDataTypes.LAYOUTS.OVERLAY_TOP,
+          XColumnImageTextDataTypes.LAYOUTS.OVERLAY_CENTER,
+          XColumnImageTextDataTypes.LAYOUTS.OVERLAY_BOTTOM,
+        ].includes(this.layout)
+      ) {
+        this.object.getImageChild(true);
+        this.object.getTitleChild(true);
+
+        this.object.removeChild(this.content);
+        this.object.removeChild(this.collection);
+        this.object.removeChild(this.product);
+      }
+
+      if ([XColumnImageTextDataTypes.LAYOUTS.IMAGE].includes(this.layout)) {
+        this.object.getImageChild(true);
+      }
+
+      if (
+        [
+          XColumnImageTextDataTypes.LAYOUTS.TITLE_CENTER,
+          XColumnImageTextDataTypes.LAYOUTS.CONTENT_TITLE,
+        ].includes(this.layout)
+      ) {
+        this.object.getTitleChild(true);
+        this.object.getContentChild(true);
+
+        this.object.removeChild(this.image);
+        this.object.removeChild(this.collection);
+        this.object.removeChild(this.product);
+      }
+    },
   },
   created() {
     if (!this.object.data.layout) {

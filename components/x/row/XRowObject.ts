@@ -18,7 +18,11 @@ import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObject
 
 export class XRowObject extends LModelElement<XRowObjectData> {
   public static ComponentName = "XRow";
-
+  public static Info = {
+    group:'Layout',
+    icon:'calendar_view_week',
+    title:'Row'
+  };
   constructor(
     background: LModelBackground | null,
     style: any,

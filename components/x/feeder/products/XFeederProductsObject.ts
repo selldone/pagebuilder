@@ -22,6 +22,11 @@ import CategoryFramesSample from "@selldone/page-builder/sections/store/custom-l
 
 export class XFeederProductsObject extends LModelElement<XFeederProductsObjectData> {
   public static ComponentName = "XFeederProducts";
+  public static Info = {
+    group:'Feeder',
+    icon:'shelves',
+    title:'Products'
+  };
 
   constructor(
     background: LModelBackground | null,

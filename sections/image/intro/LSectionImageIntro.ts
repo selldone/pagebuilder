@@ -27,7 +27,7 @@ export class LSectionImageIntro {
   static group = "Image & Text";
 
   static cover = coverImage;
-  static label = "Text, Image, Text";
+  static label = "Intro Image";
   static help = {
     title:
       "This section displays a large image accompanied by a title and description overlaying it.",

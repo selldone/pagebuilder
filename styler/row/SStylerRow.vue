@@ -153,6 +153,7 @@ import { XColumnObject } from "@selldone/page-builder/components/x/column/XColum
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject";
+import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 
 export default {
   name: "SStylerRow",
@@ -259,7 +260,7 @@ export default {
           child,
         );
 
-        this.target.addChild(child.clone());
+        this.target.addChild(LUtilsClone.CloneElement(child));
       }
     },
 

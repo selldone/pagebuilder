@@ -18,7 +18,11 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 export class XDivObject extends LModelElement<null> {
 
   public static ComponentName="XDive";
-
+  public static Info = {
+    group:'Layout',
+    icon:'wysiwyg',
+    title:'Div'
+  };
 
   constructor(
     background: LModelBackground | null,

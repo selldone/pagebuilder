@@ -751,10 +751,6 @@ export default defineComponent({
         this.$refs.i_image,
 
         this.object,
-        "style",
-        "classes",
-        "background",
-        null,
         {
           /*noSize: true,*/ prev_image: this.object.data.src,
           exclude: ["typeface", "grid"],
@@ -767,7 +763,6 @@ export default defineComponent({
       this.ShowLSettingsImageLayers(
         this.$refs.i_image,
         this.object,
-        "setting",
         this.src,
         () => {
           this.forceUpdate();
@@ -779,8 +774,7 @@ export default defineComponent({
     showResize() {
       this.ShowLSettingsImageSize(
         this.$refs.i_image,
-        this.object.setting,
-        "size",
+        this.object,
         this.src,
         () => {
           this.$nextTick(() => {

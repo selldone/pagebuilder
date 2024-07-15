@@ -18,14 +18,14 @@
     @mouseenter="onHoverIn"
     @mouseleave="onHoverOut"
   >
-    <div class="d-flex align-center">
-      <span @click="expanded = !expanded" class="pp">
+    <div class="d-flex align-center single-line">
+      <div @click="expanded = !expanded" class="pp overflow-hidden">
         <v-icon
           v-if="object.children?.length"
           class="me-1 t-all-400"
           :class="{ 'rotate-90-s': !expanded }"
-          >arrow_drop_down</v-icon
-        >
+          >arrow_drop_down
+        </v-icon>
         <v-icon class="me-1">{{ icon }}</v-icon>
 
         <span
@@ -34,7 +34,7 @@
           v-text="title"
         >
         </span>
-      </span>
+      </div>
 
       <v-btn
         v-if="object.classes && has_classes"
@@ -55,9 +55,23 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-      <v-img v-if="object.data.src" :src="object.data.src" width="20" height="20" rounded="lg"  class="ms-1 flex-grow-0"></v-img>
+      <v-img
+        v-if="object.data.src"
+        :src="getShopImagePath(object.data.src)"
+        width="20"
+        height="20"
+        rounded="sm"
+        class="ms-1 flex-grow-0"
+      ></v-img>
 
-      <v-chip v-if="object.label" size="x-small"  class="ms-1 px-1" label density="comfortable">{{object.label}}</v-chip>
+      <v-chip
+        v-if="object.label"
+        size="x-small"
+        class="ms-1 px-1"
+        label
+        density="comfortable"
+        >{{ object.label }}
+      </v-chip>
 
       <v-btn
         v-if="isSection"
@@ -84,7 +98,11 @@
           }"
         >
           <template v-slot:item="{ element }">
-            <l-settings-hierarchy-item :object="element" class="ms-2">
+            <l-settings-hierarchy-item
+              :object="element"
+              :lock-scroll="lockScroll"
+              class="ms-2"
+            >
             </l-settings-hierarchy-item>
           </template>
         </draggable>
@@ -97,6 +115,31 @@
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import draggable from "vuedraggable";
+import debounce from "lodash-es/debounce";
+import { XDivObject } from "@selldone/page-builder/components/x/div/XDivObject.ts";
+import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import { XContainerObject } from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject.ts";
+import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import { XProductObject } from "@selldone/page-builder/components/x/product/XProductObject.ts";
+import { XColumnImageTextObject } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import { XButtonsObject } from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import { XGalleryExpandableObject } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
+import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
+import { XArticleObject } from "@selldone/page-builder/components/x/article/XArticleObject.ts";
+import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
+import { XFeederBlogsObject } from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
+import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
+import { XFormObject } from "@selldone/page-builder/components/x/form/XFormObject.ts";
+import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
+import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
+import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
+import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";
+import { XVideoBackgroundObject } from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObject.ts";
 
 export default {
   name: "LSettingsHierarchyItem",
@@ -111,6 +154,7 @@ export default {
     object: { type: LModelElement, required: true },
     hasEditableTitle: Boolean,
     section: {},
+    lockScroll: Boolean,
   },
   data: () => ({
     dialog: false,
@@ -119,40 +163,51 @@ export default {
     expanded: false,
 
     ElementTypes: {
-      XSection: { icon: "crop_din", title: "Section" },
-      XContainer: { icon: "aspect_ratio", title: "Container" },
-      XRow: { icon: "calendar_view_week", title: "Row" },
-      XColumn: { icon: "splitscreen", title: "Column" },
-      XText: { icon: "title", title: "Text" },
-      XUploader: { icon: "wallpaper", title: "Image" },
-      XButton: { icon: "ads_click", title: "Button" },
-      XProduct: { icon: "shelves", title: "Product" },
-      XCollection: { icon: "window", title: "Collection" },
-      XColumnImageText: { icon: "broken_image", title: "Layout Column" },
-      XButtons: { icon: "dialpad", title: "XButtons" },
-      XGalleryExpandable: { icon: "collections", title: "Expandable Gallery" },
-      XGalleryExpandableItem: { icon: "crop_portrait", title: "Gallery Item" },
-      XSwiper: { icon: "web_stories", title: "Swiper" },
+      XSection: XSectionObject,
+      XContainer: XContainerObject,
+      XRow: XRowObject,
+      XColumn: XColumnObject,
+      XText: XTextObject,
+      XUploader: XUploaderObject,
+      XButton: XButtonObject,
+      XProduct: XProductObject,
+      XColumnImageText: XColumnImageTextObject,
+      XButtons: XButtonsObject,
+      XGalleryExpandable: XGalleryExpandableObject,
+      XGalleryExpandableItem: XGalleryExpandableItemObject,
+      XSwiper: XSwiperObject,
+      XArticle: XArticleObject,
+      XCode: XCodeObject,
+      XDiv: XDivObject,
+      XFeederBlogs: XFeederBlogsObject,
+      XFeederProducts: XFeederProductsObject,
+      XForm: XFormObject,
+      XInputText: XInputTextObject,
+      XLottie: XLottieObject,
+      XMarquee: XMarqueeObject,
+      XSearch: XSearchObject,
+      XVideoBackground: XVideoBackgroundObject,
     },
 
-    edit_label: false,
+    debouncedScrollToElement: null,
   }),
 
   computed: {
     has_classes() {
       return this.object.$element?.classList;
     },
+    element_type() {
+      return this.ElementTypes[this.object.component];
+    },
 
     icon() {
-      return this.ElementTypes[this.object.component]?.icon || "highlight_alt";
+      return this.element_type?.Info?.icon || "highlight_alt";
     },
     title() {
       if (this.section && this.hasEditableTitle) {
         return this.section.label;
       }
-      return (
-        this.ElementTypes[this.object.component]?.title || this.object.component
-      );
+      return this.element_type?.Info?.title || this.object.component;
     },
     isSection() {
       return this.object.component === "XSection";
@@ -160,7 +215,12 @@ export default {
   },
 
   watch: {},
-  created() {},
+  created() {
+    this.debouncedScrollToElement = debounce(this.scrollToElement, 300, {
+      leading: true,
+      trailing: true,
+    });
+  },
   mounted() {
     // Add method to object as temporary variable:
     this.object.__setExpand = this.setExpand;
@@ -184,6 +244,10 @@ export default {
       }
       //  console.log('onHoverOut objects',this.object)
       this.object.$element?.classList.remove("element-focus-editing");
+
+      if (!this.lockScroll) {
+        this.debouncedScrollToElement();
+      }
     },
 
     showMasterDesignDialog() {
@@ -193,13 +257,19 @@ export default {
         el,
         el,
         this.object,
-        `style`,
-        `classes`,
-        "background",
+
         null,
 
         //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
       );
+    },
+
+    scrollToElement() {
+      this.object.$element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
     },
 
     /**

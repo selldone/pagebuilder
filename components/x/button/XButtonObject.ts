@@ -18,6 +18,11 @@ import {XButtonObjectData} from "@selldone/page-builder/components/x/button/XBut
 
 export class XButtonObject extends LModelElement<XButtonObjectData> {
   public static ComponentName = "XButton";
+  public static Info = {
+    group:'Action',
+    icon:'ads_click',
+    title:'Button'
+  };
 
   constructor(
     background: LModelBackground | null,
@@ -33,7 +38,7 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
       style,
       classes,
       children,
-      data ? data : new XButtonObjectData(),
+      data ? data : new XButtonObjectData({}),
       props,
     );
   }
@@ -64,17 +69,8 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
    */
 
   static MigrateOld(old: any): XButtonObject {
-    const data = new XButtonObjectData(
-      old.color ?? "#1976D2",
-      old.content ?? "Action...",
-      old.glow ?? false,
-      old.href ?? null,
-      old.ripple ?? false,
-      old.rounded ?? "xl",
-      old.size ?? "x-large",
-      old.align ?? null,
-      old.variant ?? null,
-    );
+    console.log("XButtonObject | Migrate | Old:", old);
+    const data = new XButtonObjectData(old);
 
     return new XButtonObject(
       new LModelBackground(old?.background),

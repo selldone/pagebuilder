@@ -18,6 +18,11 @@ import {XMarqueeObjectData} from "@selldone/page-builder/components/x/marquee/XM
 
 export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
   public static ComponentName = "XMarquee";
+  public static Info = {
+    group:'Text',
+    icon:'motion_photos_auto',
+    title:'Marquee'
+  };
 
   constructor(
     background: LModelBackground | null,

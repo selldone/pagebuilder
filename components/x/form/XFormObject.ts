@@ -21,6 +21,11 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 
 export class XFormObject extends LModelElement<XFormObjectData> {
   public static ComponentName = "XForm";
+  public static Info = {
+    group:'Form',
+    icon:'call_to_action',
+    title:'Form'
+  };
 
   constructor(
     background: LModelBackground | null,

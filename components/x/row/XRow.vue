@@ -27,7 +27,6 @@
       },
     ]"
     :style="[object?.style, backgroundStyle(object.background)]"
-
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>

@@ -38,6 +38,10 @@ export class XColumnImageTextObjectData extends LModelData<XColumnImageTextObjec
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
   public setLayout(layout: XColumnImageTextDataTypes.LAYOUTS) {
     this.layout = layout;
+
+
+
+
     return this;
   }
 }
@@ -48,7 +52,6 @@ export namespace XColumnImageTextDataTypes {
   export enum LAYOUTS {
     PRODUCT = "product",
     COLLECTION = "collection",
-    // "custom",
 
     NORMAL = "x-layout-normal", // Column | Image + Title + Content
     OVERLAY_TOP = "x-layout-overlay-top", // Image + Column of Title Content inside image

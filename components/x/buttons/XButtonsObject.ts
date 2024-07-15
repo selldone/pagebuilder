@@ -19,6 +19,11 @@ import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObject
 
 export class XButtonsObject extends LModelElement<XRowObjectData> {
   public static ComponentName = "XButtons";
+  public static Info = {
+    group:'Action',
+    icon:'dialpad',
+    title:'Buttons'
+  };
 
   constructor(
     background: LModelBackground | null,

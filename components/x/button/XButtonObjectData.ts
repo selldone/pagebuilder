@@ -66,40 +66,20 @@ export class XButtonObjectData extends LModelData<XButtonObjectData> {
 
   /**
    * Creates an instance of XButtonData.
-   * @param color - Button color.
-   * @param content - Button content.
-   * @param glow - Glow effect flag.
-   * @param href - Hyperlink reference.
-   * @param ripple - Ripple effect flag.
-   * @param rounded - Rounded corners flag.
-   * @param size - Button size.
-   * @param align
-   * @param variant
-   * @param elevation
+   * @param options
    */
-  constructor(
-    color: string = "",
-    content: string = "",
-    glow: boolean = false,
-    href: string | null = null,
-    ripple: boolean = false,
-    rounded: XButtonObjectDataTypes.IRounded | null = null,
-    size: XButtonObjectDataTypes.ISize | null = null,
-    align: XButtonObjectDataTypes.IAlign | null = null,
-    variant: XButtonObjectDataTypes.IVariant | null = null,
-    elevation: number | null = null,
-  ) {
+  constructor(options: XButtonObjectDataTypes.IOptions = {}) {
     super();
-    this.color = color;
-    this.content = content;
-    this.glow = glow;
-    this.href = href;
-    this.ripple = ripple;
-    this.rounded = rounded;
-    this.size = size ? size : "x-large";
-    this.align = align;
-    this.variant = variant ? variant : "elevated";
-    this.elevation = elevation;
+    this.color = options.color || "";
+    this.content = options.content || "";
+    this.glow = options.glow || false;
+    this.href = options.href || null;
+    this.ripple = options.ripple || false;
+    this.rounded = options.rounded || null;
+    this.size = options.size || "x-large";
+    this.align = options.align || null;
+    this.variant = options.variant || "elevated";
+    this.elevation = options.elevation || null;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -192,4 +172,17 @@ export namespace XButtonObjectDataTypes {
     | "pill"
     | "circle"
     | "shaped";
+
+  export interface IOptions {
+    color?: string;
+    content?: string;
+    glow?: boolean;
+    href?: string | null;
+    ripple?: boolean;
+    rounded?: XButtonObjectDataTypes.IRounded | null;
+    size?: XButtonObjectDataTypes.ISize | null;
+    align?: XButtonObjectDataTypes.IAlign | null;
+    variant?: XButtonObjectDataTypes.IVariant | null;
+    elevation?: number | null;
+  }
 }

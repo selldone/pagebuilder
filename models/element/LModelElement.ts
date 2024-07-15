@@ -112,36 +112,6 @@ export abstract class LModelElement<T> {
   public $element: HTMLElement | null = null;
   public __setExpand: Function | null = null;
 
-  // ━━━━━━━━━━━━━━━━━ 🍒 Clone ━━━━━━━━━━━━━━━━━
-  public clone(): LModelElement<T> {
-    const cloneBackground = this.background ? this.background.clone() : null;
-    const cloneStyle = this.style ? JSON.parse(JSON.stringify(this.style)) : {};
-    const cloneClasses = this.classes ? [...this.classes] : [];
-
-    // If T is an object with a clone method, call it. Otherwise, shallow copy it.
-    const cloneData =
-      this.data && isFunction((this.data as any).clone)
-        ? (this.data as any).clone()
-        : null;
-    console.log("Clone Data", cloneData);
-
-    const cloneChildren = this.children.map((child) => child.clone());
-    const cloneProps = this.props ? { ...this.props } : null;
-
-    const clonedElement = new (this.constructor as any)(
-      cloneBackground,
-      cloneStyle,
-      cloneClasses,
-      cloneChildren,
-      cloneData,
-      cloneProps,
-    );
-
-    clonedElement.label = this.label;
-
-    return clonedElement;
-  }
-
   // ━━━━━━━━━━━━━━━━━ Helpers ━━━━━━━━━━━━━━━━━
 
   // Utility function to find all nested children of a specific type
@@ -169,6 +139,14 @@ export abstract class LModelElement<T> {
     }
 
     return results;
+  }
+  // ━━━━━━━━━━━━━━━━━ Sort ━━━━━━━━━━━━━━━━━
+
+  sort(oldIndex: number, newIndex: number) {
+    const child = this.children[oldIndex];
+    if(!child)return;
+    this.children.splice(oldIndex, 1);
+    this.children.splice(newIndex, 0, child);
   }
 
   // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
@@ -210,6 +188,8 @@ export abstract class LModelElement<T> {
 
   /**
    * Export the element to JSON
+   * Converts the instance to a JSON object.
+   * @returns {object} The JSON representation of the instance.
    */
   toJson(): Record<string, any> {
     if (isFunction(this.callBeforeSave)) this.callBeforeSave();
