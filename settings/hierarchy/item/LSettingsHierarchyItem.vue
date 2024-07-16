@@ -235,7 +235,7 @@ export default {
   created() {
     this.debouncedScrollToElement = debounce(this.scrollToElement, 500, {
       leading: true,
-      trailing: true,
+      trailing: false,
     });
   },
   mounted() {

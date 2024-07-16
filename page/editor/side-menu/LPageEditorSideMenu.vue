@@ -23,51 +23,56 @@
       '-small': $vuetify.display.xs,
     }"
     :width="!tab ? 58 : width"
+    v-if="page"
   >
     <div class="l-buttons">
-
       <v-btn
-          variant="text"
-          min-width="46"
-          min-height="46"
-          rounded="lg"
-          class="ma-1"
-          @click="toggle('navigation')"
-      >
-        <v-icon> account_tree</v-icon>
-        <v-tooltip activator="parent">
-          {{ $t("page_builder.design.tools.hierarchy") }}
-        </v-tooltip>
-      </v-btn>
-
-      <v-btn
+        v-for="tabItem in tabs"
+        :key="tabItem.key"
         variant="text"
         min-width="46"
         min-height="46"
         rounded="lg"
         class="ma-1"
-        @click="toggle('sections')"
+        @click="toggle(tabItem.key)"
+        :color="tab === tabItem.key ? 'amber' : undefined"
       >
-        <v-icon> grid_view</v-icon>
-        <v-tooltip activator="parent"> Sections</v-tooltip>
+        <v-icon>{{ tabItem.icon }}</v-icon>
+        <v-tooltip activator="parent">{{ tabItem.tooltip }}</v-tooltip>
       </v-btn>
 
-      <v-btn
-          variant="text"
-          min-width="46"
-          min-height="46"
-          rounded="lg"
-          class="ma-1"
-          @click="toggle('elements')"
-      >
-        <v-icon>yard</v-icon>
-        <v-tooltip activator="parent"> Elements</v-tooltip>
-      </v-btn>
+      <v-spacer></v-spacer>
+      <!-- ━━━━━━━━━━━━━━━ CSS ━━━━━━━━━━━━━━━ -->
+      <l-page-editor-css :page="page" />
+
+
+      <!-- ━━━━━━━━━━━━━━━ Statistic ━━━━━━━━━━━━━━━ -->
+      <l-page-editor-statistics
+        :page="page"
+      ></l-page-editor-statistics>
+
+
+      <!-- ━━━━━━━━━━━━━━━ SEO ━━━━━━━━━━━━━━━ -->
+      <l-page-editor-seo v-if="hasSEO" :page="page" />
+
+      <!-- ━━━━━━━━━━━━━━━ Settings ━━━━━━━━━━━━━━━ -->
+
+      <l-page-editor-setting
+        v-if="hasSetting"
+        v-model:cluster-id="page.cluster_id"
+        v-model:color="page.color"
+        v-model:direction="page.direction"
+        v-model:name="page.name"
+        v-model:note="page.note"
+        :is-official-page="!shop"
+        :page="page"
+        :shop="shop"
+      ></l-page-editor-setting>
     </div>
 
     <div class="l-window overflow-auto thin-scroll">
       <v-tabs-window :model-value="tab">
-
+        <!-- ━━━━━━━━━━━━━━━ Navigation ━━━━━━━━━━━━━━━ -->
 
         <v-tabs-window-item
           value="navigation"
@@ -77,27 +82,52 @@
           <l-settings-hierarchy :builder="builder"></l-settings-hierarchy>
         </v-tabs-window-item>
 
+        <!-- ━━━━━━━━━━━━━━━ Sections ━━━━━━━━━━━━━━━ -->
+
         <v-tabs-window-item
-            value="sections"
-            eager
-            :style="{ width: min_width_window + 'px' }"
+          value="sections"
+          eager
+          :style="{ width: min_width_window + 'px' }"
         >
           <l-page-editor-components-menu
-              :builder="builder"
-              @update:is-dragged="(val) => (is_dragged = val)"
+            :builder="builder"
+            @update:is-dragged="(val) => (is_dragged = val)"
           ></l-page-editor-components-menu>
         </v-tabs-window-item>
+        <!-- ━━━━━━━━━━━━━━━ Elements ━━━━━━━━━━━━━━━ -->
         <v-tabs-window-item
-            value="elements"
-            eager
-            :style="{ width: min_width_window + 'px' }"
+          value="elements"
+          eager
+          :style="{ width: min_width_window + 'px' }"
         >
           <LPageEditorElementsMenu
-              :builder="builder"
-              @update:is-dragged="(val) => (is_dragged = val)"
+            :builder="builder"
+            @update:is-dragged="(val) => (is_dragged = val)"
           ></LPageEditorElementsMenu>
         </v-tabs-window-item>
 
+        <!-- ━━━━━━━━━━━━━━━ Versions ━━━━━━━━━━━━━━━ -->
+        <v-tabs-window-item
+          value="versions"
+          eager
+          :style="{ width: min_width_window + 'px' }"
+        >
+          <l-page-editor-versions-menu
+            :builder="builder"
+            :histories="histories"
+            :setPageFunction="setPageFunction"
+            :fetchPageData="fetchPageData"
+            :page="page"
+          ></l-page-editor-versions-menu>
+        </v-tabs-window-item>
+
+        <!-- ━━━━━━━━━━━━━━━ Assets ━━━━━━━━━━━━━━━ -->
+        <v-tabs-window-item
+          value="assets"
+          :style="{ width: min_width_window + 'px' }"
+        >
+          <l-page-editor-files v-if="page" :page="page" />
+        </v-tabs-window-item>
       </v-tabs-window>
     </div>
   </v-sheet>
@@ -108,22 +138,57 @@ import { defineComponent, inject } from "vue";
 import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
 import LPageEditorComponentsMenu from "@selldone/page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
 import LPageEditorElementsMenu from "@selldone/page-builder/page/editor/elements-menu/LPageEditorElementsMenu.vue";
+import LPageEditorVersionsMenu from "@selldone/page-builder/page/editor/versions-menu/LPageEditorVersionsMenu.vue";
+import LPageEditorSetting from "@selldone/page-builder/page/editor/setting/LPageEditorSetting.vue";
+import LPageEditorSeo from "@selldone/page-builder/page/editor/seo/LPageEditorSeo.vue";
+import LPageEditorCss from "@selldone/page-builder/page/editor/css/LPageEditorCss.vue";
+import LPageEditorFiles from "@selldone/page-builder/page/editor/files/LPageEditorFiles.vue";
+import LPageEditorStatistics from "@selldone/page-builder/page/editor/statistics/LPageEditorStatistics.vue";
 
 export default defineComponent({
   name: "LPageEditorSideMenu",
-  components: { LPageEditorComponentsMenu, LSettingsHierarchy ,LPageEditorElementsMenu},
+  components: {
+    LPageEditorStatistics,
+    LPageEditorFiles,
+    LPageEditorCss,
+    LPageEditorSeo,
+    LPageEditorSetting,
+    LPageEditorVersionsMenu,
+    LPageEditorComponentsMenu,
+    LSettingsHierarchy,
+    LPageEditorElementsMenu,
+  },
 
   props: {
     isVisible: Boolean,
     isScrollDown: Boolean,
+    histories: { required: true, type: Array },
+    setPageFunction: { required: true, type: Function },
+    fetchPageData: { required: true, type: Function },
+    page: {},
+    shop: {},
   },
 
   data: () => ({
     tab: "sections",
+
     is_dragged: false,
   }),
 
   computed: {
+    tabs() {
+      return [
+        {
+          key: "navigation",
+          icon: "account_tree",
+          tooltip: this.$t("page_builder.design.tools.hierarchy"),
+        },
+        { key: "sections", icon: "grid_view", tooltip: "Sections" },
+        { key: "elements", icon: "yard", tooltip: "Elements" },
+        { key: "versions", icon: "history", tooltip: "Versions" },
+        { key: "assets", icon: "folder_open", tooltip: "Assets" },
+      ];
+    },
     builder() {
       // Get builder from main page editor/viewer
       return inject("$builder");
@@ -138,6 +203,12 @@ export default defineComponent({
     },
     min_width_window() {
       return this.width - 58;
+    },
+    hasSetting() {
+      return this.page && this.page.id;
+    },
+    hasSEO() {
+      return this.page && this.page.id;
     },
   },
 

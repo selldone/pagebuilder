@@ -13,170 +13,199 @@
   -->
 
 <template>
-  <div class="py-5">
-    <!-- ============== Name ============== -->
+  <v-btn
+    @click="dialog = true"
+    variant="text"
+    min-width="46"
+    min-height="46"
+    rounded="lg"
+    class="ma-1"
+  >
+    <v-icon>settings</v-icon>
+    <v-tooltip activator="parent">{{ $t('page_builder.menu.setting') }}</v-tooltip>
+  </v-btn>
 
-    <div class="widget-box mb-5">
-      <s-widget-header
-        :title="$t('global.commons.general_config')"
-        icon="tune"
-      ></s-widget-header>
+  <v-dialog v-model="dialog" scrollable fullscreen transition="dialog-bottom-transition">
+    <v-card>
+      <v-card-title> </v-card-title>
+      <v-card-text>
+        <!-- ============== Name ============== -->
 
-      <v-list-subheader
-        >Adjusting the page URL and modifying the publication status of the
-        page.
-      </v-list-subheader>
+        <div class="widget-box mb-5">
+          <s-widget-header
+            :title="$t('global.commons.general_config')"
+            icon="tune"
+          ></s-widget-header>
 
-      <v-text-field
-        :counter="32"
-        :label="$t('page_builder.setting.name_input')"
-        :model-value="name"
-        variant="underlined"
-        @update:model-value="(val) => $emit('update:name', val)"
-      />
+          <v-list-subheader
+            >Adjusting the page URL and modifying the publication status of the
+            page.
+          </v-list-subheader>
 
-      <p dir="ltr">
-        <v-icon class="me-1" size="small">link</v-icon>
-        <span style="color: #777">domain.com/pages/</span
-        ><span class="font-weight-black" style="color: #0288d1">{{
-          encodeURIComponent(name)
-        }}</span>
-      </p>
+          <v-text-field
+            :counter="32"
+            :label="$t('page_builder.setting.name_input')"
+            :model-value="name"
+            variant="underlined"
+            @update:model-value="(val) => $emit('update:name', val)"
+          />
 
-      <u-smart-switch
-        v-model="page.published"
-        :false-title="$t('global.commons.draft')"
-        :true-title="$t('global.commons.published')"
-        class="my-3"
-        false-description="This page is currently set to draft mode and is not accessible to the public."
-        false-gray
-        false-icon="public_off"
-        true-description="This page is accessible to the public."
-        true-icon="public"
-      >
-      </u-smart-switch>
-    </div>
+          <p dir="ltr">
+            <v-icon class="me-1" size="small">link</v-icon>
+            <span style="color: #777">domain.com/pages/</span
+            ><span class="font-weight-black" style="color: #0288d1">{{
+              encodeURIComponent(name)
+            }}</span>
+          </p>
 
-    <!-- ---------------------- Label ---------------------- -->
-    <div class="widget-box mb-5">
-      <s-widget-header icon="architecture" title="Designer"></s-widget-header>
-
-      <!-- ============== colors ============== -->
-      <v-list-subheader
-        >Assign color labels to quickly identify pages, and you can also utilize
-        these color labels for page categorization.
-      </v-list-subheader>
-
-      <v-btn
-        v-for="item in colors"
-        :key="item"
-        :class="{ active: item === color }"
-        class="me-1 color-button-ball"
-        icon
-        variant="text"
-        @click="$emit('update:color', item)"
-      >
-        <v-icon :color="item"> brightness_1</v-icon>
-      </v-btn>
-
-      <!-- ============== Note ============== -->
-      <v-list-subheader
-        >Here, you can add a note that will be visible only to administrators.
-      </v-list-subheader>
-
-      <v-textarea
-        :color="SaminColorLight"
-        :counter="128"
-        :label="$t('page_builder.setting.designer_note')"
-        :model-value="note"
-        :rows="2"
-        variant="underlined"
-        @update:model-value="(val) => $emit('update:note', val)"
-      />
-
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
-      <template v-if="!isOfficialPage">
-        <s-widget-header
-          :to="{ name: 'BPageShopClassificationClusters' }"
-          add-caption="Management"
-          add-icon="settings"
-          add-text
-          icon="workspaces"
-          title="Cluster"
-        ></s-widget-header>
-
-        <v-list-subheader>
-          By linking this page to a cluster, you can effortlessly locate and
-          manage it.
-        </v-list-subheader>
-        <b-cluster-input
-          :model-value="clusterId"
-          :return-object="false"
-          clearable
-          icon="workspaces_filled"
-          no-home
-          @update:modelValue="(val) => $emit('update:clusterId', val)"
-        ></b-cluster-input>
-      </template>
-
-      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    </div>
-
-    <div class="widget-box mb-5">
-      <s-widget-header icon="image" title="Image"></s-widget-header>
-      <v-list-subheader
-        >Upload an image for the page. This image will serve as the cover for
-        SEO purposes and will also be used in the page listings.
-      </v-list-subheader>
-
-      <!-- ============== Image ============== -->
-      <s-image-uploader
-        v-if="page"
-        :image="getShopImagePath(page.image)"
-        :server="page_image_cover_upload_url"
-        auto-compact
-        class="my-4"
-        label="Cover image"
-        max-file-size="2MB"
-        @new-path="handleProcessFile"
-      >
-      </s-image-uploader>
-    </div>
-
-    <!-- ---------------------- Delete ---------------------- -->
-    <div class="widget-box mb-5" style="border-top: solid medium red">
-      <s-widget-header
-        icon="error_outline"
-        title="Delete page"
-      ></s-widget-header>
-
-      <v-list-subheader>
-        <div>
-          Deleting a page is a permanent action, so please be absolutely sure
-          before proceeding. All <b>images</b> and <b>videos</b>
-          uploaded on this page will also be permanently deleted. If you choose
-          to create a duplicate of this page, remember to re-upload any images
-          or videos to the new page.
+          <u-smart-switch
+            v-model="page.published"
+            :false-title="$t('global.commons.draft')"
+            :true-title="$t('global.commons.published')"
+            class="my-3"
+            false-description="This page is currently set to draft mode and is not accessible to the public."
+            false-gray
+            false-icon="public_off"
+            true-description="This page is accessible to the public."
+            true-icon="public"
+          >
+          </u-smart-switch>
         </div>
-      </v-list-subheader>
 
-      <u-smart-verify v-model="verify_delete" color="red"></u-smart-verify>
+        <!-- ---------------------- Label ---------------------- -->
+        <div class="widget-box mb-5">
+          <s-widget-header
+            icon="architecture"
+            title="Designer"
+          ></s-widget-header>
 
-      <div class="widget-buttons">
-        <v-btn
-          :class="{ disabled: !verify_delete }"
-          :loading="busy_delete"
-          color="red"
-          size="x-large"
-          variant="text"
-          @click="deletePage()"
-        >
-          <v-icon class="me-1" size="small">delete</v-icon>
-          Delete This Page
-        </v-btn>
-      </div>
-    </div>
-  </div>
+          <!-- ============== colors ============== -->
+          <v-list-subheader
+            >Assign color labels to quickly identify pages, and you can also
+            utilize these color labels for page categorization.
+          </v-list-subheader>
+
+          <v-btn
+            v-for="item in colors"
+            :key="item"
+            :class="{ active: item === color }"
+            class="me-1 color-button-ball"
+            icon
+            variant="text"
+            @click="$emit('update:color', item)"
+          >
+            <v-icon :color="item"> brightness_1</v-icon>
+          </v-btn>
+
+          <!-- ============== Note ============== -->
+          <v-list-subheader
+            >Here, you can add a note that will be visible only to
+            administrators.
+          </v-list-subheader>
+
+          <v-textarea
+            :color="SaminColorLight"
+            :counter="128"
+            :label="$t('page_builder.setting.designer_note')"
+            :model-value="note"
+            :rows="2"
+            variant="underlined"
+            @update:model-value="(val) => $emit('update:note', val)"
+          />
+
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <template v-if="!isOfficialPage">
+            <s-widget-header
+              :to="{ name: 'BPageShopClassificationClusters' }"
+              add-caption="Management"
+              add-icon="settings"
+              add-text
+              icon="workspaces"
+              title="Cluster"
+            ></s-widget-header>
+
+            <v-list-subheader>
+              By linking this page to a cluster, you can effortlessly locate and
+              manage it.
+            </v-list-subheader>
+            <b-cluster-input
+              :model-value="clusterId"
+              :return-object="false"
+              clearable
+              icon="workspaces_filled"
+              no-home
+              @update:modelValue="(val) => $emit('update:clusterId', val)"
+            ></b-cluster-input>
+          </template>
+
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        </div>
+
+        <div class="widget-box mb-5">
+          <s-widget-header icon="image" title="Image"></s-widget-header>
+          <v-list-subheader
+            >Upload an image for the page. This image will serve as the cover
+            for SEO purposes and will also be used in the page listings.
+          </v-list-subheader>
+
+          <!-- ============== Image ============== -->
+          <s-image-uploader
+            v-if="page"
+            :image="getShopImagePath(page.image)"
+            :server="page_image_cover_upload_url"
+            auto-compact
+            class="my-4"
+            label="Cover image"
+            max-file-size="2MB"
+            @new-path="handleProcessFile"
+          >
+          </s-image-uploader>
+        </div>
+
+        <!-- ---------------------- Delete ---------------------- -->
+        <div class="widget-box mb-5" style="border-top: solid medium red">
+          <s-widget-header
+            icon="error_outline"
+            title="Delete page"
+          ></s-widget-header>
+
+          <v-list-subheader>
+            <div>
+              Deleting a page is a permanent action, so please be absolutely
+              sure before proceeding. All <b>images</b> and <b>videos</b>
+              uploaded on this page will also be permanently deleted. If you
+              choose to create a duplicate of this page, remember to re-upload
+              any images or videos to the new page.
+            </div>
+          </v-list-subheader>
+
+          <u-smart-verify v-model="verify_delete" color="red"></u-smart-verify>
+
+          <div class="widget-buttons">
+            <v-btn
+              :class="{ disabled: !verify_delete }"
+              :loading="busy_delete"
+              color="red"
+              size="x-large"
+              variant="text"
+              @click="deletePage()"
+            >
+              <v-icon class="me-1" size="small">delete</v-icon>
+              Delete This Page
+            </v-btn>
+          </div>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn size="x-large" variant="text" @click="dialog = false">
+            <v-icon start>close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -217,6 +246,8 @@ export default {
     clusterId: {},
   },
   data: () => ({
+    dialog: false,
+
     colors: standardDesignColor,
 
     busy_delete: false,

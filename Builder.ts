@@ -19,13 +19,15 @@ import XVariants from "./components/x/variants/XVariants.vue";
 import XCountDown from "./components/x/count-down/XCountDown.vue";
 import XRating from "./components/x/rating/XRating.vue";
 import {LUtilsMigration} from "./utils/migration/LUtilsMigration";
-import {isFunction, isObject} from "lodash-es";
+import {isFunction, isObject, isString} from "lodash-es";
 import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
 import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
 import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
+import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
+import {LandingCssHelper} from "@selldone/page-builder/page/editor/css/LandingCssHelper.ts";
 
 const DEBUG = true;
 
@@ -354,10 +356,44 @@ export class Builder {
    * Load page content from a JSON object.
    * @param content
    */
-  setContent(content: Page.IContent) {
+  private setContent(content: Page.IContent) {
     LOG("⚽ Set -----> content", content);
 
     content = LUtilsMigration.MigratePageContent(content);
+
+    function isValidFontSize(size) {
+      return size && isString(size) && !size.includes("-") && size !== "0";
+    }
+
+    // ---------------------------------------*******************-------------------------------------
+    // 🌼 Set style if not exist:
+    if (!content.style || Array.isArray(content.style))
+      content.style = { font_size: 16, bg_color: "", fonts: [] };
+
+    if (!content.style.font_size) content.style.font_size = 16;
+    if (!content.style.bg_color) content.style.bg_color = "";
+    if (!content.style.bg_gradient) content.style.bg_gradient = [];
+    if (!content.style.bg_size) content.style.bg_size = "cover";
+    if (!content.style.bg_custom) content.style.bg_custom = null;
+    if (!content.style.bg_repeat) content.style.bg_repeat = null;
+
+    // Set initial fonts size:
+    if (!isValidFontSize(content.style.h1_size))
+      content.style.h1_size = LUtilsTypo.H1_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.h2_size))
+      content.style.h2_size = LUtilsTypo.H2_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.h3_size))
+      content.style.h3_size = LUtilsTypo.H3_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.h4_size))
+      content.style.h4_size = LUtilsTypo.H4_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.h5_size))
+      content.style.h5_size = LUtilsTypo.H5_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.h6_size))
+      content.style.h6_size = LUtilsTypo.H6_SIZE_DEFAULT;
+    if (!isValidFontSize(content.style.p_size))
+      content.style.p_size = LUtilsTypo.P_SIZE_DEFAULT;
+
+    // ---------------------------------------*******************-------------------------------------
 
     this.style = content.style;
 
@@ -377,6 +413,20 @@ export class Builder {
         })
         .filter((s) => !!s) as Section[];
     }
+  }
+
+  loadPage(params: { content: Page.IContent; css: IPageCss }) {
+    console.style("<b>📐 Set page builder content.</b>", params);
+
+    this.setContent(params.content);
+    this.setCss(params.css);
+  }
+
+  public setCss(css: IPageCss) {
+    this.css = css; // Update builder pre compiled css
+
+    // 🩴 Inject custom css:
+    LandingCssHelper.Inject(css /*Custom Css*/, this.rootEl);
   }
 
   /**

@@ -15,7 +15,7 @@
 <template>
   <div class="">
     <!-- --------------------------------- Top Tools --------------------------------- -->
-    <l-page-editor-top-menu
+    <l-menu-top-home
       v-if="modelValue && inEditMode && ref_builder"
       :busySave="busySave"
       :inDesignTab="true"
@@ -26,7 +26,7 @@
       @click:save="onSave"
       style="border-radius: 26px 26px 0 0"
     >
-    </l-page-editor-top-menu>
+    </l-menu-top-home>
 
     <LPageEditor
       ref="vueBuilder"
@@ -44,12 +44,12 @@
 </template>
 
 <script>
-import LPageEditorTopMenu from "./page/editor/top-menu/LPageEditorTopMenu.vue";
+import LMenuTopHome from "./src/menu/top/home/LMenuTopHome.vue";
 import LPageEditor from "./page/editor/LPageEditor.vue";
 
 export default {
   name: "LandingBuilderFragment",
-  components: { LPageEditor, LPageEditorTopMenu },
+  components: { LPageEditor, LMenuTopHome },
   emits: ["update:modelValue", "onSave"],
   props: {
     shop: { require: true, type: Object },

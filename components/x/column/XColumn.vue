@@ -28,7 +28,10 @@
     :class="[
       object.classes,
       !noGrid ? calcGridClasses(object.data?.grid) : undefined,
-      { 'is-editable': $builder.isEditing }
+      {
+        'is-editable': $builder.isEditing,
+        'position-relative': object.background?.bg_video,
+      },
     ]"
     :style="[object?.style, backgroundStyle(object.background)]"
   >
@@ -44,9 +47,9 @@
 
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <v-col
-        cols="12"
-        v-if=" SHOW_EDIT_TOOLS && !object.children?.length"
-        style="
+      cols="12"
+      v-if="SHOW_EDIT_TOOLS && !object.children?.length"
+      style="
         min-height: 48px;
         opacity: 0.5;
         text-align: center;
@@ -59,7 +62,6 @@
       <v-icon class="me-1">library_add</v-icon>
       You can add elements here...
     </v-col>
-
   </component>
 </template>
 
@@ -70,7 +72,7 @@ import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import DataXDirective from "../../../directives/DataXDirective";
 import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
-import {Grid} from "@selldone/page-builder/src/types/types.js";
+import { Grid } from "@selldone/page-builder/src/types/types.js";
 
 export default defineComponent({
   name: "XColumn",
@@ -123,7 +125,6 @@ export default defineComponent({
       this.$forceUpdate();
     },
 
-
     calcGridClasses(grid: Grid) {
       return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
         if (!grid[device]) {
@@ -133,13 +134,12 @@ export default defineComponent({
         return `${prefix}${grid[device]}`;
       });
     },
-
   },
 });
 </script>
 
 <style scoped lang="scss">
 .x--column {
- // height: 100%; // Fix some difference between edit mode and view mode when image does not exist!
+  // height: 100%; // Fix some difference between edit mode and view mode when image does not exist!
 }
 </style>

@@ -13,7 +13,6 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-
   <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Toolbar ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
   <v-menu
     v-if="has_edit_toolbar || has_animate_toolbar"
@@ -345,6 +344,8 @@
       init();
       $forceUpdate();
     "
+    @dragover="handleDragOver"
+    @drop="handleDrop"
   >
     <slot :src="src"></slot>
 
@@ -447,7 +448,6 @@ const ASPECTS = [
   { val: 3 / 2, title: "3:2", icon: "crop_3_2" },
   { val: 16 / 9, title: "16:9", icon: "crop_16_9" },
   { val: 2, title: "2:1", icon: "crop_square" },
-
 ];
 
 const FLOATS = [
@@ -685,9 +685,7 @@ export default defineComponent({
     },
   },
 
-  mounted() {
-
-  },
+  mounted() {},
 
   methods: {
     isPercent(val) {
@@ -717,7 +715,7 @@ export default defineComponent({
          this.image.setting.size = this.initialSize
            ? this.initialSize
            : { w: "100%", h: "100%", min_h: "20px", max_w: "100%" };
- 
+
          this.image.setting.contain = !!this.contain;
        }*/
 
@@ -873,6 +871,41 @@ export default defineComponent({
     onDropLeaveHolder() {
       this.dragOverHolder = false;
     },
+    //----------------------------------------------------------------------------
+    handleDragOver(event) {
+      event.preventDefault();
+
+      const data_url = event.dataTransfer.getData("text/plain");
+      if (this.isValidUrl(data_url)) {
+        event.preventDefault();
+      }
+    },
+    handleDrop(event) {
+      const data_url = event.dataTransfer.getData("text/plain");
+
+      if (this.isValidUrl(data_url)) {
+        event.preventDefault();
+        this.processImageUrl(data_url);
+      }
+    },
+    isValidUrl(string) {
+      if (!string) return false;
+      try {
+        if (string?.startsWith("shops_")) return true; // image path!
+
+        const url = new URL(string);
+        return url.protocol === "http:" || url.protocol === "https:";
+      } catch (_) {
+        return false;
+      }
+    },
+
+    processImageUrl(url) {
+      console.log("Dropped image URL:", url);
+      this.pre_src = url;
+      this.object.data.setSrc(url);
+      // Add your logic to handle the URL (e.g., display the image)
+    },
   },
 });
 </script>
@@ -952,7 +985,7 @@ export default defineComponent({
   left: 0;
   width: 100%;
   opacity: 0;
-  z-index: 0;
+  z-index: 10;
   cursor: pointer;
 }
 

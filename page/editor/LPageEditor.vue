@@ -14,6 +14,7 @@
 
 <template>
   <div
+    v-bind="$attrs"
     v-scroll="onScroll"
     class="page-builder position-relative"
     data-gramm="false"
@@ -274,6 +275,8 @@
                     <l-page-editor-artboard-side-extended
                       :hasNote="has_note"
                       :aiAutoFillFunction="aiAutoFillFunction"
+                      :notes="notes"
+                      :section="section"
                       @click:note="showWriteNote(section)"
                       @click:feeder="showFeeder(section)"
                     ></l-page-editor-artboard-side-extended>
@@ -321,34 +324,39 @@
         </div>
       </div>
     </div>
-
-    <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
-
-    <l-page-editor-repository
-      v-if="inEditMode && !show_templates"
-      :scale-down-mode="scale_down"
-    >
-    </l-page-editor-repository>
-
-    <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
-    <l-feeder-dialog
-      v-if="selected_section && selected_component"
-      v-model="dialog_feeder"
-      :section="selected_section"
-      :section-component="selected_component"
-    ></l-feeder-dialog>
-
-    <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
-
-    <l-page-editor-side-menu
-      v-if="!show_templates"
-      :is-visible="listShown && inEditMode"
-      :is-scroll-down="scrollTop > 200"
-    ></l-page-editor-side-menu>
-
-    <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
-    <l-settings></l-settings>
   </div>
+
+  <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
+
+  <l-page-editor-repository
+    v-if="inEditMode && !show_templates"
+    :scale-down-mode="scale_down"
+  >
+  </l-page-editor-repository>
+
+  <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
+  <l-feeder-dialog
+    v-if="selected_section && selected_component"
+    v-model="dialog_feeder"
+    :section="selected_section"
+    :section-component="selected_component"
+  ></l-feeder-dialog>
+
+  <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
+
+  <l-page-editor-side-menu
+    v-if="!show_templates"
+    :is-visible="listShown && inEditMode"
+    :is-scroll-down="scrollTop > 200"
+    :histories="histories"
+    :set-page-function="setPage"
+    :fetch-page-data="fetchPageData"
+    :page="page"
+    :shop="shop"
+  ></l-page-editor-side-menu>
+
+  <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
+  <l-settings></l-settings>
 </template>
 
 <script>
@@ -373,7 +381,6 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import Builder from "../../Builder.ts";
 import { LUtilsFont } from "../../utils/font/LUtilsFont";
-import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
 import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import LSettings from "@selldone/page-builder/settings/LSettings.vue";
@@ -433,6 +440,7 @@ export default defineComponent({
       required: false,
       type: Object,
     },
+    histories: { required: true, type: Array },
 
     isPopup: {
       type: Boolean,
@@ -445,6 +453,7 @@ export default defineComponent({
 
     aiAutoFillFunction: {},
     demo: Boolean,
+    fetchPageData: { required: true, type: Function },
   },
   data() {
     return {
@@ -608,8 +617,7 @@ export default defineComponent({
 
     custom_css(css) {
       //console.log("🩴 -----> custom_css Updated!");
-      LandingCssHelper.Inject(css /*Css*/, this.$refs.pagecontent);
-      this.$builder.css = css; // Update builder pre compiled css
+      this.$builder.setCss(css);
     },
 
     scale_down(scale_down) {
@@ -665,14 +673,12 @@ export default defineComponent({
       onAdd(evt) {
         try {
           const seed = evt.item._dragData;
-         // console.log("Drop seed", seed, "Event item", evt.item);
+          // console.log("Drop seed", seed, "Event item", evt.item);
 
           if (seed) {
-            const json=JSON.parse(seed);
-            const object = LUtilsLoader.JsonObjectToInstance(
-                json  .object
-            );
-const instance={object:object,label:json.label}
+            const json = JSON.parse(seed);
+            const object = LUtilsLoader.JsonObjectToInstance(json.object);
+            const instance = { object: object, label: json.label };
             _self.addSection(instance, evt.newIndex);
           } else {
             console.error("Seed data is not attached!");
@@ -1131,41 +1137,8 @@ const instance={object:object,label:json.label}
 
       console.style("<b>📐 Set page builder content.</b>", content, from_theme);
 
-      // ---------------------------------------*******************-------------------------------------
-      // 🌼 Set style if not exist:
-      if (!content.style || Array.isArray(content.style))
-        content.style = { font_size: 16, bg_color: "", fonts: [] };
-
-      if (!content.style.font_size) content.style.font_size = 16;
-      if (!content.style.bg_color) content.style.bg_color = "";
-      if (!content.style.bg_gradient) content.style.bg_gradient = [];
-      if (!content.style.bg_size) content.style.bg_size = "cover";
-      if (!content.style.bg_custom) content.style.bg_custom = null;
-      if (!content.style.bg_repeat) content.style.bg_repeat = null;
-
-      // Set initial fonts size:
-      if (!this.isValidFontSize(content.style.h1_size))
-        content.style.h1_size = LUtilsTypo.H1_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.h2_size))
-        content.style.h2_size = LUtilsTypo.H2_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.h3_size))
-        content.style.h3_size = LUtilsTypo.H3_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.h4_size))
-        content.style.h4_size = LUtilsTypo.H4_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.h5_size))
-        content.style.h5_size = LUtilsTypo.H5_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.h6_size))
-        content.style.h6_size = LUtilsTypo.H6_SIZE_DEFAULT;
-      if (!this.isValidFontSize(content.style.p_size))
-        content.style.p_size = LUtilsTypo.P_SIZE_DEFAULT;
-
-      // ---------------------------------------*******************-------------------------------------
-
-      // 🩴 Inject custom css:
-      LandingCssHelper.Inject(css /*Custom Css*/, this.$refs.pagecontent);
-
       this.inEditMode = true;
-      this.$builder.setContent(content);
+      this.$builder.loadPage({ content, css });
 
       this.loadNextDelayed();
 
@@ -1173,10 +1146,6 @@ const instance={object:object,label:json.label}
         // Save initial state: (Call after set!)
         this.onSaveHistory();
       }
-    },
-
-    isValidFontSize(size) {
-      return size && this.isString(size) && !size.includes("-") && size !== "0";
     },
 
     toggleSort() {

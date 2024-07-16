@@ -13,83 +13,92 @@
   -->
 
 <template>
-  <div class="p-2">
-    <u-loading-progress v-if="busy"></u-loading-progress>
-    <v-container fluid>
-      <v-row>
-        <v-col
-          v-for="file in videos"
-          :key="file.id"
-          cols="6"
-          lg="2"
-          md="3"
-          sm="4"
-        >
-          <div class="con-asset">
-            <video class="prev-asset" controls muted>
-              <source
-                :src="getVideoUrl(file.path)"
-                :type="VideoHelper.GetMime(file.path)"
-              />
-            </video>
+  <!-- ████████████████████ Toolbar ████████████████████ -->
+
+  <v-toolbar
+    density="compact"
+    color="#222"
+    height="52"
+    style="border-bottom: solid #111 thin"
+  >
+    <v-toolbar-title style="font-size: 12px"><b>Assets</b></v-toolbar-title>
+
+    <v-spacer></v-spacer>
+    <v-btn
+      size="small"
+      @click="fetchFiles"
+      variant="text"
+      title="Refresh Assets"
+      min-width="32"
+      :loading="busy"
+    >
+      <v-icon>sync</v-icon>
+    </v-btn>
+  </v-toolbar>
+
+  <v-container fluid>
+    <v-row dense>
+      <v-col v-for="file in videos" :key="file.id" cols="4">
+        <div class="con-asset">
+          <video class="prev-asset" controls muted>
+            <source
+              :src="getVideoUrl(file.path)"
+              :type="VideoHelper.GetMime(file.path)"
+            />
+          </video>
+          <v-spacer></v-spacer>
+          <div class="pa-1 d-flex align-center">
+            <b v-if="file.size" class="me-1" style="font-size: 8px">{{
+              numeralFormat(file.size, "0 b")
+            }}</b>
             <v-spacer></v-spacer>
-            <div class="pa-1 d-flex align-center">
-              <b v-if="file.size" class="small mx-2">{{
-                numeralFormat(file.size, "0 b")
-              }}</b>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="black"
-                title="Copy video URL."
-                @click="copyToClipboard(getVideoUrl(file.path))"
-              >
-                <v-icon>content_copy</v-icon>
-              </v-btn>
-            </div>
+            <v-btn
+              color="black"
+              title="Copy video URL."
+              size="24"
+              @click="copyToClipboard(getVideoUrl(file.path))"
+            >
+              <v-icon size="16">content_copy</v-icon>
+            </v-btn>
           </div>
-        </v-col>
+        </div>
+      </v-col>
 
-        <v-col
-          v-for="file in images"
-          :key="file.id"
-          cols="6"
-          lg="2"
-          md="3"
-          sm="4"
+      <v-col v-for="file in images" :key="file.id" cols="4">
+        <div
+          class="con-asset"
+          draggable="true"
+          @dragstart="handleDragStart($event, file)"
         >
-          <div class="con-asset">
-            <v-img
-              :src="getShopImagePath(file.path)"
-              class="prev-asset"
-            ></v-img>
+          <v-img :src="getShopImagePath(file.path)" class="prev-asset"></v-img>
 
-            <div class="pa-1 d-flex align-center">
-              <b v-if="file.size" class="small mx-2">{{
-                numeralFormat(file.size, "0 b")
-              }}</b>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="black"
-                title="Copy image URL."
-                @click="copyToClipboard(getShopImagePath(file.path))"
-              >
-                <v-icon>content_copy</v-icon>
-              </v-btn>
-            </div>
+          <div class="pa-1 d-flex align-center">
+            <b v-if="file.size" class="me-1" style="font-size: 8px">{{
+              numeralFormat(file.size, "0 b")
+            }}</b>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              title="Copy image URL."
+              size="24"
+              @click="copyToClipboard(getShopImagePath(file.path))"
+            >
+              <v-icon size="16">content_copy</v-icon>
+            </v-btn>
           </div>
-        </v-col>
+        </div>
+      </v-col>
 
-        <v-col
-          v-if="!busy && !images?.length && !videos?.length"
-          class="pa-6 text-h4 font-weight-light op-0-4 usn min-height-40vh d-flex align-center justify-center"
-          cols="12"
-        >
-          <v-icon class="ma-2" size="x-large">folder_open</v-icon>
-          No asset uploaded yet.
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+      <v-col
+        v-if="!busy && !images?.length && !videos?.length"
+        class="pa-6 font-weight-light op-0-4 usn d-flex flex-column text-center align-center justify-center"
+        cols="12"
+      >
+        <v-icon class="ma-2" size="x-large">folder_open</v-icon>
+        No asset uploaded yet.
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -137,6 +146,11 @@ export default {
           this.busy = null;
         });
     },
+
+    handleDragStart(event, file) {
+
+      event.dataTransfer.setData("text/plain", file.path);
+    },
   },
 };
 </script>
@@ -154,6 +168,7 @@ export default {
     max-width: 100%;
     aspect-ratio: 1;
     border-radius: 6px;
+    margin: 3px;
   }
 }
 </style>

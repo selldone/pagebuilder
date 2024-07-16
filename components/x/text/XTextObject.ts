@@ -20,10 +20,11 @@ import {isString} from "lodash-es";
 export class XTextObject extends LModelElement<XTextObjectData> {
   public static ComponentName = "XText";
   public static Info = {
-    group:'Text',
-    icon:'title',
-    title:'Text'
+    group: "Text",
+    icon: "title",
+    title: "Text",
   };
+
   constructor(
     background: LModelBackground | null,
     style: any,
@@ -57,8 +58,8 @@ export class XTextObject extends LModelElement<XTextObjectData> {
    * @constructor
    */
   static Seed(
-    value: string,
-    tag: XTextObjectDataTypes.ITag,
+    value: string = "Write something here...",
+    tag: XTextObjectDataTypes.ITag = "p",
     classes: string[] | null = null,
   ): XTextObject {
     const instance = XTextObject.NewInstance();
@@ -83,7 +84,7 @@ export class XTextObject extends LModelElement<XTextObjectData> {
     if (!old) old = "";
 
     const data = new XTextObjectData({
-      value: isString(old) ? old : old.value ?? null,
+      value: isString(old) ? old : (old.value ?? null),
       tag: old.tag ?? initialType,
     });
 

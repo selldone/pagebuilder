@@ -13,84 +13,114 @@
   -->
 
 <template>
-  <div class="py-5 text-start">
-    <!-- ============== CSS ============== -->
+  <v-btn
+    @click="dialog = true"
+    variant="text"
+    min-width="46"
+    min-height="46"
+    rounded="lg"
+    class="ma-1"
+  >
+    <v-icon>css</v-icon>
+    <v-tooltip activator="parent">CSS </v-tooltip>
+  </v-btn>
 
-    <v-container>
-      <v-expansion-panels>
-        <s-setting-expandable
-          v-for="(item, i) in classes"
-          :key="i"
-          :title="item.selector"
-        >
-          <template v-slot:title>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="red"
-              icon
-              variant="text"
-              @click="classes.splice(i, 1)"
-              class="me-1"
+  <v-dialog
+    v-model="dialog"
+    scrollable
+    fullscreen
+    transition="dialog-bottom-transition"
+  >
+    <v-card>
+      <v-card-title></v-card-title>
+      <v-card-text>
+        <!-- ============== CSS ============== -->
+
+        <v-container>
+          <v-expansion-panels>
+            <s-setting-expandable
+              v-for="(item, i) in classes"
+              :key="i"
+              :title="item.selector"
             >
-              <v-icon>close</v-icon>
-            </v-btn>
-          </template>
+              <template v-slot:title>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="red"
+                  icon
+                  variant="text"
+                  @click="classes.splice(i, 1)"
+                  class="me-1"
+                >
+                  <v-icon>close</v-icon>
+                </v-btn>
+              </template>
 
-          <v-text-field
-            v-model="item.selector"
-            label="Selector"
-            placeholder="Ex: .classname, body, ..."
-            variant="outlined"
-            persistent-placeholder
-            class="mt-3"
-          ></v-text-field>
+              <v-text-field
+                v-model="item.selector"
+                label="Selector"
+                placeholder="Ex: .classname, body, ..."
+                variant="outlined"
+                persistent-placeholder
+                class="mt-3"
+              ></v-text-field>
 
-          <v-textarea
-            v-model="item.value"
-            auto-grow
-            variant="outlined"
-            label="Value"
-            persistent-placeholder
-            placeholder="font-size: 0.8rem;
+              <v-textarea
+                v-model="item.value"
+                auto-grow
+                variant="outlined"
+                label="Value"
+                persistent-placeholder
+                placeholder="font-size: 0.8rem;
 margin-bottom: 16px;
 font-weight: 500;"
-          ></v-textarea>
-        </s-setting-expandable>
-      </v-expansion-panels>
+              ></v-textarea>
+            </s-setting-expandable>
+          </v-expansion-panels>
 
-      <div class="my-5 widget-buttons">
-        <v-btn
-          prepend-icon="add_box"
-          @click="
-            classes.push({
-              selector: '.class-name',
-              value: '',
-            })
-          "
-          size="x-large"
-        >
-          Add New Class
-        </v-btn>
-      </div>
+          <div class="my-5 widget-buttons">
+            <v-btn
+              prepend-icon="add_box"
+              @click="
+                classes.push({
+                  selector: '.class-name',
+                  value: '',
+                })
+              "
+              size="x-large"
+            >
+              Add New Class
+            </v-btn>
+          </div>
 
-      <div class="widget-box -x-large mb-5 mt-16">
-        <s-widget-header title="Compiled Css" icon="code"></s-widget-header>
-        <v-list-subheader></v-list-subheader>
+          <div class="widget-box -x-large mb-5 mt-16">
+            <s-widget-header title="Compiled Css" icon="code"></s-widget-header>
+            <v-list-subheader></v-list-subheader>
 
-        <prism-editor
-          :model-value="generated"
-          readonly
-          :highlight="highlighter"
-          class="light-code scrollable-element-light"
-          contenteditable="false"
-          language="html"
-          line-numbers
-          style="min-height: 50vh; font-size: 12px"
-        >
-        </prism-editor>
-      </div>
-    </v-container>
-  </div>
+            <prism-editor
+              :model-value="generated"
+              readonly
+              :highlight="highlighter"
+              class="light-code scrollable-element-light"
+              contenteditable="false"
+              language="html"
+              line-numbers
+              style="min-height: 50vh; font-size: 12px"
+            >
+            </prism-editor>
+          </div>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <div class="widget-buttons">
+          <v-btn size="x-large" variant="text" @click="dialog = false">
+            <v-icon start>close</v-icon>
+            {{ $t("global.actions.close") }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -107,6 +137,8 @@ export default {
   },
 
   data: () => ({
+    dialog: false,
+
     classes: [],
     raw: "",
   }),

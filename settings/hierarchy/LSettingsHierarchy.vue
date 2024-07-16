@@ -96,6 +96,16 @@
             @click="showMasterDesignDialog(menu_selected_item)"
           >
           </v-list-item>
+
+          <v-list-item
+              title="Duplicate Element"
+              subtitle="Create a copy of the element."
+              prepend-icon="content_copy"
+              @click="duplicateItem(menu_selected_item)"
+          >
+          </v-list-item>
+
+
           <v-list-item
             title="Delete Element"
             subtitle="Remove element and all its children."
@@ -116,6 +126,7 @@ import draggable from "vuedraggable";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
+import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 
 export default {
   name: "LSettingsHierarchy",
@@ -180,6 +191,27 @@ export default {
         this.builder.remove(section);
       } else {
         parent.removeChild(object);
+      }
+    },
+
+    duplicateItem({
+      object,
+      section,
+      parent,
+    }: {
+      object: LModelElement;
+      section: Section;
+      parent: Section;
+    }) {
+      const clone = LUtilsClone.CloneElement(object);
+
+      if (!parent) {
+        const index=this.builder.sections.indexOf(section);
+        // In the root
+        this.builder.add({object:clone,label:`🍒 ${section.label}`},index>=0?index+1:0,true);
+      } else {
+        clone.setLabel(null)
+        parent.addChild(clone);
       }
     },
   },

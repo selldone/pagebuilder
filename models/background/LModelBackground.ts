@@ -23,6 +23,7 @@ interface IBackground {
   bg_position: string;
   bg_rotation: number; // degrees
   bg_backdrop: any[]; // Backdrop Filter
+  bg_video?: string; // Background filter
 }
 
 export class LModelBackground {
@@ -36,6 +37,7 @@ export class LModelBackground {
   bg_position: string;
   bg_rotation: number;
   bg_backdrop: any[];
+  bg_video?: string;
 
   constructor(params: IBackground | null) {
     if (!params) return;
@@ -49,6 +51,7 @@ export class LModelBackground {
     this.bg_position = params.bg_position;
     this.bg_rotation = params.bg_rotation;
     this.bg_backdrop = params.bg_backdrop;
+    this.bg_video = params.bg_video;
   }
 
   CreateCompleteBackgroundStyleObject(): Record<string, any> {
