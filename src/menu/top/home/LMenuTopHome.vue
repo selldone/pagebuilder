@@ -43,7 +43,7 @@
       </v-btn>
     </v-sheet>
 
-    <div>
+    <div class="lmt-group">
       <div>
         <v-btn
           :disabled="!pageBuilder.hasUndo"
@@ -69,195 +69,221 @@
         </v-btn>
       </div>
 
-      <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
-      <v-btn
-        :color="pageBuilder.$builder.cloneStyle ? 'amber' : '#fff'"
-        variant="text"
-        @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
-        prepend-icon="colorize"
-        size="small"
-        class="tnt"
-      >
-        Clone
 
-        <v-tooltip
-          activator="parent"
-          content-class="text-start small pa-3 bg-black"
-          location="bottom"
-          max-width="420"
-          :open-delay="500"
-        >
-          <b class="d-block"> Clone Style </b>
-          Using this tool, you can duplicate styles such as fonts, backgrounds,
-          margins, and borders. To do this, follow these steps:
-
-          <ol class="my-1">
-            <li>
-              <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
-              Enable the tool and hover your mouse over text, columns, or
-              images; the cursor will resemble a pipette.
-            </li>
-            <li>Click on the target element to copy its style.</li>
-            <li>
-              <v-icon size="small"
-                >colorize arrow_right_alt format_color_fill
-              </v-icon>
-              The cursor will revert to a palette; click on the destination
-              element to apply the copied style.
-            </li>
-          </ol>
-          <div>
-            <v-icon color="amber" size="x-small">circle</v-icon>
-            Hotkey:
-            <v-icon class="mx-1" size="small">sync_alt</v-icon>
-            <b>⌘Ctrl + E</b>
-          </div>
-        </v-tooltip>
-      </v-btn>
     </div>
+
 
     <v-divider vertical></v-divider>
 
-    <div class="px-2 d-flex flex-column align-stretch justify-space-around">
-      <div :class="{ '-active': pageBuilder.listShown }" class="down-bar-btn">
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Tools ▃▃▃▃▃▃▃▃▃▃ -->
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
-        <v-btn
-          :color="pageBuilder.listShown ? 'amber' : '#fff'"
-          variant="text"
-          size="small"
-          @click.stop="pageBuilder.toggleListVisibility"
-          class="tnt"
-          prepend-icon="construction"
-        >
-          {{ $t("page_builder.design.tools.tools") }}
+ <div class="lmt-group">
+   <v-btn
+       :color="pageBuilder.$builder.cloneStyle ? 'amber' : '#fff'"
+       variant="text"
+       @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
+       prepend-icon="colorize"
+       size="small"
+       class="tnt"
+   >
+     Clone
 
-          <v-tooltip
-            activator="parent"
-            content-class="text-start small pa-3 bg-black"
-            location="bottom"
-            max-width="420"
-            :open-delay="500"
+     <v-tooltip
+         activator="parent"
+         content-class="text-start small pa-3 bg-black"
+         location="bottom"
+         max-width="420"
+         :open-delay="500"
+     >
+       <b class="d-block"> Clone Style </b>
+       Using this tool, you can duplicate styles such as fonts, backgrounds,
+       margins, and borders. To do this, follow these steps:
+
+       <ol class="my-1">
+         <li>
+           <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
+           Enable the tool and hover your mouse over text, columns, or
+           images; the cursor will resemble a pipette.
+         </li>
+         <li>Click on the target element to copy its style.</li>
+         <li>
+           <v-icon size="small"
+           >colorize arrow_right_alt format_color_fill
+           </v-icon>
+           The cursor will revert to a palette; click on the destination
+           element to apply the copied style.
+         </li>
+       </ol>
+       <div>
+         <v-icon color="amber" size="x-small">circle</v-icon>
+         Hotkey:
+         <v-icon class="mx-1" size="small">sync_alt</v-icon>
+         <b>⌘Ctrl + E</b>
+       </div>
+     </v-tooltip>
+   </v-btn>
+ </div>
+
+
+    <v-divider vertical></v-divider>
+
+
+    <div class="lmt-group">
+
+      <v-sheet color="#222" class="d-flex ma-1 overflow-hidden" rounded="lg" height="38">
+
+
+
+        <div :class="{ '-active': pageBuilder.listShown }" class="down-bar-btn ma-1 rounded-lg">
+          <!-- ▃▃▃▃▃▃▃▃▃▃ Tools ▃▃▃▃▃▃▃▃▃▃ -->
+
+          <v-btn
+              :color="pageBuilder.listShown ? 'amber' : '#111'"
+              variant="flat"
+              size="small"
+              @click.stop="pageBuilder.toggleListVisibility"
+              class="tnt  "
+              prepend-icon="construction"
           >
-            <b class="d-block">
-              {{ $t("page_builder.design.tools.tools") }}
-            </b>
-            You have the option to enable or disable the display of the side
-            menu, which includes all section categories for constructing your
-            page.
+            {{ $t("page_builder.design.tools.tools") }}
 
-            <div>
-              <v-icon color="amber" size="x-small">circle</v-icon>
-              Hotkey:
-              <v-icon class="mx-1" size="small">sync_alt</v-icon>
-              <b>TAB</b>
-            </div>
-          </v-tooltip>
-        </v-btn>
-      </div>
+            <v-tooltip
+                activator="parent"
+                content-class="text-start small pa-3 bg-black"
+                location="bottom"
+                max-width="420"
+                :open-delay="500"
+            >
+              <b class="d-block">
+                {{ $t("page_builder.design.tools.tools") }}
+              </b>
+              You have the option to enable or disable the display of the side
+              menu, which includes all section categories for constructing your
+              page.
 
-      <div
-        :class="{ '-active': pageBuilder.$builder.isSorting }"
-        class="down-bar-btn"
-      >
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Sort ▃▃▃▃▃▃▃▃▃▃ -->
+              <div>
+                <v-icon color="amber" size="x-small">circle</v-icon>
+                Hotkey:
+                <v-icon class="mx-1" size="small">sync_alt</v-icon>
+                <b>TAB</b>
+              </div>
+            </v-tooltip>
+          </v-btn>
+        </div>
 
-        <v-btn
-          :color="pageBuilder.$builder.isSorting ? 'amber' : '#fff'"
-          variant="text"
-          size="small"
-          class="tnt"
-          @click.stop="pageBuilder.toggleSort"
-          prepend-icon="open_with"
+        <div
+            :class="{ '-active': pageBuilder.$builder.isSorting }"
+            class="down-bar-btn ma-1 rounded-lg "
         >
-          {{ $t("page_builder.design.tools.rearrange") }}
+          <!-- ▃▃▃▃▃▃▃▃▃▃ Sort ▃▃▃▃▃▃▃▃▃▃ -->
 
-          <v-tooltip
-            activator="parent"
-            content-class="text-start small pa-3 bg-black"
-            location="bottom"
-            max-width="420"
-            :open-delay="500"
+          <v-btn
+              :color="pageBuilder.$builder.isSorting ? 'amber' : '#111'"
+              variant="flat"
+              size="small"
+              class="tnt"
+              @click.stop="pageBuilder.toggleSort"
+              prepend-icon="open_with"
           >
-            <b class="d-block">
-              {{ $t("page_builder.design.tools.rearrange") }}
-            </b>
-            When you activate this feature, it will allow you to effortlessly
-            rearrange and reorganize sections by dragging them.
-          </v-tooltip>
-        </v-btn>
-      </div>
+            {{ $t("page_builder.design.tools.rearrange") }}
 
-      <div
-        :class="{ '-active': pageBuilder.$builder.isHideExtra }"
-        class="down-bar-btn"
-      >
-        <!-- ▃▃▃▃▃▃▃▃▃▃ Edit/View Mode ▃▃▃▃▃▃▃▃▃▃ -->
+            <v-tooltip
+                activator="parent"
+                content-class="text-start small pa-3 bg-black"
+                location="bottom"
+                max-width="420"
+                :open-delay="500"
+            >
+              <b class="d-block">
+                {{ $t("page_builder.design.tools.rearrange") }}
+              </b>
+              When you activate this feature, it will allow you to effortlessly
+              rearrange and reorganize sections by dragging them.
+            </v-tooltip>
+          </v-btn>
+        </div>
 
-        <v-btn
-          :color="pageBuilder.$builder.toggleHideExtra ? 'amber' : '#fff'"
-          variant="text"
-          size="small"
-          class="tnt"
-          @click.stop="pageBuilder.toggleHideExtra()"
-          :prepend-icon="
+
+      </v-sheet>
+
+
+      <v-sheet color="#222" class="d-flex ma-1 overflow-hidden" rounded="lg" height="38">
+
+        <div
+            :class="{ '-active': pageBuilder.$builder.isHideExtra }"
+            class="down-bar-btn ma-1 rounded-lg "
+        >
+          <!-- ▃▃▃▃▃▃▃▃▃▃ Edit/View Mode ▃▃▃▃▃▃▃▃▃▃ -->
+
+          <v-btn
+              color="#111"
+              variant="flat"
+              size="small"
+              class="tnt"
+              @click.stop="pageBuilder.toggleHideExtra()"
+              :prepend-icon="
             pageBuilder.$builder.isHideExtra ? 'visibility' : 'edit'
           "
+          >
+            {{ !pageBuilder.$builder.isHideExtra ? "Edit" : "View" }}
+
+            <v-tooltip
+                activator="parent"
+                content-class="text-start small pa-3 bg-black"
+                location="bottom"
+                max-width="420"
+                :open-delay="500"
+            >
+              <b class="d-block"> Edit / View Mode </b>
+              <div class="my-1">
+                <v-icon size="small">edit</v-icon>
+                <b class="mx-1">Edit Mode:</b> All editing tools will be shown.
+              </div>
+              <div class="my-1">
+                <v-icon size="small">visibility</v-icon>
+                <b class="mx-1">View Mode:</b> View what users see by hiding extra
+                edit tools and empty texts.
+              </div>
+            </v-tooltip>
+          </v-btn>
+        </div>
+        <div
+            :class="{ '-active': landing_show_elements_repository }"
+            class="down-bar-btn ma-1 rounded-lg "
         >
-          {{ !pageBuilder.$builder.isHideExtra ? "Edit" : "View" }}
+        <v-btn
+            color="#111"
+            variant="flat"
+            size="small"
+            class="tnt"
+            @click.stop="toggleLandingShowElementsRepository()"
+            prepend-icon="widgets"
+        >
+
+          <div class="small mt-1 tnt">Repository</div>
 
           <v-tooltip
-            activator="parent"
-            content-class="text-start small pa-3 bg-black"
-            location="bottom"
-            max-width="420"
-            :open-delay="500"
+              activator="parent"
+              content-class="text-start small pa-3 bg-black"
+              location="bottom"
+              max-width="420"
+              :open-delay="500"
           >
-            <b class="d-block"> Edit / View Mode </b>
-            <div class="my-1">
-              <v-icon size="small">edit</v-icon>
-              <b class="mx-1">Edit Mode:</b> All editing tools will be shown.
-            </div>
-            <div class="my-1">
-              <v-icon size="small">visibility</v-icon>
-              <b class="mx-1">View Mode:</b> View what users see by hiding extra
-              edit tools and empty texts.
-            </div>
+            <b class="d-block"> Prebuilt Sections </b>
+            Enable or disable the display of pre-constructed and designed sections.
+            These sections are created using standard sections available in the left
+            menu, demonstrating the versatility of this page builder.
           </v-tooltip>
         </v-btn>
-      </div>
+        </div>
+      </v-sheet>
+
     </div>
-
-
-
-    <v-divider vertical></v-divider>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
 
-    <v-btn
-      :color="landing_show_elements_repository ? 'amber' : '#fff'"
-      variant="text"
-      stacked
-      size="small"
-      @click.stop="toggleLandingShowElementsRepository()"
-    >
-      <v-icon>widgets</v-icon>
-      <div class="small mt-1 tnt">Repository</div>
 
-      <v-tooltip
-        activator="parent"
-        content-class="text-start small pa-3 bg-black"
-        location="bottom"
-        max-width="420"
-        :open-delay="500"
-      >
-        <b class="d-block"> Prebuilt Sections </b>
-        Enable or disable the display of pre-constructed and designed sections.
-        These sections are created using standard sections available in the left
-        menu, demonstrating the versatility of this page builder.
-      </v-tooltip>
-    </v-btn>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -296,7 +322,7 @@
         </ol>
       </v-tooltip>
     </u-button-ai-small>
-    <v-divider class="m-0" vertical></v-divider>
+    <v-divider  vertical></v-divider>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Shop Top Menu ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -317,7 +343,7 @@
         >
         </v-avatar>
       </v-btn>
-      <v-divider class="m-0" vertical></v-divider>
+      <v-divider  vertical></v-divider>
 
       <l-store-top-bar-editor
         v-model="show_menu_editor"
@@ -920,40 +946,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.down-bar-btn {
-  position: relative;
 
-  &:after {
-    content: " ";
-    background: #eee;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-  }
 
-  &.-active {
-    &:after {
-      background: #ffa000;
-    }
-  }
-
-  button {
-    min-height: 100% !important;
-  }
-}
-
-.info-item {
-  font-size: 0.8rem;
-  margin: 3px 6px !important;
-  text-align: left;
-  direction: ltr;
-  color: #fff;
-
-  b {
-    text-transform: uppercase;
-    padding-right: 4px;
-  }
-}
 </style>

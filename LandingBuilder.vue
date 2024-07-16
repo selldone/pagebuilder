@@ -40,6 +40,7 @@
       :pageBuilder="$refs.vueBuilder"
       :demoPage="demoPage"
       :demo="demo"
+      :busy-save="busy_save"
       :saveFunction="onSave"
     >
     </l-menu-top>

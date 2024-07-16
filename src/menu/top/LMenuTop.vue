@@ -131,7 +131,7 @@
           >
             <l-menu-top-home
               v-if="pageBuilder"
-              :busySave="busy_save"
+              :busySave="busySave"
               :page="page"
               :pageBuilder="pageBuilder"
               :shop="shop"
@@ -192,6 +192,10 @@ export default defineComponent({
       require: true,
     },
     demo: Boolean,
+    busySave: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data: () => ({
@@ -222,8 +226,52 @@ export default defineComponent({
   ::v-deep(.v-divider) {
     border-color: #fff !important;
     opacity: 0.3;
-    margin: 0;
+    margin: 0 4px;
   }
+
+  .down-bar-btn {
+    position: relative;
+
+    &:after {
+      content: " ";
+      background: #eee;
+      position: absolute;
+      bottom: 2px;
+      left: 8px;
+      right: 8px;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    &.-active {
+      &:after {
+        background: #ffa000;
+      }
+    }
+
+    button {
+      min-height: 100% !important;
+    }
+  }
+
+
+  .info-item {
+    font-size: 0.8rem;
+    margin: 3px 6px !important;
+    text-align: left;
+    direction: ltr;
+    color: #fff;
+
+    b {
+      text-transform: uppercase;
+      padding-right: 4px;
+    }
+  }
+
+  .lmt-group{
+    padding: 4px;
+  }
+
 }
 
 </style>
