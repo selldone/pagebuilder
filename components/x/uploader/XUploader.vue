@@ -829,6 +829,14 @@ export default defineComponent({
             this.object.data.src = imageURL;
 
             this.$emit("uploaded", imageURL);
+
+            const item = response.data.files.item; // Item in database
+            const asset_images = this.$builder.getAssets()?.images;
+
+            if (item && asset_images) {
+              this.AddOrUpdateItemByID(asset_images, item);
+              // console.log('Add new item to asset',asset_images,item)
+            }
           } else {
             this.showErrorAlert(null, response.data.error_msg);
           }

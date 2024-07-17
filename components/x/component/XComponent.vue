@@ -88,9 +88,7 @@ export default defineComponent({
     this.initSortable();
   },
   updated() {
-    this.$nextTick(() => {
-      this.initSortable();
-    });
+
   },
   beforeUnmount() {
     try {

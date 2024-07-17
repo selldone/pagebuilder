@@ -21,6 +21,11 @@
       color="#222"
       height="52"
       style="border-bottom: solid #111 thin"
+      @mouseenter="
+        lock_scroll
+          ? undefined
+          : window.scrollTo({ top: 0, behavior: 'smooth' })
+      "
     >
       <v-toolbar-title style="font-size: 12px"
         ><b>Navigator</b></v-toolbar-title
@@ -57,7 +62,7 @@
       ghostClass="bg-primary"
     >
       <template v-slot:item="{ element }">
-        <l-settings-hierarchy-item
+        <l-menu-left-hierarchy-item
           :object="element.object"
           :section="element"
           class="mx-2"
@@ -70,7 +75,7 @@
             }
           "
         >
-        </l-settings-hierarchy-item>
+        </l-menu-left-hierarchy-item>
       </template>
     </draggable>
     <v-menu
@@ -83,12 +88,12 @@
       width="90vw"
     >
       <v-card class="text-start">
-        <v-card-title class="text-subtitle-2 border-bottom">
+        <v-card-title class="text-subtitle-2 border-bottom bg-black">
           <v-icon class="me-1">{{ menu_selected_item.icon }}</v-icon>
           {{ menu_selected_item.title }}
         </v-card-title>
 
-        <v-list density="compact">
+        <v-list density="compact" class="border-between-vertical">
           <v-list-item
             title="Classes & Style"
             subtitle="Change element appearance."
@@ -98,20 +103,21 @@
           </v-list-item>
 
           <v-list-item
-              title="Duplicate Element"
-              subtitle="Create a copy of the element."
-              prepend-icon="content_copy"
-              @click="duplicateItem(menu_selected_item)"
+            title="Duplicate Element"
+            subtitle="Create a copy of the element."
+            prepend-icon="content_copy"
+            @click="duplicateItem(menu_selected_item)"
           >
           </v-list-item>
-
 
           <v-list-item
             title="Delete Element"
             subtitle="Remove element and all its children."
-            prepend-icon="close"
             @click="deleteItem(menu_selected_item)"
           >
+            <template v-slot:prepend>
+              <v-icon color="red">close</v-icon>
+            </template>
           </v-list-item>
         </v-list>
       </v-card>
@@ -120,18 +126,19 @@
 </template>
 
 <script lang="ts">
-import LSettingsHierarchyItem from "@selldone/page-builder/settings/hierarchy/item/LSettingsHierarchyItem.vue";
-import Builder from "@selldone/page-builder/Builder";
+import LMenuLeftHierarchyItem from "@selldone/page-builder/src/menu/left/hierarchy/item/LMenuLeftHierarchyItem.vue";
+import Builder from "@selldone/page-builder/Builder.ts";
 import draggable from "vuedraggable";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
+import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
+import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 
 export default {
-  name: "LSettingsHierarchy",
+  name: "LMenuLeftHierarchy",
   mixins: [LMixinEvents],
-  components: { draggable, LSettingsHierarchyItem },
+  components: { draggable, LMenuLeftHierarchyItem },
 
   props: {
     builder: { type: Builder, required: true },
@@ -146,6 +153,9 @@ export default {
   }),
 
   computed: {
+    ScrollHelper() {
+      return ScrollHelper;
+    },
     sections() {
       return this.builder.sections;
     },
@@ -182,9 +192,9 @@ export default {
       section,
       parent,
     }: {
-      object: LModelElement;
-      section: Section;
-      parent: Section;
+      object: LModelElement<any>;
+      section: Section | null;
+      parent: LModelElement<any> | null;
     }) {
       if (!parent) {
         // In the root
@@ -199,19 +209,25 @@ export default {
       section,
       parent,
     }: {
-      object: LModelElement;
-      section: Section;
-      parent: Section;
+      object: LModelElement<any>;
+      section: Section | null;
+      parent: LModelElement<any> | null;
     }) {
       const clone = LUtilsClone.CloneElement(object);
 
       if (!parent) {
-        const index=this.builder.sections.indexOf(section);
+        const index = this.builder.sections.indexOf(section);
         // In the root
-        this.builder.add({object:clone,label:`🍒 ${section.label}`},index>=0?index+1:0,true);
+        this.builder.add(
+          { object: clone, label: `🍒 ${section.label}` },
+          index >= 0 ? index + 1 : 0,
+          true,
+        );
       } else {
-        clone.setLabel(null)
-        parent.addChild(clone);
+        const index = parent?.children.indexOf(object);
+        //console.log(parent, index);
+        clone.setLabel(null);
+        parent.addChild(clone, index);
       }
     },
   },

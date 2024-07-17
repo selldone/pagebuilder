@@ -117,7 +117,7 @@ import BGooglePreview from "@selldone/components-vue/backoffice/google/preview/B
 import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgressScore.vue";
 
 export default {
-  name: "LPageEditorSeo",
+  name: "LMenuLeftSeo",
   components: { UProgressScore, BGooglePreview },
   props: {
     page: {},

@@ -40,13 +40,12 @@
         </div>
       </v-card-actions>
 
-      <v-card-text>
-        <s-widget-header
-          icon="format_quote"
+
+      <s-setting-group
+          icon="text_fields"
           title="Font & Typo"
-        ></s-widget-header>
-        <v-list-subheader></v-list-subheader>
-      </v-card-text>
+          subtitle="You can set the default page font and the size of text and headers here."
+      ></s-setting-group>
 
       <v-expansion-panels v-model="tab" flat>
         <!-- ████████████████████ Font ████████████████████ -->

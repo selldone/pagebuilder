@@ -14,107 +14,111 @@
 
 <template>
   <div v-bind="$attrs" class="l--menu-top-tools">
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Export ▃▃▃▃▃▃▃▃▃▃ -->
 
-    <div>
-      <!-- ▃▃▃▃▃▃▃▃▃▃ Export ▃▃▃▃▃▃▃▃▃▃ -->
-
-      <v-btn      variant="text" size="small" stacked @click="exportFile()">
-        <v-icon size="small">fa:fas fa-file-export</v-icon>
-
-        <div class="small mt-1 tnt">Export</div>
-
-        <v-tooltip
-            activator="parent"
-            content-class="text-start small pa-3 bg-black"
-            location="bottom"
-            max-width="420"
-            :open-delay="500"
-        >
-          <b class="d-block"> Export Landing Page </b>
-          <v-icon size="small">save</v-icon>
-          <b class="mx-1">Save: </b> You have the option to export this page as a
-          .landing file, which can be imported into other shops or repurposed for
-          creating additional pages.
-        </v-tooltip>
-      </v-btn>
-
-    </div>
-    <v-btn
-      v-if="hasEmbedCode"
-      :class="{ disabled: !page }"
-      class="d-flex align-center rounded py-1 px-2 text-start pp usn mt-3 mx-3 tnt hover-scale-tiny"
-      color="#000"
-      style="min-height: 54px"
-      @click="showEmbedCode()"
-      variant="elevated"
-      theme="dark"
-      ripple
+    <lmt-large-button
+      @click="exportFile()"
+      icon="file_download"
+      caption="Export"
+      sub-caption=".landing"
     >
-      <v-icon size="24">code</v-icon>
-      <div class="ms-2">
-        <b class="d-block"> {{ $t("page_builder.menu.embed") }}</b>
-        <span class="small d-block mt-1">Copy & past this page anywhere.</span>
-      </div>
-    </v-btn>
+      <template v-slot:tooltip>
+        <b class="d-block">
+          <v-icon>save</v-icon>
+          Export Landing Page
+        </b>
+
+        <b class="me-1">Save: </b> You have the option to export this page as a
+        .landing file, which can be imported into other shops or repurposed for
+        creating additional pages.
+      </template>
+    </lmt-large-button>
+
+    <v-divider vertical></v-divider>
+
+    <lmt-large-button
+      @click="showEmbedCode()"
+      icon="code"
+      :caption="$t('page_builder.menu.embed')"
+      sub-caption="Html Code"
+      :disabled="!page"
+    >
+      <template v-slot:tooltip>
+        <b class="d-block">
+          <v-icon>html css javascript</v-icon>
+          Generated Html Code</b
+        >
+        You can copy and paste this simple generated code into any HTML page to
+        load the latest version of the page.
+      </template>
+    </lmt-large-button>
+
+    <v-divider vertical></v-divider>
   </div>
 
   <!-- ███████████████████ Dialog > Embed code ███████████████████ -->
-  <v-dialog
+  <v-bottom-sheet
     v-model="show_embed"
-    fullscreen
     scrollable
-    transition="dialog-bottom-transition"
+    :max-width="1480"
+    content-class="rounded-t-xl"
+    width="98vw"
+    min-height="40vh"
   >
-    <v-card :loading="busy_fetch" class="text-start tools-card" theme="dark">
-      <v-card-title class="text-capitalize">
-        <v-icon class="me-1">auto_fix_normal</v-icon>
+    <v-card
+      :loading="busy_fetch"
+      class="text-start tools-card"
+      theme="dark"
+      rounded="t-xl"
+    >
+      <v-card-title>
+        <div class="d-flex align-start">
+          <v-icon class="me-1 flex-grow-0" size="64">sd</v-icon>
 
-        Your page embed code
+          <div class="flex-grow-1">
+            <b class="d-block">Page Hyper</b>
+            <div class="text-subtitle-2 text-wrap">
+              Welcome to the next generation of <s>page builders</s>
+              <v-chip size="small" class="mx-1">web app builders</v-chip>
+              . Build your page 100% SEO friendly, and no iframe embed solution
+              by SD and embed it just by some lines of codes!
+            </div>
+          </div>
+        </div>
       </v-card-title>
 
       <v-card-text dir="ltr">
-        <v-container>
-          <div class="mb-3">
-            <div class="d-flex align-start">
-              <v-icon class="me-1 flex-grow-0" size="64">sd</v-icon>
+        <template v-if="embed">
+          <v-list-subheader>
+            <span>
+              Copy & Past this code any where in your <b>head</b> &
+              <b>body</b> tag.
+            </span>
+          </v-list-subheader>
 
-              <div class="flex-grow-1">
-                <h1 class="mb-2">Page Hyper</h1>
-                <p class="m-0">
-                  Welcome to the next generation of <s>page builders</s>
-                  <v-chip size="small" class="mx-1">web app builders</v-chip>
-                  . Build your page 100% SEO friendly, and no iframe embed
-                  solution by SD and embed it just by some lines of codes!
-                </p>
-              </div>
-            </div>
+          <s-widget-header icon="code" title="Head"></s-widget-header>
+
+          <div @click="copyToClipboard(embed.head, 'Copy body code')" class="max-width-container-820px mx-auto">
+            <prism-editor
+              readonly
+              class="code-con"
+              :model-value="embed.head"
+              :highlight="highlighter"
+              language="html"
+            ></prism-editor>
           </div>
 
-          <template v-if="embed">
-            <v-list-subheader>
-              <span>
-                Copy & Past this code any where in your <b>head</b> &
-                <b>body</b> tag.
-              </span>
-            </v-list-subheader>
+          <s-widget-header icon="code" title="Body"></s-widget-header>
 
-            <s-widget-header icon="code" title="Head"></s-widget-header>
-
-            <pre
+          <div @click="copyToClipboard(embed.body, 'Copy head code')" class="max-width-container-820px mx-auto">
+            <prism-editor
               class="code-con"
-              @click="copyToClipboard(embed.head, 'Copy body code')"
-              v-text="embed.head"
-            ></pre>
-
-            <s-widget-header icon="code" title="Body"></s-widget-header>
-
-            <pre
-              class="code-con"
-              @click="copyToClipboard(embed.body, 'Copy head code')"
-              v-text="embed.body"
-            ></pre>
-          </template>
-        </v-container>
+              :model-value="embed.body"
+              :highlight="highlighter"
+              language="html"
+            ></prism-editor>
+          </div>
+        </template>
       </v-card-text>
 
       <v-card-actions>
@@ -134,7 +138,7 @@
             {{ $t("global.actions.copy") }}
           </v-btn>
           <v-btn
-            color="primary"
+            color="#1976D2"
             size="x-large"
             variant="elevated"
             @click="downloadText(page.title + '.html', embed.html)"
@@ -145,15 +149,19 @@
         </div>
       </v-card-actions>
     </v-card>
-  </v-dialog>
+  </v-bottom-sheet>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import {SetupService} from "@selldone/core-js/server";
+import { SetupService } from "@selldone/core-js/server";
+import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";
+import "prismjs/themes/prism-dark.css";
+import { PrismEditor } from "vue-prism-editor";
 
 export default defineComponent({
   name: "LMenuTopExport",
+  components: { PrismEditor, LmtLargeButton },
 
   props: {
     page: Object,
@@ -165,13 +173,13 @@ export default defineComponent({
     embed: null,
   }),
 
-  computed: {
-    hasEmbedCode() {
-      return this.page?.id;
-    },
-  },
+  computed: {},
 
   methods: {
+    highlighter(code) {
+      return Prism.highlight(code, Prism.languages.html);
+    },
+
     exportFile() {
       const out = {
         content: {
@@ -186,11 +194,10 @@ export default defineComponent({
         service: SetupService.MainServiceUrl(),
       };
       this.downloadText(
-          this.page.title + ".landing",
-          JSON.stringify(out, null, 4),
+        this.page.title + ".landing",
+        JSON.stringify(out, null, 4),
       );
     },
-
 
     showEmbedCode() {
       if (!this.page || !this.page.id) return;
@@ -198,7 +205,7 @@ export default defineComponent({
       this.show_embed = true;
       this.busy_fetch = true;
       axios
-        .get(window.API.GET_PAGE_EMBED_CODE(this.shop.id, this.page.id))
+        .get(window.API.GET_PAGE_EMBED_CODE(this.page.shop_id, this.page.id))
         .then(({ data }) => {
           this.embed = data.embed;
         })
@@ -213,4 +220,17 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.code-con {
+  background-color: #222;
+  padding: 8px;
+  margin: 16px 0 26px;
+  display: block;
+  border-radius: 12px;
+  font-size: 12px;
+
+  &:hover {
+    background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+  }
+}
+</style>

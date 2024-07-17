@@ -20,15 +20,13 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
 
 export class XSwiperObject extends LModelElement<XSwiperObjectData> {
-
-  public static ComponentName="XSwiper";
+  public static ComponentName = "XSwiper";
   public static Info = {
-    group:'Layout',
-    icon:'web_stories',
-    title:'Swiper'
+    group: "Layout",
+    icon: "web_stories",
+    title: "Swiper",
   };
 
   constructor(
@@ -40,7 +38,7 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
     props: any,
   ) {
     super(
-        XSwiperObject.ComponentName,
+      XSwiperObject.ComponentName,
       background,
       style,
       classes,
@@ -67,10 +65,12 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
     return instance;
   }
 
-  static SeedSlide(title_value: string = "Enter your headline here..."):XContainerObject {
+  static SeedSlide(
+    title_value: string = "Enter your headline here...",
+  ): XContainerObject {
     const container = XContainerObject.Seed();
     const row = XRowObject.Seed();
-    const column = XColumnObject.Seed(12, 6, 5);
+    const column = XColumnObject.Seed(12, 9, 7);
     const title = XTextObject.Seed(title_value, "h2", ["mb-5"]);
     const subtitle = XTextObject.Seed(
       "Write your main content here, including key details about your topic, ensuring to cover the main elements of discussion or description...",
@@ -105,7 +105,4 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
   public static JsonToInstance(json: Record<string, any>): XSwiperObject {
     return this._JsonToInstance(json, XSwiperObjectData);
   }
-
-
-
 }

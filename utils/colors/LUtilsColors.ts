@@ -129,6 +129,11 @@ export class LUtilsColors {
       "--plate-dark-12": style?.plate_dark_12
         ? style.plate_dark_12
         : this.PLATE_DARK_12,
+
+      "--bg-color": style && style.bg_color ? style.bg_color : "#fff",
+      "--background": style?.bg_color
+        ? style.bg_color
+        : "#fff" /*IMPORTANT! Used by shop dynamic css. e.g. fade scrolls*/,
     };
   }
 

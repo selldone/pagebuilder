@@ -63,6 +63,7 @@
             <v-expansion-panel-text>
               <background-image-editor
                 v-if="layers_tab === 0"
+                :builder="builder"
                 key="0"
                 v-model:bg-custom="bg.bg_custom"
                 v-model:bg-gradient="bg.bg_gradient"
@@ -97,6 +98,7 @@
             <v-expansion-panel-text>
               <background-image-editor
                 v-if="layers_tab === 1"
+                :builder="builder"
                 key="1"
                 v-model:bg-image="fg.bg_image"
                 v-model:bgCustom="fg.bg_custom"

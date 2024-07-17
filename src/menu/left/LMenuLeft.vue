@@ -43,21 +43,21 @@
 
       <v-spacer></v-spacer>
       <!-- ━━━━━━━━━━━━━━━ CSS ━━━━━━━━━━━━━━━ -->
-      <l-page-editor-css :page="page" />
+      <l-menu-left-css :page="page" />
 
 
       <!-- ━━━━━━━━━━━━━━━ Statistic ━━━━━━━━━━━━━━━ -->
-      <l-page-editor-statistics
+      <l-menu-left-statistics
         :page="page"
-      ></l-page-editor-statistics>
+      ></l-menu-left-statistics>
 
 
       <!-- ━━━━━━━━━━━━━━━ SEO ━━━━━━━━━━━━━━━ -->
-      <l-page-editor-seo v-if="hasSEO" :page="page" />
+      <l-menu-left-seo v-if="hasSEO" :page="page" />
 
       <!-- ━━━━━━━━━━━━━━━ Settings ━━━━━━━━━━━━━━━ -->
 
-      <l-page-editor-setting
+      <l-menu-left-setting
         v-if="hasSetting"
         v-model:cluster-id="page.cluster_id"
         v-model:color="page.color"
@@ -67,7 +67,7 @@
         :is-official-page="!shop"
         :page="page"
         :shop="shop"
-      ></l-page-editor-setting>
+      ></l-menu-left-setting>
     </div>
 
     <div class="l-window overflow-auto thin-scroll">
@@ -79,7 +79,7 @@
           eager
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-settings-hierarchy :builder="builder"></l-settings-hierarchy>
+          <l-menu-left-hierarchy :builder="builder"></l-menu-left-hierarchy>
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Sections ━━━━━━━━━━━━━━━ -->
@@ -89,10 +89,10 @@
           eager
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-page-editor-components-menu
+          <l-menu-left-sections
             :builder="builder"
             @update:is-dragged="(val) => (is_dragged = val)"
-          ></l-page-editor-components-menu>
+          ></l-menu-left-sections>
         </v-tabs-window-item>
         <!-- ━━━━━━━━━━━━━━━ Elements ━━━━━━━━━━━━━━━ -->
         <v-tabs-window-item
@@ -100,10 +100,10 @@
           eager
           :style="{ width: min_width_window + 'px' }"
         >
-          <LPageEditorElementsMenu
+          <LMenuLeftElements
             :builder="builder"
             @update:is-dragged="(val) => (is_dragged = val)"
-          ></LPageEditorElementsMenu>
+          ></LMenuLeftElements>
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Versions ━━━━━━━━━━━━━━━ -->
@@ -112,13 +112,13 @@
           eager
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-page-editor-versions-menu
+          <l-menu-left-versions
             :builder="builder"
             :histories="histories"
             :setPageFunction="setPageFunction"
             :fetchPageData="fetchPageData"
             :page="page"
-          ></l-page-editor-versions-menu>
+          ></l-menu-left-versions>
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Assets ━━━━━━━━━━━━━━━ -->
@@ -126,7 +126,7 @@
           value="assets"
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-page-editor-files v-if="page" :page="page" />
+          <l-menu-left-assets v-if="page" :page="page" :builder="builder" />
         </v-tabs-window-item>
       </v-tabs-window>
     </div>
@@ -135,28 +135,28 @@
 
 <script>
 import { defineComponent, inject } from "vue";
-import LSettingsHierarchy from "@selldone/page-builder/settings/hierarchy/LSettingsHierarchy.vue";
-import LPageEditorComponentsMenu from "@selldone/page-builder/page/editor/components-menu/LPageEditorComponentsMenu.vue";
-import LPageEditorElementsMenu from "@selldone/page-builder/page/editor/elements-menu/LPageEditorElementsMenu.vue";
-import LPageEditorVersionsMenu from "@selldone/page-builder/page/editor/versions-menu/LPageEditorVersionsMenu.vue";
-import LPageEditorSetting from "@selldone/page-builder/page/editor/setting/LPageEditorSetting.vue";
-import LPageEditorSeo from "@selldone/page-builder/page/editor/seo/LPageEditorSeo.vue";
-import LPageEditorCss from "@selldone/page-builder/page/editor/css/LPageEditorCss.vue";
-import LPageEditorFiles from "@selldone/page-builder/page/editor/files/LPageEditorFiles.vue";
-import LPageEditorStatistics from "@selldone/page-builder/page/editor/statistics/LPageEditorStatistics.vue";
+import LMenuLeftHierarchy from "@selldone/page-builder/src/menu/left/hierarchy/LMenuLeftHierarchy.vue";
+import LMenuLeftSections from "@selldone/page-builder/src/menu/left/sections/LMenuLeftSections.vue";
+import LMenuLeftElements from "@selldone/page-builder/src/menu/left/elements/LMenuLeftElements.vue";
+import LMenuLeftVersions from "@selldone/page-builder/src/menu/left/versions/LMenuLeftVersions.vue";
+import LMenuLeftSetting from "@selldone/page-builder/src/menu/left/setting/LMenuLeftSetting.vue";
+import LMenuLeftSeo from "@selldone/page-builder/src/menu/left/seo/LMenuLeftSeo.vue";
+import LMenuLeftCss from "@selldone/page-builder/src/menu/left/css/LMenuLeftCss.vue";
+import LMenuLeftAssets from "@selldone/page-builder/src/menu/left/assets/LMenuLeftAssets.vue";
+import LMenuLeftStatistics from "@selldone/page-builder/src/menu/left/statistics/LMenuLeftStatistics.vue";
 
 export default defineComponent({
-  name: "LPageEditorSideMenu",
+  name: "LMenuLeft",
   components: {
-    LPageEditorStatistics,
-    LPageEditorFiles,
-    LPageEditorCss,
-    LPageEditorSeo,
-    LPageEditorSetting,
-    LPageEditorVersionsMenu,
-    LPageEditorComponentsMenu,
-    LSettingsHierarchy,
-    LPageEditorElementsMenu,
+    LMenuLeftStatistics,
+    LMenuLeftAssets,
+    LMenuLeftCss,
+    LMenuLeftSeo,
+    LMenuLeftSetting,
+    LMenuLeftVersions,
+    LMenuLeftSections,
+    LMenuLeftHierarchy,
+    LMenuLeftElements,
   },
 
   props: {

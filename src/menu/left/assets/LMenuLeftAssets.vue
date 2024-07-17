@@ -70,7 +70,11 @@
           draggable="true"
           @dragstart="handleDragStart($event, file)"
         >
-          <v-img :src="getShopImagePath(file.path)" class="prev-asset"></v-img>
+          <v-img
+            :src="getShopImagePath(file.path)"
+            class="prev-asset"
+            cover
+          ></v-img>
 
           <div class="pa-1 d-flex align-center">
             <b v-if="file.size" class="me-1" style="font-size: 8px">{{
@@ -102,13 +106,18 @@
 </template>
 
 <script>
-import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
+import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
+import Builder from "@selldone/page-builder/Builder.ts";
 
 export default {
-  name: "LPageEditorFiles",
+  name: "LMenuLeftAssets",
   components: {},
   props: {
     page: {},
+    builder: {
+      required: true,
+      type: Builder,
+    },
   },
 
   data: () => ({
@@ -135,6 +144,8 @@ export default {
           if (!data.error) {
             this.images = data.images;
             this.videos = data.videos;
+
+            this.builder.setAssets(data.images, data.videos);
           } else {
             this.showErrorAlert(null, data.error_msg);
           }
@@ -148,7 +159,6 @@ export default {
     },
 
     handleDragStart(event, file) {
-
       event.dataTransfer.setData("text/plain", file.path);
     },
   },

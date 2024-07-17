@@ -105,6 +105,7 @@ export default defineComponent({
   name: "LStoreTopBarEditor",
   mixins: [LMixinEvents],
   components: { SSettingColor, SSettingToggle, SSettingGroup },
+  inject: ["$builder"],
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
@@ -112,10 +113,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    builder: {
-      type: Object,
-      required: true,
-    },
+
   },
   data() {
     return {};
@@ -123,17 +121,17 @@ export default defineComponent({
 
   computed: {
     page_style() {
-      return this.builder.style;
+      return this.$builder.style;
     },
   },
   watch: {
     page_style() {
-      if (!this.page_style) this.builder.style = {};
+      if (!this.page_style) this.$builder.style = {};
       if (!this.page_style.header_mode) this.page_style.header_mode = "normal";
     },
   },
   created() {
-    if (!this.page_style) this.builder.style = {};
+    if (!this.page_style) this.$builder.style = {};
     if (!this.page_style.header_mode) this.page_style.header_mode = "normal";
   },
   methods: {},

@@ -13,314 +13,327 @@
   -->
 
 <template>
-  <div
-    v-bind="$attrs"
-    v-scroll="onScroll"
-    class="page-builder position-relative"
-    data-gramm="false"
-    spellcheck="false"
-    style="min-height: 60vh"
-  >
-    <!-- ------------------------------------- Themes ------------------------------------------>
+  <div v-bind="$attrs">
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-templates-list
-      v-if="show_templates"
-      has-header
-      clickable
-      @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
-      @select:page="(_page) => loadPageTemplate(_page)"
-    ></l-templates-list>
-
-    <!-- ████████████████████████ Editor ████████████████████████ -->
-    <div
-      :class="{ hidden: show_templates }"
-      :style="{ 'max-height': max_h }"
-      class="designer-container"
-      @mouseup="$builder.isEditing ? onSaveHistory() : undefined"
-      @mousemove="(e) => (lastCursorY = e.clientY)"
+    <l-menu-top
+      v-if="page"
+      :backTo="backTo"
+      :shop="shop"
+      :page="page"
+      :audiences="audiences"
+      :liveStream="liveStream"
+      @update:liveStream="(v) => $emit('update:liveStream', v)"
+      :demo="demo"
+      :busy-save="busySave"
+      :saveFunction="onSave"
     >
-      <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
+    </l-menu-top>
 
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+    <div
+      v-scroll="onScroll"
+      class="page-builder position-relative"
+      data-gramm="false"
+      spellcheck="false"
+      style="
+        min-height: 60vh;
+        max-width: 1720px;
+        margin: auto;
+        border-radius: 20px;
+        overflow: hidden;
+      "
+    >
+      <!-- ------------------------------------- Themes ------------------------------------------>
+
+      <l-templates-list
+        v-if="show_templates"
+        has-header
+        clickable
+        @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
+        @select:page="(_page) => loadPageTemplate(_page)"
+      ></l-templates-list>
+
+      <!-- ████████████████████████ Editor ████████████████████████ -->
       <div
-        id="artboard"
-        ref="artboard"
-        :class="{
-          'is-sorting': $builder.isSorting,
-          'is-editable': $builder.isEditing && inEditMode,
-        }"
-        class="artboard overflow-hidden"
-        :style="{ minHeight: scale_down ? '200vh' : '100vh' }"
+        :class="{ hidden: show_templates }"
+        :style="{ 'max-height': max_h }"
+        class="designer-container"
+        @mouseup="$builder.isEditing ? $builder.history.save() : undefined"
+        @mousemove="(e) => (lastCursorY = e.clientY)"
       >
-        <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-        <v-slide-x-reverse-transition leave-absolute>
-          <l-page-editor-artboard-view-mode
-            v-if="
-              !$builder.isAnimation &&
-              !$builder.isTracking &&
-              ($vuetify.display.xlAndUp || scale_down)
-            "
-            :fullscreen="!scale_down"
-            v-model:render-mode="render_mode"
-          >
-          </l-page-editor-artboard-view-mode>
-        </v-slide-x-reverse-transition>
+        <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
 
         <div
+          id="artboard"
+          ref="artboard"
           :class="{
-            'in-scale-down': scale_down,
-            desktop: device === 'desktop',
-            tablet: device === 'tablet',
-            mobile: device === 'mobile',
-
-            '--blueprint-mode':
-              $builder.isAnimation ||
-              $builder.isTracking ||
-              render_mode === 'simple' ||
-              render_mode === 'wire',
-            '--tracking': $builder.isTracking,
-            '--wire': in_design_mode && render_mode === 'wire',
-            '--show-classes':
-              in_design_mode && render_mode === 'wire' && show_classes,
-            '--show-styles':
-              in_design_mode && render_mode === 'wire' && show_styles,
-
-            '--editable': in_design_mode,
+            'is-sorting': $builder.isSorting,
+            'is-editable': $builder.isEditing && inEditMode,
           }"
-          :style="CUSTOM_PAGE_STYLE"
-          class="main-sections-container no-inv"
+          class="artboard overflow-hidden"
+          :style="{ minHeight: scale_down ? '200vh' : '100vh' }"
         >
-          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-          <l-page-editor-artboard-top-bar
-            :page="page"
-            :fullscreen="!scale_down"
-            @click:full-screen="toggleListVisibility"
-            :shop="shop"
-            :isPopup="isPopup"
-            :isMenu="isMenu"
-            :demo="demo"
-          ></l-page-editor-artboard-top-bar>
-          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Progress Loading ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-          <v-progress-linear
-            v-if="delay_load > 0 && delay_load < 999"
-            :model-value="load_percent"
-            color="success"
-            striped
-          ></v-progress-linear>
-
-          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-          <v-locale-provider :rtl="page?.direction === 'rtl'">
-            <div
-              :class="{
-                'drop-active':
-                  !$builder.sections.length && past_hover_index === 0,
-              }"
-              :style="[
-                {
-                  '--bg-color':
-                    builder.style && builder.style.bg_color
-                      ? builder.style.bg_color
-                      : '#fff',
-                  fontFamily:
-                    builder.style && builder.style.font
-                      ? builder.style.font
-                      : undefined,
-                },
-                {
-                  '--background': builder.style?.bg_color
-                    ? builder.style.bg_color
-                    : '#fff' /*IMPORTANT! Used by shop dynamic css. e.g. fade scrolls*/,
-                },
-              ]"
-              class="page-content-wrap-editor position-relative"
-              :dir="page ? page.direction : 'auto'"
+          <v-slide-x-reverse-transition leave-absolute>
+            <l-page-editor-artboard-view-mode
+              v-if="
+                !$builder.isAnimation &&
+                !$builder.isTracking &&
+                ($vuetify.display.xlAndUp || scale_down)
+              "
+              :fullscreen="!scale_down"
+              v-model:render-mode="render_mode"
             >
-              <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
-              <div key="header-demo" class="usn pen">
-                <slot name="header" :builder="builder"></slot>
-              </div>
+            </l-page-editor-artboard-view-mode>
+          </v-slide-x-reverse-transition>
 
+          <div
+            :class="{
+              'in-scale-down': scale_down,
+              desktop: device === 'desktop',
+              tablet: device === 'tablet',
+              mobile: device === 'mobile',
+
+              '--blueprint-mode':
+                $builder.isAnimation ||
+                $builder.isTracking ||
+                render_mode === 'simple' ||
+                render_mode === 'wire',
+              '--tracking': $builder.isTracking,
+              '--wire': in_design_mode && render_mode === 'wire',
+              '--show-classes':
+                in_design_mode && render_mode === 'wire' && show_classes,
+              '--show-styles':
+                in_design_mode && render_mode === 'wire' && show_styles,
+
+              '--editable': in_design_mode,
+            }"
+            :style="CUSTOM_PAGE_STYLE"
+            class="main-sections-container no-inv"
+          >
+            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+            <l-page-editor-artboard-top-bar
+              :page="page"
+              :fullscreen="!scale_down"
+              @click:full-screen="
+                (val) => {
+                  $builder.showLeftMenu = !val;
+                }
+              "
+              :shop="shop"
+              :isPopup="isPopup"
+              :isMenu="isMenu"
+              :demo="demo"
+            ></l-page-editor-artboard-top-bar>
+            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Progress Loading ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+            <v-progress-linear
+              v-if="delay_load > 0 && delay_load < 999"
+              :model-value="load_percent"
+              color="success"
+              striped
+            ></v-progress-linear>
+
+            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+            <v-locale-provider :rtl="page?.direction === 'rtl'">
               <div
-                ref="pagecontent"
-                :class="{ 'min-height-80vh': $builder.isEditing }"
+                :class="{
+                  'drop-active':
+                    !$builder.sections.length && past_hover_index === 0,
+                }"
                 :style="[
-                  PageBuilderTypoHelper.GenerateTypoStyle(builder.style),
-                  PageBuilderColorsHelper.GenerateColorsStyle(builder.style),
+                  PageBuilderTypoHelper.GenerateTypoStyle($builder.style),
+                  PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
                 ]"
-                class="page-content"
-                @click="handleClickOnSections"
-                @dragleave="
-                  (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
-                "
-                @dragover="
-                  (e) =>
-                    !$builder.isEditing || $builder.sections.length
-                      ? undefined
-                      : allowDropSection(e, 0)
-                "
-                @drop="
-                  (e) =>
-                    !$builder.isEditing || $builder.sections.length
-                      ? undefined
-                      : dropSection(e, 0)
-                "
+                class="page-content-wrap-editor position-relative"
+                :dir="page ? page.direction : 'auto'"
               >
-                <template
-                  v-for="(section, index) in $builder.sections"
-                  :key="section.uid"
+                <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
+                <div key="header-demo" class="usn pen">
+                  <slot name="header" :builder="$builder"></slot>
+                </div>
+
+                <div
+                  ref="pagecontent"
+                  :class="{ 'min-height-80vh': $builder.isEditing }"
+                  class="page-content"
+                  @click="handleClickOnSections"
+                  @dragleave="
+                    (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
+                  "
+                  @dragover="
+                    (e) =>
+                      !$builder.isEditing || $builder.sections.length
+                        ? undefined
+                        : allowDropSection(e, 0)
+                  "
+                  @drop="
+                    (e) =>
+                      !$builder.isEditing || $builder.sections.length
+                        ? undefined
+                        : dropSection(e, 0)
+                  "
                 >
-                  <div class="position-relative">
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <div
-                      v-if="
-                        $builder.isEditing && section.object?.style?.marginTop
-                      "
-                      :class="{
-                        '--reverse':
-                          parseInt(section.object.style.marginTop) < 0,
-                      }"
-                      :margin="section.object.style.marginTop"
-                      :style="{ '--margin': section.object.style.marginTop }"
-                      class="arrow-margin -top"
-                      title="Top Margin"
-                      @mousedown.prevent
-                    ></div>
-                    <div
-                      v-if="
-                        $builder.isEditing &&
-                        section.object?.style?.marginBottom
-                      "
-                      :class="{
-                        '--reverse':
-                          parseInt(section.object.style.marginBottom) < 0,
-                      }"
-                      :margin="section.object.style.marginBottom"
-                      :style="{ '--margin': section.object.style.marginBottom }"
-                      class="arrow-margin -bottom"
-                      title="Bottom Margin"
-                      @mousedown.prevent
-                    ></div>
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                    <div
-                      :class="{
-                        'cursor-pipette':
-                          $builder.cloneStyle && !$builder.cloneObject,
-                        'cursor-bucket':
-                          $builder.cloneStyle && $builder.cloneObject,
-
-                        'show-name': listShown && inEditMode,
-                      }"
-                      :section-name="section.label"
-                      class="position-relative d-flex flex-column target-drop"
-                      @dragover="
-                        (e) =>
-                          !$builder.isEditing
-                            ? undefined
-                            : allowDropSection(e, index)
-                      "
-                      @drop="
-                        (e) =>
-                          !$builder.isEditing
-                            ? undefined
-                            : dropSection(e, index)
-                      "
-                    >
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <x-component
-                        v-if="delay_load > index"
-                        :object="section.object"
-                        :augment="null"
-                        :id="section.uid"
-                        :section="section"
-                        :ref="'SECTION_' + section.uid"
-                        :class="{
-                          'move-courser block-pointer-event':
-                            $builder.isSorting,
-
-                          'ignore-elements': !$builder.isSorting,
-                          pen: drop_section,
-                          'hover-z-10': $builder.isEditing,
-                        }"
-                      />
+                  <template
+                    v-for="(section, index) in $builder.sections"
+                    :key="section.uid"
+                  >
+                    <div class="position-relative">
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                       <div
-                        v-else
-                        class="d-flex align-center justify-center"
-                        style="height: 400px"
+                        v-if="
+                          $builder.isEditing && section.object?.style?.marginTop
+                        "
+                        :class="{
+                          '--reverse':
+                            parseInt(section.object.style.marginTop) < 0,
+                        }"
+                        :margin="section.object.style.marginTop"
+                        :style="{ '--margin': section.object.style.marginTop }"
+                        class="arrow-margin -top"
+                        title="Top Margin"
+                        @mousedown.prevent
+                      ></div>
+                      <div
+                        v-if="
+                          $builder.isEditing &&
+                          section.object?.style?.marginBottom
+                        "
+                        :class="{
+                          '--reverse':
+                            parseInt(section.object.style.marginBottom) < 0,
+                        }"
+                        :margin="section.object.style.marginBottom"
+                        :style="{
+                          '--margin': section.object.style.marginBottom,
+                        }"
+                        class="arrow-margin -bottom"
+                        title="Bottom Margin"
+                        @mousedown.prevent
+                      ></div>
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+
+                      <div
+                        :class="{
+                          'cursor-pipette':
+                            $builder.cloneStyle && !$builder.cloneObject,
+                          'cursor-bucket':
+                            $builder.cloneStyle && $builder.cloneObject,
+
+                          'show-name': $builder.showLeftMenu && inEditMode,
+                        }"
+                        :section-name="section.label"
+                        class="position-relative d-flex flex-column target-drop"
+                        @dragover="
+                          (e) =>
+                            !$builder.isEditing
+                              ? undefined
+                              : allowDropSection(e, index)
+                        "
+                        @drop="
+                          (e) =>
+                            !$builder.isEditing
+                              ? undefined
+                              : dropSection(e, index)
+                        "
                       >
-                        <v-progress-circular
-                          indeterminate
-                          size="84"
-                        ></v-progress-circular>
+                        <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                        <x-component
+                          v-if="delay_load > index"
+                          :object="section.object"
+                          :augment="null"
+                          :id="section.uid"
+                          :section="section"
+                          :ref="'SECTION_' + section.uid"
+                          :class="{
+                            'move-courser block-pointer-event':
+                              $builder.isSorting,
+
+                            'ignore-elements': !$builder.isSorting,
+                            pen: drop_section,
+                            'hover-z-10': $builder.isEditing,
+                          }"
+                        />
+                        <div
+                          v-else
+                          class="d-flex align-center justify-center"
+                          style="height: 400px"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            size="84"
+                          ></v-progress-circular>
+                        </div>
                       </div>
-                    </div>
 
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <s-landing-section-side-bar
-                      v-if="listShown && inEditMode"
-                      v-model:past-hover-index="past_hover_index"
-                      :copy-section="copy_section"
-                      :section="section"
-                      :section-index="index"
-                      @click:copy="copySection(section)"
-                      @click:delete="deleteSection(section)"
-                      @click:save="saveSectionToRepository(section)"
-                      @click:past="pastSection(index + 1)"
-                    ></s-landing-section-side-bar>
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                      <s-landing-section-side-bar
+                        v-if="$builder.showLeftMenu && inEditMode"
+                        v-model:past-hover-index="past_hover_index"
+                        :copy-section="copy_section"
+                        :section="section"
+                        :section-index="index"
+                        @click:copy="copySection(section)"
+                        @click:delete="deleteSection(section)"
+                        @click:save="saveSectionToRepository(section)"
+                        @click:past="pastSection(index + 1)"
+                      ></s-landing-section-side-bar>
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <l-page-editor-artboard-side-extended
-                      :hasNote="has_note"
-                      :aiAutoFillFunction="aiAutoFillFunction"
-                      :notes="notes"
-                      :section="section"
-                      @click:note="showWriteNote(section)"
-                      @click:feeder="showFeeder(section)"
-                    ></l-page-editor-artboard-side-extended>
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                      <l-page-editor-artboard-side-extended
+                        :hasNote="has_note"
+                        :aiAutoFillFunction="aiAutoFillFunction"
+                        :notes="notes"
+                        :section="section"
+                        @click:note="showWriteNote(section)"
+                        @click:feeder="showFeeder(section)"
+                      ></l-page-editor-artboard-side-extended>
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <p-note-digest
-                      v-if="$vuetify.display.lgAndUp && has_note"
-                      :limit="2"
-                      :notes="
-                        notes?.filter((n) => n.element_id === section.uid)
-                      "
-                      :page="shop_page"
-                      :popup="shop_popup"
-                      :shop="shop"
-                      :style="{ width: '400px', right: '-600px' }"
-                      class="position-absolute"
-                      hover-able
-                      style="top: 50px"
-                      @delete="(id) => DeleteItemByID(page.notes, id)"
-                    ></p-note-digest>
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                  </div>
-                  <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Past & Drop Expanding Bar ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                  <v-expand-transition>
-                    <div
-                      v-if="past_hover_index === index && drop_section"
-                      class="bg-lily-meadow typo-body d-flex flex-column align-center justify-center"
-                      style="height: 84px"
-                    >
-                      Will add here
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                      <p-note-digest
+                        v-if="$vuetify.display.lgAndUp && has_note"
+                        :limit="2"
+                        :notes="
+                          notes?.filter((n) => n.element_id === section.uid)
+                        "
+                        :page="shop_page"
+                        :popup="shop_popup"
+                        :shop="shop"
+                        :style="{ width: '400px', right: '-600px' }"
+                        class="position-absolute"
+                        hover-able
+                        style="top: 50px"
+                        @delete="(id) => DeleteItemByID(page.notes, id)"
+                      ></p-note-digest>
+                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
                     </div>
-                    <div
-                      v-else-if="past_hover_index === index"
-                      class="bg-blue-soft d-flex align-center justify-center"
-                      style="height: 84px"
-                    >
-                      Past section here!
-                    </div>
-                  </v-expand-transition>
-                </template>
+                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Past & Drop Expanding Bar ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
+                    <v-expand-transition>
+                      <div
+                        v-if="past_hover_index === index && drop_section"
+                        class="bg-lily-meadow typo-body d-flex flex-column align-center justify-center"
+                        style="height: 84px"
+                      >
+                        Will add here
+                      </div>
+                      <div
+                        v-else-if="past_hover_index === index"
+                        class="bg-blue-soft d-flex align-center justify-center"
+                        style="height: 84px"
+                      >
+                        Past section here!
+                      </div>
+                    </v-expand-transition>
+                  </template>
+                </div>
               </div>
-            </div>
-          </v-locale-provider>
+            </v-locale-provider>
+          </div>
         </div>
       </div>
     </div>
@@ -344,16 +357,16 @@
 
   <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
 
-  <l-page-editor-side-menu
+  <l-menu-left
     v-if="!show_templates"
-    :is-visible="listShown && inEditMode"
+    :is-visible="$builder.showLeftMenu && inEditMode"
     :is-scroll-down="scrollTop > 200"
     :histories="histories"
     :set-page-function="setPage"
     :fetch-page-data="fetchPageData"
     :page="page"
     :shop="shop"
-  ></l-page-editor-side-menu>
+  ></l-menu-left>
 
   <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
   <l-settings></l-settings>
@@ -373,15 +386,13 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinNote } from "../../mixins/note/LMixinNote";
-import { LMixinHistory } from "../../mixins/history/LMixinHistory";
-import { defineComponent, provide } from "vue";
-import { LUtilsMigration } from "../../utils/migration/LUtilsMigration";
+import { defineComponent } from "vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import Builder from "../../Builder.ts";
 import { LUtilsFont } from "../../utils/font/LUtilsFont";
-import LPageEditorSideMenu from "@selldone/page-builder/page/editor/side-menu/LPageEditorSideMenu.vue";
+import LMenuLeft from "@selldone/page-builder/src/menu/left/LMenuLeft.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import LSettings from "@selldone/page-builder/settings/LSettings.vue";
 import SLandingSectionSideBar from "@selldone/page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
@@ -389,19 +400,21 @@ import LPageEditorArtboardTopBar from "@selldone/page-builder/page/editor/artboa
 import LPageEditorArtboardSideExtended from "@selldone/page-builder/page/editor/artboard/side-extended/LPageEditorArtboardSideExtended.vue";
 import LPageEditorArtboardViewMode from "@selldone/page-builder/page/editor/artboard/view-mode/LPageEditorArtboardViewMode.vue";
 import { LUtilsLoader } from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
+import LMenuTop from "@selldone/page-builder/src/menu/top/LMenuTop.vue";
 
 const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
-  mixins: [LMixinNote, LMixinEvents, LMixinHistory],
+  mixins: [LMixinNote, LMixinEvents],
   components: {
+    LMenuTop,
     LPageEditorArtboardViewMode,
     LPageEditorArtboardSideExtended,
     LPageEditorArtboardTopBar,
     SLandingSectionSideBar,
     LSettings,
     XComponent,
-    LPageEditorSideMenu,
+    LMenuLeft,
 
     LTemplatesList,
     PNoteDigest,
@@ -454,9 +467,19 @@ export default defineComponent({
     aiAutoFillFunction: {},
     demo: Boolean,
     fetchPageData: { required: true, type: Function },
+
+    backTo: {},
+    busySave: Boolean,
+    onSave: {
+      type: Function,
+    },
+    liveStream: {},
+    audiences: {},
   },
   data() {
     return {
+      $builder: null,
+
       lastCursorY: 0,
       PageBuilderTypoHelper: LUtilsTypo,
       PageBuilderColorsHelper: LUtilsColors,
@@ -466,8 +489,6 @@ export default defineComponent({
       delay_load: 0,
       //----------------------------
       title: null,
-      listShown: false,
-      components: this.getComponents(),
       currentSection: "", // Important not be null (BUG occur)
 
       inEditMode: false,
@@ -524,20 +545,20 @@ export default defineComponent({
      * @constructor
      */
     CUSTOM_PAGE_STYLE() {
-      if (!this.builder.style) return null; // Fix bugs
+      if (!this.$builder.style) return null; // Fix bugs
 
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.builder.style.bg_custom,
-        this.builder.style.bg_gradient,
-        this.builder.style.bg_image
-          ? this.getShopImagePath(this.builder.style.bg_image)
+        this.$builder.style.bg_custom,
+        this.$builder.style.bg_gradient,
+        this.$builder.style.bg_image
+          ? this.getShopImagePath(this.$builder.style.bg_image)
           : null,
-        this.builder.style.bg_size,
-        this.builder.style.bg_repeat,
-        this.builder.style.bg_color,
-        this.builder.style.dark,
-        this.builder.style.bg_position,
-        this.builder.style.bg_rotation,
+        this.$builder.style.bg_size,
+        this.$builder.style.bg_repeat,
+        this.$builder.style.bg_color,
+        this.$builder.style.dark,
+        this.$builder.style.bg_position,
+        this.$builder.style.bg_rotation,
         null,
       );
     },
@@ -567,7 +588,7 @@ export default defineComponent({
     },
 
     scale_down() {
-      return this.$builder.isSorting || this.listShown;
+      return this.$builder.isSorting || this.$builder.showLeftMenu;
     },
 
     base_url() {
@@ -634,13 +655,25 @@ export default defineComponent({
             // loaded any section?
             this.loadNextDelayed();
         },*/
+
+    "$builder.isSorting"() {
+      this.onSortingModeChange();
+    },
+  },
+  provide() {
+    return {
+      /**
+       * @deprecated
+       */
+      builder: this.$builder,
+
+      $builder: this.$builder,
+    };
   },
 
   beforeCreate() {
     // Initialize builder
-    const builder = Builder.newInstance();
-    provide("$builder", builder);
-    this.$builder = builder;
+    this.$builder = Builder.newInstance();
   },
 
   created() {
@@ -695,7 +728,7 @@ export default defineComponent({
         _self.$builder.sort(evt.oldIndex, evt.newIndex);
 
         console.log("sortable : onUpdate");
-        _self.onSaveHistory();
+        _self.$builder.history.save();
       },
     });
 
@@ -747,7 +780,7 @@ export default defineComponent({
 
         event.preventDefault(); // Prevent the default Tab behavior
 
-        const scaleDown = !this.listShown; // Determine if we need to scale down or up
+        const scaleDown = !this.$builder.showLeftMenu; // Determine if we need to scale down or up
 
         // Function to capture the cursor's Y position on the screen
         const cursorYPosition =
@@ -774,7 +807,7 @@ export default defineComponent({
         );
 
         // Toggle the visibility of the list or perform the scaling operation
-        this.toggleListVisibility();
+        this.$builder.showLeftMenu = !this.$builder.showLeftMenu;
 
         // Delay the scrolling to allow the scaling animation to complete
         _.delay(
@@ -829,9 +862,9 @@ export default defineComponent({
 
       //------------- Add Undo Redo -----------
       if ((event.ctrlKey || event.metaKey) && event.code === "KeyZ") {
-        if (this.inActiveEditingMode()) this.goUndo();
+        if (this.inActiveEditingMode()) this.$builder.undo();
       } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyY") {
-        if (this.inActiveEditingMode()) this.goRedo();
+        if (this.inActiveEditingMode()) this.$builder.redo();
       }
     };
 
@@ -888,11 +921,8 @@ export default defineComponent({
         color: this.page.color,
         content: {
           title: this.title,
-          sections: sections.map((s) => ({
-            name: s.name,
-            data: s.data,
-          })),
-          style: this.builder.style,
+          sections: sections.map((s) => s.toJson()),
+          style: this.$builder.style,
         },
         css: this.page.css,
       };
@@ -964,8 +994,8 @@ export default defineComponent({
       try {
         let section = JSON.parse(this.copy_section);
         if (section.object) {
-          this.builder.add(section, index, true);
-          this.onSaveHistory();
+          this.$builder.add(section, index, true);
+          this.$builder.history.save();
           this.autoLoadSectionFonts(section);
           return;
         }
@@ -980,8 +1010,8 @@ export default defineComponent({
 
     deleteSection(section) {
       try {
-        this.builder.remove(section);
-        this.onSaveHistory();
+        this.$builder.remove(section);
+        this.$builder.history.save();
       } catch (e) {
         console.error(e);
         this.showErrorAlert(
@@ -1079,20 +1109,12 @@ export default defineComponent({
       checking(content);
     },
 
-    /*  newSection() {
-     // add the section immediately if none are present.
-  if (this.components.length === 1) {
-       this.addSection(this.components[0]);
-       return;
-     }
-     this.toggleListVisibility();
-   },*/
     addSection(section, position) {
       //console.log("addSection", section, "position", position);
 
       this.$builder.add(section, position, true);
 
-      this.onSaveHistory();
+      this.$builder.history.save();
     },
 
     loadNextDelayed() {
@@ -1144,16 +1166,15 @@ export default defineComponent({
 
       if (!from_theme) {
         // Save initial state: (Call after set!)
-        this.onSaveHistory();
+        this.$builder.history.save();
       }
     },
 
-    toggleSort() {
+    onSortingModeChange() {
       // BUG: when in sort mode drop new section that section can't be edited!
-      if (!this.$builder.isSorting && this.listShown)
-        this.toggleListVisibility();
+      if (!this.$builder.isSorting && this.$builder.showLeftMenu)
+        this.onShowLeftMenuUpdate();
 
-      this.$builder.isSorting = !this.$builder.isSorting;
       this.$builder.isEditing = !this.$builder.isSorting;
       if (!this.$builder.isSorting && this.sortable) {
         this.sortable.option("sort", false);
@@ -1165,46 +1186,22 @@ export default defineComponent({
       this.sortable.option("sort", true);
     },
 
-    /**
-     * Hide add buttons and empty texts
-     */
-    toggleHideExtra() {
-      this.$builder.isHideExtra = !this.$builder.isHideExtra;
-    },
-
-    /**
-     * Important: Externally called!
-     */
-    toggleListVisibility() {
+    onShowLeftMenuUpdate() {
       // BUG: when in sort mode drop new section that section can't be edited!
-      if (!this.listShown && this.$builder.isSorting) this.toggleSort();
+      if (!this.$builder.showLeftMenu && this.$builder.isSorting) {
+        this.$builder.isSorting = !this.$builder.isSorting;
+        this.onSortingModeChange();
+      }
 
-      this.listShown = !this.listShown;
-      this.sortable.option("disabled", !this.listShown);
+      this.sortable.option("disabled", !this.$builder.showLeftMenu);
     },
     showList() {
-      this.listShown = true;
+      this.$builder.showLeftMenu = true;
       this.sortable.option("disabled", false);
     },
 
     submit() {
       this.$emit("saved", this.$builder);
-    },
-
-    getComponents() {
-      return Object.entries(this.$builder.components).map(
-        ([originalName, component]) => {
-          const name = LUtilsMigration.MigrateSectionName(originalName);
-          return {
-            name: name,
-            group: component.group,
-            cover: component.cover,
-            label: component.label,
-            help: component.help,
-            schema: component.$schema,
-          };
-        },
-      );
     },
 
     onScroll(e) {
@@ -1233,7 +1230,7 @@ export default defineComponent({
       this.past_hover_index = null;
       this.drop_section = false;
 
-      this.onSaveHistory();
+      this.$builder.history.save();
     },
     allowDropSection(event, index, allowed_class) {
       // Tips:  getData("section") not available on drag over event in chrome , edge ,... security!
@@ -1301,7 +1298,7 @@ export default defineComponent({
     //――――――――――――――――――――――  Load Fonts ――――――――――――――――――――
 
     autoLoadSectionFonts(json) {
-      const builder = this.builder;
+      const builder = this.$builder;
       try {
         this.fonts = LUtilsFont.FindAllFontsInSection(json);
 
@@ -1372,110 +1369,6 @@ p {
   }
 }
 
-.controller {
-  box-sizing: border-box;
-
-  &-panel {
-    position: fixed;
-    z-index: 200;
-    bottom: 30px;
-    right: 40px;
-  }
-
-  &-input {
-    outline: none;
-    border: 1px solid $gray;
-    padding: 0.5em 1em;
-    margin: 20px 0;
-    border-radius: 40px;
-    width: 100%;
-    font-size: 16px;
-    max-width: 500px;
-
-    &:focus {
-      border-color: $blue;
-      box-shadow: 0 0 0 2px rgba($blue, 50%);
-    }
-  }
-
-  &-button {
-    transition: 0.2s;
-    border: none;
-    outline: none;
-    border-radius: 20px;
-    padding: 5px;
-    color: $white;
-    fill: $white;
-    font-size: 16px;
-
-    svg {
-      transition: 0.2s;
-    }
-
-    &:not(:last-child) {
-      margin-right: 20px;
-    }
-
-    &.is-rotated > svg {
-      transform: rotate(45deg);
-    }
-
-    &.is-blue {
-      background-color: $blue;
-
-      &:hover {
-        background-color: darken($blue, 20%);
-      }
-    }
-
-    &.is-red {
-      background-color: $red;
-
-      &:hover {
-        background-color: darken($red, 20%);
-      }
-    }
-
-    &.is-green {
-      background-color: $green;
-
-      &:hover {
-        background-color: darken($green, 20%);
-      }
-    }
-
-    &.is-dark {
-      background-color: $dark;
-
-      &:hover {
-        background-color: darken($dark, 20%);
-      }
-    }
-
-    &.is-gray {
-      background-color: $gray;
-
-      &:hover {
-        background-color: darken($gray, 20%);
-      }
-    }
-  }
-
-  &-intro {
-    width: 100%;
-    max-width: 1620px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 70px 50px;
-    text-align: center;
-    font-size: 30px;
-    color: $dark;
-  }
-}
-
 .sortable-ghost {
   background-color: #0c91d3;
   opacity: 0.9;
@@ -1489,40 +1382,9 @@ p {
   }
 }
 
-.controller-panel {
-  background-color: #353e45;
-  border-radius: 24px;
-  box-shadow: 5px 10px 10px 0px rgba(0, 0, 0, 0.3);
-  transition: all 0.65s;
-
-  &:hover {
-    box-shadow: 8px 15px 10px 0px rgba(0, 0, 0, 0.3);
-
-    transition: all 0.5s;
-  }
-
-  //  padding: 8px 16px 24px 16px;
-  padding: 0;
-
-  .button-item {
-    margin: 8px 16px 24px 16px;
-  }
-}
-
 label {
   margin: 12px 0 0 0;
   font-size: 1.2rem;
-}
-
-.widget-hover {
-  transition: all 0.65s;
-  min-height: 100px;
-  box-shadow: none;
-
-  &:hover {
-    box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.2);
-    transition: all 0.5s;
-  }
 }
 
 .move-courser {
@@ -2188,73 +2050,6 @@ label {
 
     &.-bottom {
       bottom: var(--margin);
-    }
-  }
-}
-
-.x-feeder {
-  display: flex;
-  align-items: center;
-
-  position: absolute;
-  left: -360px;
-  top: 100px;
-  flex-direction: row-reverse;
-
-  --margin-left-bar: -80px;
-
-  &:before {
-    content: "";
-    height: 4px;
-    background: #0d0d0d;
-    width: 280px;
-    margin-left: var(--margin-left-bar);
-    pointer-events: none;
-  }
-
-  &.-single {
-    --margin-left-bar: -8px;
-  }
-
-  &.-double {
-    --margin-left-bar: -100px;
-  }
-
-  &.-triple {
-    --margin-left-bar: -175px;
-  }
-
-  .x-feeder-btn {
-    background: #0d0d0d;
-    border-radius: 50%;
-    position: relative;
-    z-index: 1;
-
-    .v-icon {
-      transition: all 0.3s;
-    }
-
-    &:hover {
-      .v-icon {
-        transform: rotate(120deg);
-      }
-    }
-  }
-}
-
-//-------------------- Inline editor menus -----------------------
-.inline-editor-sheet {
-  background-color: #225082 !important;
-  margin: 8px;
-  padding: 8px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.in-scale-down {
-  .inline-editor-sheet {
-    button.v-btn--outlined {
-      border-width: 4px !important; // Fix outline bad show in scale down mode!
     }
   }
 }

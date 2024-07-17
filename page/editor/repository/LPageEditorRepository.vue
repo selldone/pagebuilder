@@ -288,11 +288,9 @@ export default {
     },
 
     show() {
-      return this.local_show && !this.force_hide && !this.locally_hide;
+      return this.local_show &&  !this.locally_hide;
     },
-    force_hide() {
-      return this.$store.getters.getLandingShowPageStyle;
-    },
+
   },
 
   watch: {

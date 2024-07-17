@@ -36,7 +36,8 @@
       max-file-size="8MB"
       @onClear="$emit('update:bgVideo', null)"
       @new-path="handleProcessVideo"
-      :label="modelValue?label:undefined"
+      @new-item="addItemToAssets"
+      :label="modelValue ? label : undefined"
       min-height="140px"
       border
       rounded="lg"
@@ -45,9 +46,10 @@
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SVideoUploader from "@selldone/components-vue/ui/uploader/SVideoUploader.vue";
+import Builder from "@selldone/page-builder/Builder.ts";
 
 export default defineComponent({
   name: "SSettingVideo",
@@ -57,6 +59,10 @@ export default defineComponent({
 
   emits: ["update:modelValue"],
   props: {
+    builder: {
+      required: true,
+      type: Builder,
+    },
     uploadUrl: {
       require: true,
     },
@@ -74,9 +80,16 @@ export default defineComponent({
   data() {
     return {};
   },
+
   methods: {
     handleProcessVideo(path) {
       this.$emit("update:modelValue", path);
+    },
+    addItemToAssets(item) {
+      const asset_videos = this.builder.getAssets()?.videos;
+      if (item && asset_videos) {
+        this.AddOrUpdateItemByID(asset_videos, item);
+      }
     },
   },
 });

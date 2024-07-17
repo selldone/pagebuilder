@@ -54,9 +54,8 @@ import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import { LUtilsTypo } from "../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import Builder from "../../Builder.ts";
-import { provide } from "vue";
 import { cleanDOM } from "../../utils/html/LUtilsHtml";
-import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
+import { LandingCssHelper } from "@selldone/page-builder/src/menu/left/css/LandingCssHelper";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 
 export default {
@@ -122,16 +121,22 @@ export default {
       );
     },
   },
+  provide() {
+    return {
+      builder: this.$builder,
+      /**
+       * @deprecated
+       */
+      $builder: this.$builder,
+    };
+  },
+
   beforeCreate() {
     // Initialize builder
-    const builder = Builder.newInstance(null, {
+    this.$builder = Builder.newInstance(null, {
       isEditing: false,
       isRendered: true,
     });
-    provide("$builder", builder);
-    this.$builder = builder;
-
-    // console.log("Initialize page builder instance", "edit", builder.isEditing, "render", builder.isRendered, builder,);
   },
 
   created() {

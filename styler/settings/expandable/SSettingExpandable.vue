@@ -19,7 +19,8 @@
     color="s--setting-expandable"
   >
     <v-expansion-panel-title class="-group-title py-0">
-      <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
+      <v-img v-if="image" class="me-2 flex-grow-0 border" width="21" height="21" :src="image" cover rounded="lg"></v-img>
+      <v-icon v-else-if="icon" class="me-2">{{ icon }}</v-icon>
       {{ title }}
       <v-chip
         v-for="tag in tags"
@@ -52,6 +53,7 @@ export default defineComponent({
     value: {},
     title: {},
     subtitle:{},
+    image:{},
     icon: {},
     bgColor: {},
     tags: {

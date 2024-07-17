@@ -116,8 +116,13 @@
         </v-tab>
 
         <v-tab value="export" color="#fff" class="tnt">
-          <v-icon class="me-1" size="small">file_download</v-icon>
+          <v-icon class="me-1" size="small">fa:fas fa-file-export</v-icon>
           Export
+        </v-tab>
+
+        <v-tab value="import" color="#fff" class="tnt">
+          <v-icon class="me-1" size="small">fa:fas fa-file-import</v-icon>
+          Import
         </v-tab>
       </v-tabs>
 
@@ -130,12 +135,9 @@
             value="home"
           >
             <l-menu-top-home
-              v-if="pageBuilder"
               :busySave="busySave"
               :page="page"
-              :pageBuilder="pageBuilder"
               :shop="shop"
-              :has-shop-menu="!!shop"
               has-ai-button
               :demo="demo"
               @click:save="
@@ -148,17 +150,26 @@
             >
             </l-menu-top-home>
           </v-window-item>
-          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ export ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-          <v-window-item value="export">
-            <l-menu-top-export :shop="shop" :page="page">
-            </l-menu-top-export>
-          </v-window-item>
+
 
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
           <v-window-item value="page">
             <l-menu-top-page :shop="shop" :page="page">
             </l-menu-top-page>
           </v-window-item>
+
+          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ export ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+          <v-window-item value="export">
+            <l-menu-top-export :shop="shop" :page="page">
+            </l-menu-top-export>
+          </v-window-item>
+
+          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ import ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+          <v-window-item value="import">
+            <l-menu-top-import :shop="shop" :page="page">
+            </l-menu-top-import>
+          </v-window-item>
+
 
 
         </v-window>
@@ -171,10 +182,11 @@ import { defineComponent } from "vue";
 import LMenuTopHome from "@selldone/page-builder/src/menu/top/home/LMenuTopHome.vue";
 import LMenuTopExport from "@selldone/page-builder/src/menu/top/export/LMenuTopExport.vue";
 import LMenuTopPage from "@selldone/page-builder/src/menu/top/page/LMenuTopPage.vue";
+import LMenuTopImport from "@selldone/page-builder/src/menu/top/import/LMenuTopImport.vue";
 
 export default defineComponent({
   name: "LMenuTop",
-  components: {LMenuTopPage, LMenuTopExport, LMenuTopHome },
+  components: {LMenuTopImport, LMenuTopPage, LMenuTopExport, LMenuTopHome },
   props: {
     /**
      * Back route
@@ -184,10 +196,7 @@ export default defineComponent({
     page: { required: true },
     audiences: {},
     liveStream: {},
-    pageBuilder: {
-      require: true,
-    },
-    demoPage: {},
+
     saveFunction: {
       require: true,
     },

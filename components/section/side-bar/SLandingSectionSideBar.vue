@@ -212,11 +212,10 @@
 
 <script>
 import { defineComponent } from "vue";
-import { LMixinHistory } from "../../../mixins/history/LMixinHistory";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
-  mixins: [LMixinHistory],
+  mixins: [],
 
   emits: ["update:pastHoverIndex"],
   props: {
@@ -246,7 +245,7 @@ export default defineComponent({
   computed: {
     is_row() {
       return (
-     //   ["LSectionTextMarquee"].includes(this.section.name) ||
+        //   ["LSectionTextMarquee"].includes(this.section.name) ||
         this.el_height < 200
       );
     },

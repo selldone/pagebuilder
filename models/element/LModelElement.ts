@@ -18,20 +18,52 @@ import {isFunction, isObject} from "lodash-es";
 // Define an interface for common functionality
 
 export abstract class LModelElement<T> {
+  /**
+   * Represents a UI component.
+   * @type {string}
+   */
   component: string;
 
+  /**
+   * Unique identifier for the element.
+   * @type {string | null}
+   */
   id: string | null = null;
 
+  /**
+   * Background properties of the element.
+   * @type {LModelBackground}
+   */
   background: LModelBackground;
 
+  /**
+   * CSS style declarations for the element.
+   * @type {Partial<CSSStyleDeclaration>}
+   */
   style: Partial<CSSStyleDeclaration>;
 
+  /**
+   * CSS classes applied to the element.
+   * @type {string[]}
+   */
   classes: string[];
 
+  /**
+   * Custom data associated with the element.
+   * @type {T}
+   */
   data: T;
 
+  /**
+   * Child elements of the current element.
+   * @type {LModelElement<any>[]}
+   */
   children: LModelElement<any>[];
 
+  /**
+   * Additional properties for the element.
+   * @type {Record<string, any> | null}
+   */
   props: Record<string, any> | null;
 
   constructor(
@@ -57,7 +89,7 @@ export abstract class LModelElement<T> {
     int: number | null = null,
   ): LModelElement<T> {
     if (!element) return this;
-    if (int || int === 0) {
+    if (int >= 0 && int !== null) {
       this.children.splice(int, 0, element);
     } else {
       this.children.push(element);
@@ -140,11 +172,12 @@ export abstract class LModelElement<T> {
 
     return results;
   }
+
   // ━━━━━━━━━━━━━━━━━ Sort ━━━━━━━━━━━━━━━━━
 
   sort(oldIndex: number, newIndex: number) {
     const child = this.children[oldIndex];
-    if(!child)return;
+    if (!child) return;
     this.children.splice(oldIndex, 1);
     this.children.splice(newIndex, 0, child);
   }

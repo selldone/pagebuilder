@@ -39,7 +39,7 @@ export const LMixinEvents = defineComponent({
      * @param {boolean} show - A flag indicating whether to show the settings page style.
      * @param {string} tab - The tab to be displayed on the settings page.
      */
-    ShowLSettingsPageStyle(style: Object, show: boolean, tab: string) {
+    ShowLSettingsPageStyle(style: Object, show: boolean|'toggle', tab: string=null) {
       EventBus.$emit("show:LSettingsPageStyle", {
         style,
         show,

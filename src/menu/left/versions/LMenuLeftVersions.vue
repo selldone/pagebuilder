@@ -101,7 +101,7 @@ import Builder from "@selldone/page-builder/Builder.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 export default defineComponent({
-  name: "LPageEditorVersionsMenu",
+  name: "LMenuLeftVersions",
   emits: ["update:isDragged"],
   directives: {},
   components: { UDenseCirclesUsers },

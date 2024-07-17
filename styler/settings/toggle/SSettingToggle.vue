@@ -14,6 +14,7 @@
 <template>
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
+    v-bind="$attrs"
     :class="{ 'disabled-scale-down': disabled }"
     density="compact"
     class="s--setting-toggle"
@@ -32,8 +33,10 @@
         :items="items"
         :mandatory="mandatory"
         :model-value="modelValue"
-        class="bg-heavy-rain d-flex flex-nowrap overflow-auto"
-        rounded="xl"
+        class="d-flex flex-nowrap overflow-auto"
+        base-color="#fff"
+        style="background: #444"
+        rounded="lg"
         density="compact"
         hide-details
         selected-class="blue-flat elevation-3"
@@ -49,7 +52,7 @@
           class="tnt ma-1"
           size="small"
           height="28"
-          rounded="xl"
+          rounded="lg"
           :prepend-icon="item?.icon"
         >
           {{ is_object ? (item.title ? item.title : item.value) : item }}
@@ -59,7 +62,7 @@
       </v-btn-toggle>
     </template>
   </v-list-item>
-  <div v-if="subtitle" class="small">{{subtitle}}</div>
+  <div v-if="subtitle" class="small">{{ subtitle }}</div>
 </template>
 
 <script>
@@ -78,8 +81,8 @@ export default defineComponent({
     },
     disabled: Boolean,
     mandatory: Boolean,
-    multiple:Boolean,
-    subtitle:{},
+    multiple: Boolean,
+    subtitle: {},
   },
   computed: {
     is_object() {

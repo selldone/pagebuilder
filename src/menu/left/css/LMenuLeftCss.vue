@@ -127,10 +127,10 @@ font-weight: 500;"
 import { PrismEditor } from "vue-prism-editor";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { isObject } from "lodash-es";
-import { LandingCssHelper } from "@selldone/page-builder/page/editor/css/LandingCssHelper";
+import { LandingCssHelper } from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
 
 export default {
-  name: "LPageEditorCss",
+  name: "LMenuLeftCss",
   components: { SSettingExpandable, PrismEditor },
   props: {
     page: {},

@@ -21,7 +21,7 @@
     height="52"
     style="border-bottom: solid #111 thin"
   >
-    <v-toolbar-title style="font-size: 12px"><b>Sections</b></v-toolbar-title>
+    <v-toolbar-title style="font-size: 12px"><b>Elements</b></v-toolbar-title>
   </v-toolbar>
 
   <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  List ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -38,74 +38,32 @@
           <span
             v-for="(item, index) in group"
             :key="index"
-
             :data-seed="item.data_seed /*Use in drop*/"
             class="-item-element hover-scale-small"
             draggable="true"
             @mouseenter="(e) => showMenu(e, item)"
             @mouseleave="hideMenu()"
           >
-            <img v-if="item.cover" :src="item.cover" class="-item-image" />
+            <img v-if="item.image" :src="item.image" class="-item-image" />
+            <v-icon v-if="item.icon" class="me-1">{{ item.Info.icon }}</v-icon>
+            {{ item.title }}
           </span>
         </v-row>
       </div>
     </div>
   </div>
-
-  <!-- Side help menu -->
-  <v-menu
-    v-if="hover_section?.help"
-    v-model="show_element_info"
-    :offset="36"
-    :target="hover_element"
-    absolute
-    content-class="pen"
-    location="right"
-    max-width="420"
-    width="300"
-  >
-    <v-sheet color="#000">
-      <v-responsive v-if="hover_section.help.video" :aspect-ratio="1920 / 1080">
-        <video
-          :key="hover_section.help.video"
-          autoplay
-          loop
-          muted
-          playsinline
-          width="100%"
-        >
-          <source
-            :src="hover_section.help.video"
-            :type="VideoHelper.GetMime(hover_section.help.video)"
-          />
-        </video>
-      </v-responsive>
-
-      <v-img
-        v-else-if="hover_section.help.image"
-        :src="hover_section.help.image"
-      ></v-img>
-
-      <div v-if="hover_section.help.title" class="pa-3 text-start small">
-        <b class="d-block text-capitalize">
-          {{ hover_section.label }}
-        </b>
-        {{ hover_section.help.title }}
-      </div>
-    </v-sheet>
-  </v-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import Sortable from "sortablejs";
-import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
+import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
-import { DefaultSections } from "@selldone/page-builder/sections/DefaultSections.ts";
 import AttachDirective from "@selldone/page-builder/directives/AttachDirective.ts";
+import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 
 export default defineComponent({
-  name: "LPageEditorComponentsMenu",
+  name: "LMenuLeftElements",
   emits: ["update:isDragged"],
   directives: {
     attach: AttachDirective,
@@ -138,16 +96,16 @@ export default defineComponent({
     groups.forEach((group) => {
       const sortable = Sortable.create(group, {
         group: {
-          name: "sections-group",
+          name: "elements-group",
           put: false,
           pull: "clone",
         },
         sort: false,
 
-        onStart: function (/**Event*/ evt) {
-          const item_seed = evt.item.getAttribute('data-seed');
-          evt.item._dragData = item_seed; // Store data directly on the item
 
+        onStart: function (/**Event*/ evt) {
+          const item_seed = evt.item.getAttribute("data-seed");
+          evt.item._dragData = item_seed; // Store data directly on the item
           _self.setDragMode(true);
           _self.hideMenu();
         },
@@ -186,24 +144,30 @@ export default defineComponent({
 
     generateGroups() {
       let groups = {};
-      let group_no_category:any[] = [];
+      let group_no_category: any[] = [];
 
-      // group sections together
-      DefaultSections.List.forEach((section) => {
-       const data_seed= JSON.stringify( { object: section.Seed().toJson(), label: section.label })
-        const group = section.group;
+      // group elements together
+      LUtilsComponents.XObjects.forEach((element) => {
+        const data_seed = JSON.stringify(element.Seed().toJson());
 
-        section=Object.assign({},section, {data_seed})
+        const group = element.Info?.group;
+
+        element = Object.assign({}, element, {
+          data_seed,
+          title: element.Info?.title,
+          icon: element.Info?.icon,
+          image: element.Info?.image,
+        });
 
         if (!group) {
-          group_no_category.push(section);
+          group_no_category.push(element);
           return;
         }
         if (!groups[group]) {
-          groups[group] = [section];
+          groups[group] = [element];
           return;
         }
-        groups[group].push(section);
+        groups[group].push(element);
       });
       if (group_no_category.length) {
         const no_category = " "; //this.$t('page_builder.design.no_category');
@@ -230,6 +194,13 @@ export default defineComponent({
       .-item-element {
         position: relative;
         cursor: pointer;
+        user-select: none;
+        padding: 4px;
+        margin: 2px;
+        font-size: 11px;
+        border: solid thin #333;
+        border-radius: 3px;
+        background: #222;
         user-select: none;
 
         .-item-image {
@@ -259,16 +230,5 @@ export default defineComponent({
   }
 }
 
-.sortable-ghost {
-  background-color: #0c91d3;
-  opacity: 0.9;
-  height: max-content;
-  box-shadow: 0 0 2px 1px #0c91d3;
 
-  .-item-image {
-    width: 100%;
-    height: auto;
-    background: #1976d2;
-  }
-}
 </style>

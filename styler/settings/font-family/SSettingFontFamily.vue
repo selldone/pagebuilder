@@ -84,7 +84,7 @@
     width="98vw"
     content-class="rounded-t-xl"
   >
-    <v-card rounded="t-xl" class="text-start" color="">
+    <v-card rounded="t-xl" class="text-start" color="#222">
       <v-card-title>
         <v-icon class="me-2">font_download</v-icon>
         Add New Font
@@ -96,7 +96,7 @@
           the following box.
         </v-list-subheader>
 
-        <v-list density="compact" class="my-3 border-between-vertical" max-height="40vh">
+        <v-list density="compact" class="my-3 border-between-vertical bg-transparent" max-height="40vh">
           <v-list-item v-for="font in fonts" :key="font">
             <template v-slot:title>
               <v-icon class="me-1" size="small">font_download</v-icon>
@@ -111,30 +111,31 @@
           </v-list-item>
         </v-list>
 
+      <div class="d-flex align-start">
         <v-combobox
-          v-model="font_input"
-          v-model:search="font_input"
-          :items="filtered_fonts"
-          label="Font name"
-          persistent-placeholder
-          messages="Type font name Ex.Akzidenz Grotesk and pres Enter..."
-          variant="solo"
-          @keydown.enter="addFont"
-          bg-color="#fff"
+            v-model="font_input"
+            v-model:search="font_input"
+            :items="filtered_fonts"
+            label="Font name"
+            persistent-placeholder
+            messages="Type font name Ex.Akzidenz Grotesk and pres Enter..."
+            variant="solo"
+            @keydown.enter="addFont"
+            bg-color="#fff"
         >
-          <template v-slot:append>
-            <v-btn
-              :class="{disabled:!font_input}"
-              color="#1976D2"
-              prepend-icon="add"
-              variant="elevated"
-              height="100%"
-              @click.prevent="addFont()"
-            >
-              Add font
-            </v-btn>
-          </template>
+
         </v-combobox>
+        <v-btn
+            :class="{disabled:!font_input}"
+            color="#1976D2"
+            prepend-icon="add"
+            variant="elevated" class="ms-2"
+            height="56"
+            @click.prevent="addFont()"
+        >
+          Add font
+        </v-btn>
+      </div>
 
         <div class="text-end">
           <v-btn

@@ -59,7 +59,7 @@ import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { LUtilsClasses } from "@selldone/page-builder/utils/classes/LUtilsClasses";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import {LandingCssHelper} from "@selldone/page-builder/page/editor/css/LandingCssHelper";
+import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper";
 
 export default defineComponent({
   name: "LSettingsClasses",

@@ -120,7 +120,7 @@
 
 <script>
 export default {
-  name: "LPageEditorStatistics",
+  name: "LMenuLeftStatistics",
 
   props: {
     page: { require: true },

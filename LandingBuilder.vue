@@ -16,88 +16,74 @@
   <v-fade-transition>
     <div
       v-if="show_loading"
-      class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
-      style="z-index: 99999"
+      style="
+        background: rgba(0, 0, 0, 0.6);
+        position: fixed;
+        left: 0;
+        width: 100%;
+        top: 0;
+        height: 100%;
+        z-index: 999999;
+        backdrop-filter: blur(4px) grayscale(100%);
+      "
     >
-      <v-progress-circular :color="SaminColorLight" :size="50" indeterminate />
-      <p class="mt-2">
-        {{ $t("page_builder.waiting_fetch") }}
-      </p>
+      <div
+        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
+        style="z-index: 99999"
+      >
+        <v-progress-circular
+          :color="SaminColorLight"
+          :size="50"
+          indeterminate
+        />
+        <p class="mt-2">
+          {{ $t("page_builder.waiting_fetch") }}
+        </p>
+      </div>
     </div>
   </v-fade-transition>
 
-  <div v-bind="$attrs" class="blur-animate" :class="{ blurred: show_loading }">
+  <div v-bind="$attrs">
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Design ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-    <l-menu-top
-      v-if="page"
-      :backTo="backTo"
-      :shop="shop"
+    <LPageEditor
+      ref="vueBuilder"
+      :ai-auto-fill-function="aiAutoFillFunction"
       :page="demoPage ? demoPage : page"
+      :histories="histories"
+      :demo="demo"
+      :initial-page-data="demoPage"
+      :shop="shop"
+      :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
+      @changeMode="(val) => (inEditMode = val)"
+      @saved="onSave"
+      @scale="
+        (val) => {
+          scale = val;
+          $emit('scale', val);
+        }
+      "
+      @load:template="onSetPageBySelectTemplate"
+      @update:preview="(_page) => updateRealtimePreview(_page)"
+      :fetchPageData="fetchPageData"
+      :backTo="backTo"
+      :busySave="busy_save"
+      :onSave="onSave"
       :audiences="audiences"
       v-model:liveStream="live_stream"
-      :pageBuilder="$refs.vueBuilder"
-      :demoPage="demoPage"
-      :demo="demo"
-      :busy-save="busy_save"
-      :saveFunction="onSave"
     >
-    </l-menu-top>
-
-
-    <v-sheet
-      v-else-if="page || show_loading"
-      height="64"
-      style="border-radius: 26px 26px 0 0"
-    ></v-sheet>
-
-    <div
-      style="
-        max-width: 1720px;
-        margin: auto;
-        border-radius: 20px;
-        background: #345;
-        overflow: hidden;
-      "
-    >
-      <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Design ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-      <LPageEditor
-        ref="vueBuilder"
-        :ai-auto-fill-function="aiAutoFillFunction"
-        :page="demoPage ? demoPage : page"
-        :histories="histories"
-        :demo="demo"
-        :initial-page-data="demoPage"
-        :shop="shop"
-        :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
-        @changeMode="(val) => (inEditMode = val)"
-        @saved="onSave"
-        @scale="
-          (val) => {
-            scale = val;
-            $emit('scale', val);
-          }
-        "
-        @load:template="onSetPageBySelectTemplate"
-        @update:preview="(_page) => updateRealtimePreview(_page)"
-        :fetchPageData="fetchPageData"
-      >
-        <template v-slot:header="{ builder }">
-          <slot name="header" :builder="builder"></slot>
-        </template>
-      </LPageEditor>
-    </div>
+      <template v-slot:header="{ builder }">
+        <slot name="header" :builder="builder"></slot>
+      </template>
+    </LPageEditor>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator";
 import { LMixinEvents } from "./mixins/events/LMixinEvents";
 import LPageEditor from "./page/editor/LPageEditor.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront/StorefrontSDK";
-import LMenuTop from "@selldone/page-builder/src/menu/top/LMenuTop.vue";
 import _ from "lodash-es";
 
 /**
@@ -108,7 +94,6 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    LMenuTop,
     LPageEditor,
   },
   emits: ["update:page", "update", "create", "scale"],
@@ -351,8 +336,8 @@ export default {
 
               this.$emit("create", data.page);
               /* Old way!
-                                            this.$route.params.page_id = data.page.id;
-                              */
+                                                this.$route.params.page_id = data.page.id;
+                                  */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(
                 data.page.content,

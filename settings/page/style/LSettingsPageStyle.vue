@@ -39,13 +39,12 @@
           </v-btn>
         </div>
       </v-card-actions>
-      <v-card-title>
-        <s-widget-header
-          icon="design_services"
+
+      <s-setting-group
+          icon="format_paint"
           title="Page Master Style"
-        ></s-widget-header>
-        <v-list-subheader></v-list-subheader>
-      </v-card-title>
+          subtitle="You can configure global page variables, background settings, and the menu here."
+      ></s-setting-group>
 
       <v-expansion-panels v-model="tab">
         <!-- ████████████████████ Page Background ████████████████████ -->
@@ -54,6 +53,7 @@
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
           <background-image-editor
+            :builder="builder"
             v-model:bg-image="style.bg_image"
             v-model:bgCustom="style.bg_custom"
             v-model:bgGradient="style.bg_gradient"
@@ -410,11 +410,7 @@ export default {
       );
     },
   },
-  watch: {
-    dialog_master_style(val) {
-      this.$store.commit("setLandingShowPageStyle", val);
-    },
-  },
+  watch: {},
   created() {},
   mounted() {
     EventBus.$on(
@@ -425,7 +421,8 @@ export default {
 
         this.style = style;
 
-        this.dialog_master_style = show;
+        this.dialog_master_style =
+          show === "toggle" ? !this.dialog_master_style : show;
         this.tab = ["background", "menu"].indexOf(tab);
 
         if (!style.plate_light_1)

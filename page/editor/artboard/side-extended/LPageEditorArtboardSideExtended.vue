@@ -144,4 +144,63 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.x-feeder {
+  display: flex;
+  align-items: center;
+
+  position: absolute;
+  top: 100px;
+  flex-direction: row-reverse;
+
+  --margin-left-bar: 0;
+  --width-bar: 0;
+  --left: 0;
+
+  left: var(--left);
+
+  &:before {
+    content: "";
+    height: 4px;
+    background: #0d0d0d;
+    width: var(--width-bar);
+    margin-left: var(--margin-left-bar);
+    pointer-events: none;
+  }
+
+  &.-single {
+    --margin-left-bar: -50px;
+    --width-bar: 150px;
+    --left: -200px;
+  }
+
+  &.-double {
+    --margin-left-bar: -100px;
+    --width-bar: 200px;
+    --left: -290px;
+  }
+
+  &.-triple {
+    --margin-left-bar: -175px;
+    --width-bar: 290px;
+    --left: -370px;
+  }
+
+  .x-feeder-btn {
+    background: #0d0d0d;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+
+    .v-icon {
+      transition: all 0.3s;
+    }
+
+    &:hover {
+      .v-icon {
+        transform: rotate(120deg);
+      }
+    }
+  }
+}
+</style>

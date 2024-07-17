@@ -14,7 +14,6 @@
 
 <template>
   <div
-    v-if="pageBuilder"
     v-intersect="
       (isIntersecting) => {
         visible_to_user = isIntersecting;
@@ -46,9 +45,9 @@
     <div class="lmt-group">
       <div>
         <v-btn
-          :disabled="!pageBuilder.hasUndo"
+          :disabled="!builder.history.hasUndo()"
           :title="$t('global.commons.undo')"
-          @click.stop="pageBuilder.goUndo()"
+          @click.stop="builder.history.undo()"
           prepend-icon="undo"
           variant="text"
           size="small"
@@ -58,8 +57,8 @@
         </v-btn>
 
         <v-btn
-          :disabled="!pageBuilder.hasRedo"
-          @click.stop="pageBuilder.goRedo()"
+          :disabled="!builder.history.hasRedo()"
+          @click.stop="builder.history.redo()"
           prepend-icon="redo"
           variant="text"
           size="small"
@@ -68,92 +67,90 @@
           {{ $t("global.commons.redo") }}
         </v-btn>
       </div>
-
-
-
     </div>
-
 
     <v-divider vertical></v-divider>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
- <div class="lmt-group">
-   <v-btn
-       :color="pageBuilder.$builder.cloneStyle ? 'amber' : '#fff'"
-       variant="text"
-       @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
-       prepend-icon="colorize"
-       size="small"
-       class="tnt"
-   >
-     Clone
+    <div class="lmt-group">
+      <v-btn
+        :color="builder.cloneStyle ? 'amber' : '#fff'"
+        variant="text"
+        @click.stop="builder.toggleCloneStyleMode()"
+        prepend-icon="colorize"
+        size="small"
+        class="tnt"
+      >
+        Clone
 
-     <v-tooltip
-         activator="parent"
-         content-class="text-start small pa-3 bg-black"
-         location="bottom"
-         max-width="420"
-         :open-delay="500"
-     >
-       <b class="d-block"> Clone Style </b>
-       Using this tool, you can duplicate styles such as fonts, backgrounds,
-       margins, and borders. To do this, follow these steps:
+        <v-tooltip
+          activator="parent"
+          content-class="text-start small pa-3 bg-black"
+          location="bottom"
+          max-width="420"
+          :open-delay="500"
+        >
+          <b class="d-block"> Clone Style </b>
+          Using this tool, you can duplicate styles such as fonts, backgrounds,
+          margins, and borders. To do this, follow these steps:
 
-       <ol class="my-1">
-         <li>
-           <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
-           Enable the tool and hover your mouse over text, columns, or
-           images; the cursor will resemble a pipette.
-         </li>
-         <li>Click on the target element to copy its style.</li>
-         <li>
-           <v-icon size="small"
-           >colorize arrow_right_alt format_color_fill
-           </v-icon>
-           The cursor will revert to a palette; click on the destination
-           element to apply the copied style.
-         </li>
-       </ol>
-       <div>
-         <v-icon color="amber" size="x-small">circle</v-icon>
-         Hotkey:
-         <v-icon class="mx-1" size="small">sync_alt</v-icon>
-         <b>⌘Ctrl + E</b>
-       </div>
-     </v-tooltip>
-   </v-btn>
- </div>
-
+          <ol class="my-1">
+            <li>
+              <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
+              Enable the tool and hover your mouse over text, columns, or
+              images; the cursor will resemble a pipette.
+            </li>
+            <li>Click on the target element to copy its style.</li>
+            <li>
+              <v-icon size="small"
+                >colorize arrow_right_alt format_color_fill
+              </v-icon>
+              The cursor will revert to a palette; click on the destination
+              element to apply the copied style.
+            </li>
+          </ol>
+          <div>
+            <v-icon color="amber" size="x-small">circle</v-icon>
+            Hotkey:
+            <v-icon class="mx-1" size="small">sync_alt</v-icon>
+            <b>⌘Ctrl + E</b>
+          </div>
+        </v-tooltip>
+      </v-btn>
+    </div>
 
     <v-divider vertical></v-divider>
 
-
     <div class="lmt-group">
-
-      <v-sheet color="#222" class="d-flex ma-1 overflow-hidden" rounded="lg" height="38">
-
-
-
-        <div :class="{ '-active': pageBuilder.listShown }" class="down-bar-btn ma-1 rounded-lg">
+      <v-sheet
+        color="#222"
+        class="d-flex ma-1 overflow-hidden"
+        rounded="lg"
+        height="38"
+      >
+        <div
+          :class="{ '-active': builder.showLeftMenu }"
+          class="down-bar-btn ma-1 rounded-lg"
+        >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Tools ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-              :color="pageBuilder.listShown ? 'amber' : '#111'"
-              variant="flat"
-              size="small"
-              @click.stop="pageBuilder.toggleListVisibility"
-              class="tnt  "
-              prepend-icon="construction"
+            :color="builder.showLeftMenu ? 'amber' : '#111'"
+            variant="flat"
+            size="small"
+            @click.stop="builder.showLeftMenu=!builder.showLeftMenu"
+            class="tnt"
+            prepend-icon="construction"
           >
             {{ $t("page_builder.design.tools.tools") }}
 
             <v-tooltip
-                activator="parent"
-                content-class="text-start small pa-3 bg-black"
-                location="bottom"
-                max-width="420"
-                :open-delay="500"
+              activator="parent"
+              content-class="text-start small pa-3 bg-black"
+              location="bottom"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.tools") }}
@@ -173,27 +170,27 @@
         </div>
 
         <div
-            :class="{ '-active': pageBuilder.$builder.isSorting }"
-            class="down-bar-btn ma-1 rounded-lg "
+          :class="{ '-active': builder.isSorting }"
+          class="down-bar-btn ma-1 rounded-lg"
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Sort ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-              :color="pageBuilder.$builder.isSorting ? 'amber' : '#111'"
-              variant="flat"
-              size="small"
-              class="tnt"
-              @click.stop="pageBuilder.toggleSort"
-              prepend-icon="open_with"
+            :color="builder.isSorting ? 'amber' : '#111'"
+            variant="flat"
+            size="small"
+            class="tnt"
+            @click.stop="builder.isSorting=!builder.isSorting"
+            prepend-icon="open_with"
           >
             {{ $t("page_builder.design.tools.rearrange") }}
 
             <v-tooltip
-                activator="parent"
-                content-class="text-start small pa-3 bg-black"
-                location="bottom"
-                max-width="420"
-                :open-delay="500"
+              activator="parent"
+              content-class="text-start small pa-3 bg-black"
+              location="bottom"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block">
                 {{ $t("page_builder.design.tools.rearrange") }}
@@ -203,37 +200,38 @@
             </v-tooltip>
           </v-btn>
         </div>
-
-
       </v-sheet>
 
-
-      <v-sheet color="#222" class="d-flex ma-1 overflow-hidden" rounded="lg" height="38">
-
+      <v-sheet
+        color="#222"
+        class="d-flex ma-1 overflow-hidden"
+        rounded="lg"
+        height="38"
+      >
         <div
-            :class="{ '-active': pageBuilder.$builder.isHideExtra }"
-            class="down-bar-btn ma-1 rounded-lg "
+          :class="{ '-active': builder.isHideExtra }"
+          class="down-bar-btn ma-1 rounded-lg"
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Edit/View Mode ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-              color="#111"
-              variant="flat"
-              size="small"
-              class="tnt"
-              @click.stop="pageBuilder.toggleHideExtra()"
-              :prepend-icon="
-            pageBuilder.$builder.isHideExtra ? 'visibility' : 'edit'
-          "
+            color="#111"
+            variant="flat"
+            size="small"
+            class="tnt"
+            @click.stop="builder.isHideExtra=!builder.isHideExtra"
+            :prepend-icon="
+              builder.isHideExtra ? 'visibility' : 'edit'
+            "
           >
-            {{ !pageBuilder.$builder.isHideExtra ? "Edit" : "View" }}
+            {{ !builder.isHideExtra ? "Edit" : "View" }}
 
             <v-tooltip
-                activator="parent"
-                content-class="text-start small pa-3 bg-black"
-                location="bottom"
-                max-width="420"
-                :open-delay="500"
+              activator="parent"
+              content-class="text-start small pa-3 bg-black"
+              location="bottom"
+              max-width="420"
+              :open-delay="500"
             >
               <b class="d-block"> Edit / View Mode </b>
               <div class="my-1">
@@ -242,48 +240,45 @@
               </div>
               <div class="my-1">
                 <v-icon size="small">visibility</v-icon>
-                <b class="mx-1">View Mode:</b> View what users see by hiding extra
-                edit tools and empty texts.
+                <b class="mx-1">View Mode:</b> View what users see by hiding
+                extra edit tools and empty texts.
               </div>
             </v-tooltip>
           </v-btn>
         </div>
         <div
-            :class="{ '-active': landing_show_elements_repository }"
-            class="down-bar-btn ma-1 rounded-lg "
+          :class="{ '-active': landing_show_elements_repository }"
+          class="down-bar-btn ma-1 rounded-lg"
         >
-        <v-btn
+          <v-btn
             color="#111"
             variant="flat"
             size="small"
             class="tnt"
             @click.stop="toggleLandingShowElementsRepository()"
             prepend-icon="widgets"
-        >
+          >
+            <div class="small mt-1 tnt">Repository</div>
 
-          <div class="small mt-1 tnt">Repository</div>
-
-          <v-tooltip
+            <v-tooltip
               activator="parent"
               content-class="text-start small pa-3 bg-black"
               location="bottom"
               max-width="420"
               :open-delay="500"
-          >
-            <b class="d-block"> Prebuilt Sections </b>
-            Enable or disable the display of pre-constructed and designed sections.
-            These sections are created using standard sections available in the left
-            menu, demonstrating the versatility of this page builder.
-          </v-tooltip>
-        </v-btn>
+            >
+              <b class="d-block"> Prebuilt Sections </b>
+              Enable or disable the display of pre-constructed and designed
+              sections. These sections are created using standard sections
+              available in the left menu, demonstrating the versatility of this
+              page builder.
+            </v-tooltip>
+          </v-btn>
         </div>
       </v-sheet>
-
     </div>
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
-
-
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -322,61 +317,11 @@
         </ol>
       </v-tooltip>
     </u-button-ai-small>
-    <v-divider  vertical></v-divider>
-
-    <!-- ▃▃▃▃▃▃▃▃▃▃ Shop Top Menu ▃▃▃▃▃▃▃▃▃▃ -->
-
-    <template v-if="hasShopMenu">
-      <v-btn
-        variant="text"
-        size="small"
-        stacked
-        @click="show_menu_editor = true"
-      >
-        <v-icon size="small">menu</v-icon>
-
-        <div class="small mt-1 tnt">Menu</div>
-        <v-avatar
-          :image="getShopImagePath(shop.icon, 128)"
-          class="avatar-gradient -shop -thin absolute-top-end"
-          size="18"
-        >
-        </v-avatar>
-      </v-btn>
-      <v-divider  vertical></v-divider>
-
-      <l-store-top-bar-editor
-        v-model="show_menu_editor"
-        :builder="pageBuilder.$builder"
-        :shop="shop"
-      ></l-store-top-bar-editor>
-    </template>
-
-    <!-- ▃▃▃▃▃▃▃▃▃▃ Import ▃▃▃▃▃▃▃▃▃▃ -->
-
-    <v-btn variant="text" size="small" stacked @click="show_import = true">
-      <v-icon size="small">fa:fas fa-file-import</v-icon>
-
-      <div class="small mt-1 tnt">Import</div>
-
-      <v-tooltip
-        activator="parent"
-        content-class="text-start small pa-3 bg-black"
-        location="bottom"
-        max-width="420"
-        :open-delay="500"
-      >
-        <b class="d-block"> Import Landing Page </b>
-        <v-icon size="small">folder</v-icon>
-        <b class="mx-1">Load: </b> You can import a .landing file, which will
-        replace all existing sections with the newly added ones.
-      </v-tooltip>
-    </v-btn>
+    <v-divider vertical></v-divider>
 
     <v-spacer></v-spacer>
 
     <!-- ――――――――――――――――――――――  Tools B ―――――――――――――――――――― -->
-
 
     <v-btn
       stacked
@@ -454,54 +399,6 @@
     </v-btn>
   </div>
 
-  <!-- ████████████████████ Dialog > Import file ████████████████████ -->
-  <v-dialog
-    v-model="show_import"
-    :max-width="
-      $vuetify.display.xlAndUp
-        ? 860
-        : $vuetify.display.lgAndUp
-          ? 620
-          : undefined
-    "
-    :scrim="false"
-    color="#1e1e1e"
-    dark
-  >
-    <v-card class="text-start" flat rounded="xl">
-      <v-card-title></v-card-title>
-      <v-card-text>
-        <s-widget-header icon="input" title="Import Design File">
-        </s-widget-header>
-        <v-list-subheader>
-          <div>
-            You can import custom-designed pages in this section. Ensure that
-            the file is in the <b>.landing</b> format.
-          </div>
-        </v-list-subheader>
-
-        <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬ Drop Zone ⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
-
-        <s-drop-zone
-          class="min-height-40vh my-3"
-          extension=".landing"
-          hint="Drag and drop your landing page file here, or click on the input field at the top."
-          icon="design_services"
-          label="Select template file (.landing)"
-          @select:file="importFile"
-        ></s-drop-zone>
-      </v-card-text>
-      <v-card-actions>
-        <div class="widget-buttons">
-          <v-btn size="x-large" variant="text" @click="show_import = false">
-            <v-icon class="me-1">close</v-icon>
-            {{ $t("global.actions.close") }}
-          </v-btn>
-        </div>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-
   <!-- ████████████████████ Dialog > Hot keys ████████████████████ -->
   <v-dialog
     v-model="show_hotkeys"
@@ -577,19 +474,19 @@
       <div v-if="!visible_to_user">
         <v-btn-group color="#000" rounded="xl">
           <v-btn
-            :disabled="!pageBuilder.hasUndo"
+            :disabled="!builder.history.hasUndo()"
             :title="$t('global.commons.undo')"
             stacked
-            @click.stop="pageBuilder.goUndo()"
+            @click.stop="builder.history.undo()"
           >
             <v-icon>undo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
           </v-btn>
 
           <v-btn
-            :disabled="!pageBuilder.hasRedo"
+            :disabled="!builder.history.hasRedo()"
             stacked
-            @click.stop="pageBuilder.goRedo()"
+            @click.stop="builder.history.redo()"
           >
             <v-icon>redo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
@@ -598,10 +495,10 @@
           <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-            :color="pageBuilder.$builder.cloneStyle ? 'primary' : '#000'"
+            :color="builder.cloneStyle ? 'primary' : '#000'"
             icon
             stacked
-            @click.stop="pageBuilder.$builder.toggleCloneStyleMode()"
+            @click.stop="builder.toggleCloneStyleMode()"
           >
             <v-icon>colorize</v-icon>
             <div class="small mt-1 tnt">Clone</div>
@@ -697,11 +594,9 @@
 </template>
 
 <script>
-import SDropZone from "@selldone/components-vue/ui/uploader/SDropZone.vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
-import { LUtilsMigration } from "../../../../utils/migration/LUtilsMigration.ts";
-import LStoreTopBarEditor from "@selldone/page-builder/components/store/top-bar/editor/LStoreTopBarEditor.vue";
+import {inject} from "vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -724,18 +619,16 @@ export default {
   name: "LMenuTopHome",
 
   components: {
-    LStoreTopBarEditor,
     UButtonAiSmall,
-    SDropZone,
   },
   mixins: [LMixinEvents],
   emits: ["click:save"],
+  inject: ['builder'],
   props: {
     shop: {
       required: false,
       type: Object,
     },
-    hasShopMenu: Boolean,
 
     page: {
       require: true,
@@ -744,9 +637,7 @@ export default {
       type: Array,
     },
 
-    pageBuilder: {
-      require: true,
-    },
+
 
     busySave: {
       type: Boolean,
@@ -773,9 +664,9 @@ export default {
   },
 
   computed: {
-    landing_show_page_style() {
-      return this.$store.getters.getLandingShowPageStyle;
-    },
+
+
+
     landing_show_elements_repository() {
       return this.$store.getters.getLandingShowElementsRepository;
     },
@@ -788,11 +679,7 @@ export default {
     ShortKeys: ShortKeys,
     show_hotkeys: false,
 
-    show_import: false,
-
     visible_to_user: false,
-
-    show_menu_editor: false,
 
     //-----------------------
 
@@ -803,11 +690,7 @@ export default {
     auto_generate_busy: false,
   }),
 
-  watch: {
-    show_import(val) {
-      // this.BlurApp(val);
-    },
-  },
+  watch: {},
 
   methods: {
     toggleLandingShowElementsRepository() {
@@ -815,78 +698,6 @@ export default {
         "setLandingShowElementsRepository",
         !this.landing_show_elements_repository,
       );
-    },
-
-    importFile(file) {
-      if (!file) return;
-
-      //////////////this.current_history_id = null;
-
-      try {
-        const fr = new FileReader();
-        fr.onload = () => {
-          const template = JSON.parse(fr.result);
-          this.show_import = false;
-
-          if (
-            !template.content ||
-            !template.content.sections ||
-            !Array.isArray(template.content.sections) ||
-            !template.content.sections.length
-          ) {
-            this.showErrorAlert(null, "Sections in the file is empty!");
-          }
-
-          // Migrate from old version:
-          template.content = LUtilsMigration.MigratePageContent(
-            template.content,
-          );
-
-          const components = this.pageBuilder.$builder.components;
-
-          const valid_sections = [];
-
-          template.content.sections.forEach((section) => {
-            if (!section.object) {
-              this.showErrorAlert(null, `Invalid section structure detected!`);
-              return;
-            }
-            // if (components[section.name]) { TODO: CHECK V2
-            valid_sections.push(section);
-            /* } else {
-               this.showErrorAlert(
-                 null,
-                 `This section in the landing file not found: ${section.name}`,
-               );
-             }*/
-          });
-
-          this.page.content.sections = valid_sections;
-          this.page.content.style = template.content.style;
-
-          this.page.title = template.title;
-          this.page.description = template.description;
-          this.page.image = template.image;
-          this.page.direction = template.direction;
-          this.page.note = template.note;
-
-          this.pageBuilder.setPage(this.page.content, null, false);
-
-          /////this.pageBuilder.title = "Page builder | " + this.page.title + " 📐";
-
-          //   this.$emit('request:loadData',this.page);
-
-          this.showSuccessAlert(null, "Landing page file load successfully.");
-        };
-        fr.onerror = () => {
-          this.showErrorAlert(null, "Can not read file!");
-        };
-
-        fr.readAsText(file);
-      } catch (e) {
-        this.showErrorAlert(null, "Bad file format!");
-        console.error(e);
-      }
     },
 
     autoGenerate() {
@@ -945,7 +756,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-
-</style>
+<style lang="scss" scoped></style>

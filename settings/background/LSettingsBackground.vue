@@ -37,6 +37,7 @@
 
       <v-card-text v-if="dialog_pre" class="pb-16">
         <background-image-editor
+            :builder="builder"
           v-model:bg-image="bg_image"
           v-model:bgCustom="bg_custom"
           v-model:bgGradient="bg_gradient"

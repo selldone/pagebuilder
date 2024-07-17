@@ -48,15 +48,14 @@
       </v-card-actions>
 
       <!-- ████████████████████ Tags ████████████████████ -->
-      <template v-if="customElementTags">
         <s-setting-toggle
+            v-if="customElementTags"
           label="Element"
-          icon="video_label"
-          v-model="target.tag"
+          icon="code"
+          v-model="target.data.tag"
           :items="customElementTags"
-          class="ms-3"
+          class="ms-2"
         ></s-setting-toggle>
-      </template>
 
       <v-expansion-panels
         v-model="Selected_tab"
@@ -65,6 +64,14 @@
         style="--border-color: #999"
         key="tabs"
       >
+
+        <!-- ████████████████████ Value ████████████████████ -->
+<l-settings-content-text  v-if="is_XTextObject"  value="value" v-model:text="target.data.value"></l-settings-content-text>
+        <l-settings-content-image v-else-if="is_XUploaderObject"  value="value" v-model:src="target.data.src"></l-settings-content-image>
+
+
+
+
         <!-- ████████████████████ Grid ████████████████████ -->
         <l-settings-style-grid
           value="grid"
@@ -256,6 +263,7 @@
             </v-chip>
           </template>
           <background-image-editor
+              :builder="builder"
             v-model:bg-image="background.bg_image"
             v-model:bgCustom="background.bg_custom"
             v-model:bgGradient="background.bg_gradient"
@@ -280,7 +288,7 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import ShadowCollection from "../../src/enums/ShadowCollection";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
@@ -307,6 +315,10 @@ import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtils
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
 import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
 import {inject} from "vue";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import LSettingsContentText from "@selldone/page-builder/settings/content/text/LSettingsContentText.vue";
+import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import LSettingsContentImage from "@selldone/page-builder/settings/content/image/LSettingsContentImage.vue";
 
 const STYLE_TABS = [
   "size",
@@ -326,6 +338,8 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    LSettingsContentImage,
+    LSettingsContentText,
     LSettingsStyleGrid,
     SSettingExpandable,
     BackgroundImageEditor,
@@ -561,7 +575,8 @@ export default {
     },
 
     customElementTags() {
-      return this.options?.tags;
+      if(this.is_XTextObject)return ["p", "h1", "h2", "h3", "h4", "h5"]
+      return null
     },
 
     upload_bg_url() {
@@ -570,6 +585,14 @@ export default {
     upload_video_url() {
       return this.builder.getVideoUploadUrl();
     },
+
+    is_XTextObject(){
+      return this.target instanceof XTextObject
+    },
+    is_XUploaderObject(){
+      return this.target instanceof XUploaderObject
+    },
+
   },
 
   watch: {

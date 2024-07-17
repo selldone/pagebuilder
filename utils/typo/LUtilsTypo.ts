@@ -23,7 +23,7 @@ export class LUtilsTypo {
   static P_SIZE_DEFAULT = undefined;
 
   static GenerateTypoStyle(style) {
-    return {
+    const out = {
       "--base-font-size": style?.font_size ? style.font_size + "px" : "16px",
 
       "--h1-font-size":
@@ -55,5 +55,15 @@ export class LUtilsTypo {
           ? style.p_size
           : this.P_SIZE_DEFAULT,
     };
+
+    const font_family = style && style.font ? style.font : undefined;
+    if (font_family) {
+      Object.assign(out, {
+        fontFamily: font_family,
+        "--font": font_family,
+      });
+    }
+
+    return out;
   }
 }

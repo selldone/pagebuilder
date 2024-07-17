@@ -80,7 +80,7 @@
       </v-btn-toggle>
     </div>
 
-    <v-window v-model="tab"  >
+    <v-window v-model="tab">
       <v-window-item value="pattern">
         <s-setting-color
           v-if="hasBgColor"
@@ -248,6 +248,7 @@
         ></s-setting-group>
 
         <s-setting-video
+          :builder="builder"
           :upload-url="uploadVideoUrl"
           :model-value="bgVideo"
           @update:model-value="(val) => $emit('update:bgVideo', val)"
@@ -325,6 +326,7 @@ import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSetti
 import SSettingImagePosition from "@selldone/page-builder/styler/settings/image-position/SSettingImagePosition.vue";
 import SSettingVideo from "@selldone/page-builder/styler/settings/video/SSettingVideo.vue";
 import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
+import Builder from "@selldone/page-builder/Builder.ts";
 
 export default {
   name: "BackgroundImageEditor",
@@ -354,6 +356,10 @@ export default {
     "change",
   ],
   props: {
+    builder: {
+      required: true,
+      type: Builder,
+    },
     bgImage: {},
     bgGradient: {},
     bgRotation: {},

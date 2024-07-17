@@ -19,7 +19,7 @@
     @mouseleave="onHoverOut"
   >
     <div
-      class="d-flex align-center single-line"
+      class="d-flex align-center single-line "
       @contextmenu.prevent="
         (ev) =>
           $emit('right-click', {
@@ -35,11 +35,11 @@
       <div @click="expanded = !expanded" class="pp overflow-hidden">
         <v-icon
           v-if="object.children?.length"
-          class="me-1 t-all-400"
+          class="me-1 t-all-400 usn"
           :class="{ 'rotate-90-s': !expanded }"
           >arrow_drop_down
         </v-icon>
-        <v-icon class="me-1">{{ icon }}</v-icon>
+        <v-icon class="me-1 usn">{{ icon }}</v-icon>
 
         <span
           :contenteditable="hasEditableTitle"
@@ -58,7 +58,7 @@
             ? '#fff'
             : '#999'
         "
-        class="ms-1 tnt"
+        class="ms-1 tnt usn"
         @click="showMasterDesignDialog()"
         title="Classes & Styles"
         min-width="20"
@@ -74,13 +74,13 @@
         width="20"
         height="20"
         rounded="sm"
-        class="ms-1 flex-grow-0"
+        class="ms-1 flex-grow-0 usn"
       ></v-img>
 
       <v-chip
         v-if="object.label"
         size="x-small"
-        class="ms-1 px-1"
+        class="ms-1 px-1 usn"
         label
         density="comfortable"
         >{{ object.label }}
@@ -89,7 +89,7 @@
       <v-btn
         v-if="isSection"
         size="x-small"
-        class="ms-1"
+        class="ms-1 usn"
         @click="setExpand(!expanded)"
         variant="plain"
         :title="expanded ? 'Collapse All' : 'Expand All'"
@@ -100,7 +100,7 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="expanded">
+      <div v-if="expanded || !object.children?.length">
         <draggable
           v-model="object.children"
           tag="div"
@@ -111,14 +111,14 @@
           }"
         >
           <template v-slot:item="{ element }">
-            <l-settings-hierarchy-item
-              :parent="object"
-              :object="element"
-              :lock-scroll="lockScroll"
-              class="ms-2"
-              @right-click="(ev) => $emit('right-click', ev)"
+            <l-menu-left-hierarchy-item
+                :parent="object"
+                :object="element"
+                :lock-scroll="lockScroll"
+                class="ms-2"
+                @right-click="(ev) => $emit('right-click', ev)"
             >
-            </l-settings-hierarchy-item>
+            </l-menu-left-hierarchy-item>
           </template>
         </draggable>
       </div>
@@ -158,12 +158,12 @@ import { XVideoBackgroundObject } from "@selldone/page-builder/components/x/vide
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 
 export default {
-  name: "LSettingsHierarchyItem",
+  name: "LMenuLeftHierarchyItem",
   mixins: [LMixinEvents],
 
   components: {
     draggable,
-    LSettingsHierarchyItem: () => import("./LSettingsHierarchyItem.vue"),
+    LMenuLeftHierarchyItem:self, // Directly referencing the component
   },
   emits: ["hover-in", "hover-out", "right-click"],
   props: {
@@ -253,6 +253,11 @@ export default {
       $(".element-focus-editing").removeClass("element-focus-editing");
       //    console.log('onHoverIn objects',this.object)
       this.object.$element?.classList.add("element-focus-editing");
+
+      if (!this.lockScroll) {
+        this.debouncedScrollToElement();
+      }
+
     },
     onHoverOut() {
       if (!this.has_classes) {
@@ -262,9 +267,7 @@ export default {
       //  console.log('onHoverOut objects',this.object)
       this.object.$element?.classList.remove("element-focus-editing");
 
-      if (!this.lockScroll) {
-        this.debouncedScrollToElement();
-      }
+
     },
 
     showMasterDesignDialog() {

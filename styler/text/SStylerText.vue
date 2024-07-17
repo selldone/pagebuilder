@@ -430,6 +430,7 @@ import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
 const TextAlign = [
   { val: "start", icon: "format_align_left", title: "Start" },
@@ -493,7 +494,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XTextObject,
     },
 
 
@@ -631,7 +632,7 @@ export default {
         this.el,
         this.el,
         this.target,
-        { tags: ["p", "h1", "h2", "h3", "h4", "h5"] },
+
       );
     },
 
