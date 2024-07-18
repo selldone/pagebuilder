@@ -54,10 +54,11 @@ import { defineComponent } from "vue";
 import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { isObject } from "lodash-es";
+import DynamicScriptDirective from "@selldone/components-vue/directives/script/DynamicScriptDirective.ts";
 
 export default {
   name: "XCode",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective,'dynamic-scripts':DynamicScriptDirective },
 
   mixins: [LMixinXComponent],
   components: { SArticleEditor },

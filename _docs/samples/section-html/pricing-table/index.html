@@ -635,7 +635,7 @@
                 }
             },
             created() {
-                this.current_offer_code=this.properties.offers.find(o=>o.default)?.code;
+                this.current_offer_code=this.properties.offers?.find(o=>o.default)?.code;
                 if(!this.current_offer_code)this.current_offer_code=this.properties.offers[0]?.code;
             }
         }

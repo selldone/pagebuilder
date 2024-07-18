@@ -33,7 +33,7 @@
       >
         <v-avatar
           v-if="shop.icon"
-          class="avatar-gradient -thin -shop"
+          class="avatar-gradient -thin -shop hover-scale-small"
           size="24"
         >
           <v-img :src="getShopImagePath(shop.icon, 64)" />
@@ -56,7 +56,7 @@
       >
         <v-avatar
           :color="SaminColorDarkDeep"
-          class="avatar-gradient -thin -blue"
+          class="avatar-gradient -thin -blue hover-scale-small"
           size="24"
         >
           <v-img :src="getShopImagePath(page.image, 256, page.id)" />

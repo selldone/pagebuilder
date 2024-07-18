@@ -912,6 +912,8 @@ export default defineComponent({
       console.log("Dropped image URL:", url);
       this.pre_src = url;
       this.object.data.setSrc(url);
+      this.dragOverHolder = false;
+
       // Add your logic to handle the URL (e.g., display the image)
     },
   },
