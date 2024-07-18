@@ -76,7 +76,6 @@ export namespace builder {
   }
 }
 
-
 /**
  * Default options for the builder.
  */
@@ -121,12 +120,12 @@ export class Builder {
   public isRendered: boolean;
   public showLeftMenu: boolean;
 
-
   public cloneStyle: boolean;
   public cloneObject: any;
   public rootEl: any;
 
   public history: History;
+  public livestream: Livestream;
 
   // Corresponding model of page in the server. We pass it to uploadImageUrl and etc functions to generate upload urls,... It should be set in the set function.
   public type?: builder.ModelType;
@@ -185,8 +184,8 @@ export class Builder {
     this.isRendered = state.isRendered;
     this.showLeftMenu = true;
 
-
     this.history = new History(this);
+    this.livestream = new Livestream(this);
 
     //----------------- Clone Style ------------------
     this.cloneStyle = false;
@@ -422,7 +421,7 @@ export class Builder {
     this.title = content.title !== undefined ? content.title : this.title;
 
     // --- Reset history ---
-    this.history = new History(this); // Reset local history fot undo redo
+    this.history = reactive(new History(this)); // Reset local history fot undo redo
 
     if (content.sections && Array.isArray(content.sections)) {
       this.sections = content.sections
@@ -538,13 +537,16 @@ function LOG(...text: any) {
 }
 
 export class History {
+  static MAX_HISTORY_ITEMS = 50;
+
   builder: Builder;
   records: any[] = [];
   index: number = 0;
 
+
   constructor(builder: Builder) {
     this.builder = builder;
-    this.records = [];
+    this.records = reactive([]);
     this.index = 0;
 
     // Throttle the save function
@@ -565,6 +567,7 @@ export class History {
     if (this.hasUndo()) {
       this.index++;
       this.loadLocalHistory();
+
     }
   }
 
@@ -632,7 +635,7 @@ export class History {
     }
 
     this.records.unshift(clone);
-    if (this.records.length > 20) this.records.length = 20;
+    if (this.records.length > History.MAX_HISTORY_ITEMS) this.records.length = History.MAX_HISTORY_ITEMS;
 
     if (DEBUG)
       console.log(
@@ -645,5 +648,49 @@ export class History {
       );
 
     this.index = 0;
+
+  }
+}
+
+export class Livestream {
+  builder: Builder;
+  enable: boolean = false;
+  /**
+   * Number of sent data
+   */
+  count: number = 0;
+  audiences: any[] = [];
+
+  constructor(builder: Builder) {
+    this.builder = builder;
+    this.enable = false;
+    this.count = 0;
+  }
+
+  reset() {
+    this.enable = false;
+    this.count = 0;
+    this.audiences = [];
+  }
+
+  setEnable(enable: boolean) {
+    this.enable = enable;
+  }
+
+  setCount(count: number) {
+    this.count = count;
+  }
+
+  setAudiences(audiences: any[]) {
+    this.audiences = audiences;
+    if (this.audiences?.length > 0) this.enable = true; // Auto enable livestream!
+  }
+
+  canSend(){
+    if(this.builder.type!=='page')return false; // Only for page!
+    return this.enable || this.count===0 /*Send first attempt! Maybe there is audience previously load the live stream page!*/
+  }
+  onSend(){
+    this.count++;
   }
 }

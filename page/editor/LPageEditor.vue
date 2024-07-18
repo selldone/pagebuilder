@@ -21,9 +21,6 @@
       :backTo="backTo"
       :shop="shop"
       :page="page"
-      :audiences="audiences"
-      :liveStream="liveStream"
-      @update:liveStream="(v) => $emit('update:liveStream', v)"
       :demo="demo"
       :busy-save="busySave"
       :saveFunction="onSave"
@@ -118,11 +115,7 @@
             <l-page-editor-artboard-top-bar
               :page="page"
               :fullscreen="!scale_down"
-              @click:full-screen="
-                (val) => {
-                  $builder.showLeftMenu = !val;
-                }
-              "
+
               :shop="shop"
               :isPopup="isPopup"
               :isMenu="isMenu"
@@ -422,7 +415,7 @@ export default defineComponent({
     LFeederDialog,
     LPageEditorRepository,
   },
-  emits: ["update:preview", "changeMode", "scale", "saved", "load:template"],
+  emits: ["changeMode", "scale", "saved", "load:template"],
   props: {
     showIntro: {
       type: Boolean,
@@ -473,8 +466,6 @@ export default defineComponent({
     onSave: {
       type: Function,
     },
-    liveStream: {},
-    audiences: {},
   },
   data() {
     return {
@@ -535,6 +526,9 @@ export default defineComponent({
       onPast: null,
 
       copy_section: null,
+
+      //-------------------
+      busy_push: false,
     };
   },
 
@@ -625,6 +619,10 @@ export default defineComponent({
     page() {
       this.autoShowNote();
       this.setModelInBuilder();
+    },
+
+    "page.id"() {
+      this.$builder.livestream.reset(); // Reset!
     },
 
     "$builder.sections": {
@@ -862,9 +860,9 @@ export default defineComponent({
 
       //------------- Add Undo Redo -----------
       if ((event.ctrlKey || event.metaKey) && event.code === "KeyZ") {
-        if (this.inActiveEditingMode()) this.$builder.undo();
+        if (this.inActiveEditingMode()) this.$builder.history.undo();
       } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyY") {
-        if (this.inActiveEditingMode()) this.$builder.redo();
+        if (this.inActiveEditingMode()) this.$builder.history.redo();
       }
     };
 
@@ -926,7 +924,8 @@ export default defineComponent({
         },
         css: this.page.css,
       };
-      this.$emit("update:preview", _page);
+
+      this.updateRealtimePreview(_page);
     }, 1000),
 
     //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
@@ -1030,10 +1029,7 @@ export default defineComponent({
         document.querySelector(".v-navigation-drawer--active") !== null
       )
         return false;
-      // Are we the other tab?
-      if (!this.isElementVisible(this.$el)) {
-        return false;
-      }
+
       // Check dialog open then prevent any undo / redo short key!
       if ($(".v-dialog__content.v-dialog__content--active").length) {
         // The element exists
@@ -1041,21 +1037,19 @@ export default defineComponent({
       }
       return true;
     },
-    isElementVisible(element) {
-      var rect = element.getBoundingClientRect();
-      return rect.height > 0;
-    },
 
     //-----------------------------------
 
     calcMaxH() {
-      //console.log('calcMaxH',this.max_h)
       if (this.scale_down) {
         let height = this.$refs.artboard?.clientHeight;
         this.max_h = 120 + height / 2 + "px"; //height/2 + 'px'; // problem in add new element
       } else {
         this.max_h = "unset";
       }
+
+      console.log('calcMaxH',this.max_h)
+
     },
     getJson() {
       const content = this.$builder.export();
@@ -1327,6 +1321,41 @@ export default defineComponent({
       } catch (e) {
         console.error(e);
       }
+    },
+
+    //-------------------------------------------------------------------------------------
+    updateRealtimePreview: _.throttle(function (_page) {
+      this.updateRealtimePreviewNow(_page);
+    }, 5000),
+
+    updateRealtimePreviewNow(_page) {
+     // console.log('updateRealtimePreviewNow',_page,this.$builder.livestream.canSend())
+      // First time try update and get presence audience! If there is audience then auto activate the live stream.
+      if (!this.$builder.livestream.canSend()) return;
+
+      if (!_page || this.busy_push || !this.page?.id) return;
+
+      this.$builder.livestream.onSend();
+
+      console.log("Update Preview!");
+
+      this.busy_push = true;
+      axios
+        .post(
+          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(this.shop.id, this.page.id),
+          _page,
+        )
+        .then(({ data }) => {
+          if (data.error) {
+            this.showErrorAlert(null, data.error_msg);
+            return;
+          }
+          this.$builder.livestream.setAudiences(data.audiences);
+        })
+        .catch((error) => {
+          this.showLaravelError(error);
+        })
+        .finally(() => (this.busy_push = false));
     },
   },
 });

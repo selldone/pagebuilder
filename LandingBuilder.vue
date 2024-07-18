@@ -64,12 +64,10 @@
         }
       "
       @load:template="onSetPageBySelectTemplate"
-      @update:preview="(_page) => updateRealtimePreview(_page)"
       :fetchPageData="fetchPageData"
       :backTo="backTo"
       :busySave="busy_save"
       :onSave="onSave"
-      :audiences="audiences"
       v-model:liveStream="live_stream"
     >
       <template v-slot:header="{ builder }">
@@ -150,11 +148,7 @@ export default {
     //------------------------
     ai_model: "chatgpt",
 
-    //----------- Real time preview -----------
-    busy_push: false,
-    audiences: null,
-    live_stream: false,
-    stream_count: 0,
+
   }),
   computed: {
     show_loading() {
@@ -183,6 +177,7 @@ export default {
     page_id() {
       this.fetchPageData();
     },
+
   },
 
   created() {
@@ -455,39 +450,7 @@ export default {
         });
     },
 
-    //-------------------------------------------------------------------------------------
-    updateRealtimePreview: _.throttle(function (_page) {
-      this.updateRealtimePreviewNow(_page);
-    }, 5000),
 
-    updateRealtimePreviewNow(_page) {
-      // First time try update and get presence audience! If there is audience then auto activate the live stream.
-      if (!this.live_stream && this.stream_count !== 0) return;
-
-      this.stream_count++;
-
-      console.log("Update Preview!");
-
-      if (!_page || this.busy_push || !this.page?.id) return;
-      this.busy_push = true;
-      axios
-        .post(
-          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(this.shop.id, this.page.id),
-          _page,
-        )
-        .then(({ data }) => {
-          if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
-            return;
-          }
-          this.audiences = data.audiences;
-          if (this.audiences?.length > 0) this.live_stream = true; // AUto enable livestream!
-        })
-        .catch((error) => {
-          this.showLaravelError(error);
-        })
-        .finally(() => (this.busy_push = false));
-    },
   },
 };
 </script>

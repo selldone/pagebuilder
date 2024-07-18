@@ -45,9 +45,9 @@
     <div class="lmt-group">
       <div>
         <v-btn
-          :disabled="!builder.history.hasUndo()"
+          :disabled="!has_undo"
           :title="$t('global.commons.undo')"
-          @click.stop="builder.history.undo()"
+          @click.stop="history.undo()"
           prepend-icon="undo"
           variant="text"
           size="small"
@@ -57,8 +57,8 @@
         </v-btn>
 
         <v-btn
-          :disabled="!builder.history.hasRedo()"
-          @click.stop="builder.history.redo()"
+          :disabled="!has_redo"
+          @click.stop="history.redo()"
           prepend-icon="redo"
           variant="text"
           size="small"
@@ -67,6 +67,34 @@
           {{ $t("global.commons.redo") }}
         </v-btn>
       </div>
+
+      <v-btn
+        variant="text"
+        size="small"
+        @click="show_hotkeys = true"
+        class="tnt"
+        prepend-icon="keyboard_alt"
+      >
+        Hot Keys
+
+        <v-tooltip
+          activator="parent"
+          content-class="text-start small pa-3 bg-black"
+          location="bottom"
+          max-width="420"
+          :open-delay="500"
+        >
+          <p
+            v-for="short_key in Object.keys(ShortKeys).limit(5)"
+            :key="short_key"
+            class="info-item"
+          >
+            <b>{{ short_key }}</b
+            >: <span v-html="ShortKeys[short_key]"></span>
+          </p>
+          <div class="my-2">Click to view all...</div>
+        </v-tooltip>
+      </v-btn>
     </div>
 
     <v-divider vertical></v-divider>
@@ -75,9 +103,9 @@
 
     <div class="lmt-group">
       <v-btn
-        :color="builder.cloneStyle ? 'amber' : '#fff'"
+        :color="$builder.cloneStyle ? 'amber' : '#fff'"
         variant="text"
-        @click.stop="builder.toggleCloneStyleMode()"
+        @click.stop="$builder.toggleCloneStyleMode()"
         prepend-icon="colorize"
         size="small"
         class="tnt"
@@ -125,21 +153,21 @@
     <div class="lmt-group">
       <v-sheet
         color="#222"
-        class="d-flex ma-1 overflow-hidden"
+        class="d-flex ma-1 overflow-hidden justify-space-between"
         rounded="lg"
         height="38"
       >
         <div
-          :class="{ '-active': builder.showLeftMenu }"
+          :class="{ '-active': $builder.showLeftMenu }"
           class="down-bar-btn ma-1 rounded-lg"
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Tools ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-            :color="builder.showLeftMenu ? 'amber' : '#111'"
+            :color="$builder.showLeftMenu ? 'amber' : '#111'"
             variant="flat"
             size="small"
-            @click.stop="builder.showLeftMenu=!builder.showLeftMenu"
+            @click.stop="$builder.showLeftMenu = !$builder.showLeftMenu"
             class="tnt"
             prepend-icon="construction"
           >
@@ -170,17 +198,17 @@
         </div>
 
         <div
-          :class="{ '-active': builder.isSorting }"
+          :class="{ '-active': $builder.isSorting }"
           class="down-bar-btn ma-1 rounded-lg"
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Sort ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-            :color="builder.isSorting ? 'amber' : '#111'"
+            :color="$builder.isSorting ? 'amber' : '#111'"
             variant="flat"
             size="small"
             class="tnt"
-            @click.stop="builder.isSorting=!builder.isSorting"
+            @click.stop="$builder.isSorting = !$builder.isSorting"
             prepend-icon="open_with"
           >
             {{ $t("page_builder.design.tools.rearrange") }}
@@ -204,12 +232,12 @@
 
       <v-sheet
         color="#222"
-        class="d-flex ma-1 overflow-hidden"
+        class="d-flex ma-1 overflow-hidden justify-space-between"
         rounded="lg"
         height="38"
       >
         <div
-          :class="{ '-active': builder.isHideExtra }"
+          :class="{ '-active': $builder.isHideExtra }"
           class="down-bar-btn ma-1 rounded-lg"
         >
           <!-- ▃▃▃▃▃▃▃▃▃▃ Edit/View Mode ▃▃▃▃▃▃▃▃▃▃ -->
@@ -219,12 +247,10 @@
             variant="flat"
             size="small"
             class="tnt"
-            @click.stop="builder.isHideExtra=!builder.isHideExtra"
-            :prepend-icon="
-              builder.isHideExtra ? 'visibility' : 'edit'
-            "
+            @click.stop="$builder.isHideExtra = !$builder.isHideExtra"
+            :prepend-icon="$builder.isHideExtra ? 'visibility' : 'edit'"
           >
-            {{ !builder.isHideExtra ? "Edit" : "View" }}
+            {{ !$builder.isHideExtra ? "Edit" : "View" }}
 
             <v-tooltip
               activator="parent"
@@ -258,7 +284,7 @@
             @click.stop="toggleLandingShowElementsRepository()"
             prepend-icon="widgets"
           >
-            <div class="small mt-1 tnt">Repository</div>
+            Repository
 
             <v-tooltip
               activator="parent"
@@ -280,78 +306,11 @@
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
 
-    <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
-
-    <u-button-ai-small
-      v-if="hasAiButton && !demo"
-      :tooltip="null"
-      @click="show_prompt = true"
-    >
-      <v-tooltip
-        activator="parent"
-        content-class="text-start small pa-3 bg-black"
-        location="bottom"
-        max-width="420"
-        :open-delay="500"
-      >
-        <b class="d-block"> AI Assistance </b>
-        Utilize this tool to configure prompts, AI models, and plugins, enabling
-        the automatic generation of text, images, and sections with the help of
-        your AI assistant.
-        <ol class="my-1">
-          <li>Enter page prompt.</li>
-          <li>
-            Set custom prompt by adding
-            <span style="font-size: 1.3em">🆕</span> or <code>prompt:</code> to
-            fields. (optional)
-          </li>
-          <li>
-            Click on the
-            <img
-              :height="24"
-              :width="24"
-              class="mx-1"
-              src="../../../../../components-vue/assets/icons/ci-logo.png"
-            />left side of the section.
-          </li>
-        </ol>
-      </v-tooltip>
-    </u-button-ai-small>
     <v-divider vertical></v-divider>
 
     <v-spacer></v-spacer>
 
-    <!-- ――――――――――――――――――――――  Tools B ―――――――――――――――――――― -->
-
-    <v-btn
-      stacked
-      variant="text"
-      size="small"
-      @click="show_hotkeys = true"
-      class="me-3"
-    >
-      <v-icon start>keyboard_alt</v-icon>
-
-      <div class="small mt-1 tnt">Hot Keys</div>
-
-      <v-tooltip
-        activator="parent"
-        content-class="text-start small pa-3 bg-black"
-        location="bottom"
-        max-width="420"
-        :open-delay="500"
-      >
-        <p
-          v-for="short_key in Object.keys(ShortKeys).limit(5)"
-          :key="short_key"
-          class="info-item"
-        >
-          <b>{{ short_key }}</b
-          >: <span v-html="ShortKeys[short_key]"></span>
-        </p>
-        <div class="my-2">Click to view all...</div>
-      </v-tooltip>
-    </v-btn>
+    <!-- ――――――――――――――――――――――  Livestream ―――――――――――――――――――― -->
 
     <v-btn
       v-if="hasLiveView"
@@ -362,12 +321,19 @@
         params: { shop_id: page.shop_id, page_id: page.id },
         query: { responsible: true },
       }"
-      class="rounded py-1 px-2 text-start pp usn mt-3 mx-3 fadeIn tnt hover-scale-tiny"
+      class="py-1 px-2 text-start pp usn fadeIn tnt hover-scale-tiny"
       style="min-height: 54px"
+      :style="
+        $vuetify.locale.isRtl
+          ? 'border-right: solid #1E1E1E 4px'
+          : 'border-left: solid #1E1E1E 4px'
+      "
+      rounded="0"
       target="_blank"
-      @click="$emit('update:liveStream', true) /*Enable live stream*/"
+      @click="$builder.livestream.setEnable(true) /*Enable live stream*/"
       variant="elevated"
       ripple
+      height="100"
     >
       <v-icon size="24">cast</v-icon>
       <div class="ms-2 flex-grow-1" style="min-width: 160px">
@@ -474,20 +440,16 @@
       <div v-if="!visible_to_user">
         <v-btn-group color="#000" rounded="xl">
           <v-btn
-            :disabled="!builder.history.hasUndo()"
+            :disabled="!has_undo"
             :title="$t('global.commons.undo')"
             stacked
-            @click.stop="builder.history.undo()"
+            @click.stop="history.undo()"
           >
             <v-icon>undo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
           </v-btn>
 
-          <v-btn
-            :disabled="!builder.history.hasRedo()"
-            stacked
-            @click.stop="builder.history.redo()"
-          >
+          <v-btn :disabled="!has_redo" stacked @click.stop="history.redo()">
             <v-icon>redo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
           </v-btn>
@@ -495,10 +457,10 @@
           <!-- ▃▃▃▃▃▃▃▃▃▃ Clone Style ▃▃▃▃▃▃▃▃▃▃ -->
 
           <v-btn
-            :color="builder.cloneStyle ? 'primary' : '#000'"
+            :color="$builder.cloneStyle ? 'primary' : '#000'"
             icon
             stacked
-            @click.stop="builder.toggleCloneStyleMode()"
+            @click.stop="$builder.toggleCloneStyleMode()"
           >
             <v-icon>colorize</v-icon>
             <div class="small mt-1 tnt">Clone</div>
@@ -507,96 +469,11 @@
       </div>
     </v-scroll-y-reverse-transition>
   </div>
-
-  <v-dialog v-model="show_prompt">
-    <v-card>
-      <v-card-text>
-        <div class="pa-3 pa-sm-5">
-          <div class="d-flex">
-            <v-spacer></v-spacer>
-            <b-ai-model-input
-              v-model="ai_model"
-              class="max-w-300"
-              hide-details
-              label="label"
-              variant="outlined"
-            >
-            </b-ai-model-input>
-          </div>
-
-          <v-textarea
-            v-model="prompt"
-            :counter="512"
-            :rows="2"
-            :rules="[GlobalRules.counter(512)]"
-            auto-grow
-            class="mt-3"
-            hide-details
-            label="Prompt"
-            persistent-placeholder
-            placeholder="Write short about this page..."
-            style="font-size: 1.2em; font-weight: 600"
-            variant="underlined"
-          >
-          </v-textarea>
-
-          <u-smart-suggestion
-            :samples="prompt_samples"
-            class="mt-2 mb-4"
-            @select="(v) => (prompt = v)"
-          >
-          </u-smart-suggestion>
-
-          <ol class="my-3 text-start">
-            <li>
-              Write a prompt describing the page you want to create. What is the
-              purpose of this page, and what does your brand represent?
-            </li>
-            <li>
-              Click on the AI button on the left side of each section, and we
-              will automatically generate content and replace the existing text.
-            </li>
-            <li>
-              To customize each prompt of the fields in the sections, use the
-              following pattern: <code>prompt: write your prompt...</code> or
-              <code>🆕write your prompt...</code>.
-            </li>
-          </ol>
-
-          <div class="widget-buttons mb-3">
-            <v-btn
-              v-if="false"
-              :loading="auto_generate_busy"
-              size="x-large"
-              variant="outlined"
-              @click="autoGenerate"
-            >
-              Auto Generate Page
-            </v-btn>
-
-            <v-btn color="primary" size="x-large" @click="show_prompt = false">
-              <v-icon class="me-1">check</v-icon>
-              {{ $t("global.actions.done") }}
-            </v-btn>
-          </div>
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <div class="widget-buttons">
-          <v-btn size="x-large" variant="text" @click="show_prompt = false">
-            <v-icon start>close</v-icon>
-            {{ $t("global.actions.close") }}
-          </v-btn>
-        </div>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script>
-import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
-import {inject} from "vue";
+import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -619,11 +496,11 @@ export default {
   name: "LMenuTopHome",
 
   components: {
-    UButtonAiSmall,
+    UDenseCirclesUsers,
   },
   mixins: [LMixinEvents],
   emits: ["click:save"],
-  inject: ['builder'],
+  inject: ["$builder"],
   props: {
     shop: {
       required: false,
@@ -636,8 +513,6 @@ export default {
     histories: {
       type: Array,
     },
-
-
 
     busySave: {
       type: Boolean,
@@ -653,26 +528,9 @@ export default {
       default: "primary",
     },
 
-    hasAiButton: {
-      type: Boolean,
-      default: false,
-    },
     demo: Boolean,
 
-    audiences: {},
     liveStream: {},
-  },
-
-  computed: {
-
-
-
-    landing_show_elements_repository() {
-      return this.$store.getters.getLandingShowElementsRepository;
-    },
-    hasLiveView() {
-      return this.page?.id && this.page.shop_id;
-    },
   },
 
   data: () => ({
@@ -680,17 +538,34 @@ export default {
     show_hotkeys: false,
 
     visible_to_user: false,
-
-    //-----------------------
-
-    show_prompt: false,
-    prompt: null,
-    prompt_samples: [],
-    //------------------------
-    auto_generate_busy: false,
   }),
 
-  watch: {},
+  computed: {
+    audiences() {
+      return this.$builder.livestream.audiences;
+    },
+
+    landing_show_elements_repository() {
+      return this.$store.getters.getLandingShowElementsRepository;
+    },
+    hasLiveView() {
+      return this.page?.id && this.page.shop_id;
+    },
+
+    history() {
+      return this.$builder.history;
+    },
+    has_undo() {
+      return this.history.hasUndo();
+    },
+    has_redo() {
+      return this.history.hasRedo();
+    },
+  },
+
+  watch: {
+
+  },
 
   methods: {
     toggleLandingShowElementsRepository() {
@@ -699,60 +574,9 @@ export default {
         !this.landing_show_elements_repository,
       );
     },
-
-    autoGenerate() {
-      // Require prompt:
-      if (!this.prompt) {
-        this.show_prompt = true;
-        this.showWarningAlert(
-          "Enter Prompt Please",
-          "Kindly set a prompt for the page before proceeding.",
-        );
-        return;
-      }
-
-      // ┣━━━━━━━━━━━━━━━━━━━━━━━━━━ AI / Auto generate page  ━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-      console.log("🆎 AI / Auto generate page.");
-      let url = null;
-      if (this.shop)
-        url = window.API.POST_AI_PAGE_BUILDER_AUTO_GENERATE(
-          this.shop.id,
-          this.page.id,
-        );
-      else if (this.isOfficialPage)
-        url = window.ADMIN_API.POST_ADMIN_AI_PAGE_BUILDER_AUTO_GENERATE(
-          this.page.id,
-        );
-      else return;
-
-      this.auto_generate_busy = true;
-
-      axios
-        .post(url)
-        .then(({ data }) => {
-          if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
-          } else {
-            this.$refs.vueBuilder.setPage(
-              data.page.content,
-              data.page.css,
-              false,
-            );
-
-            this.showSuccessAlert(
-              "Build completed",
-              "Page successfully auto created and loaded.",
-            );
-          }
-        })
-        .catch((error) => {
-          this.showLaravelError(error);
-        })
-        .finally(() => {
-          this.auto_generate_busy = false;
-        });
-    },
   },
+
+  created() {},
 };
 </script>
 

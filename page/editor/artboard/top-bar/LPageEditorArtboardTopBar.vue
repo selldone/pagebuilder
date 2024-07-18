@@ -165,6 +165,7 @@
           icon
           target="_blank"
           title="Open page"
+          class="mt-n3"
           @click.stop
         >
           <v-icon>launch</v-icon>
@@ -183,7 +184,17 @@
           class="ms-1"
           icon
           v-bind="props"
-          @click="$emit('click:fullScreen')"
+          @click="
+            () => {
+              $builder.isSorting = false;
+
+              if (fullscreen) {
+                $builder.showLeftMenu = true;
+              } else {
+                $builder.showLeftMenu = false;
+              }
+            }
+          "
         >
           <v-icon>{{ !fullscreen ? "fullscreen_exit" : "fullscreen" }}</v-icon>
         </v-btn>
@@ -210,7 +221,8 @@ import { defineComponent, inject } from "vue";
 export default defineComponent({
   name: "LPageEditorArtboardTopBar",
   components: {},
-  emits: ["click:fullScreen"],
+  inject: ["$builder"],
+  emits: [],
   props: {
     page: { required: true, type: Object },
     fullscreen: { required: true, type: Boolean },
