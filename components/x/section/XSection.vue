@@ -54,7 +54,9 @@ export default {
     noDefaultPadding: Boolean,
     section: { required: true, type: Object },
   },
-  data: () => ({}),
+  data: () => ({
+
+  }),
   computed: {
     /**
      * 🐍 Use compute for better performance.
@@ -80,6 +82,8 @@ export default {
   },
 
   created() {},
+
+  methods: {},
 };
 </script>
 

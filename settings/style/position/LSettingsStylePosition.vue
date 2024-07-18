@@ -67,6 +67,19 @@
         variant="flat"
         >Bottom: {{ bottom }}
       </v-chip>
+
+
+      <v-chip
+        v-if="zIndex"
+        class="ms-1"
+        color="#000"
+        label
+        size="x-small"
+        density="comfortable"
+        variant="flat"
+        >Z-Index: {{ zIndex }}
+      </v-chip>
+
     </template>
 
     <s-landing-style-preview
@@ -118,6 +131,16 @@
           label="Right"
         ></s-setting-size>
       </v-col>
+
+      <v-col cols="12">
+        <s-setting-number-input
+            :model-value="zIndex"
+            @update:model-value="(v) => $emit('update:zIndex', v)"
+            label="Z-Index"
+            clearable
+            :max="999999"
+        ></s-setting-number-input>
+      </v-col>
     </v-row>
   </s-setting-expandable>
 </template>
@@ -130,10 +153,12 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
 import { POSITION } from "@selldone/page-builder/src/enums/position/POSITION";
+import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 
 export default defineComponent({
   name: "LSettingsStylePosition",
   components: {
+    SSettingNumberInput,
     SSettingSelect,
     SSettingSize,
     SSettingExpandable,
@@ -147,6 +172,7 @@ export default defineComponent({
     "update:top",
     "update:bottom",
     "click:area",
+    "update:zIndex",
  ],
   props: {
     value:{},
@@ -159,6 +185,8 @@ export default defineComponent({
 
     top: {},
     bottom: {},
+
+    zIndex:{},
   },
   data: () => ({
     POSITION: POSITION,

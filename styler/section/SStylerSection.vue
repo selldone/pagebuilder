@@ -190,7 +190,8 @@
             <template v-slot="{ isSelected, toggle }">
               <v-btn
                 :color="isSelected ? 'primary' : '#fff'"
-                icon :variant="isSelected?'flat':'text'"
+                icon
+                :variant="isSelected ? 'flat' : 'text'"
                 style="background: transparent"
                 @click="toggle"
               >
@@ -212,84 +213,131 @@
       <!-- ―――――――――――――――――― Show & Hide based on the screen size ―――――――――――――――――― -->
 
       <li v-if="option === 'screen'" style="--bg-color: #323c47">
-        <v-btn
-          :color="!target.hide_sm ? 'primary' : '#fff'"
-          style="background: transparent"
-          @click="target.hide_sm = !target.hide_sm"
-          variant="flat"
-          class="mx-1"
-          stacked
-          size="small"
-          density="compact"
-        >
-          <v-icon
-            >{{ target.hide_sm ? "visibility_off" : "visibility" }}
-          </v-icon>
-          <div class="x-small tnt mt-1">
-            <v-icon size="12" class="me-1">smartphone</v-icon>
-            Mobile
-          </div>
-        </v-btn>
+        <v-sheet color="#222" rounded="xl" class="overflow-hidden mb-1">
+          <v-btn
+            :color="!target.data.hide.sm ? 'primary' : '#fff'"
+            @click="target.data.hide.sm = !target.data.hide.sm"
+            variant="flat"
+            class="ma-1 rounded-s-xl"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.sm ? "visibility_off" : "visibility" }}
+            </v-icon>
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">smartphone</v-icon>
+              Mobile
+            </div>
+          </v-btn>
 
-        <v-btn
-          :color="!target.hide_md ? 'primary' : '#fff'"
-          style="background: transparent"
-          @click="target.hide_md = !target.hide_md"
-          variant="flat"
-          class="mx-1"
-          stacked
-          size="small"
-          density="compact"
-        >
-          <v-icon
-            >{{ target.hide_md ? "visibility_off" : "visibility" }}
-          </v-icon>
+          <v-btn
+            :color="!target.data.hide.md ? 'primary' : '#fff'"
+            @click="target.data.hide.md = !target.data.hide.md"
+            variant="flat"
+            class="my-1 me-1"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.md ? "visibility_off" : "visibility" }}
+            </v-icon>
 
-          <div class="x-small tnt mt-1">
-            <v-icon size="12" class="me-1">tablet_android</v-icon>
-            Tablet
-          </div>
-        </v-btn>
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">tablet_android</v-icon>
+              Tablet
+            </div>
+          </v-btn>
 
-        <v-btn
-          :color="!target.hide_lg ? 'primary' : '#fff'"
-          style="background: transparent"
-          @click="target.hide_lg = !target.hide_lg"
-          variant="flat"
-          class="mx-1"
-          stacked
-          size="small"
-          density="compact"
-        >
-          <v-icon
-            >{{ target.hide_lg ? "visibility_off" : "visibility" }}
-          </v-icon>
+          <v-btn
+            :color="!target.data.hide.lg ? 'primary' : '#fff'"
+            @click="target.data.hide.lg = !target.data.hide.lg"
+            variant="flat"
+            class="my-1"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.lg ? "visibility_off" : "visibility" }}
+            </v-icon>
 
-          <div class="x-small tnt mt-1">
-            <v-icon size="12" class="me-1">laptop</v-icon>
-            Normal
-          </div>
-        </v-btn>
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">laptop</v-icon>
+              Normal
+            </div>
+          </v-btn>
 
-        <v-btn
-          :color="!target.hide_xl ? 'primary' : '#fff'"
-          style="background: transparent"
-          @click="target.hide_xl = !target.hide_xl"
-          variant="flat"
-          class="mx-1"
-          stacked
-          size="small"
-          density="compact"
-        >
-          <v-icon
-            >{{ target.hide_xl ? "visibility_off" : "visibility" }}
-          </v-icon>
+          <v-btn
+            :color="!target.data.hide.xl ? 'primary' : '#fff'"
+            @click="target.data.hide.xl = !target.data.hide.xl"
+            variant="flat"
+            class="ma-1 rounded-e-xl"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.xl ? "visibility_off" : "visibility" }}
+            </v-icon>
 
-          <div class="x-small tnt mt-1">
-            <v-icon size="12" class="me-1">desktop_windows</v-icon>
-            Large
-          </div>
-        </v-btn>
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">desktop_windows</v-icon>
+              Large
+            </div>
+          </v-btn>
+        </v-sheet>
+
+        <v-sheet color="#222" rounded="xl" class="overflow-hidden d-flex mb-1">
+          <v-btn
+            :color="!target.data.hide.guest ? 'primary' : '#fff'"
+            @click="
+              () => {
+                target.data.hide.guest = !target.data.hide.guest;
+                if (target.data.hide.guest) target.data.hide.user = false;
+              }
+            "
+            variant="flat"
+            class="ma-1 rounded-s-xl flex-grow-1"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.guest ? "visibility_off" : "visibility" }}
+            </v-icon>
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">person_outline</v-icon>
+              Guest
+            </div>
+          </v-btn>
+
+          <v-btn
+            :color="!target.data.hide.user ? 'primary' : '#fff'"
+            @click="
+              () => {
+                target.data.hide.user = !target.data.hide.user;
+                if (target.data.hide.user) target.data.hide.guest = false;
+              }
+            "
+            variant="flat"
+            class="ma-1 rounded-e-xl flex-grow-1"
+            stacked
+            size="x-small"
+            height="44"
+          >
+            <v-icon
+              >{{ target.data.hide.user ? "visibility_off" : "visibility" }}
+            </v-icon>
+
+            <div class="x-small tnt mt-1">
+              <v-icon size="12" class="me-1">account_circle</v-icon>
+              User
+            </div>
+          </v-btn>
+        </v-sheet>
       </li>
     </ul>
   </s-styler-template>
@@ -305,6 +353,7 @@ import {
   PLATE_LIGHT_VARS,
 } from "../../utils/colors/LUtilsColors";
 import SStylerToolsColors from "../../styler/tools/colors/SStylerToolsColors.vue";
+import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 
 const FrameStyles = [
   "bg-style-normal",
@@ -335,7 +384,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XSectionObject,
     },
 
     /**
@@ -410,12 +459,7 @@ export default {
     },
 
     showMasterDesignDialog() {
-      this.ShowLSettingsClassStyle(
-        this.el,
-        this.el,
-        this.target,
-
-      );
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
     },
 
     showStyleDialog() {

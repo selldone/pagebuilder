@@ -92,7 +92,7 @@
         style="right: 0px"
       >
         <div
-          v-if="section.data?.hide_sm"
+          v-if="section.object.data?.hide.sm"
           class="position-relative me-3 hover-scale"
           title="Hide on small screens"
         >
@@ -103,7 +103,7 @@
         </div>
 
         <div
-          v-if="section.data?.hide_md"
+          v-if="section.object.data?.hide.md"
           class="position-relative me-3 hover-scale"
           title="Hide on medium screens"
         >
@@ -114,7 +114,7 @@
         </div>
 
         <div
-          v-if="section.data?.hide_lg"
+          v-if="section.object.data?.hide.lg"
           class="position-relative me-3 hover-scale"
           title="Hide on normal screens"
         >
@@ -124,7 +124,7 @@
           </v-icon>
         </div>
         <div
-          v-if="section.data?.hide_xl"
+          v-if="section.object.data?.hide.xl"
           class="position-relative me-3 hover-scale"
           title="Hide on large screens"
         >
@@ -133,6 +133,31 @@
             >block
           </v-icon>
         </div>
+
+
+        <div
+            v-if="section.object.data?.hide.user"
+            class="position-relative me-3 hover-scale"
+            title="Hide for users"
+        >
+          <v-icon size="20">account_circle</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red"
+          >block
+          </v-icon>
+        </div>
+
+
+        <div
+            v-if="section.object.data?.hide.guest"
+            class="position-relative me-3 hover-scale"
+            title="Hide for guests"
+        >
+          <v-icon size="20">person_outline</v-icon>
+          <v-icon class="center-absolute op-0-7" size="30" color="red"
+          >block
+          </v-icon>
+        </div>
+
       </div>
     </div>
 
@@ -212,6 +237,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import {Section} from "@selldone/page-builder/src/section/section.ts";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
@@ -220,7 +246,7 @@ export default defineComponent({
   emits: ["update:pastHoverIndex"],
   props: {
     section: {
-      type: Object,
+      type: Section,
       required: true,
     },
     sectionIndex: {

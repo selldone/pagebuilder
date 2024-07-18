@@ -20,6 +20,7 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import {Page} from "@selldone/core-js/models";
 import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 
 const DEBUG = false;
 export namespace Section {
@@ -32,7 +33,7 @@ export namespace Section {
   export interface ISection {
     uid: string;
     label: string;
-    object: LModelElement<any> | null;
+    object: XSectionObject ;
 
     /**
      * V1
@@ -54,7 +55,7 @@ export namespace Section {
 export class Section implements Section.ISection {
   public uid: string; // New save section ID
   public label: string;
-  public object: LModelElement<any> | null = null; // 🪵 New Version!
+  public object: XSectionObject; // 🪵 New Version!
 
   /**
    * @deprecated
@@ -66,9 +67,8 @@ export class Section implements Section.ISection {
   public name: string;
 
   constructor(options: Page.ISection, force_set_new_uid: boolean = false) {
-
-    this.label = options.label?options.label:options.name;
-    if(!this.label)this.label='Section'
+    this.label = options.label ? options.label : options.name;
+    if (!this.label) this.label = "Section";
     this.uid = options.uid;
 
     LOG(
@@ -77,8 +77,6 @@ export class Section implements Section.ISection {
       this,
       force_set_new_uid,
     );
-
-
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ V1 [Migration] ━━━━━━━━━━━━━━━━━━━━━━━━━━
     // Try to migrate from V1 to V2
@@ -124,23 +122,23 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Create by Seeder  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     /* else {
-           console.log(`Create new instance by seeder.`);
-     
-           const _object = LUtilsSeeder.SeedNew(options.name);
-           LOG(
-             `🪷 ${options.name} | Section.ts > constructor > Seed:`,
-             options.name,
-             "--object-->",
-             _object,
-           );
-           if (_object) {
-             this.object = _object;
-           } else {
-             console.error(`V2 Seeder does not exist for ${options.name}!`);
-           }
-     
-           // this.data = LUtilsSeeder.seed(options.schema);
-         }*/
+               console.log(`Create new instance by seeder.`);
+         
+               const _object = LUtilsSeeder.SeedNew(options.name);
+               LOG(
+                 `🪷 ${options.name} | Section.ts > constructor > Seed:`,
+                 options.name,
+                 "--object-->",
+                 _object,
+               );
+               if (_object) {
+                 this.object = _object;
+               } else {
+                 console.error(`V2 Seeder does not exist for ${options.name}!`);
+               }
+         
+               // this.data = LUtilsSeeder.seed(options.schema);
+             }*/
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

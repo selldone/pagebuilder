@@ -36,6 +36,24 @@
       :remove-child="() => children.splice(index, 1)"
     >
     </x-component>
+
+    <div
+      v-if="has_drag"
+      @mousedown="onMouseDown"
+      style="
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #222;
+        padding: 12px;
+        z-index: 999;
+      "
+      draggable="false"
+      class="usn"
+      :style="{ cursor: isDragging ? 'grabbing' : 'grab' }"
+    >
+      <v-icon>open_with</v-icon>
+    </div>
   </component>
   <div v-else-if="is_editing">
     <v-alert color="error">
@@ -53,6 +71,7 @@ import { LUtilsLoader } from "@selldone/page-builder/utils/loader/LUtilsLoader.t
 
 export default defineComponent({
   name: "XComponent",
+  inject: ["$builder"],
   props: {
     object: {
       type: LModelElement,
@@ -70,11 +89,17 @@ export default defineComponent({
   data() {
     return {
       sortable: null,
+
+      isDragging: false,
+      initialMouseX: 0,
+      initialMouseY: 0,
+      initialLeft: 0,
+      initialTop: 0,
     };
   },
   computed: {
     is_editing() {
-      return this.$builder?.isEditing || !this.$builder;
+      return this.$builder?.isEditing;
     },
 
     component() {
@@ -83,13 +108,17 @@ export default defineComponent({
     children() {
       return this.object.children;
     },
+
+    has_drag() {
+      return (
+        this.is_editing && this.object.style.position === "absolute"
+      );
+    },
   },
   mounted() {
     this.initSortable();
   },
-  updated() {
-
-  },
+  updated() {},
   beforeUnmount() {
     try {
       this.sortable.destroy();
@@ -169,6 +198,45 @@ export default defineComponent({
       } catch (e) {
         console.error("Error initSortable", e);
       }
+    },
+
+    //----------------------------------------------------------------------------
+    getScaleFactor() {
+      const scale_down =
+        this.$builder.isEditing &&
+        (this.$builder.isSorting || this.$builder.showLeftMenu);
+      return scale_down ? 0.5 : 1; // default scale
+    },
+
+    onMouseDown(event) {
+      event.preventDefault();
+      this.isDragging = true;
+      this.initialMouseX = event.clientX;
+      this.initialMouseY = event.clientY;
+      this.initialLeft = parseFloat(this.object.style.left) || 0;
+      this.initialTop = parseFloat(this.object.style.top) || 0;
+
+      document.addEventListener("mousemove", this.onMouseMove);
+      document.addEventListener("mouseup", this.onMouseUp);
+    },
+    onMouseMove(event) {
+      //console.log('mouse move')
+      if (!this.isDragging) return;
+      event.preventDefault();
+
+      const scaleFactor = this.getScaleFactor();
+      //console.log('scaleFactor',scaleFactor)
+
+      const deltaX = (event.clientX - this.initialMouseX) / scaleFactor;
+      const deltaY = (event.clientY - this.initialMouseY) / scaleFactor;
+
+      this.object.style.left = `${this.initialLeft + deltaX}px`;
+      this.object.style.top = `${this.initialTop + deltaY}px`;
+    },
+    onMouseUp() {
+      this.isDragging = false;
+      document.removeEventListener("mousemove", this.onMouseMove);
+      document.removeEventListener("mouseup", this.onMouseUp);
     },
   },
 });

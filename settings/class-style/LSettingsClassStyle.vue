@@ -48,14 +48,14 @@
       </v-card-actions>
 
       <!-- ████████████████████ Tags ████████████████████ -->
-        <s-setting-toggle
-            v-if="customElementTags"
-          label="Element"
-          icon="code"
-          v-model="target.data.tag"
-          :items="customElementTags"
-          class="ms-2"
-        ></s-setting-toggle>
+      <s-setting-toggle
+        v-if="customElementTags"
+        label="Element"
+        icon="code"
+        v-model="target.data.tag"
+        :items="customElementTags"
+        class="ms-2"
+      ></s-setting-toggle>
 
       <v-expansion-panels
         v-model="Selected_tab"
@@ -64,13 +64,17 @@
         style="--border-color: #999"
         key="tabs"
       >
-
         <!-- ████████████████████ Value ████████████████████ -->
-<l-settings-content-text  v-if="is_XTextObject"  value="value" v-model:text="target.data.value"></l-settings-content-text>
-        <l-settings-content-image v-else-if="is_XUploaderObject"  value="value" v-model:src="target.data.src"></l-settings-content-image>
-
-
-
+        <l-settings-content-text
+          v-if="is_XTextObject"
+          value="value"
+          v-model:text="target.data.value"
+        ></l-settings-content-text>
+        <l-settings-content-image
+          v-else-if="is_XUploaderObject"
+          value="value"
+          v-model:src="target.data.src"
+        ></l-settings-content-image>
 
         <!-- ████████████████████ Grid ████████████████████ -->
         <l-settings-style-grid
@@ -146,6 +150,7 @@
           v-model:left="in_left"
           v-model:bottom="in_bottom"
           v-model:right="in_right"
+          v-model:z-index="in_z_index"
         >
         </l-settings-style-position>
 
@@ -263,7 +268,7 @@
             </v-chip>
           </template>
           <background-image-editor
-              :builder="builder"
+            :builder="builder"
             v-model:bg-image="background.bg_image"
             v-model:bgCustom="background.bg_custom"
             v-model:bgGradient="background.bg_gradient"
@@ -292,7 +297,7 @@
 import ShadowCollection from "../../src/enums/ShadowCollection";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _, {isObject, trim} from "lodash-es";
+import _, { isObject, isString, trim } from "lodash-es";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
@@ -314,10 +319,10 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtilsBackground";
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
 import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
-import {inject} from "vue";
-import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import { inject } from "vue";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import LSettingsContentText from "@selldone/page-builder/settings/content/text/LSettingsContentText.vue";
-import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import LSettingsContentImage from "@selldone/page-builder/settings/content/image/LSettingsContentImage.vue";
 
 const STYLE_TABS = [
@@ -356,9 +361,7 @@ export default {
     LSettingsStyleSize,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     el_style: null,
     el_class: null,
@@ -389,6 +392,7 @@ export default {
     in_bottom: null,
     in_left: null,
     in_right: null,
+    in_z_index: null,
 
     in_marginLeft: null,
     in_marginRight: null,
@@ -513,6 +517,7 @@ export default {
         bottom: this.in_bottom,
         left: this.in_left,
         right: this.in_right,
+        zIndex: this.in_z_index,
 
         marginLeft: this.in_marginLeft,
         marginRight: this.in_marginRight,
@@ -575,8 +580,8 @@ export default {
     },
 
     customElementTags() {
-      if(this.is_XTextObject)return ["p", "h1", "h2", "h3", "h4", "h5"]
-      return null
+      if (this.is_XTextObject) return ["p", "h1", "h2", "h3", "h4", "h5"];
+      return null;
     },
 
     upload_bg_url() {
@@ -586,13 +591,12 @@ export default {
       return this.builder.getVideoUploadUrl();
     },
 
-    is_XTextObject(){
-      return this.target instanceof XTextObject
+    is_XTextObject() {
+      return this.target instanceof XTextObject;
     },
-    is_XUploaderObject(){
-      return this.target instanceof XUploaderObject
+    is_XUploaderObject() {
+      return this.target instanceof XUploaderObject;
     },
-
   },
 
   watch: {
@@ -633,6 +637,9 @@ export default {
       this.setSizePositionDebounced();
     },
     in_right() {
+      this.setSizePositionDebounced();
+    },
+    in_z_index() {
       this.setSizePositionDebounced();
     },
 
@@ -717,12 +724,7 @@ export default {
     EventBus.$on(
       "show:LSettingsClassStyle",
 
-      ({
-        el_style,
-        el_class,
-        target,
-        options,
-      }) => {
+      ({ el_style, el_class, target, options }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
@@ -731,7 +733,6 @@ export default {
         this.el_class = el_class;
 
         this.target = target;
-
 
         this.options = options;
 
@@ -814,6 +815,7 @@ export default {
       this.in_bottom = this.el_style.style.bottom;
       this.in_left = this.el_style.style.left;
       this.in_right = this.el_style.style.right;
+      this.in_z_index = this.el_style.style.zIndex;
 
       // Margin:
 
@@ -970,6 +972,7 @@ export default {
       safeSetStyle("bottom", this.in_bottom);
       safeSetStyle("left", this.in_left);
       safeSetStyle("right", this.in_right);
+      safeSetStyle("zIndex", this.in_z_index);
 
       safeSetStyle("marginLeft", this.in_marginLeft);
       safeSetStyle("marginRight", this.in_marginRight);
@@ -1013,8 +1016,9 @@ export default {
       Object.keys(this.in_style).forEach((k) => {
         if (
           this.in_style[k] &&
-          this.in_style[k].trim().length &&
-          this.in_style[k].trim() !== "unset"
+          (!isString(this.in_style[k]) ||
+            (this.in_style[k].trim().length &&
+              this.in_style[k].trim() !== "unset"))
         ) {
           style[k] = this.in_style[k];
         } else {
@@ -1035,7 +1039,7 @@ export default {
       const cur_classes = classes;
 
       // console.log(' Set classes', 'cur_classes',cur_classes)
-      this.in_classes= this.in_classes.map(c=>trim(c)).unique()
+      this.in_classes = this.in_classes.map((c) => trim(c)).unique();
 
       const deletes = cur_classes.filter(
         (element) => !this.in_classes.includes(element),

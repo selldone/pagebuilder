@@ -19,9 +19,9 @@ import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XS
 export class XSectionObject extends LModelElement<XSectionObjectData> {
   public static ComponentName = "XSection";
   public static Info = {
-    group:'Layout',
-    icon:'crop_din',
-    title:'Section'
+    group: "Layout",
+    icon: "crop_din",
+    title: "Section",
   };
 
   constructor(
@@ -38,7 +38,7 @@ export class XSectionObject extends LModelElement<XSectionObjectData> {
       style,
       classes,
       children,
-      data ? data : new XSectionObjectData(),
+      data ? data : new XSectionObjectData({}),
       props,
     );
   }
@@ -62,7 +62,14 @@ export class XSectionObject extends LModelElement<XSectionObjectData> {
    * @constructor
    */
   static MigrateOld(old: any): XSectionObject {
-    const data = new XSectionObjectData();
+    const data = new XSectionObjectData({});
+
+    data.hide = {
+      sm: old?.hide_sm || false,
+      md: old?.hide_md || false,
+      lg: old?.hide_lg || false,
+      xl: old?.hide_xl || false,
+    };
 
     // console.log("old", old);
     return new XSectionObject(

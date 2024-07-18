@@ -48,7 +48,7 @@
   <!-- ――――――――――――――――――――――  Tools ―――――――――――――――――――― -->
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import { LUtilsTypo } from "../../utils/typo/LUtilsTypo";
@@ -57,6 +57,7 @@ import Builder from "../../Builder.ts";
 import { cleanDOM } from "../../utils/html/LUtilsHtml";
 import { LandingCssHelper } from "@selldone/page-builder/src/menu/left/css/LandingCssHelper";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
+import { Section } from "@selldone/page-builder/src/section/section.ts";
 
 export default {
   name: "LPageViewer",
@@ -100,11 +101,19 @@ export default {
     },
 
     sections() {
-      return this.$builder.sections?.filter((section) => {
-        if (section.data?.hide_sm && this.$vuetify.display.sm) return false;
-        if (section.data?.hide_md && this.$vuetify.display.md) return false;
-        if (section.data?.hide_lg && this.$vuetify.display.lg) return false;
-        if (section.data?.hide_xl && this.$vuetify.display.xlAndUp)
+      return this.$builder.sections?.filter((section: Section) => {
+        // Hide to users:
+        if (this.USER() && section.object.data.hide.user) return false;
+        // Hide to guests:
+        if (!this.USER() && section.object.data.hide.guest) return false;
+
+        if (section.object?.data.hide.sm && this.$vuetify.display.smAndDown)
+          return false;
+        if (section.object?.data.hide.md && this.$vuetify.display.md)
+          return false;
+        if (section.object?.data.hide.lg && this.$vuetify.display.lg)
+          return false;
+        if (section.object?.data.hide.xl && this.$vuetify.display.xlAndUp)
           return false;
 
         return true;

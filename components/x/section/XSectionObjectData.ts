@@ -15,7 +15,30 @@
 import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 
 export class XSectionObjectData extends LModelData<XSectionObjectData> {
-  constructor(params?:any) {
+  hide: {
+    sm: boolean;
+    md: boolean;
+    lg: boolean;
+    xl: boolean;
+    /**
+     * Hide to guests
+     */
+    guest: boolean;
+    /**
+     * Hide to users
+     */
+    user: boolean;
+  };
+
+  constructor(params?: any) {
     super();
+    this.hide = {
+      sm: params?.hide?.sm || false,
+      md: params?.hide?.md || false,
+      lg: params?.hide?.lg || false,
+      xl: params?.hide?.xl || false,
+      guest: params?.hide?.guest || false,
+      user: params?.hide?.user || false,
+    };
   }
 }
