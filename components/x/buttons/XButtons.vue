@@ -42,14 +42,13 @@
     <x-button
       v-for="(child, index) in object.children"
       :key="`${index}-${object.children.length}`"
-      v-styler:button="{
-        target: child,
-        removeChild: () => {
-          object.children.splice(index, 1);
-        },
-      }"
       :augment="augment"
       :object="child"
+      :removeChild="
+        () => {
+          object.children.splice(index, 1);
+        }
+      "
       class="ma-2"
     >
     </x-button>
@@ -61,7 +60,6 @@ import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
-import { LModelElement } from "@selldone/page-builder/models/element/LModelElement";
 import { XButtonsObject } from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 
 export default defineComponent({
@@ -85,7 +83,7 @@ export default defineComponent({
         return this.object.children;
       }
       console.error("❗Old buttons version!");
-return [];
+      return [];
     },
   },
 

@@ -41,10 +41,32 @@
         <s-setting-group
           icon="integration_instructions"
           title="Form"
-          subtitle="You can adjust the field property here to customize its appearance."
+          subtitle="Here set the endpoint and method of the form."
         ></s-setting-group>
 
         <s-setting-toggle
+          v-model="url_mode"
+          :items="[
+            {
+              title: 'Newsletter',
+              value:
+                XFormObjectDataTypes.SOURCE.SELLDONE_STREAM_NEWSLETTER_ENDPOINT,
+              icon: 'email',
+            },
+            { title: 'Custom', value: 'custom', icon: 'link' },
+          ]"
+          label="Method"
+          icon="upload_file"
+          @update:model-value="
+            (v) => {
+              if (v !== 'custom') target.data.url = v;
+              else target.data.url = null;
+            }
+          "
+        ></s-setting-toggle>
+
+        <s-setting-toggle
+          :disabled="url_mode !== 'custom'"
           v-model="target.data.method"
           :items="['POST', 'GET']"
           label="Method"
@@ -52,6 +74,7 @@
         ></s-setting-toggle>
 
         <s-setting-text-input
+          :disabled="url_mode !== 'custom'"
           v-model="target.data.url"
           label="Url"
           icon="link"
@@ -98,7 +121,7 @@
                   hide-details
                 ></v-text-field>
               </v-col>
-              <v-col cols="5">
+              <v-col cols="4">
                 <v-text-field
                   v-if="it.type === 'string'"
                   v-model="it.value"
@@ -140,12 +163,17 @@
                   closable-chips
                 ></v-combobox>
               </v-col>
+              <v-col cols="1">
+                <v-btn color="red" variant="text" icon size="24" @click="target.data.hidden.remove(it)">
+                  <v-icon size="20">close</v-icon>
+                </v-btn>
+              </v-col>
             </v-row>
           </div>
         </s-setting-group>
 
         <s-setting-group
-            class="mt-5"
+          class="mt-5"
           title="Success Message"
           subtitle="Set the message that will be displayed after the form is successfully submitted."
           icon="integration_instructions"
@@ -179,6 +207,7 @@ import { XInputTextObject } from "@selldone/page-builder/components/x/input/text
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
+import { XFormObjectDataTypes } from "@selldone/page-builder/components/x/form/XFormObjectData.ts";
 
 export default {
   name: "LSettingsForm",
@@ -200,18 +229,30 @@ export default {
     dialog: false,
     dialog_pre: false,
 
+    url_mode: null,
     //--------------------------
     key_listener_keydown: null,
 
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {},
+  computed: {
+    XFormObjectDataTypes() {
+      return XFormObjectDataTypes;
+    },
+  },
   watch: {
     dialog(dialog) {
       // Keep highlight active element:
       if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
       else if (this.el) LUtilsHighlight.Activate(this.el);
+    },
+    "target.data.url"(url) {
+      if (XFormObjectDataTypes.SOURCE[url]) {
+        this.url_mode = url;
+      } else {
+        this.url_mode = "custom";
+      }
     },
   },
   created() {},

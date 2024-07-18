@@ -39,6 +39,17 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
   // ━━━━━━━━━━━━━━━━━ ✨ Helper Methods ━━━━━━━━━━━━━━━━━
 
   public getGeneratedUrl(shop: Shop | null): string {
+    // Dynamic URL generation based on the source:
+    if (
+      this.url ===
+      XFormObjectDataTypes.SOURCE.SELLDONE_STREAM_NEWSLETTER_ENDPOINT
+    ) {
+      return window.XAPI.POST_STREAM_USER_ADD_NEWSLETTER(
+        shop?.id /*Dynamic value will be replaced in the getGeneratedUrl method*/,
+        "newsletter",
+      );
+    }
+
     if (shop) {
       return this.url
         .replace("{shop_id}", "" + shop.id)
@@ -71,6 +82,16 @@ export class XFormObjectData extends LModelData<XFormObjectData> {
         ...params,
       };
     }
+  }
+
+  public getMethod() {
+    if (
+      this.url ===
+      XFormObjectDataTypes.SOURCE.SELLDONE_STREAM_NEWSLETTER_ENDPOINT
+    ) {
+      return XFormObjectDataTypes.Methods.POST;
+    }
+    return this.method;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -109,4 +130,8 @@ export namespace XFormObjectDataTypes {
     key: string;
     value: any;
   }[];
+
+  export enum SOURCE {
+    SELLDONE_STREAM_NEWSLETTER_ENDPOINT = "SELLDONE_STREAM_NEWSLETTER_ENDPOINT",
+  }
 }

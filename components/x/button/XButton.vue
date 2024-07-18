@@ -15,6 +15,12 @@
 
 <template>
   <v-btn
+    v-styler:button="{
+      target: object,
+      removeChild: removeChild,
+      hasAlign: hasAlign,
+      noLink: noLink,
+    }"
     :id="object.data.id"
     :class="[object.classes, { '-button-glow': is_glow }]"
     :color="object.data.color"
@@ -41,9 +47,11 @@
 <script>
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
+import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 
 export default {
   name: "XButton",
+  directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
   props: {
     object: {
@@ -54,6 +62,9 @@ export default {
     augment: {
       // Extra information to show to dynamic show in page content
     },
+    removeChild: {},
+    hasAlign: Boolean,
+    noLink: Boolean,
   },
   computed: {
     is_editing() {

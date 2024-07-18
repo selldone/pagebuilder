@@ -19,7 +19,7 @@
     @mouseleave="onHoverOut"
   >
     <div
-      class="d-flex align-center single-line "
+      class="d-flex align-center single-line"
       @contextmenu.prevent="
         (ev) =>
           $emit('right-click', {
@@ -100,7 +100,7 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="expanded || !object.children?.length">
+      <div v-if="(can_have_children || object.children?.length/*Force show children!*/) && (expanded || !object.children?.length)">
         <draggable
           v-model="object.children"
           tag="div"
@@ -112,11 +112,11 @@
         >
           <template v-slot:item="{ element }">
             <l-menu-left-hierarchy-item
-                :parent="object"
-                :object="element"
-                :lock-scroll="lockScroll"
-                class="ms-2"
-                @right-click="(ev) => $emit('right-click', ev)"
+              :parent="object"
+              :object="element"
+              :lock-scroll="lockScroll"
+              class="ms-2"
+              @right-click="(ev) => $emit('right-click', ev)"
             >
             </l-menu-left-hierarchy-item>
           </template>
@@ -163,7 +163,7 @@ export default {
 
   components: {
     draggable,
-    LMenuLeftHierarchyItem:self, // Directly referencing the component
+    LMenuLeftHierarchyItem: self, // Directly referencing the component
   },
   emits: ["hover-in", "hover-out", "right-click"],
   props: {
@@ -229,6 +229,21 @@ export default {
     isSection() {
       return this.object.component === "XSection";
     },
+
+    can_have_children() {
+      return [
+        "XButtons",
+        "XColumn",
+        "XColumnImageText",
+        "XContainer",
+        "XRow",
+        "XSection",
+        "XForm",
+        "XGalleryExpandable",
+        "XGalleryExpandableItem",
+        "XSwiper",
+      ].includes(this.object.component);
+    },
   },
 
   watch: {},
@@ -257,7 +272,6 @@ export default {
       if (!this.lockScroll) {
         this.debouncedScrollToElement();
       }
-
     },
     onHoverOut() {
       if (!this.has_classes) {
@@ -266,8 +280,6 @@ export default {
       }
       //  console.log('onHoverOut objects',this.object)
       this.object.$element?.classList.remove("element-focus-editing");
-
-
     },
 
     showMasterDesignDialog() {
@@ -285,14 +297,13 @@ export default {
     },
 
     scrollToElement() {
-
-      ScrollHelper.scrollToElement(this.object.$element, 0, "smooth",true);
-     /*
-      this.object.$element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });*/
+      ScrollHelper.scrollToElement(this.object.$element, 0, "smooth", true);
+      /*
+       this.object.$element.scrollIntoView({
+         behavior: "smooth",
+         block: "center",
+         inline: "center",
+       });*/
     },
 
     /**

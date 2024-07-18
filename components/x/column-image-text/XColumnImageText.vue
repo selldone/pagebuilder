@@ -116,10 +116,10 @@
       }"
     >
       <x-button
-        v-styler:button="{ target: button, hasAlign: true }"
         :augment="augment"
         :object="button"
         :editing="SHOW_EDIT_TOOLS"
+        has-align
       >
       </x-button>
     </div>

@@ -37,7 +37,7 @@
       </div>
       <div v-else key="2">
         <x-component
-          v-for="(child, index) in children"
+          v-for="(child, index) in other_children"
           :object="child"
           :augment="augment"
           :remove-child="() => children.splice(index, 1)"
@@ -61,15 +61,12 @@
         }"
       >
         <x-button
-          v-styler:button="{
-            target: button,
-            hasAlign: true,
-            noLink: true,
-          }"
           :augment="augment"
           :object="button"
           type="submit"
           :loading="busy"
+          has-align
+          no-link
         >
         </x-button>
       </div>
@@ -119,6 +116,12 @@ export default defineComponent({
     children() {
       return this.object.children;
     },
+
+    other_children() {
+      return this.children.filter((child) => child !== this.button);
+    },
+
+
     shop() {
       return this.getShop();
     },
@@ -127,7 +130,7 @@ export default defineComponent({
   created() {},
   methods: {
     async submit(event) {
-      if(this.is_editing)return;
+      if (this.is_editing) return;
 
       this.busy = true;
       this.errors = null;
@@ -141,7 +144,7 @@ export default defineComponent({
 
       //  alert(JSON.stringify(this.params, null, 2));
 
-      (this.object.data.method === XFormObjectDataTypes.Methods.POST
+      (this.object.data.getMethod() === XFormObjectDataTypes.Methods.POST
         ? axios.post(
             this.object.data.getGeneratedUrl(this.shop),
             this.object.data.getGeneratedParams(this.params),

@@ -61,12 +61,7 @@ export class LMigrationV2Newsletter {
 
     form.data
       .setMethod(XFormObjectDataTypes.Methods.POST)
-      .setUrl(
-        window.XAPI.POST_STREAM_USER_ADD_NEWSLETTER(
-          "{shop_id}" /*Dynamic value will be replaced in the getGeneratedUrl method*/,
-          "newsletter",
-        ),
-      )
+      .setUrl(XFormObjectDataTypes.SOURCE.SELLDONE_STREAM_NEWSLETTER_ENDPOINT)
       .setHidden([{ type: "array", key: "tags", value: ["newsletter"] }]);
 
     const email = XInputTextObject.MigrateOld($sectionData.newsletter.input);

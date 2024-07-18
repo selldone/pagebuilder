@@ -61,12 +61,7 @@ export class XFormObject extends LModelElement<XFormObjectData> {
     const instance = this.NewInstance();
     instance.data
       .setMethod(XFormObjectDataTypes.Methods.POST)
-      .setUrl(
-        window.XAPI.POST_STREAM_USER_ADD_NEWSLETTER(
-          "{shop_id}" /*Dynamic value will be replaced in the getGeneratedUrl method*/,
-          "newsletter",
-        ),
-      )
+      .setUrl(XFormObjectDataTypes.SOURCE.SELLDONE_STREAM_NEWSLETTER_ENDPOINT)
       .setHidden([{ type: "array", key: "tags", value: ["newsletter"] }]);
 
     const email = XInputTextObject.Seed();
@@ -98,6 +93,8 @@ export class XFormObject extends LModelElement<XFormObjectData> {
       .setColor("#000")
       .setSize("x-large");
     button.classes = ["mt-5"];
+
+    this.addChild(button)
 
     return button;
   }
