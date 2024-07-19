@@ -84,9 +84,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { LUtilsMigration } from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";
 import SDropZone from "@selldone/components-vue/ui/uploader/SDropZone.vue";
+import Builder from "@selldone/page-builder/Builder.ts";
 
 export default defineComponent({
   name: "LMenuTopImport",
@@ -108,63 +108,16 @@ export default defineComponent({
 
   methods: {
     importFile(file) {
-      if (!file) return;
-
-      try {
-        const fr = new FileReader();
-        fr.onload = () => {
-          const template = JSON.parse(fr.result);
+      (this.$builder as Builder).importer
+        .loadFile(file)
+        .then(() => {
           this.show_import = false;
-
-          if (
-            !template.content ||
-            !template.content.sections ||
-            !Array.isArray(template.content.sections) ||
-            !template.content.sections.length
-          ) {
-            this.showErrorAlert(null, "Sections in the file is empty!");
-          }
-
-          // Migrate from old version:
-          template.content = LUtilsMigration.MigratePageContent(
-            template.content,
-          );
-
-          const valid_sections = [];
-
-          template.content.sections.forEach((section) => {
-            if (!section.object) {
-              this.showErrorAlert(null, `Invalid section structure detected!`);
-              return;
-            }
-            valid_sections.push(section);
-          });
-
-          this.page.content.sections = valid_sections;
-          this.page.content.style = template.content.style;
-
-          this.page.title = template.title;
-          this.page.description = template.description;
-          this.page.image = template.image;
-          this.page.direction = template.direction;
-          this.page.note = template.note;
-
-         //////// this.$builder.setPage(this.page.content, this.page.css, false);
-
-          this.$builder.loadPage(this.page);
-          this.$builder.history.save();
-
-          this.showSuccessAlert(null, "Landing page file load successfully.");
-        };
-        fr.onerror = () => {
-          this.showErrorAlert(null, "Can not read file!");
-        };
-
-        fr.readAsText(file);
-      } catch (e) {
-        this.showErrorAlert(null, "Bad file format!");
-        console.error(e);
-      }
+          this.showSuccessAlert(null, "Landing file loaded successfully.");
+        })
+        .catch((e) => {
+          this.showErrorAlert(null, e.toString());
+          console.error(e);
+        });
     },
   },
 });

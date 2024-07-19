@@ -311,12 +311,6 @@ export default {
 
     scrollToElement() {
       ScrollHelper.scrollToElement(this.object.$element, 0, "smooth", true);
-      /*
-       this.object.$element.scrollIntoView({
-         behavior: "smooth",
-         block: "center",
-         inline: "center",
-       });*/
     },
 
     /**

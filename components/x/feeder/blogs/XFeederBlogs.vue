@@ -19,7 +19,7 @@
     v-styler:blogs="{
       target: object,
     }"
-    class="rounded-lg usn text-subtitle-2 pa-2 overflow-hidden"
+    class="temporary rounded-lg usn text-subtitle-2 pa-2 overflow-hidden"
     style="background: #fff"
   >
     <v-sheet rounded="lg" class="pa-2" color="#fafafa" elevation="3">

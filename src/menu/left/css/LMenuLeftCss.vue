@@ -38,11 +38,12 @@
 
         <v-container>
           <v-row>
-            <v-col cols="12" sm="4" md="3">
+            <v-col cols="12" sm="6" md="6">
               <v-sheet
                 color="#111"
                 class="d-flex align-center py-1 px-2 mb-2"
                 rounded="lg"
+                elevation="3"
               >
                 <span class="text-subtitle-2">Classes</span>
                 <v-spacer> </v-spacer>
@@ -69,7 +70,7 @@
                   v-for="(item, i) in classes"
                   :key="i"
                   :title="item.selector"
-                  bg-color="#456"
+                  bg-color="#111"
                 >
                   <template v-slot:title>
                     <v-spacer></v-spacer>
@@ -108,7 +109,7 @@ font-weight: 500;"
               </v-expansion-panels>
             </v-col>
 
-            <v-col cols="12" sm="8" md="9">
+            <v-col cols="12" sm="6" md="6">
               <s-widget-header
                 title="Compiled Css"
                 icon="code"

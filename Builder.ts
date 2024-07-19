@@ -28,6 +28,9 @@ import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
+import Builder from "@selldone/page-builder/Builder.ts";
+import { types } from "sass";
+import Error = types.Error;
 
 const DEBUG = true;
 
@@ -59,7 +62,6 @@ export namespace builder {
     isSorting: boolean;
     isRendered: boolean;
     showLeftMenu: boolean;
-
   }
 
   export type IModel = Page | Popup | ShopMenu;
@@ -128,6 +130,7 @@ export class Builder {
 
   public history: History;
   public livestream: Livestream;
+  public importer: LandingImporter;
 
   // Corresponding model of page in the server. We pass it to uploadImageUrl and etc functions to generate upload urls,... It should be set in the set function.
   public type?: builder.ModelType;
@@ -157,7 +160,7 @@ export class Builder {
           isHideExtra: false,
           isSorting: false,
           isRendered: false,
-            showLeftMenu: true,
+          showLeftMenu: true,
         },
         state,
       ),
@@ -189,6 +192,7 @@ export class Builder {
 
     this.history = new History(this);
     this.livestream = new Livestream(this);
+    this.importer = new LandingImporter(this);
 
     //----------------- Clone Style ------------------
     this.cloneStyle = false;
@@ -546,7 +550,6 @@ export class History {
   records: any[] = [];
   index: number = 0;
 
-
   constructor(builder: Builder) {
     this.builder = builder;
     this.records = reactive([]);
@@ -570,7 +573,6 @@ export class History {
     if (this.hasUndo()) {
       this.index++;
       this.loadLocalHistory();
-
     }
   }
 
@@ -638,7 +640,8 @@ export class History {
     }
 
     this.records.unshift(clone);
-    if (this.records.length > History.MAX_HISTORY_ITEMS) this.records.length = History.MAX_HISTORY_ITEMS;
+    if (this.records.length > History.MAX_HISTORY_ITEMS)
+      this.records.length = History.MAX_HISTORY_ITEMS;
 
     if (DEBUG)
       console.log(
@@ -651,7 +654,6 @@ export class History {
       );
 
     this.index = 0;
-
   }
 }
 
@@ -689,11 +691,100 @@ export class Livestream {
     if (this.audiences?.length > 0) this.enable = true; // Auto enable livestream!
   }
 
-  canSend(){
-    if(this.builder.type!=='page')return false; // Only for page!
-    return this.enable || this.count===0 /*Send first attempt! Maybe there is audience previously load the live stream page!*/
+  canSend() {
+    if (this.builder.type !== "page") return false; // Only for page!
+    return (
+      this.enable || this.count === 0
+    ); /*Send first attempt! Maybe there is audience previously load the live stream page!*/
   }
-  onSend(){
+
+  onSend() {
     this.count++;
+  }
+}
+
+export class LandingImporter {
+  builder: Builder;
+
+  constructor(builder: Builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Lod .landing files
+   * @param file
+   */
+  loadFile(file: File | null): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        reject(new Error("No file provided"));
+        return;
+      }
+
+      const fr = new FileReader();
+
+      fr.onload = () => {
+        try {
+          this.loadLanding(fr.result as string);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      };
+
+      fr.onerror = () => {
+        reject(new Error("Cannot read file!"));
+      };
+
+      fr.readAsText(file);
+    });
+  }
+
+  /**
+   * Load raw text landing exported file
+   * @param text
+   */
+  loadLanding(text: string) {
+    if (!this.builder.model)
+      throw new Error(
+        "Model is not set! You should set it in the builder.setModel() function!",
+      );
+
+    const template = JSON.parse(text);
+
+    if (
+      !template.content ||
+      !template.content.sections ||
+      !Array.isArray(template.content.sections) ||
+      !template.content.sections.length
+    ) {
+      throw new Error("Sections in the file is empty!");
+    }
+
+    // Migrate from old version:
+    template.content = LUtilsMigration.MigratePageContent(template.content);
+
+    const valid_sections = [];
+
+    template.content.sections.forEach((section) => {
+      if (section.object) {
+        valid_sections.push(section);
+      } else {
+        console.error(`Invalid section structure detected!`, section);
+      }
+    });
+
+    const page = this.builder.model as Page;
+    page.content.sections = valid_sections;
+    page.content.style = template.content.style;
+
+    page.title = template.title;
+    page.description = template.description;
+    page.image = template.image;
+    page.direction = template.direction;
+    page.note = template.note;
+
+    this.builder.loadPage(page);
+    this.builder.history.save();
   }
 }

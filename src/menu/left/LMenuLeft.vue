@@ -121,6 +121,14 @@
         >
           <l-menu-left-assets v-if="page" :page="page" />
         </v-tabs-window-item>
+
+        <!-- ━━━━━━━━━━━━━━━ Sort ━━━━━━━━━━━━━━━ -->
+        <v-tabs-window-item
+          value="sort"
+          :style="{ width: min_width_window + 'px' }"
+        >
+          <l-menu-left-sort v-if="page" :page="page" />
+        </v-tabs-window-item>
       </v-tabs-window>
     </div>
   </v-sheet>
@@ -137,10 +145,12 @@ import LMenuLeftSeo from "@selldone/page-builder/src/menu/left/seo/LMenuLeftSeo.
 import LMenuLeftCss from "@selldone/page-builder/src/menu/left/css/LMenuLeftCss.vue";
 import LMenuLeftAssets from "@selldone/page-builder/src/menu/left/assets/LMenuLeftAssets.vue";
 import LMenuLeftStatistics from "@selldone/page-builder/src/menu/left/statistics/LMenuLeftStatistics.vue";
+import LMenuLeftSort from "@selldone/page-builder/src/menu/left/sort/LMenuLeftSort.vue";
 
 export default defineComponent({
   name: "LMenuLeft",
   components: {
+    LMenuLeftSort,
     LMenuLeftStatistics,
     LMenuLeftAssets,
     LMenuLeftCss,
@@ -176,6 +186,8 @@ export default defineComponent({
           icon: "account_tree",
           tooltip: this.$t("page_builder.design.tools.hierarchy"),
         },
+        { key: "sort", icon: "view_day", tooltip: "Sort" },
+
         { key: "sections", icon: "grid_view", tooltip: "Sections" },
         { key: "elements", icon: "yard", tooltip: "Elements" },
         { key: "versions", icon: "history", tooltip: "Versions" },

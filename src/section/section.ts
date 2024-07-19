@@ -16,11 +16,11 @@ import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
 import {isObject, isString} from "lodash-es";
 import {LUtilsObject} from "../../utils/object/LUtilsObject";
-import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import {Page} from "@selldone/core-js/models";
 import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import {Screenshot} from "@selldone/core-js/helper";
 
 const DEBUG = false;
 export namespace Section {
@@ -33,7 +33,7 @@ export namespace Section {
   export interface ISection {
     uid: string;
     label: string;
-    object: XSectionObject ;
+    object: XSectionObject;
 
     /**
      * V1
@@ -122,23 +122,23 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Create by Seeder  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     /* else {
-               console.log(`Create new instance by seeder.`);
-         
-               const _object = LUtilsSeeder.SeedNew(options.name);
-               LOG(
-                 `🪷 ${options.name} | Section.ts > constructor > Seed:`,
-                 options.name,
-                 "--object-->",
-                 _object,
-               );
-               if (_object) {
-                 this.object = _object;
-               } else {
-                 console.error(`V2 Seeder does not exist for ${options.name}!`);
-               }
-         
-               // this.data = LUtilsSeeder.seed(options.schema);
-             }*/
+                       console.log(`Create new instance by seeder.`);
+                 
+                       const _object = LUtilsSeeder.SeedNew(options.name);
+                       LOG(
+                         `🪷 ${options.name} | Section.ts > constructor > Seed:`,
+                         options.name,
+                         "--object-->",
+                         _object,
+                       );
+                       if (_object) {
+                         this.object = _object;
+                       } else {
+                         console.error(`V2 Seeder does not exist for ${options.name}!`);
+                       }
+                 
+                       // this.data = LUtilsSeeder.seed(options.schema);
+                     }*/
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -238,6 +238,54 @@ export class Section implements Section.ISection {
       label: this.label,
       object: this.object?.toJson(),
     };
+  }
+
+  //----------------------------------------------
+  private _image_rendered: string | null = null;
+
+  /**
+   * Get or create an image from section
+   * @param force - Force rendering the image even if already rendered
+   * @returns {Promise<string | null>} - The rendered image data URL or null if rendering fails
+   */
+  render(force: boolean = false): Promise<string | null> {
+    return new Promise(async (resolve, reject) => {
+      if (!force && this._image_rendered) {
+        return resolve(this._image_rendered);
+      }
+
+      if (!this.object.$element) {
+        return resolve(null);
+      }
+
+      console.log("Render section element!");
+
+      try {
+        this._image_rendered = await Screenshot.FromElement(
+          this.object.$element,
+          null,
+          false,
+          10,
+          false,
+        );
+        resolve(this._image_rendered);
+      } catch (e) {
+       // console.error("Initial rendering failed, retrying...", e);
+        try {
+          this._image_rendered = await Screenshot.FromElement(
+            this.object.$element,
+            null,
+            false,
+            5,
+            true,
+          );
+          resolve(this._image_rendered);
+        } catch (e) {
+          reject("Retrying failed", e);
+          //resolve(null);
+        }
+      }
+    });
   }
 }
 

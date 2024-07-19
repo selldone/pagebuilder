@@ -13,7 +13,12 @@
   -->
 
 <template>
-  <div v-bind="$attrs">
+  <div
+    v-bind="$attrs"
+    @dragover="onDragEnter"
+    @dragleave="onDragLeave"
+    @drop="onDropFile"
+  >
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <l-menu-top
@@ -115,7 +120,6 @@
             <l-page-editor-artboard-top-bar
               :page="page"
               :fullscreen="!scale_down"
-
               :shop="shop"
               :isPopup="isPopup"
               :isMenu="isMenu"
@@ -332,6 +336,25 @@
     </div>
   </div>
 
+  <div
+    v-if="drop_landing_file"
+    style="
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(22, 22, 22, 0.5);
+      backdrop-filter: blur(8px);
+
+      z-index: 9999;
+    "
+    class="usn pen d-flex flex-column align-center justify-center pa-8 text-white text-h5"
+  >
+    <v-icon size="64" class="ma-5">architecture</v-icon>
+    <div>Drop Landing File Here</div>
+  </div>
+
   <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
   <l-page-editor-repository
@@ -529,6 +552,9 @@ export default defineComponent({
 
       //-------------------
       busy_push: false,
+
+      //-------------------
+      drop_landing_file: false,
     };
   },
 
@@ -1048,8 +1074,7 @@ export default defineComponent({
         this.max_h = "unset";
       }
 
-     // console.log('calcMaxH',this.max_h)
-
+      // console.log('calcMaxH',this.max_h)
     },
     getJson() {
       const content = this.$builder.export();
@@ -1329,7 +1354,7 @@ export default defineComponent({
     }, 5000),
 
     updateRealtimePreviewNow(_page) {
-     // console.log('updateRealtimePreviewNow',_page,this.$builder.livestream.canSend())
+      // console.log('updateRealtimePreviewNow',_page,this.$builder.livestream.canSend())
       // First time try update and get presence audience! If there is audience then auto activate the live stream.
       if (!this.$builder.livestream.canSend()) return;
 
@@ -1356,6 +1381,55 @@ export default defineComponent({
           this.showLaravelError(error);
         })
         .finally(() => (this.busy_push = false));
+    },
+
+    //-------------------------------------------------------------------------------------
+
+    onDragEnter(event) {
+      // Check if there is a file with .landing extension
+      const items = event.dataTransfer.items;
+      for (let i = 0; i < items.length; i++) {
+        if (
+          items[i].kind === "file" &&
+          items[i].type === "" /*.landing text file!*/
+        ) {
+          this.drop_landing_file = true;
+          event.stopPropagation();
+          break;
+        }
+      }
+    },
+    onDragLeave() {
+      this.drop_landing_file = false;
+    },
+
+    onDropFile(event) {
+      this.drop_landing_file = false;
+
+      const files = event.dataTransfer.files;
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].name.endsWith(".landing")) {
+          // Process the .landing file
+          this.processFile(files[i]);
+          event.preventDefault();
+          break;
+        }
+      }
+    },
+
+    processFile(file) {
+      // Handle the .landing file
+      console.log("Dropped file:", file);
+
+      this.$builder.importer
+        .loadFile(file)
+        .then(() => {
+          this.showSuccessAlert(null, "Landing file loaded successfully.");
+        })
+        .catch((e) => {
+          this.showErrorAlert(null, e.toString());
+          console.error(e);
+        });
     },
   },
 });
