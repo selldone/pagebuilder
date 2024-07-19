@@ -145,6 +145,8 @@ export default {
     this.$builder = Builder.newInstance(null, {
       isEditing: false,
       isRendered: true,
+      showLeftMenu: false,
+      isSorting: false,
     });
   },
 

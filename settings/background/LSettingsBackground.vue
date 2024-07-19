@@ -26,19 +26,17 @@
 
       <v-card-text v-if="dialog_pre" class="pb-16">
         <background-image-editor
-          :builder="builder"
-          v-model:bg-image="bg_image"
-          v-model:bgCustom="bg_custom"
-          v-model:bgGradient="bg_gradient"
-          v-model:bgRotation="bg_rotation"
-          v-model:bgImageRepeat="bg_repeat"
-          v-model:bgImageSize="bg_size"
-          v-model:bgPosition="bg_position"
-          v-model:bgVideo="bg_video"
-          v-model:bgColor="bg_color"
-          v-model:bg-backdrop="bg_backdrop"
-          :upload-url="upload_bg_url"
-          :upload-video-url="upload_video_url"
+          :builder="$builder"
+          v-model:bg-image="target.background.bg_image"
+          v-model:bgCustom="target.background.bg_custom"
+          v-model:bgGradient="target.background.bg_gradient"
+          v-model:bgRotation="target.background.bg_rotation"
+          v-model:bgImageRepeat="target.background.bg_repeat"
+          v-model:bgImageSize="target.background.bg_size"
+          v-model:bgPosition="target.background.bg_position"
+          v-model:bgVideo="target.background.bg_video"
+          v-model:bgColor="target.background.bg_color"
+          v-model:bg-backdrop="target.background.bg_backdrop"
           dark
           has-bg-video
           has-bg-color
@@ -51,15 +49,12 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _ from "lodash-es";
 import BackgroundImageEditor from "../../components/style/background/BackgroundImageEditor.vue";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
@@ -71,7 +66,7 @@ export default {
     LSettingNavigation,
     BackgroundImageEditor,
   },
-
+  inject: ["$builder"],
   props: {},
   data: () => ({
     el: null,
@@ -81,18 +76,6 @@ export default {
     show_edit_style: false,
     dialog_pre: false,
 
-    bg_color: null,
-    bg_image: null,
-    bg_video: null,
-    bg_gradient: [],
-    bg_rotation: null,
-    bg_size: null,
-    bg_custom: null,
-    bg_repeat: null,
-    dark: null,
-    bg_position: "center",
-    bg_backdrop: null,
-
     //--------------------------
     key_listener_keydown: null,
 
@@ -100,43 +83,11 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
-
     global_variables() {
-      return LUtilsColors.GenerateColorsStyle(this.builder.style);
-    },
-
-    upload_bg_url() {
-      return this.builder.getImageUploadUrl();
-    },
-    upload_video_url() {
-      return this.builder.getVideoUploadUrl();
-    },
-    //-----------------------------------
-    in_background() {
-      return {
-        bg_color: this.bg_color,
-        bg_image: this.bg_image,
-        bg_video: this.bg_video,
-        bg_gradient: this.bg_gradient,
-        bg_rotation: this.bg_rotation,
-        bg_size: this.bg_size,
-        bg_custom: this.bg_custom,
-        bg_repeat: this.bg_repeat,
-        dark: this.dark,
-        bg_position: this.bg_position,
-        bg_backdrop: this.bg_backdrop,
-      };
+      return LUtilsColors.GenerateColorsStyle(this.$builder.style);
     },
   },
   watch: {
-    in_background() {
-      this.setBackgroundDebounced();
-    },
-
     show_edit_style(dialog) {
       // Keep highlight active element:
       if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
@@ -195,28 +146,6 @@ export default {
 
   methods: {
     showSizeDialog() {
-      const background = this.target.background;
-
-      this.bg_color = background ? background.bg_color : null;
-
-      this.bg_image = background ? background.bg_image : null;
-      this.bg_video = background ? background.bg_video : null;
-
-      this.bg_gradient =
-        background && background.bg_gradient ? background.bg_gradient : [];
-      this.bg_rotation = background?.bg_rotation
-        ? background.bg_rotation
-        : 45 /*deg*/;
-
-      this.bg_size = background ? background.bg_size : null;
-      this.bg_custom = background ? background.bg_custom : null;
-      this.bg_repeat = background ? background.bg_repeat : null;
-      this.dark = background ? background.dark : false;
-
-      this.bg_position = background ? background.bg_position : "center";
-
-      this.bg_backdrop = background ? background.bg_backdrop : null;
-
       this.dialog_pre = false;
       this.$nextTick(() => {
         this.dialog_pre = true;
@@ -226,43 +155,43 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-
-    setBackgroundDebounced: _.debounce(function () {
-      this.setBackground(false);
-    }, 100),
-
-    setBackground() {
-      if (!this.show_edit_style || this.LOCK) return;
-
-      this.target.background = this.in_background; // Save data in section!
-
-      const background = this.target.background;
-
-      const style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        background.bg_custom,
-        background.bg_gradient,
-        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
-        background.bg_size,
-        background.bg_repeat,
-        background.bg_color,
-        background.dark,
-        background.bg_position,
-        background.bg_rotation,
-        background.bg_backdrop,
-      );
-
-      //  console.log('+++style+++',style)
-
-      // Live update:
-
-      Object.keys(style).forEach((key) => {
-        this.el.style[key] = style[key];
-      });
-
-      //  this.el.style.cssText =style
-
-      //   this.show_edit_style = false;
-    },
+    /*
+        setBackgroundDebounced: _.debounce(function () {
+          this.setBackground(false);
+        }, 100),
+    
+        setBackground() {
+          if (!this.show_edit_style || this.LOCK) return;
+    
+          this.target.background = this.in_background; // Save data in section!
+    
+          const background = this.target.background;
+    
+          const style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
+            background.bg_custom,
+            background.bg_gradient,
+            background.bg_image ? this.getShopImagePath(background.bg_image) : null,
+            background.bg_size,
+            background.bg_repeat,
+            background.bg_color,
+            background.dark,
+            background.bg_position,
+            background.bg_rotation,
+            background.bg_backdrop,
+          );
+    
+          //  console.log('+++style+++',style)
+    
+          // Live update:
+    
+          Object.keys(style).forEach((key) => {
+            this.el.style[key] = style[key];
+          });
+    
+          //  this.el.style.cssText =style
+    
+          //   this.show_edit_style = false;
+        },*/
   },
 };
 </script>

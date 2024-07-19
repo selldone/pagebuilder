@@ -37,7 +37,7 @@ export const LMixinStyler = defineComponent({
       required: true,
     },
     section: {
-   //   type: Section, /*Uncaught ReferenceError: can't access lexical declaration 'Section' before initialization*/
+      //   type: Section, /*Uncaught ReferenceError: can't access lexical declaration 'Section' before initialization*/
       required: true,
     },
 
@@ -151,9 +151,9 @@ export const LMixinStyler = defineComponent({
             });
           },
           /* {
-                                                     layoutShift: true,
-                                       
-                                                   }*/
+                                                               layoutShift: true,
+                                                 
+                                                             }*/
         );
       }
     },
@@ -201,10 +201,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                                                if (this.popper) {
-                                                                                                  this.popper.destroy();
-                                                                                                  this.popper = null;
-                                                                                                }*/
+                                                                                                      if (this.popper) {
+                                                                                                        this.popper.destroy();
+                                                                                                        this.popper = null;
+                                                                                                      }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!
@@ -377,7 +377,7 @@ export const LMixinStyler = defineComponent({
       child.style[property] = value;
       // Force set value on content! (not trigger styler hide!)
       if (this.type === "button") {
-        this.ta
+        this.ta;
         this.section.set(this.name + ".content", this.el.innerHTML);
       } else if (this.type === "text") {
         this.section.set(this.name, this.el.innerHTML);
@@ -461,7 +461,7 @@ export const LMixinStyler = defineComponent({
         function IsValidJsonSectionString(str: any) {
           try {
             const json = JSON.parse(str);
-            return !!json?.object ;
+            return !!json?.object;
           } catch (e) {}
           return false;
         }

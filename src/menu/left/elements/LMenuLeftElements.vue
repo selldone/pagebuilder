@@ -58,7 +58,6 @@
 import { defineComponent } from "vue";
 import Sortable from "sortablejs";
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
-import Builder from "@selldone/page-builder/Builder.ts";
 import AttachDirective from "@selldone/page-builder/directives/AttachDirective.ts";
 import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 
@@ -68,9 +67,7 @@ export default defineComponent({
   directives: {
     attach: AttachDirective,
   },
-  props: {
-    builder: { type: Builder, required: true },
-  },
+  props: {},
   data() {
     return {
       VideoHelper: VideoHelper,
@@ -101,7 +98,6 @@ export default defineComponent({
           pull: "clone",
         },
         sort: false,
-
 
         onStart: function (/**Event*/ evt) {
           const item_seed = evt.item.getAttribute("data-seed");
@@ -229,6 +225,4 @@ export default defineComponent({
     }
   }
 }
-
-
 </style>

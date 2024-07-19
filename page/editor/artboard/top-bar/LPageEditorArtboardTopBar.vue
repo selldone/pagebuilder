@@ -37,16 +37,16 @@
             v-bind="props"
             variant="text"
             @click="
-              builder.isAnimation = false;
-              builder.isTracking = false;
-              builder.isHideExtra = false;
+              $builder.isAnimation = false;
+              $builder.isTracking = false;
+              $builder.isHideExtra = false;
             "
           >
             <v-icon
               :color="
-                !builder.isAnimation && !builder.isTracking ? 'green' : '#333'
+                !$builder.isAnimation && !$builder.isTracking ? 'green' : '#333'
               "
-              :size="!builder.isAnimation && !builder.isTracking ? 20 : 14"
+              :size="!$builder.isAnimation && !$builder.isTracking ? 20 : 14"
               class="hover-scale-small"
               >lens</v-icon
             >
@@ -77,14 +77,14 @@
             v-bind="props"
             variant="text"
             @click="
-              builder.isAnimation = true;
-              builder.isTracking = false;
-              builder.isHideExtra = true;
+              $builder.isAnimation = true;
+              $builder.isTracking = false;
+              $builder.isHideExtra = true;
             "
           >
             <v-icon
-              :color="builder.isAnimation ? 'blue' : '#333'"
-              :size="builder.isAnimation ? 20 : 14"
+              :color="$builder.isAnimation ? 'blue' : '#333'"
+              :size="$builder.isAnimation ? 20 : 14"
               class="hover-scale-small"
               >lens</v-icon
             >
@@ -116,14 +116,14 @@
             v-bind="props"
             variant="text"
             @click="
-              builder.isTracking = true;
-              builder.isAnimation = false;
-              builder.isHideExtra = true;
+              $builder.isTracking = true;
+              $builder.isAnimation = false;
+              $builder.isHideExtra = true;
             "
           >
             <v-icon
-              :color="builder.isTracking ? 'red' : '#333'"
-              :size="builder.isTracking ? 20 : 14"
+              :color="$builder.isTracking ? 'red' : '#333'"
+              :size="$builder.isTracking ? 20 : 14"
               class="hover-scale-small"
               >lens</v-icon
             >
@@ -216,7 +216,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "LPageEditorArtboardTopBar",
@@ -234,10 +234,6 @@ export default defineComponent({
   },
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
     base_url() {
       return this.shop
         ? `${this.getShopMainUrl(this.shop)}/pages/`

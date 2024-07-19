@@ -14,100 +14,153 @@
 <template>
   <v-sheet v-bind="$attrs" color="#1e1e1e">
     <div class="d-flex align-center">
-      <v-btn
-        :prepend-icon="$t('icons.arrow_back')"
-        :to="backTo"
-        class="tnt me-2"
-        variant="text"
-        size="small"
-      >
-        {{ $t("global.actions.back") }}
-      </v-btn>
-
-      <!-- Shop -->
-
-      <a
-        :href="getShopMainUrl(shop)"
-        :title="`Open ${shop.title} home page ➡`"
-        target="_blank"
-      >
-        <v-avatar
-          v-if="shop.icon"
-          class="avatar-gradient -thin -shop hover-scale-small"
-          size="24"
+      <v-sheet elevation="3" rounded="lg" color="#000" class="ma-1 pa-1">
+        <v-btn
+          :prepend-icon="$t('icons.arrow_back')"
+          :to="backTo"
+          class="tnt me-2"
+          variant="text"
+          size="small"
         >
-          <v-img :src="getShopImagePath(shop.icon, 64)" />
-        </v-avatar>
-      </a>
+          {{ $t("global.actions.back") }}
+        </v-btn>
 
-      <img
-        class="mx-2"
-        src="../../../../components-vue/assets/icons/wire-w.svg"
-        width="12"
-      />
+        <!-- Shop -->
 
-      <!-- Page -->
-
-      <a
-        :class="{ 'disabled-view': !page.published }"
-        :href="page_view_url"
-        :title="`Open this landing page ➡`"
-        target="_blank"
-      >
-        <v-avatar
-          :color="SaminColorDarkDeep"
-          class="avatar-gradient -thin -blue hover-scale-small"
-          size="24"
+        <a
+          :href="getShopMainUrl(shop)"
+          :title="`Open ${shop.title} home page ➡`"
+          target="_blank"
         >
-          <v-img :src="getShopImagePath(page.image, 256, page.id)" />
-          <!-- Only 64 & 256 exist for page cover -->
-        </v-avatar>
-      </a>
+          <v-avatar
+            v-if="shop.icon"
+            class="avatar-gradient -thin -shop hover-scale-small"
+            size="24"
+          >
+            <v-img :src="getShopImagePath(shop.icon, 64)" />
+          </v-avatar>
+        </a>
 
-      <v-btn
-        :title="
-          (page.published
-            ? $t('global.commons.published')
-            : $t('global.commons.draft')) +
-          ` - You should save to apply changes!`
-        "
-        class="mx-1 tnt"
-        size="small"
-        variant="text"
-        @click="page.published = !page.published"
-      >
-        <v-icon :color="page.published ? '#fff' : 'red'" size="small" start>
-          {{ page.published ? "visibility" : "visibility_off" }}
-        </v-icon>
-        {{
-          page.published
-            ? $t("global.commons.published")
-            : $t("global.commons.draft")
-        }}
-      </v-btn>
+        <img
+          class="mx-2"
+          src="../../../../components-vue/assets/icons/wire-w.svg"
+          width="12"
+        />
 
-      <v-spacer></v-spacer>
+        <!-- Page -->
 
-      <v-btn
-        :href="page_view_url"
-        class="tnt fadeIn delay_200"
-        size="small"
-        target="_blank"
-        variant="text"
-        append-icon="open_in_new"
-        title="View Public Page"
-      >
-        {{ page.title }}
-      </v-btn>
+        <a
+          :class="{ 'disabled-view': !page.published }"
+          :href="page_view_url"
+          :title="`Open this landing page ➡`"
+          target="_blank"
+        >
+          <v-avatar
+            :color="SaminColorDarkDeep"
+            class="avatar-gradient -thin -blue hover-scale-small"
+            size="24"
+          >
+            <v-img :src="getShopImagePath(page.image, 256, page.id)" />
+            <!-- Only 64 & 256 exist for page cover -->
+          </v-avatar>
+        </a>
 
-      |
+        <v-icon class="ms-2 d-none d-md-inline-block">drag_indicator</v-icon>
 
-      <v-chip v-if="USER()" class=" mx-2" variant="outlined" size="small" :prepend-avatar="getUserAvatar(USER().id)">
-        {{USER().name}}
-      </v-chip>
-      <v-chip v-else class=" mx-2" variant="outlined" size="small" prepend-icon="account_circle">
-        Guest
-      </v-chip>
+        <v-btn
+          :title="
+            (page.published
+              ? $t('global.commons.published')
+              : $t('global.commons.draft')) +
+            ` - You should save to apply changes!`
+          "
+          class="mx-1 tnt"
+          size="small"
+          variant="text"
+          @click="page.published = !page.published"
+        >
+          <v-icon :color="page.published ? '#fff' : 'red'" size="small" start>
+            {{ page.published ? "visibility" : "visibility_off" }}
+          </v-icon>
+          {{
+            page.published
+              ? $t("global.commons.published")
+              : $t("global.commons.draft")
+          }}
+        </v-btn>
+      </v-sheet>
+
+      <v-spacer class="mx-1"></v-spacer>
+
+      <v-sheet elevation="3" rounded="lg" color="#000" class="ma-1 pa-1">
+
+        <v-btn
+            v-if="hasLiveView"
+            class="tnt fadeIn delay_400"
+            size="small"
+
+            :to="{
+        name: 'BPageLandingLive',
+        params: { shop_id: page.shop_id, page_id: page.id },
+        query: { responsible: true },
+      }"
+            target="_blank"
+            :variant="audiences?.length?'elevated':'text'"
+            :color="audiences?.length?'primary':undefined"
+            @click="$builder.livestream.setEnable(true) /*Enable live stream*/"
+
+        >
+          Live Preview
+
+          <u-dense-circles-users
+              :ids="audiences"
+              :limit="5"
+              :size="20"
+              class="pa-0 overflow-visible ms-2 fadeIn delay_300"
+              color="#FFC107"
+              title="Online team members are viewing this page."
+          ></u-dense-circles-users>
+
+        </v-btn>
+
+
+        <span class="mx-1 d-none d-md-inline-block">|</span>
+
+
+
+        <v-btn
+          :href="page_view_url"
+          class="tnt fadeIn delay_200"
+          size="small"
+          target="_blank"
+          variant="text"
+          append-icon="open_in_new"
+          title="View Public Page"
+        >
+          {{ page.title }}
+        </v-btn>
+
+        <span class="mx-1 d-none d-md-inline-block">|</span>
+
+        <v-chip
+          v-if="USER()"
+          class="mx-2"
+          variant="outlined"
+          size="small"
+          :prepend-avatar="getUserAvatar(USER().id)"
+        >
+          {{ USER().name }}
+        </v-chip>
+        <v-chip
+          v-else
+          class="mx-2"
+          variant="outlined"
+          size="small"
+          prepend-icon="account_circle"
+        >
+          Guest
+        </v-chip>
+      </v-sheet>
     </div>
 
     <div style="max-width: 1720px; margin: auto" class="mb-2">
@@ -213,7 +266,11 @@
     </div>
   </v-sheet>
 
-  <v-bottom-sheet v-model="show_prompt" max-width="1420" content-class="rounded-t-xl">
+  <v-bottom-sheet
+    v-model="show_prompt"
+    max-width="1420"
+    content-class="rounded-t-xl"
+  >
     <v-card rounded="t-xl">
       <v-card-text>
         <div class="pa-3 pa-sm-5">
@@ -286,7 +343,6 @@
             <v-icon start>close</v-icon>
             {{ $t("global.actions.close") }}
           </v-btn>
-
         </div>
       </v-card-actions>
     </v-card>
@@ -299,6 +355,7 @@ import LMenuTopExport from "@selldone/page-builder/src/menu/top/export/LMenuTopE
 import LMenuTopPage from "@selldone/page-builder/src/menu/top/page/LMenuTopPage.vue";
 import LMenuTopImport from "@selldone/page-builder/src/menu/top/import/LMenuTopImport.vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
+import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 export default defineComponent({
   name: "LMenuTop",
@@ -308,7 +365,9 @@ export default defineComponent({
     LMenuTopExport,
     LMenuTopHome,
     UButtonAiSmall,
+    UDenseCirclesUsers
   },
+  inject: ["$builder"],
   props: {
     /**
      * Back route
@@ -346,6 +405,14 @@ export default defineComponent({
       return null;
       // return `/@${this.shop.name}/pages/${this.page.name}`;
     },
+    hasLiveView() {
+      return this.page?.id && this.page.shop_id;
+    },
+    audiences() {
+      return this.$builder.livestream.audiences;
+    },
+
+
   },
 
   methods: {
@@ -401,6 +468,10 @@ export default defineComponent({
           this.auto_generate_busy = false;
         });
     },
+
+
+
+
   },
 });
 </script>

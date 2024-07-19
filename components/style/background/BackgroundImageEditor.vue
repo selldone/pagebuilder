@@ -248,7 +248,7 @@
         ></s-setting-group>
 
         <s-setting-video
-          :builder="builder"
+          :builder="$builder"
           :upload-url="uploadVideoUrl"
           :model-value="bgVideo"
           @update:model-value="(val) => $emit('update:bgVideo', val)"
@@ -326,7 +326,6 @@ import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSetti
 import SSettingImagePosition from "@selldone/page-builder/styler/settings/image-position/SSettingImagePosition.vue";
 import SSettingVideo from "@selldone/page-builder/styler/settings/video/SSettingVideo.vue";
 import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
-import Builder from "@selldone/page-builder/Builder.ts";
 
 export default {
   name: "BackgroundImageEditor",
@@ -344,6 +343,7 @@ export default {
     UDimensionInput,
     GradientBuilder,
   },
+  inject: ["$builder"],
   emits: [
     "update:bgImage",
     "update:bgGradient",
@@ -356,10 +356,6 @@ export default {
     "change",
   ],
   props: {
-    builder: {
-      required: true,
-      type: Builder,
-    },
     bgImage: {},
     bgGradient: {},
     bgRotation: {},
@@ -377,12 +373,8 @@ export default {
 
     bgBackdrop: {},
 
-    uploadUrl: {
-      require: true,
-    },
-    uploadVideoUrl: {
-      require: true,
-    },
+
+
     dark: { type: Boolean, default: false },
 
     bgVideo: {},
@@ -457,6 +449,13 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }),
 
   computed: {
+    uploadUrl() {
+      return this.$builder.getImageUploadUrl();
+    },
+    uploadVideoUrl() {
+      return this.$builder.getVideoUploadUrl();
+    },
+
     final_bg_styles() {
       // console.log("final_bg_styles", this.bgCustom, this.bgGradient);
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(

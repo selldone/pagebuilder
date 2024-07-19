@@ -92,9 +92,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LModelBackground } from "@selldone/page-builder/models/background/LModelBackground.ts";
+import UColorCircle from "@selldone/components-vue/ui/color/circle/UColorCircle.vue";
 
 export default defineComponent({
   name: "LBackgroundChips",
+  components: { UColorCircle },
   props: {
     background: {
       type: LModelBackground,

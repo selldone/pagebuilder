@@ -80,7 +80,7 @@
           value="classes"
           v-if="available_tabs.includes('classes')"
           v-model:classes="in_classes"
-          :custom-css="builder.css /*Defined css by user*/"
+          :custom-css="$builder.css /*Defined css by user*/"
         >
         </l-settings-classes>
 
@@ -163,7 +163,7 @@
           value="typeface"
           v-if="available_tabs.includes('typeface')"
           :inputStyle="in_style"
-          v-model:fonts="builder.style.fonts"
+          v-model:fonts="$builder.style.fonts"
           v-model:color="in_typeface_color"
           v-model:fontFamily="in_typeface_fontFamily"
           v-model:fontSize="in_typeface_fontSize"
@@ -218,12 +218,9 @@
 
         <s-setting-expandable title="Background" icon="wallpaper">
           <template v-slot:title>
-            <l-background-chips
-              :background="background"
-            ></l-background-chips>
+            <l-background-chips :background="background"></l-background-chips>
           </template>
           <background-image-editor
-            :builder="builder"
             v-model:bg-image="background.bg_image"
             v-model:bgCustom="background.bg_custom"
             v-model:bgGradient="background.bg_gradient"
@@ -234,8 +231,6 @@
             v-model:bgVideo="background.bg_video"
             v-model:bgColor="background.bg_color"
             v-model:bgBackdrop="background.bg_backdrop"
-            :upload-url="upload_bg_url"
-            :upload-video-url="upload_video_url"
             dark
             has-bg-video
             has-bg-color
@@ -274,13 +269,11 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import { LUtilsBackground } from "@selldone/page-builder/utils/background/LUtilsBackground";
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
 import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
-import { inject } from "vue";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import LSettingsContentText from "@selldone/page-builder/settings/content/text/LSettingsContentText.vue";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import LSettingsContentImage from "@selldone/page-builder/settings/content/image/LSettingsContentImage.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
-import UColorCircle from "@selldone/components-vue/ui/color/circle/UColorCircle.vue";
 import LBackgroundChips from "@selldone/page-builder/settings/class-style/chips/LBackgroundChips.vue";
 
 const STYLE_TABS = [
@@ -319,9 +312,8 @@ export default {
     LSettingsStyleMargin,
     LSettingsStylePadding,
     LSettingsStyleSize,
-    UColorCircle,
   },
-
+  inject: ["$builder"],
   props: {},
   data: () => ({
     el_style: null,
@@ -403,13 +395,8 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
-
     global_variables() {
-      return LUtilsColors.GenerateColorsStyle(this.builder.style);
+      return LUtilsColors.GenerateColorsStyle(this.$builder.style);
     },
 
     has_grid() {
@@ -548,9 +535,7 @@ export default {
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },
-    upload_video_url() {
-      return this.builder.getVideoUploadUrl();
-    },
+
 
     is_XTextObject() {
       return this.target instanceof XTextObject;

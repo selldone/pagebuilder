@@ -84,11 +84,13 @@ export namespace XUploaderDataTypes {
       this.float = (data && data.float) || null;
 
       if (data?.fg) {
+
         if (this.fg instanceof LModelBackground) {
           this.fg = data.fg;
         } else {
-          this.fg = new LModelBackground(this.fg);
+          this.fg = new LModelBackground(data.fg);
         }
+        //console.log('Convert foreground:', data.fg,'--->',this.fg);
       }
 
       this.size = (data && data.size) || {

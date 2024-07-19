@@ -107,17 +107,13 @@
 
 <script>
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
-import Builder from "@selldone/page-builder/Builder.ts";
 
 export default {
   name: "LMenuLeftAssets",
   components: {},
+  inject: ["$builder"],
   props: {
     page: {},
-    builder: {
-      required: true,
-      type: Builder,
-    },
   },
 
   data: () => ({
@@ -145,7 +141,7 @@ export default {
             this.images = data.images;
             this.videos = data.videos;
 
-            this.builder.setAssets(data.images, data.videos);
+            this.$builder.setAssets(data.images, data.videos);
           } else {
             this.showErrorAlert(null, data.error_msg);
           }

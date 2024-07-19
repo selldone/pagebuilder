@@ -84,7 +84,7 @@
             <v-row v-for="child in textChildren" no-gutters class="py-2">
               <v-textarea
                 v-model="child.data.value"
-                :rows="2"
+                :rows="3"
                 auto-grow
                 label="Title"
                 messages=" "
@@ -112,8 +112,9 @@
                 ]"
                 auto-grow
                 label="Tag"
-                variant="plain"
+                variant="solo"
                 style="max-width: 84px"
+                class="ms-2"
               >
               </v-select>
             </v-row>

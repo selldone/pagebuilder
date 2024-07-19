@@ -85,12 +85,10 @@ export default {
   components: {
     SImageUploader,
   },
+  inject: ["$builder"],
   emits: ["click:delete"],
   props: {
-    builder: {
-      type: Object,
-      required: true,
-    },
+
     object: {
       type: XGalleryExpandableItemObject,
     },
@@ -110,7 +108,7 @@ export default {
     },
 
     upload_image_url() {
-      return this.builder.getImageUploadUrl();
+      return this.$builder.getImageUploadUrl();
     },
   },
   watch: {},

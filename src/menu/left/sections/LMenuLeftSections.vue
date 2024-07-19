@@ -38,7 +38,6 @@
           <span
             v-for="(item, index) in group"
             :key="index"
-
             :data-seed="item.data_seed /*Use in drop*/"
             class="-item-element hover-scale-small"
             draggable="true"
@@ -100,7 +99,6 @@
 import { defineComponent } from "vue";
 import Sortable from "sortablejs";
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
-import Builder from "@selldone/page-builder/Builder.ts";
 import { DefaultSections } from "@selldone/page-builder/sections/DefaultSections.ts";
 import AttachDirective from "@selldone/page-builder/directives/AttachDirective.ts";
 
@@ -110,9 +108,8 @@ export default defineComponent({
   directives: {
     attach: AttachDirective,
   },
-  props: {
-    builder: { type: Builder, required: true },
-  },
+
+  props: {},
   data() {
     return {
       VideoHelper: VideoHelper,
@@ -145,7 +142,7 @@ export default defineComponent({
         sort: false,
 
         onStart: function (/**Event*/ evt) {
-          const item_seed = evt.item.getAttribute('data-seed');
+          const item_seed = evt.item.getAttribute("data-seed");
           evt.item._dragData = item_seed; // Store data directly on the item
 
           _self.setDragMode(true);
@@ -186,14 +183,17 @@ export default defineComponent({
 
     generateGroups() {
       let groups = {};
-      let group_no_category:any[] = [];
+      let group_no_category: any[] = [];
 
       // group sections together
       DefaultSections.List.forEach((section) => {
-       const data_seed= JSON.stringify( { object: section.Seed().toJson(), label: section.label })
+        const data_seed = JSON.stringify({
+          object: section.Seed().toJson(),
+          label: section.label,
+        });
         const group = section.group;
 
-        section=Object.assign({},section, {data_seed})
+        section = Object.assign({}, section, { data_seed });
 
         if (!group) {
           group_no_category.push(section);

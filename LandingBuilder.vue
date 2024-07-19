@@ -68,7 +68,6 @@
       :backTo="backTo"
       :busySave="busy_save"
       :onSave="onSave"
-      v-model:liveStream="live_stream"
     >
       <template v-slot:header="{ builder }">
         <slot name="header" :builder="builder"></slot>

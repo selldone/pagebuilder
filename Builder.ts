@@ -58,6 +58,8 @@ export namespace builder {
     isHideExtra: boolean;
     isSorting: boolean;
     isRendered: boolean;
+    showLeftMenu: boolean;
+
   }
 
   export type IModel = Page | Popup | ShopMenu;
@@ -155,6 +157,7 @@ export class Builder {
           isHideExtra: false,
           isSorting: false,
           isRendered: false,
+            showLeftMenu: true,
         },
         state,
       ),
@@ -182,7 +185,7 @@ export class Builder {
     this.isHideExtra = state.isHideExtra; // Hide add buttons and empty texts (Only in edit mode)
     this.isSorting = state.isSorting;
     this.isRendered = state.isRendered;
-    this.showLeftMenu = true;
+    this.showLeftMenu = state.showLeftMenu;
 
     this.history = new History(this);
     this.livestream = new Livestream(this);

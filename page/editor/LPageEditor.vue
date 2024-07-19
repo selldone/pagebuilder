@@ -1048,7 +1048,7 @@ export default defineComponent({
         this.max_h = "unset";
       }
 
-      console.log('calcMaxH',this.max_h)
+     // console.log('calcMaxH',this.max_h)
 
     },
     getJson() {

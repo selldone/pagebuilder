@@ -80,12 +80,9 @@ export default defineComponent({
   name: "LStoreTopBarPreview",
   mixins: [LMixinEvents],
   components: { SHeaderSectionLogo, SStorefrontTopMenu },
+  inject: ["$builder"],
   props: {
     shop: {
-      type: Object,
-      required: true,
-    },
-    builder: {
       type: Object,
       required: true,
     },
@@ -96,7 +93,7 @@ export default defineComponent({
 
   computed: {
     page_style() {
-      return this.builder.style;
+      return this.$builder.style;
     },
 
     header_color() {
@@ -107,12 +104,12 @@ export default defineComponent({
   },
   watch: {
     page_style() {
-      if (!this.page_style) this.builder.style = {};
+      if (!this.page_style) this.$builder.style = {};
       if (!this.page_style.header_mode) this.page_style.header_mode = "normal";
     },
   },
   created() {
-    if (!this.page_style) this.builder.style = {};
+    if (!this.page_style) this.$builder.style = {};
     if (!this.page_style.header_mode) this.page_style.header_mode = "normal";
   },
   methods: {},

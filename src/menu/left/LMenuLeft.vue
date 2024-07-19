@@ -45,12 +45,8 @@
       <!-- ━━━━━━━━━━━━━━━ CSS ━━━━━━━━━━━━━━━ -->
       <l-menu-left-css :page="page" />
 
-
       <!-- ━━━━━━━━━━━━━━━ Statistic ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-statistics
-        :page="page"
-      ></l-menu-left-statistics>
-
+      <l-menu-left-statistics :page="page"></l-menu-left-statistics>
 
       <!-- ━━━━━━━━━━━━━━━ SEO ━━━━━━━━━━━━━━━ -->
       <l-menu-left-seo v-if="hasSEO" :page="page" />
@@ -79,7 +75,7 @@
           eager
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-menu-left-hierarchy :builder="builder"></l-menu-left-hierarchy>
+          <l-menu-left-hierarchy></l-menu-left-hierarchy>
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Sections ━━━━━━━━━━━━━━━ -->
@@ -90,7 +86,6 @@
           :style="{ width: min_width_window + 'px' }"
         >
           <l-menu-left-sections
-            :builder="builder"
             @update:is-dragged="(val) => (is_dragged = val)"
           ></l-menu-left-sections>
         </v-tabs-window-item>
@@ -101,7 +96,6 @@
           :style="{ width: min_width_window + 'px' }"
         >
           <LMenuLeftElements
-            :builder="builder"
             @update:is-dragged="(val) => (is_dragged = val)"
           ></LMenuLeftElements>
         </v-tabs-window-item>
@@ -113,7 +107,6 @@
           :style="{ width: min_width_window + 'px' }"
         >
           <l-menu-left-versions
-            :builder="builder"
             :histories="histories"
             :setPageFunction="setPageFunction"
             :fetchPageData="fetchPageData"
@@ -126,7 +119,7 @@
           value="assets"
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-menu-left-assets v-if="page" :page="page" :builder="builder" />
+          <l-menu-left-assets v-if="page" :page="page" />
         </v-tabs-window-item>
       </v-tabs-window>
     </div>
@@ -134,7 +127,7 @@
 </template>
 
 <script>
-import { defineComponent, inject } from "vue";
+import { defineComponent } from "vue";
 import LMenuLeftHierarchy from "@selldone/page-builder/src/menu/left/hierarchy/LMenuLeftHierarchy.vue";
 import LMenuLeftSections from "@selldone/page-builder/src/menu/left/sections/LMenuLeftSections.vue";
 import LMenuLeftElements from "@selldone/page-builder/src/menu/left/elements/LMenuLeftElements.vue";
@@ -158,7 +151,7 @@ export default defineComponent({
     LMenuLeftHierarchy,
     LMenuLeftElements,
   },
-
+  inject: ["$builder"],
   props: {
     isVisible: Boolean,
     isScrollDown: Boolean,
@@ -188,10 +181,6 @@ export default defineComponent({
         { key: "versions", icon: "history", tooltip: "Versions" },
         { key: "assets", icon: "folder_open", tooltip: "Assets" },
       ];
-    },
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
     },
 
     width() {

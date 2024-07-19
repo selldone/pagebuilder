@@ -67,7 +67,7 @@
             <s-setting-font-family
               v-model="target.style.fontFamily"
               clearable
-              :fonts="builder.style.fonts"
+              :fonts="$builder.style.fonts"
               label="Font Family"
               icon="font_download"
             ></s-setting-font-family>
@@ -131,10 +131,8 @@
 
 <script>
 import LEventsName from "../../mixins/events/name/LEventsName";
-import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
@@ -143,7 +141,6 @@ import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSi
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
-import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
@@ -159,10 +156,8 @@ export default {
     SSettingColor,
     SSettingTextInput,
     SSettingExpandable,
-    UNumberInput,
-    USmartToggle,
   },
-
+  inject: ["$builder"],
   props: {},
   data: () => ({
     tab: null,
@@ -178,12 +173,7 @@ export default {
     LOCK: false, // 🔐 Lock changes
   }),
 
-  computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
-  },
+  computed: {},
   watch: {
     /*  target: {
         handler() {

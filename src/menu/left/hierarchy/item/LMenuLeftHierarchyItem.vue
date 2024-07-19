@@ -77,8 +77,8 @@
         class="ms-1 flex-grow-0 usn"
       ></v-img>
 
-      <div v-if="object.background.hasValue()" style="width: 20px;height: 20px" :style="background_style">
-        X
+      <div v-if="object.background.hasValue()" style="width: 18px;height: 18px ;border-radius: 3px" class="ms-1" :style="background_style" title="Background">
+
       </div>
 
       <v-chip

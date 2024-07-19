@@ -41,9 +41,15 @@
       lines="two"
       prepend-icon="settings_backup_restore"
       ripple
-      @click="()=>{fetchPageData();}"
+      @click="
+        () => {
+          fetchPageData();
+        }
+      "
     >
-      <v-list-item-title style="font-size: 0.75rem;font-weight: 500"> Restore last saved page</v-list-item-title>
+      <v-list-item-title style="font-size: 0.75rem; font-weight: 500">
+        Restore last saved page</v-list-item-title
+      >
       <v-list-item-subtitle class="op-0-8"
         >{{ getFromNowString(page?.updated_at) }}
       </v-list-item-subtitle>
@@ -55,12 +61,10 @@
       lines="two"
       ripple
       @click="getHistory(history.id)"
-      :class="{'border-start-amber':current_history_id === history.id}"
+      :class="{ 'border-start-amber': current_history_id === history.id }"
     >
-
-
-      <v-list-item-title style="font-size: 0.75rem;font-weight: 500">
- {{ getLocalTimeString(history.created_at) }}
+      <v-list-item-title style="font-size: 0.75rem; font-weight: 500">
+        {{ getLocalTimeString(history.created_at) }}
       </v-list-item-title>
       <v-list-item-subtitle class="op-1-0 my-1">
         <v-avatar
@@ -88,7 +92,9 @@
             </v-icon>
             <v-icon v-else color="grey-lighten-1">star_border</v-icon>
           </v-btn>
-          <small style="font-size: 9px">{{ history.persistent ? "persistent" : "temporary" }}</small>
+          <small style="font-size: 9px">{{
+            history.persistent ? "persistent" : "temporary"
+          }}</small>
         </v-list-item-action>
       </template>
     </v-list-item>
@@ -97,7 +103,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Builder from "@selldone/page-builder/Builder.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 
 export default defineComponent({
@@ -107,7 +112,6 @@ export default defineComponent({
   components: { UDenseCirclesUsers },
 
   props: {
-    builder: { type: Builder, required: true },
     histories: { required: true, type: Array },
     setPageFunction: { required: true, type: Function },
     fetchPageData: { required: true, type: Function },

@@ -42,7 +42,6 @@
             </template>
 
             <background-image-editor
-              :builder="builder"
               key="0"
               v-model:bg-custom="target.background.bg_custom"
               v-model:bg-gradient="target.background.bg_gradient"
@@ -50,7 +49,6 @@
               v-model:bg-image="target.background.bg_image"
               v-model:bg-image-repeat="target.background.bg_repeat"
               v-model:bg-image-size="target.background.bg_size"
-              :upload-url="upload_bg_url"
               dark
               @change="setLayers()"
             >
@@ -66,7 +64,6 @@
             </template>
 
             <background-image-editor
-              :builder="builder"
               key="1"
               v-model:bg-image="target.data.setting.fg.bg_image"
               v-model:bgCustom="target.data.setting.fg.bg_custom"
@@ -74,7 +71,6 @@
               v-model:bgRotation="target.data.setting.fg.bg_rotation"
               v-model:bgImageRepeat="target.data.setting.fg.bg_repeat"
               v-model:bgImageSize="target.data.setting.fg.bg_size"
-              :upload-url="upload_bg_url"
               dark
               @change="setLayers()"
             >
@@ -92,7 +88,6 @@ import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import { LModelBackground } from "@selldone/page-builder/models/background/LModelBackground.ts";
@@ -113,7 +108,7 @@ export default {
     LSettingNavigation,
     BackgroundImageEditor,
   },
-
+  inject: ["$builder"],
   props: {},
   data: () => ({
     el: null,
@@ -135,12 +130,8 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
     upload_bg_url() {
-      return this.builder.getImageUploadUrl();
+      return this.$builder.getImageUploadUrl();
     },
   },
   watch: {

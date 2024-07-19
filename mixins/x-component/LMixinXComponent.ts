@@ -12,28 +12,18 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {defineComponent, inject} from "vue";
-import Builder from "../../Builder.ts";
-import {Section} from "../../src/section/section";
+import {defineComponent} from "vue";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 const LMixinXComponent = defineComponent({
+  inject: ["$builder", "$section"],
   props: {
     object: {
       type: LModelElement<any>,
     },
   },
-  data: () => ({
-    $builder: null as Builder | null,
-    $section: null as Section | null,
-  }),
+  data: () => ({}),
   beforeCreate() {
-    // Get builder from main page editor/viewer
-    this.$builder = inject("$builder");
-
-    // Get section from parent section
-    this.$section = inject("$section");
-
     LOG(
       "$builder",
       this.$builder ? "✅" : "❌",

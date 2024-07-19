@@ -56,7 +56,7 @@
 
     <!-- ████████████████████ Hierarchy ████████████████████ -->
     <draggable
-      v-model="builder.sections"
+      v-model="$builder.sections"
       tag="div"
       animation="200"
       ghostClass="bg-primary"
@@ -127,7 +127,6 @@
 
 <script lang="ts">
 import LMenuLeftHierarchyItem from "@selldone/page-builder/src/menu/left/hierarchy/item/LMenuLeftHierarchyItem.vue";
-import Builder from "@selldone/page-builder/Builder.ts";
 import draggable from "vuedraggable";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
@@ -140,9 +139,8 @@ export default {
   mixins: [LMixinEvents],
   components: { draggable, LMenuLeftHierarchyItem },
 
-  props: {
-    builder: { type: Builder, required: true },
-  },
+  inject: ["$builder"],
+  props: {},
   data: () => ({
     expanded: false,
     lock_scroll: false,
@@ -157,7 +155,7 @@ export default {
       return ScrollHelper;
     },
     sections() {
-      return this.builder.sections;
+      return this.$builder.sections;
     },
   },
 
@@ -198,7 +196,7 @@ export default {
     }) {
       if (!parent) {
         // In the root
-        this.builder.remove(section);
+        this.$builder.remove(section);
       } else {
         parent.removeChild(object);
       }
@@ -216,9 +214,9 @@ export default {
       const clone = LUtilsClone.CloneElement(object);
 
       if (!parent) {
-        const index = this.builder.sections.indexOf(section);
+        const index = this.$builder.sections.indexOf(section);
         // In the root
-        this.builder.add(
+        this.$builder.add(
           { object: clone, label: `🍒 ${section.label}` },
           index >= 0 ? index + 1 : 0,
           true,

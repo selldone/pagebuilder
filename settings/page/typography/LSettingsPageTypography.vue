@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <l-setting-navigation v-if="style">
+  <l-setting-navigation v-model="dialog_master_style" v-if="style">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -185,7 +185,6 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
-import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
@@ -200,6 +199,8 @@ export default {
     SSettingExpandable,
     SSettingFontFamily,
   },
+
+  inject: ["$builder"],
   emits: ["change"],
   props: {},
   data: () => ({
@@ -217,11 +218,6 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
-
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },

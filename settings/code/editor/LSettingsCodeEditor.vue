@@ -56,7 +56,9 @@
               </v-btn>
               <v-btn variant="outlined" value="vue" class="tnt">
                 <v-avatar :size="24" class="me-1" rounded>
-                  <v-img :src="require('../../../assets/images/frameworks/vue.svg')" />
+                  <v-img
+                    :src="require('../../../assets/images/frameworks/vue.svg')"
+                  />
                 </v-avatar>
                 Vue
               </v-btn>
@@ -177,13 +179,16 @@
             target="_blank"
             color="#000"
           >
-            <v-responsive aspect-ratio="2" class="flex-grow-1 " content-class="d-flex align-center justify-center">
+            <v-responsive
+              aspect-ratio="2"
+              class="flex-grow-1"
+              content-class="d-flex align-center justify-center"
+            >
               <v-icon class="ma-auto" size="46">fa:fab fa-github</v-icon>
             </v-responsive>
             <div class="single-line flex-grow-0 px-3 py-1 text-subtitle-2">
               Sample Codes & Live Tests
               <v-icon class="mx-1" size="small">open_in_new</v-icon>
-
             </div>
           </v-card>
 
@@ -229,7 +234,6 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper";
-import {inject} from "vue";
 
 export default {
   name: "LSettingsCodeEditor",
@@ -239,10 +243,8 @@ export default {
   components: {
     PrismEditor,
   },
-
-  props: {
-
-  },
+  inject: ["$builder"],
+  props: {},
   data: () => ({
     el: null,
     section: null,
@@ -270,10 +272,6 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
     effect() {
       return this.target?.effect;
     },
@@ -352,7 +350,9 @@ export default {
 
   methods: {
     autoDetectMode() {
-      this.target.data.setMode(LRawCodeHelper.DetectMode(this.target.data.code));
+      this.target.data.setMode(
+        LRawCodeHelper.DetectMode(this.target.data.code),
+      );
     },
     highlighter(code) {
       return Prism.highlight(code, Prism.languages.html, "html");
@@ -366,8 +366,7 @@ export default {
 
       if (this.target.data.mode === RawCodeMode.MODE_HTML) {
       } else {
-        this.target.data.code =
-          `<!----vue---->${this.target.data.code}`;
+        this.target.data.code = `<!----vue---->${this.target.data.code}`;
       }
     },
     refreshScripts() {

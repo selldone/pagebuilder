@@ -32,7 +32,7 @@
         dense
         hide-details
         single-line
-        style="min-width: 130px"
+        style="min-width: 150px"
         variant="outlined"
         density="compact"
         @update:model-value="setValue"

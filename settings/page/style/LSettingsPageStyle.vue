@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <l-setting-navigation v-if="style">
+  <l-setting-navigation v-if="style" v-model="dialog_master_style">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -41,14 +41,12 @@
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Background ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
 
           <background-image-editor
-            :builder="builder"
             v-model:bg-image="style.bg_image"
             v-model:bgCustom="style.bg_custom"
             v-model:bgGradient="style.bg_gradient"
             v-model:bgRotation="style.bg_rotation"
             v-model:bgImageRepeat="style.bg_repeat"
             v-model:bgImageSize="style.bg_size"
-            :upload-url="upload_bg_url"
             @change="$forceUpdate()"
             v-model:bgColor="style.bg_color"
             has-bg-color
@@ -354,7 +352,6 @@ import SSettingColor from "../../../styler/settings/color/SSettingColor.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
-import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
@@ -370,7 +367,6 @@ export default {
 
     BackgroundImageEditor,
   },
-
   props: {},
   data: () => ({
     tab: null,
@@ -384,14 +380,7 @@ export default {
   }),
 
   computed: {
-    builder() {
-      // Get builder from main page editor/viewer
-      return inject("$builder");
-    },
 
-    upload_bg_url() {
-      return this.builder.getImageUploadUrl();
-    },
 
     filtered_fonts() {
       return FONTS.filter(

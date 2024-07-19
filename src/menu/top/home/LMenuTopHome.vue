@@ -315,7 +315,7 @@
     <v-btn
       v-if="hasLiveView"
       :class="{ disabled: !page }"
-      :color="audiences?.length ? 'primary' : '#000'"
+      :color="audiences?.length ? '#111' : '#111'"
       :to="{
         name: 'BPageLandingLive',
         params: { shop_id: page.shop_id, page_id: page.id },
@@ -341,7 +341,7 @@
           <b class="d-block fadeInUp small">
             Live Preview
             <v-icon
-              v-if="liveStream"
+              v-if="audiences?.length"
               class="mx-1 blink-me"
               color="#fff"
               size="x-small"
@@ -351,8 +351,8 @@
           <u-dense-circles-users
             :ids="audiences"
             :limit="5"
-            :size="23"
-            class="pa-0 overflow-visible mt-1 fadeIn delay_300"
+            :size="36"
+            class="pa-0 overflow-visible mt-2 fadeIn delay_300"
             color="#FFC107"
             title="Online team members are viewing this page."
           ></u-dense-circles-users>
