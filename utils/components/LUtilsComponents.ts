@@ -65,7 +65,6 @@ import {XSearchObject} from "@selldone/page-builder/components/x/search/XSearchO
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import {XVideoBackgroundObject} from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObject.ts";
 import {
   XGalleryExpandableItemObject
 } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
@@ -107,7 +106,6 @@ export class LUtilsComponents {
     XButtonsObject,
 
     XCodeObject,
-    // XCollectionObject,
     XColumnObject,
     XColumnImageTextObject,
     XContainerObject,
@@ -128,7 +126,7 @@ export class LUtilsComponents {
     XSwiperObject,
     XTextObject,
     XUploaderObject,
-    XVideoBackgroundObject,
+    // XVideoBackgroundObject,
     XGalleryExpandableItemObject,
   ];
 

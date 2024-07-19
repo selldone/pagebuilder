@@ -35,6 +35,10 @@
     expand-input
     no-qr
     @onSearch="onSearch"
+
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
+
   ></s-storefront-search-box>
 
   <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ End Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->

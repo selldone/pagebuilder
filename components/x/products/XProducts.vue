@@ -26,6 +26,8 @@
     landing-page-mode
     silent
     class="x--products"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
   ></s-products-listing>
 </template>
 

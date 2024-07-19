@@ -77,12 +77,17 @@
         class="ms-1 flex-grow-0 usn"
       ></v-img>
 
+      <div v-if="object.background.hasValue()" style="width: 20px;height: 20px" :style="background_style">
+        X
+      </div>
+
       <v-chip
         v-if="object.label"
         size="x-small"
         class="ms-1 px-1 usn"
         label
         density="comfortable"
+        title="Label | Can have different behaviour in its parent component."
         >{{ object.label }}
       </v-chip>
 
@@ -100,7 +105,13 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="(can_have_children || object.children?.length/*Force show children!*/) && (expanded || !object.children?.length)">
+      <div
+        v-if="
+          (can_have_children ||
+            object.children?.length) /*Force show children!*/ &&
+          (expanded || !object.children?.length)
+        "
+      >
         <draggable
           v-model="object.children"
           tag="div"
@@ -154,7 +165,6 @@ import { XInputTextObject } from "@selldone/page-builder/components/x/input/text
 import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
 import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
 import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";
-import { XVideoBackgroundObject } from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObject.ts";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 
 export default {
@@ -203,7 +213,7 @@ export default {
       XLottie: XLottieObject,
       XMarquee: XMarqueeObject,
       XSearch: XSearchObject,
-      XVideoBackground: XVideoBackgroundObject,
+      //  XVideoBackground: XVideoBackgroundObject,
     },
 
     debouncedScrollToElement: null,
@@ -244,6 +254,9 @@ export default {
         "XSwiper",
       ].includes(this.object.component);
     },
+    background_style(){
+      return this.object.background?.generate(this.getShopImagePath)
+    }
   },
 
   watch: {},

@@ -26,7 +26,7 @@
         'is-editable': $builder.isEditing,
       },
     ]"
-    :style="[object?.style, backgroundStyle(object.background)]"
+    :style="[object.style, background_style]"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
@@ -130,8 +130,7 @@ export default defineComponent({
      */
     getLocation() {
       // Get all parents of the element
-      const count = this.countXRowElements(this.object)%4;
-
+      const count = this.countXRowElements(this.object) % 4;
 
       const position =
         count === 0
@@ -156,8 +155,8 @@ export default defineComponent({
         }
 
         // Recursively check the children
-        if (obj.children && obj.children.length && count<10) {
-          obj.children.forEach(child => {
+        if (obj.children && obj.children.length && count < 10) {
+          obj.children.forEach((child) => {
             findParents(child);
           });
         }
@@ -167,7 +166,7 @@ export default defineComponent({
       findParents(object);
 
       return count;
-    }
+    },
   },
 });
 </script>

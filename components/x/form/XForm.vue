@@ -19,7 +19,7 @@
       target: object,
     }"
     :class="[object?.classes, { 'is-editable': is_editing }]"
-    :style="[object?.style, backgroundStyle(object.background)]"
+    :style="[object?.style, background_style]"
     validate-on="submit lazy"
     @submit.prevent="submit"
     class="x--form"

@@ -19,7 +19,7 @@
       target: object,
     }"
     :class="[object.classes, { 'is-editable': $builder.isEditing }]"
-    :style="[background_style, object.style]"
+    :style="[object.style, background_style]"
   >
     <u-marquee
       :id="marquee_id"
@@ -67,11 +67,7 @@ export default {
     marquee_id: "marquee_" + Math.round(Math.random() * 999999),
   }),
 
-  computed: {
-    background_style() {
-      return this.backgroundStyle(this.object.background);
-    },
-  },
+  computed: {},
   watch: {},
 
   created() {},

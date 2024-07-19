@@ -34,81 +34,59 @@
       <template v-if="dialog_pre">
         <v-expansion-panels v-model="layers_tab">
           <!-- ████████████████████ Background ████████████████████ -->
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <div>
-                <v-icon class="me-1">wallpaper</v-icon>
-                Background
+          <s-setting-expandable icon="wallpaper" title="Background">
+            <template v-slot:title>
+              <l-background-chips
+                :background="target.background"
+              ></l-background-chips>
+            </template>
 
-                <v-icon
-                  v-if="bg && Object.keys(bg).length"
-                  color="green"
-                  end
-                  size="x-small"
-                  >lens
-                </v-icon>
-              </div>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <background-image-editor
-                v-if="layers_tab === 0"
-                :builder="builder"
-                key="0"
-                v-model:bg-custom="bg.bg_custom"
-                v-model:bg-gradient="bg.bg_gradient"
-                v-model:bgRotation="bg.bg_rotation"
-                v-model:bg-image="bg.bg_image"
-                v-model:bg-image-repeat="bg.bg_repeat"
-                v-model:bg-image-size="bg.bg_size"
-                :upload-url="upload_bg_url"
-                dark
-                @change="setLayers()"
-              >
-              </background-image-editor>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+            <background-image-editor
+              :builder="builder"
+              key="0"
+              v-model:bg-custom="target.background.bg_custom"
+              v-model:bg-gradient="target.background.bg_gradient"
+              v-model:bgRotation="target.background.bg_rotation"
+              v-model:bg-image="target.background.bg_image"
+              v-model:bg-image-repeat="target.background.bg_repeat"
+              v-model:bg-image-size="target.background.bg_size"
+              :upload-url="upload_bg_url"
+              dark
+              @change="setLayers()"
+            >
+            </background-image-editor>
+          </s-setting-expandable>
 
           <!-- ████████████████████ Foreground ████████████████████ -->
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <div>
-                <v-icon class="me-1">broken_image</v-icon>
-                Foreground
+          <s-setting-expandable icon="broken_image" title="Foreground">
+            <template v-slot:title>
+              <l-background-chips
+                :background="target.data.setting.fg"
+              ></l-background-chips>
+            </template>
 
-                <v-icon
-                  v-if="fg && Object.keys(fg).length"
-                  color="green"
-                  end
-                  size="x-small"
-                  >lens
-                </v-icon>
-              </div>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <background-image-editor
-                v-if="layers_tab === 1"
-                :builder="builder"
-                key="1"
-                v-model:bg-image="fg.bg_image"
-                v-model:bgCustom="fg.bg_custom"
-                v-model:bgGradient="fg.bg_gradient"
-                v-model:bgRotation="fg.bg_rotation"
-                v-model:bgImageRepeat="fg.bg_repeat"
-                v-model:bgImageSize="fg.bg_size"
-                :upload-url="upload_bg_url"
-                dark
-                @change="setLayers()"
-              >
-              </background-image-editor>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
+            <background-image-editor
+              :builder="builder"
+              key="1"
+              v-model:bg-image="target.data.setting.fg.bg_image"
+              v-model:bgCustom="target.data.setting.fg.bg_custom"
+              v-model:bgGradient="target.data.setting.fg.bg_gradient"
+              v-model:bgRotation="target.data.setting.fg.bg_rotation"
+              v-model:bgImageRepeat="target.data.setting.fg.bg_repeat"
+              v-model:bgImageSize="target.data.setting.fg.bg_size"
+              :upload-url="upload_bg_url"
+              dark
+              @change="setLayers()"
+            >
+            </background-image-editor>
+          </s-setting-expandable>
         </v-expansion-panels>
       </template>
     </v-card>
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
@@ -116,6 +94,10 @@ import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import { inject } from "vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import { LModelBackground } from "@selldone/page-builder/models/background/LModelBackground.ts";
+import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import LBackgroundChips from "@selldone/page-builder/settings/class-style/chips/LBackgroundChips.vue";
 
 /**
  * <l-settings-image-layers>
@@ -126,6 +108,8 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LBackgroundChips,
+    SSettingExpandable,
     LSettingNavigation,
     BackgroundImageEditor,
   },
@@ -133,7 +117,7 @@ export default {
   props: {},
   data: () => ({
     el: null,
-    target: null,
+    target: null as XUploaderObject,
     updateCallback: null,
 
     src: null,
@@ -142,8 +126,6 @@ export default {
     dialog_layers: false,
     dialog_pre: false,
 
-    bg: {},
-    fg: {},
     layers_tab: 0,
 
     //--------------------------
@@ -162,13 +144,6 @@ export default {
     },
   },
   watch: {
-    bg() {
-      this.setLayers();
-    },
-    fg() {
-      this.setLayers();
-    },
-
     dialog_layers(dialog) {
       // Keep highlight active element:
       if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
@@ -230,12 +205,8 @@ export default {
 
   methods: {
     showProductsDialog() {
-      this.bg = this.target.setting.bg
-        ? Object.assign({}, this.target.setting.bg)
-        : {};
-      this.fg = this.target.setting.fg
-        ? Object.assign({}, this.target.setting.fg)
-        : {};
+      if (!this.target.data.setting.fg)
+        this.target.data.setting.fg = new LModelBackground();
 
       this.dialog_pre = false;
       this.$nextTick(() => {
@@ -245,20 +216,17 @@ export default {
       });
     },
     resetLayers() {
-      this.bg = {};
-      this.fg = {};
+      this.target.background = new LModelBackground();
+      this.target.data.setting.fg = new LModelBackground();
     },
 
     //----------------------------------------------------------------------------
     setLayers() {
       if (!this.dialog_layers || this.LOCK) return;
 
-      this.target.setting.bg = this.bg;
-      this.target.setting.fg = this.fg;
-
       if (this.updateCallback) this.updateCallback(); // Force update component!
 
-      console.log("🔧 Set layers", this.target.setting);
+      console.log("🔧 Set layers", this.target.data.setting);
     },
   },
 };

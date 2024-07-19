@@ -12,13 +12,17 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
 import {defineComponent, inject} from "vue";
 import Builder from "../../Builder.ts";
 import {Section} from "../../src/section/section";
-import {Background} from "../../src/types/types";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 const LMixinXComponent = defineComponent({
+  props: {
+    object: {
+      type: LModelElement<any>,
+    },
+  },
   data: () => ({
     $builder: null as Builder | null,
     $section: null as Section | null,
@@ -44,6 +48,10 @@ const LMixinXComponent = defineComponent({
     SHOW_EDIT_TOOLS() {
       return this.$builder.isEditing && !this.$builder.isHideExtra;
     },
+
+    background_style() {
+      return this.object.background?.generate(this.getShopImagePath);
+    },
   },
 
   watch: {},
@@ -58,24 +66,7 @@ const LMixinXComponent = defineComponent({
     this.object.$element = this.$el;
   },
 
-  methods: {
-    backgroundStyle(background: Background) {
-      if (!background) return null;
-
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        background.bg_custom,
-        background.bg_gradient,
-        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
-        background.bg_size,
-        background.bg_repeat,
-        background.bg_color,
-        background.dark,
-        background.bg_position,
-        background.bg_rotation,
-        background.bg_backdrop,
-      );
-    },
-  },
+  methods: {},
 });
 export default LMixinXComponent;
 

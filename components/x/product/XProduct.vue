@@ -19,6 +19,10 @@
     variant="text"
     :to="product_to"
     target="_blank"
+
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
+
   >
     <div v-if="busy">
       <v-skeleton-loader

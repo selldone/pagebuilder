@@ -66,7 +66,7 @@ export namespace XUploaderDataTypes {
     contain: boolean | null;
     round: boolean;
     float: any;
-    bg: LModelBackground | null;
+
     fg: LModelBackground | null;
     size: {
       h: any;
@@ -82,8 +82,15 @@ export namespace XUploaderDataTypes {
       this.contain = (data && data.contain) || false;
       this.round = (data && data.round) || false;
       this.float = (data && data.float) || null;
-      this.bg = (data && data.bg) || null;
-      this.fg = (data && data.fg) || null;
+
+      if (data?.fg) {
+        if (this.fg instanceof LModelBackground) {
+          this.fg = data.fg;
+        } else {
+          this.fg = new LModelBackground(this.fg);
+        }
+      }
+
       this.size = (data && data.size) || {
         h: "100%",
         w: "100%",
@@ -112,11 +119,6 @@ export namespace XUploaderDataTypes {
 
     public setFloat(float: any) {
       this.float = float;
-      return this;
-    }
-
-    public setBg(bg: LModelBackground | null) {
-      this.bg = bg;
       return this;
     }
 

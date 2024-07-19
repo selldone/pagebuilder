@@ -61,8 +61,13 @@
     :lg="object.data.grid.widescreen"
     :md="object.data.grid.desktop"
     :sm="object.data.grid.tablet"
-    :style="{ 'animation-delay': 300 + i * 100 + 'ms' }"
     class="fadeInUp v-col"
+    :class="[object.classes]"
+    :style="[
+      object.style,
+      background_style,
+      { 'animation-delay': 300 + i * 100 + 'ms' },
+    ]"
   >
     <s-blog-card
       :article="article"
@@ -136,7 +141,6 @@ export default {
       const filter = this.filter;
       console.log("Blogs filter", filter);
       if (!filter) return;
-
 
       this.busy = true;
 

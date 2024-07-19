@@ -33,7 +33,7 @@
         'position-relative': object.background?.bg_video,
       },
     ]"
-    :style="[object?.style, backgroundStyle(object.background)]"
+    :style="[object.style, background_style]"
   >
     <!-- 📹 Background video -->
     <x-video-background

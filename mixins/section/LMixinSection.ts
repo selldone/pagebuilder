@@ -12,8 +12,6 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {LUtilsBackground} from "../../utils/background/LUtilsBackground";
-import {Background} from "../../src/types/types";
 import {defineComponent, inject, provide} from "vue";
 import {Section} from "../../src/section/section";
 import Builder from "../../Builder.ts";
@@ -62,79 +60,27 @@ const LMixinSection = defineComponent({
 
   updated() {
     /*try {
-          Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
-            (el: any) => {
-              el.contentEditable = this.$builder.isEditing;
-            },
-          );
-        } catch (e) {
-          console.error("updated | section", e, this);
-        }*/
+              Array.from(this.$el.querySelectorAll("[contentEditable]")).forEach(
+                (el: any) => {
+                  el.contentEditable = this.$builder.isEditing;
+                },
+              );
+            } catch (e) {
+              console.error("updated | section", e, this);
+            }*/
   },
 
   computed: {
     SHOW_EDIT_TOOLS() {
       return this.$builder.isEditing && !this.$builder.isHideExtra;
     },
-    /**
-     * 🪵 New version
-     */
-    $sectionObject() {
-      return this.section.object;
-    },
-
-    /**
-     * Old version
-     */
-    /* $sectionData() {
-           // Tips: Remove unset from style to solve conflict with self element classes by unset attributes!
-     
-           function removeUnsetStyles(obj: Record<string, any>) {
-             Object.keys(obj).forEach((key) => {
-               if (obj[key] === "unset") obj[key] = null;
-             });
-           }
-     
-           // 1. Remove main style:
-           if (
-             (this.$section as Section).data.style &&
-             !Array.isArray(this.sectionData.style)
-           )
-             removeUnsetStyles(this.sectionData.style);
-     
-           // 2. Remove columns style:
-           if (this.sectionData.columns)
-             (this.$section as Section).data.columns.forEach((col: Column) => {
-               if (col.style && !Array.isArray(col.style))
-                 removeUnsetStyles(col.style);
-             });
-           // console.log("$sectionData Updated:",this.sectionData);
-           return this.sectionData;
-         },*/
   },
 
   watch: {},
 
   created() {},
 
-  methods: {
-    backgroundStyle(background: Background) {
-      if (!background) return null;
-
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        background.bg_custom,
-        background.bg_gradient,
-        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
-        background.bg_size,
-        background.bg_repeat,
-        background.bg_color,
-        background.dark,
-        background.bg_position,
-        background.bg_rotation,
-        background.bg_backdrop,
-      );
-    },
-  },
+  methods: {},
 });
 
 export default LMixinSection;

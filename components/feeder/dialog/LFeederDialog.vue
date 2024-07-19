@@ -44,7 +44,7 @@
 
           <v-sheet
             :dark="section_object.background.dark"
-            :style="backgroundStyle(section_object.background)"
+            :style="section_object.background.generate(getShopImagePath)"
             class="rounded-lg min-h-100 d-flex align-center justify-center pa-2"
             @click="ShowLSettingsBackground(sectionElement, section_object)"
           >
@@ -470,22 +470,7 @@ export default {
 
       this.$emit("update:modelValue", false);
     },
-    backgroundStyle(background) {
-      if (!background) return null;
 
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        background.bg_custom,
-        background.bg_gradient,
-        background.bg_image ? this.getShopImagePath(background.bg_image) : null,
-        background.bg_size,
-        background.bg_repeat,
-        background.bg_color,
-        background.dark,
-        background.bg_position,
-        background.bg_rotation,
-        background.bg_backdrop,
-      );
-    },
 
     addButton() {
       this.section_data.buttons.push(LUtilsSeeder.seed(Button));

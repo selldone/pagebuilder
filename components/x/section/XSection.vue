@@ -21,7 +21,7 @@
       object.classes,
       { '-no-padding': noDefaultPadding, '-dark': object.background?.dark },
     ]"
-    :style="[background_style, object.style]"
+    :style="[object.style, background_style]"
     class="section"
   >
     <!-- 📹 Background video -->
@@ -54,9 +54,7 @@ export default {
     noDefaultPadding: Boolean,
     section: { required: true, type: Object },
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
   computed: {
     /**
      * 🐍 Use compute for better performance.
@@ -64,10 +62,6 @@ export default {
      */
     sectionBinding() {
       return { target: this.object };
-    },
-
-    background_style() {
-      return this.backgroundStyle(this.object.background);
     },
   },
 

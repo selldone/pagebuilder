@@ -70,11 +70,13 @@
     :category-id="folder.id"
     class="x--category-frame"
     :class="[
+      object.classes,
       object.data.frame_category?.classes,
       {
         pen: is_editing && !$builder.isHideExtra /*Vie mode activate links!*/,
       },
     ]"
+    :style="[object.style, background_style]"
   >
   </component>
 
@@ -82,14 +84,16 @@
     :is="gen(getProductCode(product))"
     v-for="product in products"
     :key="'p' + product.id"
+    :product-id="product.id"
     class="x--product-frame"
     :class="[
+      object.classes,
       object.data.frame_product?.classes,
       {
         pen: is_editing && !$builder.isHideExtra /*Vie mode activate links!*/,
       },
     ]"
-    :product-id="product.id"
+    :style="[object.style, background_style]"
   >
   </component>
 </template>

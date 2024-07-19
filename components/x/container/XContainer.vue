@@ -17,10 +17,12 @@
     v-styler:container="containerBinding"
     :fluid="object.data ? object.data.fluid : false"
     class="x--container"
-
     :class="[object?.classes, { 'is-editable': $builder.isEditing }]"
-    :style="[object?.style, backgroundStyle(object.background),{ maxWidth: object.data?.fluid ? undefined : maxWidthNormal }]"
-
+    :style="[
+      object?.style,
+      background_style,
+      { maxWidth: object.data?.fluid ? undefined : maxWidthNormal },
+    ]"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ XContainer > Children ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
@@ -62,8 +64,7 @@ export default defineComponent({
   },
 
   created() {
-
-    console.log('object Container',this.object)
+    console.log("object Container", this.object);
   },
 });
 </script>

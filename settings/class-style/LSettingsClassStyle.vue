@@ -13,9 +13,7 @@
   -->
 
 <template>
-  <l-setting-navigation
-    v-model="show_dialog_size"
-  >
+  <l-setting-navigation v-model="show_dialog_size">
     <v-card
       v-if="dialog_pre"
       :style="global_variables"
@@ -220,43 +218,9 @@
 
         <s-setting-expandable title="Background" icon="wallpaper">
           <template v-slot:title>
-            <v-chip
-              v-if="background.bg_color"
-              class="ms-1"
-              color="#000"
-              label
-              size="x-small"
-              density="comfortable"
-              variant="flat"
-            >
-              <v-icon start :color="background.bg_color">circle</v-icon>
-              {{ background.bg_color }}
-            </v-chip>
-
-            <v-chip
-              v-if="background.bg_image"
-              class="ms-1"
-              color="#00796B"
-              label
-              size="x-small"
-              density="comfortable"
-              variant="flat"
-              prepend-icon="image"
-            >
-              Image
-            </v-chip>
-            <v-chip
-              v-if="background.bg_backdrop"
-              class="ms-1"
-              color="#673AB7"
-              label
-              size="x-small"
-              density="comfortable"
-              variant="flat"
-              prepend-icon="photo_filter"
-            >
-              Backdrop
-            </v-chip>
+            <l-background-chips
+              :background="background"
+            ></l-background-chips>
           </template>
           <background-image-editor
             :builder="builder"
@@ -316,6 +280,8 @@ import LSettingsContentText from "@selldone/page-builder/settings/content/text/L
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import LSettingsContentImage from "@selldone/page-builder/settings/content/image/LSettingsContentImage.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import UColorCircle from "@selldone/components-vue/ui/color/circle/UColorCircle.vue";
+import LBackgroundChips from "@selldone/page-builder/settings/class-style/chips/LBackgroundChips.vue";
 
 const STYLE_TABS = [
   "size",
@@ -335,6 +301,7 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    LBackgroundChips,
     LSettingNavigation,
     LSettingsContentImage,
     LSettingsContentText,
@@ -352,6 +319,7 @@ export default {
     LSettingsStyleMargin,
     LSettingsStylePadding,
     LSettingsStyleSize,
+    UColorCircle,
   },
 
   props: {},

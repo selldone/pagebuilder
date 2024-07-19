@@ -14,11 +14,14 @@
 
 <template>
   <div
-      v-styler:gallery="{
+    v-styler:gallery="{
       target: object,
       keyColumns: 'columns',
     }"
-      class="container-gallery" >
+    class="container-gallery"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
+  >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 
     <x-component

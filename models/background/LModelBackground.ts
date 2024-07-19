@@ -12,6 +12,9 @@
  * Tread carefully, for you're treading on dreams.
  */
 
+import {RemoveEmptyFromObject} from "@selldone/core-js/prototypes";
+import {LUtilsFilter} from "@selldone/page-builder/utils/filter/LUtilsFilter.ts";
+
 interface IBackground {
   bg_custom?: string;
   bg_gradient?: string[];
@@ -39,7 +42,7 @@ export class LModelBackground {
   bg_backdrop: any[];
   bg_video?: string;
 
-  constructor(params: IBackground | null) {
+  constructor(params: IBackground | null = null) {
     if (!params) return;
     this.bg_custom = params.bg_custom;
     this.bg_gradient = params.bg_gradient;
@@ -54,7 +57,10 @@ export class LModelBackground {
     this.bg_video = params.bg_video;
   }
 
-  CreateCompleteBackgroundStyleObject(): Record<string, any> {
+  /**
+   * Generate background style object
+   */
+  generate(imagePathToUrl: Function): Record<string, any> {
     if (this.bg_custom && this.bg_custom.includes("background")) {
       const out = LModelBackground.StringStyleToObj(this.bg_custom);
       return out;
@@ -62,8 +68,8 @@ export class LModelBackground {
 
     const out: Record<string, any> = {
       backgroundColor: this.bg_color,
-      backgroundImage: this.CreateBackgroundImageStyle(),
-      backgroundSize: this.CreateBackgroundSizeStyle(),
+      backgroundImage: this.createBackgroundImage(imagePathToUrl),
+      backgroundSize: this.createBackgroundSize(),
       backgroundRepeat: this.bg_repeat,
       backgroundPosition: this.bg_position,
     };
@@ -73,7 +79,17 @@ export class LModelBackground {
       out["backdropFilter"] = LUtilsFilter.CalcFilter(this.bg_backdrop);
     }
 
-    return out;
+    return RemoveEmptyFromObject(out);
+  }
+
+  hasValue(): boolean {
+    return (
+      this.bg_custom ||
+      this.bg_gradient ||
+      this.bg_image ||
+      this.bg_color ||
+      this.bg_video
+    );
   }
 
   static StringStyleToObj(style: string): Record<string, string> {
@@ -105,14 +121,20 @@ export class LModelBackground {
     return { backgroundImage: style };
   }
 
-  CreateBackgroundImageStyle(): string {
+  createBackgroundImage(imagePathToUrl: Function): string {
+    if (!imagePathToUrl) {
+      console.error(
+        "LModelBackground | imagePathToUrl is not defined! Define imagePathToUrl function to convert image path to url.",
+      );
+      return "";
+    }
     const out = [];
 
     if (this.bg_custom) out.push(this.bg_custom);
 
     let gradient = "";
     if (this.bg_gradient && this.bg_gradient.length >= 2) {
-      gradient = `linear-gradient(${this.bg_rotation}deg`;
+      gradient = `linear-gradient(${this.bg_rotation?this.bg_rotation:45}deg`;
       this.bg_gradient.forEach(function (e) {
         gradient += "," + e;
       });
@@ -120,12 +142,12 @@ export class LModelBackground {
       out.push(gradient);
     }
 
-    if (this.bg_image) out.push(`url('${this.bg_image}')`);
+    if (this.bg_image) out.push(`url('${imagePathToUrl(this.bg_image)}')`);
 
     return out.join(",");
   }
 
-  CreateBackgroundSizeStyle(): string {
+  createBackgroundSize(): string {
     const out = [];
 
     if (this.bg_custom) out.push("cover");

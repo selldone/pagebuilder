@@ -24,8 +24,15 @@
       },
     }"
     class="x--code"
-    :style="is_editing ? 'min-height: 100px' : ''"
-    :class="{ 'safe-no-click is-editable': is_editing }"
+    :class="[
+      object.classes,
+      { 'is-editable safe-no-click': $builder.isEditing },
+    ]"
+    :style="[
+      object.style,
+      background_style,
+      is_editing ? 'min-height: 100px' : '',
+    ]"
   >
     <div
       v-if="mode === 'html'"
@@ -58,7 +65,10 @@ import DynamicScriptDirective from "@selldone/components-vue/directives/script/D
 
 export default {
   name: "XCode",
-  directives: { styler: StylerDirective,'dynamic-scripts':DynamicScriptDirective },
+  directives: {
+    styler: StylerDirective,
+    "dynamic-scripts": DynamicScriptDirective,
+  },
 
   mixins: [LMixinXComponent],
   components: { SArticleEditor },
@@ -151,18 +161,16 @@ export default {
       checkForAnyImports(scriptText);
 
       // Evaluate the script to extract the configuration
-      let config={};
+      let config = {};
 
-        if(scriptText){
-          try {
-            const evalScript = new Function(scriptText + "; return config;");
-            config = evalScript();
-          } catch (e) {
-           // console.error("Error in evaluating script", e);
-          }
+      if (scriptText) {
+        try {
+          const evalScript = new Function(scriptText + "; return config;");
+          config = evalScript();
+        } catch (e) {
+          // console.error("Error in evaluating script", e);
         }
-
-
+      }
 
       // Get properties to create options for the component
       try {
@@ -218,7 +226,7 @@ export default {
           //components: {}, // Register local custom components
           ...config,
           mounted() {
-           // console.log("On mounded custom component!", styleContent);
+            // console.log("On mounded custom component!", styleContent);
             if (styleContent) {
               const styleElement = document.createElement("style");
               styleElement.textContent = styleContent;
@@ -246,7 +254,7 @@ export default {
       // Extract scripts:
       let scriptContent = "";
 
-    //  console.log("scripts --> ", scripts);
+      //  console.log("scripts --> ", scripts);
 
       scripts.forEach((script) => {
         scriptContent += script.textContent;
@@ -260,7 +268,7 @@ export default {
         styleContent += style.textContent;
         style.parentNode.removeChild(style);
       });
-     // console.log("styles --> ", styleContent);
+      // console.log("styles --> ", styleContent);
 
       // Try to find HTML:
       const template = doc.querySelector("div > template");

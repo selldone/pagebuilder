@@ -85,7 +85,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     const data = new XUploaderObjectData(old);
 
     const out = new XUploaderObject(
-      new LModelBackground(old?.background),
+      new LModelBackground(old?.setting?.bg),
       old?.style,
       old?.classes,
       [],

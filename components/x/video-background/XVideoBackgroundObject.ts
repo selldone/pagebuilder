@@ -18,6 +18,9 @@ import {
   XVideoBackgroundObjectData
 } from "@selldone/page-builder/components/x/video-background/XVideoBackgroundObjectData.ts";
 
+/**
+ * @deprecated
+ */
 export class XVideoBackgroundObject extends LModelElement<XVideoBackgroundObjectData> {
   public static ComponentName = "XVideoBackground";
   public static Info = {

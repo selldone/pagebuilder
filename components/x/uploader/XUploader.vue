@@ -95,7 +95,7 @@
             >
               Image Layers
 
-              <div v-if="bg_cal" class="py-1 d-flex align-center small">
+              <div v-if="object.background.hasValue()" class="py-1 d-flex align-center small">
                 <v-card
                   :style="bg_cal"
                   class="me-2"
@@ -105,7 +105,7 @@
                 ></v-card>
                 Background
               </div>
-              <div v-if="fg_cal" class="py-1 d-flex align-center small">
+              <div v-if="setting.fg?.hasValue()" class="py-1 d-flex align-center small">
                 <v-card
                   :style="fg_cal"
                   class="me-2"
@@ -328,7 +328,7 @@
         // Because we like to have padding and margin and other custome style separate than classes (more flexibility)
         // 'animation-name': 'inherit',
       },
-      bg_cal,
+      background_style,
       object.style,
     ]"
     class="image-container"
@@ -439,6 +439,7 @@ import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
+import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -458,7 +459,7 @@ const FLOATS = [
 
 export default defineComponent({
   name: "XUploader",
-  mixins: [LMixinEvents],
+  mixins: [LMixinEvents,LMixinXComponent],
   directives: {
     "data-x": DataXDirective,
   },
@@ -621,38 +622,12 @@ export default defineComponent({
     }*/
 
     //----------------------
-
-    bg_cal() {
-      const bg = this.setting.bg;
-      if (!bg) return null;
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        bg.bg_custom,
-        bg.bg_gradient,
-        bg.bg_image ? this.getShopImagePath(bg.bg_image) : null,
-        bg.bg_size,
-        bg.bg_repeat,
-        bg.bg_color,
-        bg.dark,
-        bg.bg_position,
-        bg.bg_rotation,
-        bg.bg_backdrop,
-      );
+    bg_cal(){
+      return this.object.background?.generate(this.getShopImagePath)
     },
+
     fg_cal() {
-      const fg = this.setting.fg;
-      if (!fg) return null;
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        fg.bg_custom,
-        fg.bg_gradient,
-        fg.bg_image ? this.getShopImagePath(fg.bg_image) : null,
-        fg.bg_size,
-        fg.bg_repeat,
-        fg.bg_color,
-        fg.dark,
-        fg.bg_position,
-        fg.bg_rotation,
-        fg.bg_backdrop,
-      );
+      return this.setting.fg?.generate(this.getShopImagePath)
     },
 
     link() {
@@ -706,34 +681,10 @@ export default defineComponent({
           "Object: ",
           this.object,
         );
-        /// this.object.data=new XUploaderData("", new XUploaderDataTypes.Setting)
         return;
       }
 
-      //  console.log('this.image.setting.size',this.image.setting.size)
-      /* if (!this.image.setting.size) {
-         this.image.setting.size = this.initialSize
-           ? this.initialSize
-           : { w: "100%", h: "100%", min_h: "20px", max_w: "100%" };
 
-         this.image.setting.contain = !!this.contain;
-       }*/
-
-      // this.setting.contain=!this.cover
-      // this.setting.aspect=this.aspectRatio
-
-      /*
-            if (!this.classes || !Array.isArray(this.classes)) {
-              this.classes = this.initialClasses ? this.initialClasses : [];
-              // Auto set class image:
-              //  console.log('Auto set class image',this.classes)
-              this.image.classes = this.classes;
-            }*/
-
-      /* if (this.rounded && this.setting.round === undefined) {
-         this.setting.round = this.rounded;
-         this.setting.aspect = 1;
-       }*/
     },
 
     forceUpdate() {

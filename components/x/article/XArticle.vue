@@ -23,6 +23,8 @@
     :suffix-id="rand_id"
     :upload-url="get_upload_url()"
     class="article mx-auto"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
   />
 </template>
 

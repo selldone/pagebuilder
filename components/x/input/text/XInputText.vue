@@ -41,6 +41,10 @@
         : undefined
     "
     class="x--input-text"
+
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
+
   ></v-text-field>
 </template>
 

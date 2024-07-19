@@ -22,7 +22,19 @@
       noLink: noLink,
     }"
     :id="object.data.id"
-    :class="[object.classes, { '-button-glow': is_glow }]"
+
+    :class="[
+      object.classes,
+      { 'is-editable': $builder.isEditing, '-button-glow': is_glow },
+    ]"
+    :style="[
+      object.style,
+      background_style,
+      {
+        '--shadow-color': object.data.color,
+      },
+    ]"
+
     :color="object.data.color"
     :elevation="object.data.elevation"
     :height="object.data.height"
@@ -32,14 +44,12 @@
     :ripple="object.data.ripple"
     :rounded="object.data.rounded"
     :size="object.data.size"
-    :style="{
-      fontFamily: object.data.font,
-      '--shadow-color': object.data.color,
-    }"
     :theme="is_dark ? 'dark' : is_light ? 'light' : undefined"
     :variant="is_glow ? 'elevated' : object.data.variant"
     class="x--button tnt -trackable"
     v-html="object.data.content?.applyAugment(augment, is_editing)"
+
+
   >
   </v-btn>
 </template>

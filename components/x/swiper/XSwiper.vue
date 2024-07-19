@@ -45,17 +45,23 @@
     :navigation="navigation"
     :pagination="pagination"
     :slides-per-group="
-      SLIDE_DATA.slidesPerGroup  ? SLIDE_DATA.slidesPerGroup : undefined
+      SLIDE_DATA.slidesPerGroup ? SLIDE_DATA.slidesPerGroup : undefined
     "
     :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
     :slides-per-view="calcSlidesPerView()"
     :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
-    :style="{ height: SLIDE_DATA.height }"
     :thumbs="{ swiper: thumbsSwiper }"
     slide-to-clicked-slide
     @realIndexChange="(s) => (realIndex = s.realIndex)"
     @swiper="onMainSwiperInitialized"
-    :class="{ 'overflow-visible': is_overflow_visible }"
+    :class="[
+      object.classes,
+      {
+        'is-editable': $builder.isEditing,
+        'overflow-visible': is_overflow_visible,
+      },
+    ]"
+    :style="[object.style, background_style, { height: SLIDE_DATA.height }]"
   >
     <swiper-slide
       v-for="(_slide, index) in object.children"

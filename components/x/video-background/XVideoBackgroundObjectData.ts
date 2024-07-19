@@ -17,6 +17,9 @@ import {LModelData} from "@selldone/page-builder/models/data/LModelData.ts";
 /**
  * Class representing button data with various properties.
  */
+/**
+ * @deprecated
+ */
 export class XVideoBackgroundObjectData extends LModelData<XVideoBackgroundObjectData> {
   /**
    * Creates an instance of XButtonData.

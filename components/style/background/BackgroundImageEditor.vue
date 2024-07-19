@@ -123,7 +123,7 @@
             <v-textarea
               :max-rows="3"
               :model-value="bgCustom"
-              :rows="1"
+              :rows="2"
               auto-grow
               class="english-field"
               clearable

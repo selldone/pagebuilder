@@ -17,7 +17,8 @@
   <div
     v-styler:product="{ target: object }"
     class="x--product-overview"
-    :class="{ 'is-editable': is_editing }"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
   >
     <s-product-overview
       v-if="product"
@@ -46,11 +47,11 @@ import SProductOverview from "@selldone/components-vue/storefront/overview/SProd
 import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommerce.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { XProductOverviewObject } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
-import {LMixinEvents} from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
+import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 
 export default {
   name: "XProductOverview",
-  mixins: [LMixinXComponent,LMixinEvents],
+  mixins: [LMixinXComponent, LMixinEvents],
   components: { SProductOverviewLoading, SProductOverview },
   directives: { styler: StylerDirective },
 
@@ -89,7 +90,7 @@ export default {
   },
 
   mounted() {
-    if(this.is_editing){
+    if (this.is_editing) {
       // Auto open dialog:
       this.ShowLSettingsProduct(this.$el, this.object);
     }

@@ -13,8 +13,27 @@
  */
 
 import {LUtilsFilter} from "@selldone/page-builder/utils/filter/LUtilsFilter.ts";
+import {RemoveEmptyFromObject} from "@selldone/core-js/prototypes";
 
+/**
+ * @deprecated
+ */
 export class LUtilsBackground {
+
+  /**
+   * @deprecated
+   * @param bg_custom
+   * @param bg_gradient
+   * @param bg_image
+   * @param bg_size
+   * @param bg_repeat
+   * @param bg_color
+   * @param dark
+   * @param bg_position
+   * @param bg_rotation
+   * @param bg_backdrop
+   * @constructor
+   */
   static CreateCompleteBackgroundStyleObject(
     bg_custom?: string,
     bg_gradient?: string[],
@@ -65,9 +84,14 @@ export class LUtilsBackground {
     };
 
     //   console.log('CreateCompleteBackgroundStyleObject',out)
-    return out;
+    return RemoveEmptyFromObject(out);
   }
 
+  /**
+   * @deprecated
+   * @param style
+   * @constructor
+   */
   static StringStyleToObj(style: string) {
     if (!style) return {};
     const attributes = style.trim().split(";");
@@ -89,11 +113,24 @@ export class LUtilsBackground {
     return result;
   }
 
+  /**
+   * @deprecated
+   * @param style
+   * @constructor
+   */
   static GetBackgroundSafeStyle(style: string) {
     if (style && style.includes("background")) return style;
     return { backgroundImage: style };
   }
 
+  /**
+   * @deprecated
+   * @param bg_custom
+   * @param bg_gradient
+   * @param bg_image
+   * @param bg_rotation
+   * @constructor
+   */
   static CreateBackgroundImageStyle(
     bg_custom?: string,
     bg_gradient?: string[],

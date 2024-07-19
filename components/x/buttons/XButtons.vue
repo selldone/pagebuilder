@@ -19,6 +19,8 @@
     :justify="object.data ? object.data.justify : 'space-around'"
     class="x--buttons"
     no-gutters
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
 

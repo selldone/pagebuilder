@@ -14,9 +14,12 @@
 
 <template>
   <div
-    v-styler:div="{ target: object, removeChild:clearable? removeChild:undefined }"
-    :class="object.classes"
-    :style="[background_style, object.style]"
+    v-styler:div="{
+      target: object,
+      removeChild: clearable ? removeChild : undefined,
+    }"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
+    :style="[object.style, background_style]"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
@@ -39,11 +42,7 @@ export default {
     removeChild: Function,
   },
   data: () => ({}),
-  computed: {
-    background_style() {
-      return this.backgroundStyle(this.object.background);
-    },
-  },
+  computed: {},
   created() {},
 };
 </script>
