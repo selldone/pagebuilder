@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog">
     <v-card v-if="dialog">
       <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -59,7 +48,7 @@
         />
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -67,13 +56,14 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsColor",
   mixins: [LMixinEvents],
 
-  components: {},
+  components: { LSettingNavigation },
 
   props: {},
   data: () => ({

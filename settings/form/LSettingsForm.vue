@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog">
     <v-card v-if="target" class="text-start" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -164,7 +153,13 @@
                 ></v-combobox>
               </v-col>
               <v-col cols="1">
-                <v-btn color="red" variant="text" icon size="24" @click="target.data.hidden.remove(it)">
+                <v-btn
+                  color="red"
+                  variant="text"
+                  icon
+                  size="24"
+                  @click="target.data.hidden.remove(it)"
+                >
                   <v-icon size="20">close</v-icon>
                 </v-btn>
               </v-col>
@@ -194,7 +189,7 @@
         </s-setting-group>
       </v-card-title>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script lang="ts">
@@ -208,12 +203,14 @@ import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSetti
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 import { XFormObjectDataTypes } from "@selldone/page-builder/components/x/form/XFormObjectData.ts";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsForm",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingButton,
     SSettingTextInput,
     SSettingToggle,

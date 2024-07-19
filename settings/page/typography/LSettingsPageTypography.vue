@@ -13,19 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-if="style"
-    v-model="dialog_master_style"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-if="style">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -40,11 +28,10 @@
         </div>
       </v-card-actions>
 
-
       <s-setting-group
-          icon="text_fields"
-          title="Font & Typo"
-          subtitle="You can set the default page font and the size of text and headers here."
+        icon="text_fields"
+        title="Font & Typo"
+        subtitle="You can set the default page font and the size of text and headers here."
       ></s-setting-group>
 
       <v-expansion-panels v-model="tab" flat>
@@ -182,7 +169,7 @@
         <v-expansion-panel></v-expansion-panel>
       </v-expansion-panels>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -198,13 +185,15 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsPageTypography",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingNumberInput,
     SSettingSize,
     SSettingGroup,
@@ -212,9 +201,7 @@ export default {
     SSettingFontFamily,
   },
   emits: ["change"],
-  props: {
-
-  },
+  props: {},
   data: () => ({
     PageBuilderTypoHelper: LUtilsTypo,
     PageBuilderColorsHelper: LUtilsColors,
@@ -230,12 +217,10 @@ export default {
   }),
 
   computed: {
-
     builder() {
       // Get builder from main page editor/viewer
       return inject("$builder");
     },
-
 
     upload_bg_url() {
       return this.builder.getImageUploadUrl();

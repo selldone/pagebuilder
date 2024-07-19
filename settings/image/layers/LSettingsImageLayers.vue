@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog_layers"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog_layers">
     <v-card class="text-start pb-16" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -83,7 +72,7 @@
           <v-expansion-panel>
             <v-expansion-panel-title>
               <div>
-                <v-icon class="me-1" >broken_image</v-icon>
+                <v-icon class="me-1">broken_image</v-icon>
                 Foreground
 
                 <v-icon
@@ -114,11 +103,9 @@
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-
-
       </template>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -127,7 +114,8 @@ import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 /**
  * <l-settings-image-layers>
@@ -138,12 +126,11 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     BackgroundImageEditor,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     el: null,
     target: null,

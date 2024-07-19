@@ -13,19 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-if="style"
-    v-model="dialog_master_style"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-if="style">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -41,9 +29,9 @@
       </v-card-actions>
 
       <s-setting-group
-          icon="format_paint"
-          title="Page Master Style"
-          subtitle="You can configure global page variables, background settings, and the menu here."
+        icon="format_paint"
+        title="Page Master Style"
+        subtitle="You can configure global page variables, background settings, and the menu here."
       ></s-setting-group>
 
       <v-expansion-panels v-model="tab">
@@ -352,7 +340,7 @@
         </s-setting-expandable>
       </v-expansion-panels>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -367,12 +355,14 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsPageStyle",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingExpandable,
     SSettingToggle,
     SSettingGroup,

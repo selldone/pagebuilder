@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog_frame"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog_frame">
     <v-card class="text-start" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -225,7 +214,7 @@
         </s-setting-expandable>
       </v-expansion-panels>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -241,12 +230,18 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import { PrismEditor } from "vue-prism-editor";
 import "prismjs/themes/prism-dark.css";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsFrame",
   mixins: [LMixinEvents],
 
-  components: { PrismEditor, SSettingGroup, SSettingExpandable },
+  components: {
+    LSettingNavigation,
+    PrismEditor,
+    SSettingGroup,
+    SSettingExpandable,
+  },
 
   props: {},
   data: () => ({

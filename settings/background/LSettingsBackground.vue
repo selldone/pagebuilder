@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="show_edit_style"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_edit_style">
     <v-card :style="global_variables" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -37,7 +26,7 @@
 
       <v-card-text v-if="dialog_pre" class="pb-16">
         <background-image-editor
-            :builder="builder"
+          :builder="builder"
           v-model:bg-image="bg_image"
           v-model:bgCustom="bg_custom"
           v-model:bgGradient="bg_gradient"
@@ -58,7 +47,7 @@
         </background-image-editor>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -70,7 +59,8 @@ import BackgroundImageEditor from "../../components/style/background/BackgroundI
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsBackground",
@@ -78,12 +68,11 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     BackgroundImageEditor,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     el: null,
     target: null,

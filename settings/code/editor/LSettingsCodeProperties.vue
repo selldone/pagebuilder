@@ -15,18 +15,7 @@
 <template>
   <!-- █████████████████████ Edit Dialog █████████████████████ -->
 
-  <v-navigation-drawer
-    v-model="show_dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_dialog">
     <v-card v-if="dialog_pre" class="text-start">
       <v-card-actions>
         <div class="widget-buttons">
@@ -44,7 +33,9 @@
           v-model="target.data.properties"
         ></u-setting-dynamic>
 
-        <div v-if="!propertiesDefault || !Object.keys(propertiesDefault).length">
+        <div
+          v-if="!propertiesDefault || !Object.keys(propertiesDefault).length"
+        >
           <v-icon class="me-1">bolt</v-icon>
           No properties defined.
         </div>
@@ -52,7 +43,9 @@
         <!-- ━━━━━━━━━━━━━━━━━━━━ Properties > Reset Default ━━━━━━━━━━━━━━━━━━━━ -->
 
         <s-setting-group
-            v-if="target.data.properties && Object.keys(target.data.properties).length"
+          v-if="
+            target.data.properties && Object.keys(target.data.properties).length
+          "
           title="Critical"
           subtitle="Use this section with caution. Resetting the properties will remove all the custom values and reset them to the default values."
         >
@@ -65,7 +58,7 @@
         <div class="min-height-20vh"></div>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -74,7 +67,8 @@ import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import USettingDynamic from "@selldone/page-builder/styler/settings/dynamic/USettingDynamic.vue";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsCodeProperties",
@@ -82,14 +76,13 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     USettingDynamic,
 
     SSettingGroup,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     el: null,
     section: null,
@@ -128,13 +121,7 @@ export default {
     EventBus.$on(
       "show:LSettingsCodeProperties",
 
-      ({
-        el,
-        section,
-        target,
-        propertiesStructure,
-        propertiesDefault,
-      }) => {
+      ({ el, section, target, propertiesStructure, propertiesDefault }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes

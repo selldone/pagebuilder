@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog_product_select"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog_product_select">
     <v-card v-if="dialog_pre" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -55,7 +44,7 @@
         ></s-setting-product>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -64,12 +53,14 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingProduct from "@selldone/page-builder/styler/settings/product/SSettingProduct.vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsProduct",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingProduct,
     SSettingGroup,
   },

@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -137,7 +126,7 @@
         </v-expansion-panels>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -154,13 +143,15 @@ import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSi
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsMarquee",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingSwitch,
     SSettingFontFamily,
     SSettingNumberInput,
@@ -172,9 +163,7 @@ export default {
     USmartToggle,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     tab: null,
 
@@ -194,7 +183,6 @@ export default {
       // Get builder from main page editor/viewer
       return inject("$builder");
     },
-
   },
   watch: {
     /*  target: {

@@ -22,7 +22,7 @@
     class="ma-1"
   >
     <v-icon>css</v-icon>
-    <v-tooltip activator="parent">CSS </v-tooltip>
+    <v-tooltip activator="parent">CSS</v-tooltip>
   </v-btn>
 
   <v-dialog
@@ -31,84 +31,103 @@
     fullscreen
     transition="dialog-bottom-transition"
   >
-    <v-card>
+    <v-card color="#222">
       <v-card-title></v-card-title>
       <v-card-text>
         <!-- ============== CSS ============== -->
 
         <v-container>
-          <v-expansion-panels>
-            <s-setting-expandable
-              v-for="(item, i) in classes"
-              :key="i"
-              :title="item.selector"
-            >
-              <template v-slot:title>
-                <v-spacer></v-spacer>
+          <v-row>
+            <v-col cols="12" sm="4" md="3">
+              <v-sheet
+                color="#111"
+                class="d-flex align-center py-1 px-2 mb-2"
+                rounded="lg"
+              >
+                <span class="text-subtitle-2">Classes</span>
+                <v-spacer> </v-spacer>
+
                 <v-btn
-                  color="red"
-                  icon
-                  variant="text"
-                  @click="classes.splice(i, 1)"
-                  class="me-1"
+                  prepend-icon="add_box"
+                  @click="
+                    classes.push({
+                      selector: '.class-name',
+                      value: '',
+                    })
+                  "
+                  size="small"
+                  variant="outlined"
+                  color="#fff"
+                  class="tnt"
                 >
-                  <v-icon>close</v-icon>
+                  Add New Class
                 </v-btn>
-              </template>
+              </v-sheet>
 
-              <v-text-field
-                v-model="item.selector"
-                label="Selector"
-                placeholder="Ex: .classname, body, ..."
-                variant="outlined"
-                persistent-placeholder
-                class="mt-3"
-              ></v-text-field>
+              <v-expansion-panels>
+                <s-setting-expandable
+                  v-for="(item, i) in classes"
+                  :key="i"
+                  :title="item.selector"
+                  bg-color="#456"
+                >
+                  <template v-slot:title>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="red"
+                      icon
+                      variant="text"
+                      @click.stop="classes.splice(i, 1)"
+                      class="me-1"
 
-              <v-textarea
-                v-model="item.value"
-                auto-grow
-                variant="outlined"
-                label="Value"
-                persistent-placeholder
-                placeholder="font-size: 0.8rem;
+                    >
+                      <v-icon>close</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-text-field
+                    v-model="item.selector"
+                    label="Selector"
+                    placeholder="Ex: .classname, body, ..."
+                    variant="outlined"
+                    persistent-placeholder
+                    class="mt-3"
+                  ></v-text-field>
+
+                  <v-textarea
+                    v-model="item.value"
+                    auto-grow
+                    variant="outlined"
+                    label="Value"
+                    persistent-placeholder
+                    placeholder="font-size: 0.8rem;
 margin-bottom: 16px;
 font-weight: 500;"
-              ></v-textarea>
-            </s-setting-expandable>
-          </v-expansion-panels>
+                  ></v-textarea>
+                </s-setting-expandable>
+              </v-expansion-panels>
+            </v-col>
 
-          <div class="my-5 widget-buttons">
-            <v-btn
-              prepend-icon="add_box"
-              @click="
-                classes.push({
-                  selector: '.class-name',
-                  value: '',
-                })
-              "
-              size="x-large"
-            >
-              Add New Class
-            </v-btn>
-          </div>
+            <v-col cols="12" sm="8" md="9">
+              <s-widget-header
+                title="Compiled Css"
+                icon="code"
+              ></s-widget-header>
+              <v-list-subheader></v-list-subheader>
 
-          <div class="widget-box -x-large mb-5 mt-16">
-            <s-widget-header title="Compiled Css" icon="code"></s-widget-header>
-            <v-list-subheader></v-list-subheader>
-
-            <prism-editor
-              :model-value="generated"
-              readonly
-              :highlight="highlighter"
-              class="light-code scrollable-element-light"
-              contenteditable="false"
-              language="html"
-              line-numbers
-              style="min-height: 50vh; font-size: 12px"
-            >
-            </prism-editor>
-          </div>
+              <prism-editor
+                :model-value="generated"
+                readonly
+                :highlight="highlighter"
+                class="prism-dark scrollable-element-light"
+                contenteditable="false"
+                language="html"
+                line-numbers
+                style="min-height: 50vh; font-size: 12px"
+              >
+              </prism-editor>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -128,6 +147,7 @@ import { PrismEditor } from "vue-prism-editor";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { isObject } from "lodash-es";
 import { LandingCssHelper } from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
+import "prismjs/themes/prism-dark.css";
 
 export default {
   name: "LMenuLeftCss",

@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="show_edit_slide"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_edit_slide">
     <v-card class="text-start pb-16" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -131,7 +120,7 @@
         <o-swiper-keyboard v-model="target"></o-swiper-keyboard>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -160,8 +149,9 @@ import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwipe
 import LSettingsSwiperSlide from "@selldone/page-builder/settings/swiper/slide/LSettingsSwiperSlide.vue";
 import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
-import {inject} from "vue";
-import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
+import { inject } from "vue";
+import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsSwiper",
@@ -169,6 +159,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingButton,
     draggable,
     LSettingsSwiperSlide,
@@ -190,9 +181,7 @@ export default {
     SSettingSwitch,
   },
 
-  props: {
-
-  },
+  props: {},
   data: () => ({
     el: null,
     section: null,
@@ -214,7 +203,6 @@ export default {
       // Get builder from main page editor/viewer
       return inject("$builder");
     },
-
   },
   watch: {
     show_edit_slide(dialog) {
@@ -296,7 +284,9 @@ export default {
     addSlide() {
       const slide = this.target.children[0];
 
-      this.target.addChild(slide ? LUtilsClone.CloneElement(slide): XSwiperObject.SeedSlide());
+      this.target.addChild(
+        slide ? LUtilsClone.CloneElement(slide) : XSwiperObject.SeedSlide(),
+      );
       //this.refresh();
     },
 

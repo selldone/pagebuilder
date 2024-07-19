@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog_resize"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog_resize">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -73,7 +62,7 @@
         </v-expansion-panels>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -83,12 +72,14 @@ import _ from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingsStyleSize from "@selldone/page-builder/settings/style/size/LSettingsStyleSize.vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsImageSize",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     LSettingsStyleSize,
   },
 
@@ -120,9 +111,9 @@ export default {
   }),
 
   computed: {
-    setting(){
-      return this.target.data.setting
-    }
+    setting() {
+      return this.target.data.setting;
+    },
   },
   watch: {
     w() {
@@ -215,7 +206,7 @@ export default {
       });
     },
     assignSizes() {
-      let size = this.setting.size
+      let size = this.setting.size;
       if (!this.isObject(size)) {
         size = {};
       } else {

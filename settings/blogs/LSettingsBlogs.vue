@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog">
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -145,7 +134,7 @@
         </s-setting-group>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -161,12 +150,14 @@ import SSettingSwitch from "../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingColor from "../../styler/settings/color/SSettingColor.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsBlogs",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingColor,
     SSettingSwitch,
     SSettingNumberInput,

@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="show_dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_dialog">
     <v-card v-if="dialog_pre" class="text-start" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
       <v-card-actions>
@@ -285,7 +274,7 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -295,13 +284,15 @@ import _ from "lodash-es";
 import AnimationClassSelector from "../../components/style/animation/AnimationClassSelector.vue";
 import HoverClassSelector from "../../components/style/hover/HoverClassSelector.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsAnimation",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     HoverClassSelector,
     AnimationClassSelector,
   },

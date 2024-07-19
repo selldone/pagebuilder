@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="show_edit_layout"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_edit_layout">
     <v-card v-if="target" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -184,7 +173,7 @@
         ></s-setting-switch>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script lang="ts">
@@ -199,6 +188,7 @@ import { XButtonObject } from "@selldone/page-builder/components/x/button/XButto
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 import { XColumnImageTextObjectTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 const LAYOUTS = [
   "product",
@@ -222,7 +212,7 @@ export default {
   name: "LSettingsColumn",
   mixins: [LMixinEvents],
 
-  components: { SSettingSwitch, SSettingGroup, UPrice },
+  components: { LSettingNavigation, SSettingSwitch, SSettingGroup, UPrice },
 
   props: {},
   data: () => ({

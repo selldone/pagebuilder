@@ -20,10 +20,10 @@
   >
     <template v-slot:title>
       <span class="-label me-2">
-                <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+        <v-icon v-if="icon" class="me-1" :class="iconClass">{{ icon }}</v-icon>
 
-
-        {{label}}</span>
+        {{ label }}</span
+      >
     </template>
     <template v-slot:append>
       <u-dimension-input
@@ -32,7 +32,7 @@
         dense
         hide-details
         single-line
-        style="min-width: 160px"
+        style="min-width: 130px"
         variant="outlined"
         density="compact"
         @update:model-value="setValue"
@@ -55,6 +55,7 @@ export default defineComponent({
     modelValue: {},
     label: {},
     icon: {},
+    iconClass:{},
 
     disabled: Boolean,
   },
@@ -76,12 +77,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .s--setting-size {
-
-  .-label{
+  .-label {
     font-size: 0.8rem;
   }
-
-
-
 }
 </style>

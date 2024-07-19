@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="show_edit_slide"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="show_edit_slide">
     <v-card class="text-start pb-16" flat>
       <v-card-actions>
         <div class="widget-buttons">
@@ -80,7 +69,7 @@
         </v-expansion-panels>
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script lang="ts">
@@ -93,7 +82,8 @@ import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
-import {inject} from "vue";
+import { inject } from "vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsGallery",
@@ -101,15 +91,14 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingButton,
     draggable,
     SSettingGroup,
     LSettingsGallerySlide,
   },
 
-  props: {
-
-  },
+  props: {},
   data() {
     return {
       el: null as HTMLElement | null,

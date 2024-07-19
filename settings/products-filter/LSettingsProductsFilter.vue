@@ -13,19 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog_product_filter"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    style="--background: #1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog_product_filter">
     <v-card class="text-start" flat style="padding-bottom: 10vh">
       <v-card-actions>
         <div class="widget-buttons">
@@ -53,7 +41,7 @@
         />
       </v-card-text>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script>
@@ -61,12 +49,14 @@ import SPageProductsFilter from "../../components/style/product/filter/SPageProd
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsProductsFilter",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SPageProductsFilter,
   },
 
@@ -75,7 +65,7 @@ export default {
     el: null,
     target: null,
 
-    options:null,
+    options: null,
 
     //----------------------- Products Filter -----------------------
 
@@ -102,7 +92,7 @@ export default {
     EventBus.$on(
       "show:LSettingsProductsFilter",
 
-      ({ el, target,options }) => {
+      ({ el, target, options }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.el = el;

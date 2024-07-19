@@ -13,17 +13,8 @@
   -->
 
 <template>
-  <v-navigation-drawer
+  <l-setting-navigation
     v-model="show_dialog_size"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
   >
     <v-card
       v-if="dialog_pre"
@@ -290,7 +281,7 @@
         </s-setting-expandable>
       </v-expansion-panels>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script lang="ts">
@@ -324,6 +315,7 @@ import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObjec
 import LSettingsContentText from "@selldone/page-builder/settings/content/text/LSettingsContentText.vue";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import LSettingsContentImage from "@selldone/page-builder/settings/content/image/LSettingsContentImage.vue";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 const STYLE_TABS = [
   "size",
@@ -343,6 +335,7 @@ export default {
   name: "LSettingsClassStyle",
   mixins: [LMixinEvents],
   components: {
+    LSettingNavigation,
     LSettingsContentImage,
     LSettingsContentText,
     LSettingsStyleGrid,

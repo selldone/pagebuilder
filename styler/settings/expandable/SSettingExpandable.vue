@@ -16,7 +16,7 @@
   <v-expansion-panel
     :value="value"
     :bg-color="bgColor"
-    color="s--setting-expandable"
+    class="s--setting-expandable"
   >
     <v-expansion-panel-title class="-group-title py-0">
       <v-img v-if="image" class="me-2 flex-grow-0 border" width="21" height="21" :src="image" cover rounded="lg"></v-img>
@@ -78,6 +78,14 @@ export default defineComponent({
     > :not(:last-child) {
       border-bottom: dashed 1px #545454;
     }
+  }
+
+  ::v-deep(.v-expansion-panel-text__wrapper){
+    @media (max-width: 768px) {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
   }
 }
 </style>

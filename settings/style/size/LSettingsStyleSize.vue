@@ -92,7 +92,7 @@
     <s-landing-style-preview
       v-if="!noPreview"
       :model-value="inputStyle"
-      class="mb-5"
+      class="mb-5 "
       size
       @click:area="(val) => $emit('click:area', val)"
     ></s-landing-style-preview>
@@ -109,6 +109,8 @@
           :model-value="width"
           @update:model-value="(v) => $emit('update:width', v)"
           label="Width"
+          icon="height"
+          icon-class="rotate-90-s"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -116,6 +118,7 @@
           :model-value="height"
           @update:model-value="(v) => $emit('update:height', v)"
           label="Height"
+          icon="height"
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -132,6 +135,8 @@
           :model-value="minWidth"
           @update:model-value="(v) => $emit('update:minWidth', v)"
           label="Min W"
+          icon="height"
+          icon-class="rotate-90-s"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -139,6 +144,7 @@
           :model-value="minHeight"
           @update:model-value="(v) => $emit('update:minHeight', v)"
           label="Min H"
+          icon="height"
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -155,6 +161,8 @@
           :model-value="maxWidth"
           @update:model-value="(v) => $emit('update:maxWidth', v)"
           label="Max W"
+          icon="height"
+          icon-class="rotate-90-s"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -162,6 +170,7 @@
           :model-value="maxHeight"
           @update:model-value="(v) => $emit('update:maxHeight', v)"
           label="Max H"
+          icon="height"
         ></s-setting-size>
       </v-col>
     </v-row>

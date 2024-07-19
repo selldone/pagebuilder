@@ -456,23 +456,5 @@ export default {
 </script>
 
 <style lang="scss">
-// Global setting drawer: (Important)
-.x-page-builder-options-slider {
-  z-index: 999;
-  --background: #1e1e1e; // For nested components like <s-fade-scroll>
 
-  .v-list-subheader {
-    .v-list-subheader__text {
-      text-wrap: wrap !important;
-    }
-  }
-
-  @media (max-width: 620px) {
-    font-size: 12px;
-
-    .v-list-subheader {
-      font-size: 10px;
-    }
-  }
-}
 </style>

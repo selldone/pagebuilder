@@ -13,18 +13,7 @@
   -->
 
 <template>
-  <v-navigation-drawer
-    v-model="dialog"
-    :scrim="false"
-    :width="
-      $vuetify.display.xlAndUp ? 560 : $vuetify.display.lgAndUp ? 420 : 320
-    "
-    class="x-page-builder-options-slider"
-    color="#1e1e1e"
-    location="right"
-    temporary
-    theme="dark"
-  >
+  <l-setting-navigation v-model="dialog">
     <v-card v-if="target" class="text-start" flat>
       <!-- ████████████████████ Actions ████████████████████ -->
 
@@ -44,15 +33,13 @@
           subtitle="You can adjust the field property here to customize its appearance."
         ></s-setting-group>
 
-
         <s-setting-text-input
-            v-if="!options?.no_name"
-            label="Param Name"
-            icon="label_important_outline"
-            placeholder="Enter the param name e.g. email, name, ..."
-            v-model="target.data.name"
+          v-if="!options?.no_name"
+          label="Param Name"
+          icon="label_important_outline"
+          placeholder="Enter the param name e.g. email, name, ..."
+          v-model="target.data.name"
         ></s-setting-text-input>
-
 
         <s-setting-text-input
           label="Label"
@@ -116,7 +103,7 @@
         </s-setting-group>
       </v-card-title>
     </v-card>
-  </v-navigation-drawer>
+  </l-setting-navigation>
 </template>
 
 <script lang="ts">
@@ -132,12 +119,14 @@ import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input
 import SSettingVariant from "@selldone/page-builder/styler/settings/variant/SSettingVariant.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
+import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 
 export default {
   name: "LSettingsInput",
   mixins: [LMixinEvents],
 
   components: {
+    LSettingNavigation,
     SSettingGroup,
     SSettingVariant,
     SSettingTextInput,
@@ -155,7 +144,7 @@ export default {
 
     dialog: false,
     dialog_pre: false,
-    options: null as {no_name:boolean}|null,
+    options: null as { no_name: boolean } | null,
 
     //--------------------------
     key_listener_keydown: null,
@@ -176,7 +165,7 @@ export default {
     EventBus.$on(
       "show:LSettingsInput",
 
-      ({ el, target ,options}) => {
+      ({ el, target, options }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
 
         this.LOCK = true; // 🔒 Prevent update style and classes
