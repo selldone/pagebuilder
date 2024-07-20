@@ -20,7 +20,7 @@ import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButto
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import coverImage from "@selldone/page-builder/assets/images/covers/LSectionImageSocials.svg";
 import {
-  XColumnImageTextDataTypes
+    XColumnImageTextDataTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export class LSectionImageSocials {
@@ -74,7 +74,9 @@ export class LSectionImageSocials {
       row.addChild(column);
 
       const image = column.getImageChild();
-      image?.data.setting.setAspect(1).setRound(true).setSize({h:'120px',w:'120px'});
+      image?.data.setting.setAspect(1).setRound(true);
+      image.style.width = "120px";
+      image.style.height = "120px";
     }
 
     return section;

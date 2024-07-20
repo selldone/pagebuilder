@@ -16,7 +16,7 @@
   <s-setting-expandable :value="value" icon="rounded_corner" title="Border">
     <template v-slot:title>
       <v-chip
-        v-if="borderLeft.trim() && !borderLeft.includes('unset')"
+        v-if="borderLeft?.trim() && !borderLeft.includes('unset')"
         class="ms-1"
         color="#000"
         label
@@ -28,7 +28,7 @@
         {{ getName(borderLeft) }}
       </v-chip>
       <v-chip
-        v-if="!borders_same && borderRight.trim() && !borderRight.includes('unset')"
+        v-if="!borders_same && borderRight?.trim() && !borderRight.includes('unset')"
         class="ms-1"
         color="#000"
         label
@@ -40,7 +40,7 @@
         {{ getName(borderRight) }}
       </v-chip>
       <v-chip
-        v-if="!borders_same && borderTop.trim() && !borderTop.includes('unset')"
+        v-if="!borders_same && borderTop?.trim() && !borderTop.includes('unset')"
         class="ms-1"
         color="#000"
         label
@@ -52,7 +52,7 @@
         {{ getName(borderTop) }}
       </v-chip>
       <v-chip
-        v-if="!borders_same && borderBottom.trim() && !borderBottom.includes('unset')"
+        v-if="!borders_same && borderBottom?.trim() && !borderBottom.includes('unset')"
         class="ms-1"
         color="#000"
         label

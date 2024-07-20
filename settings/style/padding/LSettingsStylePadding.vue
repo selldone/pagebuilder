@@ -78,6 +78,7 @@
           @update:model-value="(v) => $emit('update:paddingLeft', v)"
           clearable
           label="Left"
+          :default-value="computedStyle?.paddingLeft"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -86,6 +87,7 @@
           @update:model-value="(v) => $emit('update:paddingRight', v)"
           clearable
           label="Right"
+          :default-value="computedStyle?.paddingRight"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -94,6 +96,7 @@
           @update:model-value="(v) => $emit('update:paddingTop', v)"
           clearable
           label="Top"
+          :default-value="computedStyle?.paddingTop"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -102,6 +105,7 @@
           @update:model-value="(v) => $emit('update:paddingBottom', v)"
           clearable
           label="Bottom"
+          :default-value="computedStyle?.paddingBottom"
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -135,7 +139,9 @@ export default defineComponent({
   props: {
     value:{},
     inputStyle: {},
-
+    computedStyle: {
+      type: CSSStyleDeclaration,
+    },
     paddingLeft: {},
     paddingRight: {},
 

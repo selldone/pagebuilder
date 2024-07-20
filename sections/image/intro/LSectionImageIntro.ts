@@ -47,8 +47,8 @@ export class LSectionImageIntro {
     );
 
     const image = XUploaderObject.Seed();
-    image.data.setting.size.max_w = "600px";
-    image.data.setting.size.max_h = "600px";
+    image.style.maxWidth = "600px";
+    image.style.maxHeight = "600px";
     container.addChild(image);
 
     // Initialize row and add to container
@@ -61,7 +61,7 @@ export class LSectionImageIntro {
         10,
         8,
         null,
-          XColumnImageTextDataTypes.LAYOUTS.MIDDLE,
+        XColumnImageTextDataTypes.LAYOUTS.MIDDLE,
         null,
         [],
         false,

@@ -62,17 +62,22 @@
             >
               Size
 
-              <div v-if="size">
-                <v-chip
-                  v-for="(val, k) in size"
-                  :key="k"
-                  class="ma-1"
-                  color="#fff"
-                  size="x-small"
-                  variant="tonal"
-                  ><b>{{ k }}: </b> {{ val }}
-                </v-chip>
-              </div>
+              <v-chip
+                v-if="object.style?.width"
+                class="ma-1"
+                color="#fff"
+                size="x-small"
+                variant="tonal"
+                ><b>Width: </b> {{ object.style.width }}
+              </v-chip>
+              <v-chip
+                v-if="object.style?.height"
+                class="ma-1"
+                color="#fff"
+                size="x-small"
+                variant="tonal"
+                ><b>Height: </b> {{ object.style.height }}
+              </v-chip>
             </v-tooltip>
           </v-btn>
 
@@ -95,7 +100,10 @@
             >
               Image Layers
 
-              <div v-if="object.background.hasValue()" class="py-1 d-flex align-center small">
+              <div
+                v-if="object.background.hasValue()"
+                class="py-1 d-flex align-center small"
+              >
                 <v-card
                   :style="bg_cal"
                   class="me-2"
@@ -105,7 +113,10 @@
                 ></v-card>
                 Background
               </div>
-              <div v-if="setting.fg?.hasValue()" class="py-1 d-flex align-center small">
+              <div
+                v-if="setting.fg?.hasValue()"
+                class="py-1 d-flex align-center small"
+              >
                 <v-card
                   :style="fg_cal"
                   class="me-2"
@@ -308,11 +319,6 @@
       {
         // Need same size to parent!
         'aspect-ratio': setting?.aspect,
-        height: size?.h ? size.h : 'unset',
-        width: size?.w ? size.w : 'unset',
-
-        'max-height': size?.max_h,
-        'max-width': size?.max_w,
 
         animationDuration: object.style?.animationDuration,
         animationDelay: object.style?.animationDelay,
@@ -321,8 +327,8 @@
         animationTimingFunction: object.style?.animationTimingFunction,
 
         'object-fit': setting.contain ? 'contain' : 'cover',
-        'min-height': is_waiting_for_drop_image ? 200 : size?.min_h,
-        'min-width': is_waiting_for_drop_image ? 200 : size?.min_w,
+        'min-height': is_waiting_for_drop_image ? 200 : object.style?.minHeight,
+        'min-width': is_waiting_for_drop_image ? 200 : object.style?.minWidth,
 
         // Fix animation in classes which apply to its parent! Duration and repeat of animation will be set to styles!
         // Because we like to have padding and margin and other custome style separate than classes (more flexibility)
@@ -432,7 +438,6 @@
 </template>
 
 <script>
-import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
@@ -459,7 +464,7 @@ const FLOATS = [
 
 export default defineComponent({
   name: "XUploader",
-  mixins: [LMixinEvents,LMixinXComponent],
+  mixins: [LMixinEvents, LMixinXComponent],
   directives: {
     "data-x": DataXDirective,
   },
@@ -576,18 +581,12 @@ export default defineComponent({
     is_input() {
       return this.$builder.isEditing; // this.mode === 'input'
     },
-    max_w() {
-      return this.size.max_w;
-    },
 
     upload_bg_url() {
       return this.$builder.getImageUploadUrl();
     },
     setting() {
       return this.object.data?.setting;
-    },
-    size() {
-      return this.setting?.size;
     },
 
     src() {
@@ -622,12 +621,12 @@ export default defineComponent({
     }*/
 
     //----------------------
-    bg_cal(){
-      return this.object.background?.generate(this.getShopImagePath)
+    bg_cal() {
+      return this.object.background?.generate(this.getShopImagePath);
     },
 
     fg_cal() {
-      return this.setting.fg?.generate(this.getShopImagePath)
+      return this.setting.fg?.generate(this.getShopImagePath);
     },
 
     link() {
@@ -683,8 +682,6 @@ export default defineComponent({
         );
         return;
       }
-
-
     },
 
     forceUpdate() {

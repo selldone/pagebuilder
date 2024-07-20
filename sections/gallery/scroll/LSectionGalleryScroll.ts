@@ -26,11 +26,10 @@ export class LSectionGalleryScroll {
   static cover = coverImage;
   static label = "Scroll View";
   static help = {
-    title:
-        "This section showcases a combination of images and text.",
+    title: "This section showcases a combination of images and text.",
   };
 
-  static  Seed = () => {
+  static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
     section.classes = [];
@@ -54,18 +53,17 @@ export class LSectionGalleryScroll {
       const column = row.children[0];
       if (column instanceof XColumnObject) {
         column.data.grid
-            .setMobile(12)
-            .setTablet(null)
-            .setDesktop(null)
-            .setWidescreen(null);
+          .setMobile(12)
+          .setTablet(null)
+          .setDesktop(null)
+          .setWidescreen(null);
 
         const image = XUploaderObject.Seed();
-        image.data.setting.size.w = "200px";
+        image.style.width = "200px";
         column.addChild(image, 0);
       }
     });
 
     return section;
   };
-
 }

@@ -54,12 +54,18 @@
         </u-number-input>
 
         <v-btn
-          v-if="clearable && (modelValue === null || modelValue === undefined)"
+          v-if="
+            defaultValue && (modelValue === null || modelValue === undefined)
+          "
           @click="$emit('update:modelValue', defaultValue)"
-          variant="outlined"
+          variant="plain"
           size="small"
+          prepend-icon="shortcut"
         >
-          Set Value
+          Set
+          <span style="font-size: 9px" class="ms-1 tnt"
+            >[{{ defaultValue }}]</span
+          >
         </v-btn>
         <v-btn
           v-else-if="clearable"

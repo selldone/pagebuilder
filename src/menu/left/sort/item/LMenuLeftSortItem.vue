@@ -12,22 +12,23 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <div>
-    <v-img
-      :src="canvas"
-      :key="section.uid"
-      :height="height"
-      color="#fff"
-      :rounded="rounded"
-    >
-      <template v-slot:placeholder>
-        <div v-if="error" class="pa-2 small text-center">
-          <v-icon class="me-1">warning_amber</v-icon>
-          Can not capture the element!
-        </div>
-      </template>
-    </v-img>
-  </div>
+  <v-img
+    :src="canvas"
+    :key="section.uid"
+    :height="height"
+    color="#fff"
+    class="l--sort-item"
+  >
+    <template v-slot:placeholder>
+      <div v-if="error" class="pa-2 small text-center center-absolute w-100">
+        <v-icon class="me-1">wallpaper</v-icon>
+        {{section.label}}
+      </div>
+      <v-progress-circular v-else-if="busy" indeterminate class="center-absolute">
+
+      </v-progress-circular>
+    </template>
+  </v-img>
 </template>
 
 <script lang="ts">
@@ -41,7 +42,6 @@ export default defineComponent({
       required: true,
       type: Section,
     },
-    rounded: {},
     height: {
       default: 80,
     },
@@ -50,21 +50,29 @@ export default defineComponent({
     return {
       canvas: null,
       error: false,
+      busy:false,
     };
   },
   computed: {},
   watch: {
     section() {
-      this.render();
+      this.$nextTick(() => {
+        this.render();
+      });
     },
   },
 
   mounted() {
-    this.render();
+
+    this.$nextTick(() => {
+      this.render();
+    });
   },
 
   methods: {
     async render() {
+      this.canvas = null;
+      this.busy=true;
       this.section
         .render()
         .then((dataURI) => {
@@ -74,10 +82,22 @@ export default defineComponent({
         .catch((error) => {
           this.error = true;
           console.error("Error rendering the element:", error);
+        }).finally(()=>{
+          this.busy=false;
         });
     },
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.l--sort-item {
+  border: solid 5px #333;
+  border-radius: 12px;
+
+  &:hover {
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.9);
+    border-color: #000000;
+  }
+}
+</style>

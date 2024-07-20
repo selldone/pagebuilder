@@ -13,7 +13,6 @@
   -->
 <template>
   <!-- ████████████████████████ Shadow ████████████████████████ -->
-
   <div :class="{ 'disabled-scale-down': disabled }" class="s--setting-shadow">
     <v-list-item>
       <span class="-label me-2 min-width-100">
@@ -49,7 +48,7 @@
     <template v-if="isValid">
       <v-expand-transition>
         <v-carousel
-          v-if="modelValue?.length"
+          v-if="text_shadow_object?.length"
           v-model="tab"
           color="#fff"
           hide-delimiter-background
@@ -57,7 +56,7 @@
           :height="textShadowMode ? 220 : 300"
           :show-arrows="false"
         >
-          <v-carousel-item v-for="(item, i) in modelValue" :key="i">
+          <v-carousel-item v-for="(item, i) in text_shadow_object" :key="i">
             <s-setting-slider
               v-model="item.h"
               label="Vertical"
@@ -130,7 +129,6 @@ import { defineComponent } from "vue";
 import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
-import { isString } from "lodash-es";
 import { BoxShadowHelper } from "@selldone/page-builder/styler/settings/shadow/BoxShadowHelper";
 import { TextShadowHelper } from "@selldone/page-builder/styler/settings/shadow/TextShadowHelper";
 
@@ -140,9 +138,11 @@ export default defineComponent({
   emits: ["update:modelValue"],
   props: {
     /**
-     * It should be array of shadows
+     * It should be string
      */
-    modelValue: {},
+    modelValue: {
+      type: String,
+    },
     label: {},
     icon: {},
     disabled: Boolean,
@@ -153,16 +153,33 @@ export default defineComponent({
      */
     textShadowMode: Boolean,
   },
-  computed: {
-    isValid() {
-      return this.modelValue && Array.isArray(this.modelValue);
-    },
-  },
   data() {
     return {
       tab: 0,
+
+      /**
+       * It should be array of shadows
+       */
+      text_shadow_object: null,
     };
   },
+
+  computed: {
+    isValid() {
+      return this.text_shadow_object && Array.isArray(this.text_shadow_object);
+    },
+    shadow_text_gen() {
+      return this.textShadowMode
+        ? TextShadowHelper.Generate(this.text_shadow_object)
+        : BoxShadowHelper.Generate(this.text_shadow_object);
+    },
+  },
+  watch: {
+    shadow_text_gen(val) {
+      this.$emit("update:modelValue", val);
+    },
+  },
+
   methods: {
     addNewShadow() {
       const new_item = this.textShadowMode
@@ -170,33 +187,27 @@ export default defineComponent({
         : BoxShadowHelper.NewItem();
 
       if (this.isValid) {
-        this.modelValue.push(new_item);
-        this.tab = this.modelValue.length - 1;
+        this.text_shadow_object.push(new_item);
+        this.tab = this.text_shadow_object.length - 1;
       } else {
-        this.$emit("update:modelValue", [new_item]);
+        this.text_shadow_object = [new_item];
+
         this.tab = 0;
       }
-
-
     },
   },
 
   created() {
-    const new_item = this.textShadowMode
-      ? TextShadowHelper.NewItem()
-      : BoxShadowHelper.NewItem();
+    this.text_shadow_object = this.textShadowMode
+      ? TextShadowHelper.Extract(this.modelValue)
+      : BoxShadowHelper.Extract(this.modelValue);
 
-    if (this.shadow && isString(this.shadow)) {
-      const shadow = this.textShadowMode
-        ? TextShadowHelper.Extract(this.shadow)
-        : BoxShadowHelper.Extract(this.shadow);
-      if (this.autoAddFirst && !shadow.length) {
-        this.$emit("update:modelValue", [new_item]);
-      } else {
-        this.$emit("update:modelValue", shadow);
-      }
-    } else if (this.autoAddFirst && !this.modelValue.length) {
-      this.$emit("update:modelValue", [new_item]);
+    if (this.autoAddFirst && !this.text_shadow_object?.length) {
+      const new_item = this.textShadowMode
+        ? TextShadowHelper.NewItem()
+        : BoxShadowHelper.NewItem();
+
+      this.text_shadow_object = [new_item];
     }
   },
 });

@@ -39,7 +39,7 @@
         density="comfortable"
         variant="flat"
       >
-        <v-icon start>join_right </v-icon>
+        <v-icon start>join_right</v-icon>
         <span class="me-1">Shadow</span>
         <v-icon v-for="it in shadow_colors" :color="it">circle</v-icon>
       </v-chip>
@@ -68,10 +68,10 @@
           onChange();
         }
       "
-      :fonts="fonts"
+      :fonts="$builder.style.fonts"
       @update:fonts="
         (v) => {
-          $emit('update:fonts', v);
+          $builder.style.fonts = v;
         }
       "
       label="Font Family"
@@ -91,6 +91,7 @@
       "
       label="Font Size"
       icon="format_size"
+      :default-value="computedStyle?.fontSize"
     ></s-setting-size>
 
     <!-- Font Weight -->
@@ -103,8 +104,10 @@
         }
       "
       :items="FONT_WEIGHTS"
+      clearable
       label="Font Weight"
       icon="format_bold"
+      :default-value="computedStyle?.fontWeight"
     ></s-setting-select>
 
     <!-- Font Style -->
@@ -119,7 +122,7 @@
       :items="[
         {
           title: 'Normal',
-          icon: 'format_bold',
+          icon: 'title',
           value: 'normal',
         },
         {
@@ -142,6 +145,7 @@
         }
       "
       label="Line Height"
+      :default-value="computedStyle?.lineHeight"
     ></s-setting-size>
 
     <!-- Letter Spacing -->
@@ -154,6 +158,7 @@
         }
       "
       label="Letter Spacing"
+      :default-value="computedStyle?.letterSpacing"
     ></s-setting-size>
 
     <!-- Text Align -->
@@ -168,6 +173,8 @@
       :items="TEXT_ALIGNMENTS"
       label="Text Align"
       icon="format_align_center"
+      clearable
+      :default-value="computedStyle?.textAlign"
     ></s-setting-select>
 
     <!-- Text Decoration -->
@@ -181,6 +188,7 @@
       "
       label="Text Decoration"
       icon="format_underline"
+
     ></s-setting-text-decoration>
 
     <!-- Text Transform -->
@@ -195,6 +203,8 @@
       :items="TEXT_TRANSFORMS"
       label="Text Transform"
       icon="transform"
+      clearable
+      :default-value="computedStyle?.textTransform"
     ></s-setting-select>
 
     <!-- Text Shadow -->
@@ -222,8 +232,7 @@ import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-fami
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
 import SSettingShadow from "@selldone/page-builder/styler/settings/shadow/SSettingShadow.vue";
-import SSettingTextDecoration
-  from "@selldone/page-builder/styler/settings/text-decoration/SSettingTextDecoration.vue";
+import SSettingTextDecoration from "@selldone/page-builder/styler/settings/text-decoration/SSettingTextDecoration.vue";
 
 const FONT_WEIGHTS = [
   { title: "Thin", value: "200" },
@@ -242,8 +251,6 @@ const TEXT_ALIGNMENTS = [
   { title: "Right", value: "right" },
   { title: "Justify", value: "justify" },
 ];
-
-
 
 const TEXT_TRANSFORMS = [
   { title: "None", value: "none" },
@@ -265,11 +272,11 @@ export default defineComponent({
     SSettingToggle,
     SSettingExpandable,
   },
+  inject: ["$builder"],
   emits: [
     "change",
     "update:color",
     "update:fontFamily",
-    "update:fonts",
 
     "update:fontSize",
     "update:fontWeight",
@@ -285,10 +292,8 @@ export default defineComponent({
     value: {},
 
     inputStyle: {},
-
-    fonts: {
-      required: true,
-      type: Array,
+    computedStyle: {
+      type: CSSStyleDeclaration,
     },
 
     color: {},
@@ -309,8 +314,6 @@ export default defineComponent({
 
     TEXT_TRANSFORMS: TEXT_TRANSFORMS,
   }),
-
-
 
   computed: {
     shadow_colors() {

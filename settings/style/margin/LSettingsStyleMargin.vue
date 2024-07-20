@@ -57,8 +57,6 @@
       </v-chip>
     </template>
 
-
-
     <s-landing-style-preview
       :model-value="inputStyle"
       class="mb-5"
@@ -67,9 +65,9 @@
     ></s-landing-style-preview>
 
     <s-setting-group
-        title="Margin"
-        icon="margin"
-        subtitle="In CSS, a margin is the space around an element's border, while padding is the space between an element's border and the element's content."
+      title="Margin"
+      icon="margin"
+      subtitle="In CSS, a margin is the space around an element's border, while padding is the space between an element's border and the element's content."
     ></s-setting-group>
 
     <v-row dense>
@@ -79,6 +77,7 @@
           @update:model-value="(v) => $emit('update:marginLeft', v)"
           clearable
           label="Left"
+          :default-value="computedStyle?.marginLeft"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -87,6 +86,7 @@
           @update:model-value="(v) => $emit('update:marginRight', v)"
           clearable
           label="Right"
+          :default-value="computedStyle?.marginRight"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -95,6 +95,7 @@
           @update:model-value="(v) => $emit('update:marginTop', v)"
           clearable
           label="Top"
+          :default-value="computedStyle?.marginTop"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -103,6 +104,7 @@
           @update:model-value="(v) => $emit('update:marginBottom', v)"
           clearable
           label="Bottom"
+          :default-value="computedStyle?.marginBottom"
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -132,9 +134,11 @@ export default defineComponent({
     "click:area",
   ],
   props: {
-    value:{},
+    value: {},
     inputStyle: {},
-
+    computedStyle: {
+      type: CSSStyleDeclaration,
+    },
     marginLeft: {},
     marginRight: {},
 

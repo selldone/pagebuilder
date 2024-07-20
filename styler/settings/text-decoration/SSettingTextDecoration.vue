@@ -50,26 +50,26 @@
 
     <template v-if="isValid">
       <s-setting-toggle
-        v-model="modelValue.line"
+        v-model="text_decoration_object.line"
         :items="TEXT_DECORATION_LINES"
         multiple
         label="Line"
       ></s-setting-toggle>
 
       <s-setting-toggle
-        v-model="modelValue.style"
+        v-model="text_decoration_object.style"
         :items="TEXT_DECORATION_STYLES"
         label="Style"
       ></s-setting-toggle>
 
       <s-setting-color
-        v-model="modelValue.color"
+        v-model="text_decoration_object.color"
         label="Color"
         clearable
       ></s-setting-color>
 
       <s-setting-size
-        v-model="modelValue.thickness"
+        v-model="text_decoration_object.thickness"
         label="Thickness"
       ></s-setting-size>
     </template>
@@ -110,36 +110,46 @@ export default defineComponent({
   emits: [],
   props: {
     value: {},
-    modelValue: {},
+    modelValue: {
+      type:String
+    },
     disabled: Boolean,
   },
   data: () => ({
     TEXT_DECORATION_LINES: TEXT_DECORATION_LINES,
     TEXT_DECORATION_STYLES: TEXT_DECORATION_STYLES,
+
+    text_decoration_object:null,
   }),
   computed: {
     isValid() {
-      return this.modelValue && isObject(this.modelValue);
+      return this.text_decoration_object && isObject(this.text_decoration_object);
+    },
+
+    text_decoration_gen() {
+      return TextDecorationHelper.Generate(this.text_decoration_object);
     },
   },
 
-  watch: {},
-
-  created() {
-    if (this.modelValue && isString(this.modelValue)) {
-      const val = TextDecorationHelper.Extract(this.modelValue);
+  watch: {
+    text_decoration_gen(val){
       this.$emit("update:modelValue", val);
     }
   },
 
+  created() {
+    this.text_decoration_object= TextDecorationHelper.Extract(this.modelValue);
+  },
+
   methods: {
     addTextDecoration() {
-      this.$emit("update:modelValue", {
+      this.text_decoration_object={
         line: ["underline"],
         color: "#333333",
         style: "dashed",
         thickness: "2px",
-      });
+      }
+
     },
   },
 });

@@ -68,7 +68,6 @@
         >Bottom: {{ bottom }}
       </v-chip>
 
-
       <v-chip
         v-if="zIndex"
         class="ms-1"
@@ -79,7 +78,6 @@
         variant="flat"
         >Z-Index: {{ zIndex }}
       </v-chip>
-
     </template>
 
     <s-landing-style-preview
@@ -102,20 +100,23 @@
       :items="POSITION"
       label="Position"
       clearable
+      :default-value="computedStyle?.position"
     ></s-setting-select>
 
-    <v-row dense :class="{disabled:position==='static' || !position}">
+    <v-row dense :class="{ disabled: position === 'static' || !position }">
       <v-col cols="6">
         <s-setting-size
           :model-value="top"
           @update:model-value="(v) => $emit('update:top', v)"
           label="Top"
+          :default-value="computedStyle?.top"
         ></s-setting-size>
 
         <s-setting-size
           :model-value="left"
           @update:model-value="(v) => $emit('update:left', v)"
           label="Left"
+          :default-value="computedStyle?.left"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -123,22 +124,25 @@
           :model-value="bottom"
           @update:model-value="(v) => $emit('update:bottom', v)"
           label="Bottom"
+          :default-value="computedStyle?.bottom"
         ></s-setting-size>
 
         <s-setting-size
           :model-value="right"
           @update:model-value="(v) => $emit('update:right', v)"
           label="Right"
+          :default-value="computedStyle?.right"
         ></s-setting-size>
       </v-col>
 
       <v-col cols="12">
         <s-setting-number-input
-            :model-value="zIndex"
-            @update:model-value="(v) => $emit('update:zIndex', v)"
-            label="Z-Index"
-            clearable
-            :max="999999"
+          :model-value="zIndex"
+          @update:model-value="(v) => $emit('update:zIndex', v)"
+          label="Z-Index"
+          clearable
+          :max="999999"
+          :default-value="computedStyle?.zIndex"
         ></s-setting-number-input>
       </v-col>
     </v-row>
@@ -165,7 +169,7 @@ export default defineComponent({
     SLandingStylePreview,
     SSettingGroup,
   },
- emits: [
+  emits: [
     "update:position",
     "update:right",
     "update:left",
@@ -173,11 +177,13 @@ export default defineComponent({
     "update:bottom",
     "click:area",
     "update:zIndex",
- ],
+  ],
   props: {
-    value:{},
+    value: {},
     inputStyle: {},
-
+    computedStyle: {
+      type: CSSStyleDeclaration,
+    },
     position: {},
 
     right: {},
@@ -186,7 +192,7 @@ export default defineComponent({
     top: {},
     bottom: {},
 
-    zIndex:{},
+    zIndex: {},
   },
   data: () => ({
     POSITION: POSITION,

@@ -111,6 +111,7 @@
           label="Width"
           icon="height"
           icon-class="rotate-90-s"
+          :default-value="computedStyle?.width"
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -119,6 +120,7 @@
           @update:model-value="(v) => $emit('update:height', v)"
           label="Height"
           icon="height"
+          :default-value="computedStyle?.height"
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -137,6 +139,8 @@
           label="Min W"
           icon="height"
           icon-class="rotate-90-s"
+          :default-value="computedStyle?.minWidth"
+
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -145,6 +149,8 @@
           @update:model-value="(v) => $emit('update:minHeight', v)"
           label="Min H"
           icon="height"
+          :default-value="computedStyle?.minHeight"
+
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -163,6 +169,8 @@
           label="Max W"
           icon="height"
           icon-class="rotate-90-s"
+          :default-value="computedStyle?.maxWidth"
+
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -171,6 +179,8 @@
           @update:model-value="(v) => $emit('update:maxHeight', v)"
           label="Max H"
           icon="height"
+          :default-value="computedStyle?.maxHeight"
+
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -270,6 +280,9 @@ export default defineComponent({
   props: {
     value: {},
     inputStyle: {},
+    computedStyle: {
+      type: CSSStyleDeclaration,
+    },
 
     width: {},
     height: {},
@@ -281,6 +294,7 @@ export default defineComponent({
     maxHeight: {},
     noPreview: Boolean,
   },
+
 });
 </script>
 

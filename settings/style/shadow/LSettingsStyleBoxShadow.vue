@@ -16,7 +16,7 @@
   <s-setting-expandable :value="value" icon="wb_shade" title="Shadow">
     <template v-slot:title>
       <v-chip
-        v-if="shadow"
+        v-if="boxShadow"
         class="ms-1"
         color="#000"
         label
@@ -26,20 +26,20 @@
       >
         <v-icon start>layers</v-icon>
         <span class="me-1">{{
-          isObject(shadow) ? "Custom Shadow" : "Has Shadow"
+          in_custom_shadow_mode ? "Custom Shadow" : "Has Shadow"
         }}</span>
 
         <v-icon v-for="it in shadow_colors" :color="it">circle</v-icon>
       </v-chip>
     </template>
 
-    <v-expand-transition>
+    <v-expand-transition group>
       <!-- Custom shadow edit mode -->
 
-      <div v-if="in_shadow_edit">
+      <div v-if="in_custom_shadow_mode" key="1">
         <s-setting-shadow
-          :model-value="shadow"
-          @update:model-value="(v) => $emit('update:shadow', v)"
+          :model-value="boxShadow"
+          @update:model-value="(v) => $emit('update:boxShadow', v)"
           label="Custom Shadow"
           icon="tune"
           auto-add-first
@@ -49,8 +49,9 @@
       <!-- Select shadow collection (default) -->
       <v-item-group
         v-else
-        :model-value="shadow"
-        @update:model-value="(v) => $emit('update:shadow', v)"
+        key="2"
+        :model-value="boxShadow"
+        @update:model-value="(v) => $emit('update:boxShadow', v)"
         :style="{ 'max-height': 30 + 'vh' }"
         class="overflow-y-auto bg-tiny-checkers rounded-lg"
       >
@@ -80,8 +81,8 @@
     </v-expand-transition>
     <!-- Edit custom shadow -->
     <v-btn
-      v-if="!in_shadow_edit"
-      @click="addShadow()"
+      v-if="!in_custom_shadow_mode"
+      @click="openCustomShadow()"
       block
       class="mt-3"
       variant="outlined"
@@ -98,50 +99,63 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import ShadowCollection from "@selldone/page-builder/src/enums/ShadowCollection";
 import SSettingShadow from "@selldone/page-builder/styler/settings/shadow/SSettingShadow.vue";
 import { BoxShadowHelper } from "@selldone/page-builder/styler/settings/shadow/BoxShadowHelper";
+import { isObject } from "lodash-es";
 
 export default defineComponent({
-  name: "LSettingsStyleShadow",
+  name: "LSettingsStyleBoxShadow",
   components: {
     SSettingShadow,
 
     SSettingExpandable,
   },
-  emits: [],
+  emits: ["update:boxShadow"],
   props: {
     value: {},
 
     inputStyle: {},
 
-    shadow: {},
+    boxShadow: {
+      type: String,
+    },
   },
   data: () => ({
     ShadowCollection: ShadowCollection,
+
+    in_custom_shadow_mode: false,
   }),
   computed: {
+    shadow_object() {
+      return BoxShadowHelper.Extract(this.boxShadow);
+    },
     shadow_colors() {
-      if (!Array.isArray(this.shadow)) return [];
-      return this.shadow.map((s) => s.c);
-    },
-
-    in_shadow_edit() {
-      return this.shadow && !this.isString(this.shadow);
-    },
-    shadow_gen() {
-      if (!this.shadow) return "";
-      if (this.isString(this.shadow)) return this.shadow;
-      return `${this.shadow.w}px ${this.shadow.h}px ${this.shadow.r}px ${
-        this.shadow.s
-      }px ${this.shadow.c} ${this.shadow.i ? "inset" : ""}`;
+      if (!Array.isArray(this.shadow_object)) return [];
+      return this.shadow_object.map((s) => s.c);
     },
   },
 
-  watch: {},
+  watch: {
+    inputStyle() {
+      this.init();
+    },
 
-  created() {},
+    shadow_object(val) {
+      if (!val || !val.length) {
+        this.in_custom_shadow_mode = false;
+      }
+    },
+  },
+
+  created() {
+    this.init();
+  },
 
   methods: {
-    addShadow() {
-      this.$emit("update:shadow", [BoxShadowHelper.NewItem()]);
+    isObject,
+    openCustomShadow() {
+      this.in_custom_shadow_mode = true;
+    },
+    init() {
+      this.in_custom_shadow_mode = !ShadowCollection.includes(this.boxShadow); // Be in collection!
     },
   },
 });

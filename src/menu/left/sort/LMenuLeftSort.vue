@@ -53,8 +53,7 @@
           :section="element"
           @mouseenter="onHoverIn(element)"
           @mouseleave="onHoverOut(element)"
-          class="mb-3 mx-2"
-          rounded="lg"
+          class="mb-1 mx-2"
           height="64"
         >
         </l-menu-left-sort-item>
@@ -97,7 +96,7 @@ export default {
   created() {
     this.debouncedScrollToElement = debounce(this.scrollToElement, 500, {
       leading: true,
-      trailing: false,
+      trailing: true,
     });
   },
   mounted() {
@@ -107,13 +106,16 @@ export default {
 
   methods: {
     onHoverIn(section: Section) {
+      if(this.lock_scroll)return;
+
+      this.current_section=section;
       // Remove all 'element-focus-editing' classes from elements
       $(".element-focus-editing").removeClass("element-focus-editing");
 
       section.object.$element?.classList.add("element-focus-editing");
 
       if (!this.lockScroll) {
-        this.debouncedScrollToElement(section);
+        this.debouncedScrollToElement();
       }
     },
 
@@ -121,8 +123,8 @@ export default {
       //  console.log('onHoverOut objects',this.object)
       section.object.$element?.classList.remove("element-focus-editing");
     },
-    scrollToElement(section) {
-      ScrollHelper.scrollToElement(section.object.$element, 0, "smooth", true);
+    scrollToElement() {
+      ScrollHelper.scrollToElement( this.current_section?.object.$element, 0, "smooth", true);
     },
   },
 };

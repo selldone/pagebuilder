@@ -14,15 +14,16 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
-import {XUploaderObjectData,} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
+import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
+import {isObject} from "lodash-es";
 
 export class XUploaderObject extends LModelElement<XUploaderObjectData> {
   public static ComponentName = "XUploader";
   public static Info = {
-    group:'Image',
-    icon:'wallpaper',
-    title:'Image'
+    group: "Image",
+    icon: "wallpaper",
+    title: "Image",
   };
 
   constructor(
@@ -69,6 +70,12 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
     instance.data.setting.setAspect(aspect).setContain(contain).setRound(round);
     instance.classes = initialClasses;
     instance.data.setSrc(imagePlaceholder);
+    instance.style = {
+      height: "100%",
+      width: "100%",
+      maxWidth: "100%",
+      minHeight: "20px",
+    };
 
     return instance;
   }
@@ -92,6 +99,17 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       data,
       null,
     );
+
+    if (old?.setting?.size && isObject(old?.setting?.size)) {
+      const size = old?.setting?.size;
+      // Moved to style!
+      if (size.h) out.style.height = size.h;
+      if (size.w) out.style.width = size.w;
+      if (size.max_h) out.style.maxHeight = size.max_h;
+      if (size.max_w) out.style.maxWidth = size.max_w;
+      if (size.min_h) out.style.minHeight = size.min_h;
+      if (size.min_w) out.style.minWidth = size.min_w;
+    }
 
     console.log("Migration Image | ---------->", old, "--->", out);
     return out;

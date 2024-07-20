@@ -68,6 +68,10 @@ export namespace XUploaderDataTypes {
     float: any;
 
     fg: LModelBackground | null;
+
+    /**
+     * @depricated
+     */
     size: {
       h: any;
       w: any;
@@ -84,7 +88,6 @@ export namespace XUploaderDataTypes {
       this.float = (data && data.float) || null;
 
       if (data?.fg) {
-
         if (this.fg instanceof LModelBackground) {
           this.fg = data.fg;
         } else {
@@ -92,15 +95,6 @@ export namespace XUploaderDataTypes {
         }
         //console.log('Convert foreground:', data.fg,'--->',this.fg);
       }
-
-      this.size = (data && data.size) || {
-        h: "100%",
-        w: "100%",
-        max_h: null,
-        max_w: "100%",
-        min_h: "20px",
-        min_w: null,
-      };
     }
 
     // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -126,18 +120,6 @@ export namespace XUploaderDataTypes {
 
     public setFg(fg: LModelBackground | null) {
       this.fg = fg;
-      return this;
-    }
-
-    public setSize(size: {
-      h: any;
-      w: any;
-      max_h: any;
-      max_w: any;
-      min_h: any;
-      min_w: any;
-    }) {
-      this.size = size;
       return this;
     }
   }

@@ -109,6 +109,11 @@ export default {
       );
     },
     assignValue() {
+      if(!this.modelValue){
+        this.width = null;
+        this.type = null;
+        this.color = null;
+      }
       // console.log("updateOut", this.width, this.type, this.color);
       const arr = this.modelValue.split(" ");
       if (arr.length > 0) this.width = arr[0];

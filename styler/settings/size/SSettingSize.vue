@@ -26,7 +26,17 @@
       >
     </template>
     <template v-slot:append>
+      <v-btn
+        v-if="defaultValue && (modelValue === null || modelValue === undefined)"
+        @click="$emit('update:modelValue', defaultValue)"
+        size="small"
+        variant="plain"
+        prepend-icon="shortcut"
+      >
+        Set <span v-if="defaultValue!=='unset'" style="font-size: 9px" class="ms-1 tnt">[{{defaultValue}}]</span>
+      </v-btn>
       <u-dimension-input
+        v-else
         :disabled="disabled"
         :model-value="modelValue"
         dense
@@ -55,15 +65,14 @@ export default defineComponent({
     modelValue: {},
     label: {},
     icon: {},
-    iconClass:{},
+    iconClass: {},
 
     disabled: Boolean,
-  },
-  computed: {
-    is_object() {
-      return this.items[0] instanceof Object;
+    defaultValue: {
+      default: "unset",
     },
   },
+  computed: {},
   data() {
     return {};
   },

@@ -27,7 +27,24 @@
     </template>
 
     <template v-slot:append>
+      <v-btn
+        v-if="defaultValue && (modelValue === null || modelValue === undefined)"
+        @click="$emit('update:modelValue', defaultValue)"
+        size="small"
+        variant="plain"
+        prepend-icon="shortcut"
+      >
+        Set Value
+        <span
+          v-if="defaultValue !== 'unset'"
+          style="font-size: 9px"
+          class="ms-1 tnt"
+          >[{{ defaultValue }}]</span
+        >
+      </v-btn>
+
       <v-select
+        v-else
         :clearable="clearable"
         :disabled="disabled"
         :item-title="is_object ? 'title' : undefined"
@@ -87,9 +104,9 @@
                 class="me-2"
               >
               </v-img>
-              <v-icon v-else-if="is_object && item.raw.icon" size="20">{{
-                item.raw.icon
-              }}</v-icon>
+              <v-icon v-else-if="is_object && item.raw.icon" size="20"
+                >{{ item.raw.icon }}
+              </v-icon>
             </template>
           </v-list-item>
         </template>
@@ -114,6 +131,7 @@ export default defineComponent({
     },
     disabled: Boolean,
     clearable: Boolean,
+    defaultValue: {},
   },
   computed: {
     is_object() {

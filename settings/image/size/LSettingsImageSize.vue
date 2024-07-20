@@ -36,13 +36,14 @@
           <v-img
             :aspect-ratio="setting.aspect"
             :cover="!setting.contain"
-            :height="h"
-            :max-height="max_h"
-            :max-width="max_w"
-            :min-height="min_h"
-            :min-width="min_w"
+            :height="target.style.height ? target.style.height : undefined"
+            :max-height="target.style.maxHeight"
+            :max-width="target.style.maxWidth"
+            :min-height="target.style.minHeight"
+            :min-width="target.style.minWidth"
             :src="getShopImagePath(src)"
-            :width="w"
+            :width="target.style.width ? target.style.width : undefined"
+            class="d-block"
           >
           </v-img>
         </div>
@@ -52,12 +53,13 @@
           <l-settings-style-size
             value="size"
             no-preview
-            v-model:width="w"
-            v-model:height="h"
-            v-model:minWidth="min_w"
-            v-model:minHeight="min_h"
-            v-model:maxWidth="max_w"
-            v-model:maxHeight="max_h"
+            :computed-style="computedStyle"
+            v-model:width="target.style.width"
+            v-model:height="target.style.height"
+            v-model:minWidth="target.style.minWidth"
+            v-model:minHeight="target.style.minHeight"
+            v-model:maxWidth="target.style.maxWidth"
+            v-model:maxHeight="target.style.maxHeight"
           ></l-settings-style-size>
         </v-expansion-panels>
       </v-card-text>
@@ -65,14 +67,14 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../../utils/highligh/LUtilsHighlight";
-import _ from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingsStyleSize from "@selldone/page-builder/settings/style/size/LSettingsStyleSize.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 
 export default {
   name: "LSettingsImageSize",
@@ -86,7 +88,7 @@ export default {
   props: {},
   data: () => ({
     el: null,
-    target: null,
+    target: null as XUploaderObject,
     updateCallback: null,
 
     src: null,
@@ -104,6 +106,7 @@ export default {
     max_h: null,
     uid: null, // For update computes!
 
+    computedStyle: null,
     //--------------------------
     key_listener_keydown: null,
 
@@ -116,25 +119,6 @@ export default {
     },
   },
   watch: {
-    w() {
-      this.setSizeDebounced();
-    },
-    h() {
-      this.setSizeDebounced();
-    },
-    min_w() {
-      this.setSizeDebounced();
-    },
-    min_h() {
-      this.setSizeDebounced();
-    },
-    max_w() {
-      this.setSizeDebounced();
-    },
-    max_h() {
-      this.setSizeDebounced();
-    },
-
     dialog_resize(dialog) {
       // Keep highlight active element:
       if (!dialog) LUtilsHighlight.RemoveAllElementFocusEditing();
@@ -156,6 +140,10 @@ export default {
         this.updateCallback = updateCallback;
 
         this.src = src; // Used in Preview
+
+        // Get the computed styles
+        this.computedStyle = window.getComputedStyle(this.el);
+
         this.showDialog();
       },
     );
@@ -196,8 +184,6 @@ export default {
 
   methods: {
     showDialog() {
-      this.assignSizes();
-
       this.dialog_pre = false;
       this.$nextTick(() => {
         this.dialog_pre = true;
@@ -205,62 +191,14 @@ export default {
         this.LOCK = false; // 🔓 Now can update values
       });
     },
-    assignSizes() {
-      let size = this.setting.size;
-      if (!this.isObject(size)) {
-        size = {};
-      } else {
-        size = Object.assign({}, size); // Important: clone object here!
-      }
-
-      this.w = size.w;
-      this.h = size.h;
-      this.min_w = size.min_w;
-      this.min_h = size.min_h;
-      this.max_w = size.max_w;
-      this.max_h = size.max_h;
-    },
 
     toggleSizeMode() {
-      this.setting.size = {
-        w: "100%",
-        h: "100%",
-        min_h: "100%",
-        min_w: "unset",
-        max_w: "unset",
-        max_h: "unset",
-      }; // Save data in section!
-
-      if (this.updateCallback) this.updateCallback(); // Force update component!
-
-      this.$nextTick(() => {
-        this.assignSizes();
-      });
-    },
-
-    //----------------------------------------------------------------------------
-    setSizeDebounced: _.debounce(function () {
-      this.setSize(false);
-    }, 100),
-
-    setSize() {
-      if (!this.dialog_resize || this.LOCK) return;
-
-      const new_size = {
-        w: this.w,
-        h: this.h,
-        min_w: this.min_w,
-        min_h: this.min_h,
-        max_w: this.max_w,
-        max_h: this.max_h,
-      };
-      // console.log("setSize", new_size);
-
-      this.setting.size = new_size; // Save data in section!
-
-      if (this.updateCallback) this.updateCallback(); // Force update component!
-
-      ///  this.dialog_resize = false;
+      this.target.style.width = "100%";
+      this.target.style.height = "100%";
+      this.target.style.minWidth = "unset";
+      this.target.style.minHeight = "20px";
+      this.target.style.maxWidth = "100%";
+      this.target.style.maxHeight = "unset";
     },
   },
 };
@@ -270,11 +208,9 @@ export default {
 .img-prev-con {
   min-height: 20vh;
   overflow: auto;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  flex-direction: column;
+  position: relative;
   max-height: 200px;
   max-width: 100%;
+
 }
 </style>
