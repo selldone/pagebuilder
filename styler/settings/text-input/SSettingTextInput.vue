@@ -37,12 +37,16 @@
       class="v-input-small"
       color="#1976D2"
       density="compact"
-      hide-details
+      :hide-details="!messages"
       auto-grow
       style="min-width: 200px"
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
       @blur="$emit('blur')"
+
+      :append-inner-icon="hasLock?(lock ? 'lock' : 'lock_open'):undefined"
+      :readonly="lock && hasLock"
+      @click:append-inner="lock = !lock"
     >
     </v-textarea>
     <v-text-field
@@ -57,12 +61,16 @@
       class="v-input-small"
       color="#1976D2"
       density="compact"
-      hide-details
+      :hide-details="!messages"
       style="min-width: 200px"
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
       @blur="$emit('blur')"
       @keydown.enter.prevent="$emit('enter')"
+
+      :append-inner-icon="hasLock?(lock ? 'lock' : 'lock_open'):undefined"
+      :readonly="lock && hasLock"
+      @click:append-inner="lock = !lock"
     >
     </v-text-field>
   </v-list-item>
@@ -100,10 +108,16 @@ export default defineComponent({
     rules: {},
     counter: {},
     multipleLines: Boolean,
+
+    hasLock:Boolean,
+
   },
   computed: {},
   data() {
-    return {};
+    return {
+      lock: true,
+
+    };
   },
   methods: {
     setValue(value) {

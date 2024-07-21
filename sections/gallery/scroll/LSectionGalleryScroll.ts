@@ -15,10 +15,11 @@
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XSwiperObjectDataTypes} from "@selldone/page-builder/components/x/swiper/XSwiperObjectData.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import coverImage from "@selldone/page-builder/assets/images/covers/LSectionGalleryScroll.svg";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {
+    XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export class LSectionGalleryScroll {
   static group = "Gallery";
@@ -35,7 +36,7 @@ export class LSectionGalleryScroll {
     section.classes = [];
 
     // Initialize swiper and add to section
-    const swiper = XSwiperObject.Seed(6);
+    const swiper = XSwiperObject.Seed(0);
     section.addChild(swiper);
 
     swiper.data.slidesPerView = 1;
@@ -48,21 +49,20 @@ export class LSectionGalleryScroll {
     swiper.data.autoHeight = true;
     swiper.data.height = undefined;
 
-    swiper.children.forEach((container: XContainerObject) => {
-      const row = container.children[0];
-      const column = row.children[0];
-      if (column instanceof XColumnObject) {
-        column.data.grid
-          .setMobile(12)
-          .setTablet(null)
-          .setDesktop(null)
-          .setWidescreen(null);
-
-        const image = XUploaderObject.Seed();
-        image.style.width = "200px";
-        column.addChild(image, 0);
-      }
-    });
+    for (let i = 1; i <= 6; i++) {
+      const column = XColumnImageTextObject.Seed(
+        12,
+        null,
+        null,
+        null,
+        XColumnImageTextDataTypes.LAYOUTS.NORMAL,
+        null,
+        XColumnImageTextDataTypes.LAYOUTS.NORMAL,
+        true,
+      );
+      swiper.addChild(column);
+      column.getImageChild().style.width = "200px";
+    }
 
     return section;
   };

@@ -53,7 +53,6 @@
       :histories="histories"
       :demo="demo"
       :initial-page-data="demoPage"
-      :shop="shop"
       :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
       @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"
@@ -81,7 +80,6 @@ import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerat
 import { LMixinEvents } from "./mixins/events/LMixinEvents";
 import LPageEditor from "./page/editor/LPageEditor.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront/StorefrontSDK";
-import _ from "lodash-es";
 
 /**
  * <landing-builder>
@@ -93,13 +91,10 @@ export default {
   components: {
     LPageEditor,
   },
+  inject: ["$shop"],
+
   emits: ["update:page", "update", "create", "scale"],
   props: {
-    shop: {
-      required: false,
-      type: Object,
-    },
-
     isOfficialPage: {
       required: false,
       type: Boolean,
@@ -146,8 +141,6 @@ export default {
 
     //------------------------
     ai_model: "chatgpt",
-
-
   }),
   computed: {
     show_loading() {
@@ -176,7 +169,6 @@ export default {
     page_id() {
       this.fetchPageData();
     },
-
   },
 
   created() {
@@ -200,8 +192,8 @@ export default {
       }
 
       // Simulate current active shop:
-      this.$store.commit("setCurrentAdminShop", this.shop);
-      StorefrontSDK.Setup(this.shop.name);
+      this.$store.commit("setCurrentAdminShop", this.$shop);
+      StorefrontSDK.Setup(this.$shop.name);
       this.$forceUpdate(); // Important to update $refs.vueBuilder!
     }
   },
@@ -240,14 +232,14 @@ export default {
         // ┣━━━━━━━━━━━━━━━━━━━━━━━━━━ Update  ━━━━━━━━━━━━━━━━━━━━━━━━━━┫
         console.log("📐 💾 Save changes.");
         let url = null;
-        if (this.shop)
-          url = window.API.PUT_EDIT_PAGE(
-            this.$route.params.shop_id,
-            this.page.id,
-          );
+        if (this.$shop)
+          url = window.API.PUT_EDIT_PAGE(this.$shop.id, this.page.id);
         else if (this.isOfficialPage)
           url = window.ADMIN_API.PUT_EDIT_PAGE(this.page.id);
-        else return;
+        else {
+          console.error("📐 🚫 No shop or official page found!");
+          return;
+        }
 
         axios
           .put(url, {
@@ -295,10 +287,12 @@ export default {
         // (Page is null!)
         console.log("📐 🞧 Add page.");
         let url = null;
-        if (this.shop)
-          url = window.API.POST_ADD_SHOP_PAGE(this.$route.params.shop_id);
+        if (this.$shop) url = window.API.POST_ADD_SHOP_PAGE(this.$shop.id);
         else if (this.isOfficialPage) url = window.ADMIN_API.POST_ADD_PAGE();
-        else return;
+        else {
+          console.error("📐 🚫 No shop or official page found!");
+          return;
+        }
 
         axios
           .post(url, {
@@ -326,12 +320,11 @@ export default {
               this.showErrorAlert(null, data.error_msg);
             } else {
               this.showSuccessAlert(null, "Page has been saved successfully.");
-              //t.$route.params.page_id=data.page.id;//({name:'BPageLandingEditor',params:{shop_id:this.$route.params.shop_id,page_id:data.page.id}})
 
               this.$emit("create", data.page);
               /* Old way!
-                                                this.$route.params.page_id = data.page.id;
-                                  */
+                                                  this.$route.params.page_id = data.page.id;
+                                    */
               this.page = data.page;
               this.$refs.vueBuilder.setPage(
                 data.page.content,
@@ -354,16 +347,16 @@ export default {
 
     fetchPageData() {
       //////////// this.current_history_id = null;
-
+      console.log("this.$shop", this.$shop);
       let url = null;
-      if (this.shop)
-        url = window.API.GET_PAGE_DATA(
-          this.$route.params.shop_id,
-          this.page_id,
-        );
+      if (this.$shop)
+        url = window.API.GET_PAGE_DATA(this.$shop.id, this.page_id);
       else if (this.isOfficialPage)
         url = window.ADMIN_API.GET_PAGE_DATA(this.page_id);
-      else return;
+      else {
+        console.error("📐 🚫 No shop or official page found!");
+        return;
+      }
 
       this.busy_fetch = true;
 
@@ -419,9 +412,9 @@ export default {
       console.log("🆎 AI / Auto fill content.");
 
       let url = null;
-      if (this.shop)
+      if (this.$shop)
         url = window.API.POST_AI_PAGE_BUILDER_SECTION_CONTENT_GENERATE(
-          this.$route.params.shop_id,
+          this.$shop.id,
           this.page?.id,
         );
       else if (this.isOfficialPage)
@@ -448,12 +441,8 @@ export default {
           this.showLaravelError(error);
         });
     },
-
-
   },
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

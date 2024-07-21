@@ -13,7 +13,6 @@
  */
 
 import {defineComponent} from "vue";
-import type {Note} from "@selldone/core-js/models/shop/note/note.model";
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 
@@ -27,17 +26,27 @@ export const LMixinNote = defineComponent({
   methods: {
     //―――――――――――――――――――――― Global Page Note Dialog ――――――――――――――――――――
 
-    showGlobalShopNoteDialog(
-      notes: Note.INote[],
-      element_id: string,
-      page_id: string | number,
-      popup_id: string | number,
-    ) {
+    showGlobalShopNoteDialog(element_id: string) {
+      const model = this.$builder?.model;
+      const type = this.$builder?.type;
+      if (!model) {
+        console.error(
+          "Model not found! Please set the model in the $builder. Builder:",
+          this.$builder,
+        );
+        return;
+      }
+
+      if (!["page", "popup"].includes(type)) {
+        console.error("Only page and popup types are supported. Type:", type);
+        return;
+      }
+
       EventBus.$emit(this.EVENT_NAME_SHOW_NOTES_DIALOG, {
-        notes,
+        notes: model.notes,
         element_id,
-        page_id,
-        popup_id,
+        page_id: type === "page" ? model.id : null,
+        popup_id: type === "popup" ? model.id : null,
       });
     },
   },

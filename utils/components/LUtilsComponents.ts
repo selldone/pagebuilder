@@ -40,7 +40,7 @@ import XForm from "@selldone/page-builder/components/x/form/XForm.vue";
 import XInputText from "@selldone/page-builder/components/x/input/text/XInputText.vue";
 import XFeederBlogs from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogs.vue";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import {LModelElementTypes} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {LModelElement, LModelElementTypes,} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
@@ -68,6 +68,7 @@ import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUpl
 import {
   XGalleryExpandableItemObject
 } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
+import {XDivObject} from "@selldone/page-builder/components/x/div/XDivObject.ts";
 
 export class LUtilsComponents {
   static XComponents: any[] = [
@@ -129,6 +130,32 @@ export class LUtilsComponents {
     // XVideoBackgroundObject,
     XGalleryExpandableItemObject,
   ];
+
+  static ComponentToObject: Record<string, LModelElement<any>> = {
+    XSection: XSectionObject,
+    XContainer: XContainerObject,
+    XRow: XRowObject,
+    XColumn: XColumnObject,
+    XText: XTextObject,
+    XUploader: XUploaderObject,
+    XButton: XButtonObject,
+    XProduct: XProductObject,
+    XColumnImageText: XColumnImageTextObject,
+    XButtons: XButtonsObject,
+    XGalleryExpandable: XGalleryExpandableObject,
+    XGalleryExpandableItem: XGalleryExpandableItemObject,
+    XSwiper: XSwiperObject,
+    XArticle: XArticleObject,
+    XCode: XCodeObject,
+    XDiv: XDivObject,
+    XFeederBlogs: XFeederBlogsObject,
+    XFeederProducts: XFeederProductsObject,
+    XForm: XFormObject,
+    XInputText: XInputTextObject,
+    XLottie: XLottieObject,
+    XMarquee: XMarqueeObject,
+    XSearch: XSearchObject,
+  };
 
   static FindVueComponent(name: string): any {
     return LUtilsComponents.XComponents.find(

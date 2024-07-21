@@ -30,13 +30,19 @@ import {LSectionImageCards} from "@selldone/page-builder/sections/image/cards/LS
 import {LSectionImageFeatures} from "@selldone/page-builder/sections/image/features/LSectionImageFeatures.ts";
 import {LSectionImageIntro} from "@selldone/page-builder/sections/image/intro/LSectionImageIntro.ts";
 import {LSectionImageSocials} from "@selldone/page-builder/sections/image/socials/LSectionImageSocials.ts";
-import {
-    LMigrationV2CustomListing
-} from "@selldone/page-builder/sections/store/custom-listing/LSectionStoreCustomListing.ts";
 import {LSectionStoreListing} from "@selldone/page-builder/sections/store/listing/LSectionStoreListing.ts";
 import {LSectionStoreProduct} from "@selldone/page-builder/sections/store/product/LSectionStoreProduct.ts";
 import {LSectionTextMarquee} from "@selldone/page-builder/sections/text/marquee/LSectionTextMarquee.ts";
 import {LSectionTextNumbers} from "@selldone/page-builder/sections/text/numbers/LSectionTextNumbers.ts";
+import {LSectionTextTwoColumns} from "@selldone/page-builder/sections/text/two-columns/LSectionTextTwoColumns.ts";
+import {LSectionTextThreeColumns} from "@selldone/page-builder/sections/text/three-columns/LSectionTextThreeColumns.ts";
+import {LSectionImageTwoColumns} from "@selldone/page-builder/sections/image/two-columns/LSectionImageTwoColumns.ts";
+import {
+    LSectionImageThreeColumns
+} from "@selldone/page-builder/sections/image/three-columns/LSectionImageThreeColumns.ts";
+import {
+  LSectionStoreCustomListing
+} from "@selldone/page-builder/sections/store/custom-listing/LSectionStoreCustomListing.ts";
 
 export class DefaultSections {
   static List = [
@@ -47,6 +53,8 @@ export class DefaultSections {
     LSectionHeroVertical,
 
     // text:
+    LSectionTextTwoColumns,
+    LSectionTextThreeColumns,
     LSectionTextMarquee,
     LSectionTextNumbers,
 
@@ -58,6 +66,8 @@ export class DefaultSections {
     LSectionImageFeatures,
     LSectionImageIntro,
     LSectionImageSocials,
+    LSectionImageTwoColumns,
+    LSectionImageThreeColumns,
 
     // gallery:
     LSectionGalleryBrands,
@@ -66,9 +76,9 @@ export class DefaultSections {
     LSectionGallerySwiper,
 
     // store:
-    LMigrationV2CustomListing,
     LSectionStoreListing,
     LSectionStoreProduct,
+    LSectionStoreCustomListing,
 
     // basic:
     LSectionHtml,

@@ -17,7 +17,7 @@
     <v-card class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
-          <v-btn size="x-large" variant="text" @click="toggleSizeMode()">
+          <v-btn size="x-large" variant="text" @click="resetSize()">
             <v-icon class="me-1">refresh</v-icon>
             Default
           </v-btn>
@@ -192,7 +192,9 @@ export default {
       });
     },
 
-    toggleSizeMode() {
+    resetSize() {
+      this.target.data.setting.setAspect(null);
+
       this.target.style.width = "100%";
       this.target.style.height = "100%";
       this.target.style.minWidth = "unset";
@@ -211,6 +213,5 @@ export default {
   position: relative;
   max-height: 200px;
   max-width: 100%;
-
 }
 </style>

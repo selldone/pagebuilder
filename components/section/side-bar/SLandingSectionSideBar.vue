@@ -34,7 +34,7 @@
       icon
       size="large"
       variant="text"
-      @click="$emit('click:copy', section)"
+      @click="copySection()"
       @mouseenter="copy_hover = true"
       @mouseleave="copy_hover = false"
     >
@@ -66,7 +66,7 @@
       icon
       size="large"
       variant="text"
-      @click="$emit('click:delete', section)"
+      @click="deleteSection()"
       @mouseenter="delete_hover = true"
       @mouseleave="delete_hover = false"
     >
@@ -134,30 +134,27 @@
           </v-icon>
         </div>
 
-
         <div
-            v-if="section.object.data?.hide.user"
-            class="position-relative me-3 hover-scale"
-            title="Hide for users"
+          v-if="section.object.data?.hide.user"
+          class="position-relative me-3 hover-scale"
+          title="Hide for users"
         >
           <v-icon size="20">account_circle</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-          >block
+            >block
           </v-icon>
         </div>
 
-
         <div
-            v-if="section.object.data?.hide.guest"
-            class="position-relative me-3 hover-scale"
-            title="Hide for guests"
+          v-if="section.object.data?.hide.guest"
+          class="position-relative me-3 hover-scale"
+          title="Hide for guests"
         >
           <v-icon size="20">person_outline</v-icon>
           <v-icon class="center-absolute op-0-7" size="30" color="red"
-          >block
+            >block
           </v-icon>
         </div>
-
       </div>
     </div>
 
@@ -170,7 +167,7 @@
       icon
       size="large"
       variant="text"
-      @click="$emit('click:save', section)"
+      @click="saveSectionToRepository()"
     >
       <v-icon size="36">save</v-icon>
 
@@ -197,7 +194,7 @@
       icon
       size="large"
       variant="text"
-      @click="$emit('click:past', section)"
+      @click="pastSection()"
       @mouseenter="$emit('update:pastHoverIndex', sectionIndex)"
       @mouseleave="$emit('update:pastHoverIndex', null)"
     >
@@ -215,7 +212,7 @@
           Ctrl + V Now!</b
         >
         <v-chip
-          v-if="copySection"
+          v-if="$builder._copy_section"
           class="ma-1"
           color="green"
           size="small"
@@ -235,12 +232,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
-import {Section} from "@selldone/page-builder/src/section/section.ts";
+import { Section } from "@selldone/page-builder/src/section/section.ts";
+import { EventBus } from "@selldone/core-js/events/EventBus.ts";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
+  inject: ["$builder"],
   mixins: [],
 
   emits: ["update:pastHoverIndex"],
@@ -258,7 +257,10 @@ export default defineComponent({
       default: null,
     },
 
-    copySection: {},
+    index: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -279,7 +281,67 @@ export default defineComponent({
 
   created() {},
 
-  methods: {},
+  methods: {
+    copySection() {
+      this.$builder._copy_section = JSON.stringify(this.section.toJson());
+      this.copyToClipboard(
+        this.$builder._copy_section,
+        "Copy Section Data & Structure",
+        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
+      );
+    },
+
+    //――――――――――――――――――――――  Past Section ――――――――――――――――――――
+
+    pastSection() {
+      if (!this.$builder._copy_section) {
+        this.showWarningAlert(
+          "First copy a section!",
+          "Data on clipboard not found!",
+        );
+
+        return;
+      }
+
+      try {
+        let section = JSON.parse(this.$builder._copy_section);
+        if (section.object) {
+          this.$builder.add(section, this.index + 1, true);
+          this.$builder.history.save();
+          this.autoLoadSectionFonts(section);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
+    },
+
+    //――――――――――――――――――――――  Delete Section ――――――――――――――――――――
+
+    deleteSection() {
+      try {
+        this.$builder.remove(this.section);
+        this.$builder.history.save();
+      } catch (e) {
+        console.error(e);
+        this.showErrorAlert(
+          null,
+          "We can not remove this section! Maybe fix it by refreshing the page.",
+        );
+      }
+    },
+
+    //――――――――――――――――――――――  Save Section ――――――――――――――――――――
+
+    saveSectionToRepository() {
+      const _section = JSON.stringify(this.section.toJson());
+      EventBus.$emit("show:LPageEditorElementsRepository:Add-My-Section", {
+        section: _section,
+      });
+    },
+  },
 });
 </script>
 

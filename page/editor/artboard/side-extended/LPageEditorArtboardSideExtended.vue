@@ -29,7 +29,7 @@
       icon
       size="x-large"
       variant="flat"
-      @click="$emit('click:feeder')"
+      @click.stop="ShowLFeederDialog(section)"
     >
       <v-icon size="36">donut_large</v-icon>
       <v-tooltip
@@ -79,7 +79,7 @@
         icon
         size="x-large"
         variant="flat"
-        @click="$emit('click:note')"
+        @click="showWriteNote()"
       >
         <v-icon size="36">sticky_note_2</v-icon>
         <v-tooltip
@@ -102,24 +102,37 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
+import { LMixinNote } from "@selldone/page-builder/mixins/note/LMixinNote.ts";
+import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 
 export default defineComponent({
   name: "LPageEditorArtboardSideExtended",
+  mixins: [LMixinNote, LMixinEvents],
   components: {
     UButtonAiSmall,
   },
-
-  emits: ["click:note", "click:feeder"],
+  inject: ["$builder"],
+  emits: ["click:note"],
   props: {
     section: Object,
     aiAutoFillFunction: Boolean,
-    hasNote: Boolean,
     notes: Array,
+
+    shop: {
+      required: true,
+      type: Object,
+    },
   },
   data() {
     return {
       loading_ai: false,
     };
+  },
+
+  computed: {
+    hasNote() {
+      return this.$builder.type === "page" || this.$builder.type === "popup";
+    },
   },
 
   methods: {
@@ -140,6 +153,12 @@ export default defineComponent({
           this.loading_ai = false;
         });
     },
+
+    //――――――――――――――――――――――  Note ――――――――――――――――――――
+
+    showWriteNote() {
+      this.showGlobalShopNoteDialog(this.section.uid);
+    },
   },
 });
 </script>
@@ -150,6 +169,7 @@ export default defineComponent({
   align-items: center;
 
   position: absolute;
+  //top: -18px;
   top: 100px;
   flex-direction: row-reverse;
 
@@ -176,7 +196,7 @@ export default defineComponent({
 
   &.-double {
     --margin-left-bar: -100px;
-    --width-bar: 200px;
+    --width-bar: 224px;
     --left: -290px;
   }
 

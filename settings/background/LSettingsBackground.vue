@@ -154,44 +154,7 @@ export default {
       });
     },
 
-    //----------------------------------------------------------------------------
-    /*
-        setBackgroundDebounced: _.debounce(function () {
-          this.setBackground(false);
-        }, 100),
-    
-        setBackground() {
-          if (!this.show_edit_style || this.LOCK) return;
-    
-          this.target.background = this.in_background; // Save data in section!
-    
-          const background = this.target.background;
-    
-          const style = LUtilsBackground.CreateCompleteBackgroundStyleObject(
-            background.bg_custom,
-            background.bg_gradient,
-            background.bg_image ? this.getShopImagePath(background.bg_image) : null,
-            background.bg_size,
-            background.bg_repeat,
-            background.bg_color,
-            background.dark,
-            background.bg_position,
-            background.bg_rotation,
-            background.bg_backdrop,
-          );
-    
-          //  console.log('+++style+++',style)
-    
-          // Live update:
-    
-          Object.keys(style).forEach((key) => {
-            this.el.style[key] = style[key];
-          });
-    
-          //  this.el.style.cssText =style
-    
-          //   this.show_edit_style = false;
-        },*/
+
   },
 };
 </script>

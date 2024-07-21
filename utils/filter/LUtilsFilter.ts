@@ -361,8 +361,7 @@ export class LUtilsFilter {
     return out;
   }
 
-  static CalcFilter(filter:Record<string, any>) {
-
+  static CalcFilter(filter: Record<string, any>) {
     if (!filter || !isObject(filter)) return null;
     //console.log("CalcFilter", filter);
     let out = "";
@@ -371,7 +370,7 @@ export class LUtilsFilter {
         out += `${key}('${filter[key]}') `;
       } else {
         const filterConfig = FILTERS[key];
-        if (filterConfig && (filter[key]!=null && filter[key]!=undefined)) {
+        if (filterConfig && filter[key] != null && filter[key] != undefined) {
           out += `${key}(${filter[key]}${filterConfig.dim}) `;
         }
       }

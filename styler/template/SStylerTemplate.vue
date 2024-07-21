@@ -18,26 +18,36 @@
     :caption="type"
     :class="[
       {
-        'is-visible': isVisible && (normal_mode || tracking_mode || animation_mode),
-        '-dot -red': type === 'button' || type === 'text',
-        '-dot -green':  type === 'row' || type === 'grid' || type === 'buttons-row',
-
-
-        '-dot -amber': type === 'container' || type === 'swiper' ||  type === 'blogs' || type === 'marquee',
-
-        '-dot -blue': type === 'column',
-
-        '-dot -pink': type === 'products' ||  type === 'code',
-        '-dot -indigo': type === 'form',
-        '-dot -cyan': type === 'input',
-
-
-        '-dot': type === 'section',
+        'is-visible':
+          isVisible && (normal_mode || tracking_mode || animation_mode),
       },
       `-type-${type}`,
     ]"
-    :style="[PageBuilderColorsHelper.GenerateColorsStyle(builder.style)]"
-    class="styler"
+    :style="[
+      PageBuilderColorsHelper.GenerateColorsStyle(builder.style),
+      {
+        '--dot-color':
+          type === 'button' || type === 'text'
+            ? '#455A64'
+            : type === 'row' || type === 'grid' || type === 'buttons-row'
+              ? '#8BC34A'
+              : type === 'container' ||
+                  type === 'swiper' ||
+                  type === 'blogs' ||
+                  type === 'marquee'
+                ? '#FFA000'
+                : type === 'column'
+                  ? '#1976D2'
+                  : type === 'products' || type === 'code'
+                    ? '#C2185B'
+                    : type === 'form'
+                      ? '#3F51B5'
+                      : type === 'input'
+                        ? '#03A9F4'
+                        : '#fff',
+      },
+    ]"
+    class="styler -dot"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
     @click.stop=""
@@ -301,8 +311,8 @@ $red: #ff3d3d;
     padding: 0 !important;
     color: #fff;
 
-    .v-divider{
-      border-color: #aaa ;
+    .v-divider {
+      border-color: #aaa;
       opacity: 0.4;
     }
   }
@@ -481,48 +491,8 @@ input[type="number"]::-webkit-outer-spin-button {
       height: 6px;
 
       border-radius: 8px;
-      background-color: #fff;
+      background-color: var(--dot-color);
     }
-
-    &.-red {
-      &:after {
-        background-color: #e64a19;
-      }
-    }
-
-    &.-green {
-      &:after {
-        background-color: #8bc34a;
-      }
-    }
-
-    &.-blue {
-      &:after {
-        background-color: #03a9f4;
-      }
-    }
-
-    &.-amber {
-      &:after {
-        background-color: #ffa000;
-      }
-    }
-    &.-pink {
-      &:after {
-        background-color: #e91e63;
-      }
-    }
-    &.-indigo {
-      &:after {
-        background-color: #3f51b5;
-      }
-    }
-    &.-cyan {
-      &:after {
-        background-color: #00bcd4;
-      }
-    }
-
   }
 
   //------------------ End Styler dot color ------------------

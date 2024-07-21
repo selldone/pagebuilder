@@ -13,45 +13,44 @@
  */
 
 import {LUtilsFilter} from "@selldone/page-builder/utils/filter/LUtilsFilter.ts";
+import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {RemoveEmptyFromObject} from "@selldone/core-js/prototypes";
 
-/**
- * @deprecated
- */
 export class LUtilsBackground {
-
   /**
-   * @deprecated
-   * @param bg_custom
-   * @param bg_gradient
-   * @param bg_image
-   * @param bg_size
-   * @param bg_repeat
-   * @param bg_color
-   * @param dark
-   * @param bg_position
-   * @param bg_rotation
-   * @param bg_backdrop
-   * @constructor
+   * Creates a complete background style object.
+   * @param {IBackground} background - The background configuration.
+   * @param {Function} imagePathToUrl - Function to convert image path to URL.
+   * @returns {object} The background style object.
    */
   static CreateCompleteBackgroundStyleObject(
-    bg_custom?: string,
-    bg_gradient?: string[],
-    bg_image?: string,
-    bg_size?: string,
-    bg_repeat?: string,
-    bg_color?: string,
-    dark: boolean = false,
-    bg_position: string = "center",
-    bg_rotation: number | null = 45 /*deg*/,
-    bg_backdrop: Record<string, any> | null = null /*Backdrop Filter*/,
-  ) {
+    background: IBackground | LModelBackground,
+    imagePathToUrl: (path: string) => string,
+  ): object {
+    if (!imagePathToUrl) {
+      console.error(
+        "LModelBackground | imagePathToUrl is not defined! Define imagePathToUrl function to convert image path to url.",
+      );
+      return {};
+    }
+
+    const {
+      bg_custom = null,
+      bg_gradient = null,
+      bg_image = null,
+      bg_size = null,
+      bg_repeat = null,
+      bg_color = null,
+      dark = false,
+      bg_position = null,
+      bg_rotation = null,
+      bg_backdrop = null,
+    } = background || {};
+
+    const imageUrl = bg_image ? imagePathToUrl(bg_image) : null;
+
     if (bg_custom && bg_custom.includes("background")) {
-      const out = this.StringStyleToObj(bg_custom);
-      /* if (!out.color && dark !== null && dark !== undefined) {
-               out.color = dark ? "#fff" : "#333";
-             }*/
-      return out;
+      return this.StringStyleToObj(bg_custom);
     }
 
     const out = {
@@ -59,23 +58,17 @@ export class LUtilsBackground {
       backgroundImage: this.CreateBackgroundImageStyle(
         bg_custom,
         bg_gradient,
-        bg_image,
+        imageUrl,
         bg_rotation,
       ),
       backgroundSize: this.CreateBackgroundSizeStyle(
         bg_custom,
         bg_gradient,
-        bg_image,
+        imageUrl,
         bg_size,
       ),
-      backgroundRepeat: bg_repeat,
-      /*  color:
-                dark === null || dark === undefined
-                  ? undefined
-                  : dark
-                    ? "#fff"
-                    : "#333",*/
-      backgroundPosition: bg_position,
+      backgroundRepeat: bg_repeat ,
+      backgroundPosition: bg_position ,
 
       // 🍃 Set backdrop filter:
       backdropFilter: bg_backdrop
@@ -83,95 +76,82 @@ export class LUtilsBackground {
         : undefined,
     };
 
-    //   console.log('CreateCompleteBackgroundStyleObject',out)
     return RemoveEmptyFromObject(out);
   }
 
   /**
-   * @deprecated
-   * @param style
-   * @constructor
+   * Converts a string style to an object.
+   * @param {string} style - The style string.
+   * @returns {object} The style object.
    */
-  static StringStyleToObj(style: string) {
+  static StringStyleToObj(style: string): Record<string, string> {
     if (!style) return {};
     const attributes = style.trim().split(";");
     const result: Record<string, string> = {};
-    for (let i = 0; i < attributes.length; i++) {
-      const entry = attributes[i].split(":");
-
-      // Convert to camel case:
-      const key = entry
-        .splice(0, 1)[0]
-        .trim()
-        .replace(/-([a-z])/g, function (g) {
-          return g[1].toUpperCase();
-        });
-      if (!key) continue;
-
-      result[key] = entry.join(":");
-    }
+    attributes.forEach(attribute => {
+      const [key, ...value] = attribute.split(":");
+      if (!key) return;
+      result[key.trim().replace(/-([a-z])/g, g => g[1].toUpperCase())] = value.join(":").trim();
+    });
     return result;
   }
 
   /**
-   * @deprecated
-   * @param style
-   * @constructor
+   * Gets a safe background style.
+   * @param {string} style - The style string.
+   * @returns {object} The background style.
    */
-  static GetBackgroundSafeStyle(style: string) {
-    if (style && style.includes("background")) return style;
-    return { backgroundImage: style };
+  static GetBackgroundSafeStyle(style: string): object {
+    return style && style.includes("background")
+      ? { backgroundImage: style }
+      : { backgroundImage: style };
   }
 
   /**
-   * @deprecated
-   * @param bg_custom
-   * @param bg_gradient
-   * @param bg_image
-   * @param bg_rotation
-   * @constructor
+   * Creates a background image style string.
+   * @param {string} [bg_custom] - Custom background.
+   * @param {string[]} [bg_gradient] - Gradient backgrounds.
+   * @param {string} [bg_image] - Background image.
+   * @param {number|null} [bg_rotation] - Rotation for gradient.
+   * @returns {string} The background image style string.
    */
   static CreateBackgroundImageStyle(
     bg_custom?: string,
     bg_gradient?: string[],
     bg_image?: string,
     bg_rotation?: number | null,
-  ) {
+  ): string {
     const out = [];
+    if (bg_image) out.push(`url('${bg_image}')`);
 
     if (bg_custom) out.push(bg_custom);
 
-    let gradient = "";
     if (bg_gradient && bg_gradient.length >= 2) {
-      gradient = `linear-gradient(${bg_rotation ? bg_rotation : 45}deg`;
-      bg_gradient.forEach(function (e) {
-        gradient += "," + e;
-      });
-      gradient += ")";
+      const gradient = `linear-gradient(${bg_rotation || 45}deg, ${bg_gradient.join(",")})`;
       out.push(gradient);
     }
-
-    if (bg_image) out.push(`url('${bg_image}')`);
 
     return out.join(",");
   }
 
+  /**
+   * Creates a background size style string.
+   * @param {string} [bg_custom] - Custom background.
+   * @param {string[]} [bg_gradient] - Gradient backgrounds.
+   * @param {string} [bg_image] - Background image.
+   * @param {string} [bg_size] - Background size.
+   * @returns {string} The background size style string.
+   */
   static CreateBackgroundSizeStyle(
     bg_custom?: string,
     bg_gradient?: string[],
     bg_image?: string,
     bg_size?: string,
-  ) {
+  ): string {
     const out = [];
-
-    if (bg_custom) out.push("cover");
-
-    if (bg_gradient && bg_gradient.length >= 2) {
+    if (bg_custom || (bg_gradient && bg_gradient.length >= 2))
       out.push("cover");
-    }
-
-    if (bg_image) out.push(bg_size);
-
+    if (bg_image) out.push(bg_size || "auto");
     return out.join(",");
   }
 }

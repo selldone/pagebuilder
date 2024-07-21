@@ -23,21 +23,21 @@
   >
     <u-marquee
       :id="marquee_id"
-      :duration="object.data?.duration ? object.data?.duration : '10s'"
-      :reverse="!!object.data?.reverse"
+      :duration="object.data.duration ? object.data.duration : '10s'"
+      :reverse="!!object.data.reverse"
       auto-width
       style="min-width: 100%"
       :key="
-        object.data?.html?.length +
+        object.data.html?.length +
         '-' +
-        object.data?.repeat +
+        object.data.repeat +
         '-' +
-        object.data?.space
+        object.data.space
       "
-      :repeat="object.data?.repeat ? object.data?.repeat : 10"
-      :space="object.data?.space ? object.data?.space : 200"
+      :repeat="object.data.repeat ? object.data.repeat : 10"
+      :space="object.data.space ? object.data.space : 200"
     >
-      <div class="-x-infinite-content" v-html="object.data?.html"></div>
+      <div class="-x-infinite-content" v-html="object.data.html"></div>
     </u-marquee>
   </div>
 </template>

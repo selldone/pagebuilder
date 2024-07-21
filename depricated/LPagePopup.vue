@@ -78,16 +78,7 @@ export default {
     },
     CUSTOM_PAGE_STYLE() {
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.style.bg_custom,
-        this.style.bg_gradient,
-        this.style.bg_image ? this.getShopImagePath(this.style.bg_image) : null,
-        this.style.bg_size,
-        this.style.bg_repeat,
-        this.style.bg_color,
-        this.style.dark,
-        this.style.bg_position,
-        this.style.bg_rotation,
-        this.style.bg_backdrop,
+          this.style,this.getShopImagePath
       );
     },
   },

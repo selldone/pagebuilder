@@ -33,7 +33,6 @@
       :isMenu="isMenu"
       :isPopup="isPopup"
       :page="modelValue"
-      :shop="shop"
       :showIntro="show_intro"
       @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"

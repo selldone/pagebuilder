@@ -13,70 +13,68 @@
   -->
 
 <template>
-  <x-column
-    :object="object"
-    :removeChild="removeChild"
-    cloneable
-    has-custom-layout
+  <v-col
+    class="x--column pa-0 d-flex flex-column"
+    v-data-x="object.style"
+    v-styler:column="{
+      target: object,
+      hasCustomLayout: true,
+      removeChild: removeChild,
+      position: 'right-bottom',
+    }"
+    :cloneable="true"
+    @click="$builder.isEditing ? copyStyle : undefined"
+    :class="[
+      grid_class,
+      {
+        'is-editable': $builder.isEditing,
+        'position-relative': object.background?.bg_video,
+      },
+    ]"
   >
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
-    <template v-if="layout === 'product' && product">
-      <x-text
-        v-model:object="title"
-        :augment="augment"
-        initial-type="h3"
-        :initial-classes="['mb-2']"
-      ></x-text>
-
-      <x-product :object="product" :augment="augment"></x-product>
-    </template>
-
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
-    <template v-else-if="layout === 'collection' && collection">
-      <x-component
-        v-for="(child, index) in other_children_collection_layout"
-        :object="child"
-        :augment="augment"
-        :remove-child="() => object.children.splice(index, 1)"
+    <div
+      class="flex-grow-1"
+      :class="[object.classes]"
+      :style="[object.style, background_style]"
+    >
+      <!-- 📹 Background video -->
+      <x-video-background
+        v-if="object.background?.bg_video"
+        :video="getVideoUrl(object.background.bg_video)"
       >
-      </x-component>
-    </template>
+      </x-video-background>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Product ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <template v-if="layout === 'product' && product">
+        <x-text
+          v-model:object="title"
+          :augment="augment"
+          initial-type="h3"
+          :initial-classes="['mb-2']"
+        ></x-text>
 
-    <div v-else :class="layout_class" class="position-relative">
-      <x-text
-        v-if="
-          title &&
-          layout_class === 'x-layout-middle' &&
-          (title?.value || SHOW_EDIT_TOOLS)
-        "
-        :initial-type="headerType"
-        :initial-classes="['mb-3']"
-        v-model:object="title"
-        :augment="augment"
-        class="--title"
-      ></x-text>
-      <x-uploader
-        v-if="
-          image &&
-          !['x-layout-title-content', 'x-layout-content-title'].includes(
-            layout_class,
-          )
-        "
-        v-model:object="image"
-        :augment="augment"
-        :initialClasses="['mx-auto', 'my-2']"
-        class="--image"
-        contain
-      />
+        <x-product :object="product" :augment="augment"></x-product>
+      </template>
 
-      <div class="--contents">
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Collection ━━━━━━━━━━━━━━━━━━━━━━ -->
+      <template v-else-if="layout === 'collection' && collection">
+        <x-component
+          v-for="(child, index) in other_children_collection_layout"
+          :object="child"
+          :augment="augment"
+          :remove-child="() => object.children.splice(index, 1)"
+        >
+        </x-component>
+      </template>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━ Normal ━━━━━━━━━━━━━━━━━━━━━━ -->
+
+      <div v-else :class="layout_class" class="position-relative">
         <x-text
           v-if="
             title &&
-            layout_class !== 'x-layout-middle' &&
-            (title.data?.value || SHOW_EDIT_TOOLS)
+            layout_class === 'x-layout-middle' &&
+            (title?.value || SHOW_EDIT_TOOLS)
           "
           :initial-type="headerType"
           :initial-classes="['mb-3']"
@@ -84,46 +82,92 @@
           :augment="augment"
           class="--title"
         ></x-text>
-
-        <x-text
-          v-if="content && (content.data?.value || SHOW_EDIT_TOOLS)"
-          initial-type="p"
-          :initial-classes="[
-            'mt-2',
-            ...(initialClassesContent ? initialClassesContent : []),
-          ]"
-          v-model:object="content"
+        <x-uploader
+          v-if="
+            image &&
+            !['x-layout-title-content', 'x-layout-content-title'].includes(
+              layout_class,
+            )
+          "
+          v-model:object="image"
           :augment="augment"
-          class="--content"
-        ></x-text>
+          :initialClasses="['mx-auto', 'my-2']"
+          class="--image"
+          contain
+        />
 
-        <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
-        <x-component
-          v-for="(child, index) in other_children_normal_layouts"
-          :object="child"
-          :augment="augment"
-          :remove-child="() => object.children.splice(index, 1)"
-        >
-        </x-component>
+        <div class="--contents">
+          <x-text
+            v-if="
+              title &&
+              layout_class !== 'x-layout-middle' &&
+              (title.data?.value || SHOW_EDIT_TOOLS)
+            "
+            :initial-type="headerType"
+            :initial-classes="['mb-3']"
+            v-model:object="title"
+            :augment="augment"
+            class="--title"
+          ></x-text>
+
+          <x-text
+            v-if="content && (content.data?.value || SHOW_EDIT_TOOLS)"
+            initial-type="p"
+            :initial-classes="[
+              'mt-2',
+              ...(initialClassesContent ? initialClassesContent : []),
+            ]"
+            v-model:object="content"
+            :augment="augment"
+            class="--content"
+          ></x-text>
+
+          <!-- ━━━━━━━━━━━━ Other Children ━━━━━━━━━━━━ -->
+          <x-component
+            v-for="(child, index) in other_children_normal_layouts"
+            :object="child"
+            :augment="augment"
+            :remove-child="() => object.children.splice(index, 1)"
+          >
+          </x-component>
+        </div>
       </div>
-    </div>
 
-    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-    <div
-      v-if="button"
-      :style="{
-        textAlign: button.data.align,
-      }"
-    >
-      <x-button
-        :augment="augment"
-        :object="button"
-        :editing="SHOW_EDIT_TOOLS"
-        has-align
+      <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Start Column Action Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+      <div
+        v-if="button"
+        :style="{
+          textAlign: button.data.align,
+        }"
       >
-      </x-button>
+        <x-button
+          :augment="augment"
+          :object="button"
+          :editing="SHOW_EDIT_TOOLS"
+          has-align
+        >
+        </x-button>
+      </div>
+
+      <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+      <v-col
+        cols="12"
+        v-if="SHOW_EDIT_TOOLS && !object.children?.length"
+        style="
+          min-height: 48px;
+          opacity: 0.5;
+          text-align: center;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <v-icon class="me-1">library_add</v-icon>
+        You can add elements here...
+      </v-col>
     </div>
-  </x-column>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -135,19 +179,21 @@ import { defineComponent } from "vue";
 import XUploader from "../../../components/x/uploader/XUploader.vue";
 import XProduct from "@selldone/page-builder/components/x/product/XProduct.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";
-import XColumn from "@selldone/page-builder/components/x/column/XColumn.vue";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import { XColumnImageTextObject } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject";
 import { XColumnImageTextDataTypes } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
+import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
+import DataXDirective from "@selldone/page-builder/directives/DataXDirective.ts";
+import { Grid } from "@selldone/page-builder/src/types/types.ts";
 
 export default defineComponent({
   name: "XColumnImageText",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective, "data-x": DataXDirective },
   mixins: [LMixinXComponent],
 
   components: {
+    XVideoBackground,
     XComponent,
-    XColumn,
     XText,
     XProduct,
     XUploader,
@@ -176,6 +222,17 @@ export default defineComponent({
   }),
 
   computed: {
+    grid_class() {
+      const grid = this.object.data?.grid;
+      return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
+        if (!grid[device]) {
+          return "";
+        }
+        const prefix = this.$builder.columnsPrefix[device];
+        return `${prefix}${grid[device]}`;
+      });
+    },
+
     layout() {
       return this.object.data.layout;
     },
@@ -294,7 +351,17 @@ export default defineComponent({
       this.object.data.layout = this.initialColumnLayout;
     }
   },
-  methods: {},
+  methods: {
+    copyStyle(event) {
+      if (!this.$builder.isEditing) return;
+      this.$builder.onClickClone(event, this.object, [
+        "classes",
+        "style",
+        "background",
+      ]);
+      this.$forceUpdate();
+    },
+  },
 });
 </script>
 

@@ -23,7 +23,7 @@ $outline-width: 4px;
     position: relative; // All section has relative position by default!
 
     outline-offset: -$outline-width;
-    --def-color: #9C27B0;
+    --def-color: #673AB7;
 
   }
 
@@ -34,7 +34,7 @@ $outline-width: 4px;
   h4,
   h5 {
     outline-offset: 0;
-    --def-color: red;
+    --def-color: #455A64;
   }
 
   .v-row {
@@ -50,6 +50,10 @@ $outline-width: 4px;
   .v-container {
     outline-offset: 0;
     --def-color: #FFA000
+  }
+  .x--code {
+    outline-offset: 0;
+    --def-color: #D32F2F
   }
 
   .is-editable {

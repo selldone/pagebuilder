@@ -14,9 +14,16 @@
 <template>
   <!-- ████████████████████████ Group ████████████████████████ -->
   <div class="s--setting-group">
-    <v-card-title v-if="title" class="-group-title pb-0 mt-2 text-uppercase d-flex align-center">
-      <v-icon v-if="icon" class="me-2">{{ icon }}</v-icon>
-      {{ title }} <v-spacer></v-spacer> <slot name="title-action"></slot>
+    <v-card-title
+      v-if="title"
+      class="-group-title pb-0 mt-2 text-uppercase d-flex align-center"
+    >
+      <img v-if="image" :src="image" width="24" height="24" class="me-2 border rounded-lg" />
+      <v-icon v-else-if="icon" class="me-2">{{ icon }}</v-icon>
+
+      {{ title }}
+      <v-spacer></v-spacer>
+      <slot name="title-action"></slot>
     </v-card-title>
     <v-card-subtitle v-if="subtitle" class="small text-wrap pt-1"
       >{{ subtitle }}
@@ -39,6 +46,7 @@ export default defineComponent({
     title: {},
     subtitle: {},
     icon: {},
+    image: {},
   },
   computed: {},
   data() {
@@ -54,7 +62,7 @@ export default defineComponent({
 
   .-group-title {
     font-size: 14px !important;
-   // opacity: 0.6;
+    // opacity: 0.6;
   }
 
   .-card-content {

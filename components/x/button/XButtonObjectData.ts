@@ -77,7 +77,7 @@ export class XButtonObjectData extends LModelData<XButtonObjectData> {
     this.ripple = options.ripple || false;
     this.rounded = options.rounded || null;
     this.size = options.size || "x-large";
-    this.align = options.align || null;
+    this.align = options.align || "center";
     this.variant = options.variant || "elevated";
     this.elevation = options.elevation || null;
   }

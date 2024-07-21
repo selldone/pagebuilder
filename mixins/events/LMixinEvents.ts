@@ -39,7 +39,11 @@ export const LMixinEvents = defineComponent({
      * @param {boolean} show - A flag indicating whether to show the settings page style.
      * @param {string} tab - The tab to be displayed on the settings page.
      */
-    ShowLSettingsPageStyle(style: Object, show: boolean|'toggle', tab: string=null) {
+    ShowLSettingsPageStyle(
+      style: Object,
+      show: boolean | "toggle",
+      tab: string = null,
+    ) {
       EventBus.$emit("show:LSettingsPageStyle", {
         style,
         show,
@@ -261,6 +265,47 @@ export const LMixinEvents = defineComponent({
         target,
         propertiesStructure,
         propertiesDefault,
+      });
+    },
+
+    /**
+     * Show tools on top of the images
+     * @param noPreview
+     * @param augment
+     * @param object
+     * @param blobUrl
+     * @param hasRestore
+     * @param restoreImage
+     * @constructor
+     */
+    ShowUploaderToolbar(
+      noPreview,
+      augment,
+      object,
+      blobUrl,
+      hasRestore,
+      restoreImage,
+    ) {
+      // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
+      EventBus.$emit("show:XUploaderToolbar", {
+        noPreview,
+        augment,
+        object,
+        blobUrl,
+        hasRestore,
+        restoreImage,
+      });
+    },
+
+    /**
+     * Show feeder of the section
+     * @constructor
+     * @param section
+     */
+    ShowLFeederDialog(section: Section) {
+      // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
+      EventBus.$emit("show:LFeederDialog", {
+        section,
       });
     },
 

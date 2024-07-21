@@ -50,17 +50,11 @@
       </div>
 
       <v-btn
-        v-if="object.classes && has_classes"
         size="x-small"
-        :color="
-          object.classes.length ||
-          (object.style && Object.keys(object.style).length)
-            ? '#fff'
-            : '#999'
-        "
+        :color="object.classes.length || has_custom_styles ? '#fff' : '#999'"
         class="ms-1 tnt usn"
         @click="showMasterDesignDialog()"
-        title="Classes & Styles"
+        :title="`Classes & Styles ${object.classes?.length ? ' [' + object.classes.join(', ') + ']' : ''}`"
         min-width="20"
         variant="text"
       >
@@ -77,9 +71,13 @@
         class="ms-1 flex-grow-0 usn"
       ></v-img>
 
-      <div v-if="object.background.hasValue()" style="width: 18px;height: 18px ;border-radius: 3px" class="ms-1" :style="background_style" title="Background">
-
-      </div>
+      <div
+        v-if="object.background.hasValue()"
+        style="width: 18px; height: 18px; border-radius: 3px"
+        class="ms-1"
+        :style="background_style"
+        title="Background"
+      ></div>
 
       <v-chip
         v-if="object.label"
@@ -142,30 +140,8 @@ import { LModelElement } from "@selldone/page-builder/models/element/LModelEleme
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import draggable from "vuedraggable";
 import debounce from "lodash-es/debounce";
-import { XDivObject } from "@selldone/page-builder/components/x/div/XDivObject.ts";
-import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import { XContainerObject } from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
-import { XProductObject } from "@selldone/page-builder/components/x/product/XProductObject.ts";
-import { XColumnImageTextObject } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
-import { XButtonsObject } from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import { XGalleryExpandableObject } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
-import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
-import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
-import { XArticleObject } from "@selldone/page-builder/components/x/article/XArticleObject.ts";
-import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
-import { XFeederBlogsObject } from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
-import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
-import { XFormObject } from "@selldone/page-builder/components/x/form/XFormObject.ts";
-import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
-import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
-import { XMarqueeObject } from "@selldone/page-builder/components/x/marquee/XMarqueeObject.ts";
-import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
+import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 
 export default {
   name: "LMenuLeftHierarchyItem",
@@ -189,33 +165,6 @@ export default {
 
     expanded: false,
 
-    ElementTypes: {
-      XSection: XSectionObject,
-      XContainer: XContainerObject,
-      XRow: XRowObject,
-      XColumn: XColumnObject,
-      XText: XTextObject,
-      XUploader: XUploaderObject,
-      XButton: XButtonObject,
-      XProduct: XProductObject,
-      XColumnImageText: XColumnImageTextObject,
-      XButtons: XButtonsObject,
-      XGalleryExpandable: XGalleryExpandableObject,
-      XGalleryExpandableItem: XGalleryExpandableItemObject,
-      XSwiper: XSwiperObject,
-      XArticle: XArticleObject,
-      XCode: XCodeObject,
-      XDiv: XDivObject,
-      XFeederBlogs: XFeederBlogsObject,
-      XFeederProducts: XFeederProductsObject,
-      XForm: XFormObject,
-      XInputText: XInputTextObject,
-      XLottie: XLottieObject,
-      XMarquee: XMarqueeObject,
-      XSearch: XSearchObject,
-      //  XVideoBackground: XVideoBackgroundObject,
-    },
-
     debouncedScrollToElement: null,
   }),
 
@@ -224,7 +173,11 @@ export default {
       return this.object.$element?.classList;
     },
     element_type() {
-      return this.ElementTypes[this.object.component];
+      return LUtilsComponents.ComponentToObject[this.object.component];
+    },
+
+    has_custom_styles() {
+      return this.object.style && Object.keys(this.object.style).length;
     },
 
     icon() {
@@ -254,9 +207,9 @@ export default {
         "XSwiper",
       ].includes(this.object.component);
     },
-    background_style(){
-      return this.object.background?.generate(this.getShopImagePath)
-    }
+    background_style() {
+      return this.object.background?.generate(this.getShopImagePath);
+    },
   },
 
   watch: {},

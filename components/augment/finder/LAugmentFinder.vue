@@ -40,6 +40,7 @@ export default {
   },
   computed: {
     array() {
+      if (!this.modelValue) return [];
       if (isString(this.modelValue))
         return this.modelValue?.findAllDynamicAugmentKeys().unique(); // Find all {{key}}
       else {

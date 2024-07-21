@@ -15,13 +15,14 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XMarqueeObjectData} from "@selldone/page-builder/components/x/marquee/XMarqueeObjectData.ts";
+import {isObject} from "lodash-es";
 
 export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
   public static ComponentName = "XMarquee";
   public static Info = {
-    group:'Text',
-    icon:'motion_photos_auto',
-    title:'Marquee'
+    group: "Text",
+    icon: "motion_photos_auto",
+    title: "Marquee",
   };
 
   constructor(
@@ -70,17 +71,27 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
 
   static MigrateOld(old: any): XMarqueeObject {
     const data = new XMarqueeObjectData({
-      html: old.text_loop.html,
-      duration: old.text_loop.duration,
-      space: old.text_loop.space,
-      repeat: old.text_loop.repeat,
-      reverse: old.text_loop.reverse,
+      html: old.text_loop?.html,
+      duration: old.text_loop?.duration,
+      space: old.text_loop?.space,
+      repeat: old.text_loop?.repeat,
+      reverse: old.text_loop?.reverse,
     });
 
-    const style = old.style ? old.style : {};
-    style.height = old.text_loop.height;
-    style.color = old.text_loop.font_color;
-    style.fontSize = old.text_loop.font_size;
+    let style = old.style ? old.style : {};
+    if (Array.isArray(style) || !isObject(style)) style = {};
+    style.height = old.text_loop?.height;
+    style.color = old.text_loop?.font_color;
+    style.fontSize = old.text_loop?.font_size;
+
+    console.log(
+      "XMarqueeObject | Migrate | Old:",
+      old,
+      "--data-->",
+      data,
+      "style",
+      style,
+    );
 
     return new XMarqueeObject(
       new LModelBackground(old?.background),

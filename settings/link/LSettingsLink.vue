@@ -36,13 +36,12 @@
         >
 
         <v-text-field
-          v-model="link"
+          v-model="target.data.link"
           :label="$t('global.commons.url')"
           class="english-field my-3"
           clearable
           prepend-inner-icon="link"
           variant="outlined"
-          @change="setLink"
         >
         </v-text-field>
       </v-card-text>
@@ -67,12 +66,10 @@ export default {
   data: () => ({
     el: null,
     target: null,
-    keyLink: null, // ex. link
 
     // ---------------------------------
     show_dialog: false,
 
-    link: null,
 
     //--------------------------
     key_listener_keydown: null,
@@ -143,17 +140,10 @@ export default {
 
   methods: {
     showDialog() {
-      this.link = this.target[this.keyLink];
-
       this.show_dialog = true;
     },
 
-    //----------------------------------------------------------------------------
-    setLink() {
-      if (!this.show_dialog) return;
 
-      this.target[this.keyLink] = this.link; // Save data in section!
-    },
   },
 };
 </script>

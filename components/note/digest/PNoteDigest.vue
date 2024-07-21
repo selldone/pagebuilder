@@ -24,7 +24,7 @@
         class="fadeIn pp"
         in-shop-admin
         @click="show(note)"
-        @delete="$emit('delete', note.id)"
+        @delete="DeleteItemByID($builder.model.notes, note.id)"
       >
       </p-note-box>
     </v-list>
@@ -38,41 +38,43 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import PNoteBox from "../../../components/note/box/PNoteBox.vue";
 import { LMixinNote } from "../../../mixins/note/LMixinNote";
+import { Section } from "@selldone/page-builder/src/section/section.ts";
 
 export default {
   name: "PNoteDigest",
+  inject: ["$builder"],
   mixins: [LMixinNote],
 
   components: { PNoteBox },
-  emits: ["delete"],
+
   props: {
     shop: {
       required: true,
     },
-    notes: {
-      required: false,
-      type: Array,
+    section: {
+      required: true,
+      type: Section,
     },
+
     hoverAble: {
       type: Boolean,
     },
     limit: {},
-
-    page: {
-      // Assigned target.
-    },
-    popup: {
-      // Assigned target.
-    },
   },
   data: () => ({}),
 
   computed: {
     limited_notes() {
       return this.notes.sortByKey("id", false).limit(this.limit);
+    },
+
+    notes() {
+      return this.$builder.model?.notes?.filter(
+        (n) => n.element_id + "" === this.section.uid + "",
+      );
     },
   },
 
@@ -83,12 +85,7 @@ export default {
 
   methods: {
     show(note) {
-      this.showGlobalShopNoteDialog(
-        this.notes,
-        note.element_id,
-        this.page?.id,
-        this.popup?.id,
-      );
+      this.showGlobalShopNoteDialog(note.element_id);
     },
   },
 };

@@ -24,7 +24,7 @@
     <l-menu-top
       v-if="page"
       :backTo="backTo"
-      :shop="shop"
+      :shop="$shop"
       :page="page"
       :demo="demo"
       :busy-save="busySave"
@@ -120,7 +120,7 @@
             <l-page-editor-artboard-top-bar
               :page="page"
               :fullscreen="!scale_down"
-              :shop="shop"
+              :shop="$shop"
               :isPopup="isPopup"
               :isMenu="isMenu"
               :demo="demo"
@@ -161,171 +161,38 @@
                   @dragleave="
                     (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
                   "
-                  @dragover="
-                    (e) =>
-                      !$builder.isEditing || $builder.sections.length
-                        ? undefined
-                        : allowDropSection(e, 0)
-                  "
-                  @drop="
-                    (e) =>
-                      !$builder.isEditing || $builder.sections.length
-                        ? undefined
-                        : dropSection(e, 0)
-                  "
                 >
+                  <l-artboard-drop
+                    v-if="$builder.isEditing && !$builder.sections.length"
+                    :index="0"
+                  >
+                    <div
+                      class="pa-5 d-flex align-center justify-center"
+                      style="
+                        min-height: 70vh;
+                        background: #6548cc;
+                        border-radius: 20px;
+                        margin: 4%;
+                        color: #fff;
+                        font-size: 2rem;
+                        font-weight: 400;
+                      "
+                    >
+                      Drop Section Here...
+                    </div>
+                  </l-artboard-drop>
                   <template
                     v-for="(section, index) in $builder.sections"
                     :key="section.uid"
                   >
-                    <div class="position-relative">
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <div
-                        v-if="
-                          $builder.isEditing && section.object?.style?.marginTop
-                        "
-                        :class="{
-                          '--reverse':
-                            parseInt(section.object.style.marginTop) < 0,
-                        }"
-                        :margin="section.object.style.marginTop"
-                        :style="{ '--margin': section.object.style.marginTop }"
-                        class="arrow-margin -top"
-                        title="Top Margin"
-                        @mousedown.prevent
-                      ></div>
-                      <div
-                        v-if="
-                          $builder.isEditing &&
-                          section.object?.style?.marginBottom
-                        "
-                        :class="{
-                          '--reverse':
-                            parseInt(section.object.style.marginBottom) < 0,
-                        }"
-                        :margin="section.object.style.marginBottom"
-                        :style="{
-                          '--margin': section.object.style.marginBottom,
-                        }"
-                        class="arrow-margin -bottom"
-                        title="Bottom Margin"
-                        @mousedown.prevent
-                      ></div>
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Margin Arrows - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                      <div
-                        :class="{
-                          'cursor-pipette':
-                            $builder.cloneStyle && !$builder.cloneObject,
-                          'cursor-bucket':
-                            $builder.cloneStyle && $builder.cloneObject,
-
-                          'show-name': $builder.showLeftMenu && inEditMode,
-                        }"
-                        :section-name="section.label"
-                        class="position-relative d-flex flex-column target-drop"
-                        @dragover="
-                          (e) =>
-                            !$builder.isEditing
-                              ? undefined
-                              : allowDropSection(e, index)
-                        "
-                        @drop="
-                          (e) =>
-                            !$builder.isEditing
-                              ? undefined
-                              : dropSection(e, index)
-                        "
-                      >
-                        <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ 🪂 Section Component - Start 🪂 ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                        <x-component
-                          v-if="delay_load > index"
-                          :object="section.object"
-                          :augment="null"
-                          :id="section.uid"
-                          :section="section"
-                          :ref="'SECTION_' + section.uid"
-                          :class="{
-                            'move-courser block-pointer-event':
-                              $builder.isSorting,
-
-                            'ignore-elements': !$builder.isSorting,
-                            pen: drop_section,
-                            'hover-z-10': $builder.isEditing,
-                          }"
-                        />
-                        <div
-                          v-else
-                          class="d-flex align-center justify-center"
-                          style="height: 400px"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            size="84"
-                          ></v-progress-circular>
-                        </div>
-                      </div>
-
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <s-landing-section-side-bar
-                        v-if="$builder.showLeftMenu && inEditMode"
-                        v-model:past-hover-index="past_hover_index"
-                        :copy-section="copy_section"
-                        :section="section"
-                        :section-index="index"
-                        @click:copy="copySection(section)"
-                        @click:delete="deleteSection(section)"
-                        @click:save="saveSectionToRepository(section)"
-                        @click:past="pastSection(index + 1)"
-                      ></s-landing-section-side-bar>
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <l-page-editor-artboard-side-extended
-                        :hasNote="has_note"
-                        :aiAutoFillFunction="aiAutoFillFunction"
-                        :notes="notes"
-                        :section="section"
-                        @click:note="showWriteNote(section)"
-                        @click:feeder="showFeeder(section)"
-                      ></l-page-editor-artboard-side-extended>
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                      <p-note-digest
-                        v-if="$vuetify.display.lgAndUp && has_note"
-                        :limit="2"
-                        :notes="
-                          notes?.filter((n) => n.element_id === section.uid)
-                        "
-                        :page="shop_page"
-                        :popup="shop_popup"
-                        :shop="shop"
-                        :style="{ width: '400px', right: '-600px' }"
-                        class="position-absolute"
-                        hover-able
-                        style="top: 50px"
-                        @delete="(id) => DeleteItemByID(page.notes, id)"
-                      ></p-note-digest>
-                      <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Notes - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    </div>
-                    <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Past & Drop Expanding Bar ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
-                    <v-expand-transition>
-                      <div
-                        v-if="past_hover_index === index && drop_section"
-                        class="bg-lily-meadow typo-body d-flex flex-column align-center justify-center"
-                        style="height: 84px"
-                      >
-                        Will add here
-                      </div>
-                      <div
-                        v-else-if="past_hover_index === index"
-                        class="bg-blue-soft d-flex align-center justify-center"
-                        style="height: 84px"
-                      >
-                        Past section here!
-                      </div>
-                    </v-expand-transition>
+                    <l-artboard-section
+                      :section="section"
+                      :loading="delay_load <= index"
+                      :index="index"
+                      :shop="$shop"
+                      :aiAutoFillFunction="aiAutoFillFunction"
+                      v-model:past-hover-index="past_hover_index"
+                    ></l-artboard-section>
                   </template>
                 </div>
               </div>
@@ -351,8 +218,16 @@
     "
     class="usn pen d-flex flex-column align-center justify-center pa-8 text-white text-h5"
   >
-    <v-icon size="64" class="ma-5">architecture</v-icon>
-    <div>Drop Landing File Here</div>
+    <div class="position-relative pen">
+      <v-icon size="64" class="ma-5">architecture</v-icon>
+      <v-progress-circular
+        v-if="busy_import"
+        size="94"
+        indeterminate
+        class="center-absolute"
+      ></v-progress-circular>
+    </div>
+    <div class="my-5 pen">Drop Landing File Here</div>
   </div>
 
   <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
@@ -362,14 +237,6 @@
     :scale-down-mode="scale_down"
   >
   </l-page-editor-repository>
-
-  <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
-  <l-feeder-dialog
-    v-if="selected_section && selected_component"
-    v-model="dialog_feeder"
-    :section="selected_section"
-    :section-component="selected_component"
-  ></l-feeder-dialog>
 
   <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
 
@@ -381,11 +248,17 @@
     :set-page-function="setPage"
     :fetch-page-data="fetchPageData"
     :page="page"
-    :shop="shop"
+    :shop="$shop"
   ></l-menu-left>
 
   <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
   <l-settings></l-settings>
+
+  <!-- ――――――――――――――――――――――  Uploader Toolbar ―――――――――――――――――――― -->
+  <x-uploader-toolbar></x-uploader-toolbar>
+
+  <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
+  <l-feeder-dialog></l-feeder-dialog>
 </template>
 
 <script>
@@ -396,44 +269,40 @@ import LPageEditorRepository from "@selldone/page-builder/page/editor/repository
 import LFeederDialog from "../../components/feeder/dialog/LFeederDialog.vue";
 import { LUtilsTypo } from "../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
-import PNoteDigest from "../../components/note/digest/PNoteDigest.vue";
 import LTemplatesList from "../../components/templates/list/LTemplatesList.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import _ from "lodash-es";
-import { LMixinNote } from "../../mixins/note/LMixinNote";
 import { defineComponent } from "vue";
-import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import Builder from "../../Builder.ts";
-import { LUtilsFont } from "../../utils/font/LUtilsFont";
 import LMenuLeft from "@selldone/page-builder/src/menu/left/LMenuLeft.vue";
-import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import LSettings from "@selldone/page-builder/settings/LSettings.vue";
-import SLandingSectionSideBar from "@selldone/page-builder/components/section/side-bar/SLandingSectionSideBar.vue";
 import LPageEditorArtboardTopBar from "@selldone/page-builder/page/editor/artboard/top-bar/LPageEditorArtboardTopBar.vue";
-import LPageEditorArtboardSideExtended from "@selldone/page-builder/page/editor/artboard/side-extended/LPageEditorArtboardSideExtended.vue";
 import LPageEditorArtboardViewMode from "@selldone/page-builder/page/editor/artboard/view-mode/LPageEditorArtboardViewMode.vue";
 import { LUtilsLoader } from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 import LMenuTop from "@selldone/page-builder/src/menu/top/LMenuTop.vue";
+import LArtboardSection from "@selldone/page-builder/page/editor/LArtboardSection.vue";
+import LArtboardDrop from "@selldone/page-builder/page/editor/artboard/drop/LArtboardDrop.vue";
+import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
+import XUploaderToolbar from "@selldone/page-builder/components/x/uploader/XUploaderToolbar.vue";
 
-const DEBUG = false;
 export default defineComponent({
   name: "LPageEditor",
-  mixins: [LMixinNote, LMixinEvents],
+  mixins: [LMixinEvents, LMixinArtboard],
+  inject: ["$shop"],
   components: {
+    XUploaderToolbar,
+    LArtboardDrop,
+    LArtboardSection,
     LMenuTop,
     LPageEditorArtboardViewMode,
-    LPageEditorArtboardSideExtended,
     LPageEditorArtboardTopBar,
-    SLandingSectionSideBar,
     LSettings,
-    XComponent,
     LMenuLeft,
 
     LTemplatesList,
-    PNoteDigest,
 
     LFeederDialog,
     LPageEditorRepository,
@@ -465,10 +334,6 @@ export default defineComponent({
     },
     page: {},
 
-    shop: {
-      required: false,
-      type: Object,
-    },
     histories: { required: true, type: Array },
 
     isPopup: {
@@ -482,7 +347,7 @@ export default defineComponent({
 
     aiAutoFillFunction: {},
     demo: Boolean,
-    fetchPageData: { required: true, type: Function },
+    fetchPageData: { required: false, type: Function },
 
     backTo: {},
     busySave: Boolean,
@@ -532,10 +397,6 @@ export default defineComponent({
       sortable: null,
 
       //-------------------
-      selected_section: null,
-      selected_component: null,
-
-      dialog_feeder: false,
 
       loading_ai: [],
 
@@ -548,13 +409,12 @@ export default defineComponent({
       past_hover_index: null,
       onPast: null,
 
-      copy_section: null,
-
       //-------------------
       busy_push: false,
 
       //-------------------
       drop_landing_file: false,
+      busy_import: false,
     };
   },
 
@@ -568,18 +428,8 @@ export default defineComponent({
       if (!this.$builder.style) return null; // Fix bugs
 
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.$builder.style.bg_custom,
-        this.$builder.style.bg_gradient,
-        this.$builder.style.bg_image
-          ? this.getShopImagePath(this.$builder.style.bg_image)
-          : null,
-        this.$builder.style.bg_size,
-        this.$builder.style.bg_repeat,
-        this.$builder.style.bg_color,
-        this.$builder.style.dark,
-        this.$builder.style.bg_position,
-        this.$builder.style.bg_rotation,
-        null,
+        this.$builder.style,
+        this.getShopImagePath,
       );
     },
 
@@ -593,28 +443,9 @@ export default defineComponent({
     is_loading_sections() {
       return this.sections_length && this.load_percent < 100;
     },
-    shop_page() {
-      return this.shop && !this.isMenu && !this.isPopup ? this.page : null;
-    },
-    shop_popup() {
-      return this.shop && !this.isMenu && this.isPopup ? this.page : null;
-    },
-    shop_menu() {
-      return this.shop && this.isMenu && !this.isPopup ? this.page : null;
-    },
-
-    has_note() {
-      return this.shop_page || this.shop_popup;
-    },
 
     scale_down() {
       return this.$builder.isSorting || this.$builder.showLeftMenu;
-    },
-
-    base_url() {
-      return this.shop
-        ? `${this.getShopMainUrl(this.shop)}/pages/`
-        : `${this.SetupService.MainServiceUrl()}/`;
     },
 
     in_design_mode() {
@@ -623,10 +454,6 @@ export default defineComponent({
 
     sections_length() {
       return this.$builder.sections && this.$builder.sections.length;
-    },
-
-    notes() {
-      return this.page?.notes;
     },
 
     /**
@@ -673,12 +500,6 @@ export default defineComponent({
     inEditMode(val) {
       this.$emit("changeMode", val);
     },
-    /*
-        sections_length(val) {
-          if (val > 0 && this.delay_load < 999)
-            // loaded any section?
-            this.loadNextDelayed();
-        },*/
 
     "$builder.isSorting"() {
       this.onSortingModeChange();
@@ -686,11 +507,6 @@ export default defineComponent({
   },
   provide() {
     return {
-      /**
-       * @deprecated
-       */
-      builder: this.$builder,
-
       $builder: this.$builder,
     };
   },
@@ -974,7 +790,7 @@ export default defineComponent({
 
         // Try parse as section:
         if (paste && IsValidJsonSectionString(paste)) {
-          this.copy_section = paste;
+          this.$builder._copy_section = paste;
 
           this.pastSection(
             this.past_hover_index === null
@@ -987,27 +803,10 @@ export default defineComponent({
       document.addEventListener("paste", this.onPast, true);
     },
 
-    //――――――――――――――――――――――  Copy Section ――――――――――――――――――――
-
-    copySection(section) {
-      this.copy_section = JSON.stringify(section.toJson()); //TODO: V1 !CHECK!
-      this.copyToClipboard(
-        this.copy_section,
-        "Copy Section Data & Structure",
-        `The section has been successfully copied to the clipboard. You can paste it onto other pages.`,
-      );
-    },
-    saveSectionToRepository(section) {
-      const _section = JSON.stringify(section.toJson()); //TODO: V2 Check
-      EventBus.$emit("show:LPageEditorElementsRepository:Add-My-Section", {
-        section: _section,
-      });
-    },
-
     //――――――――――――――――――――――  Past Section ――――――――――――――――――――
 
     pastSection(index) {
-      if (!this.copy_section) {
+      if (!this.$builder._copy_section) {
         this.showWarningAlert(
           "First copy a section!",
           "Data on clipboard not found!",
@@ -1017,7 +816,7 @@ export default defineComponent({
       }
 
       try {
-        let section = JSON.parse(this.copy_section);
+        let section = JSON.parse(this.$builder._copy_section);
         if (section.object) {
           this.$builder.add(section, index, true);
           this.$builder.history.save();
@@ -1029,21 +828,6 @@ export default defineComponent({
       }
 
       this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
-    },
-
-    //――――――――――――――――――――――  Delete Section ――――――――――――――――――――
-
-    deleteSection(section) {
-      try {
-        this.$builder.remove(section);
-        this.$builder.history.save();
-      } catch (e) {
-        console.error(e);
-        this.showErrorAlert(
-          null,
-          "We can not remove this section! Maybe fix it by refreshing the page.",
-        );
-      }
     },
 
     inActiveEditingMode() {
@@ -1227,43 +1011,6 @@ export default defineComponent({
       this.scrollTop = document.documentElement.scrollTop;
     },
 
-    //――――――――――――――――――――――  Drop section (pre-built) ――――――――――――――――――――
-    dropSection(event, index) {
-      // console.log('dropSection!' ,event)
-
-      const text = event.dataTransfer.getData("section");
-
-      if (text)
-        try {
-          const json = JSON.parse(text);
-
-          if (json?.object /*V2*/ || json?.data /*V1*/) {
-            event.preventDefault();
-            // console.log("added!");
-            this.$builder.add(json, index + 1, true);
-            this.autoLoadSectionFonts(json);
-          }
-        } catch (e) {
-          this.showErrorAlert(null, e);
-        }
-      this.past_hover_index = null;
-      this.drop_section = false;
-
-      this.$builder.history.save();
-    },
-    allowDropSection(event, index, allowed_class) {
-      // Tips:  getData("section") not available on drag over event in chrome , edge ,... security!
-      const types = event.dataTransfer.types;
-      //  console.log('allowDropSection!' ,types)
-
-      if (types.includes("section")) {
-        // console.log('allowDropSection' ,this.past_hover_index,index)
-        event.preventDefault();
-        this.past_hover_index = index;
-        this.drop_section = true;
-        return true;
-      }
-    },
     leaveDrag(event) {
       if (
         this.$builder.sections.length /*No section mode!*/ &&
@@ -1278,21 +1025,10 @@ export default defineComponent({
       this.drop_section = false;
     },
 
-    showFeeder(section) {
-      this.selected_section = section;
-      this.selected_component = this.$refs[`SECTION_${section.uid}`][0]; // v-for return refs in array!
-      this.dialog_feeder = true;
-    },
-
     showWriteNote(section) {
       if (!section) return;
 
-      this.showGlobalShopNoteDialog(
-        this.page.notes,
-        section.uid,
-        this.shop_page?.id,
-        this.shop_popup?.id,
-      );
+      this.showGlobalShopNoteDialog(section.uid);
     },
     autoShowNote() {
       if (this.$route.query.element_id) {
@@ -1314,40 +1050,6 @@ export default defineComponent({
         EventBus.$emit(LEventsName.PAGE_BUILDER_CLOSE_TOOLS);
     },
 
-    //――――――――――――――――――――――  Load Fonts ――――――――――――――――――――
-
-    autoLoadSectionFonts(json) {
-      const builder = this.$builder;
-      try {
-        this.fonts = LUtilsFont.FindAllFontsInSection(json);
-
-        if (DEBUG) console.log("Fonts ---->", this.fonts);
-
-        if (!builder.style) builder.style = {};
-
-        if (!builder.style.fonts || !Array.isArray(builder.style.fonts))
-          builder.style.fonts = [];
-
-        console.log("👢 builder.style ---->", builder.style);
-        console.log("👢 this.fonts ---->", this.fonts);
-
-        this.fonts.forEach((font) => {
-          if (!builder.style.fonts.includes(font)) {
-            builder.style.fonts.push(font);
-            this.showSuccessAlert(
-              "Font : " + font,
-              "Font has been added successfully.",
-            );
-          }
-        });
-
-        // Load fonts:
-        FontLoader.LoadFonts(this.fonts);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-
     //-------------------------------------------------------------------------------------
     updateRealtimePreview: _.throttle(function (_page) {
       this.updateRealtimePreviewNow(_page);
@@ -1367,7 +1069,7 @@ export default defineComponent({
       this.busy_push = true;
       axios
         .post(
-          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(this.shop.id, this.page.id),
+          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(this.$shop.id, this.page.id),
           _page,
         )
         .then(({ data }) => {
@@ -1404,20 +1106,24 @@ export default defineComponent({
     },
 
     onDropFile(event) {
-      this.drop_landing_file = false;
-
       const files = event.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
         if (files[i].name.endsWith(".landing")) {
+          console.log("Drop landing file!")
+          event.preventDefault();
+          event.stopPropagation();
           // Process the .landing file
           this.processFile(files[i]);
-          event.preventDefault();
-          break;
+          return;
         }
       }
+
+      this.drop_landing_file = false;
     },
 
-    processFile(file) {
+    async processFile(file) {
+      this.busy_import = true;
+      this.delay_load = 0;
       // Handle the .landing file
       console.log("Dropped file:", file);
 
@@ -1429,6 +1135,11 @@ export default defineComponent({
         .catch((e) => {
           this.showErrorAlert(null, e.toString());
           console.error(e);
+        })
+        .finally(() => {
+          this.drop_landing_file = false;
+          this.busy_import = false;
+          this.loadNextDelayed();
         });
     },
   },

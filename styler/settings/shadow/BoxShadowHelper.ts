@@ -15,7 +15,7 @@
 import {isObject, isString} from "lodash-es";
 
 export class BoxShadowHelper {
-  static Generate(shadow: Array | string) {
+  static Generate(shadow: IShadow[] | string) {
     if (!shadow) return null;
     if (isString(shadow)) return shadow;
 
@@ -35,10 +35,10 @@ export class BoxShadowHelper {
     return out.join(", ");
   }
 
-  static Extract(shadow_str: string): ShadowObject[] | null {
+  static Extract(shadow_str: string): IShadow[] | null {
     if (!shadow_str) return null;
 
-    const out: ShadowObject[] = [];
+    const out: IShadow[] = [];
     try {
       // Split shadows by comma while accounting for possible commas in rgba colors
       const shadowStrings = shadow_str.match(/(?:[^,(]+|\([^)]*\))+/g);
@@ -61,7 +61,7 @@ export class BoxShadowHelper {
     return out;
   }
 
-  static extractShadowValues(shadowString: string): ShadowObject | null {
+  static extractShadowValues(shadowString: string): IShadow | null {
     // Regular expression to match all parts: lengths, colors, and 'inset'
     const regex =
       /(-?\d+px)|(#[\da-fA-F]{3,8})|(rgba?\([\d\s,]+\))|(hsla?\([\d\s%,]+\))|(inset)/g;
@@ -112,7 +112,7 @@ export class BoxShadowHelper {
   }
 }
 
-type ShadowObject = {
+type IShadow = {
   w: number;
   h: number;
   r: number;

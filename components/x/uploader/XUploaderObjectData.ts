@@ -21,8 +21,6 @@ export class XUploaderObjectData extends LModelData<XUploaderObjectData> {
 
   link: string | null;
 
-  //TODO: Make it abstract class and set params input!
-
   constructor(params: {
     src?: string | null;
     setting?: XUploaderDataTypes.Setting | null;
@@ -68,18 +66,6 @@ export namespace XUploaderDataTypes {
     float: any;
 
     fg: LModelBackground | null;
-
-    /**
-     * @depricated
-     */
-    size: {
-      h: any;
-      w: any;
-      max_h: any;
-      max_w: any;
-      min_h: any;
-      min_w: any;
-    };
 
     constructor(data?: Partial<Setting>) {
       this.aspect = (data && data.aspect) || null;

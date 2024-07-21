@@ -49,7 +49,7 @@ export class LMigrationV2Newsletter {
     );
 
     // Add form
-    const form = XFormObject.MigrateOld(null);
+    const form = XFormObject.MigrateOld($sectionData);
     column.addChild(form);
 
     if ($sectionData.newsletter.success_msg) {

@@ -373,8 +373,6 @@ export default {
 
     bgBackdrop: {},
 
-
-
     dark: { type: Boolean, default: false },
 
     bgVideo: {},
@@ -459,16 +457,20 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     final_bg_styles() {
       // console.log("final_bg_styles", this.bgCustom, this.bgGradient);
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.bgCustom,
-        this.bgGradient,
-        this.bgImage ? this.getShopImagePath(this.bgImage) : null,
-        this.bgImageSize,
-        this.bgImageRepeat,
-        this.bgColor,
-        null,
-        this.bgPosition,
-        this.bgRotation,
-        this.bgBackdrop,
+        {
+          bg_custom: this.bgCustom,
+          bg_gradient: this.bgGradient,
+          bg_image: this.bgImage,
+          bg_size: this.bgImageSize,
+          bg_repeat: this.bgImageRepeat,
+          bg_color: this.bgColor,
+          dark: null,
+          bg_position: this.bgPosition,
+          bg_rotation: this.bgRotation,
+          bg_backdrop: this.bgBackdrop,
+        },
+
+        this.getShopImagePath,
       );
     },
 

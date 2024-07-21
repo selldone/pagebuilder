@@ -25,7 +25,7 @@ export class LMigrationV2Marquee {
 
     // 1. Add section:
     const section = XSectionObject.MigrateOld($sectionData);
-    section.classes = ["pa-0"];
+    section.classes = ["px-0"];
 
     section.addChild(XMarqueeObject.MigrateOld($sectionData));
 

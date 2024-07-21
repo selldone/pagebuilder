@@ -23,6 +23,7 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
+import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export class LMigrationV2Scroll {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -33,6 +34,15 @@ export class LMigrationV2Scroll {
     const section = XSectionObject.MigrateOld($sectionData);
     section.classes = [];
     section.style = [];
+
+    if($sectionData.title){
+      col_A.addChild(XTextObject.MigrateOld($sectionData.title, "h2", ["mb-3"]));
+    }
+    if($sectionData.content){
+      col_A.addChild(XTextObject.MigrateOld($sectionData.content, "p", []));
+    }
+
+
 
     const swiper = XSwiperObject.MigrateOld($sectionData.slide);
     section.addChild(swiper);
@@ -54,8 +64,10 @@ export class LMigrationV2Scroll {
       container.classes = $sectionData.classes ? $sectionData.classes : [];
 
       const row = XRowObject.MigrateOld(_slide.row);
-      const column = XColumnObject.Seed(12, 9, 7);
-      const title = XTextObject.MigrateOld(_slide.title, "h2", []);
+      container.addChild(row);
+
+      const column = XColumnImageTextObject.MigrateOld(_slide);
+   /*   const title = XTextObject.MigrateOld(_slide.title, "h2", []);
       const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
       const buttons = XButtonsObject.NewInstance();
 
@@ -63,13 +75,15 @@ export class LMigrationV2Scroll {
         buttons.addChild(XButtonObject.MigrateOld(_slide.button));
       }
 
-      container.addChild(row);
-      row.addChild(column);
-
-      column.addChild(XUploaderObject.MigrateOld(_slide.image));
+            column.addChild(XUploaderObject.MigrateOld(_slide.image));
       column.addChild(title);
       column.addChild(subtitle);
       column.addChild(buttons);
+      */
+
+      row.addChild(column);
+
+
 
       swiper.addChild(container);
     });

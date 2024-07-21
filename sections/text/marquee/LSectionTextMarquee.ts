@@ -29,7 +29,7 @@ export class LSectionTextMarquee {
   static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
-    section.classes = ["pa-0"];
+    section.classes = ["px-0"];
     section.addChild(XMarqueeObject.Seed());
 
     return section;

@@ -82,6 +82,10 @@ export abstract class LModelElement<T> {
     this.children = children ? children : [];
     this.data = data;
     this.props = props;
+
+    // Fix issues:
+    if (Array.isArray(this.style) || !isObject(this.style)) this.style = {};
+    if (!Array.isArray(this.classes)) this.classes = [];
   }
 
   addChild(

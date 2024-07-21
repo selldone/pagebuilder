@@ -102,26 +102,29 @@ export default {
   methods: {
     updateOut() {
       // console.log("updateOut", this.width, this.type, this.color);
-      if(!this.type || this.type === 'none' || !this.width || this.width === 'unset') return null;
+      if (
+        !this.type ||
+        this.type === "none" ||
+        !this.width ||
+        this.width === "unset"
+      )
+        return null;
       this.$emit(
         "update:modelValue",
         `${this.width} ${this.type} ${this.color} `,
       );
     },
     assignValue() {
-      if(!this.modelValue){
+      if (this.modelValue) {
+        const arr = this.modelValue.split(" ");
+        if (arr.length > 0) this.width = arr[0];
+        if (arr.length > 1) this.type = arr[1];
+        if (arr.length > 2) this.color = arr.slice(2).join(" "); //Other is color rgb(xx, xx, xx) !
+      } else {
         this.width = null;
         this.type = null;
         this.color = null;
       }
-      // console.log("updateOut", this.width, this.type, this.color);
-      const arr = this.modelValue.split(" ");
-      if (arr.length > 0) this.width = arr[0];
-      if (arr.length > 1) this.type = arr[1];
-      if (arr.length > 2) this.color = arr.slice(2).join(" "); //Other is color rgb(xx, xx, xx) !
-
-      //if(!this.type)this.type='solid';
-      //  console.log('assignValue this.color',this.color)
     },
   },
   created() {

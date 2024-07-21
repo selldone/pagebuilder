@@ -22,9 +22,9 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 export class XFormObject extends LModelElement<XFormObjectData> {
   public static ComponentName = "XForm";
   public static Info = {
-    group:'Form',
-    icon:'call_to_action',
-    title:'Form'
+    group: "Form",
+    icon: "call_to_action",
+    title: "Form",
   };
 
   constructor(
@@ -73,7 +73,6 @@ export class XFormObject extends LModelElement<XFormObjectData> {
       .setPrependInnerIcon("email");
     instance.addChild(email);
 
-
     return instance;
   }
 
@@ -94,7 +93,7 @@ export class XFormObject extends LModelElement<XFormObjectData> {
       .setSize("x-large");
     button.classes = ["mt-5"];
 
-    this.addChild(button)
+    this.addChild(button);
 
     return button;
   }
@@ -110,11 +109,11 @@ export class XFormObject extends LModelElement<XFormObjectData> {
     const data = new XFormObjectData({});
 
     const instance = new XFormObject(null, null, null, [], data, null);
-    instance.addChild(
-      XButtonObject.MigrateOld(old.button).setLabel(
-        XFormObjectTypes.LABELS.ACTION,
-      ),
+
+    const button = XButtonObject.MigrateOld(old?.button).setLabel(
+      XFormObjectTypes.LABELS.ACTION,
     );
+    instance.addChild(button);
 
     return instance;
   }
