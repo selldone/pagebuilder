@@ -20,7 +20,7 @@
     }"
     :allow-touch-move="allow_touch_move"
     :auto-height="
-      SLIDE_DATA.autoHeight !== undefined ? SLIDE_DATA.autoHeight : false
+      SLIDE_DATA.autoHeight
     "
     :autoplay="autoplay"
     :centered-slides="SLIDE_DATA.centeredSlides"

@@ -14,7 +14,7 @@
 
 <template>
   <l-setting-navigation v-model="dialog_resize">
-    <v-card class="text-start" flat>
+    <v-card v-if="dialog_pre" class="text-start" flat>
       <v-card-actions>
         <div class="widget-buttons">
           <v-btn size="x-large" variant="text" @click="resetSize()">
@@ -29,40 +29,38 @@
         </div>
       </v-card-actions>
 
-      <v-card-text v-if="dialog_pre" key="preview">
-        <div
-          class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3 rounded-lg"
+      <div
+        class="img-prev-con bg-tiny-checkers-dark thin-scroll mb-3 rounded-lg mx-3"
+      >
+        <v-img
+          :aspect-ratio="setting.aspect"
+          :cover="!setting.contain"
+          :height="target.style.height ? target.style.height : undefined"
+          :max-height="target.style.maxHeight"
+          :max-width="target.style.maxWidth"
+          :min-height="target.style.minHeight"
+          :min-width="target.style.minWidth"
+          :src="getShopImagePath(src)"
+          :width="target.style.width ? target.style.width : undefined"
+          class="d-block"
         >
-          <v-img
-            :aspect-ratio="setting.aspect"
-            :cover="!setting.contain"
-            :height="target.style.height ? target.style.height : undefined"
-            :max-height="target.style.maxHeight"
-            :max-width="target.style.maxWidth"
-            :min-height="target.style.minHeight"
-            :min-width="target.style.minWidth"
-            :src="getShopImagePath(src)"
-            :width="target.style.width ? target.style.width : undefined"
-            class="d-block"
-          >
-          </v-img>
-        </div>
+        </v-img>
+      </div>
 
-        <v-expansion-panels v-model="tab" key="tabs">
-          <!-- ████████████████████ Size ████████████████████ -->
-          <l-settings-style-size
-            value="size"
-            no-preview
-            :computed-style="computedStyle"
-            v-model:width="target.style.width"
-            v-model:height="target.style.height"
-            v-model:minWidth="target.style.minWidth"
-            v-model:minHeight="target.style.minHeight"
-            v-model:maxWidth="target.style.maxWidth"
-            v-model:maxHeight="target.style.maxHeight"
-          ></l-settings-style-size>
-        </v-expansion-panels>
-      </v-card-text>
+      <v-expansion-panels  v-model="tab" key="tabs">
+        <!-- ████████████████████ Size ████████████████████ -->
+        <l-settings-style-size
+          value="size"
+          no-preview
+          :computed-style="computedStyle"
+          v-model:width="target.style.width"
+          v-model:height="target.style.height"
+          v-model:minWidth="target.style.minWidth"
+          v-model:minHeight="target.style.minHeight"
+          v-model:maxWidth="target.style.maxWidth"
+          v-model:maxHeight="target.style.maxHeight"
+        ></l-settings-style-size>
+      </v-expansion-panels>
     </v-card>
   </l-setting-navigation>
 </template>
@@ -211,7 +209,7 @@ export default {
   min-height: 20vh;
   overflow: auto;
   position: relative;
-  max-height: 200px;
+  max-height: 160px;
   max-width: 100%;
 }
 </style>

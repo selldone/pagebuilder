@@ -20,16 +20,14 @@ export class LUtilsBackground {
   /**
    * Creates a complete background style object.
    * @param {IBackground} background - The background configuration.
-   * @param {Function} imagePathToUrl - Function to convert image path to URL.
    * @returns {object} The background style object.
    */
   static CreateCompleteBackgroundStyleObject(
     background: IBackground | LModelBackground,
-    imagePathToUrl: (path: string) => string,
   ): object {
-    if (!imagePathToUrl) {
+    if (!window.CDN.GET_SHOP_IMAGE_PATH) {
       console.error(
-        "LModelBackground | imagePathToUrl is not defined! Define imagePathToUrl function to convert image path to url.",
+        "LModelBackground | window.CDN.GET_SHOP_IMAGE_PATH is not defined! Define the function to convert image path to url.",
       );
       return {};
     }
@@ -47,7 +45,7 @@ export class LUtilsBackground {
       bg_backdrop = null,
     } = background || {};
 
-    const imageUrl = bg_image ? imagePathToUrl(bg_image) : null;
+    const imageUrl = bg_image ? window.CDN.GET_SHOP_IMAGE_PATH(bg_image) : null;
 
     if (bg_custom && bg_custom.includes("background")) {
       return this.StringStyleToObj(bg_custom);

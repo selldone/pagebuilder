@@ -96,7 +96,7 @@ export class XSwiperObject extends LModelElement<XSwiperObjectData> {
 
   static MigrateOld(old: any): XSwiperObject {
     const data = new XSwiperObjectData(old);
-
+    data.autoHeight = false;
     return new XSwiperObject(null, null, null, [], data, null);
   }
 

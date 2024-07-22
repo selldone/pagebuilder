@@ -59,10 +59,9 @@ export class LModelBackground {
   /**
    * Generate background style object
    */
-  generate(imagePathToUrl: (path: string) => string): Record<string, any> {
+  generate(): Record<string, any> {
     return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-      this,
-      imagePathToUrl,
+      this
     );
   }
 

@@ -86,18 +86,7 @@
 
       <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
 
-      <li>
-        <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20">fa:fas fa-image</v-icon>
-          <v-tooltip
-            activator="parent"
-            content-class="bg-black text-white"
-            location="bottom"
-          >
-            Background Image / Video / Pattern
-          </v-tooltip>
-        </button>
-      </li>
+      <s-styler-tools-background :target="target"></s-styler-tools-background>
 
       <!-- ―――――――――――――――――― Grid ―――――――――――――――――― -->
 
@@ -160,8 +149,9 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import SStylerToolsDevices from "../../styler/tools/devices/SStylerToolsDevices.vue";
 import { isObject } from "lodash-es";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject.ts";
+import { XColumnImageTextObject } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import SStylerToolsBackground from "@selldone/page-builder/styler/tools/background/SStylerToolsBackground.vue";
 
 /**
  * v-styler:column
@@ -172,6 +162,7 @@ export default {
   mixins: [LMixinEvents, LMixinStyler],
 
   components: {
+    SStylerToolsBackground,
     SStylerToolsDevices,
 
     SStylerTemplate,

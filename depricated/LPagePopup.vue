@@ -78,7 +78,7 @@ export default {
     },
     CUSTOM_PAGE_STYLE() {
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-          this.style,this.getShopImagePath
+          this.style
       );
     },
   },

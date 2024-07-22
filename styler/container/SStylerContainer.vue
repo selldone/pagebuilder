@@ -47,19 +47,8 @@
 
       <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
 
-      <li>
-        <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20">fa:fas fa-image</v-icon>
+      <s-styler-tools-background :target="target"></s-styler-tools-background>
 
-          <v-tooltip
-            activator="parent"
-            content-class="bg-black text-white"
-            location="bottom"
-          >
-            Background Image / Video / Pattern
-          </v-tooltip>
-        </button>
-      </li>
 
       <!-- ―――――――――――――――――― Row Fluid ―――――――――――――――――― -->
 
@@ -91,11 +80,12 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import { XContainerObject } from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import SStylerToolsBackground from "@selldone/page-builder/styler/tools/background/SStylerToolsBackground.vue";
 
 /**
  * v-styler:container
@@ -106,6 +96,7 @@ export default {
   mixins: [LMixinEvents, LMixinStyler],
 
   components: {
+    SStylerToolsBackground,
     SStylerTemplate,
   },
   props: {
@@ -140,26 +131,19 @@ export default {
       throw new Error("Target is required for SStylerContainer!");
     }
     if (!this.target.data) {
-      console.error('Target data -> ', this.target);
-      throw new Error(
-        "The target data is required for SStylerContainer!"
-
-      );
+      console.error("Target data -> ", this.target);
+      throw new Error("The target data is required for SStylerContainer!");
     }
   },
   mounted() {},
 
   methods: {
-    showStyleDialog() {
-      this.ShowLSettingsBackground(this.el, this.target);
-    },
 
     showMasterDesignDialog() {
       this.ShowLSettingsClassStyle(
         this.el,
         this.el,
         this.target,
-
 
         //   { noSize:this.type === "container" } // Not show size ! conflict with container size!
       );

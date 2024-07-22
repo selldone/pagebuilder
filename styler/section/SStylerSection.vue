@@ -64,28 +64,7 @@
 
       <!-- ―――――――――――――――――― Bg image ―――――――――――――――――― -->
 
-      <li>
-        <button class="styler-button" @click="showStyleDialog()">
-          <v-icon size="20">fa:fas fa-image</v-icon>
-        </button>
-        <v-tooltip
-          activator="parent"
-          content-class="bg-black text-white"
-          location="bottom"
-          max-width="320"
-          >Background Image / Video / Pattern<br />
-
-          <v-chip
-            v-if="target.background.bg_color"
-            class="ma-1"
-            pill
-            size="small"
-          >
-            <v-icon :color="target.background.bg_color" start>circle</v-icon>
-            {{ target.background.bg_color }}
-          </v-chip>
-        </v-tooltip>
-      </li>
+      <s-styler-tools-background :target="target"></s-styler-tools-background>
 
       <!-- ―――――――――――――――――― Background Color ―――――――――――――――――― -->
 
@@ -354,6 +333,7 @@ import {
 } from "../../utils/colors/LUtilsColors";
 import SStylerToolsColors from "../../styler/tools/colors/SStylerToolsColors.vue";
 import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import SStylerToolsBackground from "@selldone/page-builder/styler/tools/background/SStylerToolsBackground.vue";
 
 const FrameStyles = [
   "bg-style-normal",
@@ -377,6 +357,7 @@ export default {
   mixins: [LMixinEvents, LMixinStyler],
 
   components: {
+    SStylerToolsBackground,
     SStylerToolsColors,
     SStylerIcon,
     SStylerTemplate,

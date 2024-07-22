@@ -18,6 +18,7 @@ import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 //import {Section} from "@selldone/page-builder/src/section/section.ts";
 
 const DEBUG = false;
@@ -51,6 +52,10 @@ export const LMixinStyler = defineComponent({
       isVisible: false,
       selection: null, // Keep selection range by user (text selection)
     };
+  },
+
+  computed:{
+
   },
 
   created() {},

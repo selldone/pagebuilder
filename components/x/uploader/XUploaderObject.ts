@@ -111,6 +111,10 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       if (size.min_w) out.style.minWidth = size.min_w;
     }
 
+    if(old?.setting?.round && old?.setting?.aspect===null){
+      data.setting.setAspect(1); // Fixed aspect ratio for circle images
+    }
+
     console.log("Migration Image | ---------->", old, "--->", out);
     return out;
   }

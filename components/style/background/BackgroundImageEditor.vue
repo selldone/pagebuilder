@@ -468,9 +468,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
           bg_position: this.bgPosition,
           bg_rotation: this.bgRotation,
           bg_backdrop: this.bgBackdrop,
-        },
-
-        this.getShopImagePath,
+        }
       );
     },
 

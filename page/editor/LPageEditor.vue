@@ -226,7 +226,8 @@
   </div>
 
   <div
-    v-if="drop_landing_file"
+    v-if="drop_landing_file "
+    @drop.stop="onDropFile"
     style="
       position: fixed;
       left: 0;
@@ -250,6 +251,9 @@
       ></v-progress-circular>
     </div>
     <div class="my-5">Drop Landing File Here</div>
+    <v-btn icon @click="drop_landing_file=false" style="pointer-events: all" variant="text">
+      <v-icon>close</v-icon>
+    </v-btn>
   </div>
 
   <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
@@ -443,8 +447,7 @@ export default defineComponent({
       if (!this.$builder.style) return null; // Fix bugs
 
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.$builder.style,
-        this.getShopImagePath,
+        this.$builder.style
       );
     },
 
@@ -619,7 +622,7 @@ export default defineComponent({
 
       // Save: Ctrl + S
       if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
-        this.saveFunction($builder.export());
+        this.saveFunction(this.$builder.export());
         event.preventDefault();
         return false;
       }
@@ -1101,6 +1104,7 @@ export default defineComponent({
     },
 
     onDropFile(event) {
+      console.log("Drop file!", event.dataTransfer.files);
       const files = event.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
         if (files[i].name.endsWith(".landing")) {

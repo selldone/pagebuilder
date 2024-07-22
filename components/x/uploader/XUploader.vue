@@ -342,11 +342,11 @@ export default defineComponent({
 
     //----------------------
     bg_cal() {
-      return this.object.background?.generate(this.getShopImagePath);
+      return this.object.background?.generate();
     },
 
     fg_cal() {
-      return this.setting.fg?.generate(this.getShopImagePath);
+      return this.setting.fg?.generate();
     },
 
     link() {

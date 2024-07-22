@@ -40,7 +40,7 @@ const LMixinXComponent = defineComponent({
     },
 
     background_style() {
-      return this.object.background?.generate(this.getShopImagePath);
+      return this.object.background?.generate();
     },
   },
 
