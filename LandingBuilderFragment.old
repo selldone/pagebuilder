@@ -18,18 +18,26 @@
       ref="vueBuilder"
       :isMenu="isMenu"
       :isPopup="isPopup"
+      :back-to="backTo"
       :page="modelValue"
-      :showIntro="show_intro"
       @saved="onSave"
       @load:template="onSetPageBySelectTemplate"
       :histories="null"
+
+      :busy-save="busySave"
+      :busyFetch="busyFetch"
     />
   </div>
 </template>
 
+
+
 <script>
 import LPageEditor from "./page/editor/LPageEditor.vue";
 
+/**
+ * @deprecated
+ */
 export default {
   name: "LandingBuilderFragment",
   components: { LPageEditor },
@@ -37,6 +45,7 @@ export default {
 
   emits: ["update:modelValue", "onSave"],
   props: {
+    backTo: {required:true},
     modelValue: {},
     isMenu: {
       type: Boolean,
@@ -51,6 +60,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    busyFetch: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data: () => ({
@@ -59,9 +72,7 @@ export default {
   }),
 
   computed: {
-    show_intro() {
-      return this.isPopup && this.$route.params.popup_id === "new";
-    },
+
   },
 
   watch: {

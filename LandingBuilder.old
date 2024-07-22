@@ -13,35 +13,7 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-fade-transition>
-    <div
-      v-if="show_loading"
-      style="
-        background: rgba(0, 0, 0, 0.6);
-        position: fixed;
-        left: 0;
-        width: 100%;
-        top: 0;
-        height: 100%;
-        z-index: 999999;
-        backdrop-filter: blur(4px) grayscale(100%);
-      "
-    >
-      <div
-        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
-        style="z-index: 99999"
-      >
-        <v-progress-circular
-          :color="SaminColorLight"
-          :size="50"
-          indeterminate
-        />
-        <p class="mt-2">
-          {{ $t("page_builder.waiting_fetch") }}
-        </p>
-      </div>
-    </div>
-  </v-fade-transition>
+
 
   <div v-bind="$attrs">
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Design ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -53,8 +25,6 @@
       :histories="histories"
       :demo="demo"
       :initial-page-data="demoPage"
-      :showIntro="(page_id === 'new' || isNew) && !page /*Not created yet!*/"
-      @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"
       @scale="
         (val) => {
@@ -66,7 +36,8 @@
       :fetchPageData="fetchPageData"
       :backTo="backTo"
       :busySave="busy_save"
-      :onSave="onSave"
+      :busy-fetch="show_loading"
+      :saveFunction="onSave"
     >
       <template v-slot:header="{ builder }">
         <slot name="header" :builder="builder"></slot>
@@ -82,7 +53,8 @@ import LPageEditor from "./page/editor/LPageEditor.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront/StorefrontSDK";
 
 /**
- * <landing-builder>
+ * @deprecated
+ * <LandingBuilder>
  */
 export default {
   name: "LandingBuilder",
@@ -101,10 +73,7 @@ export default {
       default: false,
     },
 
-    isNew: {
-      type: Boolean,
-      default: false,
-    },
+
     demo: Boolean,
     demoPage: null,
 
@@ -117,7 +86,6 @@ export default {
   data: () => ({
     // showLoading: true,
 
-    inEditMode: false, // Set after page builder initialize! important in access by $refs!
 
     page: null,
 

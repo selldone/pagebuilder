@@ -440,7 +440,7 @@ export class Builder {
   }
 
   loadPage(params: { content: Page.IContent; css: IPageCss }) {
-    console.style("<b>📐 Set page builder content.</b>", params);
+    console.style("<b>📐 Builder | Load Page</b>", params);
 
     this.setContent(params.content);
     this.setCss(params.css);
@@ -458,13 +458,67 @@ export class Builder {
    * Outputs a JSON representation of the builder that can be used for rendering with the renderer component.
    */
   export() {
-    console.log("👢 CSS Style on save ", this.style);
+    console.log("Builder | Export | 👢 CSS Style on save ", this.style);
 
-    return {
+    const out = {
       title: this.title,
       sections: this.sections.map((section) => section.toJson()),
       style: this.style,
     };
+
+    function checkHealth(content) {
+      const t = this;
+
+      function checking(obj: any) {
+        for (const key of Object.keys(obj)) {
+          const val = obj[key];
+
+          if (
+            !val ||
+            key === "iframe" ||
+            key === "html" /**@see LSectionHtml**/
+          )
+            continue; // Not change iframe!
+
+          if (isString(val)) {
+            // Purify if past from word:
+            if (val.includes("<!" + "--")) {
+              // Remove comments:
+              let corrected = val.replace(/<!--.*?-->/gs, "");
+              // Remove classes:
+              corrected = corrected.replace(/class=".*?"/gs, "");
+
+              /* console.error(
+                                                  "FAULT DETECTION ->",
+                                                  key + " -> " + val,
+                                                  "Corrected",
+                                                  corrected
+                                          );*/
+              obj[key] = corrected;
+            }
+          } else if (Array.isArray(val)) {
+            // Array:
+            val.forEach((v) => {
+              checking(v);
+            });
+          } else if (val && isObject(val)) {
+            // Object:
+            checking(val);
+          }
+        }
+      }
+
+      // Check all values:
+      checking(content);
+    }
+
+    checkHealth(out);
+
+    // Update content in the model:
+    if(this.model)
+    this.model.content=out
+
+    return out;
   }
 
   //---------------------------------

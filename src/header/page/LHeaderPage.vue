@@ -27,16 +27,21 @@
       <!-- Shop -->
 
       <a
-        :href="getShopMainUrl($shop)"
-        :title="`Open ${$shop.title} home page ➡`"
+        :href="$shop ? getShopMainUrl($shop) : 'https://selldone.com'"
+        :title="$shop?`Open ${$shop.title} home page ➡`:'Open Selldone'"
         target="_blank"
       >
         <v-avatar
-          v-if="$shop.icon"
           class="avatar-gradient -thin -shop hover-scale-small"
           size="24"
         >
-          <v-img :src="getShopImagePath($shop.icon, 64)" />
+          <v-img
+            :src="
+              $shop
+                ? getShopImagePath($shop.icon, 64)
+                : require('@selldone/components-vue/assets/trademark/selldone.svg')
+            "
+          />
         </v-avatar>
       </a>
 
@@ -182,8 +187,8 @@ export default defineComponent({
     page_view_url() {
       if (this.$shop)
         return this.getShopMainUrl(this.$shop) + `/pages/${this.page.name}`;
-      return null;
-      // return `/@${this.shop.name}/pages/${this.page.name}`;
+
+      return `/pages/${this.page.name}`;
     },
     hasLiveView() {
       return this.page?.id && this.page.shop_id;

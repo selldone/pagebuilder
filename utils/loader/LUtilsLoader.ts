@@ -16,8 +16,7 @@ import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsCo
 import {LModelElement, LModelElementTypes,} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 export class LUtilsLoader {
-  static ClassesList: Record<string, LModelElementTypes.IModelElement> =
-    LUtilsLoader.InitializeClassesList();
+  static ClassesList: Record<string, LModelElementTypes.IModelElement> = [];
 
   static InitializeClassesList(): Record<
     string,
@@ -47,6 +46,9 @@ export class LUtilsLoader {
   static JsonObjectToInstance<T>(
     json: Record<string, any>,
   ): LModelElement<T> | null {
+    if (!this.ClassesList?.length)
+      this.ClassesList = this.InitializeClassesList();
+
     const clazz = this.ClassesList[json.component];
     if (!clazz) {
       console.error(

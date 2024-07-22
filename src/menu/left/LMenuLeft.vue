@@ -23,7 +23,7 @@
       '-small': $vuetify.display.xs,
     }"
     :width="!tab ? 58 : width"
-    v-if="page"
+    v-if="model"
   >
     <div class="l-buttons">
       <v-btn
@@ -107,16 +107,16 @@
             :histories="histories"
             :setPageFunction="setPageFunction"
             :fetchPageData="fetchPageData"
-            :page="page"
           ></l-menu-left-versions>
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Assets ━━━━━━━━━━━━━━━ -->
         <v-tabs-window-item
+          v-if="is_page"
           value="assets"
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-menu-left-assets v-if="page" :page="page" />
+          <l-menu-left-assets />
         </v-tabs-window-item>
 
         <!-- ━━━━━━━━━━━━━━━ Sort ━━━━━━━━━━━━━━━ -->
@@ -124,7 +124,7 @@
           value="sort"
           :style="{ width: min_width_window + 'px' }"
         >
-          <l-menu-left-sort v-if="page" :page="page" />
+          <l-menu-left-sort />
         </v-tabs-window-item>
       </v-tabs-window>
     </div>
@@ -162,15 +162,13 @@ export default defineComponent({
     LMenuLeftHierarchy,
     LMenuLeftElements,
   },
-  inject: ["$builder"],
+  inject: ["$builder", "$shop"],
   props: {
     isVisible: Boolean,
     isScrollDown: Boolean,
     histories: { required: true, type: Array },
     setPageFunction: { required: true, type: Function },
     fetchPageData: { required: true, type: Function },
-    page: {},
-    shop: {},
   },
 
   data: () => ({
@@ -180,6 +178,9 @@ export default defineComponent({
   }),
 
   computed: {
+    model() {
+      return this.$builder.model;
+    },
     is_page() {
       return this.$builder.isPage();
     },
@@ -191,7 +192,7 @@ export default defineComponent({
     },
 
     tabs() {
-      return [
+      const out = [
         {
           key: "navigation",
           icon: "account_tree",
@@ -202,8 +203,13 @@ export default defineComponent({
         { key: "sections", icon: "grid_view", tooltip: "Sections" },
         { key: "elements", icon: "yard", tooltip: "Elements" },
         { key: "versions", icon: "history", tooltip: "Versions" },
-        { key: "assets", icon: "folder_open", tooltip: "Assets" },
       ];
+
+      if (this.is_page) {
+        out.push({ key: "assets", icon: "folder_open", tooltip: "Assets" });
+      }
+
+      return out;
     },
 
     width() {
@@ -215,12 +221,6 @@ export default defineComponent({
     },
     min_width_window() {
       return this.width - 58;
-    },
-    hasSetting() {
-      return this.page && this.page.id;
-    },
-    hasSEO() {
-      return this.page && this.page.id;
     },
   },
 

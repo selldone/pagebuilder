@@ -53,7 +53,7 @@
               :demo="demo"
               @click:save="
                 () => {
-                  saveFunction();
+                  saveFunction($builder.export());
                 }
               "
             >

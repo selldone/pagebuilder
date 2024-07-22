@@ -18,7 +18,6 @@
     :tooltip="null"
     @click="show_prompt = true"
     size="36"
-
     v-bind="$attrs"
   >
     <v-tooltip
@@ -168,6 +167,16 @@ export default defineComponent({
     },
   },
 
+  watch: {
+    page() {
+      this.prompt = this.page?.prompt;
+    },
+  },
+
+  created() {
+    this.prompt = this.page?.prompt;
+  },
+
   methods: {
     autoGenerate() {
       // Require prompt:
@@ -202,11 +211,7 @@ export default defineComponent({
           if (data.error) {
             this.showErrorAlert(null, data.error_msg);
           } else {
-            this.$refs.vueBuilder.setPage(
-              data.page.content,
-              data.page.css,
-              false,
-            );
+            this.$builder.loadPage(data.page );
 
             this.showSuccessAlert(
               "Build completed",

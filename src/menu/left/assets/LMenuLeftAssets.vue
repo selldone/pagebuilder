@@ -112,9 +112,7 @@ export default {
   name: "LMenuLeftAssets",
   components: {},
   inject: ["$builder"],
-  props: {
-    page: {},
-  },
+  props: {},
 
   data: () => ({
     VideoHelper: VideoHelper,
@@ -124,9 +122,17 @@ export default {
     busy: false,
   }),
 
-  computed: {},
+  computed: {
+    page() {
+      return this.$builder.model;
+    },
+  },
 
-  watch: {},
+  watch: {
+    "page.id"() {
+      this.fetchFiles();
+    },
+  },
   created() {
     this.fetchFiles();
   },

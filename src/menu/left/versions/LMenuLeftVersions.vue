@@ -48,8 +48,8 @@
       "
     >
       <v-list-item-title style="font-size: 0.75rem; font-weight: 500">
-        Restore last saved page</v-list-item-title
-      >
+        Restore last saved page
+      </v-list-item-title>
       <v-list-item-subtitle class="op-0-8"
         >{{ getFromNowString(page?.updated_at) }}
       </v-list-item-subtitle>
@@ -111,11 +111,11 @@ export default defineComponent({
   directives: {},
   components: { UDenseCirclesUsers },
 
+  inject: ["$builder"],
   props: {
     histories: { required: true, type: Array },
     setPageFunction: { required: true, type: Function },
     fetchPageData: { required: true, type: Function },
-    page: {},
   },
   data() {
     return {
@@ -124,6 +124,10 @@ export default defineComponent({
   },
 
   computed: {
+    page() {
+      return this.$builder.model;
+    },
+
     histories_users() {
       return this.histories
         ?.map((h) => h.user_id)

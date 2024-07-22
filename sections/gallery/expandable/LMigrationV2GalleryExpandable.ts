@@ -40,7 +40,7 @@ export class LMigrationV2GalleryExpandable {
 
     // Add buttons:
     if ($sectionData.btn_row) {
-      container.addChild(
+      section.addChild(
         XButtonsObject.MigrateOld($sectionData.btn_row, $sectionData.buttons),
       );
     }

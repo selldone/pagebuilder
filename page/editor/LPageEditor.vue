@@ -13,22 +13,45 @@
   -->
 
 <template>
+  <v-fade-transition>
+    <div
+      v-if="busyFetch"
+      style="
+        background: rgba(0, 0, 0, 0.6);
+        position: fixed;
+        left: 0;
+        width: 100%;
+        top: 0;
+        height: 100%;
+        z-index: 999999;
+        backdrop-filter: blur(4px) grayscale(100%);
+      "
+    >
+      <div
+        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
+        style="z-index: 99999"
+      >
+        <v-progress-circular color="#222" :size="50" indeterminate />
+        <p class="mt-2">
+          {{ $t("page_builder.waiting_fetch") }}
+        </p>
+      </div>
+    </div>
+  </v-fade-transition>
+
   <div
     v-bind="$attrs"
     @dragover="onDragEnter"
     @dragleave="onDragLeave"
-    @drop="onDropFile"
+    @drop.stop="onDropFile"
   >
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <l-header :backTo="backTo" ></l-header>
+
+    <l-header :backTo="backTo"></l-header>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-menu-top
-
-      :busy-save="busySave"
-      :saveFunction="onSave"
-    >
+    <l-menu-top :busy-save="busySave" :saveFunction="saveFunction">
     </l-menu-top>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -117,7 +140,7 @@
             <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
             <l-page-editor-artboard-top-bar
-              :page="page"
+              :page="modelValue"
               :fullscreen="!scale_down"
               :shop="$shop"
               :isPopup="isPopup"
@@ -134,7 +157,7 @@
             ></v-progress-linear>
 
             <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-            <v-locale-provider :rtl="page?.direction === 'rtl'">
+            <v-locale-provider :rtl="modelValue?.direction === 'rtl'">
               <div
                 :class="{
                   'drop-active':
@@ -145,7 +168,7 @@
                   PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
                 ]"
                 class="page-content-wrap-editor position-relative"
-                :dir="page ? page.direction : 'auto'"
+                :dir="modelValue ? modelValue.direction : 'auto'"
               >
                 <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
                 <div key="header-demo" class="usn pen">
@@ -217,7 +240,7 @@
     "
     class="usn pen d-flex flex-column align-center justify-center pa-8 text-white text-h5"
   >
-    <div class="position-relative pen">
+    <div class="position-relative">
       <v-icon size="64" class="ma-5">architecture</v-icon>
       <v-progress-circular
         v-if="busy_import"
@@ -226,7 +249,7 @@
         class="center-absolute"
       ></v-progress-circular>
     </div>
-    <div class="my-5 pen">Drop Landing File Here</div>
+    <div class="my-5">Drop Landing File Here</div>
   </div>
 
   <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
@@ -246,8 +269,7 @@
     :histories="histories"
     :set-page-function="setPage"
     :fetch-page-data="fetchPageData"
-    :page="page"
-    :shop="$shop"
+    :page="modelValue"
   ></l-menu-left>
 
   <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
@@ -260,7 +282,7 @@
   <l-feeder-dialog></l-feeder-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import Sortable from "sortablejs";
 
 import { LUtilsBackground } from "../../utils/background/LUtilsBackground";
@@ -287,6 +309,8 @@ import LArtboardDrop from "@selldone/page-builder/page/editor/artboard/drop/LArt
 import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
 import XUploaderToolbar from "@selldone/page-builder/components/x/uploader/XUploaderToolbar.vue";
 import LHeader from "@selldone/page-builder/src/header/LHeader.vue";
+import { Page, Popup } from "@selldone/core-js/models";
+import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 
 export default defineComponent({
   name: "LPageEditor",
@@ -308,20 +332,10 @@ export default defineComponent({
     LFeederDialog,
     LPageEditorRepository,
   },
-  emits: ["changeMode", "scale", "saved", "load:template"],
+  emits: ["changeMode", "scale", "load:template"],
   props: {
-    showIntro: {
-      type: Boolean,
-      default: true,
-    },
-    initialPageData: {
-      type: Object,
-      default: () => ({
-        title: "",
-        sections: [],
-      }),
-    },
-    initialPageCss: {
+    modelValue: {
+      required: false,
       type: Object,
     },
 
@@ -333,7 +347,6 @@ export default defineComponent({
     device: {
       default: "desktop", // desktop   tablet   mobile
     },
-    page: {},
 
     histories: { required: true, type: Array },
 
@@ -350,9 +363,10 @@ export default defineComponent({
     demo: Boolean,
     fetchPageData: { required: false, type: Function },
 
-    backTo: {},
+    backTo: { required: true },
     busySave: Boolean,
-    onSave: {
+    busyFetch: Boolean,
+    saveFunction: {
       type: Function,
     },
   },
@@ -435,7 +449,7 @@ export default defineComponent({
     },
 
     show_templates() {
-      return this.showIntro && !this.$builder.sections.length;
+      return !this.$builder.model?.id && !this.$builder.sections.length;
     },
 
     load_percent() {
@@ -462,7 +476,7 @@ export default defineComponent({
      * @return {*}
      */
     custom_css() {
-      return this.page?.css;
+      return this.modelValue?.css;
     },
   },
 
@@ -470,12 +484,13 @@ export default defineComponent({
     "$route.query.element_id"(element_id) {
       this.autoShowNote();
     },
-    page() {
+    modelValue(modelValue) {
+      this.onModelChanged(modelValue);
+
       this.autoShowNote();
-      this.setModelInBuilder();
     },
 
-    "page.id"() {
+    "modelValue.id"() {
       this.$builder.livestream.reset(); // Reset!
     },
 
@@ -519,8 +534,9 @@ export default defineComponent({
 
   created() {
     // sets the initial data.
-    this.setPage(this.initialPageData, this.initialPageCss, false);
-    this.setModelInBuilder();
+    if (this.modelValue) {
+      this.onModelChanged(this.modelValue);
+    }
   },
   mounted() {
     this.$builder.rootEl = this.$refs.artboard;
@@ -603,7 +619,7 @@ export default defineComponent({
 
       // Save: Ctrl + S
       if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
-        this.submit();
+        this.saveFunction($builder.export());
         event.preventDefault();
         return false;
       }
@@ -752,20 +768,20 @@ export default defineComponent({
     onUpdatePreview: _.throttle(function () {
       const sections = this.$builder?.sections;
       // console.log("sections -------->", sections);
-      if (!this.page?.id) return; // Only emit changes if page exists!
+      if (!this.modelValue?.id) return; // Only emit changes if page exists!
 
       const _page = {
         title: this.title,
-        image: this.page.image,
-        name: this.page.name,
-        direction: this.page.direction,
-        color: this.page.color,
+        image: this.modelValue.image,
+        name: this.modelValue.name,
+        direction: this.modelValue.direction,
+        color: this.modelValue.color,
         content: {
           title: this.title,
           sections: sections.map((s) => s.toJson()),
           style: this.$builder.style,
         },
-        css: this.page.css,
+        css: this.modelValue.css,
       };
 
       this.updateRealtimePreview(_page);
@@ -861,57 +877,6 @@ export default defineComponent({
 
       // console.log('calcMaxH',this.max_h)
     },
-    getJson() {
-      const content = this.$builder.export();
-      this.checkHealth(content);
-      return content;
-    },
-
-    //-----------------------------------
-
-    checkHealth(content) {
-      const t = this;
-
-      function checking(obj) {
-        for (let key of Object.keys(obj)) {
-          const val = obj[key];
-
-          if (
-            !val ||
-            key === "iframe" ||
-            key === "html" /**@see LSectionHtml**/
-          )
-            continue; // Not change iframe!
-
-          if (t.isString(val)) {
-            // Purify if past from word:
-            if (val.includes("<!" + "--")) {
-              // Remove comments:
-              let corrected = val.replace(/<!--.*?-->/gs, "");
-              // Remove classes:
-              corrected = corrected.replace(/class=".*?"/gs, "");
-
-              /* console.error(
-                      "FAULT DETECTION ->",
-                      key + " -> " + val,
-                      "Corrected",
-                      corrected
-              );*/
-              obj[key] = corrected;
-            }
-          } else if (Array.isArray(val)) {
-            // Array:
-            checking(val);
-          } else if (typeof val === "object" && val !== null) {
-            // Object:
-            checking(val);
-          }
-        }
-      }
-
-      // Check all values:
-      checking(content);
-    },
 
     addSection(section, position) {
       //console.log("addSection", section, "position", position);
@@ -935,21 +900,50 @@ export default defineComponent({
       }, 100);
     },
 
-    loadRawTemplate(theme) {
+    loadRawTemplate(theme: RawTemplate) {
       console.log("Page buildr | Load raw template", theme);
-      this.setPage(theme, null, true);
+      (this.$builder as Builder).loadPage({ content: theme });
 
-      this.$emit("load:template", { content: this.getJson(), image: null }); // Simulate like landing page template files!
+      this.$emit("load:template", {
+        content: this.$builder.export(),
+        image: null,
+      }); // Simulate like landing page template files!
     },
 
     loadPageTemplate(page) {
-      this.setPage(page.content, page.css, false);
+      (this.$builder as Builder).loadPage(page);
 
       //update random title:
-      const title = "Landing-" + Math.random().toString(36).substring(7);
-      page.content.title = title;
+      page.content.title = "Landing-" + Math.random().toString(36).substring(7);
 
       this.$emit("load:template", page);
+    },
+
+    onModelChanged(
+      model: Page | Popup /*Or shop menu*/,
+      save_history: boolean = true,
+    ) {
+      //TODO: Add shop menu model
+      this.delay_load = 0;
+
+      console.style(
+        "<b>📐 On model changed | Set page builder content.</b>",
+        model,
+      );
+
+      // Set model and type in the builder:
+      const model_type = this.isPopup ? "popup" : this.isMenu ? "menu" : "page";
+      this.$builder.setModel(model_type, this.modelValue); // Link model (pass to generate upload urls)
+
+      this.inEditMode = true;
+      (this.$builder as Builder).loadPage(model);
+
+      this.loadNextDelayed();
+
+      if (save_history) {
+        // Save initial state: (Call after set!)
+        this.$builder.history.save();
+      }
     },
 
     /**
@@ -961,7 +955,7 @@ export default defineComponent({
     setPage(content, css, from_theme = false) {
       this.delay_load = 0;
 
-      console.style("<b>📐 Set page builder content.</b>", content, from_theme);
+      console.error("<b>📐 Set page builder content.</b>", content, from_theme);
 
       this.inEditMode = true;
       this.$builder.loadPage({ content, css });
@@ -1004,10 +998,6 @@ export default defineComponent({
       this.sortable.option("disabled", false);
     },
 
-    submit() {
-      this.$emit("saved", this.$builder);
-    },
-
     onScroll(e) {
       this.scrollTop = document.documentElement.scrollTop;
     },
@@ -1040,11 +1030,11 @@ export default defineComponent({
         ); // Auto open note dialog if element_id be in query (used in notifications link)
       }
     },
-
+    /*
     setModelInBuilder() {
       const model_type = this.isPopup ? "popup" : this.isMenu ? "menu" : "page";
       this.$builder.setModel(model_type, this.page); // Link model (pass to generate upload urls)
-    },
+    },*/
 
     handleClickOnSections(event) {
       if (!LUtilsHighlight.IsChildOfHighlightActiveEditing(event.target))
@@ -1059,9 +1049,10 @@ export default defineComponent({
     updateRealtimePreviewNow(_page) {
       // console.log('updateRealtimePreviewNow',_page,this.$builder.livestream.canSend())
       // First time try update and get presence audience! If there is audience then auto activate the live stream.
-      if (!this.$builder.livestream.canSend()) return;
+      if (!this.$shop /*Only for shop*/ || !this.$builder.livestream.canSend())
+        return;
 
-      if (!_page || this.busy_push || !this.page?.id) return;
+      if (!_page || this.busy_push || !this.modelValue?.id) return;
 
       this.$builder.livestream.onSend();
 
@@ -1070,7 +1061,10 @@ export default defineComponent({
       this.busy_push = true;
       axios
         .post(
-          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(this.$shop.id, this.page.id),
+          window.API.POST_PAGE_DATA_UPDATE_PREVIEW(
+            this.$shop.id,
+            this.modelValue.id,
+          ),
           _page,
         )
         .then(({ data }) => {
