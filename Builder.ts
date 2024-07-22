@@ -512,6 +512,18 @@ export class Builder {
     }
     return this.server.uploadVideoUrl(this.type, this.model!);
   }
+
+  isPage() {
+    return this.type === "page";
+  }
+
+  isPopup() {
+    return this.type === "popup";
+  }
+
+  isMenu() {
+    return this.type === "menu";
+  }
 }
 
 /**

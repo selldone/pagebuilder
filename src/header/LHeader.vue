@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2023. Selldone® Business OS™
+  - Copyright (c) 2024. Selldone® Business OS™
   -
   - Author: M.Pajuhaan
   - Web: https://selldone.com
@@ -13,23 +13,27 @@
   -->
 
 <template>
-  <l-menu-left-setting-page v-if="is_page"></l-menu-left-setting-page>
-  <l-menu-left-setting-popup v-else-if="is_popup"></l-menu-left-setting-popup>
+  <l-header-page v-if="is_page" :backTo="backTo"></l-header-page>
+  <l-header-popup v-else-if="is_popup" :backTo="backTo"></l-header-popup>
 </template>
 
-<script>
-import LMenuLeftSettingPage from "@selldone/page-builder/src/menu/left/setting/page/LMenuLeftSettingPage.vue";
-import LMenuLeftSettingPopup from "@selldone/page-builder/src/menu/left/setting/popup/LMenuLeftSettingPopup.vue";
+<script lang="ts">
+import { defineComponent } from "vue";
+import LHeaderPage from "@selldone/page-builder/src/header/page/LHeaderPage.vue";
+import LHeaderPopup from "@selldone/page-builder/src/header/popup/LHeaderPopup.vue";
 
-export default {
-  name: "LMenuLeftSetting",
-  components: {
-    LMenuLeftSettingPopup,
-    LMenuLeftSettingPage,
+export default defineComponent({
+  name: "LHeader",
+  components: { LHeaderPopup, LHeaderPage },
+
+  inject: ["$builder"],
+
+  props:{
+    /**
+     * Back route
+     */
+    backTo: { required: true },
   },
-  inject: ["$builder", "$shop"],
-  props: {},
-  data: () => ({}),
 
   computed: {
     is_page() {
@@ -38,12 +42,11 @@ export default {
     is_popup() {
       return this.$builder.isPopup();
     },
-    is_menu(){
+    is_menu() {
       return this.$builder.isMenu();
-    }
+    },
   },
-  methods: {},
-};
+});
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped lang="scss"></style>

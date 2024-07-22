@@ -500,12 +500,9 @@ export default {
   },
   mixins: [LMixinEvents],
   emits: ["click:save"],
-  inject: ["$builder"],
+  inject: ["$builder",'$shop'],
   props: {
-    shop: {
-      required: false,
-      type: Object,
-    },
+
 
     page: {
       require: true,
@@ -541,6 +538,16 @@ export default {
   }),
 
   computed: {
+    is_page() {
+      return this.$builder.isPage();
+    },
+    is_popup() {
+      return this.$builder.isPopup();
+    },
+    is_menu(){
+      return this.$builder.isMenu();
+    },
+
     audiences() {
       return this.$builder.livestream.audiences;
     },
@@ -549,7 +556,7 @@ export default {
       return this.$store.getters.getLandingShowElementsRepository;
     },
     hasLiveView() {
-      return this.page?.id && this.page.shop_id;
+      return this.is_page && this.page?.id && this.page.shop_id;
     },
 
     history() {

@@ -54,7 +54,7 @@
         icon="menu"
       >
         <v-avatar
-          :image="getShopImagePath(shop.icon, 128)"
+          :image="getShopImagePath($shop.icon, 128)"
           class="avatar-gradient -shop -thin absolute-top-end"
           style="margin: 16%"
           size="20"
@@ -64,7 +64,7 @@
 
       <l-store-top-bar-editor
         v-model="show_menu_editor"
-        :shop="shop"
+        :shop="$shop"
       ></l-store-top-bar-editor>
     </template>
 
@@ -146,14 +146,12 @@ import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLa
 
 export default {
   name: "LMenuTopPage",
-  inject: ["$builder"],
+  inject: ["$builder",'$shop'],
   components: { LmtLargeButton, LStoreTopBarEditor },
   mixins: [LMixinEvents],
   emits: ["click:save"],
   props: {
-    shop: {
-      required: false,
-    },
+
 
     page: {
       require: true,

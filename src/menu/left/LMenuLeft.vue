@@ -43,27 +43,24 @@
 
       <v-spacer></v-spacer>
       <!-- ━━━━━━━━━━━━━━━ CSS ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-css :page="page" />
+      <l-menu-left-css />
 
       <!-- ━━━━━━━━━━━━━━━ Statistic ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-statistics :page="page"></l-menu-left-statistics>
+      <l-menu-left-statistics v-if="is_page"></l-menu-left-statistics>
 
       <!-- ━━━━━━━━━━━━━━━ SEO ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-seo v-if="hasSEO" :page="page" />
+      <l-menu-left-seo v-if="is_page" />
+
+      <!-- ━━━━━━━━━━━━━━━ Filter ━━━━━━━━━━━━━━━ -->
+      <l-menu-left-popup-filter v-if="is_popup"></l-menu-left-popup-filter>
+
+      <!-- ━━━━━━━━━━━━━━━ Appearance ━━━━━━━━━━━━━━━ -->
+      <l-menu-left-popup-appearance
+        v-if="is_popup"
+      ></l-menu-left-popup-appearance>
 
       <!-- ━━━━━━━━━━━━━━━ Settings ━━━━━━━━━━━━━━━ -->
-
-      <l-menu-left-setting
-        v-if="hasSetting"
-        v-model:cluster-id="page.cluster_id"
-        v-model:color="page.color"
-        v-model:direction="page.direction"
-        v-model:name="page.name"
-        v-model:note="page.note"
-        :is-official-page="!shop"
-        :page="page"
-        :shop="shop"
-      ></l-menu-left-setting>
+      <l-menu-left-setting></l-menu-left-setting>
     </div>
 
     <div class="l-window overflow-auto thin-scroll">
@@ -146,10 +143,14 @@ import LMenuLeftCss from "@selldone/page-builder/src/menu/left/css/LMenuLeftCss.
 import LMenuLeftAssets from "@selldone/page-builder/src/menu/left/assets/LMenuLeftAssets.vue";
 import LMenuLeftStatistics from "@selldone/page-builder/src/menu/left/statistics/LMenuLeftStatistics.vue";
 import LMenuLeftSort from "@selldone/page-builder/src/menu/left/sort/LMenuLeftSort.vue";
+import LMenuLeftPopupAppearance from "@selldone/page-builder/src/menu/left/popup/LMenuLeftPopupAppearance.vue";
+import LMenuLeftPopupFilter from "@selldone/page-builder/src/menu/left/popup/LMenuLeftPopupFilter.vue";
 
 export default defineComponent({
   name: "LMenuLeft",
   components: {
+    LMenuLeftPopupFilter,
+    LMenuLeftPopupAppearance,
     LMenuLeftSort,
     LMenuLeftStatistics,
     LMenuLeftAssets,
@@ -179,6 +180,16 @@ export default defineComponent({
   }),
 
   computed: {
+    is_page() {
+      return this.$builder.isPage();
+    },
+    is_popup() {
+      return this.$builder.isPopup();
+    },
+    is_menu() {
+      return this.$builder.isMenu();
+    },
+
     tabs() {
       return [
         {

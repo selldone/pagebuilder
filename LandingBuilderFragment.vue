@@ -14,44 +14,29 @@
 
 <template>
   <div class="">
-    <!-- --------------------------------- Top Tools --------------------------------- -->
-    <l-menu-top-home
-      v-if="modelValue && inEditMode && ref_builder"
-      :busySave="busySave"
-      :inDesignTab="true"
-      :page="modelValue"
-      :pageBuilder="ref_builder"
-      :save-color="isMenu ? 'blue' : 'green'"
-      :save-icon="isMenu ? 'check' : 'save'"
-      @click:save="onSave"
-      style="border-radius: 26px 26px 0 0"
-    >
-    </l-menu-top-home>
-
     <LPageEditor
       ref="vueBuilder"
       :isMenu="isMenu"
       :isPopup="isPopup"
       :page="modelValue"
       :showIntro="show_intro"
-      @changeMode="(val) => (inEditMode = val)"
       @saved="onSave"
-      @scale="(val) => (scale = val)"
       @load:template="onSetPageBySelectTemplate"
+      :histories="null"
     />
   </div>
 </template>
 
 <script>
-import LMenuTopHome from "./src/menu/top/home/LMenuTopHome.vue";
 import LPageEditor from "./page/editor/LPageEditor.vue";
 
 export default {
   name: "LandingBuilderFragment",
-  components: { LPageEditor, LMenuTopHome },
+  components: { LPageEditor },
+  inject: ["$shop"],
+
   emits: ["update:modelValue", "onSave"],
   props: {
-    shop: { require: true, type: Object },
     modelValue: {},
     isMenu: {
       type: Boolean,
@@ -69,11 +54,8 @@ export default {
   },
 
   data: () => ({
-    inEditMode: false, // Set after page builder initialize! important in access by $refs!
 
-    scale: false,
 
-    ref_builder: null,
   }),
 
   computed: {
@@ -111,9 +93,6 @@ export default {
       );
     }
 
-    this.$nextTick(() => {
-      this.ref_builder = this.$refs.vueBuilder;
-    });
   },
 
   methods: {

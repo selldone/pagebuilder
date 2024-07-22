@@ -22,7 +22,9 @@
     class="ma-1"
   >
     <v-icon>science</v-icon>
-    <v-tooltip activator="parent">{{$t('page_builder.menu.behavior')}}</v-tooltip>
+    <v-tooltip activator="parent">{{
+      $t("page_builder.menu.behavior")
+    }}</v-tooltip>
   </v-btn>
 
   <v-dialog
@@ -122,9 +124,8 @@
 export default {
   name: "LMenuLeftStatistics",
 
-  props: {
-    page: { require: true },
-  },
+  inject: ["$builder"],
+  props: {},
 
   data: () => ({
     dialog: false,
@@ -133,6 +134,9 @@ export default {
   }),
 
   computed: {
+    page() {
+      return this.$builder.model;
+    },
     render_url() {
       return `/shuttle/shop-component/${this.page.shop_id}/pages/${this.page.id}/render`;
     },

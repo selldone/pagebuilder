@@ -19,14 +19,13 @@
     @dragleave="onDragLeave"
     @drop="onDropFile"
   >
+    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+    <l-header :backTo="backTo" ></l-header>
+
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
     <l-menu-top
-      v-if="page"
-      :backTo="backTo"
-      :shop="$shop"
-      :page="page"
-      :demo="demo"
+
       :busy-save="busySave"
       :saveFunction="onSave"
     >
@@ -287,12 +286,14 @@ import LArtboardSection from "@selldone/page-builder/page/editor/LArtboardSectio
 import LArtboardDrop from "@selldone/page-builder/page/editor/artboard/drop/LArtboardDrop.vue";
 import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
 import XUploaderToolbar from "@selldone/page-builder/components/x/uploader/XUploaderToolbar.vue";
+import LHeader from "@selldone/page-builder/src/header/LHeader.vue";
 
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinEvents, LMixinArtboard],
   inject: ["$shop"],
   components: {
+    LHeader,
     XUploaderToolbar,
     LArtboardDrop,
     LArtboardSection,
@@ -1109,7 +1110,7 @@ export default defineComponent({
       const files = event.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
         if (files[i].name.endsWith(".landing")) {
-          console.log("Drop landing file!")
+          console.log("Drop landing file!");
           event.preventDefault();
           event.stopPropagation();
           // Process the .landing file

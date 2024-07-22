@@ -22,9 +22,7 @@
     class="ma-1"
   >
     <v-icon>track_changes</v-icon>
-    <v-tooltip activator="parent">{{
-      $t("page_builder.menu.seo")
-    }}</v-tooltip>
+    <v-tooltip activator="parent">{{ $t("page_builder.menu.seo") }} </v-tooltip>
   </v-btn>
 
   <v-dialog
@@ -119,15 +117,18 @@ import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgress
 export default {
   name: "LMenuLeftSeo",
   components: { UProgressScore, BGooglePreview },
-  props: {
-    page: {},
-  },
+  inject: ["$builder"],
+  props: {},
 
   data: () => ({
     dialog: false,
   }),
 
   computed: {
+    page() {
+      return this.$builder.model;
+    },
+
     seo() {
       return this.page.seo;
     },

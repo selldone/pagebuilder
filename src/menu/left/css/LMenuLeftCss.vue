@@ -46,7 +46,7 @@
                 elevation="3"
               >
                 <span class="text-subtitle-2">Classes</span>
-                <v-spacer> </v-spacer>
+                <v-spacer></v-spacer>
 
                 <v-btn
                   prepend-icon="add_box"
@@ -80,7 +80,6 @@
                       variant="text"
                       @click.stop="classes.splice(i, 1)"
                       class="me-1"
-
                     >
                       <v-icon>close</v-icon>
                     </v-btn>
@@ -153,9 +152,8 @@ import "prismjs/themes/prism-dark.css";
 export default {
   name: "LMenuLeftCss",
   components: { SSettingExpandable, PrismEditor },
-  props: {
-    page: {},
-  },
+  inject: ["$builder"],
+  props: {},
 
   data: () => ({
     dialog: false,
@@ -165,6 +163,10 @@ export default {
   }),
 
   computed: {
+    page() {
+      return this.$builder.model;
+    },
+
     generated() {
       return LandingCssHelper.Generate(this.page.css);
     },
