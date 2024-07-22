@@ -184,9 +184,21 @@
                     (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
                   "
                 >
+                  <l-artboard-section
+                    v-for="(section, index) in $builder.sections"
+                    :key="section.uid"
+                    :section="section"
+                    :loading="delay_load <= index"
+                    :index="index"
+                    :shop="$shop"
+                    :aiAutoFillFunction="aiAutoFillFunction"
+                    v-model:past-hover-index="past_hover_index"
+                  ></l-artboard-section>
+
                   <l-artboard-drop
                     v-if="$builder.isEditing && !$builder.sections.length"
                     :index="0"
+                    key="empty"
                   >
                     <div
                       class="pa-5 d-flex align-center justify-center"
@@ -203,19 +215,6 @@
                       Drop Section Here...
                     </div>
                   </l-artboard-drop>
-                  <template
-                    v-for="(section, index) in $builder.sections"
-                    :key="section.uid"
-                  >
-                    <l-artboard-section
-                      :section="section"
-                      :loading="delay_load <= index"
-                      :index="index"
-                      :shop="$shop"
-                      :aiAutoFillFunction="aiAutoFillFunction"
-                      v-model:past-hover-index="past_hover_index"
-                    ></l-artboard-section>
-                  </template>
                 </div>
               </div>
             </v-locale-provider>
@@ -226,7 +225,7 @@
   </div>
 
   <div
-    v-if="drop_landing_file "
+    v-if="drop_landing_file"
     @drop.stop="onDropFile"
     style="
       position: fixed;
@@ -251,7 +250,12 @@
       ></v-progress-circular>
     </div>
     <div class="my-5">Drop Landing File Here</div>
-    <v-btn icon @click="drop_landing_file=false" style="pointer-events: all" variant="text">
+    <v-btn
+      icon
+      @click="drop_landing_file = false"
+      style="pointer-events: all"
+      variant="text"
+    >
       <v-icon>close</v-icon>
     </v-btn>
   </div>
@@ -447,7 +451,7 @@ export default defineComponent({
       if (!this.$builder.style) return null; // Fix bugs
 
       return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        this.$builder.style
+        this.$builder.style,
       );
     },
 
@@ -520,9 +524,29 @@ export default defineComponent({
       this.$emit("changeMode", val);
     },
 
-    "$builder.isSorting"() {
-      this.onSortingModeChange();
+    "$builder.isSorting"(sort) {
+      this.sortable.option("sort", sort);  // Set sorting enabled or disabled
+
+      if(sort){
+        this.sortable.option("disabled", false);// Force enable to be able to sort!
+        this.$builder.isEditing = false; // Disable editing mode if sorting!
+        //this.sortable.option("disabled", true);// Can not drop if in sorting mode!
+      }else{
+        this.$builder.isEditing = true;
+       // this.sortable.option("disabled", !this.$builder.showLeftMenu);
+      }
+    //  this.onSortingModeChange();
     },
+    "$builder.showLeftMenu"(menu){
+      this.sortable.option("disabled", !menu);// Can not drop if in sorting mode!
+      if(menu){
+        this.$builder.isSorting = false; // Always make it false if menu is open!
+      }else{
+        if(this.$builder.isSorting){
+          this.sortable.option("disabled", false);// Keep sorting enable!
+        }
+      }
+    }
   },
   provide() {
     return {
@@ -562,6 +586,7 @@ export default defineComponent({
       removeCloneOnHide: true,
 
       filter: ".ignore-elements",
+      chosenClass: "bg-amber", // Class name for the chosen item
 
       onAdd(evt) {
         try {
@@ -589,6 +614,17 @@ export default defineComponent({
 
         console.log("sortable : onUpdate");
         _self.$builder.history.save();
+      },
+      setData: function (
+        /** DataTransfer */ dataTransfer: DataTransfer,
+        /** HTMLElement*/ dragEl,
+      ) {
+        // Prevent the default drag image from being shown
+        const emptyImage = new Image();
+        emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+        dataTransfer.setDragImage(emptyImage, 0, 0);
+
+        //dataTransfer.clearData('Text'); //Clear data to prevent insert text in dropped element!
       },
     });
 
@@ -970,35 +1006,42 @@ export default defineComponent({
         this.$builder.history.save();
       }
     },
-
-    onSortingModeChange() {
-      // BUG: when in sort mode drop new section that section can't be edited!
-      if (!this.$builder.isSorting && this.$builder.showLeftMenu)
-        this.onShowLeftMenuUpdate();
+  /*  onSortingModeChange() {
+      console.log("onSortingModeChange", this.$builder.isSorting);
 
       this.$builder.isEditing = !this.$builder.isSorting;
-      if (!this.$builder.isSorting && this.sortable) {
-        this.sortable.option("sort", false);
-        this.sortable.option("disabled", true);
 
-        return;
+      if (!this.sortable) return;
+
+      if (!this.$builder.isSorting && this.$builder.showLeftMenu) {
+        this.onShowLeftMenuUpdate();
       }
-      this.sortable.option("disabled", false);
-      this.sortable.option("sort", true);
-    },
 
-    onShowLeftMenuUpdate() {
-      // BUG: when in sort mode drop new section that section can't be edited!
+      const sortingEnabled = this.$builder.isSorting;
+      this.sortable.option("sort", sortingEnabled);  // Set sorting enabled or disabled
+      this.sortable.option("disabled", !sortingEnabled);// Can not drop if in sorting mode!
+    },*/
+
+  /*  onShowLeftMenuUpdate() {
+      console.log("onShowLeftMenuUpdate", this.$builder.showLeftMenu);
+
+      if (!this.sortable) return;
+
       if (!this.$builder.showLeftMenu && this.$builder.isSorting) {
-        this.$builder.isSorting = !this.$builder.isSorting;
+        this.$builder.isSorting = false;
         this.onSortingModeChange();
       }
 
-      this.sortable.option("disabled", !this.$builder.showLeftMenu);
-    },
+      const menuVisible = this.$builder.showLeftMenu;
+
+      this.sortable.option("disabled", !menuVisible); // Can drop if left menu is visible!
+    },*/
+
     showList() {
       this.$builder.showLeftMenu = true;
-      this.sortable.option("disabled", false);
+      if (this.sortable) {
+        this.sortable.option("disabled", false);
+      }
     },
 
     onScroll(e) {
@@ -1154,14 +1197,6 @@ $dark: #323c47;
 $white: #fff;
 $black: #000;
 
-::v-deep(.sortable-ghost) {
-  .fmenu-elementImage {
-    width: 100%;
-    height: auto;
-    background: #1976d2;
-  }
-}
-
 h1 {
   font-size: 1.7rem;
 }
@@ -1180,13 +1215,6 @@ p {
   &.is-editable .is-editable {
     outline: none;
   }
-}
-
-.sortable-ghost {
-  background-color: #0c91d3;
-  opacity: 0.9;
-  height: max-content;
-  box-shadow: 0 0 2px 1px $blue;
 }
 
 .is-editable {

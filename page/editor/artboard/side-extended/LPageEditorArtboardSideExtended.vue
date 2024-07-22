@@ -118,10 +118,6 @@ export default defineComponent({
     aiAutoFillFunction: Boolean,
     notes: Array,
 
-    shop: {
-      required: true,
-      type: Object,
-    },
   },
   data() {
     return {

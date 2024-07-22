@@ -104,7 +104,6 @@
       :aiAutoFillFunction="aiAutoFillFunction"
       :notes="notes"
       :section="section"
-      :shop="shop"
     ></l-page-editor-artboard-side-extended>
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -113,7 +112,6 @@
       v-if="$vuetify.display.lgAndUp"
       :limit="2"
       :section="section"
-      :shop="shop"
       :style="{ width: '400px', right: '-600px' }"
       class="position-absolute"
       hover-able
@@ -160,7 +158,7 @@ export default defineComponent({
     SLandingSectionSideBar,
     XComponent,
   },
-  inject: ["$builder"],
+  inject: ["$builder",'$shop'],
   props: {
     section: {
       required: true,
@@ -174,10 +172,7 @@ export default defineComponent({
       required: true,
       type: Number,
     },
-    shop: {
-      required: false,
-      type: Object,
-    },
+
 
     pastHoverIndex: {},
     aiAutoFillFunction: Boolean,
@@ -194,6 +189,7 @@ export default defineComponent({
   }),
 
   computed: {
+
     notes() {
       return this.$builder.model?.notes;
     },

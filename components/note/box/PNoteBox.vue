@@ -83,12 +83,10 @@ import { CampaignLink, Club } from "@selldone/core-js";
 export default {
   name: "PNoteBox",
   components: {},
+  inject: ["$shop"],
   emits: ["delete"],
 
   props: {
-    shop: {
-      required: true,
-    },
     inShopAdmin: {
       type: Boolean,
     },
@@ -157,7 +155,7 @@ export default {
       this.delete_busy = note;
 
       const base_url = this.inShopAdmin
-        ? window.API.DELETE_SHOP_NOTE(this.shop.id, note.id)
+        ? window.API.DELETE_SHOP_NOTE(this.$shop.id, note.id)
         : undefined;
 
       axios

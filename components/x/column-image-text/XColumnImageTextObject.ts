@@ -17,8 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {
-  XColumnImageTextDataTypes,
-  XColumnImageTextObjectData,
+    XColumnImageTextDataTypes,
+    XColumnImageTextObjectData,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
@@ -30,11 +30,10 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
   public static ComponentName = "XColumnImageText";
   public static Info = {
-    group:'Layout',
-    icon:'broken_image',
-    title:'Stylish Column'
+    group: "Layout",
+    icon: "broken_image",
+    title: "Stylish Column",
   };
-
 
   constructor(
     background: LModelBackground | null,
@@ -106,7 +105,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
 
     // Add initial children:
     instance.addChild(
-      XTextObject.Seed("Enter your title here...", "h3", null).setLabel(
+      XTextObject.Seed("Enter your title here...", "h3", ["mb-3"]).setLabel(
         XColumnImageTextObjectTypes.LABELS.TITLE,
       ),
     );
@@ -257,7 +256,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     );
 
     column.addChild(
-      XTextObject.MigrateOld(old.title, "h3", []).setLabel(
+      XTextObject.MigrateOld(old.title, "h3", ["mb-3"]).setLabel(
         XColumnImageTextObjectTypes.LABELS.TITLE,
       ),
     );

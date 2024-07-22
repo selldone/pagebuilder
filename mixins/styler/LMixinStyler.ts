@@ -108,6 +108,12 @@ export const LMixinStyler = defineComponent({
           ? this.$refs.styler.$el /*Vue components*/
           : this.$refs.styler; /*Native elements*/
 
+        if (!(referenceEl instanceof Element && floatingEl instanceof Element)) {
+          console.debug("Check Float UI | Invalid element!", referenceEl, floatingEl);
+          return;
+        }
+
+
         const PADDING = 15;
         // When the floating element is open on the screen
         this.cleanup = autoUpdate(

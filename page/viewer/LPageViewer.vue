@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <!-- ――――――――――――――――――――――  Page Content ―――――――――――――――――――― -->
+  <!-- ―――――――――――――――――――――― LPageViewer > Page Content ―――――――――――――――――――― -->
 
   <div
     ref="render_container"

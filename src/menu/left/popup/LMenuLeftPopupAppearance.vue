@@ -48,7 +48,7 @@
           </v-list-subheader>
 
           <v-item-group v-model="popup.position" mandatory>
-            <v-container>
+            <v-container class="text-center">
               <v-row>
                 <v-col v-for="pos in PopupPositions" :key="pos" cols="4">
                   <v-item v-slot="{ isSelected, toggle }" :value="pos">

@@ -20,7 +20,6 @@
         :key="note.id"
         :class="{ 'hover-scale-small force-top bg-white border-0': hoverAble }"
         :note="note"
-        :shop="shop"
         class="fadeIn pp"
         in-shop-admin
         @click="show(note)"
@@ -51,9 +50,7 @@ export default {
   components: { PNoteBox },
 
   props: {
-    shop: {
-      required: true,
-    },
+
     section: {
       required: true,
       type: Section,

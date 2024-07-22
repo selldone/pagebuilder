@@ -140,6 +140,7 @@ export default defineComponent({
           pull: "clone",
         },
         sort: false,
+        ghostClass: "sortable-ghost",  // Class name for the drop placeholder
 
         onStart: function (/**Event*/ evt) {
           const item_seed = evt.item.getAttribute("data-seed");
@@ -152,6 +153,7 @@ export default defineComponent({
         onEnd: function (/**Event*/ evt) {
           _self.setDragMode(false);
         },
+
       });
 
       this.sortables_group.push(sortable);
