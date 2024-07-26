@@ -32,17 +32,17 @@ export class LMigrationV2Scroll {
     }
 
     const section = XSectionObject.MigrateOld($sectionData);
-    section.classes = [];
+    section.classes = ["pa-0"];
     section.style = [];
 
-    if($sectionData.title){
-      col_A.addChild(XTextObject.MigrateOld($sectionData.title, "h2", ["mb-3"]));
+    if ($sectionData.title) {
+      col_A.addChild(
+        XTextObject.MigrateOld($sectionData.title, "h2", ["mb-3"]),
+      );
     }
-    if($sectionData.content){
+    if ($sectionData.content) {
       col_A.addChild(XTextObject.MigrateOld($sectionData.content, "p", []));
     }
-
-
 
     const swiper = XSwiperObject.MigrateOld($sectionData.slide);
     section.addChild(swiper);
@@ -58,34 +58,31 @@ export class LMigrationV2Scroll {
     if (!swiper.data.spaceBetween) swiper.data.spaceBetween = 30;
 
     $sectionData.slide.items.forEach((_slide: any) => {
-      const container = XContainerObject.MigrateOld(_slide.container);
+     /* const container = XContainerObject.MigrateOld(_slide.container);
       container.data.setFluid(true);
       container.style = $sectionData.style ? $sectionData.style : {};
       container.classes = $sectionData.classes ? $sectionData.classes : [];
 
       const row = XRowObject.MigrateOld(_slide.row);
-      container.addChild(row);
+      container.addChild(row);*/
 
       const column = XColumnImageTextObject.MigrateOld(_slide);
-   /*   const title = XTextObject.MigrateOld(_slide.title, "h2", []);
+      /*const title = XTextObject.MigrateOld(_slide.title, "h2", []);
       const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
-      const buttons = XButtonsObject.NewInstance();
+      const buttons = XButtonsObject.NewInstance();*/
 
-      if (_slide.button) {
+     /* if (_slide.button) {
         buttons.addChild(XButtonObject.MigrateOld(_slide.button));
-      }
-
-            column.addChild(XUploaderObject.MigrateOld(_slide.image));
+      }*/
+/*
+      column.addChild(XUploaderObject.MigrateOld(_slide.image));
       column.addChild(title);
       column.addChild(subtitle);
-      column.addChild(buttons);
-      */
+      column.addChild(buttons);*/
 
-      row.addChild(column);
+      //row.addChild(column);
 
-
-
-      swiper.addChild(container);
+      swiper.addChild(column);
     });
 
     console.log(

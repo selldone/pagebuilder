@@ -15,69 +15,19 @@
 <template>
   <s-setting-expandable :value="value" icon="control_camera" title="Position">
     <template v-slot:title>
-      <v-chip
-        v-if="position"
-        class="ms-1 text-capitalize"
-        color="#3F51B5"
-        label
-        size="x-small"
-        title="Margin Bottom"
-        variant="flat"
-        density="comfortable"
-        >{{ position }}
-      </v-chip>
 
-      <v-chip
-        v-if="left && left !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Left: {{ left }}
-      </v-chip>
-      <v-chip
-        v-if="right && right !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Right: {{ right }}
-      </v-chip>
-      <v-chip
-        v-if="top && top !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Top: {{ top }}
-      </v-chip>
-      <v-chip
-        v-if="bottom && bottom !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Bottom: {{ bottom }}
-      </v-chip>
+      <s-setting-chip :value="position" icon="control_camera" ></s-setting-chip>
 
-      <v-chip
-        v-if="zIndex"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Z-Index: {{ zIndex }}
-      </v-chip>
+
+
+      <s-setting-chip :value="left" label="Left" ></s-setting-chip>
+      <s-setting-chip :value="right" label="Right" ></s-setting-chip>
+      <s-setting-chip :value="top" label="Top" ></s-setting-chip>
+      <s-setting-chip :value="bottom" label="Bottom" ></s-setting-chip>
+      <s-setting-chip :value="zIndex" label="Z-Index" icon="terrain"></s-setting-chip>
+
+
+
     </template>
 
     <s-landing-style-preview
@@ -158,10 +108,12 @@ import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSi
 import SSettingSelect from "@selldone/page-builder/styler/settings/select/SSettingSelect.vue";
 import { POSITION } from "@selldone/page-builder/src/enums/position/POSITION";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStylePosition",
   components: {
+    SSettingChip,
     SSettingNumberInput,
     SSettingSelect,
     SSettingSize,

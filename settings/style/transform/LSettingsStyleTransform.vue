@@ -15,132 +15,70 @@
 <template>
   <s-setting-expandable :value="value" icon="transform" title="Transform">
     <template v-slot:title>
-      <v-chip
-        v-if="transform_object?.rotate"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >R {{ transform_object.rotate }}°
-      </v-chip>
-      <v-chip
-        v-if="transform_object?.rotateX"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Rx {{ transform_object.rotateX }}°
-      </v-chip>
-      <v-chip
-        v-if="transform_object?.rotateY"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Ry {{ transform_object.rotateY }}°
-      </v-chip>
-      <v-chip
-        v-if="transform_object?.rotateZ"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Rz {{ transform_object.rotateZ }}°
-      </v-chip>
+      <s-setting-chip
+        :value="transform_object?.rotate"
+        label="R"
+      ></s-setting-chip>
 
-      <v-chip
-        v-if="
-          transform_object?.translateX &&
-          transform_object?.translateX !== 'unset'
-        "
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Tx {{ getName(transform_object.translateX) }}
-      </v-chip>
-      <v-chip
-        v-if="
-          transform_object?.translateY &&
-          transform_object?.translateY !== 'unset'
-        "
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Ty {{ getName(transform_object.translateY) }}
-      </v-chip>
-      <v-chip
-        v-if="
-          transform_object?.translateZ &&
-          transform_object?.translateZ !== 'unset'
-        "
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Tz {{ getName(transform_object.translateZ) }}
-      </v-chip>
+      <s-setting-chip
+        :value="transform_object?.rotateX"
+        label="Rx"
+      ></s-setting-chip>
 
-      <v-chip
-        v-if="transform_object?.scaleX && transform_object?.scaleX !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Sx {{ getName(transform_object.scaleX) }}
-      </v-chip>
-      <v-chip
-        v-if="transform_object?.scaleY && transform_object?.scaleY !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Sy {{ getName(transform_object.scaleY) }}
-      </v-chip>
+      <s-setting-chip
+        :value="transform_object?.rotateY"
+        label="Ry"
+      ></s-setting-chip>
 
-      <v-chip
-        v-if="transform_object?.skewX && transform_object?.skewX !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Kx {{ getName(transform_object.skewX) }}
-      </v-chip>
-      <v-chip
-        v-if="transform_object?.skewY && transform_object?.skewY !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Ky {{ getName(transform_object.skewY) }}
-      </v-chip>
+      <s-setting-chip
+        :value="transform_object?.rotateZ"
+        label="Rz"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.translateX"
+        label="Tx"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.translateY"
+        label="Ty"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.translateZ"
+        label="Tz"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.scaleX"
+        label="Sx"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.scaleY"
+        label="Sy"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.skewX"
+        label="Kx"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="transform_object?.skewY"
+        label="Ky"
+      ></s-setting-chip>
     </template>
 
     <v-row no-gutters class="pb-4">
-      <v-card v-for="it in collection" class="me-2 pa-3" variant="outlined" color="#666" @click="transform_object=it">
+      <v-card
+        v-for="it in collection"
+        class="me-2 pa-3"
+        variant="outlined"
+        color="#666"
+        @click="transform_object = it"
+      >
         <v-sheet
           rounded="lg"
           color="#fff"
@@ -290,10 +228,12 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";
 import { StyleTransformHelper } from "@selldone/page-builder/settings/style/transform/StyleTransformHelper.ts";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleTransform",
   components: {
+    SSettingChip,
     SSettingSlider,
     SSettingExpandable,
     SSettingGroup,
@@ -320,13 +260,12 @@ export default defineComponent({
     },
     collection() {
       return [
-        { rotate: -26,rotateX: 52,rotateY:29,rotateZ:-23 },
+        { rotate: -26, rotateX: 52, rotateY: 29, rotateZ: -23 },
         { rotate: -10, rotateX: 45, rotateY: 20, rotateZ: -15 }, // View 2
         { rotate: -20, rotateX: 50, rotateY: 25, rotateZ: -18 }, // View 3
         { rotate: -15, rotateX: 40, rotateY: 30, rotateZ: -10 }, // View 4
-        { rotate: -30, rotateX: 55, rotateY: 35, rotateZ: -20 },  // View 5
-        { rotate: 33, rotateX: -47, rotateY: -3,rotateZ: -26 },  // View 5
-
+        { rotate: -30, rotateX: 55, rotateY: 35, rotateZ: -20 }, // View 5
+        { rotate: 33, rotateX: -47, rotateY: -3, rotateZ: -26 }, // View 5
 
         { rotate: 45, skewX: 30, skewY: 0 }, // Right view
         { rotate: 35, skewX: 0, skewY: 30 }, // Top view

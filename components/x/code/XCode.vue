@@ -24,10 +24,7 @@
       },
     }"
     class="x--code"
-    :class="[
-      object.classes,
-      { 'is-editable safe-no-click': $builder.isEditing },
-    ]"
+    :class="[object.classes, { 'is-editable': $builder.isEditing }]"
     :style="[
       object.style,
       background_style,
@@ -39,6 +36,7 @@
       v-dynamic-scripts="true"
       :style="{ pen: is_editing }"
       v-html="object.data.code"
+      :class="{ pen: $builder.isEditing }"
     ></div>
     <component
       v-else-if="mode === 'vue'"
@@ -46,6 +44,7 @@
       v-dynamic-scripts="true"
       :style="{ pen: is_editing }"
       :properties="object.data.properties ? object.data.properties : undefined"
+      :class="{ pen: $builder.isEditing }"
     ></component>
   </div>
 </template>
@@ -288,12 +287,5 @@ export default {
 
 <style lang="scss">
 .x--code {
-}
-
-::v-deep(.safe-no-click) {
-  a,
-  .v-btn {
-    pointer-events: none;
-  }
 }
 </style>

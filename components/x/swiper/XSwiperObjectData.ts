@@ -20,7 +20,7 @@ import type {AutoplayOptions, GridOptions, KeyboardOptions, NavigationOptions, P
  */
 export class XSwiperObjectData extends LModelData<XSwiperObjectData> {
   autoHeight: boolean = true;
-  centeredSlides: boolean = false;
+  centeredSlides: boolean = true;
   direction: string = "horizontal";
   effect: XSwiperObjectDataTypes.Effect = XSwiperObjectDataTypes.Effect.Slide;
   grabCursor: boolean = false;

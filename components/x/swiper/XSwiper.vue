@@ -19,9 +19,7 @@
       target: object,
     }"
     :allow-touch-move="allow_touch_move"
-    :auto-height="
-      SLIDE_DATA.autoHeight
-    "
+    :auto-height="SLIDE_DATA.autoHeight"
     :autoplay="autoplay"
     :centered-slides="SLIDE_DATA.centeredSlides"
     :cubeEffect="{
@@ -67,7 +65,6 @@
       v-for="(_slide, index) in object.children"
       :key="index"
       :class="[
-        realIndex === index ? SLIDE_DATA.active : null,
         {
           'swiper-material-wrapper': is_material_effect,
         },
@@ -78,7 +75,11 @@
         :object="_slide"
         :augment="augment"
         :remove-child="() => object.children.splice(index, 1)"
+        :content-class="realIndex === index ? SLIDE_DATA.active : null"
         :class="[
+          realIndex === index && _slide.component !== 'XColumnImageText'/*Except for content class options*/
+            ? SLIDE_DATA.active
+            : null,
           {
             'swiper-material-content': is_material_effect,
           },

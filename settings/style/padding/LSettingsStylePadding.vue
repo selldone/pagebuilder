@@ -15,46 +15,13 @@
 <template>
   <s-setting-expandable :value="value" icon="padding" title="Padding">
     <template v-slot:title>
-      <v-chip
-        v-if="paddingLeft && paddingLeft !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Left: {{ paddingLeft }}
-      </v-chip>
-      <v-chip
-        v-if="paddingRight && paddingRight !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Right: {{ paddingRight }}
-      </v-chip>
-      <v-chip
-        v-if="paddingTop && paddingTop !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Top: {{ paddingTop }}
-      </v-chip>
-      <v-chip
-        v-if="paddingBottom && paddingBottom !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Bottom: {{ paddingBottom }}
-      </v-chip>
+      <s-setting-chip :value="paddingLeft" label="Left"></s-setting-chip>
+
+      <s-setting-chip :value="paddingRight" label="Right"></s-setting-chip>
+
+      <s-setting-chip :value="paddingTop" label="Top"></s-setting-chip>
+
+      <s-setting-chip :value="paddingBottom" label="Bottom"></s-setting-chip>
     </template>
 
     <s-landing-style-preview
@@ -118,10 +85,12 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SLandingStylePreview from "@selldone/page-builder/components/style/preview/SLandingStylePreview.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStylePadding",
   components: {
+    SSettingChip,
     SSettingSize,
     SSettingExpandable,
     SLandingStylePreview,
@@ -137,7 +106,7 @@ export default defineComponent({
   ],
 
   props: {
-    value:{},
+    value: {},
     inputStyle: {},
     computedStyle: {
       type: CSSStyleDeclaration,

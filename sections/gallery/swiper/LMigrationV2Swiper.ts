@@ -36,9 +36,11 @@ export class LMigrationV2Swiper {
         : "horizontal";
 
     const section = XSectionObject.MigrateOld($sectionData);
-    section.style=$sectionData.style?$sectionData.style:{};
-    section.classes=$sectionData.classes?$sectionData.classes:[];
-
+    section.style = $sectionData.style ? $sectionData.style : {};
+    section.classes = Array.isArray($sectionData.classes)
+      ? $sectionData.classes
+      : [];
+    section.classes.unshift("pa-0");
 
     const swiper = XSwiperObject.MigrateOld($sectionData.slide);
     section.addChild(swiper);
@@ -46,8 +48,8 @@ export class LMigrationV2Swiper {
     $sectionData.slide.items.forEach((_slide: any) => {
       const container = XContainerObject.MigrateOld(_slide.container);
       container.data.setFluid(true);
-      container.style=[];
-      container.classes=[];
+      container.style = [];
+      container.classes = [];
 
       // Convert old image to slide background
       if (_slide.image) {

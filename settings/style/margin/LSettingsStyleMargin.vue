@@ -15,46 +15,13 @@
 <template>
   <s-setting-expandable :value="value" icon="margin" title="Margin">
     <template v-slot:title>
-      <v-chip
-        v-if="marginLeft && marginLeft !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Left: {{ marginLeft }}
-      </v-chip>
-      <v-chip
-        v-if="marginRight && marginRight !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Right: {{ marginRight }}
-      </v-chip>
-      <v-chip
-        v-if="marginTop && marginTop !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Top: {{ marginTop }}
-      </v-chip>
-      <v-chip
-        v-if="marginBottom && marginBottom !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        >Bottom: {{ marginBottom }}
-      </v-chip>
+      <s-setting-chip :value="marginLeft" label="Left"> </s-setting-chip>
+
+      <s-setting-chip :value="marginRight" label="Right"> </s-setting-chip>
+
+      <s-setting-chip :value="marginTop" label="Top"> </s-setting-chip>
+
+      <s-setting-chip :value="marginBottom" label="Bottom"> </s-setting-chip>
     </template>
 
     <s-landing-style-preview
@@ -117,10 +84,12 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SLandingStylePreview from "@selldone/page-builder/components/style/preview/SLandingStylePreview.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleMargin",
   components: {
+    SSettingChip,
     SSettingSize,
     SSettingExpandable,
     SLandingStylePreview,

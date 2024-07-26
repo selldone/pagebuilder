@@ -18,7 +18,7 @@ import {LMigrationV2MultipleColumns} from "@selldone/page-builder/sections/image
 import {LMigrationV2NormalSections} from "@selldone/page-builder/sections/image/LMigrationV2NormalSections.ts";
 import {LMigrationV2TextSections} from "@selldone/page-builder/sections/text/LMigrationV2TextSections.ts";
 import {
-    LMigrationV2GalleryExpandable
+  LMigrationV2GalleryExpandable
 } from "@selldone/page-builder/sections/gallery/expandable/LMigrationV2GalleryExpandable.ts";
 import {LMigrationV2GalleryBrands} from "@selldone/page-builder/sections/gallery/brands/LMigrationV2GalleryBrands.ts";
 import {LMigrationV2Swiper} from "@selldone/page-builder/sections/gallery/swiper/LMigrationV2Swiper.ts";
@@ -28,7 +28,7 @@ import {LMigrationV2Article} from "@selldone/page-builder/sections/article/LMigr
 import {LMigrationV2Code} from "@selldone/page-builder/sections/html/LMigrationV2Code.ts";
 import {LMigrationV2StoreProduct} from "@selldone/page-builder/sections/store/product/LMigrationV2StoreProduct.ts";
 import {
-    LMigrationV2CustomListing
+  LMigrationV2CustomListing
 } from "@selldone/page-builder/sections/store/custom-listing/LMigrationV2CustomListing.ts";
 import {LMigrationV2Newsletter} from "@selldone/page-builder/sections/form/newsletter/LMigrationV2Newsletter.ts";
 import {LMigrationV2BlogsList} from "@selldone/page-builder/sections/blog/list/LMigrationV2BlogsList.ts";
@@ -174,7 +174,7 @@ export class LUtilsMigration {
       section.name === "LSectionTextThreeColumns" ||
       section.name === "LSectionTextTwoColumns"
     ) {
-      section.object = LMigrationV2TextSections.Migrate(section.data);
+      section.object = LMigrationV2TextSections.Migrate(section.data,section.name);
       section.data = null;
     } else if (section.name === "LSectionGalleryExpandable") {
       section.object = LMigrationV2GalleryExpandable.Migrate(section.data);
@@ -212,15 +212,64 @@ export class LUtilsMigration {
     } else if (section.name === "LSectionTextMarquee") {
       section.object = LMigrationV2Marquee.Migrate(section.data);
       section.data = null;
-    }
-
-
-
-
-
-    else {
+    } else {
       console.error(`Migration not found for section ${section.name}`);
     }
+  }
+
+  public static MigrateNameV1toV2(name: string) {
+    if (
+      name === "LSectionHeroHorizontal" ||
+      name === "LSectionHeroVertical" ||
+      name === "LSectionHeroLottie" ||
+      name === "LSectionHeroSearch"
+    ) {
+      return "Hero";
+    } else if (
+      name === "LSectionImageTwoColumns" ||
+      name === "LSectionImageThreeColumns"
+    ) {
+      return "Multiple Columns";
+    } else if (
+      name === "LSectionImageSocials" ||
+      name === "LSectionImageFeatures" ||
+      name === "LSectionImageCards" ||
+      name === "LSectionImageIntro"
+    ) {
+      return "Featured Images";
+    } else if (
+      name === "LSectionTextNumbers" ||
+      name === "LSectionTextThreeColumns" ||
+      name === "LSectionTextTwoColumns"
+    ) {
+      return "Featured Texts";
+    } else if (name === "LSectionGalleryExpandable") {
+      return "Expandable Gallery";
+    } else if (name === "LSectionGalleryBrands") {
+      return "Brands";
+    } else if (name === "LSectionGallerySwiper") {
+      return "Swiper Gallery";
+    } else if (name === "LSectionGalleryScroll") {
+      return "Swiper Scroll";
+    } else if (name === "LSectionStoreListing") {
+      return "Products Listing";
+    } else if (name === "LSectionArticle") {
+      return "Article";
+    } else if (name === "LSectionHtml") {
+      return "Custom Component";
+    } else if (name === "LSectionStoreProduct") {
+      return "Product";
+    } else if (name === "LSectionStoreCustomListing") {
+      return "Custom Products Listing";
+    } else if (name === "LSectionFormNewsletter") {
+      return "Newsletter";
+    } else if (name === "LSectionBlogList") {
+      return "Blogs List";
+    } else if (name === "LSectionTextMarquee") {
+      return "Text Marquee";
+    }
+
+    return name;
   }
 }
 

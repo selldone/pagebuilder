@@ -15,18 +15,11 @@
 <template>
   <s-setting-expandable :value="value" icon="movie_filter" title="Filter">
     <template v-slot:title>
-      <v-chip
+      <s-setting-chip
         v-if="filter"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>photo_filter</v-icon>
-        Has Filter
-      </v-chip>
+        value="Has Filter"
+        icon="photo_filter"
+      ></s-setting-chip>
     </template>
 
     <s-landing-style-filter
@@ -42,10 +35,12 @@
 import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SLandingStyleFilter from "@selldone/page-builder/components/style/filter/SLandingStyleFilter.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleFilter",
   components: {
+    SSettingChip,
     SLandingStyleFilter,
     SSettingExpandable,
   },

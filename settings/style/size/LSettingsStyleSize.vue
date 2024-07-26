@@ -15,84 +15,46 @@
 <template>
   <s-setting-expandable :value="value" icon="fit_screen" title="Size">
     <template v-slot:title>
-      <v-chip
-        v-if="width && width !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>fullscreen</v-icon>
-        {{ width }}
-      </v-chip>
-      <v-chip
-        v-if="minWidth && minWidth !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>fullscreen_exit</v-icon>
-        {{ minWidth }}
-      </v-chip>
-      <v-chip
-        v-if="maxWidth && maxWidth !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>crop_free</v-icon>
-        {{ maxWidth }}
-      </v-chip>
+      <s-setting-chip
+        :value="width"
+        icon="fullscreen"
+        label="W"
+      ></s-setting-chip>
 
-      <v-chip
-        v-if="height && height !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>fullscreen</v-icon>
-        {{ height }}
-      </v-chip>
-      <v-chip
-        v-if="minHeight && minHeight !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>fullscreen_exit</v-icon>
-        {{ minHeight }}
-      </v-chip>
-      <v-chip
-        v-if="maxHeight && maxHeight !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>crop_free</v-icon>
-        {{ maxHeight }}
-      </v-chip>
+      <s-setting-chip
+        :value="minWidth"
+        icon="fullscreen_exit"
+        label="W"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="maxWidth"
+        icon="crop_free"
+        label="W"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="height"
+        icon="fullscreen"
+        label="H"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="minHeight"
+        icon="fullscreen_exit"
+        label="H"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        :value="maxHeight"
+        icon="crop_free"
+        label="H"
+      ></s-setting-chip>
     </template>
     <s-landing-style-preview
       v-if="!noPreview"
       :model-value="inputStyle"
-      class="mb-5 "
+      class="mb-5"
       size
       @click:area="(val) => $emit('click:area', val)"
     ></s-landing-style-preview>
@@ -140,7 +102,6 @@
           icon="height"
           icon-class="rotate-90-s"
           :default-value="computedStyle?.minWidth"
-
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -150,7 +111,6 @@
           label="Min H"
           icon="height"
           :default-value="computedStyle?.minHeight"
-
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -170,7 +130,6 @@
           icon="height"
           icon-class="rotate-90-s"
           :default-value="computedStyle?.maxWidth"
-
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -180,7 +139,6 @@
           label="Max H"
           icon="height"
           :default-value="computedStyle?.maxHeight"
-
         ></s-setting-size>
       </v-col>
     </v-row>
@@ -259,10 +217,12 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SLandingStylePreview from "@selldone/page-builder/components/style/preview/SLandingStylePreview.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleSize",
   components: {
+    SSettingChip,
     SSettingExpandable,
     SLandingStylePreview,
     SSettingSize,
@@ -294,7 +254,6 @@ export default defineComponent({
     maxHeight: {},
     noPreview: Boolean,
   },
-
 });
 </script>
 

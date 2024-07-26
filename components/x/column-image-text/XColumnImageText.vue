@@ -34,7 +34,7 @@
   >
     <div
       class="flex-grow-1"
-      :class="[object.classes]"
+      :class="[object.classes, contentClass]"
       :style="[object.style, background_style]"
     >
       <!-- 📹 Background video -->
@@ -216,6 +216,7 @@ export default defineComponent({
       // Used in v-styler
       type: Function,
     },
+    contentClass: {},
   },
   data: () => ({
     standard_classes: LUtilsClasses.StandardClasses(),

@@ -19,9 +19,9 @@ import {XArticleObjectData} from "@selldone/page-builder/components/x/article/XA
 export class XArticleObject extends LModelElement<XArticleObjectData> {
   public static ComponentName = "XArticle";
   public static Info = {
-    group:'Text',
-    icon:'article',
-    title:'Article'
+    group: "Text",
+    icon: "article",
+    title: "Article",
   };
 
   constructor(
@@ -76,10 +76,6 @@ export class XArticleObject extends LModelElement<XArticleObjectData> {
   `);
     return instance;
   }
-
-
-
-
 
   // ━━━━━━━━━━━━━━━━━ 🍢 Migration ━━━━━━━━━━━━━━━━━
   /**

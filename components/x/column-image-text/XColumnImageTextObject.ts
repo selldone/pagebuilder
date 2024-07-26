@@ -17,8 +17,8 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {LModelGrid} from "@selldone/page-builder/models/grid/LModelGrid.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {
-    XColumnImageTextDataTypes,
-    XColumnImageTextObjectData,
+  XColumnImageTextDataTypes,
+  XColumnImageTextObjectData,
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 import {XProductObjectData} from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
@@ -249,7 +249,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     const column = new XColumnImageTextObject(
       new LModelBackground(old?.background),
       old?.style,
-      null,
+      old?.classes,
       [],
       data,
       null,
@@ -262,6 +262,8 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
     );
 
     if (old.layout === "product") {
+      column.classes.unshift(...["text-start", "px-4", "py-2"]); // Can be overridden by set classes
+
       column.addChild(
         new XProductObject(
           null,
@@ -273,20 +275,20 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
         ).setLabel(XColumnImageTextObjectTypes.LABELS.PRODUCT),
       );
     } else if (old.layout === "collection") {
+      column.classes.unshift(...["text-start", "px-4", "py-2"]); // Can be overridden by set classes
       // Add row:
       const _row = XRowObject.MigrateOld(old);
 
       //Add columns:
       old.columns.forEach((_column_old: any) => {
         const _column = XColumnObject.MigrateOld(_column_old);
-
+        _column.addChild(XUploaderObject.MigrateOld(_column_old.image));
         _column.addChild(
           XTextObject.MigrateOld(_column_old.title, "p", [
             "text-subtitle-2",
             "line-height-normal",
           ]),
         );
-        _column.addChild(XUploaderObject.MigrateOld(_column_old.image));
 
         _row.addChild(_column);
       });

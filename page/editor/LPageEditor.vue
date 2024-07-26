@@ -1869,9 +1869,10 @@ label {
     padding: 4px;
     background: #000;
     color: #fff;
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: 6px;
+
   }
 
   &.-top {

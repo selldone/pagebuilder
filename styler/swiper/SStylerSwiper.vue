@@ -29,6 +29,22 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Classes & Style
+          </v-tooltip>
+        </button>
+      </li>
+
       <!-- ―――――――――――――――――― Slide Show ―――――――――――――――――― -->
 
       <li>
@@ -86,10 +102,11 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
+import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 
 /**
  * v-styler:swiper
@@ -106,7 +123,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: Object,
+      type: XSwiperObject,
     },
     /**
      * section:
@@ -121,9 +138,6 @@ export default {
       type: String,
       default: "top-end",
     },
-
-
-
   },
   data: () => ({
     option: null,
@@ -146,12 +160,12 @@ export default {
   mounted() {},
 
   methods: {
+    showMasterDesignDialog() {
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
+    },
+
     showEditSlides() {
-      this.ShowLSettingsSwiper(
-        this.el,
-        this.section,
-        this.target,
-      );
+      this.ShowLSettingsSwiper(this.el, this.section, this.target);
     },
   },
 };

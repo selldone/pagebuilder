@@ -16,10 +16,10 @@
 <template>
   <s-article-editor
     ref="article"
-    :body="object.data.body"
-    :edit="is_editing"
+    v-model:body="object.data.body"
+    :edit="editable"
     :enable-title="false"
-    :only-view="!is_editing"
+    :only-view="!editable"
     :suffix-id="rand_id"
     :upload-url="get_upload_url()"
     class="article mx-auto"
@@ -47,6 +47,7 @@ export default {
   },
   data: () => ({
     rand_id: Math.random().toString(36).substring(7),
+    editable: false, // Safe | Before change the article mode, we need to save it in the data
   }),
 
   computed: {
@@ -54,23 +55,33 @@ export default {
       return this.$builder.isEditing;
     },
   },
+
   watch: {
-    object() {
-      // ━━━━━━━━━━━━━━━━━ ⚡ Linked Object Life Cycle ━━━━━━━━━━━━━━━━━
-      this.object.callBeforeSave = () => {
-        this.object.data.body = this.$refs.article.purifyBody();
-      };
+    is_editing(value) {
+      if (!value) {
+        // Just in Edit -> View mode
+      //  console.log("XArticle | Change edit mode | Edit -> View");
+      //  this.object.data.setBody(this.$refs.article.purifyBody());
+      }
+
+      this.editable=value
     },
   },
 
+  created() {
+    this.editable = this.$builder.isEditing;
+  },
+
   mounted() {
+
     if (this.$refs.article) {
       this.$refs.article.processAfterChangeBody(); //Assign full screen click...
     }
 
     // ━━━━━━━━━━━━━━━━━ ⚡ Linked Object Life Cycle ━━━━━━━━━━━━━━━━━
     this.object.callBeforeSave = () => {
-      this.object.data.body = this.$refs.article.purifyBody();
+     // console.log("XArticle | callBeforeSave");
+      //this.object.data.setBody(this.$refs.article.purifyBody());
     };
   },
 

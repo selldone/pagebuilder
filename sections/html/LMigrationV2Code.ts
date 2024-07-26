@@ -14,7 +14,6 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 
@@ -25,12 +24,10 @@ export class LMigrationV2Code {
     }
 
     const section = XSectionObject.MigrateOld($sectionData);
-
-    const container = XContainerObject.MigrateOld($sectionData);
-    section.addChild(container);
+    section.classes = ["pa-0"];
 
     const code = XCodeObject.MigrateOld($sectionData);
-    container.addChild(code);
+    section.addChild(code);
 
     console.log(
       "Migrate V2 LSectionHtml | $sectionData",

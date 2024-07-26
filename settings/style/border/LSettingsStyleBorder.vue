@@ -15,67 +15,43 @@
 <template>
   <s-setting-expandable :value="value" icon="rounded_corner" title="Border">
     <template v-slot:title>
-      <v-chip
+      <s-setting-chip
         v-if="borderLeft?.trim() && !borderLeft.includes('unset')"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>border_left</v-icon>
-        {{ getName(borderLeft) }}
-      </v-chip>
-      <v-chip
-        v-if="!borders_same && borderRight?.trim() && !borderRight.includes('unset')"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>border_right</v-icon>
-        {{ getName(borderRight) }}
-      </v-chip>
-      <v-chip
-        v-if="!borders_same && borderTop?.trim() && !borderTop.includes('unset')"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>border_top</v-icon>
-        {{ getName(borderTop) }}
-      </v-chip>
-      <v-chip
-        v-if="!borders_same && borderBottom?.trim() && !borderBottom.includes('unset')"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>border_bottom</v-icon>
-        {{ getName(borderBottom) }}
-      </v-chip>
+        :value="getName(borderLeft)"
+        icon="border_left"
+      ></s-setting-chip>
 
-      <v-chip
+      <s-setting-chip
+        v-if="
+          !borders_same && borderRight?.trim() && !borderRight.includes('unset')
+        "
+        :value="getName(borderRight)"
+        icon="border_right"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        v-if="
+          !borders_same && borderTop?.trim() && !borderTop.includes('unset')
+        "
+        :value="getName(borderTop)"
+        icon="border_top"
+      ></s-setting-chip>
+
+      <s-setting-chip
+        v-if="
+          !borders_same &&
+          borderBottom?.trim() &&
+          !borderBottom.includes('unset')
+        "
+        :value="getName(borderBottom)"
+        icon="border_bottom"
+      ></s-setting-chip>
+
+      <s-setting-chip
         v-if="borderRadius && borderRadius !== 'unset'"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-      >
-        <v-icon size="x-small" start>rounded_corner</v-icon>
-        {{ getName(borderRadius) }}
-      </v-chip>
+        :value="getName(borderRadius)"
+        icon="rounded_corner"
+      ></s-setting-chip>
     </template>
 
     <s-landing-style-preview
@@ -108,7 +84,7 @@
           }
         }
       "
-      :icon="borders_same?'border_outer':'border_left'"
+      :icon="borders_same ? 'border_outer' : 'border_left'"
     ></s-landing-style-border>
 
     <v-expand-transition>
@@ -152,10 +128,12 @@ import SSettingExpandable from "@selldone/page-builder/styler/settings/expandabl
 import SLandingStyleBorder from "@selldone/page-builder/components/style/border/SLandingStyleBorder.vue";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleBorder",
   components: {
+    SSettingChip,
     SSettingSize,
     SSettingSwitch,
     SLandingStyleBorder,
@@ -172,7 +150,7 @@ export default defineComponent({
     "click:area",
   ],
   props: {
-    value:{},
+    value: {},
 
     inputStyle: {},
 

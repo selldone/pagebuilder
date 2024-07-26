@@ -19,9 +19,18 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {
+  XColumnImageTextDataTypes
+} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObjectData.ts";
 
 export class LMigrationV2TextSections {
-  static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
+  static Migrate(
+    $sectionData: any,
+    name:
+      | "LSectionTextNumbers"
+      | "LSectionTextThreeColumns"
+      | "LSectionTextTwoColumns",
+  ): LModelElement<XSectionObjectData> | null {
     if (!$sectionData) {
       return null;
     }
@@ -41,8 +50,21 @@ export class LMigrationV2TextSections {
     const row = XRowObject.MigrateOld($sectionData);
     container.addChild(row);
 
+    let default_layout = XColumnImageTextDataTypes.LAYOUTS.NORMAL;
+    if (name === "LSectionTextNumbers") {
+      default_layout = XColumnImageTextDataTypes.LAYOUTS.CONTENT_TITLE;
+    }
+
     $sectionData.columns?.forEach((_column: any) => {
-      row.addChild(XColumnImageTextObject.MigrateOld(_column));
+      if (!_column.layout) _column.layout = default_layout;
+      const column = XColumnImageTextObject.MigrateOld(_column);
+      row.addChild(column);
+
+      if (name === "LSectionTextNumbers") {
+        if (column.getContentChild()?.style) {
+          column.getContentChild().style.fontSize = "3rem";
+        }
+      }
     });
 
     return section;

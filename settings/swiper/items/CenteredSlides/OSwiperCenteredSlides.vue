@@ -26,6 +26,9 @@
         icon="subdirectory_arrow_right"
         title="Center slide effect"
       >
+        <template v-slot:title>
+          <s-setting-chip :value="modelValue.data.active" icon="filter_tilt_shift"></s-setting-chip>
+        </template>
         <s-setting-select
           v-model="modelValue.data.active"
           :items="CenterSlideEffect"
@@ -45,10 +48,11 @@ import SSettingExpandable from "../../../../styler/settings/expandable/SSettingE
 import { CenterSlideEffect } from "../../../../settings/swiper/enums/CneterSlideEnums";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "OSwiperCenteredSlides",
-  components: { SSettingSelect, SSettingExpandable, SSettingSwitch },
+  components: {SSettingChip, SSettingSelect, SSettingExpandable, SSettingSwitch },
   props: {
     modelValue: {
       type: XSwiperObject,

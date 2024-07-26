@@ -15,19 +15,12 @@
 <template>
   <s-setting-expandable :value="value" icon="grid_on" title="Grid">
     <template v-slot:title>
-      <v-chip
+      <s-setting-chip
         v-for="item in DEVICES.filter((i) => !!grid[i.key])"
         :key="item.key"
-        class="ms-1"
-        color="#000"
-        label
-        size="x-small"
-        density="comfortable"
-        variant="flat"
-        :prepend-icon="item.icon"
-      >
-        {{ grid[item.key] }}
-      </v-chip>
+        :value="grid[item.key]"
+        :icon="item.icon"
+      ></s-setting-chip>
     </template>
 
     <s-setting-group
@@ -54,10 +47,12 @@ import { defineComponent } from "vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingColumn from "@selldone/page-builder/styler/settings/column/SSettingColumn.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
 
 export default defineComponent({
   name: "LSettingsStyleGrid",
   components: {
+    SSettingChip,
     SSettingColumn,
     SSettingExpandable,
     SSettingGroup,

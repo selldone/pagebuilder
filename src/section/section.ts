@@ -67,7 +67,9 @@ export class Section implements Section.ISection {
   public name: string;
 
   constructor(options: Page.ISection, force_set_new_uid: boolean = false) {
-    this.label = options.label ? options.label : options.name;
+    this.label = options.label
+      ? options.label
+      : LUtilsMigration.MigrateNameV1toV2(options.name);
     if (!this.label) this.label = "Section";
     this.uid = options.uid;
 
@@ -122,23 +124,23 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Create by Seeder  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     /* else {
-                       console.log(`Create new instance by seeder.`);
-                 
-                       const _object = LUtilsSeeder.SeedNew(options.name);
-                       LOG(
-                         `🪷 ${options.name} | Section.ts > constructor > Seed:`,
-                         options.name,
-                         "--object-->",
-                         _object,
-                       );
-                       if (_object) {
-                         this.object = _object;
-                       } else {
-                         console.error(`V2 Seeder does not exist for ${options.name}!`);
-                       }
-                 
-                       // this.data = LUtilsSeeder.seed(options.schema);
-                     }*/
+                           console.log(`Create new instance by seeder.`);
+                     
+                           const _object = LUtilsSeeder.SeedNew(options.name);
+                           LOG(
+                             `🪷 ${options.name} | Section.ts > constructor > Seed:`,
+                             options.name,
+                             "--object-->",
+                             _object,
+                           );
+                           if (_object) {
+                             this.object = _object;
+                           } else {
+                             console.error(`V2 Seeder does not exist for ${options.name}!`);
+                           }
+                     
+                           // this.data = LUtilsSeeder.seed(options.schema);
+                         }*/
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -270,7 +272,7 @@ export class Section implements Section.ISection {
         );
         resolve(this._image_rendered);
       } catch (e) {
-       // console.error("Initial rendering failed, retrying...", e);
+        // console.error("Initial rendering failed, retrying...", e);
         try {
           this._image_rendered = await Screenshot.FromElement(
             this.object.$element,

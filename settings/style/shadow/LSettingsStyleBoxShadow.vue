@@ -15,14 +15,15 @@
 <template>
   <s-setting-expandable :value="value" icon="wb_shade" title="Shadow">
     <template v-slot:title>
+
       <v-chip
         v-if="boxShadow"
         class="ms-1"
-        color="#000"
+        color="green"
         label
         size="x-small"
         density="comfortable"
-        variant="flat"
+        variant="tonal"
       >
         <v-icon start>layers</v-icon>
         <span class="me-1">{{
