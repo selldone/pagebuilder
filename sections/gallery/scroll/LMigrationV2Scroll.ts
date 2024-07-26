@@ -14,15 +14,9 @@
 
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
-import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
-import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 
 export class LMigrationV2Scroll {
@@ -58,27 +52,27 @@ export class LMigrationV2Scroll {
     if (!swiper.data.spaceBetween) swiper.data.spaceBetween = 30;
 
     $sectionData.slide.items.forEach((_slide: any) => {
-     /* const container = XContainerObject.MigrateOld(_slide.container);
-      container.data.setFluid(true);
-      container.style = $sectionData.style ? $sectionData.style : {};
-      container.classes = $sectionData.classes ? $sectionData.classes : [];
-
-      const row = XRowObject.MigrateOld(_slide.row);
-      container.addChild(row);*/
+      /* const container = XContainerObject.MigrateOld(_slide.container);
+             container.data.setFluid(true);
+             container.style = $sectionData.style ? $sectionData.style : {};
+             container.classes = $sectionData.classes ? $sectionData.classes : [];
+       
+             const row = XRowObject.MigrateOld(_slide.row);
+             container.addChild(row);*/
 
       const column = XColumnImageTextObject.MigrateOld(_slide);
       /*const title = XTextObject.MigrateOld(_slide.title, "h2", []);
-      const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
-      const buttons = XButtonsObject.NewInstance();*/
+            const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
+            const buttons = XButtonsObject.NewInstance();*/
 
-     /* if (_slide.button) {
-        buttons.addChild(XButtonObject.MigrateOld(_slide.button));
-      }*/
-/*
-      column.addChild(XUploaderObject.MigrateOld(_slide.image));
-      column.addChild(title);
-      column.addChild(subtitle);
-      column.addChild(buttons);*/
+      /* if (_slide.button) {
+               buttons.addChild(XButtonObject.MigrateOld(_slide.button));
+             }*/
+      /*
+                  column.addChild(XUploaderObject.MigrateOld(_slide.image));
+                  column.addChild(title);
+                  column.addChild(subtitle);
+                  column.addChild(buttons);*/
 
       //row.addChild(column);
 
