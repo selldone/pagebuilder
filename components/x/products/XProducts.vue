@@ -119,5 +119,9 @@ export default {
 
 <style lang="scss">
 .x--products {
+  &.is-editable{
+    min-height: 10vh;
+  }
+
 }
 </style>

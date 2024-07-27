@@ -23,7 +23,7 @@
       <template v-slot:append>
         <v-btn
           v-if="modelValue"
-          @click="$emit('update:modelValue', null)"
+          @click="text_shadow_object = null"
           color="red"
           variant="text"
           size="small"
@@ -45,82 +45,80 @@
       </template>
     </v-list-item>
 
-    <template v-if="isValid">
-      <v-expand-transition>
-        <v-carousel
-          v-if="text_shadow_object?.length"
-          v-model="tab"
-          color="#fff"
-          hide-delimiter-background
-          continuous
-          :height="textShadowMode ? 220 : 300"
-          :show-arrows="false"
-        >
-          <v-carousel-item v-for="(item, i) in text_shadow_object" :key="i">
-            <s-setting-slider
-              v-model="item.h"
-              label="Vertical"
-              icon="swap_vert"
-              :max="200"
-              :min="-200"
-              suffix="px"
-              class="border-start-white-thin ms-6"
-            ></s-setting-slider>
+    <v-expand-transition>
+      <v-carousel
+        v-if="isValid && text_shadow_object?.length"
+        v-model="tab"
+        color="#fff"
+        hide-delimiter-background
+        continuous
+        :height="textShadowMode ? 220 : 300"
+        :show-arrows="false"
+      >
+        <v-carousel-item v-for="(item, i) in text_shadow_object" :key="i">
+          <s-setting-slider
+            v-model="item.h"
+            label="Vertical"
+            icon="swap_vert"
+            :max="200"
+            :min="-200"
+            suffix="px"
+            class="border-start-white-thin ms-6"
+          ></s-setting-slider>
 
-            <s-setting-slider
-              v-model="item.w"
-              label="Horizontal"
-              icon="swap_horiz"
-              :max="200"
-              :min="-200"
-              suffix="px"
-              class="border-start-white-thin ms-6"
-            ></s-setting-slider>
+          <s-setting-slider
+            v-model="item.w"
+            label="Horizontal"
+            icon="swap_horiz"
+            :max="200"
+            :min="-200"
+            suffix="px"
+            class="border-start-white-thin ms-6"
+          ></s-setting-slider>
 
-            <s-setting-slider
-              v-model="item.r"
-              label="Blur"
-              icon="blur_on"
-              :max="200"
-              :min="0"
-              suffix="px"
-              class="border-start-white-thin ms-6"
-            ></s-setting-slider>
+          <s-setting-slider
+            v-model="item.r"
+            label="Blur"
+            icon="blur_on"
+            :max="200"
+            :min="0"
+            suffix="px"
+            class="border-start-white-thin ms-6"
+          ></s-setting-slider>
 
-            <s-setting-slider
-              v-if="!textShadowMode"
-              v-model="item.s"
-              label="Spread"
-              icon="blur_linear"
-              :max="200"
-              :min="-200"
-              suffix="px"
-              class="border-start-white-thin ms-6"
-            ></s-setting-slider>
+          <s-setting-slider
+            v-if="!textShadowMode"
+            v-model="item.s"
+            label="Spread"
+            icon="blur_linear"
+            :max="200"
+            :min="-200"
+            suffix="px"
+            class="border-start-white-thin ms-6"
+          ></s-setting-slider>
 
-            <s-setting-toggle
-              v-if="!textShadowMode"
-              v-model="item.i"
-              label="Type"
-              icon="blinds"
-              :items="[
-                { title: 'Outbound', icon: 'wb_shade', value: false },
-                { title: 'Inset', icon: 'curtains', value: true },
-              ]"
-              class="border-start-white-thin ms-6"
-            ></s-setting-toggle>
+          <s-setting-toggle
+            v-if="!textShadowMode"
+            v-model="item.i"
+            label="Type"
+            icon="blinds"
+            :items="[
+              { title: 'Outbound', icon: 'wb_shade', value: false },
+              { title: 'Inset', icon: 'curtains', value: true },
+            ]"
+            class="border-start-white-thin ms-6"
+          ></s-setting-toggle>
 
-            <s-setting-color
-              v-model="item.c"
-              icon="format_color_fill"
-              label="Color"
-              clearable
-              class="border-start-white-thin ms-6"
-            ></s-setting-color>
-          </v-carousel-item>
-        </v-carousel>
-      </v-expand-transition>
-    </template>
+          <s-setting-color
+            v-model="item.c"
+            icon="format_color_fill"
+            label="Color"
+            clearable
+            class="border-start-white-thin ms-6"
+          ></s-setting-color>
+        </v-carousel-item>
+      </v-carousel>
+    </v-expand-transition>
   </div>
 </template>
 

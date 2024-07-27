@@ -117,6 +117,17 @@
           Add My Custom Section
 
           <v-spacer></v-spacer>
+
+          <v-img
+            v-if="rendered_element_image"
+            :src="rendered_element_image"
+            height="32"
+            width="64"
+            cover
+            class="border flex-grow-0"
+            rounded="lg"
+          ></v-img>
+
           <v-btn
             v-if="selected_element"
             :loading="busy_delete"
@@ -230,13 +241,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import _ from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import { LUtilsFont } from "../../../utils/font/LUtilsFont";
+import { LUtilsImage } from "@selldone/page-builder/utils/image/LUtilsImage.ts";
 
 export default {
   name: "LPageEditorRepository",
@@ -277,6 +289,9 @@ export default {
     busy_save: false,
 
     busy_delete: false,
+
+    //---------------------
+    rendered_element_image: null,
   }),
 
   computed: {
@@ -288,9 +303,8 @@ export default {
     },
 
     show() {
-      return this.local_show &&  !this.locally_hide;
+      return this.local_show && !this.locally_hide;
     },
-
   },
 
   watch: {
@@ -321,7 +335,7 @@ export default {
     EventBus.$on(
       "show:LPageEditorElementsRepository:Add-My-Section",
 
-      ({ section }) => {
+      ({ section, image = null }) => {
         this.selected_element = null;
         this.title = "My New Section";
         this.section = section;
@@ -329,8 +343,8 @@ export default {
         this.published = true;
         this.fonts = [];
         this.onBlur(); // Find fonts
-
         this.dialog = true;
+        this.rendered_element_image = image;
       },
     );
   },
@@ -387,6 +401,7 @@ export default {
       this.tags = element.tags;
       this.published = element.published;
       this.onBlur(); // Find fonts
+      this.rendered_element_image = false;
 
       this.dialog = true;
     },
@@ -406,12 +421,23 @@ export default {
     addElement() {
       this.busy_save = true;
 
+      const formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("section", this.section);
+      formData.append("tags", this.tags);
+      formData.append("published", true);
+      if (this.rendered_element_image)
+        formData.append(
+          "image",
+          LUtilsImage.Base64ToBlob(this.rendered_element_image),
+          "cover.png",
+        ); // assuming rendered_element_image is a File or Blob object
+
       axios
-        .post(window.API.POST_PAGE_ELEMENTS_ADD(this.shop_id), {
-          title: this.title,
-          section: this.section,
-          tags: this.tags,
-          published: true,
+        .post(window.API.POST_PAGE_ELEMENTS_ADD(this.shop_id), formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then(({ data }) => {
           if (data.error) {

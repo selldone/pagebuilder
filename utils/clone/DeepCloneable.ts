@@ -15,7 +15,7 @@
 export abstract class DeepCloneable<T> {
   public clone(): T {
     const cloneDeep = (obj: any): any => {
-      if (obj === null || typeof obj !== 'object') {
+      if (obj === null || typeof obj !== "object") {
         return obj;
       }
 
@@ -24,14 +24,19 @@ export abstract class DeepCloneable<T> {
       }
 
       if (obj instanceof Map) {
-        return new Map(Array.from(obj.entries()).map(([k, v]) => [cloneDeep(k), cloneDeep(v)]));
+        return new Map(
+          Array.from(obj.entries()).map(([k, v]) => [
+            cloneDeep(k),
+            cloneDeep(v),
+          ]),
+        );
       }
 
       if (obj instanceof Set) {
         return new Set(Array.from(obj.values()).map(cloneDeep));
       }
 
-      if (obj.clone && typeof obj.clone === 'function') {
+      if (obj.clone && typeof obj.clone === "function") {
         return obj.clone();
       }
 

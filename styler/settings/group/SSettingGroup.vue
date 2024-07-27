@@ -58,7 +58,7 @@ export default defineComponent({
 
 <style lang="scss">
 .s--setting-group {
-  margin-bottom: 12px;
+  padding-bottom: 12px;
 
   .-group-title {
     font-size: 14px !important;

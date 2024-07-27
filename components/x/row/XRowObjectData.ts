@@ -19,11 +19,13 @@ export class XRowObjectData extends LModelData<XRowObjectData> {
   justify: XRowObjectDataTypes.IJustify;
 
   no_wrap: boolean;
+  reverse: boolean;
 
   constructor(params: {
     align?: XRowObjectDataTypes.IAlign;
     justify?: XRowObjectDataTypes.IJustify;
     no_wrap?: boolean;
+    reverse?: boolean;
   }) {
     super(); // Calling the constructor of the base class
 
@@ -31,6 +33,7 @@ export class XRowObjectData extends LModelData<XRowObjectData> {
     this.align = params?.align ?? "center";
     this.justify = params?.justify ?? "center";
     this.no_wrap = params?.no_wrap ?? false;
+    this.reverse = params?.reverse ?? false;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

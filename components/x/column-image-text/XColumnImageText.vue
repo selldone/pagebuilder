@@ -23,7 +23,9 @@
       position: 'right-bottom',
     }"
     :cloneable="true"
-    @click="$builder.isEditing ? copyStyle : undefined"
+    @click="
+      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+    "
     :class="[
       grid_class,
       {
@@ -353,15 +355,10 @@ export default defineComponent({
     }
   },
   methods: {
-    copyStyle(event) {
-      if (!this.$builder.isEditing) return;
-      this.$builder.onClickClone(event, this.object, [
-        "classes",
-        "style",
-        "background",
-      ]);
-      this.$forceUpdate();
-    },
+    /* copyStyle(event) {
+       console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXX", event);
+       this.$builder.onClickClone(event, this.object);
+     },*/
   },
 });
 </script>

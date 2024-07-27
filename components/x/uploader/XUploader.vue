@@ -13,7 +13,6 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-
   <component
     :is="link && !$builder.isEditing ? 'a' : 'div'"
     v-if="src || blobUrl || $builder.isEditing"
@@ -58,20 +57,16 @@
       object.style,
     ]"
     class="image-container"
-    cloneable="true"
     target="_blank"
     v-bind="$attrs"
     @click="
-      $builder.onClickClone($event, object, [
-        'classes',
-        'style',
-        'data.setting',
-      ]);
-      init();
-      $forceUpdate();
+      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+      //  init();
+      // $forceUpdate();
     "
     @dragover="handleDragOver"
     @drop="handleDrop"
+    :cloneable="true"
   >
     <slot :src="src"></slot>
 
@@ -163,7 +158,6 @@ import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
-import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
 
 const ASPECTS = [
@@ -267,7 +261,7 @@ export default defineComponent({
     dragOverHolder: false, // Drag over input.
   }),
   created() {
-    this.init();
+    // this.init();
   },
 
   computed: {
@@ -374,9 +368,9 @@ export default defineComponent({
       }
     },
 
-    object() {
-      this.init();
-    },
+    /* object() {
+       this.init();
+     },*/
   },
 
   mounted() {},
@@ -386,23 +380,23 @@ export default defineComponent({
       return this.isString(val) && val?.includes("%");
     },
 
-    init() {
-      if (
-        !this.object ||
-        !(
-          this.object instanceof XUploaderObject ||
-          this.object instanceof XLottieObject
-        )
-      ) {
-        console.error(
-          "Invalid object in the image uploader! Type:",
-          typeof this.object,
-          "Object: ",
-          this.object,
-        );
-        return;
-      }
-    },
+    /* init() {
+       if (
+         !this.object ||
+         !(
+           this.object instanceof XUploaderObject ||
+           this.object instanceof XLottieObject
+         )
+       ) {
+         console.error(
+           "Invalid object in the image uploader! Type:",
+           typeof this.object,
+           "Object: ",
+           this.object,
+         );
+         return;
+       }
+     },*/
 
     forceUpdate() {
       this.uid = Math.random();
@@ -585,9 +579,16 @@ export default defineComponent({
       // Add your logic to handle the URL (e.g., display the image)
     },
 
-    showToolbar(){
-      this.ShowUploaderToolbar(this.noPreview, this.augment, this.object, this.blobUrl, this.has_restore,this.restoreImage)
-    }
+    showToolbar() {
+      this.ShowUploaderToolbar(
+        this.noPreview,
+        this.augment,
+        this.object,
+        this.blobUrl,
+        this.has_restore,
+        this.restoreImage,
+      );
+    },
   },
 });
 </script>

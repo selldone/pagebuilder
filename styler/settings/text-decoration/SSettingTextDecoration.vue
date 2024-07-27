@@ -24,7 +24,7 @@
         <v-slide-x-transition leave-absolute>
           <v-btn
             v-if="modelValue"
-            @click="$emit('update:modelValue', null)"
+            @click="text_decoration_object = null"
             color="red"
             variant="text"
             size="small"
@@ -48,37 +48,39 @@
       </template>
     </v-list-item>
 
-    <template v-if="isValid">
-      <s-setting-toggle
-        v-model="text_decoration_object.line"
-        :items="TEXT_DECORATION_LINES"
-        multiple
-        label="Line"
-      ></s-setting-toggle>
+    <v-expand-transition>
+      <div v-if="isValid">
+        <s-setting-toggle
+          v-model="text_decoration_object.line"
+          :items="TEXT_DECORATION_LINES"
+          multiple
+          label="Line"
+        ></s-setting-toggle>
 
-      <s-setting-toggle
-        v-model="text_decoration_object.style"
-        :items="TEXT_DECORATION_STYLES"
-        label="Style"
-      ></s-setting-toggle>
+        <s-setting-toggle
+          v-model="text_decoration_object.style"
+          :items="TEXT_DECORATION_STYLES"
+          label="Style"
+        ></s-setting-toggle>
 
-      <s-setting-color
-        v-model="text_decoration_object.color"
-        label="Color"
-        clearable
-      ></s-setting-color>
+        <s-setting-color
+          v-model="text_decoration_object.color"
+          label="Color"
+          clearable
+        ></s-setting-color>
 
-      <s-setting-size
-        v-model="text_decoration_object.thickness"
-        label="Thickness"
-      ></s-setting-size>
-    </template>
+        <s-setting-size
+          v-model="text_decoration_object.thickness"
+          label="Thickness"
+        ></s-setting-size>
+      </div>
+    </v-expand-transition>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { isObject, isString } from "lodash-es";
+import { isObject } from "lodash-es";
 import { TextDecorationHelper } from "@selldone/page-builder/styler/settings/text-decoration/TextDecorationHelper";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
@@ -111,7 +113,7 @@ export default defineComponent({
   props: {
     value: {},
     modelValue: {
-      type:String
+      type: String,
     },
     disabled: Boolean,
   },
@@ -119,11 +121,13 @@ export default defineComponent({
     TEXT_DECORATION_LINES: TEXT_DECORATION_LINES,
     TEXT_DECORATION_STYLES: TEXT_DECORATION_STYLES,
 
-    text_decoration_object:null,
+    text_decoration_object: null,
   }),
   computed: {
     isValid() {
-      return this.text_decoration_object && isObject(this.text_decoration_object);
+      return (
+        this.text_decoration_object && isObject(this.text_decoration_object)
+      );
     },
 
     text_decoration_gen() {
@@ -132,24 +136,23 @@ export default defineComponent({
   },
 
   watch: {
-    text_decoration_gen(val){
+    text_decoration_gen(val) {
       this.$emit("update:modelValue", val);
-    }
+    },
   },
 
   created() {
-    this.text_decoration_object= TextDecorationHelper.Extract(this.modelValue);
+    this.text_decoration_object = TextDecorationHelper.Extract(this.modelValue);
   },
 
   methods: {
     addTextDecoration() {
-      this.text_decoration_object={
+      this.text_decoration_object = {
         line: ["underline"],
         color: "#333333",
         style: "dashed",
         thickness: "2px",
-      }
-
+      };
     },
   },
 });

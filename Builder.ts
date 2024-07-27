@@ -29,7 +29,8 @@ import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsCo
 import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
-import { types } from "sass";
+import {types} from "sass";
+import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import Error = types.Error;
 
 const DEBUG = true;
@@ -125,7 +126,7 @@ export class Builder {
   public showLeftMenu: boolean;
 
   public cloneStyle: boolean;
-  public cloneObject: any;
+  public cloneObject: LModelElement<any> | null;
   public rootEl: any;
 
   public history: History;
@@ -308,45 +309,37 @@ export class Builder {
     this.cloneObject = null;
   }
 
-  onClickClone(e: Event, object: Record<string, any>, keys: string[]) {
-    //console.log("copy Style",this.cloneStyle,this.isEditing,this.cloneObject);
+  onClickClone(e: Event, object: LModelElement<any>) {
+    console.log(
+      "copy Style",
+      object,
+      this.cloneStyle,
+      this.isEditing,
+      this.cloneObject,
+    );
 
     if (!this.cloneStyle || !this.isEditing) return;
 
     if (this.cloneObject) {
-      this.onClonePast(object, keys);
+      this.onClonePast(object);
     } else {
-      this.onCloneCopy(object, keys);
+      this.onCloneCopy(object);
     }
 
     e.preventDefault();
     e.stopPropagation();
   }
 
-  onCloneCopy(object: Record<string, any>, keys: string[]) {
+  onCloneCopy(object: LModelElement<any>) {
     if (!this.cloneStyle) return;
 
-    this.cloneObject = {};
-
-    keys.forEach((key: string) => {
-      this.cloneObject[key] = object[key];
-    });
+    this.cloneObject = object;
   }
 
-  onClonePast(object: Record<string, any>, keys: string[]) {
+  onClonePast(object: LModelElement<any>) {
     if (!this.cloneObject) return;
 
-    keys.forEach((key) => {
-      if (!this.cloneObject[key]) return;
-
-      if (Array.isArray(this.cloneObject[key])) {
-        object[key] = Object.assign([], this.cloneObject[key]);
-      } else if (isObject(this.cloneObject[key])) {
-        object[key] = Object.assign({}, this.cloneObject[key]);
-      } else {
-        object[key] = this.cloneObject[key];
-      }
-    });
+    this.cloneObject.cloneAttributesTo(object);
 
     this.cloneObject = null;
   }
@@ -489,11 +482,11 @@ export class Builder {
               corrected = corrected.replace(/class=".*?"/gs, "");
 
               /* console.error(
-                                                  "FAULT DETECTION ->",
-                                                  key + " -> " + val,
-                                                  "Corrected",
-                                                  corrected
-                                          );*/
+                                                                "FAULT DETECTION ->",
+                                                                key + " -> " + val,
+                                                                "Corrected",
+                                                                corrected
+                                                        );*/
               obj[key] = corrected;
             }
           } else if (Array.isArray(val)) {
@@ -515,8 +508,7 @@ export class Builder {
     checkHealth(out);
 
     // Update content in the model:
-    if(this.model)
-    this.model.content=out
+    if (this.model) this.model.content = out;
 
     return out;
   }

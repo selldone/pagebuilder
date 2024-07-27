@@ -118,6 +118,21 @@ export abstract class LModelElement<T> {
     // Implement this method in the child class
   }
 
+  // ━━━━━━━━━━━━━━━━━ Clone To ━━━━━━━━━━━━━━━━━
+  public cloneAttributesTo(object: LModelElement<any>) {
+    if (this.classes?.length) {
+      object.classes = Object.assign([], this.classes);
+    }
+
+    if (this.style) {
+      object.style = Object.assign({}, this.style);
+    }
+
+    if (this.background) {
+      object.background = new LModelBackground(this.background);
+    }
+  }
+
   // ━━━━━━━━━━━━━━━━━ 🥽 Label ━━━━━━━━━━━━━━━━━
 
   /**

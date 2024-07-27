@@ -54,7 +54,6 @@
       value="margin"
       :inputStyle="modelValue"
       :computedStyle="computedStyle"
-
       @click:area="(val) => (Selected_tab = val)"
       v-model:marginLeft="modelValue.marginLeft"
       v-model:marginRight="modelValue.marginRight"
@@ -69,7 +68,6 @@
       value="position"
       :inputStyle="modelValue"
       :computedStyle="computedStyle"
-
       @click:area="(val) => (Selected_tab = val)"
       v-model:position="modelValue.position"
       v-model:top="modelValue.top"
@@ -79,6 +77,27 @@
       v-model:z-index="modelValue.z_index"
     >
     </l-settings-style-position>
+
+    <!-- ████████████████████ Display ████████████████████ -->
+
+    <l-settings-style-display
+      value="display"
+      :inputStyle="modelValue"
+      :computedStyle="computedStyle"
+      v-model:display="modelValue.display"
+      v-model:flexDirection="modelValue.flexDirection"
+      v-model:flexWrap="modelValue.flexWrap"
+      v-model:flexGrow="modelValue.flexGrow"
+
+      v-model:gridTemplateColumns="modelValue.gridTemplateColumns"
+      v-model:gridTemplateRows="modelValue.gridTemplateRows"
+      v-model:gap="modelValue.gap"
+
+      v-model:alignItems="modelValue.alignItems"
+      v-model:justifyContent="modelValue.justifyContent"
+
+    >
+    </l-settings-style-display>
 
     <!-- ████████████████████ Border ████████████████████ -->
 
@@ -155,11 +174,13 @@ import LSettingsStyleBoxShadow from "@selldone/page-builder/settings/style/shado
 import LSettingsStyleTransform from "@selldone/page-builder/settings/style/transform/LSettingsStyleTransform.vue";
 import LSettingsStyleFilter from "@selldone/page-builder/settings/style/filter/LSettingsStyleFilter.vue";
 import LSettingsStyleTypeface from "@selldone/page-builder/settings/style/typeface/LSettingsStyleTypeface.vue";
+import LSettingsStyleDisplay from "@selldone/page-builder/settings/style/display/LSettingsStyleDisplay.vue";
 
 export default {
   name: "LSettingsStyle",
   mixins: [LMixinEvents],
   components: {
+    LSettingsStyleDisplay,
     LSettingsStyleTypeface,
     LSettingsStyleFilter,
     LSettingsStyleTransform,
@@ -181,7 +202,7 @@ export default {
   },
   data: () => ({
     Selected_tab: null,
-    computedStyle:null,
+    computedStyle: null,
   }),
 
   computed: {},
@@ -199,11 +220,8 @@ export default {
 
   methods: {
     init() {
-
       // Get the computed styles
-      this.computedStyle=window.getComputedStyle(this.targetElement);
-
-
+      this.computedStyle = window.getComputedStyle(this.targetElement);
     },
   },
 };

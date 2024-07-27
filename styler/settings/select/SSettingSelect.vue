@@ -18,7 +18,7 @@
     density="compact"
     class="s--setting-select"
   >
-    <template v-slot:title>
+    <template v-slot:prepend>
       <span class="-label">
         <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
@@ -26,13 +26,14 @@
       >
     </template>
 
-    <template v-slot:append>
+    <div  class="d-flex justify-end py-1">
       <v-btn
         v-if="defaultValue && (modelValue === null || modelValue === undefined)"
         @click="$emit('update:modelValue', defaultValue)"
         size="small"
         variant="plain"
         prepend-icon="shortcut"
+        class="flex-grow-0"
       >
         Set Value
         <span
@@ -47,12 +48,12 @@
         v-else
         :clearable="clearable"
         :disabled="disabled"
-        :item-title="is_object ? 'title' : undefined"
-        :item-value="is_object ? 'value' : undefined"
+        :item-title="is_object ? itemTitle : undefined"
+        :item-value="is_object ? itemValue : undefined"
         :items="items"
         :model-value="modelValue"
         :return-object="false"
-        class="v-input-small"
+        class="v-input-small flex-grow-0"
         style="min-width: 160px"
         color="#1976D2"
         density="compact"
@@ -77,9 +78,9 @@
 
           {{
             is_object
-              ? item.raw.title
-                ? item.raw.title
-                : item.raw.value
+              ? item.raw[itemTitle]
+                ? item.raw[itemTitle]
+                : item.raw[itemValue]
               : item.raw
           }}
         </template>
@@ -89,9 +90,9 @@
             class="text-start"
             :title="
               is_object
-                ? item.raw.title
-                  ? item.raw.title
-                  : item.raw.value
+                ? item.raw[itemTitle]
+                  ? item.raw[itemTitle]
+                  : item.raw[itemValue]
                 : item.raw
             "
           >
@@ -111,7 +112,7 @@
           </v-list-item>
         </template>
       </v-select>
-    </template>
+    </div>
   </v-list-item>
 </template>
 
@@ -128,6 +129,12 @@ export default defineComponent({
     items: {
       type: Array,
       required: true,
+    },
+    itemValue:{
+      default:'value'
+    },
+    itemTitle:{
+      default:'title'
     },
     disabled: Boolean,
     clearable: Boolean,

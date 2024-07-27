@@ -53,26 +53,28 @@ export class LMigrationV2Scroll {
 
     $sectionData.slide.items.forEach((_slide: any) => {
       /* const container = XContainerObject.MigrateOld(_slide.container);
-             container.data.setFluid(true);
-             container.style = $sectionData.style ? $sectionData.style : {};
-             container.classes = $sectionData.classes ? $sectionData.classes : [];
-       
-             const row = XRowObject.MigrateOld(_slide.row);
-             container.addChild(row);*/
+                   container.data.setFluid(true);
+                   container.style = $sectionData.style ? $sectionData.style : {};
+                   container.classes = $sectionData.classes ? $sectionData.classes : [];
+             
+                   const row = XRowObject.MigrateOld(_slide.row);
+                   container.addChild(row);*/
+
+      _slide.content = _slide.subtitle; // Match to new column
 
       const column = XColumnImageTextObject.MigrateOld(_slide);
       /*const title = XTextObject.MigrateOld(_slide.title, "h2", []);
-            const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
-            const buttons = XButtonsObject.NewInstance();*/
+                  const subtitle = XTextObject.MigrateOld(_slide.subtitle, "p", []);
+                  const buttons = XButtonsObject.NewInstance();*/
 
       /* if (_slide.button) {
-               buttons.addChild(XButtonObject.MigrateOld(_slide.button));
-             }*/
+                     buttons.addChild(XButtonObject.MigrateOld(_slide.button));
+                   }*/
       /*
-                  column.addChild(XUploaderObject.MigrateOld(_slide.image));
-                  column.addChild(title);
-                  column.addChild(subtitle);
-                  column.addChild(buttons);*/
+                        column.addChild(XUploaderObject.MigrateOld(_slide.image));
+                        column.addChild(title);
+                        column.addChild(subtitle);
+                        column.addChild(buttons);*/
 
       //row.addChild(column);
 

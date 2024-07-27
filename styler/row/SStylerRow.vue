@@ -29,6 +29,21 @@
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
 
     <ul class="styler-list">
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            max-width="320"
+            >Classes & Style
+          </v-tooltip>
+        </button>
+      </li>
+
       <!-- ―――――――――――――――――― Row Align / Justify ―――――――――――――――――― -->
 
       <li v-if="hasArrangement">
@@ -71,12 +86,31 @@
                   : require('./assets/row-wrap.svg')
               "
               class="mx-auto op-0-5"
-              width="150"
+              width="120"
             ></v-img>
           </v-tooltip>
         </button>
       </li>
-
+      <li>
+        <button
+          class="styler-button"
+          @click="target.data.reverse = !target.data.reverse"
+        >
+          <v-icon
+            size="20"
+            class="t-all-400"
+            :class="{ 'rotate-180': target.data.reverse }"
+          >
+            arrow_right_alt
+          </v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            >Flex Direction
+          </v-tooltip>
+        </button>
+      </li>
       <!-- ―――――――――――――――――― Add New Column ―――――――――――――――――― -->
 
       <li v-if="hasAdd">
@@ -153,7 +187,7 @@ import { XColumnObject } from "@selldone/page-builder/components/x/column/XColum
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import { XRowObject } from "@selldone/page-builder/components/x/row/XRowObject";
-import {LUtilsClone} from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
+import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 
 export default {
   name: "SStylerRow",
@@ -190,10 +224,10 @@ export default {
     /**
      * Initial column structure for adding new column
      */
-   /* columnStructure: {
-      type: Array,
-      default: () => ["h3", "img", "p"],
-    },*/
+    /* columnStructure: {
+       type: Array,
+       default: () => ["h3", "img", "p"],
+     },*/
 
     hasWrap: {
       type: Boolean,
@@ -266,6 +300,10 @@ export default {
 
     toggleNoWrap() {
       this.target.data.no_wrap = !this.target.data.no_wrap;
+    },
+
+    showMasterDesignDialog() {
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
     },
   },
 };

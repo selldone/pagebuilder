@@ -24,6 +24,7 @@
       {
         '-no-wrap': hasWrap && object.data?.no_wrap,
         'is-editable': $builder.isEditing,
+        '-reverse': object.data?.reverse,
       },
     ]"
     :style="[object.style, background_style]"
@@ -121,6 +122,18 @@ export default defineComponent({
       };
     },
   },
+
+  watch: {
+    "object.style.alignItems"(val) {
+      // Update when style change!
+      this.object.data.align = val;
+    },
+    "object.style.justifyContent"(val) {
+      // Update when style change!
+      this.object.data.justify = val;
+    },
+  },
+
   mounted() {
     //   this.setLocation();
   },
@@ -176,6 +189,10 @@ export default defineComponent({
   &.-no-wrap {
     flex-wrap: nowrap;
     overflow: auto;
+  }
+
+  &.-reverse {
+    flex-direction: row-reverse;
   }
 }
 </style>

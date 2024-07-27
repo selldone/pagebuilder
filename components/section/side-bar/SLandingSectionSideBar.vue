@@ -167,6 +167,7 @@
       icon
       size="large"
       variant="text"
+      :loading="busy_save"
       @click="saveSectionToRepository()"
     >
       <v-icon size="36">save</v-icon>
@@ -267,6 +268,8 @@ export default defineComponent({
       copy_hover: false,
       delete_hover: false,
       el_height: 0,
+
+      busy_save: false,
     };
   },
 
@@ -335,11 +338,22 @@ export default defineComponent({
 
     //――――――――――――――――――――――  Save Section ――――――――――――――――――――
 
-    saveSectionToRepository() {
+    async saveSectionToRepository() {
+      this.busy_save = true;
+      let _image = null;
+      try {
+        _image = await this.section.render();
+      } catch (e) {
+        console.error(e);
+      }
+
       const _section = JSON.stringify(this.section.toJson());
       EventBus.$emit("show:LPageEditorElementsRepository:Add-My-Section", {
         section: _section,
+        image: _image,
       });
+
+      this.busy_save = false;
     },
   },
 });

@@ -111,7 +111,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       if (size.min_w) out.style.minWidth = size.min_w;
     }
 
-    if(old?.setting?.round && old?.setting?.aspect===null){
+    if (old?.setting?.round && old?.setting?.aspect === null) {
       data.setting.setAspect(1); // Fixed aspect ratio for circle images
     }
 
@@ -123,5 +123,15 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
 
   public static JsonToInstance(json: Record<string, any>): XUploaderObject {
     return this._JsonToInstance(json, XUploaderObjectData);
+  }
+
+  // ━━━━━━━━━━━━━━━━━ Clone To ━━━━━━━━━━━━━━━━━
+  public cloneAttributesTo(object: LModelElement<any>) {
+    super.cloneAttributesTo(object);
+
+    if (object instanceof XUploaderObject) {
+      const clone = this.data.clone();
+      object.data.setting = clone.setting;
+    }
   }
 }

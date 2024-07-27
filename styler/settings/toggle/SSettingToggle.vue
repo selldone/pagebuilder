@@ -54,6 +54,12 @@
           height="28"
           rounded="lg"
           :prepend-icon="item?.icon"
+          :class="{
+            'black-flat elevation-3':
+              !modelValue &&
+              defaultValue &&
+              defaultValue === (is_object ? item.value : item),
+          }"
         >
           {{ is_object ? (item.title ? item.title : item.value) : item }}
         </v-btn>
@@ -83,6 +89,7 @@ export default defineComponent({
     mandatory: Boolean,
     multiple: Boolean,
     subtitle: {},
+    defaultValue: {},
   },
   computed: {
     is_object() {

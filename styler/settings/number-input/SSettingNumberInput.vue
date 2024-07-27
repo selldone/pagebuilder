@@ -27,7 +27,26 @@
       </template>
 
       <template v-slot:append>
+        <v-btn
+          v-if="
+            defaultValue && (modelValue === null || modelValue === undefined)
+          "
+          @click="$emit('update:modelValue', defaultValue)"
+          size="small"
+          variant="plain"
+          prepend-icon="shortcut"
+        >
+          Set
+          <span
+            v-if="defaultValue !== 'unset'"
+            style="font-size: 9px"
+            class="ms-1 tnt"
+            >[{{ defaultValue }}]</span
+          >
+        </v-btn>
+
         <u-number-input
+          v-else
           :clearable="clearable"
           :max="max"
           :min="min"
@@ -54,7 +73,6 @@
     </div>
   </div>
   <div v-if="subtitle" class="small">{{ subtitle }}</div>
-
 </template>
 
 <script>
@@ -75,8 +93,9 @@ export default defineComponent({
     disabled: Boolean,
     lock: Boolean,
     suffix: {},
-    subtitle:{},
-    placeholder:{},
+    subtitle: {},
+    placeholder: {},
+    defaultValue: {},
   },
   computed: {},
   data() {

@@ -25,8 +25,25 @@
         {{ label }}</span
       >
     </template>
+
+    <v-btn
+      v-if="defaultValue && (modelValue === null || modelValue === undefined)"
+      @click="$emit('update:modelValue', defaultValue)"
+      size="small"
+      variant="plain"
+      prepend-icon="shortcut"
+    >
+      Set
+      <span
+        v-if="defaultValue !== 'unset'"
+        style="font-size: 9px"
+        class="ms-1 tnt"
+        >[{{ defaultValue }}]</span
+      >
+    </v-btn>
+
     <v-textarea
-      v-if="multipleLines"
+      v-else-if="multipleLines"
       :clearable="clearable"
       :counter="counter"
       :disabled="disabled"
@@ -43,8 +60,7 @@
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
       @blur="$emit('blur')"
-
-      :append-inner-icon="hasLock?(lock ? 'lock' : 'lock_open'):undefined"
+      :append-inner-icon="hasLock ? (lock ? 'lock' : 'lock_open') : undefined"
       :readonly="lock && hasLock"
       @click:append-inner="lock = !lock"
     >
@@ -67,13 +83,19 @@
       @update:model-value="(val) => setValue(val)"
       @blur="$emit('blur')"
       @keydown.enter.prevent="$emit('enter')"
-
-      :append-inner-icon="hasLock?(lock ? 'lock' : 'lock_open'):undefined"
+      :append-inner-icon="hasLock ? (lock ? 'lock' : 'lock_open') : undefined"
       :readonly="lock && hasLock"
       @click:append-inner="lock = !lock"
     >
     </v-text-field>
   </v-list-item>
+
+  <u-smart-suggestion
+    v-if="samples?.length"
+    :samples="samples"
+    @select="(v) => $emit('update:modelValue', v)"
+  ></u-smart-suggestion>
+
   <div
     v-if="subtitle"
     style="font-size: 0.7rem; padding: 4px 16px; opacity: 0.5"
@@ -85,9 +107,11 @@
 
 <script>
 import { defineComponent } from "vue";
+import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 
 export default defineComponent({
   name: "SSettingTextInput",
+  components: { USmartSuggestion },
 
   emits: ["update:modelValue", "blur", "enter"],
   props: {
@@ -109,14 +133,16 @@ export default defineComponent({
     counter: {},
     multipleLines: Boolean,
 
-    hasLock:Boolean,
-
+    hasLock: Boolean,
+    defaultValue: {},
+    samples: {
+      type: Array,
+    },
   },
   computed: {},
   data() {
     return {
       lock: true,
-
     };
   },
   methods: {

@@ -29,7 +29,7 @@
 
     "axios": "^1.7.2",
     "lodash-es": "^4.17.21",
-     "vue": "^3.4.33",
+     "vue": "^3.4.34",
     "vuetify": "^3.6.13",
     "@floating-ui/dom": "^1.6.8",
     "sortablejs": "^1.15.2",
@@ -43,7 +43,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint-plugin-vue": "^9.27.0"

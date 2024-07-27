@@ -24,7 +24,9 @@
       position: nested ? 'left-bottom' : undefined,
     }"
     :cloneable="cloneable"
-    @click="copyStyle"
+    @click="
+      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+    "
     :class="[
       object.classes,
       !noGrid ? calcGridClasses(object.data?.grid) : undefined,
@@ -115,16 +117,6 @@ export default defineComponent({
   },
 
   methods: {
-    copyStyle(event) {
-      if (!this.cloneable || !this.$builder.isEditing) return;
-      this.$builder.onClickClone(event, this.object, [
-        "classes",
-        "style",
-        "background",
-      ]);
-      this.$forceUpdate();
-    },
-
     calcGridClasses(grid: Grid) {
       return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
         if (!grid[device]) {
