@@ -110,9 +110,7 @@ export default defineComponent({
     },
 
     has_drag() {
-      return (
-        this.is_editing && this.object.style.position === "absolute"
-      );
+      return this.is_editing && this.object.style.position === "absolute";
     },
   },
   mounted() {
@@ -138,66 +136,67 @@ export default defineComponent({
       )
         return;
 
-      try {
-        const _self = this;
+      if (!this.$builder.isRendered)
+        try {
+          const _self = this;
 
-        const wrapper = this.$refs.wrapper;
-        const wrapper_element = wrapper?.$el ? wrapper.$el : wrapper;
+          const wrapper = this.$refs.wrapper;
+          const wrapper_element = wrapper?.$el ? wrapper.$el : wrapper;
 
-        if (!wrapper_element || !(wrapper_element instanceof HTMLElement)) {
-          return;
-        }
+          if (!wrapper_element || !(wrapper_element instanceof HTMLElement)) {
+            return;
+          }
 
-        console.log(
-          "Wrapper element of the default slot ===== wrapper =====>",
-          wrapper_element,
-        );
+          console.log(
+            "Wrapper element of the default slot ===== wrapper =====>",
+            wrapper_element,
+          );
 
-        this.sortable = Sortable.create(wrapper_element, {
-          group: {
-            name: "artboard",
-            put: "elements-group",
-          },
-          ghostClass: "element-ghost",
-          animation: 150,
-          scroll: true,
-          scrollSpeed: 10,
-          sort: false,
-          disabled: false,
-          preventOnFilter: false,
-          //easing: "cubic-bezier(1, 0, 0, 1)",
-          removeCloneOnHide: true,
+          this.sortable = Sortable.create(wrapper_element, {
+            group: {
+              name: "artboard",
+              put: "elements-group",
+            },
+            ghostClass: "element-ghost",
+            animation: 150,
+            scroll: true,
+            scrollSpeed: 10,
+            sort: false,
+            disabled: false,
+            preventOnFilter: false,
+            //easing: "cubic-bezier(1, 0, 0, 1)",
+            removeCloneOnHide: true,
 
-          //filter: ".ignore-elements",
+            //filter: ".ignore-elements",
 
-          onAdd(evt) {
-            try {
-              const seed = evt.item._dragData;
-              // console.log("Drop element", seed, "Event item", evt.item);
+            onAdd(evt) {
+              try {
+                const seed = evt.item._dragData;
+                // console.log("Drop element", seed, "Event item", evt.item);
 
-              if (seed) {
-                const instance = LUtilsLoader.JsonObjectToInstance(
-                  JSON.parse(seed),
-                );
+                if (seed) {
+                  const instance = LUtilsLoader.JsonObjectToInstance(
+                    JSON.parse(seed),
+                  );
 
-                _self.object.addChild(instance, evt.newIndex);
-              } else {
-                console.error("Seed data is not attached!");
+                  _self.object.addChild(instance, evt.newIndex);
+                } else {
+                  console.error("Seed data is not attached!");
+                }
+
+                evt.item.remove();
+              } catch (e) {
+                console.error("Error onAdd Element", e);
               }
-
-              evt.item.remove();
-            } catch (e) {
-              console.error("Error onAdd Element", e);
-            }
-          },
-          onUpdate(evt) {
-            _self.object.sort(evt.oldIndex, evt.newIndex);
-            console.log("sortable : onUpdate");
-          },
-        });
-      } catch (e) {
-        console.error("Error initSortable", e);
-      }
+            },
+            onUpdate(evt) {
+              _self.object.sort(evt.oldIndex, evt.newIndex);
+              console.log("sortable : onUpdate");
+            },
+          });
+        } catch (e) {
+          console.error("Error initSortable", e);
+        }
     },
 
     //----------------------------------------------------------------------------

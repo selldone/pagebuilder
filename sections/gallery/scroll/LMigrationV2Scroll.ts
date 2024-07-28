@@ -43,13 +43,13 @@ export class LMigrationV2Scroll {
 
     if (!swiper.data.slidesPerView) swiper.data.slidesPerView = 1;
 
-    if (!swiper.data.slidesPerViewSm) swiper.data.slidesPerViewSm = 2;
+    /**if (!swiper.data.slidesPerViewSm) swiper.data.slidesPerViewSm = 2;
 
     if (!swiper.data.slidesPerViewMd) swiper.data.slidesPerViewMd = 3;
 
     if (!swiper.data.slidesPerViewLg) swiper.data.slidesPerViewLg = 4;
 
-    if (!swiper.data.spaceBetween) swiper.data.spaceBetween = 30;
+    if (!swiper.data.spaceBetween) swiper.data.spaceBetween = 30;*/
 
     $sectionData.slide.items.forEach((_slide: any) => {
       /* const container = XContainerObject.MigrateOld(_slide.container);
