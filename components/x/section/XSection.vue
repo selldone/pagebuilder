@@ -72,7 +72,7 @@ export default {
     // Provide section to all children
     provide("$section", this.$section);
 
-    console.log("XSection | this.$section", this.$section, this.$props);
+    //console.log("XSection | this.$section", this.$section, this.$props);
   },
 
   created() {},

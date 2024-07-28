@@ -212,7 +212,7 @@ export abstract class LModelElement<T> {
     json: Record<string, any> | null,
     dataConstructor: new (data: any) => T,
   ): U {
-    console.log("_JsonToInstance -->", this, json);
+    //console.log("_JsonToInstance -->", this, json);
 
     const style =
       json?.style && isObject(json?.style) && !Array.isArray(json?.style)

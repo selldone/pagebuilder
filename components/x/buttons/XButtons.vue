@@ -90,7 +90,7 @@ export default defineComponent({
   },
 
   created() {
-    console.log("XButtons created | Object: ", this.object);
+    //console.log("XButtons created | Object: ", this.object);
     // New version:
     if (this.object instanceof XButtonsObject) {
       return;
