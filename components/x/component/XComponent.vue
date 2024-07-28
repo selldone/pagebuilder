@@ -147,10 +147,7 @@ export default defineComponent({
             return;
           }
 
-          console.log(
-            "Wrapper element of the default slot ===== wrapper =====>",
-            wrapper_element,
-          );
+         // console.log("Wrapper element of the default slot ===== wrapper =====>", wrapper_element,);
 
           this.sortable = Sortable.create(wrapper_element, {
             group: {
