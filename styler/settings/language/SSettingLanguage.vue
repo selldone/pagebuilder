@@ -33,7 +33,7 @@
         size="small"
         variant="plain"
         prepend-icon="shortcut"
-        class="flex-grow-0"
+        class="flex-grow-0 ms-2"
       >
         Set Value
         <span
@@ -50,8 +50,8 @@
         :disabled="disabled"
         :model-value="modelValue"
         :return-object="false"
-        class="v-input-small flex-grow-0"
-        style="min-width: 160px"
+        class="v-input-small flex-grow-0 ms-2"
+        style="min-width: 90px"
         color="#1976D2"
         density="compact"
         hide-details
