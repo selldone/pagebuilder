@@ -19,7 +19,7 @@
         visible_to_user = isIntersecting;
       }
     "
-    class="l--menu-top-tools"
+    class="l--menu-top-tools "
     v-bind="$attrs"
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->

@@ -15,7 +15,7 @@
 <template>
   <v-sheet
     color="#222"
-    class="l--page-editor-side-menu no-inv overflow-hidden"
+    class="l--page-editor-side-menu no-inv overflow-hidden elevation-3"
     :class="{
       'is-visible': isVisible,
       '-scroll-down': isScrollDown,

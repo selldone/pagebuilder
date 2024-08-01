@@ -41,7 +41,7 @@
         <l-menu-top-ai v-if="!demo" class="ms-2"></l-menu-top-ai>
       </v-tabs>
 
-      <v-sheet color="#111" rounded="xl" height="100" class="overflow-hidden">
+      <v-sheet color="#111" rounded="xl" height="100" class="overflow-hidden" elevation="3">
         <v-window v-model="tab">
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ home ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -139,6 +139,7 @@ Used in nested components!
   justify-content: start;
   min-height: 100px;
   text-align: start;
+
 
   ::v-deep(.v-divider) {
     border-color: #fff !important;
