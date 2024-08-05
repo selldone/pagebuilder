@@ -16,7 +16,7 @@
 <template>
   <s-article-editor
     ref="article"
-    v-model:body="object.data.body"
+    v-model:body="body"
     :edit="editable"
     :enable-title="false"
     :only-view="!editable"
@@ -25,6 +25,7 @@
     class="article mx-auto"
     :class="[object.classes, { 'is-editable': $builder.isEditing }]"
     :style="[object.style, background_style]"
+    @change="onUpdate"
   />
 </template>
 
@@ -48,6 +49,8 @@ export default {
   data: () => ({
     rand_id: Math.random().toString(36).substring(7),
     editable: false, // Safe | Before change the article mode, we need to save it in the data
+
+    body: "",
   }),
 
   computed: {
@@ -60,32 +63,36 @@ export default {
     is_editing(value) {
       if (!value) {
         // Just in Edit -> View mode
-      //  console.log("XArticle | Change edit mode | Edit -> View");
-      //  this.object.data.setBody(this.$refs.article.purifyBody());
+        //  console.log("XArticle | Change edit mode | Edit -> View");
+        //  this.object.data.setBody(this.$refs.article.purifyBody());
       }
 
-      this.editable=value
+      this.editable = value;
     },
   },
 
   created() {
     this.editable = this.$builder.isEditing;
+    this.body = this.object.data.body;
   },
 
   mounted() {
-
     if (this.$refs.article) {
       this.$refs.article.processAfterChangeBody(); //Assign full screen click...
     }
 
     // ━━━━━━━━━━━━━━━━━ ⚡ Linked Object Life Cycle ━━━━━━━━━━━━━━━━━
     this.object.callBeforeSave = () => {
-     // console.log("XArticle | callBeforeSave");
+      // console.log("XArticle | callBeforeSave");
       //this.object.data.setBody(this.$refs.article.purifyBody());
     };
   },
 
   methods: {
+    onUpdate() {
+      this.object.data.body = this.$refs.article.purifyBody();
+    },
+
     get_upload_url() {
       if (!this.$builder.isEditing) return null;
 
