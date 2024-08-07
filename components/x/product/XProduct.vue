@@ -82,7 +82,7 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
 import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommerce";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
@@ -92,6 +92,7 @@ import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import { StorefrontRoutesName } from "@selldone/core-js/enums/route/StorefrontRoutesName";
 import { XProductObjectData } from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 import { XProductObject } from "@selldone/page-builder/components/x/product/XProductObject.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "XProduct",
@@ -156,7 +157,7 @@ export default {
   watch: {
     "object.data.id"(product_id) {
       if (product_id !== this.product?.id) {
-        console.log("✻ Change selected product.");
+        CONSOLE.log("✻ Change selected product.");
         this.getProductInfo();
       }
     },

@@ -80,7 +80,6 @@ export class RawTemplate {
     return {
       title: `Raw Template ${this.name}`,
       sections: this.sections.map((_section_component) => {
-        console.log("_section_component", _section_component);
         return {
           label: _section_component.label,
           uid: `auto_${Math.round(Math.random() * 99999999999)}`,

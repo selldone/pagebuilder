@@ -93,6 +93,7 @@ import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XU
 import { LModelBackground } from "@selldone/page-builder/models/background/LModelBackground.ts";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import LBackgroundChips from "@selldone/page-builder/settings/class-style/chips/LBackgroundChips.vue";
+import {CONSOLE} from "@selldone/core-js";
 
 /**
  * <l-settings-image-layers>
@@ -217,7 +218,7 @@ export default {
 
       if (this.updateCallback) this.updateCallback(); // Force update component!
 
-      console.log("🔧 Set layers", this.target.data.setting);
+      CONSOLE.log("🔧 Set layers", this.target.data.setting);
     },
   },
 };

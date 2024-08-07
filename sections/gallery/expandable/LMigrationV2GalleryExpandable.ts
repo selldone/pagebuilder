@@ -20,6 +20,7 @@ import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XS
 import {
   XGalleryExpandableObject
 } from "@selldone/page-builder/components/x/gallery-expandable/XGalleryExpandableObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2GalleryExpandable {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -47,7 +48,7 @@ export class LMigrationV2GalleryExpandable {
 
     section.addChild(XGalleryExpandableObject.MigrateOld($sectionData));
 
-    console.log("$sectionData", $sectionData, "--structure-->", section);
+    CONSOLE.log("$sectionData", $sectionData, "--structure-->", section);
 
     return section;
   }

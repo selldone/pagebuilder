@@ -90,7 +90,7 @@
   </swiper>
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 // Import Swiper styles
@@ -122,6 +122,7 @@ import {
 import EffectMaterial from "@selldone/components-vue/ui/swiper/effects/material/effect-material.esm.js";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "XSwiper",
@@ -270,7 +271,7 @@ export default {
     refresh() {
       if (!this.mainSwiper) return;
 
-      console.log("REQUEST REFRESH!!!!");
+      CONSOLE.log("REQUEST REFRESH!!!!");
       this.mainSwiper.allowTouchMove = this.allow_touch_move; // Edit mode!
 
       // Update grabCursor:

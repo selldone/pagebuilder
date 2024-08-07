@@ -23,6 +23,7 @@ import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export const LMixinEvents = defineComponent({
   data() {
@@ -58,7 +59,7 @@ export const LMixinEvents = defineComponent({
      * @param {string} tab - The tab to be displayed on the settings page.
      */
     ShowLSettingsPageTypography(style: Object, tab: string) {
-      console.log("style:", style);
+      CONSOLE.log("style:", style);
 
       EventBus.$emit("show:LSettingsPageTypography", { style, tab });
     },

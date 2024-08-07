@@ -26,12 +26,13 @@
   ></component>
 </template>
 
-<script>
+<script lang="ts">
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import { isObject } from "lodash-es";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default defineComponent({
   name: "XText",
@@ -63,7 +64,7 @@ export default defineComponent({
   created() {
     // ♻ Migration from old!
     if (!isObject(this.object)) {
-      console.log("Need migration header!", this.object);
+      CONSOLE.log("Need migration header!", this.object);
       this.$emit("update:object", {
         tag: this.initialType,
         value: "" + this.object,

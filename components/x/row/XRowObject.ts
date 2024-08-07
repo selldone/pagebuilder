@@ -15,6 +15,7 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XRowObject extends LModelElement<XRowObjectData> {
   public static ComponentName = "XRow";
@@ -68,7 +69,7 @@ export class XRowObject extends LModelElement<XRowObjectData> {
   static MigrateOld(old: any): XRowObject {
     const data = new XRowObjectData(old?.row);
 
-    console.log("Migrate Row | Old: ", old, " | Data: ", data);
+    CONSOLE.log("Migrate Row | Old: ", old, " | Data: ", data);
     return new XRowObject(null, null, null, [], data, null);
   }
 

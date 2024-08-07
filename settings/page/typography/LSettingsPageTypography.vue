@@ -172,7 +172,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 
 import LEventsName from "../../../mixins/events/name/LEventsName";
@@ -186,6 +186,7 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "LSettingsPageTypography",
@@ -237,7 +238,7 @@ export default {
 
       ({ style, tab }) => {
         this.CloseAllPageBuilderNavigationDrawerTools(); // Close all open tools.
-        console.log("style", style);
+        CONSOLE.log("style", style);
 
         this.style = style;
 

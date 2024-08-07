@@ -19,6 +19,7 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2BlogsList {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -43,7 +44,7 @@ export class LMigrationV2BlogsList {
     const blogs = XFeederBlogsObject.MigrateOld($sectionData);
     row.addChild(blogs);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionBlogList | $sectionData",
       $sectionData,
       "--structure-->",

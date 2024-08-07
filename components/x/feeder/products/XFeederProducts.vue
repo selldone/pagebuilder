@@ -104,7 +104,7 @@ import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts
 import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/index.ts";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
-import { Category, Product } from "@selldone/core-js";
+import {Category, CONSOLE, Product} from "@selldone/core-js";
 
 export default {
   name: "XFeederProducts",
@@ -141,7 +141,7 @@ export default {
   watch: {
     filter(filter) {
       if (filter instanceof Object) {
-        console.log("✻ Change products filter.");
+        CONSOLE.log("✻ Change products filter.");
 
         this.forcePackage = ApplyAugmentToObject(
           filter,

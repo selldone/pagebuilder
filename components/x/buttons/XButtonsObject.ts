@@ -16,6 +16,7 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XButtonsObject extends LModelElement<XRowObjectData> {
   public static ComponentName = "XButtons";
@@ -78,12 +79,12 @@ export class XButtonsObject extends LModelElement<XRowObjectData> {
 
     buttons?.forEach((_button) => {
       const _btn_element = XButtonObject.MigrateOld(_button);
-      console.log("Migrate Add Button -- Add--->", _btn_element);
+      CONSOLE.log("Migrate Add Button -- Add--->", _btn_element);
 
       row_buttons.addChild(_btn_element);
     });
 
-    console.log("Migrate Buttons | ", btn_row, "--to-->", row_buttons);
+    CONSOLE.log("Migrate Buttons | ", btn_row, "--to-->", row_buttons);
 
     return row_buttons;
   }

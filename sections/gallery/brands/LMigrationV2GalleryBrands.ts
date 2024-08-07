@@ -21,6 +21,7 @@ import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts"
 import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
 import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2GalleryBrands {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -70,7 +71,7 @@ export class LMigrationV2GalleryBrands {
       }
     });
 
-    console.log("$sectionData", $sectionData, "--structure-->", section);
+    CONSOLE.log("$sectionData", $sectionData, "--structure-->", section);
 
     return section;
   }

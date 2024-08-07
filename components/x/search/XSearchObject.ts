@@ -17,6 +17,7 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XSearchObjectData} from "@selldone/page-builder/components/x/search/XSearchObjectData.ts";
 import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
 import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XSearchObject extends LModelElement<XSearchObjectData> {
 
@@ -88,7 +89,7 @@ export class XSearchObject extends LModelElement<XSearchObjectData> {
 
     instance.input = XInputTextObject.MigrateOld(old);
 
-    console.log("Migrate Search Element ", old, "--- instance --->", instance);
+    CONSOLE.log("Migrate Search Element ", old, "--- instance --->", instance);
 
     return instance;
   }

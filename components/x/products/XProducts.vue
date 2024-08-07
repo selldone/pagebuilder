@@ -31,9 +31,9 @@
   ></s-products-listing>
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
-import { ApplyAugmentToObject } from "@selldone/core-js";
+import {ApplyAugmentToObject, CONSOLE} from "@selldone/core-js";
 import { XProductsObject } from "@selldone/page-builder/components/x/products/XProductsObject.ts";
 import SProductsListing from "@selldone/components-vue/storefront/products/listing/SProductsListing.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
@@ -75,7 +75,7 @@ export default {
   watch: {
     filter(filter) {
       if (filter instanceof Object) {
-        console.log("✻ Change products / categories filter.");
+        CONSOLE.log("✻ Change products / categories filter.");
         //console.log("watch", value);
         //console.log("forcePackage", this.$sectionData.filter);
 

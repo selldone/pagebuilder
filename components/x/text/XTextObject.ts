@@ -16,6 +16,7 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 import {isString} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XTextObject extends LModelElement<XTextObjectData> {
   public static ComponentName = "XText";
@@ -88,7 +89,7 @@ export class XTextObject extends LModelElement<XTextObjectData> {
       tag: old.tag ?? initialType,
     });
 
-    console.log("Text Element ", old, "--- old --->", data);
+    CONSOLE.log("Text Element ", old, "--- old --->", data);
     return new XTextObject(
       new LModelBackground(old?.background),
       old?.style,

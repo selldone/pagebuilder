@@ -142,6 +142,7 @@ import draggable from "vuedraggable";
 import debounce from "lodash-es/debounce";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "LMenuLeftHierarchyItem",
@@ -250,7 +251,7 @@ export default {
 
     showMasterDesignDialog() {
       const el = this.object.$element;
-      console.log("showMasterDesignDialog > Element", el);
+      CONSOLE.log("showMasterDesignDialog > Element", el);
       this.ShowLSettingsClassStyle(
         el,
         el,

@@ -22,6 +22,7 @@ import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonO
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XButtonsObject} from "@selldone/page-builder/components/x/buttons/XButtonsObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Swiper {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -75,7 +76,7 @@ export class LMigrationV2Swiper {
       swiper.addChild(container);
     });
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionGallerySwiper | $sectionData",
       $sectionData,
       "--structure-->",

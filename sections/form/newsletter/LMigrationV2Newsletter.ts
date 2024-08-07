@@ -23,6 +23,7 @@ import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.
 import {isString} from "lodash-es";
 import {XInputTextObject} from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
 import {XFormObjectDataTypes} from "@selldone/page-builder/components/x/form/XFormObjectData.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Newsletter {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -68,7 +69,7 @@ export class LMigrationV2Newsletter {
     email.data.setName("email"); // Force be email!
     form.addChild(email);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionFormNewsletter | $sectionData",
       $sectionData,
       "--structure-->",

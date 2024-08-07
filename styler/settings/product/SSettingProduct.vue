@@ -155,7 +155,6 @@ export default defineComponent({
       this.$emit("update:modelValue", value);
     },
     selectProduct(product_selected) {
-      console.log("selectProduct", product_selected.id);
 
       if (this.multiple) {
         if (!this.modelValue || !Array.isArray(this.modelValue))

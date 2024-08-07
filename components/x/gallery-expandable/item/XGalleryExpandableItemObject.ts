@@ -22,6 +22,7 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 import {
     XColumnImageTextObjectTypes
 } from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XGalleryExpandableItemObject extends LModelElement<XGalleryExpandableItemObjectData> {
   public static ComponentName = "XGalleryExpandableItem";
@@ -128,7 +129,7 @@ export class XGalleryExpandableItemObject extends LModelElement<XGalleryExpandab
     if (!image) image = XUploaderObject.Seed(null, false, false, []);
     out.addChild(image.setLabel(XColumnImageTextObjectTypes.LABELS.IMAGE));
 
-    console.log(
+    CONSOLE.log(
       "Migration | GalleryExpandable Element ",
       old,
       "--- old --->",

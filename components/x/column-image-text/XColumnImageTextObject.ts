@@ -26,6 +26,7 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 import {XProductObject} from "@selldone/page-builder/components/x/product/XProductObject.ts";
 import {XButtonObject} from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XColumnImageTextObject extends LModelElement<XColumnImageTextObjectData> {
   public static ComponentName = "XColumnImageText";
@@ -239,7 +240,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
       grid: new LModelGrid(old?.grid),
       layout: old.layout,
     });
-    console.log(
+    CONSOLE.log(
       "Migrate LModelElementXColumnImageText | data:",
       old,
       "--data-->",

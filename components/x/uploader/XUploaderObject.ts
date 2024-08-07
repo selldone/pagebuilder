@@ -17,6 +17,7 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XUploaderObjectData} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import imagePlaceholder from "../../../assets/images/samples/image-placeholder.png";
 import {isObject} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XUploaderObject extends LModelElement<XUploaderObjectData> {
   public static ComponentName = "XUploader";
@@ -115,7 +116,7 @@ export class XUploaderObject extends LModelElement<XUploaderObjectData> {
       data.setting.setAspect(1); // Fixed aspect ratio for circle images
     }
 
-    console.log("Migration Image | ---------->", old, "--->", out);
+    CONSOLE.log("Migration Image | ---------->", old, "--->", out);
     return out;
   }
 

@@ -13,6 +13,7 @@
  */
 
 import {IPageCss} from "@selldone/page-builder/Builder.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 /**
  * 🩴 Helper class for generating and injecting CSS into a web page.
@@ -68,7 +69,7 @@ export class LandingCssHelper {
     // Update the innerHTML of the style element
     style.innerHTML = css_text;
 
-    console.log("🩴 Injected or updated CSS", style);
+    CONSOLE.log("🩴 Injected or updated CSS", style);
     return style;
   }
 

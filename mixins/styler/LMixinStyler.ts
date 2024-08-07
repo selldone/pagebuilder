@@ -18,10 +18,8 @@ import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
-import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 //import {Section} from "@selldone/page-builder/src/section/section.ts";
-
-const DEBUG = false;
 
 export const LMixinStyler = defineComponent({
   mixins: [LMixinEvents],
@@ -54,9 +52,7 @@ export const LMixinStyler = defineComponent({
     };
   },
 
-  computed:{
-
-  },
+  computed: {},
 
   created() {},
 
@@ -77,11 +73,10 @@ export const LMixinStyler = defineComponent({
   },
 
   beforeUnmount() {
-    if (DEBUG)
-      console.log(
-        `Styler Mixin | beforeUnmount | Remove event listener ${this.position}`,
-        this,
-      );
+    CONSOLE.log(
+      `Styler Mixin | beforeUnmount | Remove event listener ${this.position}`,
+      this,
+    );
 
     EventBus.$off(LEventsName.PAGE_BUILDER_STYLER_OPEN);
 
@@ -108,11 +103,16 @@ export const LMixinStyler = defineComponent({
           ? this.$refs.styler.$el /*Vue components*/
           : this.$refs.styler; /*Native elements*/
 
-        if (!(referenceEl instanceof Element && floatingEl instanceof Element)) {
-          console.debug("Check Float UI | Invalid element!", referenceEl, floatingEl);
+        if (
+          !(referenceEl instanceof Element && floatingEl instanceof Element)
+        ) {
+          console.debug(
+            "Check Float UI | Invalid element!",
+            referenceEl,
+            floatingEl,
+          );
           return;
         }
-
 
         const PADDING = 15;
         // When the floating element is open on the screen
@@ -162,15 +162,15 @@ export const LMixinStyler = defineComponent({
             });
           },
           /* {
-                                                               layoutShift: true,
-                                                 
-                                                             }*/
+                                                                         layoutShift: true,
+                                                           
+                                                                       }*/
         );
       }
     },
 
     showStyler(event: Event) {
-      if (DEBUG) console.log("Styler Mixin | showStyler", this);
+      CONSOLE.log("Styler Mixin | showStyler", this);
 
       // console.log("showStyler", this.isVisible);
       // event.stopPropagation();
@@ -187,7 +187,7 @@ export const LMixinStyler = defineComponent({
     },
 
     hideStyler(event: Event) {
-      if (DEBUG) console.log("Styler Mixin | hideStyler", this);
+      CONSOLE.log("Styler Mixin | hideStyler", this);
 
       if (
         event &&
@@ -212,10 +212,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                                                      if (this.popper) {
-                                                                                                        this.popper.destroy();
-                                                                                                        this.popper = null;
-                                                                                                      }*/
+                                                                                                            if (this.popper) {
+                                                                                                              this.popper.destroy();
+                                                                                                              this.popper = null;
+                                                                                                            }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!

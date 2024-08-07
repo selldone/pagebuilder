@@ -267,7 +267,7 @@ export class Section implements Section.ISection {
         return resolve(null);
       }
 
-      console.log("Render section element!");
+      CONSOLE.log("Render section element!");
 
       try {
         this._image_rendered = await Screenshot.FromElement(

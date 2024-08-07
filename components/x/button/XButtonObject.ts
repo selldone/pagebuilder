@@ -15,6 +15,7 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XButtonObjectData} from "@selldone/page-builder/components/x/button/XButtonObjectData.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XButtonObject extends LModelElement<XButtonObjectData> {
   public static ComponentName = "XButton";
@@ -69,7 +70,7 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
    */
 
   static MigrateOld(old: any): XButtonObject {
-    console.log("XButtonObject | Migrate | Old:", old);
+    CONSOLE.log("XButtonObject | Migrate | Old:", old);
     const data = new XButtonObjectData(old);
 
     return new XButtonObject(

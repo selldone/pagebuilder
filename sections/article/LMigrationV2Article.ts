@@ -17,6 +17,7 @@ import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XS
 import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XArticleObject} from "@selldone/page-builder/components/x/article/XArticleObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Article {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -32,7 +33,7 @@ export class LMigrationV2Article {
     const article = XArticleObject.MigrateOld($sectionData);
     container.addChild(article);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionArticle | $sectionData",
       $sectionData,
       "--structure-->",

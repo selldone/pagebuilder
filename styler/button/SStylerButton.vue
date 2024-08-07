@@ -552,7 +552,6 @@ export default {
     setBackground(color) {
       this.removeClass(`bg--`); // remove all bg-- classes! (bg--plate-light-1, bg--plate-light-2, ...)
 
-      console.log("Set custom color:", color);
 
       this.target.data.setColor(color); // ex. var(--bg--plate-light-1) , #874000
       this.target.data.setGlow(false);

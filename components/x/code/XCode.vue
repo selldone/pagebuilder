@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import SArticleEditor from "@selldone/components-vue/article/SArticleEditor.vue";
 import {
@@ -61,6 +61,7 @@ import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObjec
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { isObject } from "lodash-es";
 import DynamicScriptDirective from "@selldone/components-vue/directives/script/DynamicScriptDirective.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "XCode",
@@ -132,7 +133,7 @@ export default {
     },
 
     generateComponent(html) {
-      console.log("🔥 Generating Vue Component");
+      CONSOLE.log("🔥 Generating Vue Component");
       this.structure = {}; // Reset structure.
       this.defaultValues = {}; // Reset default.
 
@@ -203,7 +204,7 @@ export default {
               this.structure = result;
             }
 
-            console.log(
+            CONSOLE.log(
               `Properties > Structure ${CODE_PROPS_PROPERTIES.structure}`,
               result,
             );
@@ -271,7 +272,7 @@ export default {
 
       // Try to find HTML:
       const template = doc.querySelector("div > template");
-      console.log("templates --> ", template);
+      CONSOLE.log("templates --> ", template);
 
       let templateContent = template ? template.innerHTML : doc.body.innerHTML;
 

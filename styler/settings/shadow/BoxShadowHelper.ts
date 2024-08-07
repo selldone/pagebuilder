@@ -13,6 +13,7 @@
  */
 
 import {isObject, isString} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class BoxShadowHelper {
   static Generate(shadow: IShadow[] | string) {
@@ -42,13 +43,13 @@ export class BoxShadowHelper {
     try {
       // Split shadows by comma while accounting for possible commas in rgba colors
       const shadowStrings = shadow_str.match(/(?:[^,(]+|\([^)]*\))+/g);
-      console.log("shadowStrings", shadowStrings);
+      CONSOLE.log("shadowStrings", shadowStrings);
 
       shadowStrings?.forEach((shadow_str) => {
         if (!shadow_str) return;
 
         const obj = this.extractShadowValues(shadow_str);
-        console.log("shadowStrings -- match --> ", shadow_str, "--->", obj);
+        CONSOLE.log("shadowStrings -- match --> ", shadow_str, "--->", obj);
 
         if (obj) out.push(obj);
       });
@@ -56,7 +57,7 @@ export class BoxShadowHelper {
       console.error(e);
     }
 
-    console.log("Shadow > Extract > Raw shadow ", shadow_str, "--->", out);
+    CONSOLE.log("Shadow > Extract > Raw shadow ", shadow_str, "--->", out);
 
     return out;
   }

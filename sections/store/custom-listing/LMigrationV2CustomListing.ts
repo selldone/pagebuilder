@@ -19,6 +19,7 @@ import {XSectionObject} from "@selldone/page-builder/components/x/section/XSecti
 import {XRowObject} from "@selldone/page-builder/components/x/row/XRowObject.ts";
 import {XFeederProductsObject} from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import {isObject} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2CustomListing {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -40,7 +41,7 @@ export class LMigrationV2CustomListing {
     const listing = XFeederProductsObject.MigrateOld($sectionData);
     row.addChild(listing);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionStoreCustomListing | $sectionData",
       $sectionData,
       "--structure-->",

@@ -156,10 +156,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export default {
   name: "SStylerTemplate",
@@ -258,7 +259,7 @@ export default {
     },
     setId(id) {
       if (id && $(`#${id}`).length) {
-        console.log("Duplicate ID!");
+        CONSOLE.log("Duplicate ID!");
         return;
       }
 

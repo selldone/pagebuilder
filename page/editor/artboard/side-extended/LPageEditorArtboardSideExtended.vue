@@ -105,6 +105,7 @@ import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonA
 import { LMixinNote } from "@selldone/page-builder/mixins/note/LMixinNote.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import {Section} from "@selldone/page-builder/src/section/section.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export default defineComponent({
   name: "LPageEditorArtboardSideExtended",
@@ -142,7 +143,7 @@ export default defineComponent({
 
       promise
         .then((generated) => {
-          console.log("🆎 AI created content.", section, generated);
+          CONSOLE.log("🆎 AI created content.", section, generated);
           section.object.updateObjectWithFeed(generated.object)
         })
 

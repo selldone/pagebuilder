@@ -16,6 +16,7 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XMarqueeObjectData} from "@selldone/page-builder/components/x/marquee/XMarqueeObjectData.ts";
 import {isObject} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
   public static ComponentName = "XMarquee";
@@ -83,7 +84,7 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
     style.color = old.text_loop?.font_color;
     style.fontSize = old.text_loop?.font_size;
 
-    console.log(
+    CONSOLE.log(
       "XMarqueeObject | Migrate | Old:",
       old,
       "--data-->",

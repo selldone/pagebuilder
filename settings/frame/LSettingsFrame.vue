@@ -217,7 +217,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 
 import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
@@ -231,6 +231,7 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import { PrismEditor } from "vue-prism-editor";
 import "prismjs/themes/prism-dark.css";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "LSettingsFrame",
@@ -400,7 +401,7 @@ export default {
 
     //----------------------------------------------------------------------------
     onFrameCodeChange() {
-      console.log("onFrameCodeChange");
+      CONSOLE.log("onFrameCodeChange");
       if (!this.dialog_frame || this.LOCK) return;
 
       this.target.data.frame_product = Object.assign({}, this.frame_product); // Save data in section!

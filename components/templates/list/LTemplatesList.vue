@@ -194,10 +194,11 @@
   </v-card>
 </template>
 
-<script >
+<script lang="ts" >
 import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
 import _ from "lodash-es";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 /**
  * <l-templates-list>
@@ -327,7 +328,7 @@ export default {
     },
 
     selectRawTheme(theme) {
-      console.log("select:raw-theme", theme);
+      CONSOLE.log("select:raw-theme", theme);
       this.$emit("select:raw-theme", theme.generate());
     },
 

@@ -136,6 +136,7 @@
 import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
+import {CONSOLE} from "@selldone/core-js";
 
 export default defineComponent({
   name: "LMenuTopAi",
@@ -189,7 +190,7 @@ export default defineComponent({
       }
 
       // ┣━━━━━━━━━━━━━━━━━━━━━━━━━━ AI / Auto generate page  ━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-      console.log("🆎 AI / Auto generate page.");
+      CONSOLE.log("🆎 AI / Auto generate page.");
       let url = null;
       if (this.$shop)
         url = window.API.POST_AI_PAGE_BUILDER_AUTO_GENERATE(

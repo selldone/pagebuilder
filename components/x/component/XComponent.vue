@@ -63,11 +63,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement";
 import Sortable from "sortablejs";
 import { LUtilsLoader } from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default defineComponent({
   name: "XComponent",
@@ -188,7 +189,7 @@ export default defineComponent({
             },
             onUpdate(evt) {
               _self.object.sort(evt.oldIndex, evt.newIndex);
-              console.log("sortable : onUpdate");
+              CONSOLE.log("sortable : onUpdate");
             },
           });
         } catch (e) {

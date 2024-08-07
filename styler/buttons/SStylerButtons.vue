@@ -124,7 +124,7 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject";
-import {XRowObjectData} from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
+import { XRowObjectData } from "@selldone/page-builder/components/x/row/XRowObjectData.ts";
 
 export default {
   name: "SStylerButtons",
@@ -148,8 +148,6 @@ export default {
       type: String,
       default: "left-center",
     },
-
-
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -172,12 +170,14 @@ export default {
       throw new Error("Target is required for SStylerButtons");
     }
     // Auto seed buttons if not exist
-    if (!this.target.children){
-      console.error('Invalid children.',this.target)
+    if (!this.target.children) {
+      console.error("Invalid children.", this.target);
     }
     if (!(this.target.data instanceof XRowObjectData)) {
-      console.error('Invalid data type! It should be XRowData.',this.target.data)
-
+      console.error(
+        "Invalid data type! It should be XRowData.",
+        this.target.data,
+      );
     }
   },
   mounted() {},
@@ -187,7 +187,6 @@ export default {
      * XButtons | Add button
      */
     addNewButton() {
-      console.log("Add new button!",this.target)
       this.target.addChild(XButtonObject.Seed());
     },
   },

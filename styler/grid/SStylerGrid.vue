@@ -153,7 +153,6 @@ export default {
     setGridValue(val) {
       val = Math.min(Math.max(val, 0), 12);
 
-      console.log("Set grid value: ",val, " Device: ",this.device, " Target: ",this.target.data.grid)
 
       this.target.data.grid[this.device] = val;
     },

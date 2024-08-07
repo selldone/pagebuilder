@@ -13,21 +13,10 @@
  */
 
 import {defineComponent} from "vue";
-import {EventBus} from "@selldone/core-js/events/EventBus";
-import {Section} from "../../src/section/section";
-import LEventsName from "../../mixins/events/name/LEventsName";
-import {StylerOptions} from "../../styler/StylerDirective";
-import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
-import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import {XFormObject} from "@selldone/page-builder/components/x/form/XFormObject.ts";
-import {XUploaderObject} from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import {XColumnObject} from "@selldone/page-builder/components/x/column/XColumnObject.ts";
-import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
 import {LUtilsFont} from "@selldone/page-builder/utils/font/LUtilsFont.ts";
-import {FontLoader} from "@selldone/core-js/helper";
+import {CONSOLE, FontLoader} from "@selldone/core-js/helper";
 
 export const LMixinArtboard = defineComponent({
-
   data() {
     return {};
   },
@@ -49,15 +38,15 @@ export const LMixinArtboard = defineComponent({
         if (!builder.style.fonts || !Array.isArray(builder.style.fonts))
           builder.style.fonts = [];
 
-        console.log("👢 builder.style ---->", builder.style);
-        console.log("👢 this.fonts ---->", this.fonts);
+        CONSOLE.log("👢 builder.style ---->", builder.style);
+        CONSOLE.log("👢 this.fonts ---->", this.fonts);
 
         this.fonts.forEach((font) => {
           if (!builder.style.fonts.includes(font)) {
             builder.style.fonts.push(font);
             this.showSuccessAlert(
-                "Font : " + font,
-                "Font has been added successfully.",
+              "Font : " + font,
+              "Font has been added successfully.",
             );
           }
         });

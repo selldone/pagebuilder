@@ -255,14 +255,7 @@ export default {
       this.gridValue = val;
 
       val = val ? Math.min(Math.max(val, 0), 12) : null;
-      console.log(
-        "Set column value: ",
-        val,
-        " Device: ",
-        this.device,
-        " Target: ",
-        this.target.data.grid,
-      );
+
 
       this.target.data.grid[this.device] = val;
     },

@@ -395,15 +395,6 @@ export default {
     isVisible() {
       this.option = null;
     },
-    /**
-     * 🪱 Code health check!
-     */
-    "section.data"() {
-      console.log(
-        "⛔ Section data changed! It cause missing connection between component <-> v-styler <-> styler component!",
-        this.section.data,
-      );
-    },
   },
   beforeMount() {
     if (!this.target) {

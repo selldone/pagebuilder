@@ -84,7 +84,7 @@
 <script lang="ts">
 import StylerDirective from "../../../../styler/StylerDirective.ts";
 import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts";
-import { Article } from "@selldone/core-js";
+import {Article, CONSOLE} from "@selldone/core-js";
 import SBlogCard from "@selldone/components-vue/storefront/blog/card/SBlogCard.vue";
 import { XFeederBlogsObject } from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
 
@@ -125,7 +125,7 @@ export default {
   watch: {
     filter(filter) {
       if (filter instanceof Object) {
-        console.log("✻ Change blog filter.");
+        CONSOLE.log("✻ Change blog filter.");
 
         this.fetchBlogs();
       }
@@ -139,7 +139,7 @@ export default {
   methods: {
     fetchBlogs() {
       const filter = this.filter;
-      console.log("Blogs filter", filter);
+      CONSOLE.log("Blogs filter", filter);
       if (!filter) return;
 
       this.busy = true;

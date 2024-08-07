@@ -46,6 +46,7 @@ import SStylerCode from "../styler/code/SStylerCode.vue";
 import SStylerInput from "@selldone/page-builder/styler/input/SStylerInput.vue";
 import SStylerDiv from "@selldone/page-builder/styler/div/SStylerDiv.vue";
 import SStylerForm from "@selldone/page-builder/styler/form/SStylerForm.vue";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 const DEBUG = false;
 
@@ -66,9 +67,8 @@ export namespace StylerOptions {
     | "marquee"
     | "gallery"
     | "code"
-      | "div"
-      | "form"
-      ;
+    | "div"
+    | "form";
 
   export interface IButtonsRow {
     target: types.ButtonsRow;
@@ -134,7 +134,7 @@ const StylerDirective: ObjectDirective<
     const section: Section = instance.$section;
     el.$section = section; // To accessible from element.
 
-    LOG(
+    CONSOLE.log(
       `mounted()  > ${binding.arg}`,
       "arg",
       binding.arg,
@@ -196,11 +196,9 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerInput;
     } else if (argument === "div") {
       stylerComponent = SStylerDiv;
-    }  else if (argument === "form") {
+    } else if (argument === "form") {
       stylerComponent = SStylerForm;
-    }
-
-    else {
+    } else {
       console.error("Styler component not found!", argument);
     }
 
@@ -233,8 +231,8 @@ const StylerDirective: ObjectDirective<
     try {
       vnode_styler.mount(newNode);
     } catch (e) {
-      console.log("binding value", binding.value);
-      console.log("props", props);
+      CONSOLE.log("binding value", binding.value);
+      CONSOLE.log("props", props);
 
       console.error("Styler mount error!", e);
       return;
@@ -281,8 +279,8 @@ const StylerDirective: ObjectDirective<
 
     // Check if binding.value has changed
     /* if (DEBUG && binding.oldValue !== binding.value) {
-                               console.log("Styler directive updated", binding.value, "el", el);
-                             }*/
+                                   console.log("Styler directive updated", binding.value, "el", el);
+                                 }*/
     // Set is-editable class in editing mode:
     if (binding?.$builder?.isEditing && !el.classList.contains("is-editable")) {
       //console.log("UPDATE STYLER! B");
@@ -326,7 +324,3 @@ function getProps(
 }
 
 export default StylerDirective;
-
-function LOG(...text: any) {
-  if (DEBUG) console.log("🪷 Styler Directive | StylerDirective", ...text);
-}

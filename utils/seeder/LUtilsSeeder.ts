@@ -17,8 +17,7 @@ import ProductFramesSample from "../../sections/store/custom-listing/frames/Prod
 import CategoryFramesSample from "../../sections/store/custom-listing/frames/CategoryFramesSample";
 import {isFunction, isObject} from "lodash-es";
 import imagePlaceholder from "../../assets/images/samples/image-placeholder.png";
-
-const DEBUG = false;
+import {CONSOLE} from "@selldone/core-js/helper";
 
 const SeederRepository: Map<string, any> = new Map<string, any>([
   [types.Title.name, () => ({ value: "Enter your headline here..." })],
@@ -249,11 +248,10 @@ export class LUtilsSeeder {
     if (schema?.name === "$init") return; // init in $schema is used to set default value on add new section step.
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    if (DEBUG)
-      console.log(
-        `Seed > schema:${schema?.name} ${Array.isArray(schema) ? "Array" : ""} ${isObject(schema) ? "Object" : ""}  ${isFunction(schema) ? "Function" : ""} >`,
-        schema,
-      );
+    CONSOLE.log(
+      `Seed > schema:${schema?.name} ${Array.isArray(schema) ? "Array" : ""} ${isObject(schema) ? "Object" : ""}  ${isFunction(schema) ? "Function" : ""} >`,
+      schema,
+    );
 
     if (Array.isArray(schema)) {
       return schema.map((s) => LUtilsSeeder.seed(s));
@@ -261,7 +259,7 @@ export class LUtilsSeeder {
       const value = SeederRepository.get(schema?.name);
       if (value !== undefined) {
         const out = isFunction(value) ? value() : value;
-        if (DEBUG) console.log(`👽 Seed by repository ${schema?.name} ->`, out);
+        CONSOLE.log(`👽 Seed by repository ${schema?.name} ->`, out);
 
         return out;
       }
@@ -278,7 +276,7 @@ export class LUtilsSeeder {
     // Assuming `data` is a predefined map or function to get seeded values
     const out = isFunction(schema) ? schema() : schema;
 
-    if (DEBUG) console.log(`😅 Seed by schema ${schema} ->`, out);
+    CONSOLE.log(`😅 Seed by schema ${schema} ->`, out);
 
     return out;
   }
@@ -289,61 +287,61 @@ export class LUtilsSeeder {
    * @constructor
    */
   /* static SeedNew(name: string) {
-       console.log("🪵 Seed", name);
-   
-       if (name === "LSectionHeroHorizontal") {
-         return LSectionHeroHorizontal.Seed();
-       } else if (name === "LSectionHeroVertical") {
-         return LSectionHeroVertical.Seed();
-       } else if (name === "LSectionHeroLottie") {
-         return LSectionHeroLottie.Seed();
-       } else if (name === "LSectionHeroSearch") {
-         return LSectionHeroSearch.Seed();
-       } else if (name === "LSectionTextTwoColumns") {
-         return LSectionTextTwoColumns.Seed();
-       } else if (name === "LSectionTextThreeColumns") {
-         return LSectionTextThreeColumns.Seed();
-       } else if (name === "LSectionTextNumbers") {
-         return LSectionTextNumbers.Seed();
-       } else if (name === "LSectionImageSocials") {
-         return LSectionImageSocials.Seed();
-       } else if (name === "LSectionImageCards") {
-         return LSectionImageCards.Seed();
-       } else if (name === "LSectionImageFeatures") {
-         return LSectionImageFeatures.Seed();
-       } else if (name === "LSectionImageIntro") {
-         return LSectionImageIntro > Seed();
-       } else if (name === "LSectionTextMarquee") {
-         return LSectionTextMarquee.Seed();
-       } else if (name === "LSectionImageTwoColumns") {
-         return LSectionImageTwoColumns.Seed();
-       } else if (name === "LSectionImageThreeColumns") {
-         return LSectionImageThreeColumns.Seed();
-       } else if (name === "LSectionGalleryExpandable") {
-         return LSectionGalleryExpandable.Seed();
-       } else if (name === "LSectionGalleryBrands") {
-         return LSectionGalleryBrands.Seed();
-       } else if (name === "LSectionGallerySwiper") {
-         return LSectionGallerySwiper.Seed();
-       } else if (name === "LSectionGalleryScroll") {
-         return LSectionGalleryScroll.Seed();
-       } else if (name === "LSectionArticle") {
-         return LSectionArticle.Seed();
-       } else if (name === "LSectionStoreListing") {
-         return LSectionStoreListing.Seed();
-       } else if (name === "LSectionHtml") {
-         return LSectionHtml.Seed();
-       } else if (name === "LSectionStoreProduct") {
-         return LSectionStoreProduct.Seed();
-       } else if (name === "LSectionStoreCustomListing") {
-         return LMigrationV2CustomListing.Seed();
-       } else if (name === "LSectionFormNewsletter") {
-         return LSectionFormNewsletter.Seed();
-       } else if (name === "LSectionBlogList") {
-         return LSectionBlogList.Seed();
-       }
-   
-       console.error("🚨 Seed not found", name);
-       return null;
-     }*/
+         console.log("🪵 Seed", name);
+     
+         if (name === "LSectionHeroHorizontal") {
+           return LSectionHeroHorizontal.Seed();
+         } else if (name === "LSectionHeroVertical") {
+           return LSectionHeroVertical.Seed();
+         } else if (name === "LSectionHeroLottie") {
+           return LSectionHeroLottie.Seed();
+         } else if (name === "LSectionHeroSearch") {
+           return LSectionHeroSearch.Seed();
+         } else if (name === "LSectionTextTwoColumns") {
+           return LSectionTextTwoColumns.Seed();
+         } else if (name === "LSectionTextThreeColumns") {
+           return LSectionTextThreeColumns.Seed();
+         } else if (name === "LSectionTextNumbers") {
+           return LSectionTextNumbers.Seed();
+         } else if (name === "LSectionImageSocials") {
+           return LSectionImageSocials.Seed();
+         } else if (name === "LSectionImageCards") {
+           return LSectionImageCards.Seed();
+         } else if (name === "LSectionImageFeatures") {
+           return LSectionImageFeatures.Seed();
+         } else if (name === "LSectionImageIntro") {
+           return LSectionImageIntro > Seed();
+         } else if (name === "LSectionTextMarquee") {
+           return LSectionTextMarquee.Seed();
+         } else if (name === "LSectionImageTwoColumns") {
+           return LSectionImageTwoColumns.Seed();
+         } else if (name === "LSectionImageThreeColumns") {
+           return LSectionImageThreeColumns.Seed();
+         } else if (name === "LSectionGalleryExpandable") {
+           return LSectionGalleryExpandable.Seed();
+         } else if (name === "LSectionGalleryBrands") {
+           return LSectionGalleryBrands.Seed();
+         } else if (name === "LSectionGallerySwiper") {
+           return LSectionGallerySwiper.Seed();
+         } else if (name === "LSectionGalleryScroll") {
+           return LSectionGalleryScroll.Seed();
+         } else if (name === "LSectionArticle") {
+           return LSectionArticle.Seed();
+         } else if (name === "LSectionStoreListing") {
+           return LSectionStoreListing.Seed();
+         } else if (name === "LSectionHtml") {
+           return LSectionHtml.Seed();
+         } else if (name === "LSectionStoreProduct") {
+           return LSectionStoreProduct.Seed();
+         } else if (name === "LSectionStoreCustomListing") {
+           return LMigrationV2CustomListing.Seed();
+         } else if (name === "LSectionFormNewsletter") {
+           return LSectionFormNewsletter.Seed();
+         } else if (name === "LSectionBlogList") {
+           return LSectionBlogList.Seed();
+         }
+     
+         console.error("🚨 Seed not found", name);
+         return null;
+       }*/
 }

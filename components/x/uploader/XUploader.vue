@@ -152,13 +152,14 @@
   </component>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -571,7 +572,7 @@ export default defineComponent({
     },
 
     processImageUrl(url) {
-      console.log("Dropped image URL:", url);
+      CONSOLE.log("Dropped image URL:", url);
       this.pre_src = url;
       this.object.data.setSrc(url);
       this.dragOverHolder = false;

@@ -26,6 +26,7 @@ import {XLottieObjectData} from "@selldone/page-builder/components/x/lottie/XLot
 import {XUploaderDataTypes} from "@selldone/page-builder/components/x/uploader/XUploaderObjectData.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XSearchObject} from "@selldone/page-builder/components/x/search/XSearchObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Heroes {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -97,7 +98,7 @@ export class LMigrationV2Heroes {
       }
     }
 
-    console.log("$sectionData", $sectionData, "--structure-->", section);
+    CONSOLE.log("$sectionData", $sectionData, "--structure-->", section);
 
     return section;
   }

@@ -18,6 +18,7 @@ import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import {XColumnImageTextObject} from "@selldone/page-builder/components/x/column-image-text/XColumnImageTextObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Scroll {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -81,7 +82,7 @@ export class LMigrationV2Scroll {
       swiper.addChild(column);
     });
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionGalleryScroll | $sectionData",
       $sectionData,
       "--structure-->",

@@ -14,6 +14,7 @@
 
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {isFunction, isObject} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 // Define an interface for common functionality
 
@@ -274,7 +275,7 @@ export abstract class LModelElement<T> {
         } else if ((typeof input[key] === 'string' || typeof input[key] === 'number') &&
             (typeof feed[key] === 'string' || typeof feed[key] === 'number')) {
           if (input[key] !== feed[key]) {
-            console.log(`Match found. Replacing ${key}: "${input[key]}" with "${feed[key]}"`);
+            CONSOLE.log(`Match found. Replacing ${key}: "${input[key]}" with "${feed[key]}"`);
             input[key] = feed[key];
           }
         }

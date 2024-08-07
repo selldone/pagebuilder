@@ -13,6 +13,7 @@
  */
 
 import {isObject, isString} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class TextShadowHelper {
   static Generate(shadow: Array | string) {
@@ -57,7 +58,7 @@ export class TextShadowHelper {
       console.error(e);
     }
 
-    console.log("Shadow > Extract > Raw shadow ", shadow_str, "--->", out);
+    CONSOLE.log("Shadow > Extract > Raw shadow ", shadow_str, "--->", out);
 
     return out.length ? out : null;
   }

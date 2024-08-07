@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import SProductOverviewLoading from "@selldone/components-vue/storefront/overview/loading/SProductOverviewLoading.vue";
 import SProductOverview from "@selldone/components-vue/storefront/overview/SProductOverview.vue";
@@ -48,6 +48,7 @@ import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommer
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { XProductOverviewObject } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
+import {CONSOLE} from "@selldone/core-js";
 
 export default {
   name: "XProductOverview",
@@ -79,7 +80,7 @@ export default {
   watch: {
     product_id(product_id) {
       if (product_id !== this.product?.id) {
-        console.log("✻ Change selected product.");
+        CONSOLE.log("✻ Change selected product.");
         this.getProductInfo();
       }
     },

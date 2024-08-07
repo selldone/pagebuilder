@@ -16,6 +16,7 @@ import {LModelElement} from "@selldone/page-builder/models/element/LModelElement
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2Code {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -29,7 +30,7 @@ export class LMigrationV2Code {
     const code = XCodeObject.MigrateOld($sectionData);
     section.addChild(code);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionHtml | $sectionData",
       $sectionData,
       "--structure-->",

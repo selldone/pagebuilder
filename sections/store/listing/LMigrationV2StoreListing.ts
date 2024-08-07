@@ -18,6 +18,7 @@ import {XContainerObject} from "@selldone/page-builder/components/x/container/XC
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XProductsObject} from "@selldone/page-builder/components/x/products/XProductsObject.ts";
 import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2StoreListing {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -50,7 +51,7 @@ export class LMigrationV2StoreListing {
       container.addChild(text);
     }
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionStoreListing | $sectionData",
       $sectionData,
       "--structure-->",

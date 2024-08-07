@@ -319,6 +319,7 @@ import XUploaderToolbar from "@selldone/page-builder/components/x/uploader/XUplo
 import LHeader from "@selldone/page-builder/src/header/LHeader.vue";
 import { Page, Popup } from "@selldone/core-js/models";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
+import { CONSOLE } from "@selldone/core-js";
 
 export default defineComponent({
   name: "LPageEditor",
@@ -525,28 +526,28 @@ export default defineComponent({
     },
 
     "$builder.isSorting"(sort) {
-      this.sortable.option("sort", sort);  // Set sorting enabled or disabled
+      this.sortable.option("sort", sort); // Set sorting enabled or disabled
 
-      if(sort){
-        this.sortable.option("disabled", false);// Force enable to be able to sort!
+      if (sort) {
+        this.sortable.option("disabled", false); // Force enable to be able to sort!
         this.$builder.isEditing = false; // Disable editing mode if sorting!
         //this.sortable.option("disabled", true);// Can not drop if in sorting mode!
-      }else{
+      } else {
         this.$builder.isEditing = true;
-       // this.sortable.option("disabled", !this.$builder.showLeftMenu);
+        // this.sortable.option("disabled", !this.$builder.showLeftMenu);
       }
-    //  this.onSortingModeChange();
+      //  this.onSortingModeChange();
     },
-    "$builder.showLeftMenu"(menu){
-      this.sortable.option("disabled", !menu);// Can not drop if in sorting mode!
-      if(menu){
+    "$builder.showLeftMenu"(menu) {
+      this.sortable.option("disabled", !menu); // Can not drop if in sorting mode!
+      if (menu) {
         this.$builder.isSorting = false; // Always make it false if menu is open!
-      }else{
-        if(this.$builder.isSorting){
-          this.sortable.option("disabled", false);// Keep sorting enable!
+      } else {
+        if (this.$builder.isSorting) {
+          this.sortable.option("disabled", false); // Keep sorting enable!
         }
       }
-    }
+    },
   },
   provide() {
     return {
@@ -612,7 +613,7 @@ export default defineComponent({
       onUpdate(evt) {
         _self.$builder.sort(evt.oldIndex, evt.newIndex);
 
-        console.log("sortable : onUpdate");
+        CONSOLE.log("sortable : onUpdate");
         _self.$builder.history.save();
       },
       setData: function (
@@ -621,7 +622,8 @@ export default defineComponent({
       ) {
         // Prevent the default drag image from being shown
         const emptyImage = new Image();
-        emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+        emptyImage.src =
+          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
         dataTransfer.setDragImage(emptyImage, 0, 0);
 
         //dataTransfer.clearData('Text'); //Clear data to prevent insert text in dropped element!
@@ -940,7 +942,7 @@ export default defineComponent({
     },
 
     loadRawTemplate(theme: RawTemplate) {
-      console.log("Page buildr | Load raw template", theme);
+      CONSOLE.log("Page buildr | Load raw template", theme);
       (this.$builder as Builder).loadPage({ content: theme });
 
       this.$emit("load:template", {
@@ -1006,36 +1008,36 @@ export default defineComponent({
         this.$builder.history.save();
       }
     },
-  /*  onSortingModeChange() {
-      console.log("onSortingModeChange", this.$builder.isSorting);
+    /*  onSortingModeChange() {
+        console.log("onSortingModeChange", this.$builder.isSorting);
+  
+        this.$builder.isEditing = !this.$builder.isSorting;
+  
+        if (!this.sortable) return;
+  
+        if (!this.$builder.isSorting && this.$builder.showLeftMenu) {
+          this.onShowLeftMenuUpdate();
+        }
+  
+        const sortingEnabled = this.$builder.isSorting;
+        this.sortable.option("sort", sortingEnabled);  // Set sorting enabled or disabled
+        this.sortable.option("disabled", !sortingEnabled);// Can not drop if in sorting mode!
+      },*/
 
-      this.$builder.isEditing = !this.$builder.isSorting;
-
-      if (!this.sortable) return;
-
-      if (!this.$builder.isSorting && this.$builder.showLeftMenu) {
-        this.onShowLeftMenuUpdate();
-      }
-
-      const sortingEnabled = this.$builder.isSorting;
-      this.sortable.option("sort", sortingEnabled);  // Set sorting enabled or disabled
-      this.sortable.option("disabled", !sortingEnabled);// Can not drop if in sorting mode!
-    },*/
-
-  /*  onShowLeftMenuUpdate() {
-      console.log("onShowLeftMenuUpdate", this.$builder.showLeftMenu);
-
-      if (!this.sortable) return;
-
-      if (!this.$builder.showLeftMenu && this.$builder.isSorting) {
-        this.$builder.isSorting = false;
-        this.onSortingModeChange();
-      }
-
-      const menuVisible = this.$builder.showLeftMenu;
-
-      this.sortable.option("disabled", !menuVisible); // Can drop if left menu is visible!
-    },*/
+    /*  onShowLeftMenuUpdate() {
+        console.log("onShowLeftMenuUpdate", this.$builder.showLeftMenu);
+  
+        if (!this.sortable) return;
+  
+        if (!this.$builder.showLeftMenu && this.$builder.isSorting) {
+          this.$builder.isSorting = false;
+          this.onSortingModeChange();
+        }
+  
+        const menuVisible = this.$builder.showLeftMenu;
+  
+        this.sortable.option("disabled", !menuVisible); // Can drop if left menu is visible!
+      },*/
 
     showList() {
       this.$builder.showLeftMenu = true;
@@ -1102,7 +1104,7 @@ export default defineComponent({
 
       this.$builder.livestream.onSend();
 
-      console.log("Update Preview!");
+      CONSOLE.log("Update Preview!");
 
       this.busy_push = true;
       axios
@@ -1147,11 +1149,11 @@ export default defineComponent({
     },
 
     onDropFile(event) {
-      console.log("Drop file!", event.dataTransfer.files);
+      CONSOLE.log("Drop file!", event.dataTransfer.files);
       const files = event.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
         if (files[i].name.endsWith(".landing")) {
-          console.log("Drop landing file!");
+          CONSOLE.log("Drop landing file!");
           event.preventDefault();
           event.stopPropagation();
           // Process the .landing file
@@ -1167,7 +1169,7 @@ export default defineComponent({
       this.busy_import = true;
       this.delay_load = 0;
       // Handle the .landing file
-      console.log("Dropped file:", file);
+      CONSOLE.log("Dropped file:", file);
 
       this.$builder.importer
         .loadFile(file)
@@ -1872,7 +1874,6 @@ label {
     font-size: 1rem;
     font-weight: 600;
     border-radius: 6px;
-
   }
 
   &.-top {

@@ -17,6 +17,7 @@ import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XS
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {XProductOverviewObject} from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import {isObject} from "lodash-es";
+import {CONSOLE} from "@selldone/core-js/helper";
 
 export class LMigrationV2StoreProduct {
   static Migrate($sectionData: any): LModelElement<XSectionObjectData> | null {
@@ -37,7 +38,7 @@ export class LMigrationV2StoreProduct {
     const product = XProductOverviewObject.MigrateOld($sectionData);
     section.addChild(product);
 
-    console.log(
+    CONSOLE.log(
       "Migrate V2 LSectionStoreProduct | $sectionData",
       $sectionData,
       "--structure-->",

@@ -270,10 +270,8 @@ export default {
      * XRow | Add new column
      */
     addNewColumn() {
-      console.log("addNewColumn", this.target.children);
 
       if (!this.target.children.length) {
-        console.log("Add new column with default structure.");
         // Create default structure:
         const new_column = XColumnObject.Seed(12, 6, 4);
         new_column.addChild(XUploaderObject.Seed(1, true));
@@ -289,10 +287,7 @@ export default {
         this.target.addChild(new_column);
       } else {
         const child = this.target.children[this.target.children.length - 1];
-        console.log(
-          "Add new column with existing last child structure. Child:",
-          child,
-        );
+
 
         this.target.addChild(LUtilsClone.CloneElement(child));
       }
