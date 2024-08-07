@@ -57,7 +57,6 @@ export class XMarqueeObject extends LModelElement<XMarqueeObjectData> {
     instance.style.fontSize = "2rem";
     instance.style.color = "#ffffff";
     instance.background.bg_color = "#673AB7";
-    console.log("Instance Marquee --->", instance);
 
     return instance;
   }

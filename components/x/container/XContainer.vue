@@ -64,7 +64,7 @@ export default defineComponent({
   },
 
   created() {
-    console.log("object Container", this.object);
+
   },
 });
 </script>

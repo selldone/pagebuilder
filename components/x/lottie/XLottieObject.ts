@@ -51,7 +51,6 @@ export class XLottieObject extends LModelElement<XLottieObjectData> {
       src: "/animation/23222-checkmark.json",
       setting: new XUploaderDataTypes.Setting(),
     });
-    console.log("data lottie --->", data);
 
     return new XLottieObject(null, null, null, null, data, null);
   }

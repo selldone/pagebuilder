@@ -21,6 +21,7 @@ import {Page} from "@selldone/core-js/models";
 import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {Screenshot} from "@selldone/core-js/helper";
+import {CONSOLE} from "@selldone/core-js";
 
 const DEBUG = false;
 export namespace Section {
@@ -73,7 +74,7 @@ export class Section implements Section.ISection {
     if (!this.label) this.label = "Section";
     this.uid = options.uid;
 
-    LOG(
+    CONSOLE.log(
       `⚽ ${this.label} | Section > Constructor`,
       options,
       this,
@@ -88,7 +89,7 @@ export class Section implements Section.ISection {
       options.name = LUtilsMigration.MigrateSectionName(options.name);
 
       // Try to migrate old version:
-      console.log(
+      CONSOLE.log(
         `Try to migrate section ${options.name} from V1 to V2. options:`,
         options,
       );
@@ -97,7 +98,7 @@ export class Section implements Section.ISection {
       } catch (e) {
         console.error(`Migration failed for ${options.name}!`, e);
       }
-      console.log(
+      CONSOLE.log(
         `After migration ${options.name} from V1 to V2. Data:`,
         options.data,
         "Object:",
@@ -107,16 +108,13 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ V2 ━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (options.object && isObject(options.object)) {
-      console.log(
-        `🪵 ${this.label} | New version load data in section...`,
-        options,
-      );
+      CONSOLE.log(`🪵 ${this.label} | New version load data in section...`, options,);
 
       this.object = LUtilsLoader.JsonObjectToInstance(options.object);
     }
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Error  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     else {
-      console.log(
+      CONSOLE.log(
         `We can not find object in the section or migrate from V1 to V2. Options in the section:`,
         options,
       );
@@ -124,10 +122,10 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Create by Seeder  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     /* else {
-                           console.log(`Create new instance by seeder.`);
+                           CONSOLE.log(`Create new instance by seeder.`);
                      
                            const _object = LUtilsSeeder.SeedNew(options.name);
-                           LOG(
+                           CONSOLE.log(
                              `🪷 ${options.name} | Section.ts > constructor > Seed:`,
                              options.name,
                              "--object-->",
@@ -148,14 +146,14 @@ export class Section implements Section.ISection {
       // Set random ID for sections
       this.uid = "auto_" + Math.round(Math.random() * 99999999999);
 
-      LOG(
+      CONSOLE.log(
         `🪷 ${this.label} | Section.ts > constructor > UID (NEW):`,
         this.uid,
         "force",
         force_set_new_uid,
       );
     } else {
-      LOG(
+      CONSOLE.log(
         `🪷 ${this.label} | Section.ts > constructor > UID (EXIST):`,
         this.uid,
       );
@@ -178,7 +176,7 @@ export class Section implements Section.ISection {
    * @param value
    */
   set(name: string, value: Object) {
-    LOG(`⚽ ${name} | Section > Set`, "name", name, "value", value);
+    CONSOLE.log(`⚽ ${name} | Section > Set`, "name", name, "value", value);
 
     const path = toPath(name);
     const prop = path.pop();
@@ -236,7 +234,7 @@ export class Section implements Section.ISection {
   removeBRFromSectionData() {
     return LUtilsObject.IterateOverSectionData(this.data, (text: any) => {
       if (isString(text) && text.trim() === "<br>") {
-        console.log("🌶 Remove empty tags", text);
+        CONSOLE.log("🌶 Remove empty tags", text);
         return "";
       }
       return text;
@@ -300,6 +298,4 @@ export class Section implements Section.ISection {
   }
 }
 
-function LOG(...text: any) {
-  if (DEBUG) console.log("🐤 SECTION", ...text);
-}
+

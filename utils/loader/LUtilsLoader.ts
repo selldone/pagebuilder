@@ -22,7 +22,6 @@ export class LUtilsLoader {
     string,
     LModelElementTypes.IModelElement
   > {
-    console.log("InitializeClassesList");
     const out: Record<string, LModelElementTypes.IModelElement> = {};
 
     LUtilsComponents.XObjects.forEach(

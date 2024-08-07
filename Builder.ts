@@ -30,10 +30,9 @@ import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
 import {types} from "sass";
-import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import { CONSOLE } from "@selldone/core-js";
 import Error = types.Error;
-
-const DEBUG = true;
 
 export namespace builder {
   export interface IOptions {
@@ -171,7 +170,11 @@ export class Builder {
   }
 
   constructor(options: builder.IOptions, state: builder.IState) {
-    LOG("⚽ 3. Constructor > Create page builder instance", "options", options);
+    CONSOLE.log(
+      "⚽ 3. Constructor > Create page builder instance",
+      "options",
+      options,
+    );
 
     // Assigned from option:
     this.title = options.title;
@@ -213,7 +216,7 @@ export class Builder {
 
   static install(app: App, options: Partial<builder.IOptions> = {}) {
     this.options = options;
-    LOG("⚽ 2. Start Install...");
+    CONSOLE.log("⚽ 2. Start Install...");
 
     initializeXComponents(app);
 
@@ -232,19 +235,18 @@ export class Builder {
     position: number | undefined | null,
     force_set_new_uid: boolean = false,
   ) {
-    if (DEBUG)
-      console.log(
-        "📐 Add section",
-        options,
-        "position",
-        position,
-        force_set_new_uid,
-      );
+    CONSOLE.log(
+      "📐 Add section",
+      options,
+      "position",
+      position,
+      force_set_new_uid,
+    );
 
     //━━━━━━━━━━━━━━━ Create Section Instance ━━━━━━━━━━━━━━━
     const section = new Section(options, force_set_new_uid);
 
-    if (DEBUG) console.log("📐 Add section", "section", section);
+    CONSOLE.log("📐 Add section", "section", section);
     //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     if (position !== undefined && position !== null) {
@@ -310,7 +312,7 @@ export class Builder {
   }
 
   onClickClone(e: Event, object: LModelElement<any>) {
-    console.log(
+    CONSOLE.log(
       "copy Style",
       object,
       this.cloneStyle,
@@ -375,7 +377,7 @@ export class Builder {
    * @param content
    */
   private setContent(content: Page.IContent) {
-    LOG("⚽ Set -----> content", content);
+    CONSOLE.log("⚽ Set -----> content", content);
 
     content = LUtilsMigration.MigratePageContent(content);
 
@@ -451,7 +453,7 @@ export class Builder {
    * Outputs a JSON representation of the builder that can be used for rendering with the renderer component.
    */
   export() {
-    console.log("Builder | Export | 👢 CSS Style on save ", this.style);
+    CONSOLE.log("Builder | Export | 👢 CSS Style on save ", this.style);
 
     const out = {
       title: this.title,
@@ -482,11 +484,11 @@ export class Builder {
               corrected = corrected.replace(/class=".*?"/gs, "");
 
               /* console.error(
-                                                                "FAULT DETECTION ->",
-                                                                key + " -> " + val,
-                                                                "Corrected",
-                                                                corrected
-                                                        );*/
+                                                                              "FAULT DETECTION ->",
+                                                                              key + " -> " + val,
+                                                                              "Corrected",
+                                                                              corrected
+                                                                      );*/
               obj[key] = corrected;
             }
           } else if (Array.isArray(val)) {
@@ -597,10 +599,6 @@ function initializeXComponents(app: App) {
 
 export default Builder;
 
-function LOG(...text: any) {
-  if (DEBUG) console.log("🪷 Core", ...text);
-}
-
 export class History {
   static MAX_HISTORY_ITEMS = 50;
 
@@ -656,7 +654,7 @@ export class History {
         exists_sections.push(found);
       }
     });
-    if (DEBUG) console.log("Load Local History", "1 exists", exists_sections);
+    CONSOLE.log("Load Local History", "1 exists", exists_sections);
 
     //2. Remove all:
     this.builder.sections.splice(0, this.builder.sections.length);
@@ -675,7 +673,7 @@ export class History {
   save: Function;
 
   async saveNow() {
-    if (DEBUG) console.log("📤 On Save History", "history:", this);
+    CONSOLE.log("📤 On Save History", "history:", this);
 
     // Keep only data, id , name
     const filtered = this.builder.sections.map(function (section: Section) {
@@ -687,13 +685,13 @@ export class History {
       this.records.length > this.index &&
       clone === this.records[this.index]
     ) {
-      if (DEBUG) console.log("✖️ No changes in history");
+      CONSOLE.log("✖️ No changes in history");
       return;
     }
 
     // Remove death zone:
     if (this.index > 0) {
-      if (DEBUG) console.log("Clear death zone history", this.index);
+      CONSOLE.log("Clear death zone history", this.index);
       this.records.splice(0, this.index);
     }
 
@@ -701,15 +699,14 @@ export class History {
     if (this.records.length > History.MAX_HISTORY_ITEMS)
       this.records.length = History.MAX_HISTORY_ITEMS;
 
-    if (DEBUG)
-      console.log(
-        "✚ New history item added > Items count:",
-        this.records.length,
-        "History",
-        this.records,
-        "Current Index",
-        this.index,
-      );
+    CONSOLE.log(
+      "✚ New history item added > Items count:",
+      this.records.length,
+      "History",
+      this.records,
+      "Current Index",
+      this.index,
+    );
 
     this.index = 0;
   }

@@ -86,11 +86,12 @@
   </v-locale-provider>
 </template>
 
-<script>
+<script lang="ts">
 import debounce from "lodash-es/debounce";
 import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
+import { CONSOLE } from "@selldone/core-js";
 
 /**
  * <landing-render>
@@ -114,7 +115,7 @@ export default {
     // showLoading: true,
 
     json: null,
-    css:null,
+    css: null,
     page: null,
     augment: null, // Extra information to show to dynamic show in page content
     busy: false,
@@ -266,7 +267,7 @@ export default {
       }
 
       const statistic = this.page[type][action];
-      console.log("initHeatmap", type, action, "statistic", statistic);
+      CONSOLE.log("initHeatmap", type, action, "statistic", statistic);
 
       let data = [];
 
@@ -313,7 +314,7 @@ export default {
         });
       }
 
-      console.log("data", data, "max", max);
+      CONSOLE.log("data", data, "max", max);
 
       this.heatmap.setData({
         max: max,
@@ -357,7 +358,7 @@ export default {
       this.busy = true;
       this.page = null;
       this.json = null;
-      this.css=null;
+      this.css = null;
 
       let url = "";
 
@@ -398,15 +399,15 @@ export default {
 
         // Storefront > Vendors custom landing pages
         else if (
-            this.$route.name === window.$storefront?.routes.SHOP_VENDOR_CUSTOM_LANDING_PAGE
+          this.$route.name ===
+          window.$storefront?.routes.SHOP_VENDOR_CUSTOM_LANDING_PAGE
         ) {
           if (!this.shop_name) return;
           url = window.XAPI.GET_VENDOR_PAGE_DATA(
-              this.shop_name,
-              this.$route.params.vendor_id,
+            this.shop_name,
+            this.$route.params.vendor_id,
           );
         }
-
 
         // Normal shop landing page on the storefront:
         else {
