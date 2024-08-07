@@ -72,7 +72,7 @@
           </div>
 
           <v-textarea
-            v-model="prompt"
+            v-model="page.prompt"
             :counter="512"
             :rows="2"
             :rules="[GlobalRules.counter(512)]"
@@ -88,12 +88,11 @@
           </v-textarea>
 
           <u-smart-suggestion
-            :samples="prompt_samples"
+            :samples="samples"
             class="mt-2 mb-4"
-            @select="(v) => (prompt = v)"
+            @select="(v) => (page.prompt = v)"
           >
           </u-smart-suggestion>
-
           <ol class="my-3 text-start">
             <li>
               Write a prompt describing the page you want to create. What is the
@@ -136,19 +135,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
+import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 
 export default defineComponent({
   name: "LMenuTopAi",
   components: {
     UButtonAiSmall,
+    USmartSuggestion,
   },
   inject: ["$builder", "$shop"],
   props: {},
 
   data: () => ({
     show_prompt: false,
-    prompt: null,
-    prompt_samples: [],
 
     auto_generate_busy: false,
   }),
@@ -165,22 +164,22 @@ export default defineComponent({
     is_menu() {
       return this.$builder.isMenu();
     },
-  },
 
-  watch: {
-    page() {
-      this.prompt = this.page?.prompt;
+    samples() {
+      return this.$tm("suggestions.page.prompts")?.map((prompt) => {
+        return prompt.replace("{shop}", this.$shop.title);
+      });
     },
   },
 
-  created() {
-    this.prompt = this.page?.prompt;
-  },
+  watch: {},
+
+  created() {},
 
   methods: {
     autoGenerate() {
       // Require prompt:
-      if (!this.prompt) {
+      if (!this.page.prompt) {
         this.show_prompt = true;
         this.showWarningAlert(
           "Enter Prompt Please",
@@ -211,7 +210,7 @@ export default defineComponent({
           if (data.error) {
             this.showErrorAlert(null, data.error_msg);
           } else {
-            this.$builder.loadPage(data.page );
+            this.$builder.loadPage(data.page);
 
             this.showSuccessAlert(
               "Build completed",

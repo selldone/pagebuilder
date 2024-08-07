@@ -258,7 +258,33 @@ export abstract class LModelElement<T> {
       label: this.label,
     };
   }
+
+  // ━━━━━━━━━━━━━━━━━ Apply Change By Json ━━━━━━━━━━━━━━━━━
+  public updateObjectWithFeed(feed: any): void {
+    if (!feed) return;
+    this.updateRecursive(this, feed);
+  }
+
+  private updateRecursive(input: any, feed: any): void {
+    for (const key in input) {
+      if (input.hasOwnProperty(key) && feed.hasOwnProperty(key)) {
+        if (typeof input[key] === 'object' && input[key] !== null && typeof feed[key] === 'object' && feed[key] !== null) {
+          // Recursive call for nested objects
+          this.updateRecursive(input[key], feed[key]);
+        } else if ((typeof input[key] === 'string' || typeof input[key] === 'number') &&
+            (typeof feed[key] === 'string' || typeof feed[key] === 'number')) {
+          if (input[key] !== feed[key]) {
+            console.log(`Match found. Replacing ${key}: "${input[key]}" with "${feed[key]}"`);
+            input[key] = feed[key];
+          }
+        }
+      }
+    }
+  }
+
 }
+
+
 
 // ━━━━━━━━━━━━━━━━━ 🦫 Types ━━━━━━━━━━━━━━━━━
 

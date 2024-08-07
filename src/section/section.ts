@@ -172,6 +172,11 @@ export class Section implements Section.ISection {
     }
   }
 
+  /**
+   * @deprecated
+   * @param name
+   * @param value
+   */
   set(name: string, value: Object) {
     LOG(`⚽ ${name} | Section > Set`, "name", name, "value", value);
 
@@ -200,6 +205,10 @@ export class Section implements Section.ISection {
     obj[prop] = value;
   }
 
+  /**
+   * @deprecated
+   * @param name
+   */
   get(name: string) {
     const path = toPath(name);
     const prop = path.pop();
