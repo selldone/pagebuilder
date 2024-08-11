@@ -48,7 +48,6 @@ import SStylerDiv from "@selldone/page-builder/styler/div/SStylerDiv.vue";
 import SStylerForm from "@selldone/page-builder/styler/form/SStylerForm.vue";
 import {CONSOLE} from "@selldone/core-js/helper";
 
-const DEBUG = false;
 
 export namespace StylerOptions {
   export type Argument =
