@@ -60,6 +60,7 @@
       },
     ]"
     :style="[object.style, background_style, { height: SLIDE_DATA.height }]"
+    class="x--swiper"
   >
     <swiper-slide
       v-for="(_slide, index) in object.children"
@@ -69,6 +70,7 @@
           'swiper-material-wrapper': is_material_effect,
         },
       ]"
+      class="x--swiper-slide"
     >
       <!-- ━━━━━━━━━━━━ Children ━━━━━━━━━━━━ -->
       <x-component

@@ -16,7 +16,7 @@
   <div
     v-if="$vuetify.display.mdAndUp"
     v-show="(scaleDownMode || $vuetify.display.xlAndUp) && show"
-    :class="{ collapse: collapse }"
+    :class="{ collapse: collapse ||!isVisible ,      'fadeOut pen': !isVisible,}"
     class="r-con c-container -force-rounded p-2 fadeIn"
   >
     <v-expand-transition>
@@ -261,6 +261,8 @@ export default {
       type: Boolean,
       default: false,
     },
+    isVisible: Boolean,
+
   },
 
   data: () => ({

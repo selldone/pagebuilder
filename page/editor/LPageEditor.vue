@@ -264,6 +264,7 @@
 
   <l-page-editor-repository
     v-if="inEditMode && !show_templates"
+    :isVisible="!$builder.focusMode"
     :scale-down-mode="scale_down"
   >
   </l-page-editor-repository>
@@ -272,7 +273,7 @@
 
   <l-menu-left
     v-if="!show_templates"
-    :is-visible="$builder.showLeftMenu && inEditMode"
+    :is-visible="$builder.showLeftMenu && inEditMode  && !$builder.focusMode/*Hide when styler is visible*/"
     :is-scroll-down="scrollTop > 200"
     :histories="histories"
     :set-page-function="setPage"

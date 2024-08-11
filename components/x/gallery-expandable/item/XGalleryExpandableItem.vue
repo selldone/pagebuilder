@@ -118,7 +118,7 @@ export default defineComponent({
   .g-content {
     text-align: start;
     position: absolute;
-    z-index: 2;
+    z-index: 10;
     left: 0;
     right: 0;
     top: 0;

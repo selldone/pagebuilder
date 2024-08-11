@@ -31,10 +31,7 @@
             ? '#455A64'
             : type === 'row' || type === 'grid' || type === 'buttons-row'
               ? '#8BC34A'
-              : type === 'container' ||
-                  type === 'swiper' ||
-                  type === 'blogs' ||
-                  type === 'marquee'
+              : type === 'container' || type === 'blogs' || type === 'marquee'
                 ? '#FFA000'
                 : type === 'column'
                   ? '#1976D2'
@@ -44,7 +41,11 @@
                       ? '#3F51B5'
                       : type === 'input'
                         ? '#03A9F4'
-                        : '#fff',
+                        : type === 'swiper'
+                          ? '#E91E63'
+                          : type === 'section'
+                            ? '#673AB7'
+                            : '#fff',
       },
     ]"
     class="styler -dot"
@@ -165,7 +166,7 @@ import { CONSOLE } from "@selldone/core-js/helper";
 export default {
   name: "SStylerTemplate",
 
-  mixins: [LMixinEvents, LMixinEvents],
+  mixins: [LMixinEvents],
 
   components: {},
   props: {
@@ -478,21 +479,23 @@ input[type="number"]::-webkit-outer-spin-button {
     &:before {
       position: absolute;
       z-index: 1;
-      top: 3px;
-      left: 22px;
+      top: 4px;
+      left: 23px;
       content: attr(caption);
       font-size: 8px;
       color: #fff;
       background: transparent;
+      text-transform: capitalize;
     }
 
     &:after {
       position: absolute;
-      top: 7px;
+      top: 6px;
       left: 12px;
       content: " ";
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
+
 
       border-radius: 8px;
       background-color: var(--dot-color);

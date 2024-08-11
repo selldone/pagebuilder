@@ -62,12 +62,12 @@
         "
       />
 
-      <v-text-field
+      <s-setting-text-input
         v-model="title.data.value"
         label="Slide Title"
         variant="underlined"
       >
-      </v-text-field>
+      </s-setting-text-input>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
@@ -76,6 +76,7 @@
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import { StripTags } from "@selldone/core-js";
+import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 
 export default {
   name: "LSettingsGallerySlide",
@@ -83,6 +84,7 @@ export default {
   mixins: [],
 
   components: {
+    SSettingTextInput,
     SImageUploader,
   },
   inject: ["$builder"],

@@ -61,7 +61,8 @@ export namespace builder {
     isHideExtra: boolean;
     isSorting: boolean;
     isRendered: boolean;
-    showLeftMenu: boolean;
+    showLeftMenu: boolean;  // Hide side menus when styler is visible
+    focusMode: boolean;
   }
 
   export type IModel = Page | Popup | ShopMenu;
@@ -123,6 +124,7 @@ export class Builder {
   public isSorting: boolean;
   public isRendered: boolean;
   public showLeftMenu: boolean;
+  public focusMode: boolean;
 
   public cloneStyle: boolean;
   public cloneObject: LModelElement<any> | null;
@@ -161,6 +163,7 @@ export class Builder {
           isSorting: false,
           isRendered: false,
           showLeftMenu: true,
+          focusMode: false,
         },
         state,
       ),
@@ -193,6 +196,7 @@ export class Builder {
     this.isSorting = state.isSorting;
     this.isRendered = state.isRendered;
     this.showLeftMenu = state.showLeftMenu;
+    this.focusMode = state.focusMode
 
     this.history = new History(this);
     this.livestream = new Livestream(this);

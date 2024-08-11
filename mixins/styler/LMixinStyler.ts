@@ -53,6 +53,20 @@ export const LMixinStyler = defineComponent({
   },
 
   computed: {},
+  watch: {
+    isVisible(){
+      console.log('isVisible',this.isVisible)
+      this.$nextTick(() => {
+        if ($('div.styler.is-visible').length > 0) {
+          console.log("At least one styler is visible.");
+          this.$builder.focusMode=true;
+        } else {
+          console.log("No styler is currently visible.");
+          this.$builder.focusMode=false;
+        }
+      });
+    }
+  },
 
   created() {},
 

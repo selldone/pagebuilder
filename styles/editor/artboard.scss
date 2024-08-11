@@ -56,6 +56,12 @@ $outline-width: 4px;
     --def-color: #D32F2F
   }
 
+  .x--swiper {
+    outline-offset: 0;
+    --def-color: #E91E63
+  }
+
+
   .is-editable {
     // .is-editable {
     &:not(.v-btn), &:not(.v-btn) {
