@@ -47,7 +47,6 @@
               class="my-3 overflow-visible"
               rounded="lg"
               selected-class="blue-flat elevation-10"
-              @update:model-value="setMode"
             >
               <v-btn variant="outlined" value="html" class="tnt">
                 <v-icon class="me-1">html</v-icon>
@@ -86,6 +85,7 @@
             @update:model-value="changed = true"
           >
           </prism-editor>
+
         </div>
 
         <div class="widget-box -large mb-5">
@@ -308,8 +308,6 @@ export default {
 
         this.changed = false;
 
-        this.autoDetectMode();
-
         this.showDialog();
       },
     );
@@ -358,17 +356,7 @@ export default {
       return Prism.highlight(code, Prism.languages.html, "html");
     },
 
-    setMode() {
-      this.target.data.code = this.target.data.code.replace(
-        /<!----vue---->/g,
-        "",
-      );
 
-      if (this.target.data.mode === RawCodeMode.MODE_HTML) {
-      } else {
-        this.target.data.code = `<!----vue---->${this.target.data.code}`;
-      }
-    },
     refreshScripts() {
       this.busy_scripts = true;
       this.extractInfoFromScripts(this.target.data.code)

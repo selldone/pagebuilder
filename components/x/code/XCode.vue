@@ -107,6 +107,7 @@ export default {
 
   methods: {
     refreshCode() {
+      console.log('this.object.data',this.object.data)
       // Auto detect mode if it's not set:
       const mode = this.object.data.mode
         ? this.object.data.mode

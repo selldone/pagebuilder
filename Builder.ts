@@ -507,7 +507,7 @@ export class Builder {
       checking(content);
     }
 
-    checkHealth(out);
+  //  checkHealth(out);
 
     // Update content in the model:
     if (this.model) this.model.content = out;
