@@ -160,7 +160,7 @@
 import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
-import {CONSOLE} from "@selldone/core-js/helper";
+import { CONSOLE } from "@selldone/core-js/helper";
 
 export default {
   name: "SStylerTemplate",
@@ -291,7 +291,7 @@ $red: #ff3d3d;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 999 !important;
   display: none;
   visibility: hidden;
   opacity: 0;
@@ -302,6 +302,8 @@ $red: #ff3d3d;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: rgba(32, 38, 46, 0.79) 1px 1px 4px 1px;
+  border: #20262e solid thin;
 
   &-list {
     display: flex;
@@ -432,6 +434,7 @@ input[type="number"]::-webkit-outer-spin-button {
 <style lang="scss">
 .styler {
   text-align: start;
+
   &:hover {
     // Fix some over lapping of stylers!
     z-index: 250;

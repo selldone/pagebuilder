@@ -22,7 +22,6 @@
       noLink: noLink,
     }"
     :id="object.data.id"
-
     :class="[
       object.classes,
       { 'is-editable': $builder.isEditing, '-button-glow': is_glow },
@@ -34,7 +33,6 @@
         '--shadow-color': object.data.color,
       },
     ]"
-
     :color="object.data.color"
     :elevation="object.data.elevation"
     :height="object.data.height"
@@ -48,8 +46,7 @@
     :variant="is_glow ? 'elevated' : object.data.variant"
     class="x--button tnt -trackable"
     v-html="object.data.content?.applyAugment(augment, is_editing)"
-
-
+    :tag="is_editing ? 'a' : undefined"
   >
   </v-btn>
 </template>
