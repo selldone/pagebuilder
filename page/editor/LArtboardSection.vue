@@ -96,6 +96,7 @@
       :copy-section="copy_section"
       :section="section"
       :section-index="index"
+      class="ignore-elements"
     ></s-landing-section-side-bar>
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Copy & Past Section - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
@@ -104,6 +105,7 @@
       :aiAutoFillFunction="aiAutoFillFunction"
       :notes="notes"
       :section="section"
+      class="ignore-elements"
     ></l-page-editor-artboard-side-extended>
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - End ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
 
