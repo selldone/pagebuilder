@@ -34,7 +34,12 @@
         <div class="-group-header">
           {{ name }}
         </div>
-        <v-row class="-group-body px-2" dense justify="space-around">
+        <v-row
+          class="-group-body px-2"
+          dense
+          justify="space-around"
+          @mouseleave="hideMenu()"
+        >
           <span
             v-for="(item, index) in group"
             :key="index"
@@ -42,7 +47,6 @@
             class="-item-element hover-scale-small"
             draggable="true"
             @mouseenter="(e) => showMenu(e, item)"
-            @mouseleave="hideMenu()"
           >
             <img v-if="item.cover" :src="item.cover" class="-item-image" />
           </span>
@@ -53,17 +57,15 @@
 
   <!-- Side help menu -->
   <v-menu
-    v-if="hover_section?.help"
     v-model="show_element_info"
     :offset="36"
     :target="hover_element"
-    absolute
     content-class="pen"
     location="right"
     max-width="420"
     width="300"
   >
-    <v-sheet color="#000">
+    <v-sheet color="#000" v-if="hover_section?.help">
       <v-responsive v-if="hover_section.help.video" :aspect-ratio="1920 / 1080">
         <video
           :key="hover_section.help.video"
@@ -140,7 +142,7 @@ export default defineComponent({
           pull: "clone",
         },
         sort: false,
-        ghostClass: "sortable-ghost",  // Class name for the drop placeholder
+        ghostClass: "sortable-ghost", // Class name for the drop placeholder
 
         onStart: function (/**Event*/ evt) {
           const item_seed = evt.item.getAttribute("data-seed");
@@ -153,7 +155,6 @@ export default defineComponent({
         onEnd: function (/**Event*/ evt) {
           _self.setDragMode(false);
         },
-
       });
 
       this.sortables_group.push(sortable);
