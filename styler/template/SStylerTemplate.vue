@@ -438,7 +438,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   &:hover {
     // Fix some over lapping of stylers!
-    z-index: 250;
+    z-index: 2500 !important;
   }
 
   .styler-button {
