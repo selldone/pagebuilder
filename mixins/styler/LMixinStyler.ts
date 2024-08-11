@@ -54,18 +54,22 @@ export const LMixinStyler = defineComponent({
 
   computed: {},
   watch: {
-    isVisible(){
-      console.log('isVisible',this.isVisible)
+    isVisible() {
+      if (window.innerWidth > 2440) {
+        this.$builder.focusMode = false;
+        return;
+      }
+      console.log("isVisible", this.isVisible);
       this.$nextTick(() => {
-        if ($('div.styler.is-visible').length > 0) {
+        if ($("div.styler.is-visible").length > 0) {
           console.log("At least one styler is visible.");
-          this.$builder.focusMode=true;
+          this.$builder.focusMode = true;
         } else {
           console.log("No styler is currently visible.");
-          this.$builder.focusMode=false;
+          this.$builder.focusMode = false;
         }
       });
-    }
+    },
   },
 
   created() {},
@@ -176,9 +180,9 @@ export const LMixinStyler = defineComponent({
             });
           },
           /* {
-                                                                         layoutShift: true,
-                                                           
-                                                                       }*/
+                                                                                   layoutShift: true,
+                                                                     
+                                                                                 }*/
         );
       }
     },
@@ -226,10 +230,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                                                            if (this.popper) {
-                                                                                                              this.popper.destroy();
-                                                                                                              this.popper = null;
-                                                                                                            }*/
+                                                                                                                  if (this.popper) {
+                                                                                                                    this.popper.destroy();
+                                                                                                                    this.popper = null;
+                                                                                                                  }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!
