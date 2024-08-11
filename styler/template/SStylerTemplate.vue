@@ -452,13 +452,6 @@ input[type="number"]::-webkit-outer-spin-button {
   @media only screen and (max-width: 600px) {
     overflow: auto;
     max-width: 96%;
-    // transform: unset !important;
-    //top: unset !important;
-    // left: 2% !important;
-    // bottom: 0 !important;
-    // border-radius: 8px !important;
-    // border: solid #1a2128 medium;
-    // padding: 4px 12px;
 
     ul {
       max-width: 100%;
@@ -503,6 +496,21 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   //------------------ End Styler dot color ------------------
+
+
+  @media screen and (max-width: 600px) {
+.styler-button{
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  .v-icon{
+    font-size: 14px !important;
+    height: 14px !important;
+    width: 14px !important;
+  }
+}
+  }
+
 }
 
 //------------------ Slop polygon ------------------

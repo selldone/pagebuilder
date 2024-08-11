@@ -19,7 +19,7 @@ import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
 import {CONSOLE} from "@selldone/core-js/helper";
-//import {Section} from "@selldone/page-builder/src/section/section.ts";
+import LeaderLine from "vue3-leaderline";
 
 export const LMixinStyler = defineComponent({
   mixins: [LMixinEvents],
@@ -49,12 +49,26 @@ export const LMixinStyler = defineComponent({
     return {
       isVisible: false,
       selection: null, // Keep selection range by user (text selection)
+      line: null,
     };
   },
 
   computed: {},
   watch: {
-    isVisible() {
+    isVisible(visible) {
+      if (visible) {
+        this.checkLine();
+        if (this.line) {
+          this.line.show("draw");
+        }
+      } else {
+        if (this.line) {
+          // this.line.remove()
+          // this.line=null
+          this.line.hide("draw");
+        }
+      }
+
       if (window.innerWidth > 2440) {
         this.$builder.focusMode = false;
         return;
@@ -96,6 +110,10 @@ export const LMixinStyler = defineComponent({
       this,
     );
 
+    if (this.line) {
+      this.line.remove();
+    }
+
     EventBus.$off(LEventsName.PAGE_BUILDER_STYLER_OPEN);
 
     this.el?.classList.remove("is-editable");
@@ -104,6 +122,29 @@ export const LMixinStyler = defineComponent({
   },
 
   methods: {
+    checkLine() {
+      if (this.line) return;
+      try {
+        const referenceEl = this.el;
+        const floatingEl = this.$refs.styler.$el
+          ? this.$refs.styler.$el /*Vue components*/
+          : this.$refs.styler; /*Native elements*/
+
+        //console.log("- - - - - - >", floatingEl.firstElementChild, referenceEl);
+
+        this.line = new LeaderLine(referenceEl, floatingEl, {
+          color: "#20262e",
+          size: 2,
+          dash: true,
+          startPlug: 'disc',
+        });
+
+        this.line.hide();
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
     checkProper() {
       if (!this.cleanup) {
         //  const position = this.position;
@@ -132,7 +173,7 @@ export const LMixinStyler = defineComponent({
           return;
         }
 
-        const PADDING = 15;
+        const PADDING = 100;
         // When the floating element is open on the screen
         this.cleanup = autoUpdate(
           referenceEl,
@@ -168,6 +209,7 @@ export const LMixinStyler = defineComponent({
                           PADDING,
                       };
                     }
+
                     return {};
                   },
                 },
@@ -177,17 +219,22 @@ export const LMixinStyler = defineComponent({
                 left: `${out.x}px`,
                 top: `${out.y}px`,
               });
+              this.line?.position();
             });
           },
           /* {
-                                                                                   layoutShift: true,
-                                                                     
-                                                                                 }*/
+                                                                                             layoutShift: true,
+                                                                               
+                                                                                           }*/
         );
       }
     },
 
     showStyler(event: Event) {
+      if(this.$vuetify.display.xs){
+        event.stopPropagation();
+      }
+
       CONSOLE.log("Styler Mixin | showStyler", this);
 
       // console.log("showStyler", this.isVisible);
@@ -230,10 +277,10 @@ export const LMixinStyler = defineComponent({
       }
 
       /*
-                                                                                                                  if (this.popper) {
-                                                                                                                    this.popper.destroy();
-                                                                                                                    this.popper = null;
-                                                                                                                  }*/
+                                                                                                                        if (this.popper) {
+                                                                                                                          this.popper.destroy();
+                                                                                                                          this.popper = null;
+                                                                                                                        }*/
       document.removeEventListener("click", this.hideStyler, true);
 
       this.OnPageBuilderStylerOpen(this.type, false); //Signal to other stylers about hiding this styler!

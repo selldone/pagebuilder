@@ -18,6 +18,7 @@
     class="l--page-editor-side-menu no-inv overflow-hidden elevation-3"
     :class="{
       'is-visible': isVisible,
+      'pen usn': !isVisible,
       '-scroll-down': isScrollDown,
       '-dragged': is_dragged,
       '-small': $vuetify.display.xs,
