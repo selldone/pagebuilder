@@ -61,7 +61,7 @@ import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObjec
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { isObject } from "lodash-es";
 import DynamicScriptDirective from "@selldone/components-vue/directives/script/DynamicScriptDirective.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 
 export default {
   name: "XCode",
@@ -107,7 +107,6 @@ export default {
 
   methods: {
     refreshCode() {
-      console.log('this.object.data',this.object.data)
       // Auto detect mode if it's not set:
       const mode = this.object.data.mode
         ? this.object.data.mode
