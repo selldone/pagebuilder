@@ -264,10 +264,20 @@ export default {
     };
   },
   computed: {
-    upload_server() {
-      return window.API.POST_SHOP_AUGMENT_UPLOAD_IMAGE(
-        this.$route.params.shop_id,
+    IS_VENDOR_PANEL() {
+      /*🟢 Vendor Panel 🟢*/
+      return (
+        this.$route.params.vendor_id &&
+        this.$route.matched.some((record) => record.meta.vendor)
       );
+    },
+
+    upload_server() {
+      return this.IS_VENDOR_PANEL
+        ? window.VAPI.POST_MY_VENDOR_AUGMENT_UPLOAD_IMAGE(
+            this.$route.params.vendor_id,
+          )
+        : window.API.POST_SHOP_AUGMENT_UPLOAD_IMAGE(this.$route.params.shop_id);
     },
   },
 
