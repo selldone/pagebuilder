@@ -59,6 +59,7 @@
                 title="Key"
                 variant="plain"
                 @change="$emit('change')"
+                class="hover-editable"
                 @keydown.enter="item.key ? editings.remove(item) : undefined"
               ></v-text-field>
               <div
@@ -99,6 +100,7 @@
                 placeholder="Enter a value..."
                 title="Value"
                 variant="plain"
+                class="hover-editable"
                 @change="$emit('change')"
               ></v-text-field>
             </td>
