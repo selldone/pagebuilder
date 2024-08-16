@@ -56,17 +56,22 @@
     max-width="1420"
     content-class="rounded-t-xl"
   >
-    <v-card rounded="t-xl">
+    <v-card rounded="t-xl" class="text-start" color="#212121">
+      <v-card-title>
+        <v-icon>lightbulb</v-icon>
+        <span class="ms-2">My AI Copywriter</span>
+      </v-card-title>
       <v-card-text>
         <div class="pa-3 pa-sm-5">
           <div class="d-flex">
             <v-spacer></v-spacer>
             <b-ai-model-input
-              v-model="ai_model"
+model-value="chatgpt"
               class="max-w-300"
               hide-details
               label="label"
               variant="outlined"
+single-line
             >
             </b-ai-model-input>
           </div>
@@ -74,16 +79,16 @@
           <v-textarea
             v-model="page.prompt"
             :counter="512"
-            :rows="2"
+            :rows="3"
             :rules="[GlobalRules.counter(512)]"
             auto-grow
             class="mt-3"
             hide-details
-            label="Prompt"
             persistent-placeholder
             placeholder="Write short about this page..."
-            style="font-size: 1.2em; font-weight: 600"
-            variant="underlined"
+            variant="solo-filled"
+            bg-color="#2f2f2f"
+            rounded="lg"
           >
           </v-textarea>
 
@@ -102,11 +107,7 @@
               Click on the AI button on the left side of each section, and we
               will automatically generate content and replace the existing text.
             </li>
-            <li>
-              To customize each prompt of the fields in the sections, use the
-              following pattern: <code>prompt: write your prompt...</code> or
-              <code>🆕write your prompt...</code>.
-            </li>
+
           </ol>
 
           <div v-if="false" class="widget-buttons mb-3">
@@ -137,12 +138,14 @@ import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 import {CONSOLE} from "@selldone/core-js";
+import BAiModelInput from "@selldone/components-vue/backoffice/ai/model/input/BAiModelInput.vue";
 
 export default defineComponent({
   name: "LMenuTopAi",
   components: {
     UButtonAiSmall,
     USmartSuggestion,
+    BAiModelInput
   },
   inject: ["$builder", "$shop"],
   props: {},
