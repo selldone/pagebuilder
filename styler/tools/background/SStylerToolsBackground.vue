@@ -39,10 +39,10 @@
         Background Image / Video / Pattern
 
         <v-chip
-            v-if="target.background.bg_color"
-            class="ma-1"
-            pill
-            size="x-small"
+          v-if="target.background.bg_color"
+          class="ma-1"
+          pill
+          size="x-small"
         >
           <v-icon :color="target.background.bg_color" start>circle</v-icon>
           {{ target.background.bg_color }}

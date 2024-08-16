@@ -67,11 +67,11 @@ export class LModelBackground {
 
   hasValue(): boolean {
     return (
-      this.bg_custom ||
-      this.bg_gradient ||
-      this.bg_image ||
-      this.bg_color ||
-      this.bg_video
+      !!this.bg_custom ||
+      !!this.bg_gradient ||
+      !!this.bg_image ||
+      !!this.bg_color ||
+      !!this.bg_video
     );
   }
 

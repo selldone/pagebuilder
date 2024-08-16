@@ -130,7 +130,7 @@ const StylerDirective: ObjectDirective<
     if (!isEditing) return;
 
     // Get section from parent section
-    const section: Section = instance.$section;
+    const section: Section = instance.$section?instance.$section:instance.section/*for <x-section> */;
     el.$section = section; // To accessible from element.
 
     CONSOLE.log(
@@ -146,6 +146,9 @@ const StylerDirective: ObjectDirective<
       "isEditing",
       builder?.isEditing ? "✅" : "❌",
     );
+    if(!section){
+      console.error("❌ Page builder | Styler | Section not found!", el,binding);
+    }
 
     const newNode = document.createElement("div");
     const rootApp = instance.$root!.$el;

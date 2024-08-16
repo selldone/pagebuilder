@@ -20,6 +20,7 @@
     :augment="augment"
     v-bind="object.props"
     ref="wrapper"
+    :remove-child="removeChild"
   >
     <!--  <div
       v-if="component === 'XSection'"

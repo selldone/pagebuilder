@@ -98,7 +98,7 @@
 
       <li>
         <button class="styler-button" @click="removeSection">
-          <SStylerIcon name="trash" />
+          <v-icon color="red">close</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black text-white"

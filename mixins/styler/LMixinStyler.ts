@@ -219,7 +219,11 @@ export const LMixinStyler = defineComponent({
                 left: `${out.x}px`,
                 top: `${out.y}px`,
               });
-              this.line?.position();
+              try{
+                this.line?.position();
+              }catch (e) {
+                //console.error(e);
+              }
             });
           },
           /* {
