@@ -79,6 +79,32 @@
           </v-tooltip>
         </v-btn>
       </li>
+
+      <!-- ―――――――――――――――――― Wrap / Scroll Mode ―――――――――――――――――― -->
+
+      <li v-if="hasWrap">
+        <button class="styler-button" @click="toggleNoWrap">
+          <v-icon size="20"
+            >{{ target.data.no_wrap ? "view_column" : "view_comfy" }}
+          </v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-white"
+            location="bottom"
+            >Wrap / Nowrap
+
+            <v-img
+              :src="
+                target.data.no_wrap
+                  ? require('../../assets/images/wrap/row-no-wrap.svg')
+                  : require('../../assets/images/wrap/row-wrap.svg')
+              "
+              class="mx-auto op-0-5"
+              width="120"
+            ></v-img>
+          </v-tooltip>
+        </button>
+      </li>
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -173,6 +199,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    hasWrap: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     ALIGN: ALIGN,
@@ -205,8 +236,16 @@ export default {
           ? {
               view_mode: false,
             }
-          : {  view_mode: true },
+          : { view_mode: true },
       );
+    },
+
+    toggleNoWrap() {
+      this.target.data.no_wrap = !this.target.data.no_wrap;
+      if (this.target.data.no_wrap) {
+        // In the no wrap mode the justify value should be start! (In center mode, children will be cropped)
+        this.target.data.justify = "start";
+      }
     },
   },
 };

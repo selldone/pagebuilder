@@ -19,6 +19,7 @@ export class XProductsObjectData extends LModelData<XProductsObjectData> {
   align: XRowObjectDataTypes.IAlign = "center";
   justify: XRowObjectDataTypes.IJustify = "center";
   filter: XProductsObjectData.IFilter = {};
+  no_wrap: boolean = false;
 
   constructor(params?: Partial<XProductsObjectData>) {
     super();
@@ -26,6 +27,7 @@ export class XProductsObjectData extends LModelData<XProductsObjectData> {
     this.align = params?.align ?? "center";
     this.justify = params?.justify ?? "center";
     this.filter = params?.filter ?? {};
+    this.no_wrap = params?.no_wrap ?? false;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━

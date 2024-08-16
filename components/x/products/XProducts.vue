@@ -15,7 +15,7 @@
 
 <template>
   <s-products-listing
-    v-styler:products="{ target: object, hasArrangement: true }"
+    v-styler:products="{ target: object, hasArrangement: true, hasWrap: true }"
     :align="object.data.align"
     :justify="object.data.justify"
     :force-mode-view="mode_view"
@@ -23,6 +23,7 @@
     :force-package="forcePackage"
     :shop="shop"
     :view-only="is_editing"
+    :force-single-line="object.data.no_wrap"
     landing-page-mode
     silent
     class="x--products"
@@ -33,7 +34,7 @@
 
 <script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
-import {ApplyAugmentToObject, CONSOLE} from "@selldone/core-js";
+import { ApplyAugmentToObject, CONSOLE } from "@selldone/core-js";
 import { XProductsObject } from "@selldone/page-builder/components/x/products/XProductsObject.ts";
 import SProductsListing from "@selldone/components-vue/storefront/products/listing/SProductsListing.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
@@ -119,9 +120,8 @@ export default {
 
 <style lang="scss">
 .x--products {
-  &.is-editable{
+  &.is-editable {
     min-height: 10vh;
   }
-
 }
 </style>

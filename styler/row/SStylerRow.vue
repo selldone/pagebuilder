@@ -82,8 +82,8 @@
             <v-img
               :src="
                 target.data.no_wrap
-                  ? require('./assets/row-no-wrap.svg')
-                  : require('./assets/row-wrap.svg')
+                  ? require('../../assets/images/wrap/row-no-wrap.svg')
+                  : require('../../assets/images/wrap/row-wrap.svg')
               "
               class="mx-auto op-0-5"
               width="120"
