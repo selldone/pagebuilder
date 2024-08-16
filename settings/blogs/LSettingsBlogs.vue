@@ -98,12 +98,23 @@
           <s-setting-toggle
             v-model="target.data.card.flat"
             :items="[
-              { title: 'Flat', icon: 'layers_clear', value: false },
-              { title: 'Elevated', icon: 'layers', value: true },
+              { title: 'Flat', icon: 'layers_clear', value: true },
+              { title: 'Elevated', icon: 'layers', value: false },
             ]"
             icon="layers"
             label="Elevated"
           ></s-setting-toggle>
+          <v-expand-transition>
+          <div     v-if="!target.data.card.flat">
+            <s-setting-number-input
+
+                v-model="target.data.card.elevation"
+                :min="0"
+                :max="16"
+            >
+            </s-setting-number-input>
+          </div>
+          </v-expand-transition>
 
           <!-- ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Corner ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ -->
           <s-setting-toggle
@@ -132,25 +143,19 @@
             icon="palette"
             label="Card color"
           ></s-setting-color>
-
-
         </s-setting-group>
 
-
         <l-settings-style-grid
-            v-model:grid="target.data.grid"
-            :expandable="false"
+          v-model:grid="target.data.grid"
+          :expandable="false"
         >
-
         </l-settings-style-grid>
-
-
       </v-card-text>
     </v-card>
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { isNumber, isObject } from "lodash-es";
 import SSettingGroup from "../../styler/settings/group/SSettingGroup.vue";
@@ -165,6 +170,8 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
+import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {XFeederBlogsObject} from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
 
 export default {
   name: "LSettingsBlogs",
@@ -188,7 +195,7 @@ export default {
     tab: null,
 
     el: null,
-    target: null,
+    target: null as XFeederBlogsObject,
 
     //----------------------- Products Filter -----------------------
 

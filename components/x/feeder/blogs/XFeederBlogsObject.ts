@@ -63,6 +63,7 @@ export class XFeederBlogsObject extends LModelElement<XFeederBlogsObjectData> {
     instance.data.grid.desktop = 3;
 
     instance.data.card.rounded = "xl";
+    instance.data.card.elevation = 5;
 
     return instance;
   }

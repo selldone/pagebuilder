@@ -27,12 +27,6 @@
       <span class="me-1">Blogs Feeder</span>
 
       <v-expand-x-transition group>
-        <v-progress-circular
-          v-if="busy"
-          key="l"
-          indeterminate
-        ></v-progress-circular>
-
         <v-chip
           v-if="articles?.length"
           key="p"
@@ -42,6 +36,12 @@
           ><b>{{ articles.length }}</b
           >x articles
         </v-chip>
+
+        <v-progress-circular
+          v-if="busy"
+          key="l"
+          indeterminate
+        ></v-progress-circular>
       </v-expand-x-transition>
     </v-sheet>
   </v-col>
@@ -74,6 +74,7 @@
       :color="card?.color"
       :dark="card?.dark"
       :flat="card?.flat"
+      :elevation="card?.elevation"
       :rounded="card?.rounded"
       :style="{ pointerEvents: $builder.isEditing ? 'none' : 'unset' }"
       :view-only="$builder.isEditing"

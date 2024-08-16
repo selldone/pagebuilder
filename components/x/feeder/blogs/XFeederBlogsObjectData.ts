@@ -37,6 +37,8 @@ export class XFeederBlogsObjectData extends LModelData<XFeederBlogsObjectData> {
     this.grid = params?.grid ?? {};
 
     this.card = params?.card ?? {};
+
+    if (this.card.elevation === undefined) this.card.elevation = 5;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
@@ -61,5 +63,6 @@ export namespace XFeederBlogsObjectDataTypes {
     dark?: boolean;
     flat?: boolean;
     rounded?: 0 | "sm" | "md" | "lg" | "xl";
+    elevation?: number;
   };
 }
