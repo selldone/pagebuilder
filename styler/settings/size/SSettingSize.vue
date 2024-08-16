@@ -30,8 +30,9 @@
         v-if="defaultValue && (modelValue === null || modelValue === undefined)"
         @click="$emit('update:modelValue', defaultValue)"
         size="small"
-        variant="plain"
+        variant="tonal"
         prepend-icon="shortcut"
+        color="#B2EBF2"
       >
         Set <span v-if="defaultValue!=='unset'" style="font-size: 9px" class="ms-1 tnt">[{{defaultValue}}]</span>
       </v-btn>

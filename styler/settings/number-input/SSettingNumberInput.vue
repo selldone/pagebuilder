@@ -33,8 +33,9 @@
           "
           @click="$emit('update:modelValue', defaultValue)"
           size="small"
-          variant="plain"
+          variant="tonal"
           prepend-icon="shortcut"
+          color="#B2EBF2"
         >
           Set
           <span

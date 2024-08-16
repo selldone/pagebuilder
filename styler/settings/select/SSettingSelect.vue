@@ -31,9 +31,10 @@
         v-if="defaultValue && (modelValue === null || modelValue === undefined)"
         @click="$emit('update:modelValue', defaultValue)"
         size="small"
-        variant="plain"
+        variant="tonal"
         prepend-icon="shortcut"
         class="flex-grow-0"
+        color="#B2EBF2"
       >
         Set Value
         <span

@@ -58,9 +58,10 @@
             defaultValue && (modelValue === null || modelValue === undefined)
           "
           @click="$emit('update:modelValue', defaultValue)"
-          variant="plain"
+          variant="tonal"
           size="small"
           prepend-icon="shortcut"
+          color="#B2EBF2"
         >
           Set
           <span style="font-size: 9px" class="ms-1 tnt"
