@@ -13,7 +13,12 @@
   -->
 
 <template>
-  <s-setting-expandable :value="value" icon="grid_on" title="Grid">
+  <component
+    :is="expandable ? 's-setting-expandable' : 's-setting-group'"
+    :value="value"
+    icon="grid_on"
+    title="Grid"
+  >
     <template v-slot:title>
       <s-setting-chip
         v-for="item in DEVICES.filter((i) => !!grid[i.key])"
@@ -39,7 +44,7 @@
       clearable
     >
     </s-setting-column>
-  </s-setting-expandable>
+  </component>
 </template>
 
 <script>
@@ -64,6 +69,10 @@ export default defineComponent({
     inputStyle: {},
 
     grid: {},
+    expandable: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   data() {

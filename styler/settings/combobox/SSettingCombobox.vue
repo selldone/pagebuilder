@@ -30,7 +30,7 @@
       :model-value="modelValue"
       :return-object="false"
       chips
-      class="my-1"
+      class="my-1 v-input-small"
       closable-chips
       color="#1976D2"
       density="compact"
@@ -39,7 +39,7 @@
       placeholder="Select..."
       single-line
       style="min-width: 200px"
-      variant="plain"
+      variant="outlined"
       @update:model-value="(val) => setValue(val)"
     >
       <template v-slot:chip="{ item, props }">

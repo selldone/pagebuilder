@@ -10,12 +10,13 @@
   - Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
   - Our journey is not just about reaching a destination, but about creating a masterpiece.
   - Tread carefully, for you're treading on dreams.
+
+  - SHo img always: old ->  v-if="src || blobUrl || $builder.isEditing"
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <component
     :is="link && !$builder.isEditing ? 'a' : 'div'"
-    v-if="src || blobUrl || $builder.isEditing"
     @mouseenter="showToolbar"
     ref="i_image"
     v-data-x="object.style"

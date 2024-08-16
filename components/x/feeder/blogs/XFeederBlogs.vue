@@ -46,7 +46,7 @@
     </v-sheet>
   </v-col>
 
-  <template v-if="busy">
+  <template v-if="busy && !articles.length">
     <v-col v-for="i in 4" :key="i" cols="6" sm="3">
       <v-skeleton-loader
         :type="['table-heading', 'list-item-two-line', 'image']"
@@ -84,9 +84,10 @@
 <script lang="ts">
 import StylerDirective from "../../../../styler/StylerDirective.ts";
 import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts";
-import {Article, CONSOLE} from "@selldone/core-js";
+import { Article, CONSOLE } from "@selldone/core-js";
 import SBlogCard from "@selldone/components-vue/storefront/blog/card/SBlogCard.vue";
 import { XFeederBlogsObject } from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
+import _ from "lodash-es";
 
 export default {
   name: "XFeederBlogs",
@@ -123,12 +124,14 @@ export default {
     },
   },
   watch: {
-    filter(filter) {
-      if (filter instanceof Object) {
-        CONSOLE.log("✻ Change blog filter.");
-
-        this.fetchBlogs();
-      }
+    filter: {
+      handler: _.debounce(function (filter) {
+        if (filter instanceof Object) {
+          console.log("✻ Change blog filter.");
+          this.fetchBlogs();
+        }
+      }, 1500), // 3-second debounce
+      deep: true,
     },
   },
 
