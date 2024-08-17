@@ -15,11 +15,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-start">
     <s-widget-header
-      add-caption="Add New Item"
-      add-sub-caption="Add custom key-value pair."
+      :add-caption="$t('augment_form.add_caption')"
+      :add-sub-caption="$t('augment_form.add_sub_caption')"
       add-text
       icon="extension"
-      title="Augmentation"
+      :title="$t('augment_form.title')"
       @click:add="show_add = true"
     >
       <template v-slot:append-title>
@@ -30,8 +30,7 @@
     </s-widget-header>
 
     <v-list-subheader>
-      Input the key that will be swapped with its corresponding value in the
-      page content. Keys should be max 32 characters.
+      {{ $t("augment_form.subtitle") }}
     </v-list-subheader>
 
     <v-table class="bg-transparent min-height-10vh">
@@ -130,19 +129,23 @@
       width="96%"
     >
       <v-card class="rounded-t-xl text-start">
-        <v-card-title> Select input type</v-card-title>
+        <v-card-title>{{ $t("augment_form.add_dialog.title") }}</v-card-title>
         <v-card-text>
           <v-list>
             <v-list-item prepend-icon="title" @click="addTextItem">
-              <v-list-item-title>Text & Html</v-list-item-title>
-              <v-list-item-subtitle
-                >The item's value can be designated as either text or HTML.
+              <v-list-item-title>{{
+                $t("augment_form.add_dialog.html.title")
+              }}</v-list-item-title>
+              <v-list-item-subtitle>
+                {{ $t("augment_form.add_dialog.html.subtitle") }}
               </v-list-item-subtitle>
             </v-list-item>
             <v-list-item prepend-icon="image" @click="addImageItem">
-              <v-list-item-title>Image</v-list-item-title>
-              <v-list-item-subtitle
-                >You can upload an image.
+              <v-list-item-title>{{
+                $t("augment_form.add_dialog.image.title")
+              }}</v-list-item-title>
+              <v-list-item-subtitle>
+                {{ $t("augment_form.add_dialog.image.subtitle") }}
               </v-list-item-subtitle>
             </v-list-item>
           </v-list>
@@ -160,74 +163,56 @@
       <v-card class="text-start">
         <v-card-title>
           <v-icon class="me-1" color="#111">help</v-icon>
-          How to use dynamic content
+
+          {{ $t("augment_form.help_dialog.title") }}
         </v-card-title>
 
         <v-card-text>
           <v-container class="typo-body max-width-container-1280px">
-            <p>
-              In the landing pages, you have the flexibility to designate
-              dynamic placeholders for both text and images. These placeholders
-              serve a significant role in customizing the content according to
-              the context.
-            </p>
-            <p>
-              The dynamic nature of these placeholders allows them to be
-              populated by augmentation values, which can vary based on
-              different factors. For example, the augmentation values might be
-              different for each product or category.
-            </p>
-            <p>
-              The real advantage of this feature comes into play when you have a
-              variety of items with differing attributes. You can effectively
-              utilize these dynamic placeholders to personalize and enhance the
-              display of each item, thereby creating a unique and interactive
-              experience on your landing pages.
-            </p>
+            <p v-html="$t('augment_form.help_dialog.how_it_works_tips')"></p>
+
             <v-img
               :aspect-ratio="2000 / 1290"
               :src="require('./assets/agument-1.png')"
-              class="my-10 mx-auto"
+              class="mx-auto  border rounded-xl my-10 elevation-4"
               max-width="640"
             ></v-img>
-            <p>
-              To assign dynamic values to images, click on the feeder button
-              located on the left side of the section.
-            </p>
+
+            <p v-html="$t('augment_form.help_dialog.assign_tips')"></p>
+
             <v-img
               :aspect-ratio="2000 / 1290"
               :src="require('./assets/agument-2.png')"
-              class="my-10 mx-auto"
+              class="mx-auto  border rounded-xl my-10 elevation-4"
               max-width="640"
             ></v-img>
-            <p>
-              You now have the ability to modify the image URL and assign it a
-              dynamic value.
-            </p>
-            <v-img
-              :aspect-ratio="2000 / 1290"
-              :src="require('./assets/agument-3.png')"
-              class="my-10 mx-auto"
-              max-width="640"
-            ></v-img>
-            <p>
-              For every product, you have the ability to assign dedicated
-              key-value pairs.
-            </p>
+
+            <p
+              v-html="$t('augment_form.help_dialog.set_dynamic_image_tips')"
+            ></p>
+
+              <v-img
+                  :aspect-ratio="2000 / 1290"
+                  :src="require('./assets/agument-3.png')"
+                  max-width="640"
+                  class="mx-auto  border rounded-xl my-10 elevation-4"
+              ></v-img>
+
+            <p v-html="$t('augment_form.help_dialog.enter_values_tips')"></p>
+
             <v-img
               :aspect-ratio="2000 / 1290"
               :src="require('./assets/agument-4.png')"
-              class="my-10 mx-auto"
+              class="mx-auto border rounded-xl my-10 elevation-4"
               max-width="640"
             ></v-img>
-            <p>
-              This is the final outcome of the page, where placeholders have
-              been substituted with augmented values.
-            </p>
+
+            <p v-html="$t('augment_form.help_dialog.result_tips')"></p>
+
             <v-img
               :aspect-ratio="2000 / 1290"
               :src="require('./assets/agument-5.png')"
-              class="my-10 mx-auto"
+              class="mx-auto  border rounded-xl my-10 elevation-4"
               max-width="640"
             ></v-img>
           </v-container>
