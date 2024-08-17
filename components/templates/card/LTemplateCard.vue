@@ -29,7 +29,7 @@
     <v-img
       :src="getShopImagePath(template.image)"
       aspect-ratio="1"
-      class="rounded-2rem elevation-3"
+      class="rounded-2rem"
       cover
     >
       <template v-slot:placeholder>
