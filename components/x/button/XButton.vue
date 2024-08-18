@@ -47,6 +47,10 @@
     class="x--button tnt -trackable"
     v-html="object.data.content?.applyAugment(augment, is_editing)"
     :tag="is_editing ? 'a' : undefined"
+    :cloneable="true"
+    @click="
+      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+    "
   >
   </v-btn>
 </template>

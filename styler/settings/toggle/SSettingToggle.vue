@@ -33,7 +33,7 @@
         :items="items"
         :mandatory="mandatory"
         :model-value="modelValue"
-        class="d-flex flex-nowrap overflow-auto"
+        class="d-flex flex-nowrap overflow-x-auto overflow-y-hidden hide-scroll"
         base-color="#fff"
         style="background: #444"
         rounded="lg"

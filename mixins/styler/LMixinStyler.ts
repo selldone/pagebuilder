@@ -572,11 +572,11 @@ export const LMixinStyler = defineComponent({
       //    let doc = new DOMParser().parseFromString(pastedContent, "text/html");
       //  const pure = doc.body.textContent.trim() || "";
 
-      const pure = pastedContent.replace(/(\r\n|\n|\r)/gm, "");
+   //   const pure = pastedContent.replace(/(\r\n|\n|\r)/gm, "<br>");
       // console.log("Past", 'pure', pure);
 
       //  console.log('pure',pure)
-      this.el.insertAtCaret(pure);
+      this.el.insertAtCaret(pastedContent);
     },
   },
 });

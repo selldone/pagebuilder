@@ -46,7 +46,7 @@
       <div>
         <v-btn
           :disabled="!has_undo"
-          :title="$t('global.commons.undo')"
+          :title="$t('global.commons.undo') + ' (⌘Ctrl + Z)'"
           @click.stop="history.undo()"
           prepend-icon="undo"
           variant="text"
@@ -59,6 +59,7 @@
         <v-btn
           :disabled="!has_redo"
           @click.stop="history.redo()"
+          :title="$t('global.commons.redo') + ' (⌘Ctrl + Y)'"
           prepend-icon="redo"
           variant="text"
           size="small"
@@ -441,7 +442,7 @@
         <v-btn-group color="#000" rounded="xl">
           <v-btn
             :disabled="!has_undo"
-            :title="$t('global.commons.undo')"
+            :title="$t('global.commons.undo') + ' (⌘Ctrl + Z)'"
             stacked
             @click.stop="history.undo()"
           >
@@ -449,7 +450,7 @@
             <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
           </v-btn>
 
-          <v-btn :disabled="!has_redo" stacked @click.stop="history.redo()">
+          <v-btn :disabled="!has_redo" stacked @click.stop="history.redo()"     :title="$t('global.commons.redo') + ' (⌘Ctrl + Y)'">
             <v-icon>redo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
           </v-btn>
@@ -461,6 +462,7 @@
             icon
             stacked
             @click.stop="$builder.toggleCloneStyleMode()"
+            title="⌘Ctrl + E"
           >
             <v-icon>colorize</v-icon>
             <div class="small mt-1 tnt">Clone</div>

@@ -23,6 +23,10 @@
     :class="[object.classes, { 'is-editable': $builder.isEditing }]"
     :style="[object.style, background_style]"
     v-html="object.data?.value?.applyAugment(augment, $builder.isEditing)"
+    :cloneable="true"
+    @click="
+        $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+    "
   ></component>
 </template>
 

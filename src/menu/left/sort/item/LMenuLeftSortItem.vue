@@ -18,6 +18,7 @@
     :height="height"
     color="#fff"
     class="l--sort-item"
+    v-intersect.once="render"
   >
     <template v-slot:placeholder>
       <div v-if="error" class="pa-2 small text-center center-absolute w-100">
@@ -57,7 +58,7 @@ export default defineComponent({
   watch: {
     section() {
       this.$nextTick(() => {
-        this.render();
+       // this.render();
       });
     },
   },
@@ -65,7 +66,7 @@ export default defineComponent({
   mounted() {
 
     this.$nextTick(() => {
-      this.render();
+   //   this.render();
     });
   },
 

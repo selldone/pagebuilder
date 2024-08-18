@@ -83,6 +83,23 @@ export class XButtonObject extends LModelElement<XButtonObjectData> {
     );
   }
 
+  // ━━━━━━━━━━━━━━━━━ Clone To (Override) ━━━━━━━━━━━━━━━━━
+  public cloneAttributesTo(object: LModelElement<any>) {
+    super.cloneAttributesTo(object);
+    if(object.data instanceof XButtonObjectData){
+      object.data.color =this.data.color
+        object.data.glow =this.data.glow
+        object.data.ripple =this.data.ripple
+        object.data.rounded =this.data.rounded
+        object.data.size =this.data.size
+        object.data.align =this.data.align
+        object.data.variant =this.data.variant
+        object.data.elevation =this.data.elevation
+
+
+    }
+  }
+
   // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
 
   public static JsonToInstance(json: Record<string, any>): XButtonObject {

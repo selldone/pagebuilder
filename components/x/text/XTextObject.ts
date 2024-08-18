@@ -17,6 +17,7 @@ import {LModelBackground} from "@selldone/page-builder/models/background/LModelB
 import {XTextObjectData, XTextObjectDataTypes,} from "@selldone/page-builder/components/x/text/XTextObjectData.ts";
 import {isString} from "lodash-es";
 import {CONSOLE} from "@selldone/core-js/helper";
+import {XButtonObjectData} from "@selldone/page-builder/components/x/button/XButtonObjectData.ts";
 
 export class XTextObject extends LModelElement<XTextObjectData> {
   public static ComponentName = "XText";
@@ -98,6 +99,15 @@ export class XTextObject extends LModelElement<XTextObjectData> {
       data,
       null,
     );
+  }
+
+
+  // ━━━━━━━━━━━━━━━━━ Clone To (Override) ━━━━━━━━━━━━━━━━━
+  public cloneAttributesTo(object: LModelElement<any>) {
+    super.cloneAttributesTo(object);
+    if(object.data instanceof XTextObjectData){
+      object.data.tag =this.data.tag
+    }
   }
 
   // ━━━━━━━━━━━━━━━━━ Interpreter ━━━━━━━━━━━━━━━━━
