@@ -328,7 +328,7 @@
       <b-vendor-input
         v-model="vendor_id"
         :shop="shop"
-        label="Vendor"
+        label="Vendor" clearable
         variant="outlined"
         placeholder="Filter by vendor..."
       ></b-vendor-input>
