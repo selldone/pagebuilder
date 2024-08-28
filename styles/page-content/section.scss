@@ -18,6 +18,15 @@
 
   font-size: var(--base-font-size);
 
+
+  // Solve long words breaking layout
+  word-wrap: break-word;       // Deprecated, but still widely supported
+  overflow-wrap: break-word;   // Preferred and more modern approach
+  word-break: break-word;      // Ensures words are broken at arbitrary points
+  hyphens: auto;               // Adds hyphens when words are broken, where supported
+
+
+
   h1, h2, h3, h4, h5, h6 {
     //font-weight: bolder;
    // margin-left: auto;

@@ -51,7 +51,7 @@
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-menu-top :busy-save="busySave" :saveFunction="saveFunction">
+    <l-menu-top :busy-save="busySave" :saveFunction="saveFunction" :ai-page-generate-function="aiPageGenerateFunction">
     </l-menu-top>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -377,6 +377,9 @@ export default defineComponent({
     busySave: Boolean,
     busyFetch: Boolean,
     saveFunction: {
+      type: Function,
+    },
+    aiPageGenerateFunction: {
       type: Function,
     },
   },

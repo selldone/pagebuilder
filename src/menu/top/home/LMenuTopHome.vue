@@ -19,7 +19,7 @@
         visible_to_user = isIntersecting;
       }
     "
-    class="l--menu-top-tools "
+    class="l--menu-top-tools"
     v-bind="$attrs"
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
@@ -309,6 +309,18 @@
 
     <v-divider vertical></v-divider>
 
+    <u-button-ai-large
+      v-if="aiPageGenerateFunction && page?.id"
+      :loading="busy_ai_page"
+      @click.stop="autoCreatePage"
+      title="Auto Generate Page"
+      size="small"
+      :avatar-size="18"
+      prefix-class=" "
+      class="flex-grow-0"
+    >
+    </u-button-ai-large>
+
     <v-spacer></v-spacer>
 
     <!-- ――――――――――――――――――――――  Livestream ―――――――――――――――――――― -->
@@ -450,7 +462,12 @@
             <span class="small mt-1 tnt">{{ $t("global.commons.undo") }}</span>
           </v-btn>
 
-          <v-btn :disabled="!has_redo" stacked @click.stop="history.redo()"     :title="$t('global.commons.redo') + ' (⌘Ctrl + Y)'">
+          <v-btn
+            :disabled="!has_redo"
+            stacked
+            @click.stop="history.redo()"
+            :title="$t('global.commons.redo') + ' (⌘Ctrl + Y)'"
+          >
             <v-icon>redo</v-icon>
             <span class="small mt-1 tnt">{{ $t("global.commons.redo") }}</span>
           </v-btn>
@@ -473,9 +490,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import { CONSOLE } from "@selldone/core-js/helper/index";
+import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
+import UButtonAiLarge from "@selldone/components-vue/ui/button/ai/large/UButtonAiLarge.vue";
 
 const ShortKeys = {
   "⌘ctrl+z": "Undo",
@@ -498,14 +518,12 @@ export default {
   name: "LMenuTopHome",
 
   components: {
-    UDenseCirclesUsers,
+    UDenseCirclesUsers,UButtonAiLarge
   },
   mixins: [LMixinEvents],
   emits: ["click:save"],
-  inject: ["$builder",'$shop'],
+  inject: ["$builder", "$shop"],
   props: {
-
-
     page: {
       require: true,
     },
@@ -530,6 +548,11 @@ export default {
     demo: Boolean,
 
     liveStream: {},
+
+    aiPageGenerateFunction: {
+      require: false,
+      type: Function,
+    },
   },
 
   data: () => ({
@@ -537,6 +560,8 @@ export default {
     show_hotkeys: false,
 
     visible_to_user: false,
+
+    busy_ai_page: false,
   }),
 
   computed: {
@@ -546,7 +571,7 @@ export default {
     is_popup() {
       return this.$builder.isPopup();
     },
-    is_menu(){
+    is_menu() {
       return this.$builder.isMenu();
     },
 
@@ -572,9 +597,7 @@ export default {
     },
   },
 
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     toggleLandingShowElementsRepository() {
@@ -582,6 +605,27 @@ export default {
         "setLandingShowElementsRepository",
         !this.landing_show_elements_repository,
       );
+    },
+
+    autoCreatePage() {
+      const promise = this.aiPageGenerateFunction();
+      if (!promise) return;
+
+      // console.log("section -> ", section);
+      this.busy_ai_page = true;
+
+      promise
+        .then((data) => {
+          if(data?.page){
+            this.$builder.loadPage(data.page);
+            CONSOLE.log("🆎 AI created page.");
+
+          }
+        })
+
+        .finally(() => {
+          this.busy_ai_page = false;
+        });
     },
   },
 

@@ -310,6 +310,13 @@ export const LMixinEvents = defineComponent({
       });
     },
 
+
+    ShowAiPromptDialog(show:boolean=true) {
+      EventBus.$emit("show:AiPromptDialog", {
+        show:show,
+      });
+    },
+
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**
      * Close all except indicated code! (Almost we call it when a new tool open, and we want to close all other menus)

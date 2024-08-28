@@ -56,6 +56,7 @@
                   saveFunction($builder.export());
                 }
               "
+             :ai-page-generate-function="aiPageGenerateFunction"
             >
             </l-menu-top-home>
           </v-window-item>
@@ -104,6 +105,10 @@ export default defineComponent({
     busySave: {
       type: Boolean,
       default: false,
+    },
+    aiPageGenerateFunction: {
+      require: false,
+      type:Function
     },
   },
 

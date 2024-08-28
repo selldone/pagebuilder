@@ -66,12 +66,12 @@
           <div class="d-flex">
             <v-spacer></v-spacer>
             <b-ai-model-input
-model-value="chatgpt"
+              model-value="chatgpt"
               class="max-w-300"
               hide-details
               label="label"
               variant="outlined"
-single-line
+              single-line
             >
             </b-ai-model-input>
           </div>
@@ -107,19 +107,7 @@ single-line
               Click on the AI button on the left side of each section, and we
               will automatically generate content and replace the existing text.
             </li>
-
           </ol>
-
-          <div v-if="false" class="widget-buttons mb-3">
-            <v-btn
-              :loading="auto_generate_busy"
-              size="x-large"
-              variant="outlined"
-              @click="autoGenerate"
-            >
-              Auto Generate Page
-            </v-btn>
-          </div>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -137,15 +125,15 @@ single-line
 import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
-import {CONSOLE} from "@selldone/core-js";
 import BAiModelInput from "@selldone/components-vue/backoffice/ai/model/input/BAiModelInput.vue";
+import { EventBus } from "@selldone/core-js/events/EventBus.ts";
 
 export default defineComponent({
   name: "LMenuTopAi",
   components: {
     UButtonAiSmall,
     USmartSuggestion,
-    BAiModelInput
+    BAiModelInput,
   },
   inject: ["$builder", "$shop"],
   props: {},
@@ -180,56 +168,21 @@ export default defineComponent({
 
   created() {},
 
-  methods: {
-    autoGenerate() {
-      // Require prompt:
-      if (!this.page.prompt) {
-        this.show_prompt = true;
-        this.showWarningAlert(
-          "Enter Prompt Please",
-          "Kindly set a prompt for the page before proceeding.",
-        );
-        return;
-      }
+  mounted() {
+    EventBus.$on(
+      "show:AiPromptDialog",
 
-      // ┣━━━━━━━━━━━━━━━━━━━━━━━━━━ AI / Auto generate page  ━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-      CONSOLE.log("🆎 AI / Auto generate page.");
-      let url = null;
-      if (this.$shop)
-        url = window.API.POST_AI_PAGE_BUILDER_AUTO_GENERATE(
-          this.$shop.id,
-          this.page.id,
-        );
-      else if (this.isOfficialPage)
-        url = window.ADMIN_API.POST_ADMIN_AI_PAGE_BUILDER_AUTO_GENERATE(
-          this.page.id,
-        );
-      else return;
-
-      this.auto_generate_busy = true;
-
-      axios
-        .post(url)
-        .then(({ data }) => {
-          if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
-          } else {
-            this.$builder.loadPage(data.page);
-
-            this.showSuccessAlert(
-              "Build completed",
-              "Page successfully auto created and loaded.",
-            );
-          }
-        })
-        .catch((error) => {
-          this.showLaravelError(error);
-        })
-        .finally(() => {
-          this.auto_generate_busy = false;
-        });
-    },
+      ({ show }) => {
+        this.show_prompt = show;
+      },
+    );
   },
+
+  beforeUnmount() {
+    EventBus.$off("show:AiPromptDialog");
+  },
+
+  methods: {},
 });
 </script>
 
