@@ -21,8 +21,9 @@
   >
     <v-expand-transition>
       <div v-if="!collapse" class="-header">
-        Drag & Drop
-        <div class="small">Pre-built sections</div>
+
+        {{$t('l_page_editor_repository.title')}}
+        <div class="small">{{$t('l_page_editor_repository.subtitle')}}</div>
       </div>
     </v-expand-transition>
 
@@ -35,7 +36,7 @@
         class="flex-grow-0"
         flat
         hide-details
-        placeholder="Search..."
+        :placeholder="$t('global.placeholders.search')"
         variant="solo"
         @click:append.stop="collapse = !collapse"
         @focus="collapse = false"
@@ -114,8 +115,8 @@
       <v-card rounded="t-xl" class="text-start">
         <v-card-title class="d-flex align-center">
           <v-icon class="me-2" color="#111">add_box</v-icon>
-          Add My Custom Section
 
+{{$t('l_page_editor_repository.add_dialog.title')}}
           <v-spacer></v-spacer>
 
           <v-img
@@ -143,19 +144,18 @@
           <div class="widget-box mb-5">
             <s-widget-header
               icon="tune"
-              title="Configuration"
+              :title="$t('l_page_editor_repository.add_dialog.configuration.title') "
             ></s-widget-header>
             <v-list-subheader>
-              You can save custom-designed sections for later use in your page
-              designs. These saved sections are accessible to all admins in this
-              shop.
+              {{$t('l_page_editor_repository.add_dialog.configuration.subtitle')}}
+
             </v-list-subheader>
 
             <v-text-field
               v-model="title"
-              label="Title"
+              :label="$t('l_page_editor_repository.add_dialog.inputs.title.label')"
               variant="underlined"
-              messages="Public title."
+              :messages="$t('l_page_editor_repository.add_dialog.inputs.title.message')"
             ></v-text-field>
 
             <v-combobox
@@ -163,15 +163,15 @@
               chips
               closable-chips
               variant="underlined"
-              label="Tags"
-              messages="Used for search and categorize elements."
+              :label="$t('l_page_editor_repository.add_dialog.inputs.tags.label')"
+              :messages="$t('l_page_editor_repository.add_dialog.inputs.tags.message')"
               multiple
             ></v-combobox>
           </div>
 
           <div v-if="selected_element" class="widget-box mb-5">
-            <s-widget-header icon="image" title="Image"></s-widget-header>
-            <v-list-subheader>Public image in the list.</v-list-subheader>
+            <s-widget-header icon="image" :title="$t('l_page_editor_repository.add_dialog.image.title') "></s-widget-header>
+            <v-list-subheader>{{$t('l_page_editor_repository.add_dialog.image.subtitle') }}</v-list-subheader>
 
             <s-image-uploader
               :image="getShopImagePath(selected_element.image)"
@@ -191,14 +191,14 @@
           </div>
 
           <div class="widget-box mb-5">
-            <s-widget-header icon="data_object" title="Code"></s-widget-header>
+            <s-widget-header icon="data_object" :title="$t('l_page_editor_repository.add_dialog.code.title') "></s-widget-header>
             <v-list-subheader>
-              You can copy and past the element code form left side of sections
-              in the page builder.
+              {{$t('l_page_editor_repository.add_dialog.code.subtitle')}}
+
             </v-list-subheader>
             <v-textarea
               v-model="section"
-              messages="Copy section on page builder."
+              :messages="$t('l_page_editor_repository.add_dialog.inputs.section.message') "
               @blur="onBlur"
               variant="underlined"
             ></v-textarea>
@@ -232,7 +232,7 @@
               @click="selected_element ? editElement() : addElement()"
             >
               <v-icon start>{{ selected_element ? "save" : "add" }}</v-icon>
-              {{ selected_element ? "Update" : "Add new" }}
+              {{ selected_element ? $t('global.actions.update') : $t('global.actions.add') }}
             </v-btn>
           </div>
         </v-card-actions>

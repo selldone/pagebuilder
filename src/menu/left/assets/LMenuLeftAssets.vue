@@ -99,7 +99,8 @@
         cols="12"
       >
         <v-icon class="ma-2" size="x-large">folder_open</v-icon>
-        No asset uploaded yet.
+
+        {{$t('l_menu_left_assets.no_asset_uploaded')}}
       </v-col>
     </v-row>
   </v-container>

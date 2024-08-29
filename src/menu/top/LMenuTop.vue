@@ -19,21 +19,21 @@
       <v-tabs v-model="tab" align-tabs="start" density="compact" class="mb-2">
         <v-tab value="home" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">home</v-icon>
-          Home
+          {{$t('global.commons.home')}}
         </v-tab>
         <v-tab value="page" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">edit_document</v-icon>
-          Page
+          {{$t('global.commons.page')}}
         </v-tab>
 
         <v-tab value="export" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">fa:fas fa-file-export</v-icon>
-          Export
+          {{$t('global.commons.export')}}
         </v-tab>
 
         <v-tab value="import" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">fa:fas fa-file-import</v-icon>
-          Import
+          {{$t('global.commons.import')}}
         </v-tab>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->

@@ -76,7 +76,7 @@
         class="tnt"
         prepend-icon="keyboard_alt"
       >
-        Hot Keys
+        {{ $t("l_menu_top_home.hot_keys") }}
 
         <v-tooltip
           activator="parent"
@@ -93,7 +93,7 @@
             <b>{{ short_key }}</b
             >: <span v-html="ShortKeys[short_key]"></span>
           </p>
-          <div class="my-2">Click to view all...</div>
+          <div class="my-2">{{ $t("l_menu_top_home.click_to_view_all") }}</div>
         </v-tooltip>
       </v-btn>
     </div>
@@ -111,7 +111,7 @@
         size="small"
         class="tnt"
       >
-        Clone
+        {{ $t("global.commons.clone") }}
 
         <v-tooltip
           activator="parent"
@@ -120,28 +120,27 @@
           max-width="420"
           :open-delay="500"
         >
-          <b class="d-block"> Clone Style </b>
-          Using this tool, you can duplicate styles such as fonts, backgrounds,
-          margins, and borders. To do this, follow these steps:
+          <b class="d-block"
+            >{{ $t("l_menu_top_home.clone_tooltip.title") }}
+          </b>
+          {{ $t("l_menu_top_home.clone_tooltip.subtitle") }}
 
           <ol class="my-1">
             <li>
               <v-icon size="small">near_me arrow_right_alt colorize</v-icon>
-              Enable the tool and hover your mouse over text, columns, or
-              images; the cursor will resemble a pipette.
+              {{ $t("l_menu_top_home.clone_tooltip.step_1") }}
             </li>
-            <li>Click on the target element to copy its style.</li>
+            <li>{{ $t("l_menu_top_home.clone_tooltip.step_2") }}</li>
             <li>
               <v-icon size="small"
                 >colorize arrow_right_alt format_color_fill
               </v-icon>
-              The cursor will revert to a palette; click on the destination
-              element to apply the copied style.
+              {{ $t("l_menu_top_home.clone_tooltip.step_3") }}
             </li>
           </ol>
           <div>
             <v-icon color="amber" size="x-small">circle</v-icon>
-            Hotkey:
+            {{ $t("global.commons.hotkey") }}:
             <v-icon class="mx-1" size="small">sync_alt</v-icon>
             <b>⌘Ctrl + E</b>
           </div>
@@ -184,13 +183,11 @@
               <b class="d-block">
                 {{ $t("page_builder.design.tools.tools") }}
               </b>
-              You have the option to enable or disable the display of the side
-              menu, which includes all section categories for constructing your
-              page.
+              {{ $t("l_menu_top_home.show_side_menu_tooltip.subtitle") }}
 
               <div>
                 <v-icon color="amber" size="x-small">circle</v-icon>
-                Hotkey:
+                {{ $t("global.commons.hotkey") }}:
                 <v-icon class="mx-1" size="small">sync_alt</v-icon>
                 <b>TAB</b>
               </div>
@@ -224,8 +221,7 @@
               <b class="d-block">
                 {{ $t("page_builder.design.tools.rearrange") }}
               </b>
-              When you activate this feature, it will allow you to effortlessly
-              rearrange and reorganize sections by dragging them.
+              {{ $t("l_menu_top_home.sort_tooltip.subtitle") }}
             </v-tooltip>
           </v-btn>
         </div>
@@ -251,7 +247,11 @@
             @click.stop="$builder.isHideExtra = !$builder.isHideExtra"
             :prepend-icon="$builder.isHideExtra ? 'visibility' : 'edit'"
           >
-            {{ !$builder.isHideExtra ? "Edit" : "View" }}
+            {{
+              !$builder.isHideExtra
+                ? $t("global.commons.edit")
+                : $t("global.commons.view")
+            }}
 
             <v-tooltip
               activator="parent"
@@ -260,15 +260,26 @@
               max-width="420"
               :open-delay="500"
             >
-              <b class="d-block"> Edit / View Mode </b>
+              <b class="d-block">
+                {{ $t("l_menu_top_home.edit_mode_tooltip.title") }}</b
+              >
               <div class="my-1">
                 <v-icon size="small">edit</v-icon>
-                <b class="mx-1">Edit Mode:</b> All editing tools will be shown.
+                <b class="mx-1"
+                  >{{
+                    $t("l_menu_top_home.edit_mode_tooltip.edit_mode_title")
+                  }}:</b
+                >
+                {{ $t("l_menu_top_home.edit_mode_tooltip.edit_mode_msg") }}
               </div>
               <div class="my-1">
                 <v-icon size="small">visibility</v-icon>
-                <b class="mx-1">View Mode:</b> View what users see by hiding
-                extra edit tools and empty texts.
+                <b class="mx-1"
+                  >{{
+                    $t("l_menu_top_home.edit_mode_tooltip.view_mode_title")
+                  }}:</b
+                >
+                {{ $t("l_menu_top_home.edit_mode_tooltip.view_mode_msg") }}
               </div>
             </v-tooltip>
           </v-btn>
@@ -285,7 +296,7 @@
             @click.stop="toggleLandingShowElementsRepository()"
             prepend-icon="widgets"
           >
-            Repository
+            {{ $t("global.commons.repository") }}
 
             <v-tooltip
               activator="parent"
@@ -294,11 +305,10 @@
               max-width="420"
               :open-delay="500"
             >
-              <b class="d-block"> Prebuilt Sections </b>
-              Enable or disable the display of pre-constructed and designed
-              sections. These sections are created using standard sections
-              available in the left menu, demonstrating the versatility of this
-              page builder.
+              <b class="d-block">
+                {{ $t("l_menu_top_home.repository_tooltip.title") }}
+              </b>
+              {{ $t("l_menu_top_home.repository_tooltip.subtitle") }}
             </v-tooltip>
           </v-btn>
         </div>
@@ -352,7 +362,7 @@
       <div class="ms-2 flex-grow-1" style="min-width: 160px">
         <template v-if="audiences?.length">
           <b class="d-block fadeInUp small">
-            Live Preview
+            {{ $t("l_menu_top_home.live_view.title") }}
             <v-icon
               v-if="audiences?.length"
               class="mx-1 blink-me"
@@ -364,15 +374,17 @@
           <u-dense-circles-users
             :ids="audiences"
             :limit="5"
-            :size="36"
+            :size="32"
             class="pa-0 overflow-visible mt-2 fadeIn delay_300"
             color="#FFC107"
             title="Online team members are viewing this page."
           ></u-dense-circles-users>
         </template>
         <template v-else>
-          <b class="d-block"> Live Preview </b>
-          <span class="small d-block mt-1">View updates in real-time.</span>
+          <b class="d-block">{{ $t("l_menu_top_home.live_view.title") }} </b>
+          <span class="small d-block mt-2">{{
+            $t("l_menu_top_home.live_view.subtitle")
+          }}</span>
         </template>
       </div>
     </v-btn>
@@ -388,7 +400,8 @@
     <v-card class="text-start">
       <v-card-title>
         <v-icon class="me-1">keyboard</v-icon>
-        Hotkeys
+
+        {{ $t("l_menu_top_home.hotkeys_dialog.title") }}
       </v-card-title>
       <v-card-text class="text-start">
         <v-container>
@@ -413,14 +426,9 @@
                 <div class="text-h4 text-uppercase">
                   {{ "\{\{" }}<span class="text-blue">key</span>{{ "\}\}" }}
                 </div>
-                <div>
-                  "You can load dynamic content on your page and replace it with
-                  <b>augment</b> values. Augment is used for custom dynamic
-                  pages such as <b>Products</b>, <b>Categories</b>, and
-                  <b>Include Items</b>. To set an image to load dynamically,
-                  click on <b>Feeder</b> and select <b>Dynamic Source</b> for
-                  that image.
-                </div>
+                <div
+                  v-html="$t('l_menu_top_home.hotkeys_dialog.augment_tips')"
+                ></div>
               </div>
             </v-col>
           </v-row>
@@ -494,31 +502,14 @@
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import { CONSOLE } from "@selldone/core-js/helper/index";
-import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import UButtonAiLarge from "@selldone/components-vue/ui/button/ai/large/UButtonAiLarge.vue";
-
-const ShortKeys = {
-  "⌘ctrl+z": "Undo",
-  "⌘ctrl+y": "Redo",
-  "⌘ctrl+b": "Toggles bold on/off  of selected text | <b>Make me bold</b>",
-  "⌘ctrl+i": "Toggles italics on/off of selected text | <i>Make me italic</i>",
-  "⌘ctrl+l":
-    "Toggles strikethrough on/off of selected text | <s>Strike through me</s>",
-  "⌘ctrl+u": "Toggles underline on/off of selected text | <u>Underline me</u>",
-  "⌘ctrl+1": "Decrease font size of selected box  | <big>Make me big</big>",
-  "⌘ctrl+2":
-    "Increase font size of selected box  | <small>Make me small</small>",
-  "⌘ctrl+r": "Removes all formatting of selected text | Clean all style",
-  "⌘ctrl+s": "Save page",
-  TAB: "Switch scale mode",
-  "⌘Ctrl + E": "Switch clone style mode",
-};
 
 export default {
   name: "LMenuTopHome",
 
   components: {
-    UDenseCirclesUsers,UButtonAiLarge
+    UDenseCirclesUsers,
+    UButtonAiLarge,
   },
   mixins: [LMixinEvents],
   emits: ["click:save"],
@@ -556,7 +547,6 @@ export default {
   },
 
   data: () => ({
-    ShortKeys: ShortKeys,
     show_hotkeys: false,
 
     visible_to_user: false,
@@ -565,6 +555,23 @@ export default {
   }),
 
   computed: {
+    ShortKeys() {
+      return {
+        "⌘ctrl+z": this.$t("global.commons.undo"),
+        "⌘ctrl+y": this.$t("global.commons.redo"),
+        "⌘ctrl+b": this.$t("l_menu_top_home.hotkeys.ctrl_b"),
+        "⌘ctrl+i": this.$t("l_menu_top_home.hotkeys.ctrl_i"),
+        "⌘ctrl+l": this.$t("l_menu_top_home.hotkeys.ctrl_l"),
+        "⌘ctrl+u": this.$t("l_menu_top_home.hotkeys.ctrl_u"),
+        "⌘ctrl+1": this.$t("l_menu_top_home.hotkeys.ctrl_1"),
+        "⌘ctrl+2": this.$t("l_menu_top_home.hotkeys.ctrl_2"),
+        "⌘ctrl+r": this.$t("l_menu_top_home.hotkeys.ctrl_r"),
+        "⌘ctrl+s": this.$t("l_menu_top_home.hotkeys.ctrl_s"),
+        "⌘Ctrl + E": this.$t("l_menu_top_home.hotkeys.ctrl_e"),
+        TAB: this.$t("l_menu_top_home.hotkeys.tab"),
+      };
+    },
+
     is_page() {
       return this.$builder.isPage();
     },
@@ -616,10 +623,9 @@ export default {
 
       promise
         .then((data) => {
-          if(data?.page){
+          if (data?.page) {
             this.$builder.loadPage(data.page);
             CONSOLE.log("🆎 AI created page.");
-
           }
         })
 

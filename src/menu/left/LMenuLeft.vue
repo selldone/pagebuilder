@@ -25,6 +25,7 @@
     }"
     :width="!tab ? 58 : width"
     v-if="model"
+    dir="ltr"
   >
     <div class="l-buttons">
       <v-btn
