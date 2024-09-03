@@ -37,15 +37,14 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
-     "@typescript-eslint/eslint-plugin": "^8.3.0",
-    "@typescript-eslint/parser": "^8.3.0",
+     "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "eslint": "^9.9.1",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "@vue/eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-vue": "^9.27.0"
-
+    "eslint-plugin-vue": "^9.28.0"
   }
 }
