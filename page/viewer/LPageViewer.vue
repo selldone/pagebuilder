@@ -86,10 +86,7 @@ export default {
       return this.initialPageData.style ? this.initialPageData.style : {};
     },
     CUSTOM_PAGE_STYLE() {
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-          this.style
-
-      );
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject(this.style);
     },
 
     sections() {
@@ -124,10 +121,13 @@ export default {
   },
   provide() {
     return {
-      builder: this.$builder,
       /**
-       * @deprecated
+       * @deprecated MAYBE!
        */
+      builder: this.$builder,
+
+      $augment: this.augment,
+
       $builder: this.$builder,
     };
   },

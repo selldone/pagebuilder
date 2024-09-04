@@ -16,7 +16,7 @@ import {defineComponent} from "vue";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 
 const LMixinXComponent = defineComponent({
-  inject: ["$builder", "$section"],
+  inject: ["$builder", "$section","$augment"],
   props: {
     object: {
       type: LModelElement<any>,
@@ -40,7 +40,7 @@ const LMixinXComponent = defineComponent({
     },
 
     background_style() {
-      return this.object.background?.generate();
+      return this.object.background?.generate(this.$augment,this.$builder.isEditing);
     },
   },
 

@@ -32,7 +32,6 @@
       theme="dark"
     >
       <v-toolbar-items>
-        <template v-if="src">
           <v-btn
             icon
             size="small"
@@ -220,14 +219,14 @@
               text="Add Link"
             ></v-tooltip>
           </v-btn>
-        </template>
         <v-btn
-          v-else-if="hasRestore"
-          icon
+          v-if="hasRestore"
+          variant="flat"
           size="small"
+          color="amber"
           @click.stop="restoreImage()"
         >
-          <v-icon>settings_backup_restore</v-icon>
+          <v-icon size="24">settings_backup_restore</v-icon>
           <v-tooltip
             activator="parent"
             content-class="bg-black"

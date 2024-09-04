@@ -22,6 +22,7 @@
       :model-value="text"
       @update:model-value="(v) => $emit('update:text', v)"
       multiple-lines
+      messages="Set dynamic values by {{key}}, also if you want to use this as a template in the product page, you can set dynamic values by {{product.title}}, {{product.title_en}}, {{product.sku}},..."
     ></s-setting-text-input>
   </s-setting-expandable>
 </template>

@@ -19,34 +19,64 @@
     density="compact"
   >
     <template v-slot:prepend>
-      <span v-if="!modelValue" class="-label me-2 min-width-100">
+      <span v-if="!modelValue || dynamic_input" class="-label me-2 min-width-100">
         <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
         {{ label }}</span
       >
     </template>
 
-    <s-image-uploader
-      :dark="dark"
-      :image="modelValue ? getShopImagePath(modelValue) : null"
-      :label="modelValue?label:undefined"
-      :server="uploadUrl"
-      auto-compact
-      clearable
-      dense
-      max-file-size="2MB"
-      allow-image-transform
-      @onClear="$emit('update:modelValue', null)"
-      @new-path="handleProcessFile"
-      min-height="140px"
-      border
-      rounded="lg"
-    >
-    </s-image-uploader>
+    <v-expand-transition group>
+      <s-image-uploader
+        v-if="!dynamic_input"
+        :dark="dark"
+        :image="modelValue ? getShopImagePath(modelValue) : null"
+        :label="modelValue ? label : undefined"
+        :server="uploadUrl"
+        auto-compact
+        clearable
+        dense
+        max-file-size="2MB"
+        allow-image-transform
+        @onClear="$emit('update:modelValue', null)"
+        @new-path="handleProcessFile"
+        min-height="140px"
+        border
+        rounded="lg"
+      >
+      </s-image-uploader>
+
+      <div v-if="!modelValue && !dynamic_input">
+        {{ $t("global.commons.or") }}
+        <v-btn
+          variant="outlined"
+          size="small"
+          class="ms-2"
+          @click="dynamic_input = true"
+          >Set Dynamic Image
+        </v-btn>
+      </div>
+      <div v-else-if="dynamic_input">
+        <v-text-field
+          :model-value="modelValue"
+          @update:model-value="(v) => $emit('update:modelValue', v)"
+          messages="Enter dynamic params by {{key}}, or image url."
+          placeholder="{{key}}, or https://image-url..."
+          variant="outlined"
+          density="compact"
+          clearable
+          @click:clear="
+            dynamic_input = false;
+            $emit('update:modelValue', null);
+          "
+        >
+        </v-text-field>
+      </div>
+    </v-expand-transition>
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 
@@ -73,7 +103,15 @@ export default defineComponent({
   },
   computed: {},
   data() {
-    return {};
+    return {
+      dynamic_input: false,
+    };
+  },
+  created() {
+    if(this.modelValue?.includes('{{')){
+      this.dynamic_input=true
+    }
+
   },
   methods: {
     handleProcessFile(path) {

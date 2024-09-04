@@ -70,8 +70,11 @@
               </div>
             </td>
             <td>
+              <v-chip v-if="item.key?.startsWith('product.')" label color="#847" size="small" prepend-icon="shelves">
+                <b class="me-2">{{item.key}}</b> | <span class="ms-1 x-small">Auto fill in the product page</span>
+              </v-chip>
               <s-image-uploader
-                v-if="item.type === 'image'"
+                v-else-if="item.type === 'image'"
                 :image="item.value ? getShopImagePath(item.value) : undefined"
                 :server="upload_server"
                 auto-compact

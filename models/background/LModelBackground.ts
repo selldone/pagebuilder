@@ -59,9 +59,10 @@ export class LModelBackground {
   /**
    * Generate background style object
    */
-  generate(): Record<string, any> {
+  generate( augment:any=null,bypass:boolean=true): Record<string, any> {
     return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-      this
+      this,
+        augment,bypass
     );
   }
 

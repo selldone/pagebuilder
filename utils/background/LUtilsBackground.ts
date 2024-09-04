@@ -24,6 +24,7 @@ export class LUtilsBackground {
    */
   static CreateCompleteBackgroundStyleObject(
     background: IBackground | LModelBackground,
+    augment:any=null,bypass:boolean=true
   ): object {
     if (!window.CDN.GET_SHOP_IMAGE_PATH) {
       console.error(
@@ -45,7 +46,19 @@ export class LUtilsBackground {
       bg_backdrop = null,
     } = background || {};
 
-    const imageUrl = bg_image ? window.CDN.GET_SHOP_IMAGE_PATH(bg_image) : null;
+    let imageUrl = bg_image ? window.CDN.GET_SHOP_IMAGE_PATH(bg_image) : null as string;
+
+    if(bg_image?.includes('{{')){
+      //console.log('bg_image',bg_image,'bypass',bypass,'augment',augment,'out',bg_image.applyAugment(augment,false))
+      // Dynamic Value!
+      if(bypass){
+        imageUrl=require('../../components/x/uploader/assets/dynamic-image-placeholder.png')
+      }else{
+        imageUrl=window.CDN.GET_SHOP_IMAGE_PATH(bg_image.applyAugment(augment,false))
+      }
+
+    }
+
 
     if (bg_custom && bg_custom.includes("background")) {
       return this.StringStyleToObj(bg_custom);

@@ -555,6 +555,8 @@ export default defineComponent({
   },
   provide() {
     return {
+      $augment:null, // Not have augment in edit mode! Maybe we add sample data feed in the future!
+
       $builder: this.$builder,
     };
   },

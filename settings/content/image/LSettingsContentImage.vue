@@ -13,32 +13,49 @@
   -->
 
 <template>
-  <s-setting-expandable :value="value" :image="src?getShopImagePath(src):null" icon="image" title="Content">
-    <template v-slot:title>
+  <s-setting-expandable
+    :value="value"
+    :image="src ? getShopImagePath(src) : null"
+    icon="image"
+    title="Content"
+  >
+    <template v-slot:title></template>
 
-    </template>
-
-    <s-setting-text-input
+    <s-setting-image
       :model-value="src"
       @update:model-value="(v) => $emit('update:src', v)"
-    ></s-setting-text-input>
+      icon="image"
+      :label="$t('global.commons.image')"
+      dark
+      :upload-url="upload_url"
+    ></s-setting-image>
   </s-setting-expandable>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingImage from "@selldone/page-builder/styler/settings/image/SSettingImage.vue";
 
 export default defineComponent({
   name: "LSettingsContentImage",
   components: {
+    SSettingImage,
     SSettingExpandable,
-    SSettingTextInput,
   },
+  inject: ["$builder"],
   emits: [],
   props: {
+    uploadUrl: {
+      require: true,
+    },
     src: {},
+  },
+
+  computed: {
+    upload_url() {
+      return this.$builder.getImageUploadUrl();
+    },
   },
 });
 </script>

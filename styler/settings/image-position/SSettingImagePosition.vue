@@ -12,7 +12,7 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <!-- ████████████████████████ Select ████████████████████████ -->
+  <!-- ████████████████████████ Image Position ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
     density="compact"
@@ -44,6 +44,7 @@
                   :color="isSelected ? 'blue' : ''"
                   :height="42"
                   :width="42"
+                  :elevation="isSelected?3:0"
                   class="d-flex align-center justify-center ma-auto border"
                   dark
                   @click="toggle"
