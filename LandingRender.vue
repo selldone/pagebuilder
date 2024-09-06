@@ -91,7 +91,7 @@ import debounce from "lodash-es/debounce";
 import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
-import { CONSOLE } from "@selldone/core-js";
+import { AugmentHelper, CONSOLE } from "@selldone/core-js";
 
 /**
  * <landing-render>
@@ -446,7 +446,13 @@ export default {
       this.css = data.page.css;
 
       //Augment data:
-      this.augment = data.augment;
+      this.augment = AugmentHelper.MixAugments(
+        data.augment,
+        /*Flatten asset - smart augment*/ AugmentHelper.ConvertToAugmentArray(
+          data.asset,
+        ),
+      );
+      //console.log("this.augment==>", this.augment);
 
       this.$emit("update:page", this.page);
       this.$emit("update:menu-transparent", this.menu_transparent);

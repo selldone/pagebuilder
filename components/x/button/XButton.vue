@@ -36,7 +36,7 @@
     :color="object.data.color"
     :elevation="object.data.elevation"
     :height="object.data.height"
-    :href="is_editing ? undefined : object.data.href"
+    :href="is_editing ? undefined : object.data.href?.applyAugment(augment, is_editing)"
     :icon="object.data.icon"
     :loading="loading"
     :ripple="object.data.ripple"

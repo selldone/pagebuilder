@@ -326,12 +326,42 @@
         </li>
       </ul>
       <b-vendor-input
+        v-if="vendor_id !== '{{vendor.id}}'"
         v-model="vendor_id"
         :shop="shop"
-        label="Vendor" clearable
+        label="Vendor"
+        clearable
         variant="outlined"
         placeholder="Filter by vendor..."
-      ></b-vendor-input>
+      >
+        <template v-slot:append>
+          <v-btn
+            class="tnt"
+            variant="outlined"
+            height="100%"
+            @click="vendor_id = '{{vendor.id}}'"
+            >Set Dynamic</v-btn
+          >
+        </template>
+      </b-vendor-input>
+      <v-text-field
+        v-else
+        model-value="{{vendor.id}}"
+        readonly
+        prepend-inner-icon="lock"
+        label="Vendor"
+        variant="outlined"
+      >
+        <template v-slot:append>
+          <v-btn
+            class="tnt"
+            variant="outlined"
+            height="100%"
+            @click="vendor_id = null"
+            >Set Vendor</v-btn
+          >
+        </template>
+      </v-text-field>
     </template>
 
     <!-- ████████████████████ Count ████████████████████ -->
@@ -417,7 +447,7 @@ export default {
       default: false,
     },
 
-    hasViewMode:Boolean,
+    hasViewMode: Boolean,
 
     defaultValue: {
       required: false,

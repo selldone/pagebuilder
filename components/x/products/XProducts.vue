@@ -46,6 +46,7 @@ export default {
   directives: { styler: StylerDirective },
 
   components: { SProductsListing },
+  inject: ["$augment"],
 
   props: {
     object: {
@@ -82,7 +83,7 @@ export default {
 
         this.forcePackage = ApplyAugmentToObject(
           filter,
-          this.augment,
+          this.$augment,
           this.is_editing,
         );
         this.mode_view = filter.mode_view;
@@ -100,6 +101,7 @@ export default {
   methods: {},
 
   created() {
+
     if (!this.isObject(this.filter)) {
       this.object.data.filter = {};
     }
@@ -111,7 +113,7 @@ export default {
     // Set dynamic values for filter:
     this.forcePackage = ApplyAugmentToObject(
       this.filter,
-      this.augment,
+      this.$augment,
       this.is_editing,
     );
   },
