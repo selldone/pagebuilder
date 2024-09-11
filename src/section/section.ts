@@ -226,20 +226,7 @@ export class Section implements Section.ISection {
 
   destroy() {}
 
-  /**
-   * Remove empty <br> data.
-   * @returns {*|{}}
-   * @deprecated
-   */
-  removeBRFromSectionData() {
-    return LUtilsObject.IterateOverSectionData(this.data, (text: any) => {
-      if (isString(text) && text.trim() === "<br>") {
-        CONSOLE.log("🌶 Remove empty tags", text);
-        return "";
-      }
-      return text;
-    });
-  }
+
 
   toJson() {
     return {

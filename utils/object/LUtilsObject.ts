@@ -12,7 +12,7 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {isBoolean, isObject} from "lodash-es";
+import {isBoolean, isObject, isString} from "lodash-es";
 
 export class LUtilsObject {
   public static IterateOverSectionData(
@@ -33,7 +33,8 @@ export class LUtilsObject {
       });
       return out;
     }
-
-    return callback(data);
+    if (isString(data)) {
+      return callback(data);
+    }
   }
 }

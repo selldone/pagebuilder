@@ -29,9 +29,9 @@ export const LMixinArtboard = defineComponent({
     autoLoadSectionFonts(json) {
       const builder = this.$builder;
       try {
-        this.fonts = LUtilsFont.FindAllFontsInSection(json);
+        this.fonts = LUtilsFont.FindFontFamiliesInStyles(json);
 
-        //console.log("Fonts ---->", this.fonts);
+        console.log("Auto Load Fonts ――>", this.fonts);
 
         if (!builder.style) builder.style = {};
 
