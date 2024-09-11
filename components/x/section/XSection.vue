@@ -22,7 +22,7 @@
       { '-no-padding': noDefaultPadding, '-dark': object.background?.dark },
     ]"
     :style="[object.style, background_style]"
-    class="section"
+    class="section z0"
   >
     <!-- 📹 Background video -->
     <x-video-background

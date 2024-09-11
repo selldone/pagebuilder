@@ -69,6 +69,16 @@
     @drop="handleDrop"
     :cloneable="true"
   >
+
+
+    <!-- 📹 Background video -->
+    <x-video-background
+        v-if="object.background?.bg_video"
+        :video="getVideoUrl(object.background.bg_video)"
+    >
+    </x-video-background>
+
+
     <slot :src="src"></slot>
 
     <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Image ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
@@ -161,6 +171,7 @@ import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
 import {CONSOLE} from "@selldone/core-js";
+import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -185,7 +196,7 @@ export default defineComponent({
     "data-x": DataXDirective,
   },
 
-  components: {},
+  components: {XVideoBackground},
   inject: ["$builder", "$section"],
   props: {
     object: {
