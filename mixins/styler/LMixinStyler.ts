@@ -70,17 +70,17 @@ export const LMixinStyler = defineComponent({
       }
 
       if (window.innerWidth > 2440) {
-        this.$builder.focusMode = false;
+        this.builder.focusMode = false;
         return;
       }
       console.log("isVisible", this.isVisible);
       this.$nextTick(() => {
         if ($("div.styler.is-visible").length > 0) {
           console.log("At least one styler is visible.");
-          this.$builder.focusMode = true;
+          this.builder.focusMode = true;
         } else {
           console.log("No styler is currently visible.");
-          this.$builder.focusMode = false;
+          this.builder.focusMode = false;
         }
       });
     },

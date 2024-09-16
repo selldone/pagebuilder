@@ -594,7 +594,8 @@ export default defineComponent({
 
     showToolbar() {
       this.ShowUploaderToolbar(
-        this.noPreview,
+          this.noPreview,
+          this.noFloat,
         this.augment,
         this.object,
         this.blobUrl,

@@ -51,7 +51,12 @@
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-    <l-menu-top :busy-save="busySave" :saveFunction="saveFunction" :ai-page-generate-function="aiPageGenerateFunction">
+    <l-menu-top
+      :busy-save="busySave"
+      :saveFunction="saveFunction"
+      :ai-page-generate-function="aiPageGenerateFunction"
+      :demo="demo"
+    >
     </l-menu-top>
 
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -140,6 +145,7 @@
             <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
             <l-page-editor-artboard-top-bar
+                v-if="modelValue"
               :page="modelValue"
               :fullscreen="!scale_down"
               :shop="$shop"
@@ -273,7 +279,11 @@
 
   <l-menu-left
     v-if="!show_templates"
-    :is-visible="$builder.showLeftMenu && inEditMode  && !$builder.focusMode/*Hide when styler is visible*/"
+    :is-visible="
+      $builder.showLeftMenu &&
+      inEditMode &&
+      !$builder.focusMode /*Hide when styler is visible*/
+    "
     :is-scroll-down="scrollTop > 200"
     :histories="histories"
     :set-page-function="setPage"
@@ -555,7 +565,7 @@ export default defineComponent({
   },
   provide() {
     return {
-      $augment:null, // Not have augment in edit mode! Maybe we add sample data feed in the future!
+      $augment: null, // Not have augment in edit mode! Maybe we add sample data feed in the future!
 
       $builder: this.$builder,
     };

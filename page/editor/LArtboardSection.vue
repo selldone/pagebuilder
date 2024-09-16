@@ -160,7 +160,7 @@ export default defineComponent({
     SLandingSectionSideBar,
     XComponent,
   },
-  inject: ["$builder",'$shop'],
+  inject: ["$builder"],
   props: {
     section: {
       required: true,
@@ -175,9 +175,8 @@ export default defineComponent({
       type: Number,
     },
 
-
     pastHoverIndex: {},
-    aiAutoFillFunction: Boolean,
+    aiAutoFillFunction: Function,
   },
 
   data: () => ({
@@ -191,15 +190,12 @@ export default defineComponent({
   }),
 
   computed: {
-
     notes() {
       return this.$builder.model?.notes;
     },
   },
 
-  methods: {
-
-  },
+  methods: {},
 });
 </script>
 

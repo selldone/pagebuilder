@@ -14,22 +14,18 @@
 
 import {defineComponent} from "vue";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
+import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 
 const LMixinXComponent = defineComponent({
-  inject: ["$builder", "$section","$augment"],
+  inject: {
+    $builder: { },  // Optional injection with a default value of null
+    $section: { default: null },  // Optional injection with a default value of null
+    $augment: { },  // Optional injection with a default value of null
+  },
   props: {
     object: {
       type: LModelElement<any>,
     },
-  },
-  data: () => ({}),
-  beforeCreate() {
-    LOG(
-      "$builder",
-      this.$builder ? "✅" : "❌",
-      "$section",
-      this.$section ? "✅" : "❌",
-    );
   },
 
   //------------------------------------------------- New Common -------------------------------------------------
@@ -46,7 +42,25 @@ const LMixinXComponent = defineComponent({
 
   watch: {},
 
-  created() {},
+  created() {
+    if(!this.$builder){
+      console.log('The $builder is not injected in the component. Please check the parent component for the injection.',
+          "$builder",
+          this.$builder ? "✅" : "❌",
+          "$section",
+          this.$section ? "✅" : "❌",'object:',this.object
+      );
+    }else if(!this.$section && !(this.object instanceof XSectionObject/*Sections provide '$section' themselves!*/)){
+        console.log('The $section is not injected in the component. Please check the parent component for the injection.',
+            "$builder",
+            this.$builder ? "✅" : "❌",
+            "$section",
+            this.$section ? "✅" : "❌",'object:',this.object
+        );
+    }
+
+
+  },
   mounted() {
     // Assign current element to object (Temporary variable)
     this.object.$element = this.$el;
@@ -60,6 +74,4 @@ const LMixinXComponent = defineComponent({
 });
 export default LMixinXComponent;
 
-function LOG(...text: any) {
-  // console.log("🪷 XMixin", ...text);
-}
+

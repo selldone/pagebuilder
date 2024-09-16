@@ -319,17 +319,40 @@
 
     <v-divider vertical></v-divider>
 
-    <u-button-ai-large
-      v-if="aiPageGenerateFunction && page?.id"
-      :loading="busy_ai_page"
-      @click.stop="autoCreatePage"
-      title="Auto Generate Page"
-      size="small"
-      :avatar-size="18"
-      prefix-class=" "
-      class="flex-grow-0"
-    >
-    </u-button-ai-large>
+    <div class="lmt-group">
+      <u-button-ai-large
+        v-if="aiPageGenerateFunction && page?.id"
+        :loading="busy_ai_page"
+        @click.stop="autoCreatePage"
+        title="Auto Generate Page"
+        size="small"
+        :avatar-size="18"
+        prefix-class=" "
+        class="flex-grow-0"
+      >
+      </u-button-ai-large>
+      <!-- ▃▃▃▃▃▃▃▃▃▃ Set as home page ▃▃▃▃▃▃▃▃▃▃ -->
+      <div v-if="$shop && page" class="mx-2">
+        <v-btn
+          prepend-icon="home"
+          class="tnt"
+          variant="flat"
+          :color="is_shop_home ? '#000' : '#fff'"
+          :class="{ pen: is_shop_home}"
+          size="small"
+          rounded
+          min-width="100%"
+          @click="setAsHome"
+          :loading="busy_set_home"
+        >
+          {{ is_shop_home? "It's Home" : "Set as Home" }}
+
+          <v-icon v-if="is_shop_home" end color="#009688"
+            >check_circle
+          </v-icon>
+        </v-btn>
+      </div>
+    </div>
 
     <v-spacer></v-spacer>
 
@@ -552,9 +575,14 @@ export default {
     visible_to_user: false,
 
     busy_ai_page: false,
+
+    busy_set_home: false,
   }),
 
   computed: {
+    is_shop_home(){
+      return ''+this.$shop?.home === '' + this.page?.id
+    },
     ShortKeys() {
       return {
         "⌘ctrl+z": this.$t("global.commons.undo"),
@@ -631,6 +659,29 @@ export default {
 
         .finally(() => {
           this.busy_ai_page = false;
+        });
+    },
+
+    setAsHome() {
+      this.busy_set_home = true;
+
+      axios
+        .put(window.API.PUT_SHOP_HOME_PAGE(this.$shop.id), {
+          page_id: this.page.id,
+        })
+        .then(({ data }) => {
+          if (!data.error) {
+            this.$shop.home = data.home;
+            this.showSuccessAlert(null, "Home page has been set successfully.");
+          } else {
+            this.showErrorAlert(null, data.error_msg);
+          }
+        })
+        .catch((error) => {
+          this.showLaravelError(error);
+        })
+        .finally(() => {
+          this.busy_set_home = false;
         });
     },
   },

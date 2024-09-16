@@ -439,7 +439,7 @@ export default {
     },
 
     removeSection() {
-      this.$builder.remove(this.section);
+      this.builder.remove(this.section);
     },
 
     toggleDarkMode() {

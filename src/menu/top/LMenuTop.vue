@@ -19,21 +19,21 @@
       <v-tabs v-model="tab" align-tabs="start" density="compact" class="mb-2">
         <v-tab value="home" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">home</v-icon>
-          {{$t('global.commons.home')}}
+          {{ $t("global.commons.home") }}
         </v-tab>
         <v-tab value="page" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">edit_document</v-icon>
-          {{$t('global.commons.page')}}
+          {{ $t("global.commons.page") }}
         </v-tab>
 
         <v-tab value="export" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">fa:fas fa-file-export</v-icon>
-          {{$t('global.commons.export')}}
+          {{ $t("global.commons.export") }}
         </v-tab>
 
         <v-tab value="import" color="#fff" class="tnt">
           <v-icon class="me-1" size="small">fa:fas fa-file-import</v-icon>
-          {{$t('global.commons.import')}}
+          {{ $t("global.commons.import") }}
         </v-tab>
 
         <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
@@ -41,7 +41,13 @@
         <l-menu-top-ai v-if="!demo" class="ms-2"></l-menu-top-ai>
       </v-tabs>
 
-      <v-sheet color="#111" rounded="xl" height="100" class="overflow-hidden" elevation="3">
+      <v-sheet
+        color="#111"
+        rounded="xl"
+        height="100"
+        class="overflow-hidden"
+        elevation="3"
+      >
         <v-window v-model="tab">
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ home ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -56,7 +62,7 @@
                   saveFunction($builder.export());
                 }
               "
-             :ai-page-generate-function="aiPageGenerateFunction"
+              :ai-page-generate-function="aiPageGenerateFunction"
             >
             </l-menu-top-home>
           </v-window-item>
@@ -108,8 +114,9 @@ export default defineComponent({
     },
     aiPageGenerateFunction: {
       require: false,
-      type:Function
+      type: Function,
     },
+    demo: Boolean,
   },
 
   data: () => ({
@@ -144,7 +151,6 @@ Used in nested components!
   justify-content: start;
   min-height: 100px;
   text-align: start;
-
 
   ::v-deep(.v-divider) {
     border-color: #fff !important;

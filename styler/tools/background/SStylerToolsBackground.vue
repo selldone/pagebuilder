@@ -55,7 +55,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
-import { XContainerObject } from "@selldone/page-builder/components/x/container/XContainerObject.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 
 export default defineComponent({
@@ -64,7 +63,7 @@ export default defineComponent({
   props: {
     target: {
       required: true,
-      type: XContainerObject,
+      type: LModelElement,
     },
   },
 

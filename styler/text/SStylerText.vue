@@ -531,17 +531,17 @@ export default {
   computed: {
     TEXT_COLORS() {
       return [
-        LUtilsColors.GetColorDark(this.$builder.style, 1),
-        LUtilsColors.GetColorDark(this.$builder.style, 2),
-        LUtilsColors.GetColorDark(this.$builder.style, 3),
-        LUtilsColors.GetColorDark(this.$builder.style, 4),
-        LUtilsColors.GetColorDark(this.$builder.style, 5),
-        LUtilsColors.GetColorDark(this.$builder.style, 6),
-        LUtilsColors.GetColorDark(this.$builder.style, 7),
-        LUtilsColors.GetColorDark(this.$builder.style, 8),
-        LUtilsColors.GetColorDark(this.$builder.style, 9),
-        LUtilsColors.GetColorDark(this.$builder.style, 10),
-        LUtilsColors.GetColorDark(this.$builder.style, 11),
+        LUtilsColors.GetColorDark(this.builder.style, 1),
+        LUtilsColors.GetColorDark(this.builder.style, 2),
+        LUtilsColors.GetColorDark(this.builder.style, 3),
+        LUtilsColors.GetColorDark(this.builder.style, 4),
+        LUtilsColors.GetColorDark(this.builder.style, 5),
+        LUtilsColors.GetColorDark(this.builder.style, 6),
+        LUtilsColors.GetColorDark(this.builder.style, 7),
+        LUtilsColors.GetColorDark(this.builder.style, 8),
+        LUtilsColors.GetColorDark(this.builder.style, 9),
+        LUtilsColors.GetColorDark(this.builder.style, 10),
+        LUtilsColors.GetColorDark(this.builder.style, 11),
 
         // #FFFFFF not work! bug in execute foreground!
         "transparent",
@@ -549,7 +549,7 @@ export default {
     },
 
     fonts() {
-      return this.$builder.style?.fonts;
+      return this.builder.style?.fonts;
     },
   },
   watch: {

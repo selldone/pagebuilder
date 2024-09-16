@@ -13,7 +13,6 @@
   -->
 <template>
   <v-toolbar
-    v-if="page"
     class="py-1 border-bottom rounded-t-xl"
     color="#fff"
     dir="ltr"

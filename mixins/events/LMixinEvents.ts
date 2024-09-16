@@ -272,6 +272,7 @@ export const LMixinEvents = defineComponent({
     /**
      * Show tools on top of the images
      * @param noPreview
+     * @param noFloat   float left, right,...
      * @param augment
      * @param object
      * @param blobUrl
@@ -281,6 +282,7 @@ export const LMixinEvents = defineComponent({
      */
     ShowUploaderToolbar(
       noPreview,
+      noFloat,
       augment,
       object,
       blobUrl,
@@ -290,6 +292,7 @@ export const LMixinEvents = defineComponent({
       // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
       EventBus.$emit("show:XUploaderToolbar", {
         noPreview,
+        noFloat,
         augment,
         object,
         blobUrl,
@@ -310,10 +313,9 @@ export const LMixinEvents = defineComponent({
       });
     },
 
-
-    ShowAiPromptDialog(show:boolean=true) {
+    ShowAiPromptDialog(show: boolean = true) {
       EventBus.$emit("show:AiPromptDialog", {
-        show:show,
+        show: show,
       });
     },
 

@@ -205,10 +205,9 @@ const StylerDirective: ObjectDirective<
     }
 
     const StylerComponent = defineComponent({
-      extends: resolveComponent(stylerComponent as any),
-      beforeCreate() {
-        this.$builder = builder;
-      },
+      render() {
+        return h(stylerComponent, { builder });
+      }
     });
 
     // const props = getProps(instance, el, section, argument, expression, binding);

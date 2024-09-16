@@ -32,193 +32,193 @@
       theme="dark"
     >
       <v-toolbar-items>
-          <v-btn
-            icon
-            size="small"
-            @click.stop="setting.contain = !setting.contain"
+        <v-btn
+          icon
+          size="small"
+          @click.stop="setting.contain = !setting.contain"
+        >
+          <v-icon
+            >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
+          </v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black"
+            location="bottom"
+            text="Contain / Cover"
+          ></v-tooltip>
+        </v-btn>
+
+        <v-btn icon size="small" @click.stop="showResize()">
+          <v-icon> crop</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black text-start"
+            location="bottom"
+            max-width="360"
           >
-            <v-icon
-              >{{ setting.contain ? "fullscreen_exit" : "fullscreen" }}
-            </v-icon>
-            <v-tooltip
-              activator="parent"
-              content-class="bg-black"
-              location="bottom"
-              text="Contain / Cover"
-            ></v-tooltip>
-          </v-btn>
+            Size
 
-          <v-btn icon size="small" @click.stop="showResize()">
-            <v-icon> crop</v-icon>
-            <v-tooltip
-              activator="parent"
-              content-class="bg-black text-start"
-              location="bottom"
-              max-width="360"
+            <v-chip
+              v-if="object.style?.width"
+              class="ma-1"
+              color="#fff"
+              size="x-small"
+              variant="tonal"
+              ><b>Width: </b> {{ object.style.width }}
+            </v-chip>
+            <v-chip
+              v-if="object.style?.height"
+              class="ma-1"
+              color="#fff"
+              size="x-small"
+              variant="tonal"
+              ><b>Height: </b> {{ object.style.height }}
+            </v-chip>
+          </v-tooltip>
+        </v-btn>
+
+        <v-btn icon size="small" @click.stop="showMasterDesignDialog()">
+          <v-icon> architecture</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black"
+            location="bottom"
+            text="Classes & Style"
+          ></v-tooltip>
+        </v-btn>
+
+        <v-btn icon size="small" @click.stop="showLayers()">
+          <v-icon> layers</v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black"
+            location="bottom"
+          >
+            Image Layers
+
+            <div
+              v-if="object.background.hasValue()"
+              class="py-1 d-flex align-center small"
             >
-              Size
-
-              <v-chip
-                v-if="object.style?.width"
-                class="ma-1"
-                color="#fff"
-                size="x-small"
-                variant="tonal"
-                ><b>Width: </b> {{ object.style.width }}
-              </v-chip>
-              <v-chip
-                v-if="object.style?.height"
-                class="ma-1"
-                color="#fff"
-                size="x-small"
-                variant="tonal"
-                ><b>Height: </b> {{ object.style.height }}
-              </v-chip>
-            </v-tooltip>
-          </v-btn>
-
-          <v-btn icon size="small" @click.stop="showMasterDesignDialog()">
-            <v-icon> architecture</v-icon>
-            <v-tooltip
-              activator="parent"
-              content-class="bg-black"
-              location="bottom"
-              text="Classes & Style"
-            ></v-tooltip>
-          </v-btn>
-
-          <v-btn icon size="small" @click.stop="showLayers()">
-            <v-icon> layers</v-icon>
-            <v-tooltip
-              activator="parent"
-              content-class="bg-black"
-              location="bottom"
+              <v-card
+                :style="bg_cal"
+                class="me-2"
+                height="24"
+                rounded="lg"
+                width="24"
+              ></v-card>
+              Background
+            </div>
+            <div
+              v-if="setting.fg?.hasValue()"
+              class="py-1 d-flex align-center small"
             >
-              Image Layers
+              <v-card
+                :style="fg_cal"
+                class="me-2"
+                height="24"
+                rounded="lg"
+                width="24"
+              ></v-card>
+              Foreground
+            </div>
+          </v-tooltip>
+        </v-btn>
 
-              <div
-                v-if="object.background.hasValue()"
-                class="py-1 d-flex align-center small"
+        <v-menu :close-on-content-click="false" open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn icon size="small" v-bind="props">
+              <v-icon> {{ selected_aspect.icon }}</v-icon>
+            </v-btn>
+          </template>
+
+          <v-card class="text-start bg-black" subtitle="Aspect Ratio">
+            <v-list
+              bg-color="transparent"
+              class="border-between-vertical"
+              density="compact"
+            >
+              <v-list-item
+                v-for="(item, index) in ASPECTS"
+                :key="index"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                @click.stop="setting.aspect = item.val"
               >
-                <v-card
-                  :style="bg_cal"
-                  class="me-2"
-                  height="24"
-                  rounded="lg"
-                  width="24"
-                ></v-card>
-                Background
-              </div>
-              <div
-                v-if="setting.fg?.hasValue()"
-                class="py-1 d-flex align-center small"
+                <template v-slot:append>
+                  <v-list-item-action>
+                    <v-icon v-if="setting.aspect === item.val" color="green"
+                      >check
+                    </v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>
+
+              <v-list-item
+                key="round"
+                prepend-icon="panorama_fish_eye"
+                @click.stop="setting.round = !setting.round"
               >
-                <v-card
-                  :style="fg_cal"
-                  class="me-2"
-                  height="24"
-                  rounded="lg"
-                  width="24"
-                ></v-card>
-                Foreground
-              </div>
-            </v-tooltip>
-          </v-btn>
+                <v-list-item-title> Circle</v-list-item-title>
+                <template v-slot:append>
+                  <v-list-item-action>
+                    <v-icon v-if="setting.round" color="green">check</v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
 
-          <v-menu :close-on-content-click="false" open-on-hover>
-            <template v-slot:activator="{ props }">
-              <v-btn icon size="small" v-bind="props">
-                <v-icon> {{ selected_aspect.icon }}</v-icon>
-              </v-btn>
-            </template>
+        <v-menu v-if="!noFloat" :close-on-content-click="false" open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn icon size="small" v-bind="props">
+              <v-icon> {{ selected_float.icon }}</v-icon>
+            </v-btn>
+          </template>
 
-            <v-card class="text-start bg-black" subtitle="Aspect Ratio">
-              <v-list
-                bg-color="transparent"
-                class="border-between-vertical"
-                density="compact"
+          <v-card class="text-start bg-black" subtitle="Float Position">
+            <v-list
+              bg-color="transparent"
+              class="border-between-vertical"
+              density="compact"
+            >
+              <v-list-item
+                v-for="(item, index) in FLOATS"
+                :key="index"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                @click="setting.float = item.val"
               >
-                <v-list-item
-                  v-for="(item, index) in ASPECTS"
-                  :key="index"
-                  :prepend-icon="item.icon"
-                  :title="item.title"
-                  @click.stop="setting.aspect = item.val"
-                >
-                  <template v-slot:append>
-                    <v-list-item-action>
-                      <v-icon v-if="setting.aspect === item.val" color="green"
-                        >check
-                      </v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
+                <template v-slot:append>
+                  <v-list-item-action>
+                    <v-icon v-if="setting.float === item.val" color="green"
+                      >check
+                    </v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
 
-                <v-list-item
-                  key="round"
-                  prepend-icon="panorama_fish_eye"
-                  @click.stop="setting.round = !setting.round"
-                >
-                  <v-list-item-title> Circle</v-list-item-title>
-                  <template v-slot:append>
-                    <v-list-item-action>
-                      <v-icon v-if="setting.round" color="green">check</v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
+        <v-btn icon size="small" @click.stop="showLink()">
+          <v-icon>{{ object.data.link ? "link" : "add_link" }}</v-icon>
 
-          <v-menu v-if="!noFloat" :close-on-content-click="false" open-on-hover>
-            <template v-slot:activator="{ props }">
-              <v-btn icon size="small" v-bind="props">
-                <v-icon> {{ selected_float.icon }}</v-icon>
-              </v-btn>
-            </template>
-
-            <v-card class="text-start bg-black" subtitle="Float Position">
-              <v-list
-                bg-color="transparent"
-                class="border-between-vertical"
-                density="compact"
-              >
-                <v-list-item
-                  v-for="(item, index) in FLOATS"
-                  :key="index"
-                  :prepend-icon="item.icon"
-                  :title="item.title"
-                  @click="setting.float = item.val"
-                >
-                  <template v-slot:append>
-                    <v-list-item-action>
-                      <v-icon v-if="setting.float === item.val" color="green"
-                        >check
-                      </v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
-
-          <v-btn icon size="small" @click.stop="showLink()">
-            <v-icon>{{ object.data.link ? "link" : "add_link" }}</v-icon>
-
-            <v-icon
-              v-if="object.data.link"
-              color="green"
-              size="12"
-              class="absolute-bottom-end ma-1"
-              >check_circle
-            </v-icon>
-            <v-tooltip
-              activator="parent"
-              content-class="bg-black"
-              location="bottom"
-              text="Add Link"
-            ></v-tooltip>
-          </v-btn>
+          <v-icon
+            v-if="object.data.link"
+            color="green"
+            size="12"
+            class="absolute-bottom-end ma-1"
+            >check_circle
+          </v-icon>
+          <v-tooltip
+            activator="parent"
+            content-class="bg-black"
+            location="bottom"
+            text="Add Link"
+          ></v-tooltip>
+        </v-btn>
         <v-btn
           v-if="hasRestore"
           variant="flat"
@@ -293,7 +293,7 @@ import { LUtilsClasses } from "@selldone/page-builder/utils/classes/LUtilsClasse
 import { EventBus } from "@selldone/core-js/events/EventBus.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
-import {delay} from "lodash-es";
+import { delay } from "lodash-es";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -323,6 +323,8 @@ export default defineComponent({
     show: false,
 
     noPreview: false,
+    noFloat: false,
+
     augment: null,
     object: null as XUploaderObject,
     blobUrl: null,
@@ -390,9 +392,18 @@ export default defineComponent({
     EventBus.$on(
       "show:XUploaderToolbar",
 
-      ({ noPreview, augment, object, blobUrl, hasRestore, restoreImage }) => {
+      ({
+        noPreview,
+        noFloat,
+        augment,
+        object,
+        blobUrl,
+        hasRestore,
+        restoreImage,
+      }) => {
         //console.log('XUploaderToolbar | Hover',object.$element)
         this.noPreview = noPreview;
+        this.noFloat = noFloat;
         this.augment = augment;
         this.object = object;
         this.blobUrl = blobUrl;

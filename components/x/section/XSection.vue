@@ -54,7 +54,14 @@ export default {
     noDefaultPadding: Boolean,
     section: { required: true, type: Object },
   },
-  data: () => ({}),
+
+  setup(props) {
+    // Provide the section object to child components
+    provide("$section", props.section);
+
+    return {};
+  },
+
   computed: {
     /**
      * 🐍 Use compute for better performance.
@@ -65,15 +72,7 @@ export default {
     },
   },
 
-  beforeCreate() {
-    // Find corresponding section by id
-    this.$section = this.$props.section;
-
-    // Provide section to all children
-    provide("$section", this.$section);
-
-    //console.log("XSection | this.$section", this.$section, this.$props);
-  },
+  beforeCreate() {},
 
   created() {},
 

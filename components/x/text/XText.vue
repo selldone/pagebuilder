@@ -25,7 +25,7 @@
     v-html="object.data?.value?.applyAugment(augment, $builder.isEditing)"
     :cloneable="true"
     @click="
-        $builder.isEditing ? $builder.onClickClone($event, object) : undefined
+      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
     "
   ></component>
 </template>
@@ -36,7 +36,7 @@ import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";
 import { isObject } from "lodash-es";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 
 export default defineComponent({
   name: "XText",
@@ -55,7 +55,7 @@ export default defineComponent({
 
     // Optional:
     initialClasses: { type: Array },
-    initialType: { required: true },
+    initialType: { required: false, default: "p" },
   },
   data: () => ({}),
 

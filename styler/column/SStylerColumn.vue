@@ -170,7 +170,7 @@ export default {
   props: {
     target: {
       required: true,
-      type: XColumnObject || XColumnImageTextObject,
+      type: [XColumnObject, XColumnImageTextObject], // Accept both types
     },
 
     /**

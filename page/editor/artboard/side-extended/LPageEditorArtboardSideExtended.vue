@@ -104,8 +104,8 @@ import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinNote } from "@selldone/page-builder/mixins/note/LMixinNote.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import {Section} from "@selldone/page-builder/src/section/section.ts";
-import {CONSOLE} from "@selldone/core-js/helper";
+import { Section } from "@selldone/page-builder/src/section/section.ts";
+import { CONSOLE } from "@selldone/core-js/helper";
 
 export default defineComponent({
   name: "LPageEditorArtboardSideExtended",
@@ -117,9 +117,8 @@ export default defineComponent({
   emits: ["click:note"],
   props: {
     section: Object,
-    aiAutoFillFunction: Boolean,
+    aiAutoFillFunction: Function,
     notes: Array,
-
   },
   data() {
     return {
@@ -134,7 +133,7 @@ export default defineComponent({
   },
 
   methods: {
-    autoComplete(section:Section) {
+    autoComplete(section: Section) {
       const promise = this.aiAutoFillFunction(section);
       if (!promise) return;
 
@@ -144,7 +143,7 @@ export default defineComponent({
       promise
         .then((generated) => {
           CONSOLE.log("🆎 AI created content.", section, generated);
-          section.object.updateObjectWithFeed(generated.object)
+          section.object.updateObjectWithFeed(generated.object);
         })
 
         .finally(() => {
