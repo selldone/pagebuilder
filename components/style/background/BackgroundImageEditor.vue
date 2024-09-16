@@ -248,13 +248,13 @@
         ></s-setting-group>
 
         <s-setting-video
-          :builder="$builder"
           :upload-url="uploadVideoUrl"
           :model-value="bgVideo"
           @update:model-value="(val) => $emit('update:bgVideo', val)"
           dark
           label="Video"
           icon="video_camera_back"
+          @new-item="addVideoToAssets"
         >
         </s-setting-video>
       </v-window-item>
@@ -456,20 +456,18 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
     final_bg_styles() {
       // console.log("final_bg_styles", this.bgCustom, this.bgGradient);
-      return LUtilsBackground.CreateCompleteBackgroundStyleObject(
-        {
-          bg_custom: this.bgCustom,
-          bg_gradient: this.bgGradient,
-          bg_image: this.bgImage,
-          bg_size: this.bgImageSize,
-          bg_repeat: this.bgImageRepeat,
-          bg_color: this.bgColor,
-          dark: null,
-          bg_position: this.bgPosition,
-          bg_rotation: this.bgRotation,
-          bg_backdrop: this.bgBackdrop,
-        }
-      );
+      return LUtilsBackground.CreateCompleteBackgroundStyleObject({
+        bg_custom: this.bgCustom,
+        bg_gradient: this.bgGradient,
+        bg_image: this.bgImage,
+        bg_size: this.bgImageSize,
+        bg_repeat: this.bgImageRepeat,
+        bg_color: this.bgColor,
+        dark: null,
+        bg_position: this.bgPosition,
+        bg_rotation: this.bgRotation,
+        bg_backdrop: this.bgBackdrop,
+      });
     },
 
     raw_style_mode() {
@@ -503,6 +501,13 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     handleProcessVideo(path) {
       this.$emit("update:bgVideo", path);
       this.onChange();
+    },
+
+    addVideoToAssets(item) {
+      const asset_videos = this.$builder.getAssets()?.videos;
+      if (item && asset_videos) {
+        this.AddOrUpdateItemByID(asset_videos, item);
+      }
     },
   },
 };

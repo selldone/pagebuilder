@@ -40,6 +40,7 @@
         allow-image-transform
         @onClear="$emit('update:modelValue', null)"
         @new-path="handleProcessFile"
+        @new-url="v=>$emit('new-url',v)"
         min-height="140px"
         border
         rounded="lg"
@@ -65,6 +66,7 @@
           variant="outlined"
           density="compact"
           clearable
+          persistent-clear
           @click:clear="
             dynamic_input = false;
             $emit('update:modelValue', null);
@@ -86,7 +88,7 @@ export default defineComponent({
     SImageUploader,
   },
 
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "new-url"],
   props: {
     uploadUrl: {
       require: true,
@@ -117,6 +119,7 @@ export default defineComponent({
     handleProcessFile(path) {
       this.$emit("update:modelValue", path);
     },
+
   },
 });
 </script>

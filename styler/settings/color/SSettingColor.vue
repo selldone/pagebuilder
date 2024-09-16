@@ -17,6 +17,7 @@
     :class="{ 'disabled-scale-down': disabled }"
     class="s--setting-color"
     density="compact"
+    :subtitle="subtitle"
   >
     <template v-slot:prepend>
       <span class="-label me-2">
@@ -48,6 +49,7 @@ export default defineComponent({
   props: {
     modelValue: {},
     label: {},
+    subtitle:{},
     icon: {},
     clearable: Boolean,
 
