@@ -28,27 +28,11 @@
       },
     ]"
     :style="[object.style, background_style]"
+    placeholder="[Row] Drag & Drop.."
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
 
-    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Placeholder ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-    <v-col
-      cols="12"
-      v-if="addColumn && SHOW_EDIT_TOOLS && !object.children?.length"
-      style="
-        min-height: 48px;
-        opacity: 0.5;
-        text-align: center;
-        text-transform: uppercase;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
-      <v-icon class="me-1">library_add</v-icon>
-      You can add columns here...
-    </v-col>
   </v-row>
 </template>
 

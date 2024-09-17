@@ -23,6 +23,7 @@
       background_style,
       { maxWidth: object.data?.fluid ? undefined : maxWidthNormal },
     ]"
+    placeholder="[Container] Drag & Drop.."
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ XContainer > Children ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>

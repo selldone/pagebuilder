@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2023. Selldone® Business OS™
+/*!
+ * Copyright (c) 2024. Selldone® Business OS™
  *
  * Author: M.Pajuhaan
  * Web: https://selldone.com
@@ -12,10 +12,26 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-@import "variables/plates";
-@import "page-content/section";
-@import "editor/artboard";
-@import "editor/placeholder";
-@import "page-content/slide";
-@import "animation/loading";
+/*
+Show placeholder text when element is empty (Just in edit mode)
+ */
+.is-editable {
 
+  .section, .x--container, .x--row, .x--column ,.x--buttons{
+    &:empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &::before {
+        content: attr(placeholder);
+        text-transform: capitalize;
+        white-space: pre-wrap;
+        color: #888;
+        font-size: 24px;
+        user-select: none;
+      }
+    }
+  }
+
+}

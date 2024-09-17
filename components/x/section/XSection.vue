@@ -23,6 +23,7 @@
     ]"
     :style="[object.style, background_style]"
     class="section z0"
+    placeholder="[Section] Drag & Drop.."
   >
     <!-- 📹 Background video -->
     <x-video-background
@@ -81,20 +82,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.section{
-  &:empty{
-    position: relative;
-    &::before {
-      content: "Drag & Drop Elements Here..";
-      white-space: pre-wrap; // This preserves the line breaks and wraps text
-      color: #888;
-      font-size: 24px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      user-select: none;
-    }
-  }
-}
+
 </style>
