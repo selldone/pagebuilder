@@ -261,7 +261,8 @@ export default defineComponent({
     }
   }
 }
-
+</style>
+<style lang="scss">
 .sortable-ghost {
   background-color: #0c91d3;
   opacity: 0.9;

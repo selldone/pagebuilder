@@ -15,13 +15,15 @@
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {LModelBackground} from "@selldone/page-builder/models/background/LModelBackground.ts";
 import {XSectionObjectData} from "@selldone/page-builder/components/x/section/XSectionObjectData.ts";
+import coverImage from "@selldone/page-builder/assets/images/covers/LSectionRaw.svg";
 
 export class XSectionObject extends LModelElement<XSectionObjectData> {
   public static ComponentName = "XSection";
   public static Info = {
-    group: "Layout",
+    group: "Section",
     icon: "crop_din",
     title: "Section",
+    image:coverImage,// Set image because its a section!
   };
 
   constructor(

@@ -95,6 +95,7 @@
           :augment="augment"
           :initialClasses="['mx-auto', 'my-2']"
           class="--image"
+          :class="{'--override-max-width':image.style.maxWidth!=='100%'}"
           contain
         />
 
@@ -449,7 +450,10 @@ export default defineComponent({
   }
 
   .--image {
-    max-width: 50% !important; // Prevent exceed image size!
+    &:not(.--override-max-width){
+      max-width: 50% !important; // Prevent exceed image size!
+    }
+
   }
 }
 

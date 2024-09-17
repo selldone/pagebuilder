@@ -30,11 +30,52 @@
       class="-groups border-between-vertical mx-2"
       style="--border-color: #000"
     >
-      <div v-for="(group, name) in groups" :key="name" class="-group mb-2 pb-3">
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Sections ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+      <div
+        v-for="(group, name) in groups_sections"
+        :key="name"
+        class="-group mb-2 pb-3"
+      >
         <div class="-group-header">
           {{ name }}
         </div>
-        <v-row class="-group-body px-2" dense justify="space-around">
+        <v-row
+          class="-group-body -group-body-sections px-2"
+          dense
+          justify="space-around"
+        >
+          <span
+            v-for="(item, index) in group"
+            :key="index"
+            :data-seed="item.data_seed /*Use in drop*/"
+            class="-item-element hover-scale-small"
+            draggable="true"
+            @mouseenter="(e) => showMenu(e, item)"
+            @mouseleave="hideMenu()"
+          >
+            <img v-if="item.image" :src="item.image" class="-item-image" />
+            <!--<v-icon v-if="item.icon" class="me-1">{{ item.Info.icon }}</v-icon>-->
+            {{ item.title }}
+          </span>
+        </v-row>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+      <div
+        v-for="(group, name) in groups_element"
+        :key="name"
+        class="-group mb-2 pb-3"
+      >
+        <div class="-group-header">
+          {{ name }}
+        </div>
+        <v-row
+          class="-group-body -group-body-elements px-2"
+          dense
+          justify="space-around"
+        >
           <span
             v-for="(item, index) in group"
             :key="index"
@@ -60,6 +101,8 @@ import Sortable from "sortablejs";
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
 import AttachDirective from "@selldone/page-builder/directives/AttachDirective.ts";
 import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
+import { LModelElementTypes } from "@selldone/page-builder/models/element/LModelElement.ts";
+import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 
 export default defineComponent({
   name: "LMenuLeftElements",
@@ -73,7 +116,8 @@ export default defineComponent({
       VideoHelper: VideoHelper,
 
       expanded: 0,
-      groups: {},
+      groups_element: {},
+      groups_sections: {},
 
       sortables_group: [],
 
@@ -88,9 +132,44 @@ export default defineComponent({
   },
 
   mounted() {
-    const groups = this.$refs.menu.querySelectorAll(".-group-body");
     const _self = this;
-    groups.forEach((group) => {
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Sections ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Initial sections:
+    const groups_sections = this.$refs.menu.querySelectorAll(
+      ".-group-body-sections",
+    );
+    groups_sections.forEach((group) => {
+      const sortable = Sortable.create(group, {
+        group: {
+          name: "sections-group",
+          put: false,
+          pull: "clone",
+        },
+        sort: false,
+        ghostClass: "sortable-ghost", // Class name for the drop placeholder
+
+        onStart: function (/**Event*/ evt) {
+          const item_seed = evt.item.getAttribute("data-seed");
+          evt.item._dragData = item_seed; // Store data directly on the item
+          _self.setDragMode(true);
+          _self.hideMenu();
+        },
+        // Element dragging ended
+        onEnd: function (/**Event*/ evt) {
+          _self.setDragMode(false);
+        },
+      });
+
+      this.sortables_group.push(sortable);
+    });
+
+    //━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Initial elements:
+    const groups_elements = this.$refs.menu.querySelectorAll(
+      ".-group-body-elements",
+    );
+    groups_elements.forEach((group) => {
       const sortable = Sortable.create(group, {
         group: {
           name: "elements-group",
@@ -139,37 +218,70 @@ export default defineComponent({
     },
 
     generateGroups() {
-      let groups = {};
+      let groups_element = {};
+      let groups_sections = {};
       let group_no_category: any[] = [];
 
       // group elements together
-      LUtilsComponents.XObjects.forEach((element) => {
-        const data_seed = JSON.stringify(element.Seed().toJson());
+      LUtilsComponents.XObjects.forEach(
+        (element: LModelElementTypes.IModelElement) => {
+          const group = element.Info?.group;
 
-        const group = element.Info?.group;
+          // ━━━━━━ Sections ━━━━━━
+          if (group === "Section") {
 
-        element = Object.assign({}, element, {
-          data_seed,
-          title: element.Info?.title,
-          icon: element.Info?.icon,
-          image: element.Info?.image,
-        });
+            const _section_object=(element as XSectionObject).Seed();
+            _section_object.style.minHeight='20vh';
+            const data_seed = JSON.stringify({
+              object: _section_object.toJson(),
+              label: "Section",
+            });
 
-        if (!group) {
-          group_no_category.push(element);
-          return;
-        }
-        if (!groups[group]) {
-          groups[group] = [element];
-          return;
-        }
-        groups[group].push(element);
-      });
+            const _section = Object.assign({}, element, {
+              data_seed,
+              title: element.Info?.title,
+              icon: element.Info?.icon,
+              image: element.Info?.image,
+            });
+
+            if (!groups_sections[group]) {
+              groups_sections[group] = [_section];
+            } else {
+              groups_sections[group].push(_section);
+            }
+          }
+
+          // ━━━━━━ Elements ━━━━━━
+          else {
+            const data_seed = JSON.stringify(element.Seed().toJson());
+
+            element = Object.assign({}, element, {
+              data_seed,
+              title: element.Info?.title,
+              icon: element.Info?.icon,
+              image: element.Info?.image,
+            });
+
+            if (!group) {
+              group_no_category.push(element);
+              return;
+            }
+
+            if (!groups_element[group]) {
+              groups_element[group] = [element];
+              return;
+            }
+            groups_element[group].push(element);
+          }
+        },
+      );
       if (group_no_category.length) {
         const no_category = " "; //this.$t('page_builder.design.no_category');
-        groups[no_category] = group_no_category;
+        groups_element[no_category] = group_no_category;
       }
-      this.groups = groups;
+
+      this.groups_element = groups_element;
+      this.groups_sections = groups_sections;
     },
   },
 });
