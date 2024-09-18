@@ -660,6 +660,12 @@ export default {
       this.option = null;
     },
 
+    //=====================================================================================
+    showColorDialog(color, callback, alpha) {
+      this.ShowLSettingsColor(this.el, color, callback, alpha);
+    },
+    //=====================================================================================
+
     openTextColorEdit(event) {
       // Save range selection:
 

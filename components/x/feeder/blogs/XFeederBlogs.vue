@@ -14,16 +14,25 @@
 
 <template>
   <v-col
+    v-if="is_editing && !$builder.isHideExtra && !articles?.length"
     cols="12"
-    v-if="is_editing && !$builder.isHideExtra"
+    sm="4"
+    md="3"
+    lg="2"
     v-styler:blogs="{
       target: object,
     }"
-    class="temporary rounded-lg usn text-subtitle-2 pa-2 overflow-hidden"
-    style="background: #fff"
+    class="temporary usn d-flex align-center"
   >
-    <v-sheet rounded="lg" class="pa-2" color="#fafafa" elevation="3">
-      <v-icon class="me-2">schema</v-icon>
+    <v-card
+      rounded="lg"
+      class="pa-2 d-flex flex-column justify-center align-center"
+      color="#fafafa"
+      elevation="3"
+      height="90%"
+      width="100%"
+    >
+      <v-icon class="mb-3">schema</v-icon>
       <span class="me-1">Blogs Feeder</span>
 
       <v-expand-x-transition group>
@@ -43,11 +52,11 @@
           indeterminate
         ></v-progress-circular>
       </v-expand-x-transition>
-    </v-sheet>
+    </v-card>
   </v-col>
 
   <template v-if="busy && !articles.length">
-    <v-col v-for="i in 4" :key="i" cols="6" sm="3">
+    <v-col v-for="i in 3" :key="i" cols="6" sm="3">
       <v-skeleton-loader
         :type="['table-heading', 'list-item-two-line', 'image']"
       ></v-skeleton-loader>
@@ -68,6 +77,9 @@
       background_style,
       { 'animation-delay': 300 + i * 100 + 'ms' },
     ]"
+    v-styler:blogs="{
+      target: object,
+    }"
   >
     <s-blog-card
       :article="article"
