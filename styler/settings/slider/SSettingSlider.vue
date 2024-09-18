@@ -55,7 +55,9 @@
 
         <v-btn
           v-if="
-            defaultValue && (modelValue === null || modelValue === undefined)
+            defaultValue !== null &&
+            defaultValue !== undefined &&
+            (modelValue === null || modelValue === undefined)
           "
           @click="$emit('update:modelValue', defaultValue)"
           variant="tonal"
