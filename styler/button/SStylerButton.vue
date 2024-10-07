@@ -180,7 +180,8 @@
                 }
               "
             >
-              <v-icon size="20">{{ it.icon }}</v-icon>
+              <v-icon size="20" :style="direction==='rtl'?'transform: scaleX(-1)':undefined" :class="{'flip-rtl':direction==='auto'}">{{ it.icon }}</v-icon>
+
             </button>
           </li>
         </ul>
@@ -471,6 +472,10 @@ export default {
   }),
 
   computed: {
+    direction(){
+      return this.builder.direction
+    },
+
     TEXT_COLORS() {
       return [
         LUtilsColors.GetColorDark(this.builder.style, 1),

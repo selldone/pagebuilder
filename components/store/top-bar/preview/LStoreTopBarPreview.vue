@@ -42,14 +42,13 @@
         flat
         height="64"
       >
-        <s-header-section-logo :shop="shop" view-only></s-header-section-logo>
+        <s-header-section-logo  view-only></s-header-section-logo>
       </v-toolbar>
 
       <s-storefront-top-menu
         :class="{ 'top-abs': page_style.menu_transparent }"
         :force-dark="page_style.menu_dark"
         :color="header_color"
-        :shop="shop"
         :style="{
           'z-index': page_style.menu_transparent
             ? 99

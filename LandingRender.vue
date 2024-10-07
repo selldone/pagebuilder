@@ -101,10 +101,6 @@ export default {
   components: { LPageViewer },
   emits: [
     "update:page",
-    "update:menu-transparent",
-    "update:header-mode",
-    "update:header-color",
-    "update:menu-dark",
   ],
   props: {
     forceFetchUrl: {
@@ -454,14 +450,25 @@ export default {
       );
       //console.log("this.augment==>", this.augment);
 
+
+
       this.$emit("update:page", this.page);
-      this.$emit("update:menu-transparent", this.menu_transparent);
+
+      // Update global header style:
+      this.$store.commit("setGlobalStyle", {
+        header_color: this.header_color,
+        transparent_header: this.menu_transparent,
+        dark_header: this.menu_dark,
+        header_mode: this.header_mode,
+      });
+
+    /*  this.$emit("update:menu-transparent", this.menu_transparent);
       this.$emit("update:header-mode", this.header_mode);
       this.$emit("update:header-color", this.header_color);
 
       if (this.menu_dark !== null || this.menu_dark !== undefined) {
         this.$emit("update:menu-dark", this.menu_dark);
-      }
+      }*/
 
       if (this.show_heat_map) {
         this.$nextTick(() => {

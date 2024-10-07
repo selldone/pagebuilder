@@ -142,7 +142,13 @@
 
       <li>
         <button class="styler-button" @click="option = 'align'">
-          <v-icon v-if="text_align" size="20">{{ text_align.icon }}</v-icon>
+          <v-icon
+            v-if="text_align"
+            size="20"
+            :style="direction === 'rtl' ? 'transform: scaleX(-1)' : undefined"
+            :class="{ 'flip-rtl': direction === 'auto' }"
+            >{{ text_align.icon }}
+          </v-icon>
           <SStylerIcon v-else name="align" />
 
           <v-tooltip
@@ -271,6 +277,7 @@
           <li v-for="it in TextAlign" :key="it.val">
             <button
               class="styler-button"
+              :class="{ selected: text_align?.val.endsWith(it.val) }"
               @mousedown="
                 (event) => {
                   setTextAlign(it);
@@ -278,7 +285,14 @@
                 }
               "
             >
-              <v-icon size="20">{{ it.icon }}</v-icon>
+              <v-icon
+                size="20"
+                :style="
+                  direction === 'rtl' ? 'transform: scaleX(-1)' : undefined
+                "
+                :class="{ 'flip-rtl': direction === 'auto' }"
+                >{{ it.icon }}
+              </v-icon>
 
               <v-tooltip
                 activator="parent"
@@ -430,7 +444,7 @@ import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
-import {XTextObject} from "@selldone/page-builder/components/x/text/XTextObject.ts";
+import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 
 const TextAlign = [
   { val: "start", icon: "format_align_left", title: "Start" },
@@ -497,8 +511,6 @@ export default {
       type: XTextObject,
     },
 
-
-
     /**
      * Set the location of the proper
      */
@@ -521,7 +533,6 @@ export default {
     url: "",
     text_color_display: null, // Just for display!
 
-
     text_gradient_mode: false,
     uppercase: false,
 
@@ -529,6 +540,9 @@ export default {
   }),
 
   computed: {
+    direction() {
+      return this.builder.direction;
+    },
     TEXT_COLORS() {
       return [
         LUtilsColors.GetColorDark(this.builder.style, 1),
@@ -573,7 +587,6 @@ export default {
         "keyText should be define in v-styler:text={keyText:'...'}",
       );
     }*/
-
 
     this.el.contentEditable = "true";
 
@@ -628,12 +641,7 @@ export default {
   methods: {
     showMasterDesignDialog() {
       //console.log('this.target',this.target.style,this.target.classes)
-      this.ShowLSettingsClassStyle(
-        this.el,
-        this.el,
-        this.target,
-
-      );
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
     },
 
     calculateSelectedTextStyle() {
@@ -686,9 +694,6 @@ export default {
 
       event.preventDefault();
     },
-
-
-
 
     // ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Upper /Normal case ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 

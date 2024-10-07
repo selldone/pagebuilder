@@ -142,6 +142,8 @@ export class Builder {
     videos?: { id: number; path: string; size: number }[];
   };
 
+  public direction: "ltr" | "rtl" |'auto' = "auto";
+
   /**
    * Create a new instance of the page builder.
    */
@@ -438,8 +440,10 @@ export class Builder {
     }
   }
 
-  loadPage(params: { content: Page.IContent; css: IPageCss }) {
+  loadPage(params: { content: Page.IContent; css: IPageCss ,direction: "ltr" | "rtl" | 'auto'}) {
     console.style("<b>📐 Builder | Load Page</b>", params);
+
+    this.setDirection(params.direction);
 
     this.setContent(params.content);
     this.setCss(params.css);
@@ -450,6 +454,11 @@ export class Builder {
 
     // 🩴 Inject custom css:
     LandingCssHelper.Inject(css /*Custom Css*/, this.rootEl);
+  }
+
+  public setDirection(direction: "ltr" | "rtl" | 'auto') {
+    console.style("<b>📐 Builder | Set Direction</b>", direction);
+    this.direction = direction?direction:'auto';
   }
 
   /**

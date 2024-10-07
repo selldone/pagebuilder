@@ -447,6 +447,10 @@ input[type="number"]::-webkit-outer-spin-button {
         min-width: 130px !important;
       }
     }
+
+    &.selected{
+      background: #20272e;
+    }
   }
 
   @media only screen and (max-width: 600px) {

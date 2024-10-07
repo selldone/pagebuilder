@@ -74,6 +74,7 @@
       <!-- ▃▃▃▃▃▃▃▃▃▃ LTR / RTL ▃▃▃▃▃▃▃▃▃▃ -->
       <v-btn-toggle
         v-model="page.direction"
+        @update:model-value="(v) => $builder.setDirection(v)"
         base-color="#222"
         rounded="lg"
         color="#fff"
@@ -146,13 +147,11 @@ import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLa
 
 export default {
   name: "LMenuTopPage",
-  inject: ["$builder",'$shop'],
+  inject: ["$builder", "$shop"],
   components: { LmtLargeButton, LStoreTopBarEditor },
   mixins: [LMixinEvents],
   emits: ["click:save"],
   props: {
-
-
     page: {
       require: true,
     },

@@ -27,7 +27,6 @@
     :placeholder="input.data.placeholder"
     :readonly="isEditing"
     :rounded="input.data.rounded"
-    :shop-name="shop?.name"
     :variant="input.data.variant"
     :single-line="false"
     block
