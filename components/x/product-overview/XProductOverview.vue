@@ -23,7 +23,6 @@
     <s-product-overview
       v-if="product"
       :hss-sticky-but-button="false"
-      :product="product"
       can-buy
       class="mx-auto"
       show-cover
@@ -49,12 +48,19 @@ import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { XProductOverviewObject } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import {CONSOLE} from "@selldone/core-js";
+import {computed} from "vue";
 
 export default {
   name: "XProductOverview",
   mixins: [LMixinXComponent, LMixinEvents],
   components: { SProductOverviewLoading, SProductOverview },
   directives: { styler: StylerDirective },
+
+  provide() {
+    return {
+      $product: computed(() => this.product),
+    };
+  },
 
   props: {
     object: {
