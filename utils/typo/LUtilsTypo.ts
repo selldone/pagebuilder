@@ -32,7 +32,9 @@ export class LUtilsTypo {
    * @param {Screen} screen - The current screen size (e.g., "sm", "md", "lg", etc.) used to determine which styles to apply. Use: $vuetify.display.name
    * @returns {object} An object containing CSS custom properties for the typography, including font sizes for headings, paragraphs, and base font size.
    */
-  static GenerateTypoStyle(style:Page.IStyle, screen: null | "sm" | "md" | "lg" | "xl") {
+  static GenerateTypoStyle(style:Page.IStyle, screen: null | 'xs' | "sm" | "md" | "lg" | "xl") {
+
+    if(screen==='xs')screen=null;
 
     const resolveFontSize = (style: Page.IStyle, screen: Screen, baseKey: string): string|null => {
       const isValidSize = (size: any) => size !== undefined && size !== null && !["auto", "unset", "0", 0].includes(size);
@@ -57,9 +59,9 @@ export class LUtilsTypo {
         case "md":
           return resolveFontSize(style, "md", baseKey) || resolveCascadingFontSize(style, "sm", baseKey);
         case "sm":
-          return resolveFontSize(style, "sm", baseKey) || resolveFontSize(style, "default", baseKey);
+          return resolveFontSize(style, "sm", baseKey) || resolveFontSize(style, null, baseKey);
         default:
-          return resolveFontSize(style, "default", baseKey);
+          return resolveFontSize(style, null, baseKey);
       }
     };
 
