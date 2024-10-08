@@ -170,7 +170,7 @@
                     !$builder.sections.length && past_hover_index === 0,
                 }"
                 :style="[
-                  PageBuilderTypoHelper.GenerateTypoStyle($builder.style),
+                  PageBuilderTypoHelper.GenerateTypoStyle($builder.style,$vuetify.display.name),
                   PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
                 ]"
                 class="page-content-wrap-editor position-relative"

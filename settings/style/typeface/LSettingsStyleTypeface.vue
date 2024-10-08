@@ -92,6 +92,7 @@
       label="Font Size"
       icon="format_size"
       :default-value="computedStyle?.fontSize"
+      clearable
     ></s-setting-size>
 
     <!-- Font Weight -->

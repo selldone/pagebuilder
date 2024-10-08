@@ -81,10 +81,16 @@
           <s-setting-number-input
             v-model="style.font_size"
             :max="100"
-            :min="10"
+            :min="1"
             label="Main font size"
             suffix="px"
             lock
+            responsive
+            v-model:sm-value="style.font_size_sm"
+            v-model:md-value="style.font_size_md"
+            v-model:lg-value="style.font_size_lg"
+            v-model:xl-value="style.font_size_xl"
+            v-model:xxl-value="style.font_size_xxl"
           ></s-setting-number-input>
 
           <s-setting-group icon="format_size" title="Headers & Paragraph">
@@ -96,6 +102,13 @@
             label="H1 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h1_size_sm"
+            v-model:md-value="style.h1_size_md"
+            v-model:lg-value="style.h1_size_lg"
+            v-model:xl-value="style.h1_size_xl"
+            v-model:xxl-value="style.h1_size_xxl"
+
           ></s-setting-size>
           <s-setting-size
             v-model="style.h2_size"
@@ -103,6 +116,13 @@
             label="H2 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h2_size_sm"
+            v-model:md-value="style.h2_size_md"
+            v-model:lg-value="style.h2_size_lg"
+            v-model:xl-value="style.h2_size_xl"
+            v-model:xxl-value="style.h2_size_xxl"
+
           ></s-setting-size>
 
           <s-setting-size
@@ -111,6 +131,13 @@
             label="H3 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h3_size_sm"
+            v-model:md-value="style.h3_size_md"
+            v-model:lg-value="style.h3_size_lg"
+            v-model:xl-value="style.h3_size_xl"
+            v-model:xxl-value="style.h3_size_xxl"
+
           ></s-setting-size>
 
           <s-setting-size
@@ -119,6 +146,12 @@
             label="H4 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h4_size_sm"
+            v-model:md-value="style.h4_size_md"
+            v-model:lg-value="style.h4_size_lg"
+            v-model:xl-value="style.h4_size_xl"
+            v-model:xxl-value="style.h4_size_xxl"
           ></s-setting-size>
           <s-setting-size
             v-model="style.h5_size"
@@ -126,6 +159,12 @@
             label="H5 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h5_size_sm"
+            v-model:md-value="style.h5_size_md"
+            v-model:lg-value="style.h5_size_lg"
+            v-model:xl-value="style.h5_size_xl"
+            v-model:xxl-value="style.h5_size_xxl"
           ></s-setting-size>
           <s-setting-size
             v-model="style.h6_size"
@@ -133,6 +172,12 @@
             label="H6 Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.h6_size_sm"
+            v-model:md-value="style.h6_size_md"
+            v-model:lg-value="style.h6_size_lg"
+            v-model:xl-value="style.h6_size_xl"
+            v-model:xxl-value="style.h6_size_xxl"
           ></s-setting-size>
           <s-setting-size
             v-model="style.p_size"
@@ -140,11 +185,22 @@
             label="P Size"
             lock
             @change="onChange"
+            responsive
+            v-model:sm-value="style.p_size_sm"
+            v-model:md-value="style.p_size_md"
+            v-model:lg-value="style.p_size_lg"
+            v-model:xl-value="style.p_size_xl"
+            v-model:xxl-value="style.p_size_xxl"
           ></s-setting-size>
+
+          <!-- ━━━━━━━━━━━━━━━━━━━━ Responsive ━━━━━━━━━━━━━━━━━━━━ -->
+          <s-setting-group title="Preview" class="mt-5" icon="preview"></s-setting-group>
+          <s-setting-responsive-buttons v-model:screen="selectedScreen" class="my-1" color="#fff">
+          </s-setting-responsive-buttons>
 
           <div
             :style="[
-              PageBuilderTypoHelper.GenerateTypoStyle(style),
+              PageBuilderTypoHelper.GenerateTypoStyle(style, selectedScreen),
               PageBuilderColorsHelper.GenerateColorsStyle(style),
               {
                 fontFamily: style.font,
@@ -153,14 +209,20 @@
             class="my-5 line-height-normal page-content"
             style="min-height: 150px"
           >
-            <h1 :style="{ fontSize: style.h1_size }">Header 1</h1>
-            <h2 :style="{ fontSize: style.h2_size }">Header 2</h2>
-            <h3 :style="{ fontSize: style.h3_size }">Header 3</h3>
-            <h4 :style="{ fontSize: style.h4_size }">Header 4</h4>
-            <h5 :style="{ fontSize: style.h5_size }">Header 5</h5>
-            <h6 :style="{ fontSize: style.h6_size }">Header 6</h6>
+            <h1 >Header 1</h1>
+            <h2 >Header 2</h2>
+            <h3 >Header 3</h3>
+            <h4 >Header 4</h4>
+            <h5 >Header 5</h5>
+            <h6 >Header 6</h6>
 
-            <p :style="{ fontSize: style.p_size }">Paragraph</p>
+            <p >
+              Paragraph | Current display is
+              <b>{{ $vuetify.display.name }}</b> | Show size for
+              <b>{{
+                selectedScreen ? selectedScreen : $t("global.commons.default")
+              }}</b>
+            </p>
           </div>
         </s-setting-expandable>
 
@@ -168,6 +230,8 @@
 
         <v-expansion-panel></v-expansion-panel>
       </v-expansion-panels>
+
+      <div style="height: 20vh"></div>
     </v-card>
   </l-setting-navigation>
 </template>
@@ -186,13 +250,15 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingSize from "@selldone/page-builder/styler/settings/size/SSettingSize.vue";
 import SSettingNumberInput from "@selldone/page-builder/styler/settings/number-input/SSettingNumberInput.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
+import SSettingResponsiveButtons from "@selldone/page-builder/styler/settings/responsive-mixin/SSettingResponsiveButtons.vue";
 
 export default {
   name: "LSettingsPageTypography",
   mixins: [LMixinEvents],
 
   components: {
+    SSettingResponsiveButtons,
     LSettingNavigation,
     SSettingNumberInput,
     SSettingSize,
@@ -210,6 +276,8 @@ export default {
 
     tab: null,
     style: null,
+
+    selectedScreen: null,
 
     //--------------------------
     dialog_master_style: false,

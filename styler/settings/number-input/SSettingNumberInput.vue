@@ -22,16 +22,19 @@
         <span class="-label me-2 min-width-100">
           <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-          {{ label }}</span
-        >
+          {{ label }}
+
+          <small v-if="min && max" class="ms-1">{{ min }} ~ {{ max }}</small>
+        </span>
       </template>
 
       <template v-slot:append>
         <v-btn
           v-if="
-            defaultValue && (modelValue === null || modelValue === undefined)
+            currentDefaultValue &&
+            (currentValue === null || currentValue === undefined)
           "
-          @click="$emit('update:modelValue', defaultValue)"
+          @click="setValue(currentDefaultValue)"
           size="small"
           variant="tonal"
           prepend-icon="shortcut"
@@ -39,19 +42,20 @@
         >
           Set
           <span
-            v-if="defaultValue !== 'unset'"
+            v-if="currentDefaultValue !== 'unset'"
             style="font-size: 9px"
             class="ms-1 tnt"
-            >[{{ defaultValue }}]</span
+            >[{{ currentDefaultValue }}]</span
           >
         </v-btn>
 
         <u-number-input
           v-else
-          :clearable="clearable"
+          :key="selectedScreen"
+          :clearable="clearable || selectedScreen"
           :max="max"
           :min="min"
-          :model-value="modelValue"
+          :model-value="currentValue"
           dense
           hide-details
           style="min-width: 140px"
@@ -72,17 +76,43 @@
     <div>
       <slot></slot>
     </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━ Responsive ━━━━━━━━━━━━━━━━━━━━ -->
+    <s-setting-responsive-buttons
+      v-if="responsive"
+      v-model:screen="selectedScreen"
+      :model-value="modelValue"
+      :sm-value="smValue"
+      :md-value="mdValue"
+      :lg-value="lgValue"
+      :xl-value="xlValue"
+      :xxl-value="xxlValue"
+    >
+    </s-setting-responsive-buttons>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━ Subtitle ━━━━━━━━━━━━━━━━━━━━ -->
+
+    <div v-if="subtitle" class="small">{{ subtitle }}</div>
   </div>
-  <div v-if="subtitle" class="small">{{ subtitle }}</div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
+import SSettingResponsiveMixin from "@selldone/page-builder/styler/settings/responsive-mixin/SSettingResponsiveMixin.ts";
+import SSettingResponsiveButtons from "@selldone/page-builder/styler/settings/responsive-mixin/SSettingResponsiveButtons.vue";
 
 export default defineComponent({
   name: "SSettingNumberInput",
-  components: { UNumberInput },
+  mixins: [SSettingResponsiveMixin],
+  components: { SSettingResponsiveButtons, UNumberInput },
+  emits: [
+    "update:modelValue",
+    "update:smValue",
+    "update:mdValue",
+    "update:lgValue",
+    "update:xlValue",
+  ],
   props: {
     modelValue: {},
     label: {},
@@ -96,17 +126,17 @@ export default defineComponent({
     suffix: {},
     subtitle: {},
     placeholder: {},
-    defaultValue: {},
+
+    /**
+     * Add responsive options
+     */
+    responsive: Boolean,
   },
   computed: {},
   data() {
     return {};
   },
-  methods: {
-    setValue(value) {
-      this.$emit("update:modelValue", value);
-    },
-  },
+  methods: {},
 });
 </script>
 

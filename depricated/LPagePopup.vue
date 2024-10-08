@@ -19,7 +19,7 @@
     ref="render_container"
     :style="[
       CUSTOM_PAGE_STYLE,
-      PageBuilderTypoHelper.GenerateTypoStyle(style),
+      PageBuilderTypoHelper.GenerateTypoStyle(style,$vuetify.display.name),
       PageBuilderColorsHelper.GenerateColorsStyle(style),
       {
         '--bg-color': style.bg_color ? style.bg_color : '#fff',

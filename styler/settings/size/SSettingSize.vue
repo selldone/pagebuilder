@@ -13,54 +13,87 @@
   -->
 <template>
   <!-- ████████████████████████ Size ████████████████████████ -->
-  <v-list-item
-    :class="{ 'disabled-scale-down': disabled }"
-    class="s--setting-size"
-    density="compact"
-  >
-    <template v-slot:title>
-      <span class="-label me-2">
-        <v-icon v-if="icon" class="me-1" :class="iconClass">{{ icon }}</v-icon>
+  <div :class="{ 'disabled-scale-down': disabled }" class="s--setting-size">
+    <v-list-item density="compact">
+      <template v-slot:title>
+        <span class="-label me-2">
+          <v-icon v-if="icon" class="me-1" :class="iconClass">{{
+            icon
+          }}</v-icon>
 
-        {{ label }}</span
-      >
-    </template>
-    <template v-slot:append>
-      <v-btn
-        v-if="defaultValue && (modelValue === null || modelValue === undefined)"
-        @click="$emit('update:modelValue', defaultValue)"
-        size="small"
-        variant="tonal"
-        prepend-icon="shortcut"
-        color="#B2EBF2"
-      >
-        Set <span v-if="defaultValue!=='unset'" style="font-size: 9px" class="ms-1 tnt">[{{defaultValue}}]</span>
-      </v-btn>
-      <u-dimension-input
-        v-else
-        :disabled="disabled"
-        :model-value="modelValue"
-        dense
-        hide-details
-        single-line
-        style="min-width: 150px"
-        variant="outlined"
-        density="compact"
-        @update:model-value="setValue"
-        rounded="lg"
-        class="v-input-small"
-      ></u-dimension-input>
-    </template>
-  </v-list-item>
+          {{ label }}</span
+        >
+      </template>
+      <template v-slot:append>
+        <v-btn
+          v-if="
+            currentDefaultValue &&
+            (currentValue === null || currentValue === undefined)
+          "
+          @click="setValue(currentDefaultValue)"
+          size="small"
+          variant="tonal"
+          prepend-icon="shortcut"
+          color="#B2EBF2"
+        >
+          Set
+          <span
+            v-if="currentDefaultValue !== 'unset'"
+            style="font-size: 9px"
+            class="ms-1 tnt"
+            >[{{ currentDefaultValue }}]</span
+          >
+        </v-btn>
+        <u-dimension-input
+          v-else
+          :key="selectedScreen"
+          :disabled="disabled"
+          :model-value="currentValue"
+          dense
+          hide-details
+          single-line
+          style="min-width: 150px"
+          variant="outlined"
+          density="compact"
+          @update:model-value="setValue"
+          rounded="lg"
+          class="v-input-small"
+          :clearable="clearable"
+          @clear="setValue(null)"
+        ></u-dimension-input>
+      </template>
+    </v-list-item>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━ Responsive ━━━━━━━━━━━━━━━━━━━━ -->
+    <s-setting-responsive-buttons
+      v-if="responsive"
+      v-model:screen="selectedScreen"
+      :model-value="modelValue"
+      :sm-value="smValue"
+      :md-value="mdValue"
+      :lg-value="lgValue"
+      :xl-value="xlValue"
+      :xxl-value="xxlValue"
+    >
+    </s-setting-responsive-buttons>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━ Subtitle ━━━━━━━━━━━━━━━━━━━━ -->
+
+    <div v-if="subtitle" class="small">{{ subtitle }}</div>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
+import SSettingResponsiveMixin from "@selldone/page-builder/styler/settings/responsive-mixin/SSettingResponsiveMixin.ts";
+import SSettingResponsiveButtons from "@selldone/page-builder/styler/settings/responsive-mixin/SSettingResponsiveButtons.vue";
 
 export default defineComponent({
   name: "SSettingSize",
-  components: { UDimensionInput },
+  components: { SSettingResponsiveButtons, UDimensionInput },
+  mixins: [SSettingResponsiveMixin],
+
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
@@ -72,16 +105,14 @@ export default defineComponent({
     defaultValue: {
       default: "unset",
     },
+    subtitle: {},
+    clearable:Boolean
   },
   computed: {},
   data() {
     return {};
   },
-  methods: {
-    setValue(value) {
-      this.$emit("update:modelValue", value);
-    },
-  },
+  methods: {},
 });
 </script>
 
