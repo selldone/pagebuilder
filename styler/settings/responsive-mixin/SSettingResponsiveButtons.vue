@@ -27,6 +27,19 @@
     >
       {{ size.title }}
     </v-btn>
+    <v-btn icon size="x-small" density="compact" class="ms-2">
+      <v-icon>contact_support</v-icon>
+      <v-tooltip activator="parent" content-class="bg-black text-start" max-width="360">
+        <template v-slot:default>
+    <span>
+      Responsive values are applied based on the current screen size. If a specific value for a screen size (e.g., "lg") is not defined,
+      the next available value from a smaller screen ("md", "sm", or "default") will be used instead. This cascading approach ensures
+      consistent and adaptive typography for different device sizes.
+    </span>
+        </template>
+      </v-tooltip>
+
+    </v-btn>
   </div>
 </template>
 
