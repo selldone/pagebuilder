@@ -354,6 +354,10 @@ export default defineComponent({
   },
   emits: ["changeMode", "scale", "load:template"],
   props: {
+    /**
+     * If you want to have synced value model, then you must pass an object to modelValue!
+     * ex. v-model="page"  page should be an object
+     */
     modelValue: {
       required: false,
       type: Object,
