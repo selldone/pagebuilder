@@ -961,6 +961,9 @@ export default defineComponent({
       CONSOLE.log("Page buildr | Load raw template", theme);
       (this.$builder as Builder).loadPage({ content: theme });
 
+      this.loadNextDelayed();
+
+
       this.$emit("load:template", {
         content: this.$builder.export(),
         image: null,
@@ -969,6 +972,9 @@ export default defineComponent({
 
     loadPageTemplate(page) {
       (this.$builder as Builder).loadPage(page);
+
+      this.loadNextDelayed();
+
 
       //update random title:
       page.content.title = "Landing-" + Math.random().toString(36).substring(7);
