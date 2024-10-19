@@ -14,34 +14,43 @@
 <template>
   <!-- ████████████████████████ Switch ████████████████████████ -->
 
-  <v-list-item
-    :class="{ 'disabled-scale-down': disabled }"
-    class="s--setting-switch"
-    density="compact"
-    @click="setValue(!modelValue)"
-  >
-    <template v-slot:title>
-      <span class="-label me-2">
-        <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
+  <div>
+    <v-list-item
+      :class="{ 'disabled-scale-down': disabled }"
+      class="s--setting-switch"
+      density="compact"
+      @click="setValue(!modelValue)"
+    >
+      <template v-slot:title>
+        <span class="-label me-2">
+          <v-icon v-if="icon" class="me-1">{{ icon }}</v-icon>
 
-        {{ label }}</span
-      >
-    </template>
+          {{ label }}</span
+        >
+      </template>
 
-    <template v-slot:append>
-      <v-switch
-        :disabled="disabled"
-        :model-value="modelValue"
-        class="-switch"
-        color="#1976D2"
-        density="compact"
-        hide-details
-        inset
-        @update:model-value="(val) => setValue(val)"
-        @click.stop
-      ></v-switch>
-    </template>
-  </v-list-item>
+      <!-- ━━━━━━━━━━━━━━━━━━━━ Subtitle ━━━━━━━━━━━━━━━━━━━━ -->
+
+      <template v-slot:subtitle v-if="subtitle" >
+        <small>{{ subtitle }}</small>
+      </template>
+
+      <template v-slot:append>
+        <v-switch
+          :disabled="disabled"
+          :model-value="modelValue"
+          class="-switch"
+          color="#1976D2"
+          density="compact"
+          hide-details
+          inset
+          @update:model-value="(val) => setValue(val)"
+          @click.stop
+        ></v-switch>
+      </template>
+    </v-list-item>
+
+  </div>
 </template>
 
 <script>
@@ -55,6 +64,7 @@ export default defineComponent({
     label: {},
     icon: {},
     disabled: Boolean,
+    subtitle: String,
   },
   computed: {},
   data() {
