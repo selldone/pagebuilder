@@ -315,6 +315,79 @@
       </v-sheet>
     </div>
 
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Only For Popup ▃▃▃▃▃▃▃▃▃▃ -->
+    <div v-if="is_popup && model">
+      <v-sheet
+        color="#222"
+        class="d-flex ma-1 overflow-hidden justify-space-between"
+        rounded="lg"
+        height="38"
+      >
+        <v-chip prepend-icon="local_mall" size="small" class="ma-1" label>
+          <small class="me-1">{{$t('global.commons.buy')}}</small>
+          {{ model.purchased }}
+        </v-chip>
+
+        <v-chip size="small" class="ma-1" label>
+          <small class="me-1">{{$t('global.commons.register')}}</small>
+
+          <template v-if="model.registered === 'Yes'">
+            <v-icon color="success" size="small" class="me-1">check_circle</v-icon>
+            {{$t('global.commons.login')}}
+          </template>
+          <template v-else-if="model.registered === 'No'">
+            <v-icon color="red" size="small"  class="me-1">face</v-icon>
+            {{$t('global.commons.guest')}}
+          </template>
+          <template v-else>
+            <v-icon size="small">all_inclusive</v-icon>
+            {{ $t("global.commons.all") }}
+          </template>
+        </v-chip>
+
+        <v-chip size="small" class="ma-1" label>
+          <small class="me-1">{{$t('global.commons.sex')}}</small>
+          <v-icon v-if="model.sex === 'Male'" color="#0288D1" size="20"
+            >male
+          </v-icon>
+          <v-icon v-else-if="model.sex === 'Female'" color="#E91E63" size="20"
+            >female
+          </v-icon>
+          <v-icon v-else size="small">all_inclusive</v-icon>
+        </v-chip>
+
+        <v-chip size="small" class="ma-1" label>
+          <small class="me-1">{{$t('global.commons.age')}}</small>
+          {{ model.age }}
+        </v-chip>
+
+        <v-chip size="small" class="ma-1" label>
+          <small class="me-1">{{$t('global.commons.levels')}}</small>
+          <img
+            v-for="level in model.levels"
+            :key="level"
+            :src="getCustomerClubLevel(level).icon"
+            :title="$t(getCustomerClubLevel(level).name)"
+            class="m-1"
+            height="20"
+            width="20"
+          />
+          <v-icon v-if="!model.levels?.length" size="small">all_inclusive</v-icon>
+        </v-chip>
+
+        <v-chip v-if="model.countries?.length" size="small" class="ma-1" label prepend-icon="share_location">
+          <small class="me-1">{{$t('global.commons.countries')}}</small>
+          <flag
+            v-for="con in model.countries"
+            :key="con"
+            :iso="con"
+            :squared="false"
+            class="m-1"
+          />
+        </v-chip>
+      </v-sheet>
+    </div>
+
     <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
 
     <v-divider vertical></v-divider>
@@ -332,24 +405,22 @@
       >
       </u-button-ai-large>
       <!-- ▃▃▃▃▃▃▃▃▃▃ Set as home page ▃▃▃▃▃▃▃▃▃▃ -->
-      <div v-if="$shop && page" class="mx-2">
+      <div v-if="is_page && $shop && page" class="mx-2">
         <v-btn
           prepend-icon="home"
           class="tnt"
           variant="flat"
           :color="is_shop_home ? '#000' : '#fff'"
-          :class="{ pen: is_shop_home}"
+          :class="{ pen: is_shop_home }"
           size="small"
           rounded
           min-width="100%"
           @click="setAsHome"
           :loading="busy_set_home"
         >
-          {{ is_shop_home? "It's Home" : "Set as Home" }}
+          {{ is_shop_home ? "It's Home" : "Set as Home" }}
 
-          <v-icon v-if="is_shop_home" end color="#009688"
-            >check_circle
-          </v-icon>
+          <v-icon v-if="is_shop_home" end color="#009688">check_circle </v-icon>
         </v-btn>
       </div>
     </div>
@@ -580,8 +651,8 @@ export default {
   }),
 
   computed: {
-    is_shop_home(){
-      return ''+this.$shop?.home === '' + this.page?.id
+    is_shop_home() {
+      return "" + this.$shop?.home === "" + this.page?.id;
     },
     ShortKeys() {
       return {
@@ -629,6 +700,10 @@ export default {
     },
     has_redo() {
       return this.history.hasRedo();
+    },
+
+    model() {
+      return this.$builder.model;
     },
   },
 

@@ -93,12 +93,11 @@
       </v-btn>
 
       <!-- --------------------------------- Preview --------------------------------- -->
-
       <s-storefront-popup
         v-if="show_preview_popup"
-        :popup="popup"
+        v-model="show_preview_popup"
+        :preview-popup="popup"
         preview
-        @close="show_preview_popup = false"
       ></s-storefront-popup>
 
       <v-chip
