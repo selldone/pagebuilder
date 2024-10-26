@@ -252,7 +252,10 @@ export default {
     },
 
     realIndex() {
-      this.$section.__currentSlide = this.realIndex;
+      if(this.allow_touch_move){
+        this.$section.__currentSlide = this.realIndex;
+
+      }
     },
   },
   created() {
@@ -260,6 +263,10 @@ export default {
 
     this.$section.__goToSlide = (index) => {
       this.mainSwiper.slideTo(index);
+
+      this.$nextTick(() => {
+        this.$section.__currentSlide = index;
+      });
     };
 
     this.$section.__currentSlide = this.realIndex;

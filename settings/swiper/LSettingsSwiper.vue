@@ -296,6 +296,7 @@ export default {
       },*/
 
     goToSlide(index) {
+      // console.log("goToSlide", index);
       this.section.__goToSlide(index);
     },
 
