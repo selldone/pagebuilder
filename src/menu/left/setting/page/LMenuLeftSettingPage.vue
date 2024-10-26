@@ -149,6 +149,7 @@
           <v-list-subheader
             >Upload an image for the page. This image will serve as the cover
             for SEO purposes and will also be used in the page listings.
+            <s-widget-help code="Landing.SEO.Customize" inline></s-widget-help>
           </v-list-subheader>
 
           <!-- ============== Image ============== -->
@@ -217,10 +218,12 @@ import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerat
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
 import USmartVerify from "@selldone/components-vue/ui/smart/verify/USmartVerify.vue";
 import BClusterInput from "@selldone/components-vue/backoffice/cluster/input/BClusterInput.vue";
+import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
 
 export default {
   name: "LMenuLeftSettingPage",
   components: {
+    SWidgetHelp,
     BClusterInput,
     USmartVerify,
     USmartSwitch,
