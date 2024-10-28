@@ -25,10 +25,10 @@
       </v-card-actions>
 
       <v-card-text>
-        <s-widget-header
+        <u-widget-header
           :title="$t('global.commons.link')"
           icon="add_link"
-        ></s-widget-header>
+        ></u-widget-header>
         <small class="my-2" style="height: unset"
           >When using absolute links, always include "https://" to ensure the
           correct path is accessed. If "https://" is omitted, the link will be

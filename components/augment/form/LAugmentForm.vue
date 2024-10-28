@@ -14,7 +14,7 @@
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-start">
-    <s-widget-header
+    <u-widget-header
       :add-caption="$t('augment_form.add_caption')"
       :add-sub-caption="$t('augment_form.add_sub_caption')"
       add-text
@@ -27,7 +27,7 @@
           <v-icon>help</v-icon>
         </v-btn>
       </template>
-    </s-widget-header>
+    </u-widget-header>
 
     <v-list-subheader>
       {{ $t("augment_form.subtitle") }}

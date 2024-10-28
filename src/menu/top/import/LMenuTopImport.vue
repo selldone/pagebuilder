@@ -50,8 +50,8 @@
     <v-card class="text-start" flat rounded="xl">
       <v-card-title></v-card-title>
       <v-card-text>
-        <s-widget-header icon="input" title="Import Design File">
-        </s-widget-header>
+        <u-widget-header icon="input" title="Import Design File">
+        </u-widget-header>
         <v-list-subheader>
           <div>
             You can import custom-designed pages in this section. Ensure that

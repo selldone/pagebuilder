@@ -34,10 +34,10 @@
       <v-card-title></v-card-title>
 
       <v-card-text v-if="dialog_pre" class="text-start">
-        <s-widget-header
+        <u-widget-header
           icon="palette"
           title="Color Selector"
-        ></s-widget-header>
+        ></u-widget-header>
         <v-list-subheader></v-list-subheader>
         <v-color-picker
           v-model="color"

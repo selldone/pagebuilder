@@ -14,7 +14,7 @@
 
 <template>
   <div class="widget-box">
-    <s-widget-header
+    <u-widget-header
       add-caption="Set Dynamic Source"
       add-icon="whatshot"
       add-text
@@ -25,7 +25,7 @@
         object.data.src = '{{key}}';
       "
     >
-    </s-widget-header>
+    </u-widget-header>
     <v-text-field
       v-model="object.data.src"
       :append-inner-icon="lock ? 'lock' : 'lock_open'"

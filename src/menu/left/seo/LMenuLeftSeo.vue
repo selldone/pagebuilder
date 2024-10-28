@@ -37,10 +37,10 @@
         <!-- ============== SEO ============== -->
 
         <div class="widget-box mb-5">
-          <s-widget-header
+          <u-widget-header
             :title="$t('global.commons.seo')"
             icon="radar"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader
             >You can set the page title and the description meta tag of this
@@ -87,10 +87,10 @@
         <!-- ============== SEO ============== -->
 
         <div class="widget-box mb-5" style="--background: #fff">
-          <s-widget-header
+          <u-widget-header
             icon="fa:fa-brands fa-google"
             title="SEO Preview"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader></v-list-subheader>
 

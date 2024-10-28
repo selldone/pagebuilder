@@ -39,10 +39,10 @@
         <!-- ============== Name ============== -->
 
         <div class="widget-box mb-5">
-          <s-widget-header
+          <u-widget-header
             :title="$t('global.commons.general_config')"
             icon="tune"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader
             >Adjusting the page URL and modifying the publication status of the
@@ -80,10 +80,10 @@
 
         <!-- ---------------------- Label ---------------------- -->
         <div class="widget-box mb-5">
-          <s-widget-header
+          <u-widget-header
             icon="architecture"
             title="Designer"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <!-- ============== colors ============== -->
           <v-list-subheader
@@ -119,14 +119,14 @@
 
           <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
           <template v-if="$shop">
-            <s-widget-header
+            <u-widget-header
               :to="{ name: 'BPageShopClassificationClusters' }"
               add-caption="Management"
               add-icon="settings"
               add-text
               icon="workspaces"
               title="Cluster"
-            ></s-widget-header>
+            ></u-widget-header>
 
             <v-list-subheader>
               By linking this page to a cluster, you can effortlessly locate and
@@ -145,7 +145,7 @@
         </div>
 
         <div class="widget-box mb-5">
-          <s-widget-header icon="image" title="Image"></s-widget-header>
+          <u-widget-header icon="image" title="Image"></u-widget-header>
           <v-list-subheader
             >Upload an image for the page. This image will serve as the cover
             for SEO purposes and will also be used in the page listings.
@@ -168,10 +168,10 @@
 
         <!-- ---------------------- Delete ---------------------- -->
         <div class="widget-box mb-5" style="border-top: solid medium red">
-          <s-widget-header
+          <u-widget-header
             icon="error_outline"
             title="Delete page"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader>
             <div>

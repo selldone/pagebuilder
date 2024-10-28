@@ -110,10 +110,10 @@ font-weight: 500;"
              </v-col>
 
              <v-col cols="12" sm="6" md="6">
-               <s-widget-header
+               <u-widget-header
                    title="Compiled Css"
                    icon="code"
-               ></s-widget-header>
+               ></u-widget-header>
                <v-list-subheader></v-list-subheader>
 
                <prism-editor

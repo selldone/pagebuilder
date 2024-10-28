@@ -81,10 +81,10 @@
         </div>
 
         <div class="widget-box mb-5">
-          <s-widget-header
+          <u-widget-header
             :title="$t('popup_setting.designer_zone')"
             icon="snippet_folder"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader
             >Only admins and editors will have access to view this information.
@@ -133,14 +133,14 @@
 
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━ 🆑 Cluster ━━━━━━━━━━━━━━━━━━━━━━━━ -->
         <div class="widget-box mb-5">
-          <s-widget-header
+          <u-widget-header
             :to="{ name: 'BPageShopClassificationClusters' }"
             add-caption="Management"
             add-icon="settings"
             add-text
             icon="workspaces"
             title="Cluster"
-          ></s-widget-header>
+          ></u-widget-header>
 
           <v-list-subheader>
             By associating this popup with a cluster, you can easily manage it

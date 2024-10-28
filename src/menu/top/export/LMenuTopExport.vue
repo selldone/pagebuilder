@@ -96,7 +96,7 @@
                 </span>
               </v-list-subheader>
 
-              <s-widget-header icon="code" title="Head"></s-widget-header>
+              <u-widget-header icon="code" title="Head"></u-widget-header>
 
               <div
                 @click="copyToClipboard(embed.head, 'Copy body code')"
@@ -111,7 +111,7 @@
                 ></prism-editor>
               </div>
 
-              <s-widget-header icon="code" title="Body"></s-widget-header>
+              <u-widget-header icon="code" title="Body"></u-widget-header>
 
               <div
                 @click="copyToClipboard(embed.body, 'Copy head code')"

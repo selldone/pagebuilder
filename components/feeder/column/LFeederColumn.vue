@@ -14,7 +14,7 @@
 
 <template>
   <div class="widget-box mb-5">
-    <s-widget-header :title="title" icon="view_agenda"></s-widget-header>
+    <u-widget-header :title="title" icon="view_agenda"></u-widget-header>
     <v-list-subheader
       >Enter column values here and adjust their size according to your
       customization preferences.

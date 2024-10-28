@@ -142,10 +142,10 @@
         </v-card-title>
         <v-card-text>
           <div class="widget-box mb-5">
-            <s-widget-header
+            <u-widget-header
               icon="tune"
               :title="$t('l_page_editor_repository.add_dialog.configuration.title') "
-            ></s-widget-header>
+            ></u-widget-header>
             <v-list-subheader>
               {{$t('l_page_editor_repository.add_dialog.configuration.subtitle')}}
 
@@ -170,7 +170,7 @@
           </div>
 
           <div v-if="selected_element" class="widget-box mb-5">
-            <s-widget-header icon="image" :title="$t('l_page_editor_repository.add_dialog.image.title') "></s-widget-header>
+            <u-widget-header icon="image" :title="$t('l_page_editor_repository.add_dialog.image.title') "></u-widget-header>
             <v-list-subheader>{{$t('l_page_editor_repository.add_dialog.image.subtitle') }}</v-list-subheader>
 
             <s-image-uploader
@@ -191,7 +191,7 @@
           </div>
 
           <div class="widget-box mb-5">
-            <s-widget-header icon="data_object" :title="$t('l_page_editor_repository.add_dialog.code.title') "></s-widget-header>
+            <u-widget-header icon="data_object" :title="$t('l_page_editor_repository.add_dialog.code.title') "></u-widget-header>
             <v-list-subheader>
               {{$t('l_page_editor_repository.add_dialog.code.subtitle')}}
 
