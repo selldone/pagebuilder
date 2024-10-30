@@ -77,7 +77,6 @@
       </v-card-title>
 
       <v-card-text>
-        modelValue:{{ modelValue }}
         <b-products-window
           v-if="dialog"
           :can-select-category="false"
