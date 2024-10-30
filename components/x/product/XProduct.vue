@@ -36,6 +36,8 @@
         :src="getShopImagePath(product.icon)"
         class="mb-1 mb-3"
         :aspect-ratio="1"
+        cover
+        rounded="lg"
       >
         <u-count-down
           v-if="product.dis_end"

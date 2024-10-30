@@ -47,8 +47,8 @@ import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommer
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { XProductOverviewObject } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import {CONSOLE} from "@selldone/core-js";
-import {computed} from "vue";
+import { CONSOLE } from "@selldone/core-js";
+import { computed } from "vue";
 
 export default {
   name: "XProductOverview",
@@ -79,7 +79,7 @@ export default {
     },
 
     product_id() {
-      return this.object.data.product_id;
+      return this.object.data.id;
     },
   },
 
@@ -93,6 +93,12 @@ export default {
   },
 
   created() {
+    // Fix old migrate from product_id to id:
+    if (!this.object?.data?.id && this.object?.data?.product_id) {
+      this.object.data.id = this.object.data.product_id;
+      delete this.object.data.product_id;
+    }
+
     this.getProductInfo();
   },
 

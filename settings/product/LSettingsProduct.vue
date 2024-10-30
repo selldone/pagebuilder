@@ -37,7 +37,7 @@
         >
         </s-setting-group>
         <s-setting-product
-          v-model="target.data.product_id"
+          v-model="target.data.id"
           :shop="shop"
           :label="$t('global.commons.product')"
           icon="bento"

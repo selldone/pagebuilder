@@ -67,7 +67,7 @@ export class XProductOverviewObject extends LModelElement<XProductOverviewObject
 
   static MigrateOld(old: any): XProductOverviewObject {
     const data = new XProductOverviewObjectData({
-      product_id: old.product_info?.id,
+      id: old.product_info?.id,
     });
 
     return new XProductOverviewObject(null, null, null, [], data, null);
