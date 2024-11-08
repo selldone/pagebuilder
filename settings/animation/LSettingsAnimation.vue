@@ -280,12 +280,12 @@
 <script>
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import LEventsName from "../../mixins/events/name/LEventsName";
-import _ from "lodash-es";
 import AnimationClassSelector from "../../components/style/animation/AnimationClassSelector.vue";
 import HoverClassSelector from "../../components/style/hover/HoverClassSelector.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import debounce from "lodash-es/debounce";
 
 export default {
   name: "LSettingsAnimation",
@@ -465,7 +465,7 @@ export default {
 
     //----------------------------------------------------------------------------
 
-    setAnimationDebounced: _.debounce(function () {
+    setAnimationDebounced: debounce(function () {
       this.setAnimation();
     }, 100),
 

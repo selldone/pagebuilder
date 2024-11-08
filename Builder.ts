@@ -13,13 +13,13 @@
  */
 
 import {Section} from "./src/section/section";
-import {App, reactive} from "vue";
+import {App, isRef, reactive, ref} from "vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import XVariants from "./components/x/variants/XVariants.vue";
 import XCountDown from "./components/x/count-down/XCountDown.vue";
 import XRating from "./components/x/rating/XRating.vue";
 import {LUtilsMigration} from "./utils/migration/LUtilsMigration";
-import _, {isFunction, isObject, isString} from "lodash-es";
+import {isFunction, isObject, isString, throttle} from "lodash-es";
 import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
 import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
@@ -29,10 +29,8 @@ import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsCo
 import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
-import {types} from "sass";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
-import { CONSOLE } from "@selldone/core-js";
-import Error = types.Error;
+import {CONSOLE} from "@selldone/core-js";
 
 export namespace builder {
   export interface IOptions {
@@ -61,7 +59,7 @@ export namespace builder {
     isHideExtra: boolean;
     isSorting: boolean;
     isRendered: boolean;
-    showLeftMenu: boolean;  // Hide side menus when styler is visible
+    showLeftMenu: boolean; // Hide side menus when styler is visible
     focusMode: boolean;
   }
 
@@ -142,7 +140,7 @@ export class Builder {
     videos?: { id: number; path: string; size: number }[];
   };
 
-  public direction: "ltr" | "rtl" |'auto' = "auto";
+  public direction: "ltr" | "rtl" | "auto" = "auto";
 
   /**
    * Create a new instance of the page builder.
@@ -198,7 +196,7 @@ export class Builder {
     this.isSorting = state.isSorting;
     this.isRendered = state.isRendered;
     this.showLeftMenu = state.showLeftMenu;
-    this.focusMode = state.focusMode
+    this.focusMode = state.focusMode;
 
     this.history = new History(this);
     this.livestream = new Livestream(this);
@@ -228,6 +226,21 @@ export class Builder {
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
+
+    // Global inform about load components completed! We can use it in vue components by `this.$isBuilderInstalled`
+    const existingProperty = app.config.globalProperties.$isBuilderInstalled;
+    if (existingProperty === undefined || existingProperty === null) {
+      // If $isBuilderInstalled is undefined or null, initialize it as a ref with value true
+      app.config.globalProperties.$isBuilderInstalled = ref(true);
+    } else if (isRef(existingProperty)) {
+      // If it's already a ref, set its value to true
+      existingProperty.value = true;
+    } else {
+      // If it's defined but not a ref, make it reactive by wrapping it in a ref
+      app.config.globalProperties.$isBuilderInstalled = ref(true);
+    }
+
+    console.log("📐 Builder Installed.");
   }
 
   /**
@@ -440,7 +453,11 @@ export class Builder {
     }
   }
 
-  loadPage(params: { content: Page.IContent; css: IPageCss ,direction: "ltr" | "rtl" | 'auto'}) {
+  loadPage(params: {
+    content: Page.IContent;
+    css: IPageCss;
+    direction: "ltr" | "rtl" | "auto";
+  }) {
     console.style("<b>📐 Builder | Load Page</b>", params);
 
     this.setDirection(params.direction);
@@ -456,9 +473,9 @@ export class Builder {
     LandingCssHelper.Inject(css /*Custom Css*/, this.rootEl);
   }
 
-  public setDirection(direction: "ltr" | "rtl" | 'auto') {
+  public setDirection(direction: "ltr" | "rtl" | "auto") {
     console.style("<b>📐 Builder | Set Direction</b>", direction);
-    this.direction = direction?direction:'auto';
+    this.direction = direction ? direction : "auto";
   }
 
   /**
@@ -497,11 +514,11 @@ export class Builder {
               corrected = corrected.replace(/class=".*?"/gs, "");
 
               /* console.error(
-                                                                              "FAULT DETECTION ->",
-                                                                              key + " -> " + val,
-                                                                              "Corrected",
-                                                                              corrected
-                                                                      );*/
+                                                                                            "FAULT DETECTION ->",
+                                                                                            key + " -> " + val,
+                                                                                            "Corrected",
+                                                                                            corrected
+                                                                                    );*/
               obj[key] = corrected;
             }
           } else if (Array.isArray(val)) {
@@ -520,7 +537,7 @@ export class Builder {
       checking(content);
     }
 
-  //  checkHealth(out);
+    //  checkHealth(out);
 
     // Update content in the model:
     if (this.model) this.model.content = out;
@@ -549,7 +566,7 @@ export class Builder {
       );
       return;
     }
-    return this.server.uploadImageUrl(this.type, this.model!);
+    return this.server?.uploadImageUrl(this.type, this.model!);
   }
 
   /**
@@ -558,7 +575,7 @@ export class Builder {
   getVideoUploadUrl() {
     if (
       !this.server?.uploadVideoUrl ||
-      !isFunction(this.server.uploadVideoUrl)
+      !isFunction(this.server?.uploadVideoUrl)
     ) {
       console.error(
         "Invalid uploadVideoUrl function in SetupPageBuilder(...,here)!",
@@ -571,7 +588,7 @@ export class Builder {
       );
       return;
     }
-    return this.server.uploadVideoUrl(this.type, this.model!);
+    return this.server?.uploadVideoUrl(this.type, this.model!);
   }
 
   isPage() {
@@ -625,7 +642,7 @@ export class History {
     this.index = 0;
 
     // Throttle the save function
-    this.save = _.throttle(this.saveNow.bind(this), 2000);
+    this.save = throttle(this.saveNow.bind(this), 2000);
   }
 
   hasUndo() {

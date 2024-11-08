@@ -79,9 +79,9 @@ import { EventBus } from "@selldone/core-js/events/EventBus";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide/LSettingsGallerySlide.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "LSettingsGallery",
@@ -91,7 +91,7 @@ export default {
   components: {
     LSettingNavigation,
     SSettingButton,
-    draggable,
+    draggable: defineAsyncComponent(() => import("vuedraggable")),
     SSettingGroup,
     LSettingsGallerySlide,
   },

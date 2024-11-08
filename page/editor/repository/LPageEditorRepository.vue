@@ -21,9 +21,8 @@
   >
     <v-expand-transition>
       <div v-if="!collapse" class="-header">
-
-        {{$t('l_page_editor_repository.title')}}
-        <div class="small">{{$t('l_page_editor_repository.subtitle')}}</div>
+        {{ $t("l_page_editor_repository.title") }}
+        <div class="small">{{ $t("l_page_editor_repository.subtitle") }}</div>
       </div>
     </v-expand-transition>
 
@@ -116,7 +115,7 @@
         <v-card-title class="d-flex align-center">
           <v-icon class="me-2" color="#111">add_box</v-icon>
 
-{{$t('l_page_editor_repository.add_dialog.title')}}
+          {{ $t("l_page_editor_repository.add_dialog.title") }}
           <v-spacer></v-spacer>
 
           <v-img
@@ -144,18 +143,25 @@
           <div class="widget-box mb-5">
             <u-widget-header
               icon="tune"
-              :title="$t('l_page_editor_repository.add_dialog.configuration.title') "
+              :title="
+                $t('l_page_editor_repository.add_dialog.configuration.title')
+              "
             ></u-widget-header>
             <v-list-subheader>
-              {{$t('l_page_editor_repository.add_dialog.configuration.subtitle')}}
-
+              {{
+                $t("l_page_editor_repository.add_dialog.configuration.subtitle")
+              }}
             </v-list-subheader>
 
             <v-text-field
               v-model="title"
-              :label="$t('l_page_editor_repository.add_dialog.inputs.title.label')"
+              :label="
+                $t('l_page_editor_repository.add_dialog.inputs.title.label')
+              "
               variant="underlined"
-              :messages="$t('l_page_editor_repository.add_dialog.inputs.title.message')"
+              :messages="
+                $t('l_page_editor_repository.add_dialog.inputs.title.message')
+              "
             ></v-text-field>
 
             <v-combobox
@@ -163,15 +169,24 @@
               chips
               closable-chips
               variant="underlined"
-              :label="$t('l_page_editor_repository.add_dialog.inputs.tags.label')"
-              :messages="$t('l_page_editor_repository.add_dialog.inputs.tags.message')"
+              :label="
+                $t('l_page_editor_repository.add_dialog.inputs.tags.label')
+              "
+              :messages="
+                $t('l_page_editor_repository.add_dialog.inputs.tags.message')
+              "
               multiple
             ></v-combobox>
           </div>
 
           <div v-if="selected_element" class="widget-box mb-5">
-            <u-widget-header icon="image" :title="$t('l_page_editor_repository.add_dialog.image.title') "></u-widget-header>
-            <v-list-subheader>{{$t('l_page_editor_repository.add_dialog.image.subtitle') }}</v-list-subheader>
+            <u-widget-header
+              icon="image"
+              :title="$t('l_page_editor_repository.add_dialog.image.title')"
+            ></u-widget-header>
+            <v-list-subheader>{{
+              $t("l_page_editor_repository.add_dialog.image.subtitle")
+            }}</v-list-subheader>
 
             <s-image-uploader
               :image="getShopImagePath(selected_element.image)"
@@ -191,14 +206,18 @@
           </div>
 
           <div class="widget-box mb-5">
-            <u-widget-header icon="data_object" :title="$t('l_page_editor_repository.add_dialog.code.title') "></u-widget-header>
+            <u-widget-header
+              icon="data_object"
+              :title="$t('l_page_editor_repository.add_dialog.code.title')"
+            ></u-widget-header>
             <v-list-subheader>
-              {{$t('l_page_editor_repository.add_dialog.code.subtitle')}}
-
+              {{ $t("l_page_editor_repository.add_dialog.code.subtitle") }}
             </v-list-subheader>
             <v-textarea
               v-model="section"
-              :messages="$t('l_page_editor_repository.add_dialog.inputs.section.message') "
+              :messages="
+                $t('l_page_editor_repository.add_dialog.inputs.section.message')
+              "
               @blur="onBlur"
               variant="underlined"
             ></v-textarea>
@@ -232,7 +251,11 @@
               @click="selected_element ? editElement() : addElement()"
             >
               <v-icon start>{{ selected_element ? "save" : "add" }}</v-icon>
-              {{ selected_element ? $t('global.actions.update') : $t('global.actions.add') }}
+              {{
+                selected_element
+                  ? $t("global.actions.update")
+                  : $t("global.actions.add")
+              }}
             </v-btn>
           </div>
         </v-card-actions>
@@ -244,7 +267,7 @@
 <script lang="ts">
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
-import _ from "lodash-es";
+import { throttle } from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import { LUtilsFont } from "../../../utils/font/LUtilsFont";
@@ -309,7 +332,7 @@ export default {
   },
 
   watch: {
-    search: _.throttle(function (newVal, oldVal) {
+    search: throttle(function (newVal, oldVal) {
       this.page = 1;
       this.fetchElements();
     }, window.SERACH_THROTTLE),

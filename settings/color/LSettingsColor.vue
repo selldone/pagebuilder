@@ -54,10 +54,10 @@
 <script>
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _ from "lodash-es";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import debounce from "lodash-es/debounce";
 
 export default {
   name: "LSettingsColor",
@@ -192,7 +192,7 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-    setColorDebounced: _.debounce(function () {
+    setColorDebounced: debounce(function () {
       // console.log("Update color", this.color);
       this.setColor(this.color);
     }, 100),

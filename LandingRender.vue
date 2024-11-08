@@ -71,7 +71,6 @@
       <div v-if="busy" class="min-height-80vh">
         <u-loading-ellipsis class="my-10" height="240px"></u-loading-ellipsis>
       </div>
-
       <LPageViewer
         v-if="json"
         :key="'page_' + page?.id"
@@ -99,9 +98,7 @@ import { AugmentHelper, CONSOLE } from "@selldone/core-js";
 export default {
   name: "LandingRender",
   components: { LPageViewer },
-  emits: [
-    "update:page",
-  ],
+  emits: ["update:page"],
   props: {
     forceFetchUrl: {
       // Set fetch url externally! Used in page builder widget!
@@ -134,6 +131,8 @@ export default {
   }),
 
   computed: {
+
+
     direction() {
       return this.page ? this.page.direction : "auto";
     },
@@ -175,6 +174,8 @@ export default {
     action() {
       if (this.show_heat_map) this.initHeatmap();
     },
+
+
   },
 
   async created() {
@@ -242,7 +243,7 @@ export default {
     //------------------------------------- Visualize Heatmap For Admin ------------------------------------------------
 
     initHeatmap() {
-      if (!this.page) return;
+      if (!this.page || !this.show_heat_map || !this.$refs.page_render) return;
 
       let type = this.$vuetify.display.smAndDown
         ? "mobile"
@@ -450,8 +451,6 @@ export default {
       );
       //console.log("this.augment==>", this.augment);
 
-
-
       this.$emit("update:page", this.page);
 
       // Update global header style:
@@ -462,13 +461,13 @@ export default {
         header_mode: this.header_mode,
       });
 
-    /*  this.$emit("update:menu-transparent", this.menu_transparent);
-      this.$emit("update:header-mode", this.header_mode);
-      this.$emit("update:header-color", this.header_color);
-
-      if (this.menu_dark !== null || this.menu_dark !== undefined) {
-        this.$emit("update:menu-dark", this.menu_dark);
-      }*/
+      /*  this.$emit("update:menu-transparent", this.menu_transparent);
+        this.$emit("update:header-mode", this.header_mode);
+        this.$emit("update:header-color", this.header_color);
+  
+        if (this.menu_dark !== null || this.menu_dark !== undefined) {
+          this.$emit("update:menu-dark", this.menu_dark);
+        }*/
 
       if (this.show_heat_map) {
         this.$nextTick(() => {

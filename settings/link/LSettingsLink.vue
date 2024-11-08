@@ -51,7 +51,7 @@
 
 <script>
 import LEventsName from "../../mixins/events/name/LEventsName";
-import _ from "lodash-es";
+import { delay } from "lodash-es";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
@@ -70,7 +70,6 @@ export default {
     // ---------------------------------
     show_dialog: false,
 
-
     //--------------------------
     key_listener_keydown: null,
   }),
@@ -81,7 +80,7 @@ export default {
     show_dialog(val) {
       if (!val)
         // Reset after close!
-        _.delay(() => {
+        delay(() => {
           this.resetToDefault(); // 🞇 Reset to default
         }, 300);
     },
@@ -142,8 +141,6 @@ export default {
     showDialog() {
       this.show_dialog = true;
     },
-
-
   },
 };
 </script>

@@ -85,7 +85,6 @@
             @update:model-value="changed = true"
           >
           </prism-editor>
-
         </div>
 
         <div class="widget-box -large mb-5">
@@ -225,11 +224,17 @@
   </v-bottom-sheet>
 </template>
 
-<script>
+<script lang="ts">
+//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
+import "prismjs";
+import "prismjs/themes/prism.css";
+
+import { PrismEditor } from "vue-prism-editor";
+import "vue-prism-editor/dist/prismeditor.min.css";
+
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
-import { PrismEditor } from "vue-prism-editor";
 import {
   LRawCodeHelper,
   RawCodeMode,
@@ -355,7 +360,6 @@ export default {
     highlighter(code) {
       return Prism.highlight(code, Prism.languages.html, "html");
     },
-
 
     refreshScripts() {
       this.busy_scripts = true;

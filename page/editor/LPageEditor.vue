@@ -145,7 +145,7 @@
             <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
             <l-page-editor-artboard-top-bar
-                v-if="modelValue"
+              v-if="modelValue"
               :page="modelValue"
               :fullscreen="!scale_down"
               :shop="$shop"
@@ -170,7 +170,10 @@
                     !$builder.sections.length && past_hover_index === 0,
                 }"
                 :style="[
-                  PageBuilderTypoHelper.GenerateTypoStyle($builder.style,$vuetify.display.name),
+                  PageBuilderTypoHelper.GenerateTypoStyle(
+                    $builder.style,
+                    $vuetify.display.name,
+                  ),
                   PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
                 ]"
                 class="page-content-wrap-editor position-relative"
@@ -312,7 +315,7 @@ import { LUtilsColors } from "../../utils/colors/LUtilsColors";
 import LTemplatesList from "../../components/templates/list/LTemplatesList.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
-import _ from "lodash-es";
+import { delay, throttle } from "lodash-es";
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
@@ -728,7 +731,7 @@ export default defineComponent({
         this.$builder.showLeftMenu = !this.$builder.showLeftMenu;
 
         // Delay the scrolling to allow the scaling animation to complete
-        _.delay(
+        delay(
           () => {
             this.$nextTick(() => {
               window.scrollTo({
@@ -826,7 +829,7 @@ export default defineComponent({
   },
 
   methods: {
-    onUpdatePreview: _.throttle(function () {
+    onUpdatePreview: throttle(function () {
       const sections = this.$builder?.sections;
       // console.log("sections -------->", sections);
       if (!this.modelValue?.id) return; // Only emit changes if page exists!
@@ -948,7 +951,7 @@ export default defineComponent({
     },
 
     loadNextDelayed() {
-      _.delay(() => {
+      delay(() => {
         this.delay_load++;
         // console.log('this.delay_load',this.delay_load,this.$builder.sections.length)
         if (this.delay_load <= this.$builder.sections.length) {
@@ -967,7 +970,6 @@ export default defineComponent({
 
       this.loadNextDelayed();
 
-
       this.$emit("load:template", {
         content: this.$builder.export(),
         image: null,
@@ -978,7 +980,6 @@ export default defineComponent({
       (this.$builder as Builder).loadPage(page);
 
       this.loadNextDelayed();
-
 
       //update random title:
       page.content.title = "Landing-" + Math.random().toString(36).substring(7);
@@ -1116,7 +1117,7 @@ export default defineComponent({
     },
 
     //-------------------------------------------------------------------------------------
-    updateRealtimePreview: _.throttle(function (_page) {
+    updateRealtimePreview: throttle(function (_page) {
       this.updateRealtimePreviewNow(_page);
     }, 5000),
 

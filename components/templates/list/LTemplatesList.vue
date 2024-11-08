@@ -28,7 +28,7 @@
           ><img
             height="55%"
             src="@selldone/components-vue/assets/selldone-logo/selldone-gradient-purple.svg"
-            width="55%"
+            width="55%" alt="SD"
         /></span>
 
         {{ $t("page_builder.design.themes.title") }}
@@ -128,7 +128,6 @@
               md="3"
               sm="4"
               cols="6"
-
             >
               <v-card
                 class="rounded-2rem position-relative border overflow-hidden pa-2"
@@ -194,11 +193,11 @@
   </v-card>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
-import _ from "lodash-es";
+import { throttle } from "lodash-es";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 
 /**
  * <l-templates-list>
@@ -263,7 +262,7 @@ export default {
   },
 
   watch: {
-    search: _.throttle(function (newVal, oldVal) {
+    search: throttle(function (newVal, oldVal) {
       this.page = 1;
       this.fetchTemplates();
     }, window.SERACH_THROTTLE),

@@ -250,14 +250,7 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-    /*  onAcceptDebounced: _.debounce(function () {
-        this.onAccept(false);
-      }, 3000),
-  
-      onAccept() {
-        if (!this.dialog || this.LOCK) return;
-  
-      },*/
+
   },
 };
 </script>

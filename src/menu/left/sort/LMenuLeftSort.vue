@@ -40,15 +40,14 @@
       </v-btn>
     </v-toolbar>
 
-
     <!-- ████████████████████ Hierarchy ████████████████████ -->
     <draggable
       v-model="$builder.sections"
       tag="div"
       animation="200"
-      ghostClass= "ghost"
+      ghostClass="ghost"
     >
-      <template v-slot:item="{ element}">
+      <template v-slot:item="{ element }">
         <l-menu-left-sort-item
           :section="element"
           @mouseenter="onHoverIn(element)"
@@ -63,17 +62,20 @@
 </template>
 
 <script lang="ts">
-import draggable from "vuedraggable";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 import debounce from "lodash-es/debounce";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import LMenuLeftSortItem from "@selldone/page-builder/src/menu/left/sort/item/LMenuLeftSortItem.vue";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "LMenuLeftSort",
   mixins: [LMixinEvents],
-  components: { LMenuLeftSortItem, draggable },
+  components: {
+    LMenuLeftSortItem,
+    draggable: defineAsyncComponent(() => import("vuedraggable")),
+  },
 
   inject: ["$builder"],
   props: {},
@@ -106,9 +108,9 @@ export default {
 
   methods: {
     onHoverIn(section: Section) {
-      if(this.lock_scroll)return;
+      if (this.lock_scroll) return;
 
-      this.current_section=section;
+      this.current_section = section;
       // Remove all 'element-focus-editing' classes from elements
       $(".element-focus-editing").removeClass("element-focus-editing");
 
@@ -124,7 +126,12 @@ export default {
       section.object.$element?.classList.remove("element-focus-editing");
     },
     scrollToElement() {
-      ScrollHelper.scrollToElement( this.current_section?.object.$element, 0, "smooth", true);
+      ScrollHelper.scrollToElement(
+        this.current_section?.object.$element,
+        0,
+        "smooth",
+        true,
+      );
     },
   },
 };

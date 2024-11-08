@@ -22,12 +22,6 @@
     ref="wrapper"
     :remove-child="removeChild"
   >
-    <!--  <div
-      v-if="component === 'XSection'"
-      class="absolute-top-center bg-white pa-2 z2"
-    >
-      🌞 NEW 🔽🔽
-    </div>-->
     <!-- ━━━━━━━━━━━━ Children ━━━━━━━━━━━━ -->
 
     <x-component

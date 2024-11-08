@@ -218,6 +218,13 @@
 </template>
 
 <script lang="ts">
+//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
+import "prismjs";
+import "prismjs/themes/prism.css";
+
+import { PrismEditor } from "vue-prism-editor";
+import "vue-prism-editor/dist/prismeditor.min.css";
+
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 
 import ProductFramesSample from "../../sections/store/custom-listing/frames/ProductFramesSample";
@@ -228,10 +235,9 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import { PrismEditor } from "vue-prism-editor";
 import "prismjs/themes/prism-dark.css";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 
 export default {
   name: "LSettingsFrame",

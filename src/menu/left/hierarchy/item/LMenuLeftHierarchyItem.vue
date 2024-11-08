@@ -138,18 +138,18 @@
 <script lang="ts">
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import draggable from "vuedraggable";
 import debounce from "lodash-es/debounce";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
 import { LUtilsComponents } from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "LMenuLeftHierarchyItem",
   mixins: [LMixinEvents],
 
   components: {
-    draggable,
+    draggable: defineAsyncComponent(() => import("vuedraggable")),
     LMenuLeftHierarchyItem: self, // Directly referencing the component
   },
   emits: ["hover-in", "hover-out", "right-click"],

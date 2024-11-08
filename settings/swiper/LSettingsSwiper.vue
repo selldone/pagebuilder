@@ -123,7 +123,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { StripTags } from "@selldone/core-js/helper/html/HtmlHelper";
@@ -147,10 +147,10 @@ import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import LSettingsSwiperSlide from "@selldone/page-builder/settings/swiper/slide/LSettingsSwiperSlide.vue";
-import draggable from "vuedraggable";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "LSettingsSwiper",
@@ -160,7 +160,7 @@ export default {
   components: {
     LSettingNavigation,
     SSettingButton,
-    draggable,
+    draggable: defineAsyncComponent(() => import("vuedraggable")),
     LSettingsSwiperSlide,
     OSwiperKeyboard,
     OSwiperEffect,
@@ -301,17 +301,6 @@ export default {
     },
 
     //----------------------------------------------------------------------------
-
-    /*  setSlideDebounced: _.debounce(function () {
-        this.setSlide();
-      }, 100),
-  
-      setSlide() {
-        if (!this.show_edit_slide || this.LOCK) return;
-  
-  
-        //this.section?.__refreshCallback();
-      },*/
   },
 };
 </script>

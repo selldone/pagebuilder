@@ -127,17 +127,20 @@
 
 <script lang="ts">
 import LMenuLeftHierarchyItem from "@selldone/page-builder/src/menu/left/hierarchy/item/LMenuLeftHierarchyItem.vue";
-import draggable from "vuedraggable";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import { LModelElement } from "@selldone/page-builder/models/element/LModelElement.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 import ScrollHelper from "@selldone/core-js/utils/scroll/ScrollHelper.ts";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "LMenuLeftHierarchy",
   mixins: [LMixinEvents],
-  components: { draggable, LMenuLeftHierarchyItem },
+  components: {
+    draggable: defineAsyncComponent(() => import("vuedraggable")),
+    LMenuLeftHierarchyItem,
+  },
 
   inject: ["$builder"],
   props: {},

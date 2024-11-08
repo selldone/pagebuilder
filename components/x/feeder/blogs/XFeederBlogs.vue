@@ -100,7 +100,7 @@ import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts
 import { Article, CONSOLE } from "@selldone/core-js";
 import SBlogCard from "@selldone/components-vue/storefront/blog/card/SBlogCard.vue";
 import { XFeederBlogsObject } from "@selldone/page-builder/components/x/feeder/blogs/XFeederBlogsObject.ts";
-import _ from "lodash-es";
+import { debounce } from "lodash-es";
 
 export default {
   name: "XFeederBlogs",
@@ -138,7 +138,7 @@ export default {
   },
   watch: {
     filter: {
-      handler: _.debounce(function (filter) {
+      handler: debounce(function (filter) {
         if (filter instanceof Object) {
           console.log("✻ Change blog filter.");
           this.fetchBlogs();

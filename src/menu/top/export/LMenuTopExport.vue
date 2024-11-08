@@ -161,11 +161,17 @@
 </template>
 
 <script lang="ts">
+//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
+import "prismjs";
+import "prismjs/themes/prism.css";
+
+import { PrismEditor } from "vue-prism-editor";
+import "vue-prism-editor/dist/prismeditor.min.css";
+
 import { defineComponent } from "vue";
 import { SetupService } from "@selldone/core-js/server";
 import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";
 import "prismjs/themes/prism-dark.css";
-import { PrismEditor } from "vue-prism-editor";
 
 export default defineComponent({
   name: "LMenuTopExport",

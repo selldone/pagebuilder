@@ -27,7 +27,7 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
 
   if (options?.mode === "view") {
     // install the builder
-    app.use(Builder);
+    app.use(Builder,options);
   } else if (options?.mode === "edit") {
     if (!options.server) {
       throw new Error(
@@ -36,14 +36,14 @@ export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
     }
     // Use the uploadImageUrl function if provided
     if (
-      !options.server.uploadImageUrl ||
-      !isFunction(options.server.uploadImageUrl)
+      !options.server?.uploadImageUrl ||
+      !isFunction(options.server?.uploadImageUrl)
     ) {
       console.error(
         "Edit mode. Invalid uploadImageUrl function in SetupPageBuilder(...,here)!",
       );
     } else {
-      const test = options.server.uploadImageUrl("page", {
+      const test = options.server?.uploadImageUrl("page", {
         id: 0,
         shop_id: 0,
       } as Page);
