@@ -16,10 +16,11 @@
   <!-- ―――――――――――――――――――――― LPageViewer > Page Content ―――――――――――――――――――― -->
 
   <div
+    v-if="isInitialized"
     ref="render_container"
     :style="[
       CUSTOM_PAGE_STYLE,
-      PageBuilderTypoHelper.GenerateTypoStyle(style,$vuetify.display.name),
+      PageBuilderTypoHelper.GenerateTypoStyle(style, $vuetify.display.name),
       PageBuilderColorsHelper.GenerateColorsStyle(style),
 
       {
@@ -61,6 +62,7 @@ import { Section } from "@selldone/page-builder/src/section/section.ts";
 
 export default {
   name: "LPageViewer",
+  inject: ["$PageHyper"],
   components: { XComponent },
   props: {
     initialPageData: {
@@ -82,6 +84,10 @@ export default {
   }),
 
   computed: {
+    isInitialized(): boolean {
+      return this.$PageHyper?.isInitialized.value || false;
+    },
+
     style() {
       return this.initialPageData.style ? this.initialPageData.style : {};
     },
@@ -145,21 +151,41 @@ export default {
   created() {
     console.style("<b>🪐 Render page</b>");
     this.$builder.setContent(this.initialPageData);
-  },
 
-  mounted() {
-    this.$nextTick(() => {
-      cleanDOM(this.$refs.render_container);
-      this.initAnimations(this.$refs.render_container);
+    if (this.$PageHyper) {
+      this.$PageHyper
+        .initialize()
+        .then(() => {
+          this.initializeViewer();
+        })
 
-      LandingCssHelper.Inject(
-        this.initialPageCss /*Css*/,
-        this.$refs.render_container,
+        .catch((err) => {
+          // Handle initialization errors
+          console.error("Page Builder initialization failed:", err);
+          this.error = err;
+        });
+    } else {
+      console.error(
+        "Page Builder initialization failed: $PageHyper not found! You must initialize $PageHyper before using Page Builder by `HyperPage(app,options)`!",
       );
-    });
+    }
   },
+
+  mounted() {},
 
   methods: {
+    initializeViewer() {
+      this.$nextTick(() => {
+        cleanDOM(this.$refs.render_container);
+        this.initAnimations(this.$refs.render_container);
+
+        LandingCssHelper.Inject(
+          this.initialPageCss /*Css*/,
+          this.$refs.render_container,
+        );
+      });
+    },
+
     initAnimations(target) {
       this.$nextTick(() => {
         let classSelector = LUtilsClasses.AnimationsClasses()

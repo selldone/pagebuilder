@@ -21,7 +21,7 @@
     :allow-touch-move="allow_touch_move"
     :auto-height="SLIDE_DATA.autoHeight"
     :autoplay="autoplay"
-    :centered-slides="SLIDE_DATA.centeredSlides"
+    :centered-slides="SLIDE_DATA.centeredSlides && calcSlidesPerView>1"
     :cubeEffect="{
       shadow: true,
       slideShadows: true,
@@ -46,7 +46,7 @@
       SLIDE_DATA.slidesPerGroup ? SLIDE_DATA.slidesPerGroup : undefined
     "
     :slides-per-group-auto="SLIDE_DATA.slidesPerGroup === 'auto' /*boolean*/"
-    :slides-per-view="calcSlidesPerView()"
+    :slides-per-view="calcSlidesPerView"
     :space-between="SLIDE_DATA.spaceBetween ? SLIDE_DATA.spaceBetween : 0"
     :thumbs="{ swiper: thumbsSwiper }"
     slide-to-clicked-slide
@@ -237,6 +237,25 @@ export default {
     is_overflow_visible() {
       return this.SLIDE_DATA.effect === "cards";
     },
+
+    /**
+     * Calculate slides per view based on the screen size
+     * @return {number|*}
+     */
+    calcSlidesPerView() {
+      if (this.$vuetify.display.lgAndUp && this.SLIDE_DATA.slidesPerViewLg)
+        return this.SLIDE_DATA.slidesPerViewLg;
+      else if (this.$vuetify.display.mdAndUp && this.SLIDE_DATA.slidesPerViewMd)
+        return this.SLIDE_DATA.slidesPerViewMd;
+      else if (this.$vuetify.display.smAndUp && this.SLIDE_DATA.slidesPerViewSm)
+        return this.SLIDE_DATA.slidesPerViewSm;
+      // Default:
+      else if (this.SLIDE_DATA.slidesPerView >= 1)
+        return this.SLIDE_DATA.slidesPerView;
+
+      return 1;
+    },
+
   },
 
   watch: {
@@ -298,23 +317,7 @@ export default {
       this.$forceUpdate(); // Update vue component!
     },
 
-    /**
-     * Calculate slides per view based on the screen size
-     * @return {number|*}
-     */
-    calcSlidesPerView() {
-      if (this.$vuetify.display.lgAndUp && this.SLIDE_DATA.slidesPerViewLg)
-        return this.SLIDE_DATA.slidesPerViewLg;
-      else if (this.$vuetify.display.mdAndUp && this.SLIDE_DATA.slidesPerViewMd)
-        return this.SLIDE_DATA.slidesPerViewMd;
-      else if (this.$vuetify.display.smAndUp && this.SLIDE_DATA.slidesPerViewSm)
-        return this.SLIDE_DATA.slidesPerViewSm;
-      // Default:
-      else if (this.SLIDE_DATA.slidesPerView >= 1)
-        return this.SLIDE_DATA.slidesPerView;
 
-      return 1;
-    },
   },
 };
 </script>

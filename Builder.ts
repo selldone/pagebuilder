@@ -13,71 +13,23 @@
  */
 
 import {Section} from "./src/section/section";
-import {App, isRef, reactive, ref} from "vue";
+import {App, reactive} from "vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 import XVariants from "./components/x/variants/XVariants.vue";
 import XCountDown from "./components/x/count-down/XCountDown.vue";
 import XRating from "./components/x/rating/XRating.vue";
 import {LUtilsMigration} from "./utils/migration/LUtilsMigration";
 import {isFunction, isObject, isString, throttle} from "lodash-es";
-import {Popup} from "@selldone/core-js/models/shop/popup/popup.model";
 import {SvgFilters} from "./utils/filter/svg-filters/SvgFilters";
 import {FontLoader} from "@selldone/core-js/helper/font/FontLoader";
 import * as types from "./src/types/types";
-import {ShopMenu} from "@selldone/core-js/models/shop/design/menu.model";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
 import Builder from "@selldone/page-builder/Builder.ts";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {CONSOLE} from "@selldone/core-js";
-
-export namespace builder {
-  export interface IOptions {
-    mode: Mode;
-
-    title: string;
-    sections: Section[];
-    style: any;
-    css: IPageCss | null | undefined;
-    columnsPrefix: {
-      mobile: string;
-      tablet: string;
-      desktop: string;
-      widescreen: string;
-      ultrawide: string;
-    };
-
-    // Edit mode only options:
-    server?: IServer;
-    type?: ModelType;
-    model?: IModel;
-  }
-
-  export interface IState {
-    isEditing: boolean;
-    isHideExtra: boolean;
-    isSorting: boolean;
-    isRendered: boolean;
-    showLeftMenu: boolean; // Hide side menus when styler is visible
-    focusMode: boolean;
-  }
-
-  export type IModel = Page | Popup | ShopMenu;
-
-  export type Mode = "edit" | "view";
-
-  export type ModelType = "page" | "popup" | "menu";
-  export type IUploadUrlFunction = (
-    type: ModelType,
-    model: IModel,
-  ) => string | null;
-
-  export interface IServer {
-    uploadImageUrl: IUploadUrlFunction;
-    uploadVideoUrl: IUploadUrlFunction;
-  }
-}
+import {builder, IPageCss} from "@selldone/page-builder/Builder.types.ts";
 
 /**
  * Default options for the builder.
@@ -96,11 +48,6 @@ const BUILDER_OPTIONS: builder.IOptions = {
     widescreen: "v-col-lg-",
     ultrawide: "v-col-xl-",
   },
-};
-
-export type IPageCss = {
-  classes: { selector: string; value: string }[] | null;
-  raw: string | null;
 };
 
 export class Builder {
@@ -226,19 +173,6 @@ export class Builder {
 
     //――― SVG Filters (Css filters add elements) ―――
     SvgFilters.Install();
-
-    // Global inform about load components completed! We can use it in vue components by `this.$isBuilderInstalled`
-    const existingProperty = app.config.globalProperties.$isBuilderInstalled;
-    if (existingProperty === undefined || existingProperty === null) {
-      // If $isBuilderInstalled is undefined or null, initialize it as a ref with value true
-      app.config.globalProperties.$isBuilderInstalled = ref(true);
-    } else if (isRef(existingProperty)) {
-      // If it's already a ref, set its value to true
-      existingProperty.value = true;
-    } else {
-      // If it's defined but not a ref, make it reactive by wrapping it in a ref
-      app.config.globalProperties.$isBuilderInstalled = ref(true);
-    }
 
     console.log("📐 Builder Installed.");
   }
@@ -514,11 +448,11 @@ export class Builder {
               corrected = corrected.replace(/class=".*?"/gs, "");
 
               /* console.error(
-                                                                                            "FAULT DETECTION ->",
-                                                                                            key + " -> " + val,
-                                                                                            "Corrected",
-                                                                                            corrected
-                                                                                    );*/
+                                                                                                          "FAULT DETECTION ->",
+                                                                                                          key + " -> " + val,
+                                                                                                          "Corrected",
+                                                                                                          corrected
+                                                                                                  );*/
               obj[key] = corrected;
             }
           } else if (Array.isArray(val)) {

@@ -13,295 +13,297 @@
   -->
 
 <template>
-  <v-fade-transition>
-    <div
-      v-if="busyFetch"
-      style="
-        background: rgba(0, 0, 0, 0.6);
-        position: fixed;
-        left: 0;
-        width: 100%;
-        top: 0;
-        height: 100%;
-        z-index: 999999;
-        backdrop-filter: blur(4px) grayscale(100%);
-      "
-    >
+  <template v-if="isInitialized">
+    <v-fade-transition>
       <div
-        class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
-        style="z-index: 99999"
+        v-if="busyFetch"
+        style="
+          background: rgba(0, 0, 0, 0.6);
+          position: fixed;
+          left: 0;
+          width: 100%;
+          top: 0;
+          height: 100%;
+          z-index: 999999;
+          backdrop-filter: blur(4px) grayscale(100%);
+        "
       >
-        <v-progress-circular color="#222" :size="50" indeterminate />
-        <p class="mt-2">
-          {{ $t("page_builder.waiting_fetch") }}
-        </p>
-      </div>
-    </div>
-  </v-fade-transition>
-
-  <div
-    v-bind="$attrs"
-    @dragover="onDragEnter"
-    @dragleave="onDragLeave"
-    @drop.stop="onDropFile"
-  >
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-    <l-header :backTo="backTo"></l-header>
-
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-    <l-menu-top
-      :busy-save="busySave"
-      :saveFunction="saveFunction"
-      :ai-page-generate-function="aiPageGenerateFunction"
-      :demo="demo"
-    >
-    </l-menu-top>
-
-    <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-    <div
-      v-scroll="onScroll"
-      class="page-builder position-relative"
-      data-gramm="false"
-      spellcheck="false"
-      style="
-        min-height: 60vh;
-        max-width: 1720px;
-        margin: auto;
-        border-radius: 20px;
-        overflow: hidden;
-      "
-    >
-      <!-- ------------------------------------- Themes ------------------------------------------>
-
-      <l-templates-list
-        v-if="show_templates"
-        has-header
-        clickable
-        @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
-        @select:page="(_page) => loadPageTemplate(_page)"
-      ></l-templates-list>
-
-      <!-- ████████████████████████ Editor ████████████████████████ -->
-      <div
-        :class="{ hidden: show_templates }"
-        :style="{ 'max-height': max_h }"
-        class="designer-container"
-        @mouseup="$builder.isEditing ? $builder.history.save() : undefined"
-        @mousemove="(e) => (lastCursorY = e.clientY)"
-      >
-        <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
-
         <div
-          id="artboard"
-          ref="artboard"
-          :class="{
-            'is-sorting': $builder.isSorting,
-            'is-editable': $builder.isEditing && inEditMode,
-          }"
-          class="artboard overflow-hidden"
-          :style="{ minHeight: scale_down ? '200vh' : '100vh' }"
+          class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
+          style="z-index: 99999"
         >
-          <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+          <v-progress-circular color="#222" :size="50" indeterminate />
+          <p class="mt-2">
+            {{ $t("page_builder.waiting_fetch") }}
+          </p>
+        </div>
+      </div>
+    </v-fade-transition>
 
-          <v-slide-x-reverse-transition leave-absolute>
-            <l-page-editor-artboard-view-mode
-              v-if="
-                !$builder.isAnimation &&
-                !$builder.isTracking &&
-                ($vuetify.display.xlAndUp || scale_down)
-              "
-              :fullscreen="!scale_down"
-              v-model:render-mode="render_mode"
-            >
-            </l-page-editor-artboard-view-mode>
-          </v-slide-x-reverse-transition>
+    <div
+      v-bind="$attrs"
+      @dragover="onDragEnter"
+      @dragleave="onDragLeave"
+      @drop.stop="onDropFile"
+    >
+      <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+      <l-header :backTo="backTo"></l-header>
+
+      <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+      <l-menu-top
+        :busy-save="busySave"
+        :saveFunction="saveFunction"
+        :ai-page-generate-function="aiPageGenerateFunction"
+        :demo="demo"
+      >
+      </l-menu-top>
+
+      <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+      <div
+        v-scroll="onScroll"
+        class="page-builder position-relative"
+        data-gramm="false"
+        spellcheck="false"
+        style="
+          min-height: 60vh;
+          max-width: 1720px;
+          margin: auto;
+          border-radius: 20px;
+          overflow: hidden;
+        "
+      >
+        <!-- ------------------------------------- Themes ------------------------------------------>
+
+        <l-templates-list
+          v-if="show_templates"
+          has-header
+          clickable
+          @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
+          @select:page="(_page) => loadPageTemplate(_page)"
+        ></l-templates-list>
+
+        <!-- ████████████████████████ Editor ████████████████████████ -->
+        <div
+          :class="{ hidden: show_templates }"
+          :style="{ 'max-height': max_h }"
+          class="designer-container"
+          @mouseup="$builder.isEditing ? $builder.history.save() : undefined"
+          @mousemove="(e) => (lastCursorY = e.clientY)"
+        >
+          <!-- ████████████████████████ Editor > 🪅 Artboard ████████████████████████ -->
 
           <div
+            id="artboard"
+            ref="artboard"
             :class="{
-              'in-scale-down': scale_down,
-              desktop: device === 'desktop',
-              tablet: device === 'tablet',
-              mobile: device === 'mobile',
-
-              '--blueprint-mode':
-                $builder.isAnimation ||
-                $builder.isTracking ||
-                render_mode === 'simple' ||
-                render_mode === 'wire',
-              '--tracking': $builder.isTracking,
-              '--wire': in_design_mode && render_mode === 'wire',
-              '--show-classes':
-                in_design_mode && render_mode === 'wire' && show_classes,
-              '--show-styles':
-                in_design_mode && render_mode === 'wire' && show_styles,
-
-              '--editable': in_design_mode,
+              'is-sorting': $builder.isSorting,
+              'is-editable': $builder.isEditing && inEditMode,
             }"
-            :style="CUSTOM_PAGE_STYLE"
-            class="main-sections-container no-inv"
+            class="artboard overflow-hidden"
+            :style="{ minHeight: scale_down ? '200vh' : '100vh' }"
           >
-            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Side Helper (View Mode) ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-            <l-page-editor-artboard-top-bar
-              v-if="modelValue"
-              :page="modelValue"
-              :fullscreen="!scale_down"
-              :shop="$shop"
-              :isPopup="isPopup"
-              :isMenu="isMenu"
-              :demo="demo"
-            ></l-page-editor-artboard-top-bar>
-            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Progress Loading ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-
-            <v-progress-linear
-              v-if="delay_load > 0 && delay_load < 999"
-              :model-value="load_percent"
-              color="success"
-              striped
-            ></v-progress-linear>
-
-            <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-            <v-locale-provider :rtl="modelValue?.direction === 'rtl'">
-              <div
-                :class="{
-                  'drop-active':
-                    !$builder.sections.length && past_hover_index === 0,
-                }"
-                :style="[
-                  PageBuilderTypoHelper.GenerateTypoStyle(
-                    $builder.style,
-                    $vuetify.display.name,
-                  ),
-                  PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
-                ]"
-                class="page-content-wrap-editor position-relative"
-                :dir="modelValue ? modelValue.direction : 'auto'"
+            <v-slide-x-reverse-transition leave-absolute>
+              <l-page-editor-artboard-view-mode
+                v-if="
+                  !$builder.isAnimation &&
+                  !$builder.isTracking &&
+                  ($vuetify.display.xlAndUp || scale_down)
+                "
+                :fullscreen="!scale_down"
+                v-model:render-mode="render_mode"
               >
-                <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
-                <div key="header-demo" class="usn pen">
-                  <slot name="header" :builder="$builder"></slot>
-                </div>
+              </l-page-editor-artboard-view-mode>
+            </v-slide-x-reverse-transition>
 
+            <div
+              :class="{
+                'in-scale-down': scale_down,
+                desktop: device === 'desktop',
+                tablet: device === 'tablet',
+                mobile: device === 'mobile',
+
+                '--blueprint-mode':
+                  $builder.isAnimation ||
+                  $builder.isTracking ||
+                  render_mode === 'simple' ||
+                  render_mode === 'wire',
+                '--tracking': $builder.isTracking,
+                '--wire': in_design_mode && render_mode === 'wire',
+                '--show-classes':
+                  in_design_mode && render_mode === 'wire' && show_classes,
+                '--show-styles':
+                  in_design_mode && render_mode === 'wire' && show_styles,
+
+                '--editable': in_design_mode,
+              }"
+              :style="CUSTOM_PAGE_STYLE"
+              class="main-sections-container no-inv"
+            >
+              <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Top Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+              <l-page-editor-artboard-top-bar
+                v-if="modelValue"
+                :page="modelValue"
+                :fullscreen="!scale_down"
+                :shop="$shop"
+                :isPopup="isPopup"
+                :isMenu="isMenu"
+                :demo="demo"
+              ></l-page-editor-artboard-top-bar>
+              <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Progress Loading ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+
+              <v-progress-linear
+                v-if="delay_load > 0 && delay_load < 999"
+                :model-value="load_percent"
+                color="success"
+                striped
+              ></v-progress-linear>
+
+              <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  Page Content ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
+              <v-locale-provider :rtl="modelValue?.direction === 'rtl'">
                 <div
-                  ref="pagecontent"
-                  :class="{ 'min-height-80vh': $builder.isEditing }"
-                  class="page-content"
-                  @click="handleClickOnSections"
-                  @dragleave="
-                    (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
-                  "
+                  :class="{
+                    'drop-active':
+                      !$builder.sections.length && past_hover_index === 0,
+                  }"
+                  :style="[
+                    PageBuilderTypoHelper.GenerateTypoStyle(
+                      $builder.style,
+                      $vuetify.display.name,
+                    ),
+                    PageBuilderColorsHelper.GenerateColorsStyle($builder.style),
+                  ]"
+                  class="page-content-wrap-editor position-relative"
+                  :dir="modelValue ? modelValue.direction : 'auto'"
                 >
-                  <l-artboard-section
-                    v-for="(section, index) in $builder.sections"
-                    :key="section.uid"
-                    :section="section"
-                    :loading="delay_load <= index"
-                    :index="index"
-                    :shop="$shop"
-                    :aiAutoFillFunction="aiAutoFillFunction"
-                    v-model:past-hover-index="past_hover_index"
-                  ></l-artboard-section>
+                  <!-- Important: set key and wrap with div to prevent loss proper for dragging elements -->
+                  <div key="header-demo" class="usn pen">
+                    <slot name="header" :builder="$builder"></slot>
+                  </div>
 
-                  <l-artboard-drop
-                    v-if="$builder.isEditing && !$builder.sections.length"
-                    :index="0"
-                    key="empty"
+                  <div
+                    ref="pagecontent"
+                    :class="{ 'min-height-80vh': $builder.isEditing }"
+                    class="page-content"
+                    @click="handleClickOnSections"
+                    @dragleave="
+                      (e) => (!$builder.isEditing ? undefined : leaveDrag(e))
+                    "
                   >
-                    <div
-                      class="pa-5 d-flex align-center justify-center"
-                      style="
-                        min-height: 70vh;
-                        background: #6548cc;
-                        border-radius: 20px;
-                        margin: 4%;
-                        color: #fff;
-                        font-size: 2rem;
-                        font-weight: 400;
-                      "
+                    <l-artboard-section
+                      v-for="(section, index) in $builder.sections"
+                      :key="section.uid"
+                      :section="section"
+                      :loading="delay_load <= index"
+                      :index="index"
+                      :shop="$shop"
+                      :aiAutoFillFunction="aiAutoFillFunction"
+                      v-model:past-hover-index="past_hover_index"
+                    ></l-artboard-section>
+
+                    <l-artboard-drop
+                      v-if="$builder.isEditing && !$builder.sections.length"
+                      :index="0"
+                      key="empty"
                     >
-                      Drop Section Here...
-                    </div>
-                  </l-artboard-drop>
+                      <div
+                        class="pa-5 d-flex align-center justify-center"
+                        style="
+                          min-height: 70vh;
+                          background: #6548cc;
+                          border-radius: 20px;
+                          margin: 4%;
+                          color: #fff;
+                          font-size: 2rem;
+                          font-weight: 400;
+                        "
+                      >
+                        Drop Section Here...
+                      </div>
+                    </l-artboard-drop>
+                  </div>
                 </div>
-              </div>
-            </v-locale-provider>
+              </v-locale-provider>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div
-    v-if="drop_landing_file"
-    @drop.stop="onDropFile"
-    style="
-      position: fixed;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(22, 22, 22, 0.5);
-      backdrop-filter: blur(8px);
+    <div
+      v-if="drop_landing_file"
+      @drop.stop="onDropFile"
+      style="
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(22, 22, 22, 0.5);
+        backdrop-filter: blur(8px);
 
-      z-index: 9999;
-    "
-    class="usn pen d-flex flex-column align-center justify-center pa-8 text-white text-h5"
-  >
-    <div class="position-relative">
-      <v-icon size="64" class="ma-5">architecture</v-icon>
-      <v-progress-circular
-        v-if="busy_import"
-        size="94"
-        indeterminate
-        class="center-absolute"
-      ></v-progress-circular>
-    </div>
-    <div class="my-5">Drop Landing File Here</div>
-    <v-btn
-      icon
-      @click="drop_landing_file = false"
-      style="pointer-events: all"
-      variant="text"
+        z-index: 9999;
+      "
+      class="usn pen d-flex flex-column align-center justify-center pa-8 text-white text-h5"
     >
-      <v-icon>close</v-icon>
-    </v-btn>
-  </div>
+      <div class="position-relative">
+        <v-icon size="64" class="ma-5">architecture</v-icon>
+        <v-progress-circular
+          v-if="busy_import"
+          size="94"
+          indeterminate
+          class="center-absolute"
+        ></v-progress-circular>
+      </div>
+      <div class="my-5">Drop Landing File Here</div>
+      <v-btn
+        icon
+        @click="drop_landing_file = false"
+        style="pointer-events: all"
+        variant="text"
+      >
+        <v-icon>close</v-icon>
+      </v-btn>
+    </div>
 
-  <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
+    <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
-  <l-page-editor-repository
-    v-if="inEditMode && !show_templates"
-    :isVisible="!$builder.focusMode"
-    :scale-down-mode="scale_down"
-  >
-  </l-page-editor-repository>
+    <l-page-editor-repository
+      v-if="inEditMode && !show_templates"
+      :isVisible="!$builder.focusMode"
+      :scale-down-mode="scale_down"
+    >
+    </l-page-editor-repository>
 
-  <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
+    <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
 
-  <l-menu-left
-    v-if="!show_templates"
-    :is-visible="
-      $builder.showLeftMenu &&
-      inEditMode &&
-      !$builder.focusMode /*Hide when styler is visible*/
-    "
-    :is-scroll-down="scrollTop > 200"
-    :histories="histories"
-    :set-page-function="setPage"
-    :fetch-page-data="fetchPageData"
-    :page="modelValue"
-  ></l-menu-left>
+    <l-menu-left
+      v-if="!show_templates"
+      :is-visible="
+        $builder.showLeftMenu &&
+        inEditMode &&
+        !$builder.focusMode /*Hide when styler is visible*/
+      "
+      :is-scroll-down="scrollTop > 200"
+      :histories="histories"
+      :set-page-function="setPage"
+      :fetch-page-data="fetchPageData"
+      :page="modelValue"
+    ></l-menu-left>
 
-  <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
-  <l-settings></l-settings>
+    <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
+    <l-settings></l-settings>
 
-  <!-- ――――――――――――――――――――――  Uploader Toolbar ―――――――――――――――――――― -->
-  <x-uploader-toolbar></x-uploader-toolbar>
+    <!-- ――――――――――――――――――――――  Uploader Toolbar ―――――――――――――――――――― -->
+    <x-uploader-toolbar></x-uploader-toolbar>
 
-  <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
-  <l-feeder-dialog></l-feeder-dialog>
+    <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
+    <l-feeder-dialog></l-feeder-dialog>
+  </template>
 </template>
 
 <script lang="ts">
@@ -338,7 +340,7 @@ import { CONSOLE } from "@selldone/core-js";
 export default defineComponent({
   name: "LPageEditor",
   mixins: [LMixinEvents, LMixinArtboard],
-  inject: ["$shop"],
+  inject: ["$shop", "$PageHyper"],
   components: {
     LHeader,
     XUploaderToolbar,
@@ -464,6 +466,10 @@ export default defineComponent({
   },
 
   computed: {
+    isInitialized(): boolean {
+      return this.$PageHyper?.isInitialized.value || false;
+    },
+
     /**
      * External function call. (don't change it!)
      *
@@ -588,215 +594,24 @@ export default defineComponent({
     if (this.modelValue) {
       this.onModelChanged(this.modelValue);
     }
-  },
-  mounted() {
-    this.$builder.rootEl = this.$refs.artboard;
 
-    const _self = this;
+    if (this.$PageHyper) {
+      this.$PageHyper
+        .initialize()
+        .then(() => {
+          this.initializeEditor();
+        })
 
-    this.sortable = Sortable.create(this.$refs.pagecontent, {
-      group: {
-        name: "artboard",
-        put: "sections-group",
-      },
-
-      animation: 150,
-      scroll: true,
-      scrollSpeed: 10,
-      sort: false,
-      disabled: true,
-      preventOnFilter: false,
-      //easing: "cubic-bezier(1, 0, 0, 1)",
-      removeCloneOnHide: true,
-
-      filter: ".ignore-elements",
-      chosenClass: "bg-amber", // Class name for the chosen item
-
-      onAdd(evt) {
-        try {
-          const seed = evt.item._dragData;
-          // console.log("Drop seed", seed, "Event item", evt.item);
-
-          if (seed) {
-            const json = JSON.parse(seed);
-            const object = LUtilsLoader.JsonObjectToInstance(json.object);
-            const instance = { object: object, label: json.label };
-            _self.addSection(instance, evt.newIndex);
-          } else {
-            console.error("Seed data is not attached!");
-          }
-
-          evt.item.remove();
-
-          //console.log("sortable : onAdd");
-        } catch (e) {
-          console.error("Error onAdd Section", e);
-        }
-      },
-      onUpdate(evt) {
-        _self.$builder.sort(evt.oldIndex, evt.newIndex);
-
-        CONSOLE.log("sortable : onUpdate");
-        _self.$builder.history.save();
-      },
-      setData: function (
-        /** DataTransfer */ dataTransfer: DataTransfer,
-        /** HTMLElement*/ dragEl,
-      ) {
-        // Prevent the default drag image from being shown
-        const emptyImage = new Image();
-        emptyImage.src =
-          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-        dataTransfer.setDragImage(emptyImage, 0, 0);
-
-        //dataTransfer.clearData('Text'); //Clear data to prevent insert text in dropped element!
-      },
-    });
-
-    this.showList(); // On edit mode!
-
-    this.interval = window.setInterval(() => {
-      this.calcMaxH();
-    }, 500);
-
-    //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
-
-    //const t = this;
-
-    this.key_listener_keydown = (event) => {
-      if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
-
-      //------------- Global key listener -----------
-
-      // Scape:
-      let isEscape =
-        event.key === "Escape" || event.key === "Esc" || event.keyCode === 27;
-
-      if (isEscape) {
-        //console.log('isEscape')
-        if (this.$builder.cloneStyle) {
-          this.$builder.cloneStyle = false;
-          event.preventDefault();
-          return false;
-        }
-      }
-
-      // Save: Ctrl + S
-      if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
-        this.saveFunction(this.$builder.export());
-        event.preventDefault();
-        return false;
-      }
-
-      // Copy Style Pipette: Ctrl + E
-      if ((event.ctrlKey || event.metaKey) && event.code === "KeyE") {
-        this.$builder.cloneStyle = !this.$builder.cloneStyle;
-        event.preventDefault();
-        return false;
-      }
-
-      // Toggle scale mode:
-      if (event.code === "Tab" /*&& !event.target.isContentEditable*/) {
-        //console.log("this.lastCursorY", this.lastCursorY);
-
-        event.preventDefault(); // Prevent the default Tab behavior
-
-        const scaleDown = !this.$builder.showLeftMenu; // Determine if we need to scale down or up
-
-        // Function to capture the cursor's Y position on the screen
-        const cursorYPosition =
-          this.lastCursorY + (scaleDown ? -300 : -300); /*Top header height*/
-
-        // Calculate the new scroll position to maintain focus around the cursor position
-        function calculateScroll(multiple, cursorY) {
-          const viewportHeight = window.innerHeight;
-          // Calculate the proportional distance of the cursor from the top of the viewport
-          const cursorProportionFromTop = cursorY / viewportHeight;
-          // Adjust scroll position based on scale and cursor's proportion from the top
-          return (
-            (window.scrollY + cursorProportionFromTop * viewportHeight) *
-              multiple -
-            cursorY
-          );
-        }
-
-        // Determine the new scale value and calculate the scroll adjustment
-        // Adjust the '200' and other fixed values as needed for your specific layout
-        const scrollPosition = calculateScroll(
-          scaleDown ? 0.5 : 2,
-          cursorYPosition,
-        );
-
-        // Toggle the visibility of the list or perform the scaling operation
-        this.$builder.showLeftMenu = !this.$builder.showLeftMenu;
-
-        // Delay the scrolling to allow the scaling animation to complete
-        delay(
-          () => {
-            this.$nextTick(() => {
-              window.scrollTo({
-                top: Math.max(0, scrollPosition), // Ensure the scroll position does not go below 0
-                behavior: "smooth", // Enable smooth scrolling
-              });
-            });
-          },
-          scaleDown ? 500 : 300,
-        ); // Delay for scaling up, immediate for scaling down
-      }
-
-      if (event.target.isContentEditable) {
-        // console.log('event.code : '+event.code )
-
-        //------------- Short key only if in editable element! -----------
-
-        if ((event.ctrlKey || event.metaKey) && event.code === "KeyB") {
-          document.execCommand("bold");
-          event.preventDefault();
-        } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyI") {
-          document.execCommand("italic");
-          event.preventDefault();
-        } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyR") {
-          document.execCommand("removeFormat");
-          event.preventDefault();
-        } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyL") {
-          document.execCommand("strikeThrough");
-          event.preventDefault();
-        } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyU") {
-          document.execCommand("underline");
-          event.preventDefault();
-        } else if (
-          (event.ctrlKey || event.metaKey) &&
-          event.code === "Digit1"
-        ) {
-          event.preventDefault();
-          document.selectionAddTag("small", "big");
-        } else if (
-          (event.ctrlKey || event.metaKey) &&
-          event.code === "Digit2"
-        ) {
-          event.preventDefault();
-          document.selectionAddTag("big", "small");
-        }
-
-        return; // No action in content editable focus!
-      }
-
-      //------------- Add Undo Redo -----------
-      if ((event.ctrlKey || event.metaKey) && event.code === "KeyZ") {
-        if (this.inActiveEditingMode()) this.$builder.history.undo();
-      } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyY") {
-        if (this.inActiveEditingMode()) this.$builder.history.redo();
-      }
-    };
-
-    document.addEventListener("keydown", this.key_listener_keydown, true);
-    //――――――――――――――――――――――  END Editor key listener ――――――――――――――――――――
-
-    window.onbeforeunload = function () {
-      return "Are you sure to <b>close page design</b>?";
-    };
-
-    this.registerPastListener();
+        .catch((err) => {
+          // Handle initialization errors
+          console.error("Page Builder initialization failed:", err);
+          this.error = err;
+        });
+    } else {
+      console.error(
+        "Page Builder initialization failed: $PageHyper not found! You must initialize $PageHyper before using Page Builder by `HyperPage(app,options)`!",
+      );
+    }
   },
 
   updated() {
@@ -829,6 +644,228 @@ export default defineComponent({
   },
 
   methods: {
+    initializeEditor() {
+      this.$builder.rootEl = this.$refs.artboard;
+
+      const _self = this;
+
+      this.sortable = Sortable.create(this.$refs.pagecontent, {
+        group: {
+          name: "artboard",
+          put: "sections-group",
+        },
+
+        animation: 150,
+        scroll: true,
+        scrollSpeed: 10,
+        sort: false,
+        disabled: true,
+        preventOnFilter: false,
+        //easing: "cubic-bezier(1, 0, 0, 1)",
+        removeCloneOnHide: true,
+
+        filter: ".ignore-elements",
+        chosenClass: "bg-amber", // Class name for the chosen item
+
+        onAdd(evt) {
+          try {
+            const seed = evt.item._dragData;
+            // console.log("Drop seed", seed, "Event item", evt.item);
+
+            if (seed) {
+              const json = JSON.parse(seed);
+              const object = LUtilsLoader.JsonObjectToInstance(json.object);
+              const instance = { object: object, label: json.label };
+              _self.addSection(instance, evt.newIndex);
+            } else {
+              console.error("Seed data is not attached!");
+            }
+
+            evt.item.remove();
+
+            //console.log("sortable : onAdd");
+          } catch (e) {
+            console.error("Error onAdd Section", e);
+          }
+        },
+        onUpdate(evt) {
+          _self.$builder.sort(evt.oldIndex, evt.newIndex);
+
+          CONSOLE.log("sortable : onUpdate");
+          _self.$builder.history.save();
+        },
+        setData: function (
+          /** DataTransfer */ dataTransfer: DataTransfer,
+          /** HTMLElement*/ dragEl,
+        ) {
+          // Prevent the default drag image from being shown
+          const emptyImage = new Image();
+          emptyImage.src =
+            "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+          dataTransfer.setDragImage(emptyImage, 0, 0);
+
+          //dataTransfer.clearData('Text'); //Clear data to prevent insert text in dropped element!
+        },
+      });
+
+      this.showList(); // On edit mode!
+
+      this.interval = window.setInterval(() => {
+        this.calcMaxH();
+      }, 500);
+
+      //――――――――――――――――――――――  START Editor key listener ――――――――――――――――――――
+
+      //const t = this;
+
+      this.key_listener_keydown = (event) => {
+        if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+
+        //------------- Global key listener -----------
+
+        // Scape:
+        let isEscape =
+          event.key === "Escape" || event.key === "Esc" || event.keyCode === 27;
+
+        if (isEscape) {
+          //console.log('isEscape')
+          if (this.$builder.cloneStyle) {
+            this.$builder.cloneStyle = false;
+            event.preventDefault();
+            return false;
+          }
+        }
+
+        // Save: Ctrl + S
+        if ((event.ctrlKey || event.metaKey) && event.code === "KeyS") {
+          this.saveFunction(this.$builder.export());
+          event.preventDefault();
+          return false;
+        }
+
+        // Copy Style Pipette: Ctrl + E
+        if ((event.ctrlKey || event.metaKey) && event.code === "KeyE") {
+          this.$builder.cloneStyle = !this.$builder.cloneStyle;
+          event.preventDefault();
+          return false;
+        }
+
+        // Toggle scale mode:
+        if (event.code === "Tab" /*&& !event.target.isContentEditable*/) {
+          //console.log("this.lastCursorY", this.lastCursorY);
+
+          event.preventDefault(); // Prevent the default Tab behavior
+
+          const scaleDown = !this.$builder.showLeftMenu; // Determine if we need to scale down or up
+
+          // Function to capture the cursor's Y position on the screen
+          const cursorYPosition =
+            this.lastCursorY + (scaleDown ? -300 : -300); /*Top header height*/
+
+          // Calculate the new scroll position to maintain focus around the cursor position
+          function calculateScroll(multiple, cursorY) {
+            const viewportHeight = window.innerHeight;
+            // Calculate the proportional distance of the cursor from the top of the viewport
+            const cursorProportionFromTop = cursorY / viewportHeight;
+            // Adjust scroll position based on scale and cursor's proportion from the top
+            return (
+              (window.scrollY + cursorProportionFromTop * viewportHeight) *
+                multiple -
+              cursorY
+            );
+          }
+
+          // Determine the new scale value and calculate the scroll adjustment
+          // Adjust the '200' and other fixed values as needed for your specific layout
+          const scrollPosition = calculateScroll(
+            scaleDown ? 0.5 : 2,
+            cursorYPosition,
+          );
+
+          // Toggle the visibility of the list or perform the scaling operation
+          this.$builder.showLeftMenu = !this.$builder.showLeftMenu;
+
+          // Delay the scrolling to allow the scaling animation to complete
+          delay(
+            () => {
+              this.$nextTick(() => {
+                window.scrollTo({
+                  top: Math.max(0, scrollPosition), // Ensure the scroll position does not go below 0
+                  behavior: "smooth", // Enable smooth scrolling
+                });
+              });
+            },
+            scaleDown ? 500 : 300,
+          ); // Delay for scaling up, immediate for scaling down
+        }
+
+        if (event.target.isContentEditable) {
+          // console.log('event.code : '+event.code )
+
+          //------------- Short key only if in editable element! -----------
+
+          if ((event.ctrlKey || event.metaKey) && event.code === "KeyB") {
+            document.execCommand("bold");
+            event.preventDefault();
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "KeyI"
+          ) {
+            document.execCommand("italic");
+            event.preventDefault();
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "KeyR"
+          ) {
+            document.execCommand("removeFormat");
+            event.preventDefault();
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "KeyL"
+          ) {
+            document.execCommand("strikeThrough");
+            event.preventDefault();
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "KeyU"
+          ) {
+            document.execCommand("underline");
+            event.preventDefault();
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "Digit1"
+          ) {
+            event.preventDefault();
+            document.selectionAddTag("small", "big");
+          } else if (
+            (event.ctrlKey || event.metaKey) &&
+            event.code === "Digit2"
+          ) {
+            event.preventDefault();
+            document.selectionAddTag("big", "small");
+          }
+
+          return; // No action in content editable focus!
+        }
+
+        //------------- Add Undo Redo -----------
+        if ((event.ctrlKey || event.metaKey) && event.code === "KeyZ") {
+          if (this.inActiveEditingMode()) this.$builder.history.undo();
+        } else if ((event.ctrlKey || event.metaKey) && event.code === "KeyY") {
+          if (this.inActiveEditingMode()) this.$builder.history.redo();
+        }
+      };
+
+      document.addEventListener("keydown", this.key_listener_keydown, true);
+      //――――――――――――――――――――――  END Editor key listener ――――――――――――――――――――
+
+      window.onbeforeunload = function () {
+        return "Are you sure to <b>close page design</b>?";
+      };
+
+      this.registerPastListener();
+    },
+
     onUpdatePreview: throttle(function () {
       const sections = this.$builder?.sections;
       // console.log("sections -------->", sections);
