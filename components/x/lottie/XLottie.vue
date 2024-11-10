@@ -14,7 +14,6 @@
 
 <template xmlns:v-styler="http://www.w3.org/1999/xhtml">
   <x-uploader
-
     :object="object"
     :aspect-ratio="1"
     :augment="augment"
@@ -41,18 +40,28 @@
   </x-uploader>
 </template>
 
-<script>
+<script lang="ts">
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
 import { XLottieObject } from "@selldone/page-builder/components/x/lottie/XLottieObject.ts";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "XLottie",
   directives: { styler: StylerDirective },
   mixins: [LMixinXComponent],
 
-  components: { XUploader },
+  components: {
+    XUploader,
+    // Asynchronously load the u-lottie component
+    ULottie: defineAsyncComponent(
+      () =>
+        import(
+          /* webpackChunkName: "plug-lottie" */ "@selldone/components-vue/ui/lottie/ULottie.vue"
+        ),
+    ),
+  },
 
   props: {
     object: {
