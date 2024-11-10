@@ -91,12 +91,14 @@ import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
 import { AugmentHelper, CONSOLE } from "@selldone/core-js";
+import { BShopDashboardMixin } from "@app-backoffice/mixins/shop/BShopDashboardMixin.ts";
 
 /**
  * <landing-render>
  */
 export default {
   name: "LandingRender",
+  mixins: [BShopDashboardMixin],
   components: { LPageViewer },
   emits: ["update:page"],
   props: {
@@ -131,8 +133,6 @@ export default {
   }),
 
   computed: {
-
-
     direction() {
       return this.page ? this.page.direction : "auto";
     },
@@ -174,8 +174,6 @@ export default {
     action() {
       if (this.show_heat_map) this.initHeatmap();
     },
-
-
   },
 
   async created() {

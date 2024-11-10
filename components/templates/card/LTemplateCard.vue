@@ -120,9 +120,12 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { BEventBusMixin } from "@app-backoffice/mixins/event-bus/BEventBusMixin.ts";
+
 export default {
   name: "LTemplateCard",
+  mixins: [BEventBusMixin],
   components: {},
   emits: ["select"],
   props: {
@@ -138,12 +141,11 @@ export default {
     variant: {
       default: "outlined",
     },
-    minWidth:{},
+    minWidth: {},
 
     size: {
       default: "large",
     },
-
   },
   data() {
     return {};
