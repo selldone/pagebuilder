@@ -21,7 +21,7 @@
     :allow-touch-move="allow_touch_move"
     :auto-height="SLIDE_DATA.autoHeight"
     :autoplay="autoplay"
-    :centered-slides="SLIDE_DATA.centeredSlides && calcSlidesPerView>1"
+    :centered-slides="SLIDE_DATA.centeredSlides && calcSlidesPerView > 1"
     :cubeEffect="{
       shadow: true,
       slideShadows: true,
@@ -79,7 +79,9 @@
         :remove-child="() => object.children.splice(index, 1)"
         :content-class="realIndex === index ? SLIDE_DATA.active : null"
         :class="[
-          realIndex === index && _slide.component !== 'XColumnImageText'/*Except for content class options*/
+          realIndex === index &&
+          _slide.component !==
+            'XColumnImageText' /*Except for content class options*/
             ? SLIDE_DATA.active
             : null,
           {
@@ -97,7 +99,17 @@ import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXC
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "swiper/css/effect-cube";
+import "swiper/css/effect-cards";
+import "swiper/css/effect-fade";
+import "swiper/css/effect-flip";
+import "swiper/css/free-mode";
+import "swiper/css/grid";
+import "swiper/css/scrollbar";
+import "swiper/css/virtual";
+import "swiper/css/zoom";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
 import {
@@ -124,7 +136,7 @@ import {
 import EffectMaterial from "@selldone/components-vue/ui/swiper/effects/material/effect-material.esm.js";
 import XComponent from "@selldone/page-builder/components/x/component/XComponent.vue";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 
 export default {
   name: "XSwiper",
@@ -255,7 +267,6 @@ export default {
 
       return 1;
     },
-
   },
 
   watch: {
@@ -271,9 +282,8 @@ export default {
     },
 
     realIndex() {
-      if(this.allow_touch_move){
+      if (this.allow_touch_move) {
         this.$section.__currentSlide = this.realIndex;
-
       }
     },
   },
@@ -316,8 +326,6 @@ export default {
 
       this.$forceUpdate(); // Update vue component!
     },
-
-
   },
 };
 </script>
