@@ -17,7 +17,7 @@
   </product-variants-view>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import ProductVariantsView from "@selldone/components-vue/storefront/product/variant/ProductVariantsView.vue";
 

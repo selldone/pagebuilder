@@ -205,7 +205,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import USmartToggle from "@selldone/components-vue/ui/smart/toggle/USmartToggle.vue";

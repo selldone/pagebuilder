@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsBackground } from "../utils/background/LUtilsBackground";
 import { LUtilsTypo } from "../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../utils/colors/LUtilsColors";

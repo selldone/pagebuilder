@@ -113,7 +113,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import BGooglePreview from "@selldone/components-vue/backoffice/google/preview/BGooglePreview.vue";
 import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgressScore.vue";
 import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";

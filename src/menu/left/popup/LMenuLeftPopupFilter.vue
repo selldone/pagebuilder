@@ -205,7 +205,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import SCountrySelect from "@selldone/components-vue/ui/country/select/SCountrySelect.vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import BClubSelect from "@selldone/components-vue/backoffice/club/select/BClubSelect.vue";

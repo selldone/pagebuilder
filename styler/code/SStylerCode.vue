@@ -89,7 +89,7 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";

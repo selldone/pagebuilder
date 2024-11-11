@@ -59,7 +59,7 @@
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";
 

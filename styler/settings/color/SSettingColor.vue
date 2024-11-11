@@ -38,7 +38,7 @@
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UColorSelector from "@selldone/components-vue/ui/color/selector/UColorSelector.vue";
 

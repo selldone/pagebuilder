@@ -61,7 +61,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LFeederGrid from "../../../components/feeder/grid/LFeederGrid.vue";
 import LFeederImage from "../../../components/feeder/image/LFeederImage.vue";
 

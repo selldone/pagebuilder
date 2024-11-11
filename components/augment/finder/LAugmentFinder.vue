@@ -22,7 +22,7 @@
   </u-fade-scroll>
 </template>
 
-<script>
+<script lang="ts">
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
 import { isString } from "lodash-es";
 

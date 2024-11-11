@@ -33,7 +33,7 @@
   </v-btn-toggle>
 </template>
 
-<script>
+<script lang="ts">
 import ALIGN from "../../../src/enums/ALIGN";
 
 export default {

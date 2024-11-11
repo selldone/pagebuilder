@@ -48,7 +48,7 @@
   </s-setting-group>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";

@@ -64,7 +64,7 @@
   </v-sheet>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "SBoxSides",
   emits: ["click:side"],

@@ -43,7 +43,7 @@
   <!-- ▙▉▉▉▉▉▉▉▉▉▉▉▚▚▚▚▚▚▚▚ End Search ▚▚▚▚▚▚▚▚▉▉▉▉▉▉▉▉▉▉▉▟ -->
 </template>
 
-<script>
+<script lang="ts">
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XSearchObject } from "@selldone/page-builder/components/x/search/XSearchObject.ts";

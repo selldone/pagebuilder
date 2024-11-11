@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LFeederResponsibility from "../../../components/feeder/responsibility/LFeederResponsibility.vue";
 
 export default {

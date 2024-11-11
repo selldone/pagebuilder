@@ -67,7 +67,7 @@
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import ULanguageInput from "@selldone/components-vue/ui/language/input/ULanguageInput.vue";
 

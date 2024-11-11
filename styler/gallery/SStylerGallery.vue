@@ -71,7 +71,7 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import * as types from "../../src/types/types";
 import { LUtilsSeeder } from "../../utils/seeder/LUtilsSeeder";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";

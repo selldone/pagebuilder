@@ -27,7 +27,7 @@
   </s-setting-group>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";
 import SSettingSize from "../../../../styler/settings/size/SSettingSize.vue";

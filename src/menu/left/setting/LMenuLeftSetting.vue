@@ -17,7 +17,7 @@
   <l-menu-left-setting-popup v-else-if="is_popup"></l-menu-left-setting-popup>
 </template>
 
-<script>
+<script lang="ts">
 import LMenuLeftSettingPage from "@selldone/page-builder/src/menu/left/setting/page/LMenuLeftSettingPage.vue";
 import LMenuLeftSettingPopup from "@selldone/page-builder/src/menu/left/setting/popup/LMenuLeftSettingPopup.vue";
 

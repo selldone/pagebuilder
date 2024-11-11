@@ -277,7 +277,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import AnimationClassSelector from "../../components/style/animation/AnimationClassSelector.vue";

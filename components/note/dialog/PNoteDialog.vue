@@ -90,7 +90,7 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import UTextMentionInput from "@selldone/components-vue/ui/text/mention-input/UTextMentionInput.vue";
 import PNoteBox from "../../../components/note/box/PNoteBox.vue";

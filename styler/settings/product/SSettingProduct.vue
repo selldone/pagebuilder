@@ -106,7 +106,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import BProductsWindow from "@selldone/components-vue/backoffice/product/window/BProductsWindow.vue";
 import SDenseImagesCircles from "@selldone/components-vue/ui/image/SDenseImagesCircles.vue";

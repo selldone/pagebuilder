@@ -88,7 +88,7 @@
   </s-box-sides>
 </template>
 
-<script>
+<script lang="ts">
 import SBoxSides from "@selldone/page-builder/components/style/preview/SBoxSides.vue";
 
 export default {

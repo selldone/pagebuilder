@@ -50,7 +50,7 @@
   </v-item-group>
 </template>
 
-<script>
+<script lang="ts">
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 
 export default {

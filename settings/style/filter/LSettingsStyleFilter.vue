@@ -31,7 +31,7 @@
   </s-setting-expandable>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SLandingStyleFilter from "@selldone/page-builder/components/style/filter/SLandingStyleFilter.vue";

@@ -94,7 +94,7 @@
   </v-bottom-sheet>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";

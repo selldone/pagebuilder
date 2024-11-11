@@ -66,7 +66,7 @@
     </ul>
   </li>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 

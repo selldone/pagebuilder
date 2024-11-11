@@ -341,7 +341,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import { FONTS } from "@selldone/core-js/helper/font/FontLoader";
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";

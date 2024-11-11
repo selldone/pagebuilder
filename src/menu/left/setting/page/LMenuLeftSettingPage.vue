@@ -212,7 +212,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator.ts";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";

@@ -44,7 +44,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import SPageProductsFilter from "../../components/style/product/filter/SPageProductsFilter.vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";

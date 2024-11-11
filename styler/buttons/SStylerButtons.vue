@@ -117,7 +117,7 @@
   </s-styler-template>
 </template>
 
-<script>
+<script lang="ts">
 import ALIGN from "../../src/enums/ALIGN";
 import JUSTIFY from "../../src/enums/JUSTIFY";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";

@@ -40,7 +40,7 @@
   </v-row>
 </template>
 
-<script>
+<script lang="ts">
 import XButton from "../../../components/x/button/XButton.vue";
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";

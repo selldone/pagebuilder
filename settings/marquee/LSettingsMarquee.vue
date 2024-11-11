@@ -129,7 +129,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";

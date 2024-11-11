@@ -133,7 +133,7 @@
   </v-sheet>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import LMenuLeftHierarchy from "@selldone/page-builder/src/menu/left/hierarchy/LMenuLeftHierarchy.vue";
 import LMenuLeftSections from "@selldone/page-builder/src/menu/left/sections/LMenuLeftSections.vue";

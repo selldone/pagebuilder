@@ -32,7 +32,7 @@
   </s-setting-toggle>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";

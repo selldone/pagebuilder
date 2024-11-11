@@ -24,7 +24,7 @@
   </s-setting-slider>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingSlider from "../../../../styler/settings/slider/SSettingSlider.vue";
 import {XSwiperObject} from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";

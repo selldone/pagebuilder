@@ -49,7 +49,7 @@
   </x-div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import XUploader from "@selldone/page-builder/components/x/uploader/XUploader.vue";
 import XText from "@selldone/page-builder/components/x/text/XText.vue";

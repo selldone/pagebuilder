@@ -29,7 +29,7 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XArticleObject } from "@selldone/page-builder/components/x/article/XArticleObject.ts";
 import { Article } from "@selldone/core-js";

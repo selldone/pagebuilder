@@ -125,7 +125,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   CssFiltersGallery,
   LUtilsFilter,

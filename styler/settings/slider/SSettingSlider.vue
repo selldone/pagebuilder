@@ -101,7 +101,7 @@
   </v-list-item>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 

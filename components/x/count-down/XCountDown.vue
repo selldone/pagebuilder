@@ -16,7 +16,7 @@
   <u-count-down v-if="end" :end="end.convertToLocalDate()"></u-count-down>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
 

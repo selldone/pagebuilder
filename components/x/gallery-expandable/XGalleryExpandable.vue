@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import StylerDirective from "../../../styler/StylerDirective";
 import LMixinXComponent from "../../../mixins/x-component/LMixinXComponent";
 import { defineComponent } from "vue";

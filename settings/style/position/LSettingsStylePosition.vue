@@ -99,7 +99,7 @@
   </s-setting-expandable>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SLandingStylePreview from "@selldone/page-builder/components/style/preview/SLandingStylePreview.vue";

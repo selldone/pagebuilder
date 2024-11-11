@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { isObject } from "lodash-es";
 import SSettingSlider from "@selldone/page-builder/styler/settings/slider/SSettingSlider.vue";

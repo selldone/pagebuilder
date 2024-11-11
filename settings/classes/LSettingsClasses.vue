@@ -54,7 +54,7 @@
   </s-setting-expandable>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { LUtilsClasses } from "@selldone/page-builder/utils/classes/LUtilsClasses";

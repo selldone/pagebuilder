@@ -188,7 +188,7 @@
   </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import UNumberInput from "@selldone/components-vue/ui/number/input/UNumberInput.vue";
 import AnimationClassSelector from "@selldone/page-builder/components/style/animation/AnimationClassSelector.vue";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";

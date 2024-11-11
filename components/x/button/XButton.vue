@@ -55,7 +55,7 @@
   </v-btn>
 </template>
 
-<script>
+<script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";

@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingExpandable from "../../../../styler/settings/expandable/SSettingExpandable.vue";

@@ -146,7 +146,7 @@ export default {
       // Assuming scriptContent is something like "{ data: () => ({ foo: 'bar' }), methods: { someMethod() {} } }"
 
       // Remove the script tags and any non-JavaScript content
-      let scriptText = scriptContent.replace(/<script>|<\/script>/g, "").trim();
+      let scriptText = scriptContent.replace(/<script lang="ts">|<\/script>/g, "").trim();
 
       function checkForAnyImports(code) {
         const importRegex = /import\s+.*\s+from\s+['"].*['"];?/;

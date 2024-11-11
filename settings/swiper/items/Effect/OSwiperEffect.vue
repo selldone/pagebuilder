@@ -22,7 +22,7 @@
   </s-setting-group>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingSelect from "../../../../styler/settings/select/SSettingSelect.vue";
 import SSettingGroup from "../../../../styler/settings/group/SSettingGroup.vue";

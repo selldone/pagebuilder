@@ -72,7 +72,7 @@
   </s-setting-group>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 

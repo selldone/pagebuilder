@@ -398,7 +398,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SProductsSortView from "@selldone/components-vue/storefront/product/sort/SProductsSortView.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
 import BCategoryInput from "@selldone/components-vue/backoffice/category/input/BCategoryInput.vue";

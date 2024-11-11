@@ -72,7 +72,7 @@
   </v-expansion-panel>
 </template>
 
-<script>
+<script lang="ts">
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import { StripTags } from "@selldone/core-js";

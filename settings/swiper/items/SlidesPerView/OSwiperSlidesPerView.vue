@@ -66,7 +66,7 @@
   </s-setting-number-select>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingNumberSelect from "../../../../styler/settings/number-select/SSettingNumberSelect.vue";
 import SSettingExpandable from "../../../../styler/settings/expandable/SSettingExpandable.vue";

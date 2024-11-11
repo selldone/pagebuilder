@@ -57,7 +57,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LFeederInput from "../../../components/feeder/input/LFeederInput.vue";
 
 export default {

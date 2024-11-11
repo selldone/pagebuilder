@@ -33,7 +33,7 @@
   </v-btn-toggle>
 </template>
 
-<script>
+<script lang="ts">
 import JUSTIFY from "../../../src/enums/JUSTIFY";
 
 export default {

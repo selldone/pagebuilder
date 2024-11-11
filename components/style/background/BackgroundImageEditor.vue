@@ -313,7 +313,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import GradientBuilder from "../gradient/GradientBuilder.vue";
 import { LUtilsBackground } from "../../../utils/background/LUtilsBackground";
 import UDimensionInput from "@selldone/components-vue/ui/dimension/input/UDimensionInput.vue";

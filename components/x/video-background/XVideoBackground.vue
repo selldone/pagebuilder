@@ -26,7 +26,7 @@
   </video>
 </template>
 
-<script>
+<script lang="ts">
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper";
 
 export default {

@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingRounded from "@selldone/page-builder/styler/settings/rounded/SSettingRounded.vue";
 import SSettingVariant from "@selldone/page-builder/styler/settings/variant/SSettingVariant.vue";

@@ -48,7 +48,7 @@
   </l-setting-navigation>
 </template>
 
-<script>
+<script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import BackgroundImageEditor from "../../components/style/background/BackgroundImageEditor.vue";

@@ -16,7 +16,7 @@
   </s-setting-switch>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import SSettingSwitch from "../../../../styler/settings/switch/SSettingSwitch.vue";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";

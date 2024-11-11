@@ -140,7 +140,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import LStoreTopBarEditor from "@selldone/page-builder/components/store/top-bar/editor/LStoreTopBarEditor.vue";
 import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";

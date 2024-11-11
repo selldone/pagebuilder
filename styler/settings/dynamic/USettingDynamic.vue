@@ -128,7 +128,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
