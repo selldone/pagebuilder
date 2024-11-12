@@ -104,13 +104,15 @@ import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts
 import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/index.ts";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
-import {Category, CONSOLE, Product} from "@selldone/core-js";
+import { Category, CONSOLE, Product } from "@selldone/core-js";
+import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 
 export default {
   name: "XFeederProducts",
+  mixins: [CurrencyMixin, LMixinXComponent],
+
   components: {},
   directives: { styler: StylerDirective },
-  mixins: [LMixinXComponent],
   emits: ["update"],
   props: {
     object: { required: true, type: XFeederProductsObject },

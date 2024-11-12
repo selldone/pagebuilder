@@ -49,10 +49,11 @@ import { XProductOverviewObject } from "@selldone/page-builder/components/x/prod
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import { CONSOLE } from "@selldone/core-js";
 import { computed } from "vue";
+import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 
 export default {
   name: "XProductOverview",
-  mixins: [LMixinXComponent, LMixinEvents],
+  mixins: [LMixinXComponent, LMixinEvents,CurrencyMixin],
   components: { SProductOverviewLoading, SProductOverview },
   directives: { styler: StylerDirective },
 

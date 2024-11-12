@@ -19,10 +19,8 @@
     variant="text"
     :to="product_to"
     target="_blank"
-
     :class="[object.classes, { 'is-editable': $builder.isEditing }]"
     :style="[object.style, background_style]"
-
   >
     <div v-if="busy">
       <v-skeleton-loader
@@ -94,12 +92,14 @@ import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import { StorefrontRoutesName } from "@selldone/core-js/enums/route/StorefrontRoutesName";
 import { XProductObjectData } from "@selldone/page-builder/components/x/product/XProductObjectData.ts";
 import { XProductObject } from "@selldone/page-builder/components/x/product/XProductObject.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
+import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
+import ProductMixin from "@selldone/components-vue/mixin/product/ProductMixin.ts";
 
 export default {
   name: "XProduct",
+  mixins: [CurrencyMixin, LMixinXComponent, ProductMixin],
   directives: { styler: StylerDirective },
-  mixins: [LMixinXComponent],
 
   components: { UPrice, UCountDown },
 
