@@ -79,9 +79,12 @@ import { Reactions } from "@selldone/core-js/enums/support/Reactions";
 import { Brands } from "@selldone/core-js/enums/social/Brands";
 import { CompileMarkdown } from "@selldone/core-js/helper/html/HtmlHelper";
 import { CampaignLink, Club } from "@selldone/core-js";
+import DateMixin from "@selldone/components-vue/mixin/date/DateMixin.ts";
 
 export default {
   name: "PNoteBox",
+  mixins: [DateMixin],
+
   components: {},
   inject: ["$shop"],
   emits: ["delete"],

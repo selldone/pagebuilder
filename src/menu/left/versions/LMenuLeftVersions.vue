@@ -104,9 +104,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import DateMixin from "@selldone/components-vue/mixin/date/DateMixin.ts";
 
 export default defineComponent({
   name: "LMenuLeftVersions",
+  mixins: [DateMixin],
   emits: ["update:isDragged"],
   directives: {},
   components: { UDenseCirclesUsers },
