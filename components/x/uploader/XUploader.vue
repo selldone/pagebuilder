@@ -69,15 +69,12 @@
     @drop="handleDrop"
     :cloneable="true"
   >
-
-
     <!-- 📹 Background video -->
     <x-video-background
-        v-if="object.background?.bg_video"
-        :video="getVideoUrl(object.background.bg_video)"
+      v-if="object.background?.bg_video"
+      :video="getVideoUrl(object.background.bg_video)"
     >
     </x-video-background>
-
 
     <slot :src="src"></slot>
 
@@ -170,7 +167,7 @@ import DataXDirective from "../../../directives/DataXDirective";
 import { LUtilsClasses } from "../../../utils/classes/LUtilsClasses";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject";
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
-import {CONSOLE} from "@selldone/core-js";
+import { CONSOLE } from "@selldone/core-js";
 import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
 
 const ASPECTS = [
@@ -196,7 +193,7 @@ export default defineComponent({
     "data-x": DataXDirective,
   },
 
-  components: {XVideoBackground},
+  components: { XVideoBackground },
   inject: ["$builder", "$section"],
   props: {
     object: {
@@ -380,36 +377,14 @@ export default defineComponent({
         });
       }
     },
-
-    /* object() {
-       this.init();
-     },*/
   },
 
   mounted() {},
 
   methods: {
-    isPercent(val) {
-      return this.isString(val) && val?.includes("%");
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
     },
-
-    /* init() {
-       if (
-         !this.object ||
-         !(
-           this.object instanceof XUploaderObject ||
-           this.object instanceof XLottieObject
-         )
-       ) {
-         console.error(
-           "Invalid object in the image uploader! Type:",
-           typeof this.object,
-           "Object: ",
-           this.object,
-         );
-         return;
-       }
-     },*/
 
     forceUpdate() {
       this.uid = Math.random();
@@ -472,7 +447,7 @@ export default defineComponent({
 
     updateImage() {
       /*if (!this.$route.params.page_id) {
-        this.showWarningAlert(null, "ابتدا این صفحه را ذخیره نمایید.");
+        NotificationService.showWarningAlert(null, "ابتدا این صفحه را ذخیره نمایید.");
         return;
       }*/
 
@@ -498,7 +473,7 @@ export default defineComponent({
         })
         .then((response) => {
           if (!response.data.error) {
-            this.showSuccessAlert(null, `Image uploaded successfully.`);
+            NotificationService.showSuccessAlert(null, `Image uploaded successfully.`);
 
             const imageURL = response.data.files.path;
             this.object.data.src = imageURL;
@@ -513,11 +488,11 @@ export default defineComponent({
               // console.log('Add new item to asset',asset_images,item)
             }
           } else {
-            this.showErrorAlert(null, response.data.error_msg);
+            NotificationService.showErrorAlert(null, response.data.error_msg);
           }
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_upload = false;
@@ -594,8 +569,8 @@ export default defineComponent({
 
     showToolbar() {
       this.ShowUploaderToolbar(
-          this.noPreview,
-          this.noFloat,
+        this.noPreview,
+        this.noFloat,
         this.augment,
         this.object,
         this.blobUrl,

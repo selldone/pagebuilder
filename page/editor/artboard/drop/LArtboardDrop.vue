@@ -59,7 +59,7 @@ export default defineComponent({
             this.autoLoadSectionFonts(json);
           }
         } catch (e) {
-          this.showErrorAlert(null, e);
+          NotificationService.showErrorAlert(null, e);
         }
       this.$emit("onDropOver", false);
 

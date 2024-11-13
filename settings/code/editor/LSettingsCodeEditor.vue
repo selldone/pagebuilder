@@ -239,6 +239,7 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "LSettingsCodeEditor",
@@ -472,7 +473,7 @@ export default {
             .filter((e) => e.section?.data?.html);
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_fetch = false;

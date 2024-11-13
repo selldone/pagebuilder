@@ -166,7 +166,7 @@ export default defineComponent({
             this.object.data.success?.title ||
             this.object.data.success?.message
           ) {
-            return this.showSuccessAlert(
+            return NotificationService.showSuccessAlert(
               this.object.data.success.title,
               this.object.data.success.message,
             );
@@ -175,7 +175,7 @@ export default defineComponent({
         .catch((error) => {
           console.error(error);
 
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy = false;

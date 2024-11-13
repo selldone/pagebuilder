@@ -44,7 +44,7 @@ export const LMixinArtboard = defineComponent({
         this.fonts.forEach((font) => {
           if (!builder.style.fonts.includes(font)) {
             builder.style.fonts.push(font);
-            this.showSuccessAlert(
+            NotificationService.showSuccessAlert(
               "Font : " + font,
               "Font has been added successfully.",
             );

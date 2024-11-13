@@ -104,7 +104,7 @@ import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts
 import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/index.ts";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
-import { Category, CONSOLE, Product } from "@selldone/core-js";
+import { Category, CONSOLE, Product, ShopURLs } from "@selldone/core-js";
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 
 export default {
@@ -119,6 +119,8 @@ export default {
   },
 
   data: () => ({
+    Product: Product,
+
     forcePackage: null,
 
     busy_fetch: false,
@@ -241,7 +243,7 @@ export default {
         })
         .then(({ data }) => {
           if (data.error) {
-            return this.showErrorAlert(null, data.error_msg);
+            return NotificationService.showErrorAlert(null, data.error_msg);
           }
 
           this.products = data.products;
@@ -254,7 +256,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
 
         .finally(() => {
@@ -331,7 +333,7 @@ export default {
 
       code = code.replace(
         /{url}/g,
-        this.getProductLink(this.getShop(), product.id),
+        ShopURLs.GetProductLink(this.getShop(), product.id),
       );
 
       function generateDynamicRegex(key) {
@@ -377,7 +379,7 @@ export default {
 
       code = code.replace(
         /{url}/g,
-        this.getCategoryLink(this.getShop(), category.name),
+        ShopURLs.GetCategoryLink(this.getShop(), category.name),
       );
 
       function generateDynamicRegex(key) {

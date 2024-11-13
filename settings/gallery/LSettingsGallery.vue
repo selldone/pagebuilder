@@ -82,6 +82,7 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import { defineAsyncComponent } from "vue";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "LSettingsGallery",
@@ -197,7 +198,7 @@ export default {
     },
 
     removeSlide(index) {
-      this.openDeleteAlert(() => {
+      NotificationService.openDeleteAlert(() => {
         this.target.children.splice(index, 1);
       });
     },

@@ -232,7 +232,7 @@ export default defineComponent({
 
     },
     deleteFont(font) {
-      this.openDangerAlert(
+      NotificationService.openDangerAlert(
         `Remove ${font}`,
         `Are you sure you want to remove the font ${font}?`,
         this.$t("global.actions.delete"),

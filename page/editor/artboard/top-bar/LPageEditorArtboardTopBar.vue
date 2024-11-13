@@ -216,7 +216,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import {SetupService} from "@selldone/core-js";
+import {SetupService, ShopURLs} from "@selldone/core-js";
 
 export default defineComponent({
   name: "LPageEditorArtboardTopBar",
@@ -236,7 +236,7 @@ export default defineComponent({
   computed: {
     base_url() {
       return this.shop
-        ? `${this.getShopMainUrl(this.shop)}/pages/`
+        ? `${ShopURLs.MainShopUrl(this.shop)}/pages/`
         : `${SetupService.MainServiceUrl()}/`;
     },
   },

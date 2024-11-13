@@ -298,7 +298,7 @@ export default defineComponent({
 
     pastSection() {
       if (!this.$builder._copy_section) {
-        this.showWarningAlert(
+        NotificationService.showWarningAlert(
           "First copy a section!",
           "Data on clipboard not found!",
         );
@@ -318,7 +318,7 @@ export default defineComponent({
         console.error(e);
       }
 
-      this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
+      NotificationService.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
     },
 
     //――――――――――――――――――――――  Delete Section ――――――――――――――――――――
@@ -329,7 +329,7 @@ export default defineComponent({
         this.$builder.history.save();
       } catch (e) {
         console.error(e);
-        this.showErrorAlert(
+        NotificationService.showErrorAlert(
           null,
           "We can not remove this section! Maybe fix it by refreshing the page.",
         );

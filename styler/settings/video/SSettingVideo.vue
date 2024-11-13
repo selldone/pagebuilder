@@ -78,6 +78,9 @@ export default defineComponent({
   },
 
   methods: {
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
+    },
     handleProcessVideo(path) {
       this.$emit("update:modelValue", path);
     },

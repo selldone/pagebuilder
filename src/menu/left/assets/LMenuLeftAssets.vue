@@ -100,7 +100,7 @@
       >
         <v-icon class="ma-2" size="x-large">folder_open</v-icon>
 
-        {{$t('l_menu_left_assets.no_asset_uploaded')}}
+        {{ $t("l_menu_left_assets.no_asset_uploaded") }}
       </v-col>
     </v-row>
   </v-container>
@@ -139,6 +139,10 @@ export default {
   },
 
   methods: {
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
+    },
+
     fetchFiles() {
       this.busy = true;
       axios
@@ -150,11 +154,11 @@ export default {
 
             this.$builder.setAssets(data.images, data.videos);
           } else {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           }
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy = null;

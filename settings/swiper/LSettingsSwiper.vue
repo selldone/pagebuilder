@@ -151,6 +151,7 @@ import SSettingButton from "@selldone/page-builder/styler/settings/button/SSetti
 import { LUtilsClone } from "@selldone/page-builder/utils/clone/LUtilsClone.ts";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import { defineAsyncComponent } from "vue";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "LSettingsSwiper",
@@ -285,7 +286,7 @@ export default {
     },
 
     removeSlide(index) {
-      this.openDeleteAlert(() => {
+      NotificationService.openDeleteAlert(() => {
         this.target.children.splice(index, 1);
         //this.refresh();
       });

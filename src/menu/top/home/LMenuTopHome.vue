@@ -747,13 +747,13 @@ export default {
         .then(({ data }) => {
           if (!data.error) {
             this.$shop.home = data.home;
-            this.showSuccessAlert(null, "Home page has been set successfully.");
+            NotificationService.showSuccessAlert(null, "Home page has been set successfully.");
           } else {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           }
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_set_home = false;

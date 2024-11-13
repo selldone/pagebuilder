@@ -165,17 +165,17 @@ export default {
         .delete(base_url)
         .then(({ data }) => {
           if (data.error) {
-            return this.showErrorAlert(null, data.error_msg);
+            return NotificationService.showErrorAlert(null, data.error_msg);
           }
 
           this.$emit("delete");
-          this.showSuccessAlert(
+          NotificationService.showSuccessAlert(
             null,
             "This message has been successfully removed!",
           );
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.delete_busy = null;

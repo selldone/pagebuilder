@@ -27,8 +27,8 @@
       <!-- Shop -->
 
       <a
-        :href="$shop ? getShopMainUrl($shop) : 'https://selldone.com'"
-        :title="$shop?`Open ${$shop.title} home page ➡`:'Open Selldone'"
+        :href="$shop ? ShopURLs.MainShopUrl($shop) : 'https://selldone.com'"
+        :title="$shop ? `Open ${$shop.title} home page ➡` : 'Open Selldone'"
         target="_blank"
       >
         <v-avatar
@@ -163,6 +163,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
+import { ShopURLs } from "@selldone/core-js/helper";
 
 export default defineComponent({
   name: "LHeaderPage",
@@ -186,7 +187,7 @@ export default defineComponent({
 
     page_view_url() {
       if (this.$shop)
-        return this.getShopMainUrl(this.$shop) + `/pages/${this.page.name}`;
+        return ShopURLs.MainShopUrl(this.$shop) + `/pages/${this.page.name}`;
 
       return `/pages/${this.page.name}`;
     },

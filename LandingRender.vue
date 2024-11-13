@@ -419,13 +419,13 @@ export default {
         .get(url)
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           } else {
             this.loadPage(data);
           }
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
 
         .finally(() => {
@@ -536,7 +536,7 @@ export default {
           this.catch_data.changed = true;
         })
         .catch((e) => {
-          //this.showLaravelError(e);
+          //NotificationService.showLaravelError(e);
         })
         .finally(() => {});
     },

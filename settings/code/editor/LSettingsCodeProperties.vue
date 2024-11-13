@@ -68,6 +68,7 @@ import { EventBus } from "@selldone/core-js/events/EventBus";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import USettingDynamic from "@selldone/page-builder/styler/settings/dynamic/USettingDynamic.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "LSettingsCodeProperties",
@@ -186,7 +187,7 @@ export default {
     },
 
     resetToDefault() {
-      this.openDangerAlert(
+      NotificationService.openDangerAlert(
         "Reset to Default",
         "Are you sure you want to reset the properties to default?",
         "Yes, Reset Now",

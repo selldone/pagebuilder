@@ -82,6 +82,9 @@ export default {
   mounted() {},
 
   methods: {
+    getShopJsonPath(file_name: string) {
+      return window.CDN.GET_SHOP_JSON_PATH(file_name);
+    },
     refreshAnimation() {
       this.show_lottie_view = false;
       this.$nextTick(function () {

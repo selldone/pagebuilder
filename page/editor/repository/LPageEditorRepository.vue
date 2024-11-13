@@ -410,7 +410,7 @@ export default {
           this.more = data.more;
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_fetch = false;
@@ -465,7 +465,7 @@ export default {
         })
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
             return;
           }
 
@@ -473,7 +473,7 @@ export default {
           this.dialog = false;
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_save = false;
@@ -498,7 +498,7 @@ export default {
         )
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
             return;
           }
 
@@ -506,7 +506,7 @@ export default {
           this.dialog = false;
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_save = false;
@@ -514,7 +514,7 @@ export default {
     },
 
     deleteSection(element) {
-      this.openDangerAlert(
+      NotificationService.openDangerAlert(
         "Remove Page Element",
         "Are you sure to remove this element?",
         "Yes, Remove now!",
@@ -525,7 +525,7 @@ export default {
             .delete(window.API.DELETE_PAGE_ELEMENT(this.shop_id, element.id))
             .then(({ data }) => {
               if (data.error) {
-                this.showErrorAlert(null, data.error_msg);
+                NotificationService.showErrorAlert(null, data.error_msg);
                 return;
               }
 
@@ -533,7 +533,7 @@ export default {
               this.dialog = false;
             })
             .catch((error) => {
-              this.showLaravelError(error);
+              NotificationService.showLaravelError(error);
             })
             .finally(() => {
               this.busy_delete = false;

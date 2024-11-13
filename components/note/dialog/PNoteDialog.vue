@@ -198,11 +198,11 @@ export default {
         })
         .then(({ data }) => {
           if (data.error) {
-            return this.showErrorAlert(null, data.error_msg);
+            return NotificationService.showErrorAlert(null, data.error_msg);
           }
 
           this.AddOrUpdateItemByID(this.notes, data.note, "id", true);
-          this.showSuccessAlert(
+          NotificationService.showSuccessAlert(
             null,
             "Your message has been successfully added!",
           );
@@ -217,7 +217,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.saving = false;

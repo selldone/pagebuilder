@@ -263,7 +263,7 @@ export default {
       //this.$forceUpdate();
     },
     deletePage() {
-      this.openDangerAlert(
+      NotificationService.openDangerAlert(
         "Delete page",
         `Do you want to delete the ${this.page.title} page?`,
         this.$t("global.actions.delete"),
@@ -279,9 +279,9 @@ export default {
             .delete(url)
             .then(({ data }) => {
               if (data.error) {
-                this.showErrorAlert(null, data.error_msg);
+                NotificationService.showErrorAlert(null, data.error_msg);
               } else {
-                this.showSuccessAlert(null, "Page has been deleted!");
+                NotificationService.showSuccessAlert(null, "Page has been deleted!");
                 this.$router.push({
                   name: this.$shop
                     ? "BPageShopPagesLandings"
@@ -290,7 +290,7 @@ export default {
               }
             })
             .catch((error) => {
-              this.showLaravelError(error);
+              NotificationService.showLaravelError(error);
             })
             .finally(() => {
               this.busy_delete = false;

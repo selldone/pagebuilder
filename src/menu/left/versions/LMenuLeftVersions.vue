@@ -105,6 +105,7 @@
 import { defineComponent } from "vue";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import DateMixin from "@selldone/components-vue/mixin/date/DateMixin.ts";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default defineComponent({
   name: "LMenuLeftVersions",
@@ -166,11 +167,11 @@ export default defineComponent({
         .get(url)
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           } else {
             this.setPageFunction(data.content, data.css, false);
 
-            this.showSuccessAlert(
+            NotificationService.showSuccessAlert(
               "Fetch completed",
               "Page successfully loaded from history.",
             );
@@ -204,10 +205,10 @@ export default defineComponent({
         })
         .then(({ data }) => {
           if (data.error) {
-            t.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           } else {
             history.persistent = data.persistent;
-            t.showSuccessAlert(null, "Change has been applied.");
+            NotificationService.showSuccessAlert(null, "Change has been applied.");
           }
         });
     },

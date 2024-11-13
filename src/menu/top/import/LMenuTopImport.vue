@@ -112,10 +112,10 @@ export default defineComponent({
         .loadFile(file)
         .then(() => {
           this.show_import = false;
-          this.showSuccessAlert(null, "Landing file loaded successfully.");
+          NotificationService.showSuccessAlert(null, "Landing file loaded successfully.");
         })
         .catch((e) => {
-          this.showErrorAlert(null, e.toString());
+          NotificationService.showErrorAlert(null, e.toString());
           console.error(e);
         });
     },

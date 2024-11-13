@@ -47,7 +47,6 @@
 
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
-
   </component>
 </template>
 
@@ -101,6 +100,9 @@ export default defineComponent({
   },
 
   methods: {
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
+    },
     calcGridClasses(grid: Grid) {
       return (Object.keys(grid ? grid : {}) as (keyof Grid)[]).map((device) => {
         if (!grid[device]) {

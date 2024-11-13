@@ -336,6 +336,7 @@ import LHeader from "@selldone/page-builder/src/header/LHeader.vue";
 import { Page, Popup } from "@selldone/core-js/models";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 import { CONSOLE } from "@selldone/core-js";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default defineComponent({
   name: "LPageEditor",
@@ -925,7 +926,7 @@ export default defineComponent({
 
     pastSection(index) {
       if (!this.$builder._copy_section) {
-        this.showWarningAlert(
+        NotificationService.showWarningAlert(
           "First copy a section!",
           "Data on clipboard not found!",
         );
@@ -945,7 +946,7 @@ export default defineComponent({
         console.error(e);
       }
 
-      this.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
+      NotificationService.showWarningAlert("Invalid", "Clipboard data has invalid structure!");
     },
 
     inActiveEditingMode() {
@@ -1181,13 +1182,13 @@ export default defineComponent({
         )
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
             return;
           }
           this.$builder.livestream.setAudiences(data.audiences);
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => (this.busy_push = false));
     },
@@ -1238,10 +1239,10 @@ export default defineComponent({
       this.$builder.importer
         .loadFile(file)
         .then(() => {
-          this.showSuccessAlert(null, "Landing file loaded successfully.");
+          NotificationService.showSuccessAlert(null, "Landing file loaded successfully.");
         })
         .catch((e) => {
-          this.showErrorAlert(null, e.toString());
+          NotificationService.showErrorAlert(null, e.toString());
           console.error(e);
         })
         .finally(() => {

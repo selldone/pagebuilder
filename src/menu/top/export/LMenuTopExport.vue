@@ -147,7 +147,7 @@
                 color="#1976D2"
                 size="x-large"
                 variant="elevated"
-                @click="downloadText(page.title + '.html', embed.html)"
+                @click="FileHelper.DownloadText(page.title + '.html', embed.html)"
               >
                 <v-icon start>get_app</v-icon>
                 Download html
@@ -172,6 +172,7 @@ import { defineComponent } from "vue";
 import { SetupService } from "@selldone/core-js/server";
 import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";
 import "prismjs/themes/prism-dark.css";
+import {FileHelper} from "@selldone/core-js/utils";
 
 export default defineComponent({
   name: "LMenuTopExport",
@@ -189,6 +190,9 @@ export default defineComponent({
   }),
 
   computed: {
+    FileHelper() {
+      return FileHelper
+    },
     is_page() {
       return this.$builder.isPage();
     },
@@ -218,7 +222,7 @@ export default defineComponent({
         note: this.page.note,
         service: SetupService.MainServiceUrl(),
       };
-      this.downloadText(
+      FileHelper.DownloadText(
         this.page.title + ".landing",
         JSON.stringify(out, null, 4),
       );
@@ -235,7 +239,7 @@ export default defineComponent({
           this.embed = data.embed;
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_fetch = false;

@@ -27,7 +27,7 @@
       <!-- Shop -->
 
       <a
-        :href="getShopMainUrl($shop)"
+        :href="ShopURLs.MainShopUrl($shop)"
         :title="`Open ${$shop.title} home page ➡`"
         target="_blank"
       >
@@ -124,6 +124,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SStorefrontPopup from "@selldone/components-vue/storefront/popup/SStorefrontPopup.vue";
+import {ShopURLs} from "@selldone/core-js/helper";
 
 export default defineComponent({
   name: "LHeaderPopup",
@@ -141,6 +142,9 @@ export default defineComponent({
   }),
 
   computed: {
+    ShopURLs() {
+      return ShopURLs
+    },
     popup() {
       return this.$builder.model;
     },

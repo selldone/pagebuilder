@@ -95,7 +95,7 @@
           :augment="augment"
           :initialClasses="['mx-auto', 'my-2']"
           class="--image"
-          :class="{'--override-max-width':image.style.maxWidth!=='100%'}"
+          :class="{ '--override-max-width': image.style.maxWidth !== '100%' }"
           contain
         />
 
@@ -356,6 +356,9 @@ export default defineComponent({
     }
   },
   methods: {
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
+    },
     /* copyStyle(event) {
        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXX", event);
        this.$builder.onClickClone(event, this.object);
@@ -450,10 +453,9 @@ export default defineComponent({
   }
 
   .--image {
-    &:not(.--override-max-width){
+    &:not(.--override-max-width) {
       max-width: 50% !important; // Prevent exceed image size!
     }
-
   }
 }
 

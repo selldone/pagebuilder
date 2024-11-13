@@ -181,7 +181,7 @@
               color="red"
               size="x-large"
               @click="
-                openDeleteAlert(() => {
+                NotificationService.openDeleteAlert(() => {
                   deletePopup();
                 })
               "
@@ -213,6 +213,7 @@ import USmartVerify from "@selldone/components-vue/ui/smart/verify/USmartVerify.
 import BClusterInput from "@selldone/components-vue/backoffice/cluster/input/BClusterInput.vue";
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 import SWidgetButtons from "@selldone/components-vue/ui/widget/buttons/SWidgetButtons.vue";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "LMenuLeftSettingPopup",
@@ -236,6 +237,9 @@ export default {
   }),
 
   computed: {
+    NotificationService() {
+      return NotificationService
+    },
     popup() {
       return this.$builder.model;
     },
@@ -257,9 +261,9 @@ export default {
         .delete(window.API.DELETE_POPUP(this.$shop.id, this.popup.id))
         .then(({ data }) => {
           if (data.error) {
-            this.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(null, data.error_msg);
           } else {
-            this.showSuccessAlert(
+            NotificationService.showSuccessAlert(
               null,
               this.$t("popup_setting.notifications.delete"),
             );
@@ -267,7 +271,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.showLaravelError(error);
+          NotificationService.showLaravelError(error);
         })
         .finally(() => {
           this.busy_delete = false;

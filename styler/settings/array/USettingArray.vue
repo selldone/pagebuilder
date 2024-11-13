@@ -75,6 +75,7 @@
 <script lang="ts">
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export default {
   name: "USettingArray",
@@ -107,7 +108,7 @@ export default {
   methods: {
     addItemToArray() {
       if (!this.modelValue?.length) {
-        this.showErrorAlert(
+        NotificationService.showErrorAlert(
           "Invalid Structure",
           "Please add least one item to the array in the structure.",
         );
@@ -118,7 +119,7 @@ export default {
     },
 
     removeItem(index) {
-      this.openDangerAlert(
+      NotificationService.openDangerAlert(
         "Remove Item",
         "Are you sure you want to remove this item?",
         "Yes, Remove Item",
