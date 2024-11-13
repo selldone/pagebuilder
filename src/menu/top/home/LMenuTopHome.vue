@@ -324,20 +324,22 @@
         height="38"
       >
         <v-chip prepend-icon="local_mall" size="small" class="ma-1" label>
-          <small class="me-1">{{$t('global.commons.buy')}}</small>
+          <small class="me-1">{{ $t("global.commons.buy") }}</small>
           {{ model.purchased }}
         </v-chip>
 
         <v-chip size="small" class="ma-1" label>
-          <small class="me-1">{{$t('global.commons.register')}}</small>
+          <small class="me-1">{{ $t("global.commons.register") }}</small>
 
           <template v-if="model.registered === 'Yes'">
-            <v-icon color="success" size="small" class="me-1">check_circle</v-icon>
-            {{$t('global.commons.login')}}
+            <v-icon color="success" size="small" class="me-1"
+              >check_circle</v-icon
+            >
+            {{ $t("global.commons.login") }}
           </template>
           <template v-else-if="model.registered === 'No'">
-            <v-icon color="red" size="small"  class="me-1">face</v-icon>
-            {{$t('global.commons.guest')}}
+            <v-icon color="red" size="small" class="me-1">face</v-icon>
+            {{ $t("global.commons.guest") }}
           </template>
           <template v-else>
             <v-icon size="small">all_inclusive</v-icon>
@@ -346,7 +348,7 @@
         </v-chip>
 
         <v-chip size="small" class="ma-1" label>
-          <small class="me-1">{{$t('global.commons.sex')}}</small>
+          <small class="me-1">{{ $t("global.commons.sex") }}</small>
           <v-icon v-if="model.sex === 'Male'" color="#0288D1" size="20"
             >male
           </v-icon>
@@ -357,12 +359,12 @@
         </v-chip>
 
         <v-chip size="small" class="ma-1" label>
-          <small class="me-1">{{$t('global.commons.age')}}</small>
+          <small class="me-1">{{ $t("global.commons.age") }}</small>
           {{ model.age }}
         </v-chip>
 
         <v-chip size="small" class="ma-1" label>
-          <small class="me-1">{{$t('global.commons.levels')}}</small>
+          <small class="me-1">{{ $t("global.commons.levels") }}</small>
           <img
             v-for="level in model.levels"
             :key="level"
@@ -372,11 +374,19 @@
             height="20"
             width="20"
           />
-          <v-icon v-if="!model.levels?.length" size="small">all_inclusive</v-icon>
+          <v-icon v-if="!model.levels?.length" size="small"
+            >all_inclusive</v-icon
+          >
         </v-chip>
 
-        <v-chip v-if="model.countries?.length" size="small" class="ma-1" label prepend-icon="share_location">
-          <small class="me-1">{{$t('global.commons.countries')}}</small>
+        <v-chip
+          v-if="model.countries?.length"
+          size="small"
+          class="ma-1"
+          label
+          prepend-icon="share_location"
+        >
+          <small class="me-1">{{ $t("global.commons.countries") }}</small>
           <flag
             v-for="con in model.countries"
             :key="con"
@@ -420,7 +430,7 @@
         >
           {{ is_shop_home ? "It's Home" : "Set as Home" }}
 
-          <v-icon v-if="is_shop_home" end color="#009688">check_circle </v-icon>
+          <v-icon v-if="is_shop_home" end color="#009688">check_circle</v-icon>
         </v-btn>
       </div>
     </div>
@@ -597,15 +607,16 @@ import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import { CONSOLE } from "@selldone/core-js/helper/index";
 import UButtonAiLarge from "@selldone/components-vue/ui/button/ai/large/UButtonAiLarge.vue";
+import ClubMixin from "@selldone/components-vue/mixin/club/ClubMixin.ts";
 
 export default {
   name: "LMenuTopHome",
-
+  mixins: [LMixinEvents, ClubMixin],
   components: {
     UDenseCirclesUsers,
     UButtonAiLarge,
   },
-  mixins: [LMixinEvents],
+
   emits: ["click:save"],
   inject: ["$builder", "$shop"],
   props: {
@@ -747,7 +758,10 @@ export default {
         .then(({ data }) => {
           if (!data.error) {
             this.$shop.home = data.home;
-            NotificationService.showSuccessAlert(null, "Home page has been set successfully.");
+            NotificationService.showSuccessAlert(
+              null,
+              "Home page has been set successfully.",
+            );
           } else {
             NotificationService.showErrorAlert(null, data.error_msg);
           }
