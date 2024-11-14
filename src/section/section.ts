@@ -14,14 +14,13 @@
 
 import getPath from "lodash-es/get";
 import toPath from "lodash-es/toPath";
-import {isObject, isString} from "lodash-es";
-import {LUtilsObject} from "../../utils/object/LUtilsObject";
+import {isObject} from "lodash-es";
 import {LUtilsMigration} from "@selldone/page-builder/utils/migration/LUtilsMigration.ts";
 import {Page} from "@selldone/core-js/models";
 import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import {Screenshot} from "@selldone/core-js/helper";
 import {CONSOLE} from "@selldone/core-js";
+import {Screenshot} from "@selldone/core-js/helper/canvas/Screenshot.ts";
 
 const DEBUG = false;
 export namespace Section {
@@ -108,7 +107,10 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ V2 ━━━━━━━━━━━━━━━━━━━━━━━━━━
     if (options.object && isObject(options.object)) {
-      CONSOLE.log(`🪵 ${this.label} | New version load data in section...`, options,);
+      CONSOLE.log(
+        `🪵 ${this.label} | New version load data in section...`,
+        options,
+      );
 
       this.object = LUtilsLoader.JsonObjectToInstance(options.object);
     }
@@ -122,23 +124,23 @@ export class Section implements Section.ISection {
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━ Create by Seeder  ━━━━━━━━━━━━━━━━━━━━━━━━━━
     /* else {
-                           CONSOLE.log(`Create new instance by seeder.`);
-                     
-                           const _object = LUtilsSeeder.SeedNew(options.name);
-                           CONSOLE.log(
-                             `🪷 ${options.name} | Section.ts > constructor > Seed:`,
-                             options.name,
-                             "--object-->",
-                             _object,
-                           );
-                           if (_object) {
-                             this.object = _object;
-                           } else {
-                             console.error(`V2 Seeder does not exist for ${options.name}!`);
-                           }
-                     
-                           // this.data = LUtilsSeeder.seed(options.schema);
-                         }*/
+                               CONSOLE.log(`Create new instance by seeder.`);
+                         
+                               const _object = LUtilsSeeder.SeedNew(options.name);
+                               CONSOLE.log(
+                                 `🪷 ${options.name} | Section.ts > constructor > Seed:`,
+                                 options.name,
+                                 "--object-->",
+                                 _object,
+                               );
+                               if (_object) {
+                                 this.object = _object;
+                               } else {
+                                 console.error(`V2 Seeder does not exist for ${options.name}!`);
+                               }
+                         
+                               // this.data = LUtilsSeeder.seed(options.schema);
+                             }*/
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -226,8 +228,6 @@ export class Section implements Section.ISection {
 
   destroy() {}
 
-
-
   toJson() {
     return {
       uid: this.uid,
@@ -284,5 +284,3 @@ export class Section implements Section.ISection {
     });
   }
 }
-
-
