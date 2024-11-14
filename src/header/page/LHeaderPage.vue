@@ -178,7 +178,9 @@ export default defineComponent({
     backTo: { required: true },
   },
 
-  data: () => ({}),
+  data: () => ({
+    ShopURLs: ShopURLs,
+  }),
 
   computed: {
     page() {
