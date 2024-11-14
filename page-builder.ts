@@ -20,15 +20,15 @@ import {isFunction} from "lodash-es";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
 
 export function SetupPageBuilder(app: App, options: Partial<builder.IOptions>) {
-  console.log("⚽ 1. Setup Page builder");
+  console.log("⚽ 1. Setup Page builder", options);
 
   if (!options)
     throw new Error("Options are not set in the setup page builder!");
 
-  if (options?.mode === "view") {
+  if (options.mode === "view") {
     // install the builder
-    app.use(Builder,options);
-  } else if (options?.mode === "edit") {
+    app.use(Builder, options);
+  } else if (options.mode === "edit") {
     if (!options.server) {
       throw new Error(
         "In the edit mode options should have 'server' property! Correct it in  SetupPageBuilder(...,here)",

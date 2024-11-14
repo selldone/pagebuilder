@@ -96,6 +96,7 @@ export class Builder {
     options: Partial<builder.IOptions>,
     state: Partial<builder.IState> = {},
   ) {
+    CONSOLE.log("⚽ 4. New Instance > Create page builder instance",'Default Options:',this.options,'Override Options:', options);
     const core_instance = new Builder(
       Object.assign(
         {},
@@ -167,7 +168,7 @@ export class Builder {
 
   static install(app: App, options: Partial<builder.IOptions> = {}) {
     this.options = options;
-    CONSOLE.log("⚽ 2. Start Install...");
+    CONSOLE.log("⚽ 2. Start Install...",this.options);
 
     initializeXComponents(app);
 

@@ -587,7 +587,7 @@ export default defineComponent({
 
   beforeCreate() {
     // Initialize builder
-    this.$builder = Builder.newInstance();
+    this.$builder = Builder.newInstance(this.$PageHyperOptions/*Get initial options if not set yet! In async load page builder script!*/,);
   },
 
   created() {

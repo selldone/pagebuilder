@@ -14,6 +14,7 @@
 
 import {App, ref, Ref} from "vue";
 import {builder} from "@selldone/page-builder/Builder.types.ts";
+import {SEO} from "@selldone/core-js/helper";
 
 /**
  * Interface representing the options required to initialize the Page Builder.
@@ -37,6 +38,11 @@ interface PageBuilderOptions {
  * @param {PageBuilderOptions} options - Configuration options for the Page Builder.
  */
 export function PageHyper(app: App, options: PageBuilderOptions) {
+
+  // Use to create Builder.newInstance(this.$PageHyperOptions) when the builder is not completely installed
+  app.config.globalProperties.$PageHyperOptions = options; // 🌴 Global object in vue components
+
+
   // Initialize the PageBuilderService with the provided options
   const $PageHyper = new PageBuilderService(app, options);
 
@@ -55,7 +61,7 @@ class PageBuilderService {
   /**
    * Configuration options for the Page Builder.
    */
-  private readonly options: PageBuilderOptions;
+  public readonly options: PageBuilderOptions;
   /**
    * Reactive reference indicating whether the Page Builder has been initialized.
    */

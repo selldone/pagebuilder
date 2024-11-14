@@ -140,12 +140,16 @@ export default {
 
   beforeCreate() {
     // Initialize builder
-    this.$builder = Builder.newInstance(null, {
-      isEditing: false,
-      isRendered: true,
-      showLeftMenu: false,
-      isSorting: false,
-    });
+    this.$builder = Builder.newInstance(
+      this
+        .$PageHyperOptions /*Get initial options if not set yet! In async load page builder script!*/,
+      {
+        isEditing: false,
+        isRendered: true,
+        showLeftMenu: false,
+        isSorting: false,
+      },
+    );
   },
 
   created() {
