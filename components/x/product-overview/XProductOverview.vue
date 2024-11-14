@@ -40,6 +40,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import SProductOverviewLoading from "@selldone/components-vue/storefront/product/overview/loading/SProductOverviewLoading.vue";
 import SProductOverview from "@selldone/components-vue/storefront/product/overview/SProductOverview.vue";

@@ -99,6 +99,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import StylerDirective from "../../../../styler/StylerDirective.ts";
 import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts";
 import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";

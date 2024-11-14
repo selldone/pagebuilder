@@ -74,6 +74,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { ShopTransportations } from "@selldone/core-js/enums/logistic/ShopTransportations";
 import { Reactions } from "@selldone/core-js/enums/support/Reactions";
 import { Brands } from "@selldone/core-js/enums/social/Brands";

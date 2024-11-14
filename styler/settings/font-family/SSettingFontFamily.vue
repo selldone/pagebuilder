@@ -168,6 +168,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { defineComponent } from "vue";
 import { FontLoader, FONTS } from "@selldone/core-js";
 

@@ -603,6 +603,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
 import { CONSOLE } from "@selldone/core-js/helper/index";

@@ -22,6 +22,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { defineComponent } from "vue";
 import {LMixinArtboard} from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
 

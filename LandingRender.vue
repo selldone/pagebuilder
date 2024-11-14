@@ -86,6 +86,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import debounce from "lodash-es/debounce";
 import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";

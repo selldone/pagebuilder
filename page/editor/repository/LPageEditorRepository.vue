@@ -265,6 +265,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { throttle } from "lodash-es";

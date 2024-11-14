@@ -83,6 +83,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { defineComponent } from "vue";
 import LmtLargeButton from "@selldone/page-builder/src/menu/top/components/LmtLargeButton.vue";
 import SDropZone from "@selldone/components-vue/ui/uploader/SDropZone.vue";

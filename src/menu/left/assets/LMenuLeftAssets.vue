@@ -107,6 +107,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import { VideoHelper } from "@selldone/core-js/helper/video/VideoHelper.ts";
 
 export default {

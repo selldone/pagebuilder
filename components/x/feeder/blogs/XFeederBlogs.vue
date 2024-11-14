@@ -95,6 +95,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import StylerDirective from "../../../../styler/StylerDirective.ts";
 import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts";
 import { Article, CONSOLE } from "@selldone/core-js";

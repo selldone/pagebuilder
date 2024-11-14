@@ -194,6 +194,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
 import { throttle } from "lodash-es";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";

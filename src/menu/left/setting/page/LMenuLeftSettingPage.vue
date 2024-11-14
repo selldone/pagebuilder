@@ -213,6 +213,8 @@
 </template>
 
 <script lang="ts">
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
 import { standardDesignColor } from "@selldone/core-js/helper/color/ColorGenerator.ts";
 import USmartSwitch from "@selldone/components-vue/ui/smart/switch/USmartSwitch.vue";
