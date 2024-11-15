@@ -102,6 +102,7 @@
         height: 100%;
         width: 100%;
       "
+      :alt="object.data?.alt?object.data?.alt:`Image ${getName(object.src)}`"
     />
 
     <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Foreground ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->

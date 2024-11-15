@@ -196,78 +196,69 @@ export default {
           .map((c) => "." + c)
           .join(", ");
 
-        $(target)
-          .find(classSelector)
-          .each(function () {
-            this.style.setProperty("opacity", "0", "important");
-          });
+        // Replace jQuery $(target).find(classSelector)
+        let elements = target.querySelectorAll(classSelector);
+        elements.forEach((el) => {
+          el.style.setProperty("opacity", "0", "important");
+        });
 
         let observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              let threshold =
-                parseFloat($(entry.target).data("threshold")) || 0.3; // Get from this attribute: data-threshold="0.7"
-              // console.log('threshold',threshold,entry.intersectionRatio)
+              // Replace jQuery data retrieval with dataset
+              let threshold = parseFloat(entry.target.dataset.threshold) || 0.3;
 
               if (entry.intersectionRatio >= threshold) {
-                //console.log("observer :", entry);
-
-                const t = this;
-
-                // Set the threshold to 0.5
                 let img = entry.target.querySelector("img[src]");
                 if (img) {
-                  img.onload = img.onerror = function () {
-                    t.playAnimation(entry.target);
-                    // Optionally unobserve the target after it has become visible
+                  img.onload = img.onerror = () => {
+                    this.playAnimation(entry.target);
                     observer.unobserve(entry.target);
                   };
-                  if (img.complete) img.onload(); // If image is already loaded, manually trigger onload
+                  if (img.complete) img.onload(); // Trigger if already loaded
                 } else {
-                  t.playAnimation(entry.target);
-
-                  // Optionally unobserve the target after it has become visible
+                  this.playAnimation(entry.target);
                   observer.unobserve(entry.target);
                 }
               }
             });
           },
           {
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], // Set the threshold to 0.5
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
           },
         );
 
-        $(target)
-          .find(classSelector)
-          .each((i, childElement) => {
-            observer.observe(childElement);
-            //console.log("init observer", childElement);
-          });
+        elements.forEach((childElement) => {
+          observer.observe(childElement);
+        });
       });
     },
 
     playAnimation(childElement) {
-      let classLists = $(childElement).attr("class").split(/\s+/);
+      if (!childElement) return;
 
-      // get animation classes
-      let animation_classes = $.grep(classLists, function (className) {
+      // Replace jQuery attr and split class names
+      let classListString = childElement.getAttribute("class") || "";
+      let classLists = classListString.split(/\s+/);
+
+      // Replace $.grep with Array.filter
+      let animation_classes = classLists.filter((className) => {
         return LUtilsClasses.AnimationsClasses().includes(className);
       });
 
-      //if (animation_classes.length) console.log("🎠 Animation", animation_classes);
+      // Replace jQuery css and removeClass
+      childElement.style.visibility = "hidden";
+      animation_classes.forEach((cls) => {
+        childElement.classList.remove(cls);
+      });
 
-      // Initially hide the elements
-      $(childElement).css("visibility", "hidden");
-
-      $(childElement).removeClass(animation_classes.join(" "));
-
-      // Wait set visibility of parent
+      // Wait and then add classes back
       setTimeout(() => {
-        $(childElement).css("opacity", "1");
-
-        $(childElement).addClass(animation_classes.join(" "));
-        // Make the elements visible when animation is triggered
-        $(childElement).css("visibility", "visible");
+        childElement.style.opacity = "1";
+        animation_classes.forEach((cls) => {
+          childElement.classList.add(cls);
+        });
+        childElement.style.visibility = "visible";
       }, 100);
     },
   },

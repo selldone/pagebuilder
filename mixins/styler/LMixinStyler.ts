@@ -19,8 +19,7 @@ import {LMixinEvents} from "../../mixins/events/LMixinEvents";
 import {EventBus} from "@selldone/core-js/events/EventBus";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
 import {CONSOLE} from "@selldone/core-js/helper";
-import LeaderLine from "vue3-leaderline";
-
+let LeaderLineModule = null;
 export const LMixinStyler = defineComponent({
   mixins: [LMixinEvents],
   props: {
@@ -57,10 +56,14 @@ export const LMixinStyler = defineComponent({
   watch: {
     isVisible(visible) {
       if (visible) {
-        this.checkLine();
-        if (this.line) {
-          this.line.show("draw");
-        }
+        this.checkLine().then(()=>{
+            if (this.line) {
+                this.line.show("draw");
+            }
+        })
+
+
+
       } else {
         if (this.line) {
           // this.line.remove()
@@ -122,17 +125,22 @@ export const LMixinStyler = defineComponent({
   },
 
   methods: {
-    checkLine() {
+    async checkLine() {
       if (this.line) return;
+
       try {
         const referenceEl = this.el;
         const floatingEl = this.$refs.styler.$el
-          ? this.$refs.styler.$el /*Vue components*/
-          : this.$refs.styler; /*Native elements*/
+            ? this.$refs.styler.$el /*Vue components*/
+            : this.$refs.styler; /*Native elements*/
 
-        //console.log("- - - - - - >", floatingEl.firstElementChild, referenceEl);
+        // Check if LeaderLine has already been imported
+        if (!LeaderLineModule) {
+          const { default: LeaderLine } = await import('vue3-leaderline');
+          LeaderLineModule = LeaderLine;
+        }
 
-        this.line = new LeaderLine(referenceEl, floatingEl, {
+        this.line = new LeaderLineModule(referenceEl, floatingEl, {
           color: "#20262e",
           size: 2,
           dash: true,
@@ -144,6 +152,7 @@ export const LMixinStyler = defineComponent({
         console.error(e);
       }
     },
+
 
     checkProper() {
       if (!this.cleanup) {
@@ -228,7 +237,7 @@ export const LMixinStyler = defineComponent({
           },
           /* {
                                                                                              layoutShift: true,
-                                                                               
+
                                                                                            }*/
         );
       }

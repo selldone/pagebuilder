@@ -44,19 +44,27 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import SProductOverviewLoading from "@selldone/components-vue/storefront/product/overview/loading/SProductOverviewLoading.vue";
-import SProductOverview from "@selldone/components-vue/storefront/product/overview/SProductOverview.vue";
 import { GtagEcommerce } from "@selldone/components-vue/plugins/gtag/GtagEcommerce.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { XProductOverviewObject } from "@selldone/page-builder/components/x/product-overview/XProductOverviewObject.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import { CONSOLE } from "@selldone/core-js";
-import { computed } from "vue";
+import { computed, defineAsyncComponent } from "vue";
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 
 export default {
   name: "XProductOverview",
-  mixins: [LMixinXComponent, LMixinEvents,CurrencyMixin],
-  components: { SProductOverviewLoading, SProductOverview },
+  mixins: [LMixinXComponent, LMixinEvents, CurrencyMixin],
+  components: {
+    SProductOverviewLoading,
+
+    SProductOverview: defineAsyncComponent(
+      () =>
+        import(
+          "@selldone/components-vue/storefront/product/overview/SProductOverview.vue"
+        ),
+    ),
+  },
   directives: { styler: StylerDirective },
 
   provide() {

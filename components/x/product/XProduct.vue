@@ -32,6 +32,7 @@
       <h3 class="mb-2">{{ product.title }}</h3>
       <v-img
         :src="getShopImagePath(product.icon)"
+        :alt="`Product Image ${product.title}`"
         class="mb-1 mb-3"
         :aspect-ratio="1"
         cover

@@ -36,16 +36,23 @@
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { ApplyAugmentToObject, CONSOLE } from "@selldone/core-js";
 import { XProductsObject } from "@selldone/page-builder/components/x/products/XProductsObject.ts";
-import SProductsListing from "@selldone/components-vue/storefront/products/listing/SProductsListing.vue";
 import { ModeView } from "@selldone/core-js/enums/shop/ModeView.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "XProducts",
   mixins: [LMixinXComponent],
   directives: { styler: StylerDirective },
 
-  components: { SProductsListing },
+  components: {
+    SProductsListing: defineAsyncComponent(
+      () =>
+        import(
+          "@selldone/components-vue/storefront/products/listing/SProductsListing.vue"
+        ),
+    ),
+  },
   inject: ["$augment"],
 
   props: {
@@ -101,7 +108,6 @@ export default {
   methods: {},
 
   created() {
-
     if (!this.isObject(this.filter)) {
       this.object.data.filter = {};
     }

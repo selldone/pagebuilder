@@ -48,6 +48,7 @@ export function PageHyper(app: App, options: PageBuilderOptions) {
 
   // Provide the service instance to the Vue app for global accessibility
   app.provide("$PageHyper", $PageHyper);
+  return $PageHyper;
 }
 
 /**

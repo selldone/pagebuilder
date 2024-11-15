@@ -33,12 +33,16 @@
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XArticleObject } from "@selldone/page-builder/components/x/article/XArticleObject.ts";
 import { Article } from "@selldone/core-js";
-import SArticleEditor from "@selldone/components-vue/article/SArticleEditor.vue";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "XArticle",
   mixins: [LMixinXComponent],
-  components: { SArticleEditor },
+  components: {
+    SArticleEditor: defineAsyncComponent(
+      () => import("@selldone/components-vue/article/SArticleEditor.vue"),
+    ),
+  },
 
   props: {
     object: {

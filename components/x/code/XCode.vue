@@ -51,7 +51,6 @@
 
 <script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
-import SArticleEditor from "@selldone/components-vue/article/SArticleEditor.vue";
 import {
   LRawCodeHelper,
   RawCodeMode,
@@ -71,7 +70,7 @@ export default {
   },
 
   mixins: [LMixinXComponent],
-  components: { SArticleEditor },
+  components: {},
 
   props: {
     object: {
@@ -146,7 +145,9 @@ export default {
       // Assuming scriptContent is something like "{ data: () => ({ foo: 'bar' }), methods: { someMethod() {} } }"
 
       // Remove the script tags and any non-JavaScript content
-      let scriptText = scriptContent.replace(/<script lang="ts">|<\/script>/g, "").trim();
+      let scriptText = scriptContent
+        .replace(/<script lang="ts">|<\/script>/g, "")
+        .trim();
 
       function checkForAnyImports(code) {
         const importRegex = /import\s+.*\s+from\s+['"].*['"];?/;

@@ -20,9 +20,9 @@ import {Page} from "@selldone/core-js/models";
 import {LUtilsLoader} from "@selldone/page-builder/utils/loader/LUtilsLoader.ts";
 import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
 import {CONSOLE} from "@selldone/core-js";
-import {Screenshot} from "@selldone/core-js/helper/canvas/Screenshot.ts";
+//import {Screenshot} from "@selldone/core-js/helper/canvas/Screenshot.ts";
 
-const DEBUG = false;
+let Screenshot: any = null;
 export namespace Section {
   export interface IData {
     id?: string;
@@ -257,6 +257,14 @@ export class Section implements Section.ISection {
       CONSOLE.log("Render section element!");
 
       try {
+
+        // Dynamically import Screenshot if not already imported
+        if (!Screenshot) {
+          const module = await import('@selldone/core-js/helper/canvas/Screenshot.ts');
+          Screenshot = module.Screenshot;
+        }
+
+
         this._image_rendered = await Screenshot.FromElement(
           this.object.$element,
           null,

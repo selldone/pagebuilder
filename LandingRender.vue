@@ -50,12 +50,10 @@
         </v-btn>
       </v-row>
     </v-sheet>
-
     <div
       id="page-builder"
       ref="page_render_container"
       v-bind="$attrs"
-      v-resize="onResize"
       :dir="direction"
       class="page-builder"
       style="background-color: #fff"
@@ -71,6 +69,7 @@
       <div v-if="busy" class="min-height-80vh">
         <u-loading-ellipsis class="my-10" height="240px"></u-loading-ellipsis>
       </div>
+
       <LPageViewer
         v-if="json"
         :key="'page_' + page?.id"
@@ -81,6 +80,15 @@
         :style="background"
         style="min-height: 800px"
       />
+      <u-heatmap
+        v-if="show_heat_map && heatmap_dataset"
+        :max="heatmap_max"
+        :min="0"
+        :dataset="heatmap_dataset"
+        class="pen"
+        style="z-index: 1000"
+        :drawing-mode="action === 'scroll' ? 'line-vertical' : 'dot'"
+      ></u-heatmap>
     </div>
   </v-locale-provider>
 </template>
@@ -89,11 +97,11 @@
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 import debounce from "lodash-es/debounce";
-import * as h337 from "heatmap.js";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
 import { AugmentHelper, CONSOLE } from "@selldone/core-js";
 import { BShopDashboardMixin } from "@app-backoffice/mixins/shop/BShopDashboardMixin.ts";
+import { defineAsyncComponent } from "vue";
 
 /**
  * <landing-render>
@@ -101,7 +109,14 @@ import { BShopDashboardMixin } from "@app-backoffice/mixins/shop/BShopDashboardM
 export default {
   name: "LandingRender",
   mixins: [BShopDashboardMixin],
-  components: { LPageViewer },
+  inject:['$PageHyper'],
+  components: {
+    UHeatmap: defineAsyncComponent(
+      () => import("@selldone/components-vue/ui/heatmap/UHeatmap.vue"),
+    ),
+
+    LPageViewer,
+  },
   emits: ["update:page"],
   props: {
     forceFetchUrl: {
@@ -109,6 +124,9 @@ export default {
     },
   },
   data: () => ({
+    heatmap_dataset: null,
+    heatmap_max: 100,
+
     // showLoading: true,
 
     json: null,
@@ -126,7 +144,6 @@ export default {
 
     // ------------------
     scale: 1,
-    heatmap: null,
     action: "move", // move   click   scroll
 
     //-------------------
@@ -135,6 +152,10 @@ export default {
   }),
 
   computed: {
+    isInitialized(): boolean {
+      return this.$PageHyper?.isInitialized.value || false;
+    },
+
     direction() {
       return this.page ? this.page.direction : "auto";
     },
@@ -176,6 +197,10 @@ export default {
     action() {
       if (this.show_heat_map) this.initHeatmap();
     },
+
+    isInitialized(){
+      this.initHeatmap();
+    }
   },
 
   async created() {
@@ -236,14 +261,25 @@ export default {
     },
 
     onResize() {
-      setTimeout(() => {
-        this.initHeatmap();
-      }, 500);
+      if (this.show_heat_map)
+        setTimeout(() => {
+          this.initHeatmap();
+        }, 500);
     },
     //------------------------------------- Visualize Heatmap For Admin ------------------------------------------------
-
     initHeatmap() {
-      if (!this.page || !this.show_heat_map || !this.$refs.page_render) return;
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            this.$nextTick(() => {
+              this.initHeatmapNow();
+            });
+          });
+        });
+      });
+    },
+    initHeatmapNow() {
+      if (!this.page || !this.show_heat_map || !this.$refs.page_render?.$refs.render_container) return;
 
       let type = this.$vuetify.display.smAndDown
         ? "mobile"
@@ -252,13 +288,11 @@ export default {
           : "desktop";
       let action = this.action;
 
+      //console.log("------>", type, action);
+
       if (!this.page[type] || !this.page[type][action]) {
-        if (this.heatmap) {
-          this.heatmap.setData({
-            max: 10,
-            data: [],
-          });
-        }
+        this.heatmap_max = 10;
+        this.heatmap_dataset = [];
 
         return;
       }
@@ -266,12 +300,14 @@ export default {
       const statistic = this.page[type][action];
       CONSOLE.log("initHeatmap", type, action, "statistic", statistic);
 
-      let data = [];
+      let _data = [];
 
       let max = 0;
       Object.keys(statistic).forEach((pos) => {
         max = statistic[pos] > max ? statistic[pos] : max;
       });
+
+      this.heatmap_max = max;
 
       const container_rect =
         this.$refs.page_render.$refs.render_container.getBoundingClientRect();
@@ -280,10 +316,11 @@ export default {
         if (action === "scroll") {
           let y = parseInt(pos) * 200;
           for (let i = 0; i <= 20; i++) {
-            data.push({
+            _data.push({
               x: Math.round((i * container_rect.width) / (20 * this.scale)),
               y: Math.round(y),
               value: statistic[pos],
+              radius: container_rect.width / 15,
             });
           }
         } else {
@@ -291,34 +328,39 @@ export default {
           let x = (parseInt(res[0]) * container_rect.width) / (10 * this.scale);
           let y = parseInt(res[1]) * 200;
 
-          data.push({
+          _data.push({
             x: Math.round(x),
             y: Math.round(y),
             value: statistic[pos],
+            radius: container_rect.width / 15,
           });
         }
       });
+      this.heatmap_dataset = _data;
 
       // console.log('this.$refs.page_render.$el',this.$refs.page_render.$refs)
-      if (!this.heatmap) {
-        this.heatmap = h337.create({
-          container: this.$refs.page_render.$refs.render_container,
-          maxOpacity: 0.6,
-          radius: 150,
-          blur: 0.7,
-          backgroundColor: "rgba(0, 0, 0, 0)",
-          scaleRadius: true,
-        });
-      }
+      /*  if (!heatmap) {
+          heatmap = heatmapFactory.create({
+            container: this.$refs.page_render.$refs.render_container,
+            maxOpacity: 0.6,
+            radius: 150,
+            blur: 0.7,
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            scaleRadius: true,
+          });
+        }
 
-      CONSOLE.log("data", data, "max", max);
+        CONSOLE.log("data", _data, "max", max);
+        console.log("data", heatmap, _data, "max", max);
 
-      this.heatmap.setData({
-        max: max,
-        data: data, // [{ x: 10, y: 15, value: 5},{ x: 200, y: 105, value: 5}]
-      });
 
-      //  console.log('data',data,max)
+         heatmap.setData({
+           max: max,
+           min:0,
+           data: [{ x: 10, y: 15, value: 5},{ x: 200, y: 105, value: 5}], // [{ x: 10, y: 15, value: 5},{ x: 200, y: 105, value: 5}]
+         });
+  */
+      //  console.log('_data',_data,max)
     },
 
     //------------------------------------------------------------------------------------------------
@@ -454,12 +496,17 @@ export default {
       this.$emit("update:page", this.page);
 
       // Update global header style:
-      this.$store.commit("setGlobalStyle", {
-        header_color: this.header_color,
-        transparent_header: this.menu_transparent,
-        dark_header: this.menu_dark,
-        header_mode: this.header_mode,
-      });
+      if (!this.show_heat_map) {
+        // Should not be in admin preview!
+        this.$store.commit("setGlobalStyle", {
+          header_color: this.header_color,
+          transparent_header: this.menu_transparent,
+          dark_header: this.menu_dark,
+          header_mode: this.header_mode,
+        });
+      }
+
+      if (this.show_heat_map) this.initHeatmap();
 
       /*  this.$emit("update:menu-transparent", this.menu_transparent);
         this.$emit("update:header-mode", this.header_mode);
@@ -468,14 +515,14 @@ export default {
         if (this.menu_dark !== null || this.menu_dark !== undefined) {
           this.$emit("update:menu-dark", this.menu_dark);
         }*/
-
-      if (this.show_heat_map) {
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.initHeatmap();
-          }, 500);
-        });
-      }
+      /*
+            if (this.show_heat_map) {
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.initHeatmap();
+                }, 500);
+              });
+            }*/
     },
 
     onMouseMove(e) {

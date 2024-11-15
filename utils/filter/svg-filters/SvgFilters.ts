@@ -97,10 +97,11 @@ const SVG_FILTERS =
 
 export class SvgFilters {
   static Install() {
-    // Dynamic add to root:
-    if (!$("#selldone_filters").length) {
-      $("body").prepend(
-        `<svg id='selldone_filters' aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">${SVG_FILTERS}</svg>`
+    // Dynamically add to the root:
+    if (!document.getElementById('selldone_filters')) {
+      document.body.insertAdjacentHTML(
+          'afterbegin',
+          `<svg id="selldone_filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">${SVG_FILTERS}</svg>`
       );
     }
   }

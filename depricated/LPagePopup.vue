@@ -102,10 +102,7 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      cleanDOM(this.$refs.render_container);
-      this.initAnimations(this.$refs.render_container);
-    });
+
   },
 };
 </script>

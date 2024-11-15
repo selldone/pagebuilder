@@ -20,11 +20,13 @@ export class XUploaderObjectData extends LModelData<XUploaderObjectData> {
   setting: XUploaderDataTypes.Setting;
 
   link: string | null;
+  alt: string | null;
 
   constructor(params?: {
     src?: string | null;
     setting?: XUploaderDataTypes.Setting | null;
     link?: string | null;
+    alt?: string | null;
   }) {
     super(); // Calling the constructor of the base class
 
@@ -42,6 +44,9 @@ export class XUploaderObjectData extends LModelData<XUploaderObjectData> {
 
     // Initialize link to null
     this.link = params?.link ?? null;
+
+    // Initialize alt to null
+    this.alt = params?.alt ?? null;
   }
 
   // ━━━━━━━━━━━━━━━━━ 🟢 Setters ━━━━━━━━━━━━━━━━━
