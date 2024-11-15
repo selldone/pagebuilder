@@ -64,10 +64,6 @@ export default {
   },
 
   computed: {
-    getVideoUrl(file_name: string) {
-      return window.CDN.GET_VIDEO_URL(file_name);
-    },
-
     /**
      * 🐍 Use compute for better performance.
      * @return {{target: *}}
@@ -81,7 +77,11 @@ export default {
 
   created() {},
 
-  methods: {},
+  methods: {
+    getVideoUrl(file_name: string) {
+      return window.CDN.GET_VIDEO_URL(file_name);
+    },
+  },
 };
 </script>
 
