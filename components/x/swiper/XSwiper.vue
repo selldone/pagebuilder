@@ -35,7 +35,6 @@
     :effect="SLIDE_DATA.effect"
     :grab-cursor="SLIDE_DATA.grabCursor"
     :grid="SLIDE_DATA.grid"
-    :height="SLIDE_DATA.height"
     :initial-slide="SLIDE_DATA.initialSlide"
     :keyboard="keyboard"
     :loop="SLIDE_DATA.loop"

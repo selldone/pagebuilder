@@ -67,7 +67,7 @@
       <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
       <div v-if="busy" class="min-height-80vh">
-        <u-loading-ellipsis class="my-10" height="240px"></u-loading-ellipsis>
+        <u-loading-ellipsis class="my-10" height="240px" css-mode></u-loading-ellipsis>
       </div>
 
       <LPageViewer
@@ -102,6 +102,7 @@ import { StorefrontSDK } from "@selldone/sdk-storefront";
 import { AugmentHelper, CONSOLE } from "@selldone/core-js";
 import { BShopDashboardMixin } from "@app-backoffice/mixins/shop/BShopDashboardMixin.ts";
 import { defineAsyncComponent } from "vue";
+import ULoadingEllipsis from "@selldone/components-vue/ui/loading/ellipsis/ULoadingEllipsis.vue";
 
 /**
  * <landing-render>
@@ -109,15 +110,15 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "LandingRender",
   mixins: [BShopDashboardMixin],
-  inject:['$PageHyper'],
+  inject: ["$PageHyper"],
   components: {
     UHeatmap: defineAsyncComponent(
       () => import("@selldone/components-vue/ui/heatmap/UHeatmap.vue"),
     ),
-
+    ULoadingEllipsis,
     LPageViewer,
   },
-  emits: ["update:page"],
+  emits: ["update:page", "onFetch:data"],
   props: {
     forceFetchUrl: {
       // Set fetch url externally! Used in page builder widget!
@@ -198,9 +199,9 @@ export default {
       if (this.show_heat_map) this.initHeatmap();
     },
 
-    isInitialized(){
+    isInitialized() {
       this.initHeatmap();
-    }
+    },
   },
 
   async created() {
@@ -279,7 +280,12 @@ export default {
       });
     },
     initHeatmapNow() {
-      if (!this.page || !this.show_heat_map || !this.$refs.page_render?.$refs.render_container) return;
+      if (
+        !this.page ||
+        !this.show_heat_map ||
+        !this.$refs.page_render?.$refs.render_container
+      )
+        return;
 
       let type = this.$vuetify.display.smAndDown
         ? "mobile"
