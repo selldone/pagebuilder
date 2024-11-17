@@ -294,7 +294,7 @@
                   : item.raw?.slice(0, 1).toUpperCase()
               }}
             </v-avatar>
-            {{ item }}
+            {{ item.raw }}
           </v-chip>
         </template>
       </v-combobox>

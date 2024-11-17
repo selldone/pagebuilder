@@ -21,9 +21,12 @@
       custom: true,
     }"
     class="rounded-lg usn text-subtitle-2 pa-2 overflow-hidden"
-    style="background: #fff"
+    style="background: #fff; z-index: 10; max-width: 640px"
+    :class="{
+      'position-absolute': products.length || folders.length || busy_fetch,
+    }"
   >
-    <v-sheet rounded="lg" class="pa-2" color="#fafafa" elevation="3">
+    <v-sheet rounded="lg" class="pa-2" color="#111" elevation="3">
       <v-icon class="me-2">schema</v-icon>
       <span class="me-1">Products Feeder</span>
 
@@ -106,8 +109,9 @@ import LMixinXComponent from "../../../../mixins/x-component/LMixinXComponent.ts
 import { XFeederProductsObject } from "@selldone/page-builder/components/x/feeder/products/XFeederProductsObject.ts";
 import { ApplyAugmentToObject } from "@selldone/core-js/prototypes/index.ts";
 import { defineComponent } from "vue/dist/vue.esm-bundler.js";
-import { Category, CONSOLE, Product, ShopURLs } from "@selldone/core-js";
+import { Category, Product, ShopURLs } from "@selldone/core-js";
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
+import { debounce, isObject } from "lodash-es";
 
 export default {
   name: "XFeederProducts",
@@ -129,6 +133,8 @@ export default {
 
     products: [] as Product[],
     folders: [] as Category[],
+
+    debouncedHandler: null,
   }),
 
   computed: {
@@ -145,20 +151,30 @@ export default {
     },
   },
   watch: {
-    filter(filter) {
-      if (filter instanceof Object) {
-        CONSOLE.log("✻ Change products filter.");
+    filter: {
+      handler(filter) {
+        if (this.debouncedHandler) {
+          this.debouncedHandler(filter);
+        }
+      },
+      deep: true,
+    },
+  },
 
+  created() {
+    this.debouncedHandler = debounce((filter) => {
+      if (isObject(filter)) {
         this.forcePackage = ApplyAugmentToObject(
           filter,
           this.augment,
           this.is_editing,
         );
-      }
-    },
-  },
+        // console.log("✻ Change products filter.", this.forcePackage);
 
-  created() {
+        this.fetchData();
+      }
+    }, 1000); // 1000ms debounce delay
+
     this.forcePackage = this.filter;
 
     // Set dynamic values for filter:
@@ -174,96 +190,134 @@ export default {
   methods: {
     fetchData() {
       this.busy_fetch = true;
+      this.products = [];
+      this.folders = [];
 
-      let limit,
-        categories_count,
-        sort,
-        available,
-        search,
-        search_type,
-        dir,
-        filter,
-        products_only,
-        categories_only,
-        dirs,
-        bounds,
-        tags,
-        vendor_id,
-        surrounded;
-
-      limit = this.forcePackage.count;
-      categories_count = this.forcePackage.categories_count; // In page builder! Products section!
-      sort = this.forcePackage.sort;
-      available = this.forcePackage.only_available;
-      search = this.forcePackage.search;
-      search_type = this.forcePackage.search_type;
-      dir = "*"; //this.forcePackage.dir Force search in all products & categories!
-      filter = this.forcePackage.filter
-        ? JSON.stringify(this.forcePackage.filter)
-        : null;
-      products_only = this.forcePackage.products_only;
-      categories_only = this.forcePackage.categories_only;
-      dirs = this.forcePackage.dirs;
-
-      bounds = this.forcePackage.bounds;
-
-      tags = this.forcePackage.tags;
-      vendor_id = this.forcePackage.vendor_id;
-      surrounded = this.forcePackage.surrounded;
-
-      axios
-        .get(window.XAPI.GET_PRODUCTS(this.shop.name), {
-          params: {
-            offset: 0,
-            limit: limit,
-            categories_count: categories_count,
-
-            with_parent: false,
-
-            sort: sort,
-            available: available,
-            search: search,
-            search_type: search_type,
-
-            dir: dir,
-            dirs: dirs,
-
-            filter: filter, //filter
-
-            products_only: products_only, // Only products if load more!
-            categories_only: categories_only,
-
-            with_total: false,
-
-            bounds: bounds, // Location constraints
-
-            tags: tags, //Filter by tags
-            vendor_id: vendor_id, // Show only for this vendor!
-
-            surrounded: surrounded, // true:Show only selected categories. false: Show items inside selected categories.
-          },
-        })
-        .then(({ data }) => {
-          if (data.error) {
-            return NotificationService.showErrorAlert(null, data.error_msg);
-          }
-
-          this.products = data.products;
-          this.folders = data.folders;
-          this.$nextTick(() => {
-            this.$emit("update", {
-              categories: this.folders,
-              products: this.products,
-            });
+      const handleSuccessResponse = ({ products, folders }) => {
+        this.products = products;
+        this.folders = folders;
+        this.$nextTick(() => {
+          this.$emit("update", {
+            categories: folders,
+            products: products,
           });
-        })
+        });
+      };
+
+      window.$storefront?.products
+        .optimize(600) // Cache products for 600 seconds
+        .list(
+          "*",
+          this.forcePackage.offset,
+          this.forcePackage.count,
+          this.forcePackage,
+        )
+        .cache(handleSuccessResponse)
+        .then(handleSuccessResponse)
         .catch((error) => {
+          console.error("Failed to fetch products:", error);
           NotificationService.showLaravelError(error);
         })
-
         .finally(() => {
           this.busy_fetch = false;
         });
+      return;
+
+      /*
+            let offset,
+              limit,
+              categories_count,
+              sort,
+              available,
+              search,
+              search_type,
+              dir,
+              filter,
+              products_only,
+              categories_only,
+              dirs,
+              bounds,
+              tags,
+              vendor_id,
+              surrounded;
+      
+            offset = this.forcePackage.offset;
+      
+            limit = this.forcePackage.count;
+            categories_count = this.forcePackage.categories_count; // In page builder! Products section!
+            sort = this.forcePackage.sort;
+            available = this.forcePackage.only_available;
+            search = this.forcePackage.search;
+            search_type = this.forcePackage.search_type;
+            dir = "*"; //this.forcePackage.dir Force search in all products & categories!
+            filter = this.forcePackage.filter
+              ? JSON.stringify(this.forcePackage.filter)
+              : null;
+            products_only = this.forcePackage.products_only;
+            categories_only = this.forcePackage.categories_only;
+            dirs = this.forcePackage.dirs;
+      
+            bounds = this.forcePackage.bounds;
+      
+            tags = this.forcePackage.tags;
+            vendor_id = this.forcePackage.vendor_id;
+            surrounded = this.forcePackage.surrounded;
+      
+      
+      
+            axios
+              .get(window.XAPI.GET_PRODUCTS(this.shop.name), {
+                params: {
+                  offset: 0,
+                  limit: limit,
+                  categories_count: categories_count,
+      
+                  with_parent: false,
+      
+                  sort: sort,
+                  available: available,
+                  search: search,
+                  search_type: search_type,
+      
+                  dir: dir,
+                  dirs: dirs,
+      
+                  filter: filter, //filter
+      
+                  products_only: products_only, // Only products if load more!
+                  categories_only: categories_only,
+      
+                  with_total: false,
+      
+                  bounds: bounds, // Location constraints
+      
+                  tags: tags, //Filter by tags
+                  vendor_id: vendor_id, // Show only for this vendor!
+      
+                  surrounded: surrounded, // true:Show only selected categories. false: Show items inside selected categories.
+                },
+              })
+              .then(({ data }) => {
+                if (data.error) {
+                  return NotificationService.showErrorAlert(null, data.error_msg);
+                }
+      
+                this.products = data.products;
+                this.folders = data.folders;
+                this.$nextTick(() => {
+                  this.$emit("update", {
+                    categories: this.folders,
+                    products: this.products,
+                  });
+                });
+              })
+              .catch((error) => {
+                NotificationService.showLaravelError(error);
+              })
+      
+              .finally(() => {
+                this.busy_fetch = false;
+              });*/
     },
 
     //---------------------------------------------------------------
@@ -348,7 +402,7 @@ export default {
         )
         .forEach((key) => {
           const val = product[key];
-          if (this.isObject(val) || Array.isArray(val)) return;
+          if (isObject(val) || Array.isArray(val)) return;
 
           code = code.replace(
             generateDynamicRegex(key),
@@ -392,7 +446,7 @@ export default {
         .filter((key) => !["icon"].includes(key))
         .forEach((key) => {
           const val = category[key];
-          if (this.isObject(val) || Array.isArray(val)) return;
+          if (isObject(val) || Array.isArray(val)) return;
 
           code = code.replace(
             generateDynamicRegex(key),
