@@ -30,6 +30,10 @@
           <u-widget-header
             icon="code"
             title="Your Custom Code"
+            add-caption="Reset Customizations"
+            @click:add="()=>{target.data.properties=null}"
+            add-text
+            add-icon="restart_alt"
           ></u-widget-header>
           <v-list-subheader
             >Here, you can either write raw HTML code or paste your code.
@@ -278,12 +282,7 @@ export default {
   }),
 
   computed: {
-    effect() {
-      return this.target?.effect;
-    },
-    upload_image_url() {
-      return this.builder.getImageUploadUrl();
-    },
+
   },
   watch: {
     show_dialog(dialog) {

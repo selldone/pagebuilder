@@ -95,6 +95,9 @@ import SStylerTemplate from "../../styler/template/SStylerTemplate.vue";
 import { LMixinStyler } from "../../mixins/styler/LMixinStyler";
 import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 
+/**
+ * v-styler:code
+ */
 export default {
   name: "SStylerCode",
 
