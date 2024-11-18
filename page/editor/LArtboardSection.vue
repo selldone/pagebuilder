@@ -49,7 +49,7 @@
         'show-name': $builder.showLeftMenu,
       }"
       :section-name="section.label"
-      class="position-relative d-flex flex-column target-drop"
+      class="position-relative target-drop"
       :index="index"
       @onDropOver="
         (over) => {
@@ -150,6 +150,9 @@ import { Section } from "@selldone/page-builder/src/section/section.ts";
 import LArtboardDrop from "@selldone/page-builder/page/editor/artboard/drop/LArtboardDrop.vue";
 import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
 
+/**
+ * <l-artboard-section>
+ */
 export default defineComponent({
   name: "LArtboardSection",
   mixins: [LMixinArtboard],
@@ -181,10 +184,6 @@ export default defineComponent({
 
   data: () => ({
     drop_section: false, // Indicate that pre-built section drag over
-
-    //-------------------
-
-    onPast: null,
 
     copy_section: null,
   }),

@@ -200,7 +200,6 @@
                       :section="section"
                       :loading="delay_load <= index"
                       :index="index"
-                      :shop="$shop"
                       :aiAutoFillFunction="aiAutoFillFunction"
                       v-model:past-hover-index="past_hover_index"
                     ></l-artboard-section>

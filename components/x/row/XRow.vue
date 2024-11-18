@@ -15,24 +15,24 @@
 <template>
   <v-row
     v-styler:row="rowBinding"
-    :align-content="object.data ? object.data.align : 'center'"
-    :align="object.data ? object.data.align : 'center'"
-    :justify="object.data ? object.data.justify : 'space-around'"
+    :align-content="align"
+    :align="align"
+    :justify="justify"
     class="x--row"
     :class="[
       object?.classes,
       {
-        '-no-wrap': hasWrap && object.data?.no_wrap,
+        '-no-wrap': no_wrap,
         'is-editable': $builder.isEditing,
         '-reverse': object.data?.reverse,
       },
     ]"
     :style="[object.style, background_style]"
     placeholder="[Row] Drag & Drop.."
+    v-dragscroll="no_wrap"
   >
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Main Slot ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <slot></slot>
-
   </v-row>
 </template>
 
@@ -59,11 +59,7 @@ export default defineComponent({
 
     hasWrap: { type: Boolean, default: true },
     hasFluid: { type: Boolean, default: true },
-    /*
-        columnStructure: {
-          type: Array,
-          default: () => ["h3", "img", "p"],
-        },*/
+
   },
   data: () => ({
     /**
@@ -73,23 +69,22 @@ export default defineComponent({
   }),
 
   computed: {
-    /*  columnStructure() {
-        const child = this.object.children.length
-          ? this.object.children[this.object.children.length - 1]
-          : null;
-  
-        if (!child || !child.children.length) return ["h3", "img", "p"];
-  
-        // Auto create from sample:
-        console.log("🐍 Auto create from sample child:", child);
-        return child.children
-          .map((child) => {
-            if (child instanceof XTextObject) return child.data.tag;
-            if (child instanceof XUploaderObject) return "img";
-            return null;
-          })
-          .filter((v) => !!v); // Remove null!
-      },*/
+    no_wrap() {
+      return this.hasWrap && this.object.data?.no_wrap;
+    },
+    align() {
+      return this.object.data ? this.object.data.align : "center";
+    },
+
+    justify() {
+      const justify = this.object.data
+        ? this.object.data.justify
+        : "space-around";
+      if (this.no_wrap && justify === "center" /*Should not be center!*/)
+        return "start";
+      return justify;
+    },
+
     /**
      * 🐍 Use compute for better performance.
      * @return {{target: *}}
@@ -97,7 +92,6 @@ export default defineComponent({
     rowBinding() {
       return {
         target: this.object,
-        //  columnStructure: this.columnStructure,
         hasWrap: this.hasWrap,
         hasAdd: this.addColumn,
         hasArrangement: this.hasArrangement,
@@ -173,6 +167,7 @@ export default defineComponent({
   &.-no-wrap {
     flex-wrap: nowrap;
     overflow: auto;
+    scrollbar-width: none;
   }
 
   &.-reverse {

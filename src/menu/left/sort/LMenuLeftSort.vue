@@ -43,6 +43,7 @@
     <!-- ████████████████████ Hierarchy ████████████████████ -->
     <draggable
       v-model="$builder.sections"
+      item-key="uid"
       tag="div"
       animation="200"
       ghostClass="ghost"

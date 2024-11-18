@@ -76,7 +76,7 @@
           v-if="
             title &&
             layout_class === 'x-layout-middle' &&
-            (title?.value || SHOW_EDIT_TOOLS)
+            (title?.data?.value || SHOW_EDIT_TOOLS)
           "
           :initial-type="headerType"
           :initial-classes="['mb-3']"
