@@ -105,6 +105,23 @@
           </v-tooltip>
         </button>
       </li>
+
+      <!-- ―――――――――――――――――― Size & Class ―――――――――――――――――― -->
+
+      <li>
+        <button class="styler-button" @click="showMasterDesignDialog()">
+          <v-icon size="20">architecture</v-icon>
+
+          <v-tooltip
+              activator="parent"
+              content-class="bg-black text-white"
+              location="bottom"
+          >
+            Size & Class
+          </v-tooltip>
+        </button>
+      </li>
+
     </ul>
 
     <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
@@ -247,6 +264,14 @@ export default {
         this.target.data.justify = "start";
       }
     },
+
+
+    showMasterDesignDialog() {
+      // Class and style is in the same level of grid!!! not it's child!
+
+      this.ShowLSettingsClassStyle(this.el, this.el, this.target);
+    },
+
   },
 };
 </script>

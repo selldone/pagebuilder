@@ -138,6 +138,9 @@ export class LUtilsClasses {
     out.push(...this.AutoGenerateResponsive("mx-", 0, 16));
     out.push(...this.AutoGenerateResponsive("my-", 0, 16));
 
+      out.push(...this.AutoGenerateResponsive("mx-n", 0, 16));
+      out.push(...this.AutoGenerateResponsive("my-n", 0, 16));
+
     // Padding
     out.push(...this.AutoGenerateResponsive("pa-", 0, 16));
     out.push(...this.AutoGenerateResponsive("pt-", 0, 16));
