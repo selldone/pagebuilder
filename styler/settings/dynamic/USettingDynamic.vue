@@ -77,7 +77,7 @@
     <template v-slot:item="{ index, structure }">
       <!-- structured items -->
       <u-setting-dynamic
-        v-if="structure"
+        v-if="structure || isObject(modelValue[_item.key][index]) || Array.isArray(modelValue[_item.key][index])"
         v-model="modelValue[_item.key][index]"
         :properties-structure="structure"
         nested
@@ -165,6 +165,7 @@ import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSetti
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 import USettingArray from "@selldone/page-builder/styler/settings/array/USettingArray.vue";
 import SSettingCombobox from "@selldone/page-builder/styler/settings/combobox/SSettingCombobox.vue";
+import {isObject} from "lodash-es";
 
 export default {
   name: "USettingDynamic",
@@ -283,6 +284,7 @@ export default {
   beforeUnmount() {},
 
   methods: {
+    isObject,
     getType(value) {
       function isHexColor(value) {
         if (!value) return "unknown";

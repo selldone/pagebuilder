@@ -15,7 +15,16 @@
 <template>
   <s-setting-expandable :value="value" icon="edit_note" title="Content">
     <template v-slot:title>
-
+      <s-setting-chip
+        v-if="has_html"
+        value="Has HTML"
+        icon="warning_amber"
+        class="ms-1"
+      >
+        <v-tooltip activator="parent" max-width="320" content-class="bg-black text-start">
+          Some styles might not be applied correctly if they are overridden by HTML tags.
+        </v-tooltip>
+      </s-setting-chip>
     </template>
 
     <s-setting-text-input
@@ -31,17 +40,31 @@
 import { defineComponent } from "vue";
 import SSettingTextInput from "@selldone/page-builder/styler/settings/text-input/SSettingTextInput.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
+import SSettingChip from "@selldone/page-builder/styler/settings/chip/SSettingChip.vue";
+
+function hasHtmlTag(text) {
+  const htmlTagRegex = /<\/?[a-z][\s\S]*>/i;
+  return text && htmlTagRegex.test(text);
+}
 
 export default defineComponent({
   name: "LSettingsContentText",
   components: {
+    SSettingChip,
     SSettingExpandable,
     SSettingTextInput,
   },
   emits: [],
   props: {
     text: {},
+    value: {},
   },
+  computed: {
+    has_html() {
+      return hasHtmlTag(this.text);
+    },
+  },
+  created() {},
 });
 </script>
 

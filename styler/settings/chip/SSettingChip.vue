@@ -24,6 +24,7 @@
   >
     <span v-if="label" class="me-1">{{ label }}</span>
     <span>{{ value }}</span>
+    <slot></slot>
   </v-chip>
 </template>
 <script lang="ts">
