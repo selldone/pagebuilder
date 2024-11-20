@@ -52,6 +52,7 @@
           dense
           hide-details
           single-line
+          :onlyPositiveValue="onlyPositiveValue"
           style="min-width: 150px"
           variant="outlined"
           density="compact"
@@ -97,6 +98,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
+    onlyPositiveValue: Boolean,
     label: {},
     icon: {},
     iconClass: {},

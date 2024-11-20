@@ -37,17 +37,17 @@
     <!-- ████████████████████ View Mode ████████████████████ -->
     <s-setting-group v-if="hasViewMode" icon="view_timeline" title="View Mode">
       <b-shop-theme-view-move
-        v-model="mode_view"
-        icon="shelves"
-        :label="$t('global.commons.products')"
+        v-model="mode_view_f"
+        icon="folder"
+        :label="$t('global.commons.categories')"
         dark
       >
       </b-shop-theme-view-move>
 
       <b-shop-theme-view-move
-        v-model="mode_view_f"
-        icon="folder"
-        :label="$t('global.commons.categories')"
+        v-model="mode_view"
+        icon="shelves"
+        :label="$t('global.commons.products')"
         dark
       >
       </b-shop-theme-view-move>
@@ -340,8 +340,8 @@
             variant="outlined"
             height="100%"
             @click="vendor_id = '{{vendor.id}}'"
-            >Set Dynamic</v-btn
-          >
+            >Set Dynamic
+          </v-btn>
         </template>
       </b-vendor-input>
       <v-text-field
@@ -358,8 +358,8 @@
             variant="outlined"
             height="100%"
             @click="vendor_id = null"
-            >Set Vendor</v-btn
-          >
+            >Set Vendor
+          </v-btn>
         </template>
       </v-text-field>
     </template>

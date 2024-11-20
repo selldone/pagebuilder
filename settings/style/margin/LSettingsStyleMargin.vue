@@ -15,13 +15,13 @@
 <template>
   <s-setting-expandable :value="value" icon="margin" title="Margin">
     <template v-slot:title>
-      <s-setting-chip :value="marginLeft" label="Left"> </s-setting-chip>
+      <s-setting-chip :value="marginLeft" label="Left"></s-setting-chip>
 
-      <s-setting-chip :value="marginRight" label="Right"> </s-setting-chip>
+      <s-setting-chip :value="marginRight" label="Right"></s-setting-chip>
 
-      <s-setting-chip :value="marginTop" label="Top"> </s-setting-chip>
+      <s-setting-chip :value="marginTop" label="Top"></s-setting-chip>
 
-      <s-setting-chip :value="marginBottom" label="Bottom"> </s-setting-chip>
+      <s-setting-chip :value="marginBottom" label="Bottom"></s-setting-chip>
     </template>
 
     <s-landing-style-preview

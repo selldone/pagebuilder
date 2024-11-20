@@ -46,6 +46,7 @@
           clearable
           label="Left"
           :default-value="computedStyle?.paddingLeft"
+          only-positive-value
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -55,6 +56,7 @@
           clearable
           label="Right"
           :default-value="computedStyle?.paddingRight"
+          only-positive-value
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -64,6 +66,7 @@
           clearable
           label="Top"
           :default-value="computedStyle?.paddingTop"
+          only-positive-value
         ></s-setting-size>
       </v-col>
       <v-col cols="6">
@@ -73,6 +76,7 @@
           clearable
           label="Bottom"
           :default-value="computedStyle?.paddingBottom"
+          only-positive-value
         ></s-setting-size>
       </v-col>
     </v-row>
