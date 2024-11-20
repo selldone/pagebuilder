@@ -14,7 +14,6 @@
 
 <template>
   <!-- ━━━━━━━━━━━━━━━━━━━━ Properties ━━━━━━━━━━━━━━━━━━━━ -->
-
   <s-setting-group
     v-bind="$attrs"
     subtitle="You can set dynamic values in the component by defining properties in the props of the custom Vue component."
@@ -62,6 +61,7 @@
     v-model="modelValue[_item.key]"
     :title="_item.title"
     :class="{ 'ps-2 border-start': nested }"
+    icon="data_array"
   ></s-setting-combobox>
 
   <!-- ━━━━━━━━━━━━━━━━━━━━ Array ━━━━━━━━━━━━━━━━━━━━ -->
@@ -77,7 +77,11 @@
     <template v-slot:item="{ index, structure }">
       <!-- structured items -->
       <u-setting-dynamic
-        v-if="structure || isObject(modelValue[_item.key][index]) || Array.isArray(modelValue[_item.key][index])"
+        v-if="
+          structure ||
+          isObject(modelValue[_item.key][index]) ||
+          Array.isArray(modelValue[_item.key][index])
+        "
         v-model="modelValue[_item.key][index]"
         :properties-structure="structure"
         nested
@@ -165,7 +169,8 @@ import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSetti
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 import USettingArray from "@selldone/page-builder/styler/settings/array/USettingArray.vue";
 import SSettingCombobox from "@selldone/page-builder/styler/settings/combobox/SSettingCombobox.vue";
-import {isObject} from "lodash-es";
+import { isObject } from "lodash-es";
+import { DynamicVariableStructure } from "@selldone/page-builder/styler/settings/dynamic/DynamicVariableStructure.ts";
 
 export default {
   name: "USettingDynamic",
@@ -199,30 +204,10 @@ export default {
 
   computed: {
     structure() {
-      // Try to define the structure from the propertiesStructure
-
-      if (
-        this.propertiesStructure &&
-        Object.keys(this.propertiesStructure).length
-      )
-        return this.propertiesStructure;
-
-      if (!this.modelValue) return {};
-
-      // Try to define the structure from the modelValue
-
-      const structure = Object.keys(this.modelValue).reduce((acc, key) => {
-        acc[key] = {
-          key: key,
-          title: key
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (char) => char.toUpperCase()),
-          type: this.getType(this.modelValue[key]),
-        };
-        return acc;
-      }, {});
-
-      return structure;
+      return DynamicVariableStructure.CreateSettingStructure(
+        this.propertiesStructure,
+        this.modelValue,
+      );
     },
 
     structure_primitive() {
@@ -286,33 +271,7 @@ export default {
   methods: {
     isObject,
     getType(value) {
-      function isHexColor(value) {
-        if (!value) return "unknown";
-        const hexColorRegex =
-          /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
-        return typeof value === "string" && hexColorRegex.test(value);
-      }
-
-      if (typeof value === "string") {
-        return isHexColor(value) ? "color" : "string";
-      } else if (value === undefined || value === null) {
-        return "string";
-      } else if (typeof value === "number") {
-        return "number";
-      } else if (typeof value === "boolean") {
-        return "boolean";
-      } else if (Array.isArray(value)) {
-        if (
-          !value.length /*If no item available then we consider it as string array*/ ||
-          (value.length > 0 && typeof value[0] === "string")
-        )
-          return "combobox";
-        return "array";
-      } else if (typeof value === "object") {
-        return "object";
-      } else {
-        return "unknown";
-      }
+      return DynamicVariableStructure.GetValueType(value);
     },
 
     guessTitle(value) {

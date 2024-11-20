@@ -15,11 +15,14 @@
   <!-- ████████████████████████ Select ████████████████████████ -->
   <v-list-item
     :class="{ 'disabled-scale-down': disabled }"
-    :prepend-icon="icon"
-    :title="title"
     class="s--setting-combobox"
     density="compact"
+    :prepend-icon="title ? undefined : icon"
   >
+    <template v-slot:title>
+      <v-icon v-if="title && icon" class="me-1">{{ icon }}</v-icon>
+      {{ title }}
+    </template>
     <div v-if="subtitle" class="small">{{ subtitle }}</div>
     <v-combobox
       :clearable="clearable"

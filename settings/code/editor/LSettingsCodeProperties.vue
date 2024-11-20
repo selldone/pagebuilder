@@ -69,6 +69,7 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import USettingDynamic from "@selldone/page-builder/styler/settings/dynamic/USettingDynamic.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+import {DynamicVariableStructure} from "@selldone/page-builder/styler/settings/dynamic/DynamicVariableStructure.ts";
 
 export default {
   name: "LSettingsCodeProperties",
@@ -137,6 +138,13 @@ export default {
             JSON.stringify(this.propertiesDefault),
           );
         }
+
+
+
+          this.propertiesStructure=DynamicVariableStructure.CreateSettingStructure(propertiesStructure, propertiesDefault);
+
+
+
 
         this.showDialog();
       },
