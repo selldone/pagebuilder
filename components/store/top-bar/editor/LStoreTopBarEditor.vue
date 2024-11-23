@@ -77,6 +77,11 @@
           clearable
         >
         </s-setting-color>
+
+        <s-setting-backdrop-filter v-model="page_style.header_filter"></s-setting-backdrop-filter>
+
+
+
       </v-card-text>
       <v-card-actions>
         <div class="widget-buttons">
@@ -100,11 +105,12 @@ import { LMixinEvents } from "../../../../mixins/events/LMixinEvents";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
+import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
 
 export default defineComponent({
   name: "LStoreTopBarEditor",
   mixins: [LMixinEvents],
-  components: { SSettingColor, SSettingToggle, SSettingGroup },
+  components: {SSettingBackdropFilter, SSettingColor, SSettingToggle, SSettingGroup },
   inject: ["$builder"],
   emits: ["update:modelValue"],
   props: {

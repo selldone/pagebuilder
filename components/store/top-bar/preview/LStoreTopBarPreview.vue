@@ -13,6 +13,7 @@
   -->
 
 <template>
+  <!-- 🛒 Storefront top bar preview -->
   <div
     :style="{
       height:
@@ -26,7 +27,10 @@
   >
     <div
       style="position: absolute; left: 0; right: 0; top: 0; overflow: hidden"
-      :style="{ color: page_style.menu_dark ? '#fff' : '#000' }"
+      :style="{
+        color: page_style.menu_dark ? '#fff' : '#000',
+        backdropFilter: backdrop_filter,
+      }"
     >
       <v-toolbar
         v-if="page_style.header_mode !== 'hidden'"
@@ -42,7 +46,7 @@
         flat
         height="64"
       >
-        <s-header-section-logo  view-only></s-header-section-logo>
+        <s-header-section-logo view-only></s-header-section-logo>
       </v-toolbar>
 
       <s-storefront-top-menu
@@ -74,6 +78,7 @@ import { defineComponent } from "vue";
 import SStorefrontTopMenu from "@selldone/components-vue/storefront/menu/header/SStorefrontTopMenu.vue";
 import SHeaderSectionLogo from "@selldone/components-vue/storefront/header/section/logo/SHeaderSectionLogo.vue";
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents";
+import { LUtilsFilter } from "@selldone/page-builder/utils/filter/LUtilsFilter.ts";
 
 export default defineComponent({
   name: "LStoreTopBarPreview",
@@ -99,6 +104,11 @@ export default defineComponent({
       return this.page_style.header_color
         ? this.page_style.header_color
         : "transparent";
+    },
+    backdrop_filter() {
+      return this.page_style.header_filter
+        ? LUtilsFilter.CalcFilter(this.page_style.header_filter)
+        : undefined;
     },
   },
   watch: {

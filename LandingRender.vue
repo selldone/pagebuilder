@@ -506,6 +506,7 @@ export default {
         // Should not be in admin preview!
         this.$store.commit("setGlobalStyle", {
           header_color: this.header_color,
+          header_filter: this.page?.content?.style?.header_filter,
           transparent_header: this.menu_transparent,
           dark_header: this.menu_dark,
           header_mode: this.header_mode,
