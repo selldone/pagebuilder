@@ -42,7 +42,8 @@
               ? 99
               : undefined /*In the overlay mode we set high z-index to be visible over first section*/,
         }"
-        class="position-relative"
+        class="l--section-top-bar-preview-main"
+        :class="{ '-dark': page_style.menu_dark }"
         flat
         height="64"
       >
@@ -125,4 +126,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.l--section-top-bar-preview-main {
+  position: relative;
+
+  border-bottom: 1px solid rgba(10, 10, 10, 0.3) !important;
+
+  &.-dark {
+    border-bottom: 1px solid rgba(222, 226, 230, 0.3) !important;
+  }
+}
+</style>
