@@ -85,7 +85,13 @@ export class LUtilsBackground {
       backdropFilter: bg_backdrop
         ? LUtilsFilter.CalcFilter(bg_backdrop)
         : undefined,
+
     };
+
+    // Set variable:
+    if(bg_color){
+      out['--background'] = bg_color;
+    }
 
     return RemoveEmptyFromObject(out);
   }
