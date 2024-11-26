@@ -49,7 +49,7 @@ export class LandingCssHelper {
    */
   static Inject(css: IPageCss, target: HTMLElement): HTMLStyleElement | null {
     if (!target) {
-      console.error("🩴 Target element is not provided for CSS injection.");
+      console.info("🩴 Target element is not provided for CSS injection.");
       return null;
     }
     const css_text = LandingCssHelper.Generate(css);
