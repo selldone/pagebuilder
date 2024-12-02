@@ -24,9 +24,9 @@
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
-    <v-sheet color="#fff" class="pa-1 ma-1" rounded="xl">
+    <v-sheet  v-if="!demo" color="#fff" class="pa-1 ma-1" rounded="xl">
       <v-btn
-        v-if="!demo"
+
         :color="saveColor"
         :loading="busySave"
         stacked
