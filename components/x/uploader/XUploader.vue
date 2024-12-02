@@ -60,11 +60,10 @@
     class="image-container"
     target="_blank"
     v-bind="$attrs"
-    @click="
-      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
-      //  init();
-      // $forceUpdate();
-    "
+    v-clone="{
+      tooltipText: 'Image',
+      object: object,
+    }"
     @dragover="handleDragOver"
     @drop="handleDrop"
     :cloneable="true"
@@ -102,7 +101,9 @@
         height: 100%;
         width: 100%;
       "
-      :alt="object.data?.alt?object.data?.alt:`Image ${getName(object.src)}`"
+      :alt="
+        object.data?.alt ? object.data?.alt : `Image ${getName(object.src)}`
+      "
     />
 
     <!-- ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Foreground ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ -->
@@ -172,6 +173,7 @@ import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XU
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent.ts";
 import { CONSOLE } from "@selldone/core-js";
 import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
+import CloneDirective from "@selldone/page-builder/directives/CloneDirective.ts";
 
 const ASPECTS = [
   { val: undefined, title: "Auto", icon: "crop_free" },
@@ -194,6 +196,7 @@ export default defineComponent({
   mixins: [LMixinEvents, LMixinXComponent],
   directives: {
     "data-x": DataXDirective,
+    clone: CloneDirective,
   },
 
   components: { XVideoBackground },
@@ -476,7 +479,10 @@ export default defineComponent({
         })
         .then((response) => {
           if (!response.data.error) {
-            NotificationService.showSuccessAlert(null, `Image uploaded successfully.`);
+            NotificationService.showSuccessAlert(
+              null,
+              `Image uploaded successfully.`,
+            );
 
             const imageURL = response.data.files.path;
             this.object.data.src = imageURL;

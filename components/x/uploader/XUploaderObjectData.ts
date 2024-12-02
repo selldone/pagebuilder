@@ -113,5 +113,42 @@ export namespace XUploaderDataTypes {
       this.fg = fg;
       return this;
     }
+
+    /**
+     * Override toString to generate a readable string representation
+     */
+    toString(): string {
+      const parts: string[] = [];
+
+      // aspect
+      if (this.aspect !== null && this.aspect !== undefined) {
+        parts.push(`Aspect: ${this.aspect}`);
+      }
+
+      // contain
+      if (this.contain !== null && this.contain !== undefined) {
+        parts.push(`Contain: ${this.contain ? 'Yes' : 'No'}`);
+      }
+
+      // round
+      if (this.round !== null && this.round !== undefined) {
+        parts.push(`Round: ${this.round ? 'Yes' : 'No'}`);
+      }
+
+      // float
+      if (this.float !== null && this.float !== undefined) {
+        parts.push(`Float: ${this.float ?? 'N/A'}`);
+      }
+
+      // Foreground background (LModelBackground)
+      if (this.fg instanceof LModelBackground) {
+        parts.push(`Foreground: Exists`);
+      }
+
+      // Combine all parts into a single string, excluding empty parts
+      return parts.join(', ');
+    }
+
+
   }
 }

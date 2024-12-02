@@ -36,7 +36,11 @@
     :color="object.data.color"
     :elevation="object.data.elevation"
     :height="object.data.height"
-    :href="is_editing ? undefined : object.data.href?.applyAugment(augment, is_editing)"
+    :href="
+      is_editing
+        ? undefined
+        : object.data.href?.applyAugment(augment, is_editing)
+    "
     :icon="object.data.icon"
     :loading="loading"
     :ripple="object.data.ripple"
@@ -48,9 +52,10 @@
     v-html="object.data.content?.applyAugment(augment, is_editing)"
     :tag="is_editing ? 'a' : undefined"
     :cloneable="true"
-    @click="
-      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
-    "
+    v-clone="{
+      tooltipText: 'Button',
+      object: object,
+    }"
   >
   </v-btn>
 </template>
@@ -59,10 +64,11 @@
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
+import CloneDirective from "@selldone/page-builder/directives/CloneDirective.ts";
 
 export default {
   name: "XButton",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective, clone: CloneDirective },
   mixins: [LMixinXComponent],
   props: {
     object: {

@@ -24,9 +24,11 @@
     :style="[object.style, background_style]"
     v-html="object.data?.value?.applyAugment(augment, $builder.isEditing)"
     :cloneable="true"
-    @click="
-      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
-    "
+    v-clone="{
+      tooltipText: 'Text',
+      object: object,
+    }"
+
   ></component>
 </template>
 
@@ -37,10 +39,11 @@ import { defineComponent } from "vue";
 import { isObject } from "lodash-es";
 import { XTextObject } from "@selldone/page-builder/components/x/text/XTextObject.ts";
 import { CONSOLE } from "@selldone/core-js";
+import CloneDirective from "@selldone/page-builder/directives/CloneDirective.ts";
 
 export default defineComponent({
   name: "XText",
-  directives: { styler: StylerDirective },
+  directives: { styler: StylerDirective, clone: CloneDirective },
   mixins: [LMixinXComponent],
 
   components: {},

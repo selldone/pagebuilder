@@ -96,6 +96,26 @@ export class LModelBackground {
     }
     return result;
   }
+  /**
+   * Override toString to generate CSS-compatible background style string
+   */
+  toString(): string {
+    // Generate the style object
+    const _gen = this.generate();
+
+    // Convert the style object to a CSS string
+    const styleString = Object.entries(_gen)
+        .filter(([_, value]) => value !== undefined && value !== null) // Exclude undefined or null values
+        .map(([key, value]) => {
+          // Convert camelCase keys to kebab-case for CSS compatibility
+          const kebabKey = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+          return `${kebabKey}: ${value}`;
+        })
+        .join("; ");
+
+    return styleString;
+  }
+
 
   // ━━━━━━━━━━━━━━━━━ 🍒 Clone ━━━━━━━━━━━━━━━━━
 

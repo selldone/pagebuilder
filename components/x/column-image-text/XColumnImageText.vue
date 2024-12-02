@@ -23,9 +23,10 @@
       position: 'right-bottom',
     }"
     :cloneable="true"
-    @click="
-      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
-    "
+    v-clone="{
+      tooltipText: 'Column',
+      object: object,
+    }"
     :class="[
       grid_class,
       {
@@ -188,10 +189,15 @@ import { XColumnImageTextDataTypes } from "@selldone/page-builder/components/x/c
 import XVideoBackground from "@selldone/page-builder/components/x/video-background/XVideoBackground.vue";
 import DataXDirective from "@selldone/page-builder/directives/DataXDirective.ts";
 import { Grid } from "@selldone/page-builder/src/types/types.ts";
+import CloneDirective from "@selldone/page-builder/directives/CloneDirective.ts";
 
 export default defineComponent({
   name: "XColumnImageText",
-  directives: { styler: StylerDirective, "data-x": DataXDirective },
+  directives: {
+    styler: StylerDirective,
+    "data-x": DataXDirective,
+    clone: CloneDirective,
+  },
   mixins: [LMixinXComponent],
 
   components: {
@@ -359,10 +365,7 @@ export default defineComponent({
     getVideoUrl(file_name: string) {
       return window.CDN.GET_VIDEO_URL(file_name);
     },
-    /* copyStyle(event) {
-       console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXX", event);
-       this.$builder.onClickClone(event, this.object);
-     },*/
+
   },
 });
 </script>

@@ -24,9 +24,10 @@
       position: nested ? 'left-bottom' : undefined,
     }"
     :cloneable="cloneable"
-    @click="
-      $builder.isEditing ? $builder.onClickClone($event, object) : undefined
-    "
+    v-clone="{
+      tooltipText: 'Column',
+      object: object,
+    }"
     :class="[
       object.classes,
       !noGrid ? calcGridClasses(object.data?.grid) : undefined,
@@ -58,10 +59,15 @@ import { defineComponent } from "vue";
 import DataXDirective from "../../../directives/DataXDirective";
 import { XColumnObject } from "@selldone/page-builder/components/x/column/XColumnObject";
 import { Grid } from "@selldone/page-builder/src/types/types.js";
+import CloneDirective from "@selldone/page-builder/directives/CloneDirective.ts";
 
 export default defineComponent({
   name: "XColumn",
-  directives: { styler: StylerDirective, "data-x": DataXDirective },
+  directives: {
+    styler: StylerDirective,
+    "data-x": DataXDirective,
+    clone: CloneDirective,
+  },
   mixins: [LMixinXComponent],
   components: { XVideoBackground },
 
