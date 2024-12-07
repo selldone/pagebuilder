@@ -232,7 +232,7 @@ export class XColumnImageTextObject extends LModelElement<XColumnImageTextObject
 
   static MigrateOld(old: any): XColumnImageTextObject {
     if (!old.layout) {
-      console.error("! No layout selected! old:", old);
+      console.debug("! No layout selected! old:", old);
       old.layout = XColumnImageTextDataTypes.LAYOUTS.NORMAL;
     }
 
