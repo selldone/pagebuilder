@@ -103,7 +103,8 @@ const CloneDirective = {
 
     // Click handler for cloning action
     el.addEventListener("click", (event: MouseEvent) => {
-      console.log("CLICK CLONE", builder?.isEditing, builder?.onClickClone);
+      if (!builder.cloneStyle) return;
+      //console.log("CLICK CLONE", builder?.isEditing, builder?.onClickClone);
       if (builder?.isEditing && typeof builder.onClickClone === "function") {
         const object = el.__clone_object;
         builder.onClickClone(event, object);

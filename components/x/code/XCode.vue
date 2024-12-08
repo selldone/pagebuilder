@@ -55,12 +55,13 @@ import {
   LRawCodeHelper,
   RawCodeMode,
 } from "@selldone/page-builder/settings/code/editor/helpers/LRawCodeHelper.ts";
-import { defineComponent } from "vue";
+import { markRaw } from "vue";
 import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 import StylerDirective from "@selldone/page-builder/styler/StylerDirective.ts";
 import { isObject } from "lodash-es";
 import DynamicScriptDirective from "@selldone/components-vue/directives/script/DynamicScriptDirective.ts";
 import { CONSOLE } from "@selldone/core-js";
+import { defineComponent } from "vue/dist/vue.esm-bundler.js";
 
 export default {
   name: "XCode",
@@ -114,15 +115,17 @@ export default {
 
       if (mode === RawCodeMode.MODE_VUE) {
         try {
-          this.generated_component = this.generateComponent(
-            this.object.data.code,
+          this.generated_component = markRaw(
+            this.generateComponent(this.object.data.code),
           );
         } catch (e) {
-          this.generated_component = defineComponent({
-            template: `<div class="py-16">
+          this.generated_component = markRaw(
+            defineComponent({
+              template: `<div class="py-16">
 <b style="color: red;font-size: 2rem">🚫 Can not render! </b><br> ${e.toString()}
 </div>`,
-          });
+            }),
+          );
 
           //console.error("Error in generating component", e);
         }

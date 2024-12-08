@@ -48,6 +48,7 @@
           animation="200"
           ghostClass="bg-primary"
           class="border-between-vertical"
+          itemKey="id"
         >
           <template v-slot:item="{ element, index }">
             <l-settings-swiper-slide

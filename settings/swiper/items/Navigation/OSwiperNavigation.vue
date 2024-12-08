@@ -49,7 +49,7 @@ export default defineComponent({
       !this.isObject(this.modelValue.data.navigation)
     )
       this.modelValue.data.navigation = {
-        enable: false,
+        enabled: false,
       };
   },
 });

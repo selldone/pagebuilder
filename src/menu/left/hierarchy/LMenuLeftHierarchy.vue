@@ -60,6 +60,7 @@
       tag="div"
       animation="200"
       ghostClass="bg-primary"
+      itemKey="uid"
     >
       <template v-slot:item="{ element }">
         <l-menu-left-hierarchy-item
