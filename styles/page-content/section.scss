@@ -11,6 +11,7 @@
  * Our journey is not just about reaching a destination, but about creating a masterpiece.
  * Tread carefully, for you're treading on dreams.
  */
+@use "sass:color";
 
 
 .page-content {
@@ -169,7 +170,7 @@
 
   &-paragraph {
     font-size: 16px;
-    color: lighten($dark, 20%);
+    border-color: color.scale($dark, $lightness: 20%);
   }
 
 

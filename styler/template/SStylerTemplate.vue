@@ -284,6 +284,8 @@ export default {
 </script>
 
 <style lang="scss">
+@use "sass:color";
+
 $dark: #323c47;
 $white: #fff;
 $red: #ff3d3d;
@@ -352,7 +354,7 @@ $red: #ff3d3d;
     margin: 0 5px 0 0;
 
     &:hover {
-      background: darken($dark, 20%);
+      background: color.adjust($dark, $lightness: -20%);
     }
 
     &:first-child {
@@ -360,7 +362,7 @@ $red: #ff3d3d;
     }
 
     &.selected {
-      background: darken($dark, 40%);
+      background: color.adjust($dark, $lightness: -40%);
     }
   }
 
@@ -397,16 +399,16 @@ $red: #ff3d3d;
     width: 30px;
     height: 30px;
     border-radius: 40px;
-    border: 4px solid darken($dark, 20%);
+    border: 4px solid color.adjust($dark, $lightness: -20%);
     margin: 0 5px;
     outline: none;
 
     &:checked {
-      border-color: lighten($dark, 20%);
+      border-color: color.scale($dark, $lightness: 20%);
     }
 
     &:hover {
-      border-color: lighten($dark, 20%);
+      border-color: color.scale($dark, $lightness: 20%);
     }
 
     &#colorRed {

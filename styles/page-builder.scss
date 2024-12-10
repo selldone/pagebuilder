@@ -12,10 +12,10 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-@import "variables/plates";
-@import "page-content/section";
-@import "editor/artboard";
-@import "editor/placeholder";
-@import "page-content/slide";
-@import "animation/loading";
+@use "variables/plates";
+@use "page-content/section";
+@use "editor/artboard";
+@use "editor/placeholder";
+@use "page-content/slide";
+@use "animation/loading";
 
