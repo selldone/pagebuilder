@@ -130,6 +130,7 @@
       v-model:textDecoration="modelValue.textDecoration"
       v-model:textTransform="modelValue.textTransform"
       v-model:textShadow="modelValue.textShadow"
+      v-model:textWrap="modelValue.textWrap"
       @change="onChange"
     >
     </l-settings-style-typeface>

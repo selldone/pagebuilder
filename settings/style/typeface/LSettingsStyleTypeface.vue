@@ -111,6 +111,23 @@
       :default-value="computedStyle?.fontWeight"
     ></s-setting-select>
 
+    <!-- Text Wrap -->
+    <s-setting-select
+        :model-value="textWrap"
+        @update:model-value="
+        (v) => {
+          $emit('update:textWrap', v);
+          onChange();
+        }
+      "
+        :items="TEXT_WRAPS"
+        clearable
+        label="Text Wrap"
+        icon="wrap_text"
+        :default-value="computedStyle?.textWrap"
+    ></s-setting-select>
+
+
     <!-- Font Style -->
     <s-setting-toggle
       :model-value="fontStyle"
@@ -261,6 +278,17 @@ const TEXT_TRANSFORMS = [
   { title: "Full-width", value: "full-width" },
 ];
 
+const TEXT_WRAPS = [
+  { title: "Wrap", value: "wrap" },
+  { title: "No Wrap", value: "nowrap" },
+  { title: "Balance", value: "balance" },
+  { title: "Pretty", value: "pretty" },
+  { title: "Stable", value: "stable" },
+];
+
+/**
+ * <l-settings-style-typeface>
+ */
 export default defineComponent({
   name: "LSettingsStyleTypeface",
   components: {
@@ -288,6 +316,7 @@ export default defineComponent({
     "update:textDecoration",
     "update:textTransform",
     "update:textShadow",
+    "update:textWrap",
   ],
   props: {
     value: {},
@@ -308,12 +337,14 @@ export default defineComponent({
     textDecoration: {},
     textTransform: {},
     textShadow: {},
+    textWrap: {},
   },
   data: () => ({
     FONT_WEIGHTS: FONT_WEIGHTS,
     TEXT_ALIGNMENTS: TEXT_ALIGNMENTS,
 
     TEXT_TRANSFORMS: TEXT_TRANSFORMS,
+    TEXT_WRAPS:TEXT_WRAPS,
   }),
 
   computed: {
