@@ -26,6 +26,11 @@
   word-break: break-word;      // Ensures words are broken at arbitrary points
   hyphens: auto;               // Adds hyphens when words are broken, where supported
 
+  *{
+    scrollbar-width: thin;
+    scrollbar-color: #333 #fff;
+
+  }
 
 
   h1, h2, h3, h4, h5, h6 {

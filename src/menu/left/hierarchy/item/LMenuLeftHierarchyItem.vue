@@ -206,6 +206,7 @@ export default {
         "XGalleryExpandable",
         "XGalleryExpandableItem",
         "XSwiper",
+        "XScroller",
       ].includes(this.object.component);
     },
     background_style() {

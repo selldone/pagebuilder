@@ -96,7 +96,13 @@ export class Builder {
     options: Partial<builder.IOptions>,
     state: Partial<builder.IState> = {},
   ) {
-    CONSOLE.log("⚽ 4. New Instance > Create page builder instance",'Default Options:',this.options,'Override Options:', options);
+    CONSOLE.log(
+      "⚽ 4. New Instance > Create page builder instance",
+      "Default Options:",
+      this.options,
+      "Override Options:",
+      options,
+    );
     const core_instance = new Builder(
       Object.assign(
         {},
@@ -168,7 +174,7 @@ export class Builder {
 
   static install(app: App, options: Partial<builder.IOptions> = {}) {
     this.options = options;
-    CONSOLE.log("⚽ 2. Start Install...",this.options);
+    CONSOLE.log("⚽ 2. Start Install...", this.options);
 
     initializeXComponents(app);
 
@@ -449,11 +455,11 @@ export class Builder {
               corrected = corrected.replace(/class=".*?"/gs, "");
 
               /* console.error(
-                                                                                                          "FAULT DETECTION ->",
-                                                                                                          key + " -> " + val,
-                                                                                                          "Corrected",
-                                                                                                          corrected
-                                                                                                  );*/
+                                                                                                                        "FAULT DETECTION ->",
+                                                                                                                        key + " -> " + val,
+                                                                                                                        "Corrected",
+                                                                                                                        corrected
+                                                                                                                );*/
               obj[key] = corrected;
             }
           } else if (Array.isArray(val)) {
@@ -543,6 +549,12 @@ export class Builder {
  * Initialize especial components
  */
 function initializeXComponents(app: App) {
+  // Register all components:
+  LUtilsComponents.MandatoryComponents.forEach((_component) => {
+    app.component(_component.name, _component);
+  });
+
+  // Register all components:
   LUtilsComponents.XComponents.forEach((_component) => {
     if (_component) {
       app.component(_component.name, _component);

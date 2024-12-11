@@ -69,6 +69,11 @@ import {
   XGalleryExpandableItemObject
 } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import {XDivObject} from "@selldone/page-builder/components/x/div/XDivObject.ts";
+import XScroller from "@selldone/page-builder/components/x/scroller/XScroller.vue";
+import {XScrollerObject} from "@selldone/page-builder/components/x/scroller/XScrollerObject.ts";
+import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
+import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
+import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
 
 export class LUtilsComponents {
   static XComponents: any[] = [
@@ -99,7 +104,14 @@ export class LUtilsComponents {
     XForm,
     XInputText,
     XFeederBlogs,
+    XScroller,
   ];
+
+  /**
+   * Mandatory components that should be present in the page builder
+   * These components will be used in custom components by Vue in XCode!
+   */
+  static MandatoryComponents: any[] = [UFadeScroll, UPrice, UCountDown];
 
   static XObjects: LModelElementTypes.IModelElement[] = [
     XArticleObject,
@@ -129,6 +141,7 @@ export class LUtilsComponents {
     XUploaderObject,
     // XVideoBackgroundObject,
     XGalleryExpandableItemObject,
+    XScrollerObject,
   ];
 
   static ComponentToObject: Record<string, LModelElement<any>> = {
@@ -155,6 +168,7 @@ export class LUtilsComponents {
     XLottie: XLottieObject,
     XMarquee: XMarqueeObject,
     XSearch: XSearchObject,
+    XScroller: XScrollerObject,
   };
 
   static FindVueComponent(name: string): any {
