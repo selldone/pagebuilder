@@ -65,6 +65,9 @@
       :readonly="lock && hasLock"
       @click:append-inner="lock = !lock"
     >
+      <template v-if="$slots['input-append-inner']" v-slot:append-inner>
+        <slot name="input-append-inner"></slot>
+      </template>
     </v-textarea>
     <v-text-field
       v-else
@@ -88,6 +91,9 @@
       :readonly="lock && hasLock"
       @click:append-inner="lock = !lock"
     >
+      <template v-if="$slots['input-append-inner']" v-slot:append-inner>
+        <slot name="input-append-inner"></slot>
+      </template>
     </v-text-field>
   </v-list-item>
 

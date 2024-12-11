@@ -84,7 +84,7 @@ export default {
         "dashed",
         "solid",
         "groove",
-        "groove",
+        "double",
         "ridge",
         "inset",
         "outset",

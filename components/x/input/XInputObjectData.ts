@@ -24,6 +24,8 @@ export class XInputObjectData extends LModelData<XInputObjectData> {
   label: string | null = null;
   messages: string | null = null;
   persistentPlaceholder: boolean = false;
+  singleLine: boolean = true;
+  hideDetails: boolean = false;
   placeholder: string | null = null;
   rounded: boolean = false;
   variant: XInputObjectDataTypes.IVariant | null = null;
@@ -83,6 +85,16 @@ export class XInputObjectData extends LModelData<XInputObjectData> {
 
   public setPersistentPlaceholder(persistentPlaceholder: boolean): this {
     this.persistentPlaceholder = persistentPlaceholder;
+    return this;
+  }
+
+  public setSingleLine(singleLine: boolean): this {
+    this.singleLine = singleLine;
+    return this;
+  }
+
+  public setHideDetails(hideDetails: boolean): this {
+    this.hideDetails = hideDetails;
     return this;
   }
 

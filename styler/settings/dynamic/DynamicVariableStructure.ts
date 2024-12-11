@@ -17,134 +17,157 @@
  * This structure can be used to create UI components or settings dynamically.
  */
 export class DynamicVariableStructure {
-    /**
-     * Generates a structure definition for UI or settings based on a given object.
-     *
-     * @param default_structure - An optional predefined structure. If provided, it will be used directly.
-     * @param default_value - The value object from which the structure is to be inferred.
-     * @returns A structure object representing the UI/setting structure.
-     */
-    public static CreateSettingStructure(
-        default_structure: Record<string, any> | null,
-        default_value: Record<string, any> | null
-    ): Record<string, any> {
-        // Use the provided default structure if it exists and has keys
-        if (default_structure && Object.keys(default_structure).length) {
-            return default_structure;
-        }
-
-        // If no default value is provided, return an empty structure
-        if (!default_value) {
-            return {};
-        }
-
-        // Infer the structure from the default_value
-        const structure = Object.keys(default_value).reduce((acc, key) => {
-            const value = default_value[key];
-            const type = this.GetValueType(value);
-
-            acc[key] = {
-                key: key,
-                title: key
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (char) => char.toUpperCase()),
-                type: type,
-                ...(type === "object" && value
-                    ? { structure: this.CreateSettingStructure(null, value) }
-                    : {}),
-                ...(type === "array" && Array.isArray(value) && value.length
-                    ? {
-                        structure: this.CalculateArrayStructure(value),
-                    }
-                    : {}),
-            };
-
-            return acc;
-        }, {} as Record<string, any>);
-
-        return structure;
+  /**
+   * Generates a structure definition for UI or settings based on a given object.
+   *
+   * @param default_structure - An optional predefined structure. If provided, it will be used directly.
+   * @param default_value - The value object from which the structure is to be inferred.
+   * @returns A structure object representing the UI/setting structure.
+   */
+  public static CreateSettingStructure(
+    default_structure: Record<string, any> | null,
+    default_value: Record<string, any> | null,
+  ): Record<string, any> {
+    // Use the provided default structure if it exists and has keys
+    if (default_structure && Object.keys(default_structure).length) {
+      return default_structure;
     }
 
-    /**
-     * Determines the type of a given value.
-     *
-     * @param value - The value to analyze.
-     * @returns A string representing the type, e.g., "string", "number", "array", etc.
-     */
-    public static GetValueType(value: any): string {
-        /**
-         * Checks if a string represents a valid hex color.
-         *
-         * @param value - The string to check.
-         * @returns True if the string is a hex color, false otherwise.
-         */
-        function isHexColor(value: string): boolean {
-            if (!value) return false;
-            const hexColorRegex = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
-            return typeof value === "string" && hexColorRegex.test(value);
-        }
-
-        if (typeof value === "string") {
-            return isHexColor(value) ? "color" : "string";
-        } else if (value === undefined || value === null) {
-            return "string";
-        } else if (typeof value === "number") {
-            return "number";
-        } else if (typeof value === "boolean") {
-            return "boolean";
-        } else if (Array.isArray(value)) {
-            if (
-                !value.length || // Empty arrays default to string arrays
-                (value.length > 0 && typeof value[0] === "string")
-            )
-                return "combobox";
-            return "array";
-        } else if (typeof value === "object") {
-            return "object";
-        } else {
-            return "unknown";
-        }
+    // If no default value is provided, return an empty structure
+    if (!default_value) {
+      return {};
     }
 
+    // Infer the structure from the default_value
+    const structure = Object.keys(default_value).reduce(
+      (acc, key) => {
+        const value = default_value[key];
+        const type = this.GetValueType(value, key);
+
+        acc[key] = {
+          key: key,
+          title: key
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (char) => char.toUpperCase()),
+          type: type,
+          ...(type === "object" && value
+            ? { structure: this.CreateSettingStructure(null, value) }
+            : {}),
+          ...(type === "array" && Array.isArray(value) && value.length
+            ? {
+                structure: this.CalculateArrayStructure(value),
+              }
+            : {}),
+        };
+
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+
+    return structure;
+  }
+
+  /**
+   * Determines the type of a given value.
+   *
+   * @param value - The value to analyze.
+   * @param key
+   * @returns A string representing the type, e.g., "string", "number", "array", etc.
+   */
+  public static GetValueType(value: any, key: string): string {
     /**
-     * Calculates a unified structure for an array of objects.
+     * Checks if a string represents a valid hex color.
      *
-     * @param array - The array to analyze.
-     * @returns A structure object representing the combined structure of the array's items.
+     * @param value - The string to check.
+     * @returns True if the string is a hex color, false otherwise.
      */
-    private static CalculateArrayStructure(array: any[]): Record<string, any> {
-        // Combine keys from all items in the array
-        const combinedKeys = array.reduce((keys, item) => {
-            if (typeof item === "object" && item !== null) {
-                Object.keys(item).forEach((key) => keys.add(key));
-            }
-            return keys;
-        }, new Set<string>());
-
-        // Generate a structure for the combined keys
-        const structure = Array.from(combinedKeys).reduce((acc, key) => {
-            const sampleValue = array.find((item) => item && item[key] !== undefined)?.[key];
-            const type = this.GetValueType(sampleValue);
-
-            acc[key] = {
-                key: key,
-                title: key
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (char) => char.toUpperCase()),
-                type: type,
-                ...(type === "object" && sampleValue
-                    ? { structure: this.CreateSettingStructure(null, sampleValue) }
-                    : {}),
-                ...(type === "array" && Array.isArray(sampleValue) && sampleValue.length
-                    ? {
-                        structure: this.CalculateArrayStructure(sampleValue),
-                    }
-                    : {}),
-            };
-
-            return acc;
-        }, {} as Record<string, any>);
-
-        return structure;
+    function isHexColor(value: string|any): boolean {
+      if (!value) return false;
+      const hexColorRegex = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
+      return typeof value === "string" && hexColorRegex.test(value);
     }
+
+    function isImage( value: string,key: string) {
+      //console.log("isImage-> key: ", key,'value: ', value);
+      return key?.toLowerCase().includes("image") || key?.toLowerCase().includes("avatar")
+          || value?.endsWith('.svg')   || value?.endsWith('.png')   || value?.endsWith('.jpg')    || value?.endsWith('.webp')
+
+          ;
+    }
+
+    if (typeof value === "string") {
+      return isImage(value, key)
+        ? "image"
+        : isHexColor(value)
+          ? "color"
+          : "string";
+    } else if (value === undefined || value === null) {
+      return "string";
+    } else if (typeof value === "number") {
+      return "number";
+    } else if (typeof value === "boolean") {
+      return "boolean";
+    } else if (Array.isArray(value)) {
+      if (
+        !value.length || // Empty arrays default to string arrays
+        (value.length > 0 && typeof value[0] === "string")
+      )
+        return "combobox";
+      return "array";
+    } else if (typeof value === "object") {
+      return "object";
+    } else {
+      return "unknown";
+    }
+  }
+
+  /**
+   * Calculates a unified structure for an array of objects.
+   *
+   * @param array - The array to analyze.
+   * @returns A structure object representing the combined structure of the array's items.
+   */
+  private static CalculateArrayStructure(array: any[]): Record<string, any> {
+    // Combine keys from all items in the array
+    const combinedKeys = array.reduce((keys, item) => {
+      if (typeof item === "object" && item !== null) {
+        Object.keys(item).forEach((key) => keys.add(key));
+      }
+      return keys;
+    }, new Set<string>());
+
+    // Generate a structure for the combined keys
+    const structure = Array.from(combinedKeys).reduce(
+      (acc, key) => {
+        const sampleValue = array.find(
+          (item) => item && item[key] !== undefined,
+        )?.[key];
+        const type = this.GetValueType(sampleValue, key);
+
+        acc[key] = {
+          key: key,
+          title: key
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (char) => char.toUpperCase()),
+          type: type,
+          ...(type === "object" && sampleValue
+            ? { structure: this.CreateSettingStructure(null, sampleValue) }
+            : {}),
+          ...(type === "array" &&
+          Array.isArray(sampleValue) &&
+          sampleValue.length
+            ? {
+                structure: this.CalculateArrayStructure(sampleValue),
+              }
+            : {}),
+        };
+
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+
+    return structure;
+  }
 }

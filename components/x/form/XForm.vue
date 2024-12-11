@@ -26,7 +26,7 @@
     ref="form"
   >
     <!-- ━━━━━━━━━━━━ Children ━━━━━━━━━━━━ -->
-    <v-expand-transition>
+    <v-expand-transition group>
       <div v-if="success" key="1" class="text-start">
         <h3 v-if="object.data.success?.title" class="mt-5 mb-3 px-3">
           {{ object.data.success?.title }}
@@ -35,7 +35,7 @@
           {{ object.data.success?.message }}
         </div>
       </div>
-      <div v-else key="2">
+      <template v-else>
         <x-component
           v-for="(child, index) in other_children"
           :object="child"
@@ -44,14 +44,9 @@
           v-model="params[child.data.name]"
         >
         </x-component>
-      </div>
+      </template>
     </v-expand-transition>
-    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Validation Errors ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
-    <div v-if="errors" class="text-start text-subtitle-2">
-      <div v-for="e in errors" class="py-1">
-        {{ e }}
-      </div>
-    </div>
+
     <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Submit Button ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
     <v-expand-transition>
       <div
@@ -71,6 +66,13 @@
         </x-button>
       </div>
     </v-expand-transition>
+
+    <!-- ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂ Validation Errors ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂-->
+    <div v-if="errors" class="text-start text-subtitle-2">
+      <div v-for="e in errors" class="py-1">
+        {{ e }}
+      </div>
+    </div>
   </v-form>
 </template>
 
@@ -122,7 +124,6 @@ export default defineComponent({
     other_children() {
       return this.children.filter((child) => child !== this.button);
     },
-
 
     shop() {
       return this.getShop();

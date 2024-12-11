@@ -69,11 +69,21 @@
           subtitle="It will appear when the user clicks on the input and focusing on it."
           v-model="target.data.hint"
         ></s-setting-text-input>
-
+        <s-setting-switch
+          v-model="target.data.hideDetails"
+          label="Hide Details"
+          icon="hide_source"
+        ></s-setting-switch>
         <s-setting-switch
           v-model="target.data.persistentPlaceholder"
           label="Persistent Placeholder"
           icon="abc"
+        ></s-setting-switch>
+
+        <s-setting-switch
+          v-model="target.data.singleLine"
+          label="Single Line"
+          icon="read_more"
         ></s-setting-switch>
 
         <s-setting-switch
@@ -108,7 +118,6 @@
 
 <script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
-import LFeederInput from "../../components/feeder/input/LFeederInput.vue";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
 import { EventBus } from "@selldone/core-js/events/EventBus";
@@ -133,7 +142,6 @@ export default {
     SSettingColor,
     SSettingRounded,
     SSettingSwitch,
-    LFeederInput,
   },
 
   props: {},

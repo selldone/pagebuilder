@@ -14,6 +14,7 @@
 <!-- ━━━━━━━━━━━━━━━━━━━━━━ X-Text ━━━━━━━━━━━━━━━━━━━━━━ -->
 
 <template>
+
   <v-text-field
     v-styler:input="{ target: object }"
     :model-value="modelValue"
@@ -24,7 +25,9 @@
     :hint="object.data.hint ?? undefined"
     :label="object.data.label ?? undefined"
     :messages="object.data.messages ? object.data.messages : undefined"
-    :persistent-placeholder="object.data.persistentPlaceholder"
+    :persistent-placeholder="object.data.persistentPlaceholder ?? false"
+    :single-line="object.data.singleLine ?? false"
+    :hide-details="object.data.hideDetails??false"
     :placeholder="object.data.placeholder ?? undefined"
     :rounded="object.data.rounded"
     :rules="[
@@ -41,10 +44,8 @@
         : undefined
     "
     class="x--input-text"
-
     :class="[object.classes, { 'is-editable': $builder.isEditing }]"
     :style="[object.style, background_style]"
-
   ></v-text-field>
 </template>
 

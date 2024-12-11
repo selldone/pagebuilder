@@ -28,6 +28,22 @@
         :label="item.title"
         clearable
       ></s-setting-text-input>
+      <s-setting-text-input
+        v-else-if="item.type === 'image'"
+        v-model="modelValue[item.key]"
+        :label="item.title"
+        clearable
+        icon="image"
+      >
+        <template v-slot:input-append-inner>
+          <v-avatar
+              v-if="modelValue[item.key]"
+            :image="getShopImagePath(modelValue[item.key])"
+            size="20"
+            rounded
+          ></v-avatar>
+        </template>
+      </s-setting-text-input>
       <s-setting-number-input
         v-else-if="item.type === 'number'"
         v-model="modelValue[item.key]"
