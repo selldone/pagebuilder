@@ -28,28 +28,35 @@
         :label="item.title"
         clearable
       ></s-setting-text-input>
-      <s-setting-text-input
+      <s-setting-image
         v-else-if="item.type === 'image'"
-        v-model="modelValue[item.key]"
+        :model-value="modelValue[item.key]"
+        @new-url="
+          (url) => {
+            // Save URL!
+            modelValue[item.key] = url;
+          }
+        "
         :label="item.title"
         clearable
         icon="image"
+        :uploadUrl="upload_image_url"
       >
         <template v-slot:input-append-inner>
           <v-avatar
-              v-if="modelValue[item.key]"
+            v-if="modelValue[item.key]"
             :image="getShopImagePath(modelValue[item.key])"
             size="20"
             rounded
           ></v-avatar>
         </template>
-      </s-setting-text-input>
+      </s-setting-image>
       <s-setting-number-input
         v-else-if="item.type === 'number'"
         v-model="modelValue[item.key]"
         :label="item.title"
         clearable
-        :max="9999"
+        :decimal="10"
       ></s-setting-number-input>
       <s-setting-switch
         v-else-if="item.type === 'boolean'"
@@ -187,13 +194,16 @@ import USettingArray from "@selldone/page-builder/styler/settings/array/USetting
 import SSettingCombobox from "@selldone/page-builder/styler/settings/combobox/SSettingCombobox.vue";
 import { isObject } from "lodash-es";
 import { DynamicVariableStructure } from "@selldone/page-builder/styler/settings/dynamic/DynamicVariableStructure.ts";
+import SSettingImage from "@selldone/page-builder/styler/settings/image/SSettingImage.vue";
 
 export default {
   name: "USettingDynamic",
 
   mixins: [LMixinEvents],
+  inject: ["$builder"],
 
   components: {
+    SSettingImage,
     SSettingCombobox,
     USettingArray,
     SSettingColor,
@@ -258,7 +268,7 @@ export default {
       );
     },
     upload_image_url() {
-      return this.builder.getImageUploadUrl();
+      return this.$builder.getImageUploadUrl();
     },
 
     missingProperties() {

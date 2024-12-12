@@ -88,13 +88,50 @@ export class DynamicVariableStructure {
       return typeof value === "string" && hexColorRegex.test(value);
     }
 
-    function isImage( value: string,key: string) {
-      //console.log("isImage-> key: ", key,'value: ', value);
-      return key?.toLowerCase().includes("image") || key?.toLowerCase().includes("avatar")
-          || value?.endsWith('.svg')   || value?.endsWith('.png')   || value?.endsWith('.jpg')    || value?.endsWith('.webp')
+    function isImage(value: string, key: string): boolean {
+      console.log("isImage -> key:", key, "value:", value);
 
-          ;
+      // Define sets for faster lookup
+      const imageKeys = new Set(['image', 'avatar']);
+      const imageExtensions = new Set(['.svg', '.png', '.jpg', '.jpeg', '.webp']);
+
+      // List of known placeholder services
+      const placeholderServices = [
+        'placeholder.com',
+        'placehold.co',
+        'placekitten.com',
+        'via.placeholder.com',
+        'dummyimage.com',
+        'picsum.photos'
+      ];
+
+      // Normalize key and value to lowercase to ensure case-insensitive comparison
+      const normalizedKey = key.toLowerCase();
+      const normalizedValue = value.toLowerCase();
+
+      // Check if the key indicates an image
+      if (imageKeys.has(normalizedKey)) {
+        return true;
+      }
+
+      // Check if the value ends with a known image extension
+      for (const ext of imageExtensions) {
+        if (normalizedValue.endsWith(ext)) {
+          return true;
+        }
+      }
+
+      // Check if the URL is from a known placeholder service
+      for (const service of placeholderServices) {
+        if (normalizedValue.includes(service)) {
+          return true;
+        }
+      }
+
+      // If none of the conditions are met, it's not an image
+      return false;
     }
+
 
     if (typeof value === "string") {
       return isImage(value, key)

@@ -24,7 +24,7 @@
 
           {{ label }}
 
-          <small v-if="min && max" class="ms-1">{{ min }} ~ {{ max }}</small>
+          <small v-if="min && max && !noLimit" class="ms-1">{{ min }} ~ {{ max }}</small>
         </span>
       </template>
 
@@ -53,8 +53,9 @@
           v-else
           :key="selectedScreen"
           :clearable="clearable || selectedScreen"
-          :max="max"
-          :min="min"
+          :max="noLimit?Number.MAX_SAFE_INTEGER:max"
+          :min="noLimit?Number.MIN_SAFE_INTEGER:min"
+          :decimal="decimal"
           :model-value="currentValue"
           dense
           hide-details
@@ -119,6 +120,7 @@ export default defineComponent({
     icon: {},
     min: { default: 0 },
     max: { default: 100 },
+    decimal: { default: 0 },
     clearable: Boolean,
     hasAuto: Boolean,
     disabled: Boolean,
@@ -126,6 +128,7 @@ export default defineComponent({
     suffix: {},
     subtitle: {},
     placeholder: {},
+    noLimit: Boolean,
 
     /**
      * Add responsive options
