@@ -20,6 +20,7 @@
       structure: structure,
       defaultValues: defaultValues,
       refresh: () => {
+        html_key = Math.random(); // Force to refresh in edit mode!
         refreshCode();
       },
     }"
@@ -33,6 +34,7 @@
   >
     <div
       v-if="mode === 'html'"
+      :key="html_key"
       v-dynamic-scripts="true"
       :style="{ pen: is_editing }"
       v-html="object.data.code"
@@ -87,6 +89,8 @@ export default {
 
     structure: {},
     defaultValues: {},
+
+    html_key:null, // Force to refresh in edit mode!
   }),
 
   computed: {
