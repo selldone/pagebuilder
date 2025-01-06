@@ -26,6 +26,7 @@ tooltip.style.fontSize = "12px";
 tooltip.style.visibility = "hidden";
 tooltip.style.pointerEvents = "none";
 tooltip.style.zIndex = "1000";
+tooltip.style.display = "none";
 document.body.appendChild(tooltip);
 
 /**
@@ -83,6 +84,8 @@ const CloneDirective = {
       tooltip.style.visibility = "visible";
       tooltip.style.left = `${event.pageX + 10}px`;
       tooltip.style.top = `${event.pageY + 10}px`;
+      tooltip.style.display = "block";
+
     });
 
     // Mousemove to reposition the tooltip
@@ -99,6 +102,8 @@ const CloneDirective = {
       }
 
       tooltip.style.visibility = "hidden";
+      tooltip.style.display = "none";
+
     });
 
     // Click handler for cloning action
@@ -137,6 +142,7 @@ const CloneDirective = {
    */
   unmounted() {
     tooltip.style.visibility = "hidden";
+    tooltip.style.display = "none";
   },
 };
 
