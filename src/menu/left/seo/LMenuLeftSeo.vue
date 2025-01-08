@@ -89,7 +89,7 @@
         <div class="widget-box mb-5" style="--background: #fff">
           <u-widget-header
             icon="fa:fa-brands fa-google"
-            title="SEO Preview"
+            :title="$t('global.commons.seo_preview')"
           ></u-widget-header>
 
           <v-list-subheader></v-list-subheader>
@@ -117,10 +117,11 @@
 import BGooglePreview from "@selldone/components-vue/backoffice/google/preview/BGooglePreview.vue";
 import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgressScore.vue";
 import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
+import UWidgetHeader from "@selldone/components-vue/ui/widget/header/UWidgetHeader.vue";
 
 export default {
   name: "LMenuLeftSeo",
-  components: {SWidgetHelp, UProgressScore, BGooglePreview },
+  components: {UWidgetHeader, SWidgetHelp, UProgressScore, BGooglePreview },
   inject: ["$builder"],
   props: {},
 
