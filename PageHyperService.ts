@@ -93,8 +93,11 @@ class PageBuilderService {
   public async initialize(): Promise<void> {
     // Prevent re-initialization if already initialized
     if (this.isInitialized.value) {
+      console.log('PageHyper is already initialized.');
       return;
     }
+
+    console.log('Start PageHyper Initialize...');
 
     try {
       // Dynamically import the SetupPageBuilder function from the Page Builder module
