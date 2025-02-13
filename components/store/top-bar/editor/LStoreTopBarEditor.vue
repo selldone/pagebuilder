@@ -26,6 +26,15 @@
         <v-icon class="me-2">linear_scale</v-icon>
         Menu Style
       </v-card-title>
+      <v-card-subtitle class="text-wrap">
+        Customize the appearance of the menu. this will apply to the top site
+        menu when this page is viewed.
+        <s-widget-help
+          code="Landing.Header.Customize"
+          color="#fff"
+          inline
+        ></s-widget-help>
+      </v-card-subtitle>
       <v-card-text>
         <s-setting-group
           icon="control_camera"
@@ -78,10 +87,9 @@
         >
         </s-setting-color>
 
-        <s-setting-backdrop-filter v-model="page_style.header_filter"></s-setting-backdrop-filter>
-
-
-
+        <s-setting-backdrop-filter
+          v-model="page_style.header_filter"
+        ></s-setting-backdrop-filter>
       </v-card-text>
       <v-card-actions>
         <div class="widget-buttons">
@@ -106,11 +114,18 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
+import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
 
 export default defineComponent({
   name: "LStoreTopBarEditor",
   mixins: [LMixinEvents],
-  components: {SSettingBackdropFilter, SSettingColor, SSettingToggle, SSettingGroup },
+  components: {
+    SWidgetHelp,
+    SSettingBackdropFilter,
+    SSettingColor,
+    SSettingToggle,
+    SSettingGroup,
+  },
   inject: ["$builder"],
   emits: ["update:modelValue"],
   props: {
@@ -119,7 +134,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-
   },
   data() {
     return {};

@@ -32,6 +32,7 @@
         icon="text_fields"
         title="Font & Typo"
         subtitle="You can set the default page font and the size of text and headers here."
+        help-path="Landing.Style.PageTypography"
       ></s-setting-group>
 
       <v-expansion-panels v-model="tab" flat>

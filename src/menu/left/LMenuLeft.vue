@@ -128,6 +128,14 @@
         >
           <l-menu-left-sort />
         </v-tabs-window-item>
+
+        <!-- ━━━━━━━━━━━━━━━ Helps ━━━━━━━━━━━━━━━ -->
+        <v-tabs-window-item
+          value="helps"
+          :style="{ width: min_width_window + 'px' }"
+        >
+          <l-menu-left-helps />
+        </v-tabs-window-item>
       </v-tabs-window>
     </div>
   </v-sheet>
@@ -147,10 +155,12 @@ import LMenuLeftStatistics from "@selldone/page-builder/src/menu/left/statistics
 import LMenuLeftSort from "@selldone/page-builder/src/menu/left/sort/LMenuLeftSort.vue";
 import LMenuLeftPopupAppearance from "@selldone/page-builder/src/menu/left/popup/LMenuLeftPopupAppearance.vue";
 import LMenuLeftPopupFilter from "@selldone/page-builder/src/menu/left/popup/LMenuLeftPopupFilter.vue";
+import LMenuLeftHelps from "@selldone/page-builder/src/menu/left/help/LMenuLeftHelps.vue";
 
 export default defineComponent({
   name: "LMenuLeft",
   components: {
+    LMenuLeftHelps,
     LMenuLeftPopupFilter,
     LMenuLeftPopupAppearance,
     LMenuLeftSort,
@@ -205,6 +215,8 @@ export default defineComponent({
         { key: "sections", icon: "grid_view", tooltip: "Sections" },
         { key: "elements", icon: "yard", tooltip: "Elements" },
         { key: "versions", icon: "history", tooltip: "Versions" },
+
+        { key: "helps", icon: "help", tooltip: "Helps" },
       ];
 
       if (this.is_page) {
