@@ -347,7 +347,7 @@ import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import BackgroundImageEditor from "../../../components/style/background/BackgroundImageEditor.vue";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingColor from "../../../styler/settings/color/SSettingColor.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";

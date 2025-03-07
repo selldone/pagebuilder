@@ -238,7 +238,7 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 
 import { defineComponent } from "vue";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
-import { EventBus } from "@selldone/core-js/events/EventBus.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",

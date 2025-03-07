@@ -244,7 +244,7 @@ import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LUtilsTypo } from "../../../utils/typo/LUtilsTypo";
 import { LUtilsColors } from "../../../utils/colors/LUtilsColors";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingFontFamily from "@selldone/page-builder/styler/settings/font-family/SSettingFontFamily.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";

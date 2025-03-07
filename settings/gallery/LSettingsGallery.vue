@@ -75,7 +75,7 @@
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { XGalleryExpandableItemObject } from "@selldone/page-builder/components/x/gallery-expandable/item/XGalleryExpandableItemObject.ts";
 import LSettingsGallerySlide from "@selldone/page-builder/settings/gallery/slide/LSettingsGallerySlide.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";

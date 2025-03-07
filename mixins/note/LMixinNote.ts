@@ -14,7 +14,7 @@
 
 import {defineComponent} from "vue";
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import {EventBus} from "@selldone/components-vue/utils/events/EventBus.ts";
 
 export const LMixinNote = defineComponent({
   mixins: [LMixinEvents],

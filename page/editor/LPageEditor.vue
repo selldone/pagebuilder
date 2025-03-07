@@ -319,7 +319,7 @@ import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { delay, throttle } from "lodash-es";
 import { defineComponent } from "vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import Builder from "../../Builder.ts";
 import LMenuLeft from "@selldone/page-builder/src/menu/left/LMenuLeft.vue";
 import LSettings from "@selldone/page-builder/settings/LSettings.vue";

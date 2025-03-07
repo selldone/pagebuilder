@@ -182,7 +182,7 @@ import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import { XButtonObject } from "@selldone/page-builder/components/x/button/XButtonObject.ts";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";

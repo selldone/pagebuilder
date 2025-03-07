@@ -44,7 +44,7 @@ import { Section } from "@selldone/page-builder/src/section/section.ts";
 import LFeederComponent from "@selldone/page-builder/components/feeder/component/LFeederComponent.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
-import { EventBus } from "@selldone/core-js/events/EventBus.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import LEventsName from "@selldone/page-builder/mixins/events/name/LEventsName.ts";
 
 export default {

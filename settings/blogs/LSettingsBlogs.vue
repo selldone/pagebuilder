@@ -167,7 +167,7 @@ import SSettingNumberInput from "../../styler/settings/number-input/SSettingNumb
 import SSettingSwitch from "../../styler/settings/switch/SSettingSwitch.vue";
 import SSettingColor from "../../styler/settings/color/SSettingColor.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import LSettingsStyleGrid from "@selldone/page-builder/settings/style/grid/LSettingsStyleGrid.vue";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";

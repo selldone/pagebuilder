@@ -145,7 +145,7 @@ import OSwiperGrid from "../../settings/swiper/items/Grid/OSwiperGrid.vue";
 import OSwiperSlidesPerGroup from "../../settings/swiper/items/SlidesPerGroup/OSwiperSlidesPerGroup.vue";
 import OSwiperSlidesPerView from "../../settings/swiper/items/SlidesPerView/OSwiperSlidesPerView.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { XSwiperObject } from "@selldone/page-builder/components/x/swiper/XSwiperObject.ts";
 import LSettingsSwiperSlide from "@selldone/page-builder/settings/swiper/slide/LSettingsSwiperSlide.vue";
 import SSettingButton from "@selldone/page-builder/styler/settings/button/SSettingButton.vue";

@@ -271,7 +271,7 @@ import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.
 import { FontLoader } from "@selldone/core-js/helper/font/FontLoader";
 import { throttle } from "lodash-es";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { LUtilsFont } from "../../../utils/font/LUtilsFont";
 import { LUtilsImage } from "@selldone/page-builder/utils/image/LUtilsImage.ts";
 

@@ -16,7 +16,7 @@ import {defineComponent} from "vue";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import {autoUpdate, computePosition, detectOverflow, offset,} from "@floating-ui/dom";
 import {LMixinEvents} from "../../mixins/events/LMixinEvents";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import {EventBus} from "@selldone/components-vue/utils/events/EventBus.ts";
 import {isParentTo} from "../../utils/html/LUtilsHtml";
 import {CONSOLE} from "@selldone/core-js/helper";
 let LeaderLineModule = null;

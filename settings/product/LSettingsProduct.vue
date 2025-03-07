@@ -50,7 +50,7 @@
 <script lang="ts">
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import SSettingProduct from "@selldone/page-builder/styler/settings/product/SSettingProduct.vue";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";

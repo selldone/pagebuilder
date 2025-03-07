@@ -120,7 +120,7 @@
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingSwitch from "@selldone/page-builder/styler/settings/switch/SSettingSwitch.vue";
 import SSettingRounded from "@selldone/page-builder/styler/settings/rounded/SSettingRounded.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";

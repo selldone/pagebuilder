@@ -290,7 +290,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { LUtilsClasses } from "@selldone/page-builder/utils/classes/LUtilsClasses.ts";
-import { EventBus } from "@selldone/core-js/events/EventBus.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
 import { XUploaderObject } from "@selldone/page-builder/components/x/uploader/XUploaderObject.ts";
 import { delay } from "lodash-es";

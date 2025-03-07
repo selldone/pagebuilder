@@ -283,7 +283,7 @@ import LEventsName from "../../mixins/events/name/LEventsName";
 import AnimationClassSelector from "../../components/style/animation/AnimationClassSelector.vue";
 import HoverClassSelector from "../../components/style/hover/HoverClassSelector.vue";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import LSettingNavigation from "@selldone/page-builder/settings/LSettingNavigation.vue";
 import debounce from "lodash-es/debounce";
 

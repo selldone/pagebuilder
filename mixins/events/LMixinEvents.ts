@@ -13,7 +13,7 @@
  */
 
 import {defineComponent} from "vue";
-import {EventBus} from "@selldone/core-js/events/EventBus";
+import {EventBus} from "@selldone/components-vue/utils/events/EventBus.ts";
 import {Section} from "../../src/section/section";
 import LEventsName from "../../mixins/events/name/LEventsName";
 import {StylerOptions} from "../../styler/StylerDirective";

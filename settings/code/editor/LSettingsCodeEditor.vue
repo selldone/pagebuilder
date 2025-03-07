@@ -238,7 +238,7 @@ import "vue-prism-editor/dist/prismeditor.min.css";
 
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import {
   LRawCodeHelper,
   RawCodeMode,

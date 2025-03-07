@@ -196,7 +196,7 @@
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import { XInputTextObject } from "@selldone/page-builder/components/x/input/text/XInputTextObject.ts";
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";

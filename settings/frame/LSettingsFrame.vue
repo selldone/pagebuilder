@@ -232,7 +232,7 @@ import CategoryFramesSample from "../../sections/store/custom-listing/frames/Cat
 import LEventsName from "../../mixins/events/name/LEventsName";
 import { LUtilsHighlight } from "../../utils/highligh/LUtilsHighlight";
 import { LMixinEvents } from "../../mixins/events/LMixinEvents";
-import { EventBus } from "@selldone/core-js/events/EventBus";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSettingGroup.vue";
 import "prismjs/themes/prism-dark.css";

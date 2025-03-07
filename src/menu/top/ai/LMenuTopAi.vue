@@ -126,7 +126,7 @@ import { defineComponent } from "vue";
 import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import USmartSuggestion from "@selldone/components-vue/ui/smart/suggestion/USmartSuggestion.vue";
 import BAiModelInput from "@selldone/components-vue/backoffice/ai/model/input/BAiModelInput.vue";
-import { EventBus } from "@selldone/core-js/events/EventBus.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 
 export default defineComponent({
   name: "LMenuTopAi",
