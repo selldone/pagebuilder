@@ -36,12 +36,40 @@
             add-icon="restart_alt"
           ></u-widget-header>
           <v-list-subheader
-            >Here, you can either write raw HTML code or paste your code.
-            However, please be aware that pasting code containing 'script' tags
-            may potentially lead to security issues, particularly within your
-            editor. For this reason, we strongly advise only pasting code from
-            sources you trust.
+            >You can write or paste raw HTML code here. However, please note that pasting code containing 'script' tags may cause security risks, especially within the editor. We strongly recommend only using code from trusted sources.
+            If the component does not render correctly, please save and refresh the Page Builder.
           </v-list-subheader>
+
+       <div class="text-end">
+
+
+         <v-btn
+           @click="sample_dialog = true"
+           class="tnt ma-1"
+           rounded="xl"
+           flat
+           prepend-icon="tips_and_updates"
+         >Show Samples
+         </v-btn>
+
+         <v-btn
+           href="https://chatgpt.com/g/g-Bp0vE4zIR-selldone"
+           target="_blank"
+           class="tnt ma-1"
+           rounded="xl"
+           color="#000"
+           flat
+           append-icon="launch"
+
+         >
+           <img
+             src="@selldone/components-vue/assets/trademark/chatgpt.svg"
+             alt="ChatGPT"
+             class="me-2"
+             width="24">
+           Create by ChatGPT
+         </v-btn>
+       </div>
 
           <!-- ━━━━━━━━━━━━━━━━━━━━ Raw Code Mode ━━━━━━━━━━━━━━━━━━━━ -->
 
@@ -68,13 +96,7 @@
             </v-btn-toggle>
 
             <v-spacer></v-spacer>
-            <v-btn
-              @click="sample_dialog = true"
-              size="small"
-              class="tnt"
-              prepend-icon="tips_and_updates"
-              >Show Samples
-            </v-btn>
+
           </v-row>
 
           <prism-editor

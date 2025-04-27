@@ -276,6 +276,13 @@ const StylerDirective: ObjectDirective<
         //console.log("Styler Directive Updated --------> ",existingStyler,'value', binding.value, "el", el);
         Object.assign(el.__props, binding.value);
       }
+    }else{
+      // Just props change: (🚸🚸🚸 Added new to solve custom code issue)
+      if(binding.oldValue !== binding.value){
+       // console.log("UPDATE STYLER! A");
+       // console.log("Styler Directive Updated --------> ",binding.value, "el", el);
+        Object.assign(el.__props, binding.value);
+      }
     }
 
     // Check if binding.value has changed
