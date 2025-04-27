@@ -1202,6 +1202,7 @@ export default defineComponent({
           items[i].kind === "file" &&
           items[i].type === "" /*.landing text file!*/
         ) {
+          event.preventDefault();
           this.drop_landing_file = true;
           event.stopPropagation();
           break;

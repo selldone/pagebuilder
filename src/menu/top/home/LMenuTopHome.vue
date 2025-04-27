@@ -435,6 +435,11 @@
       </div>
     </div>
 
+    <div class="lmt-group" v-if="is_page && $shop && page?.id" >
+
+    <l-menu-top-ai-image-to-section :page="page" class="ma-2"></l-menu-top-ai-image-to-section>
+    </div>
+
     <v-spacer></v-spacer>
 
     <!-- ――――――――――――――――――――――  Livestream ―――――――――――――――――――― -->
@@ -600,6 +605,9 @@
       </div>
     </v-scroll-y-reverse-transition>
   </div>
+
+
+
 </template>
 
 <script lang="ts">
@@ -610,13 +618,17 @@ import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/
 import { CONSOLE } from "@selldone/core-js/helper/index";
 import UButtonAiLarge from "@selldone/components-vue/ui/button/ai/large/UButtonAiLarge.vue";
 import ClubMixin from "@selldone/components-vue/mixin/club/ClubMixin.ts";
+import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
+import LMenuTopAiImageToSection from "@selldone/page-builder/src/menu/top/ai/image-to-section/LMenuTopAiImageToSection.vue";
 
 export default {
   name: "LMenuTopHome",
   mixins: [LMixinEvents, ClubMixin],
   components: {
+    LMenuTopAiImageToSection,
     UDenseCirclesUsers,
     UButtonAiLarge,
+    SImageUploader
   },
 
   emits: ["click:save"],
@@ -661,6 +673,9 @@ export default {
     busy_ai_page: false,
 
     busy_set_home: false,
+
+
+
   }),
 
   computed: {
@@ -775,6 +790,10 @@ export default {
           this.busy_set_home = false;
         });
     },
+
+
+
+
   },
 
   created() {},
