@@ -31,9 +31,32 @@
         <u-loading-progress v-if="uploading "></u-loading-progress>
 
         <p>
-          Drag and drop (or past) an image to the uploader below. The AI will
-          analyze the image and create a new section based on it.
+          Drag and drop (or paste) an image into the uploader below. The AI will analyze the image and automatically create a new section based on its content.
+
+          For more accurate and flexible results, use this GPT:
+
+          <v-btn
+            href="https://chatgpt.com/g/g-Bp0vE4zIR-selldone"
+            target="_blank"
+            class="tnt ma-1"
+            rounded="xl"
+            color="#000"
+            size="small"
+            flat
+            append-icon="launch"
+          >
+            <img
+              src="@selldone/components-vue/assets/trademark/chatgpt.svg"
+              alt="ChatGPT"
+              class="me-2"
+              width="24"
+            >
+            Create with ChatGPT
+          </v-btn>
         </p>
+
+
+
         <s-image-uploader
           :allow-multiple="false"
           :dark="false"
@@ -123,7 +146,7 @@ export default {
         "The new section has been added to the page.",
       );
 
-      console.log("response --->", response);
+      //console.log("response --->", response);
 
       // Add new section to the page:
       const section_obj = XSectionObject.Seed();
@@ -134,11 +157,11 @@ export default {
       code.data.mode = "vue";
       section_obj.addChild(code);
 
-      console.log("section_obj", section_obj);
+      //console.log("section_obj", section_obj);
       const section = new Section({});
       section.object = section_obj;
 
-      console.log("section-->", section);
+     // console.log("section-->", section);
 
       this.$builder.add(section, 0, true);
 
