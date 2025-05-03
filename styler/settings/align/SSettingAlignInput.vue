@@ -112,8 +112,6 @@ export default defineComponent({
     label: {},
 
     icon: {},
-    min: { default: 0 },
-    max: { default: 100 },
     clearable: Boolean,
     hasAuto: Boolean,
     disabled: Boolean,

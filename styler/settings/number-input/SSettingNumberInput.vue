@@ -12,7 +12,7 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <!-- ████████████████████████ Select ████████████████████████ -->
+  <!-- ████████████████████████ SSettingNumberInput ████████████████████████ -->
   <div
     :class="{ 'disabled-scale-down': disabled }"
     class="s--setting-number-input"
@@ -24,7 +24,7 @@
 
           {{ label }}
 
-          <small v-if="min && max && !noLimit" class="ms-1">{{ min }} ~ {{ max }}</small>
+          <small v-if="min && max && !noLimit" class="ms-1">{{ min===Number.MIN_SAFE_INTEGER?'-♾️': min}} ~ {{ max===Number.MAX_SAFE_INTEGER?'+♾️': max }}</small>
         </span>
       </template>
 
@@ -118,8 +118,8 @@ export default defineComponent({
     modelValue: {},
     label: {},
     icon: {},
-    min: { default: 0 },
-    max: { default: 100 },
+    min: { default: Number.MIN_SAFE_INTEGER },
+    max: { default: Number.MAX_SAFE_INTEGER },
     decimal: { default: 0 },
     clearable: Boolean,
     hasAuto: Boolean,

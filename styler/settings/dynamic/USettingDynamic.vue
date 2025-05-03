@@ -57,6 +57,7 @@
         :label="item.title"
         clearable
         :decimal="10"
+        no-limit
       ></s-setting-number-input>
       <s-setting-switch
         v-else-if="item.type === 'boolean'"
