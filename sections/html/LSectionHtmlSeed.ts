@@ -31,14 +31,11 @@ export class LSectionHtml {
   static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
-    section.classes = [];
+    section.classes = ['pa-0'];
 
-    // Initialize container and add to section
-    const container = XContainerObject.Seed();
-    section.addChild(container);
 
     const code = XCodeObject.Seed();
-    container.addChild(code);
+    section.addChild(code);
 
     return section;
   };
