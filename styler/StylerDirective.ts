@@ -20,13 +20,12 @@ import {
   h,
   ObjectDirective,
   reactive,
-  resolveComponent,
-  VNode,
+  VNode
 } from "vue";
-import {installGlobalComponents} from "@selldone/components-vue/components-mandetory";
-import {isObject} from "lodash-es";
+import { installGlobalComponents } from "@selldone/components-vue/components-mandetory";
+import { isObject } from "lodash-es";
 import Builder from "../Builder.ts";
-import {Section} from "../src/section/section";
+import { Section } from "../src/section/section";
 import SStylerButtons from "../styler/buttons/SStylerButtons.vue";
 import SStylerRow from "../styler/row/SStylerRow.vue";
 import * as types from "../src/types/types";
@@ -46,8 +45,8 @@ import SStylerCode from "../styler/code/SStylerCode.vue";
 import SStylerInput from "@selldone/page-builder/styler/input/SStylerInput.vue";
 import SStylerDiv from "@selldone/page-builder/styler/div/SStylerDiv.vue";
 import SStylerForm from "@selldone/page-builder/styler/form/SStylerForm.vue";
-import {CONSOLE} from "@selldone/core-js/helper";
-
+import SStylerEmbedPage from "../styler/embed/SStylerEmbedPage.vue";
+import { CONSOLE } from "@selldone/core-js/helper";
 
 export namespace StylerOptions {
   export type Argument =
@@ -130,7 +129,9 @@ const StylerDirective: ObjectDirective<
     if (!isEditing) return;
 
     // Get section from parent section
-    const section: Section = instance.$section?instance.$section:instance.section/*for <x-section> */;
+    const section: Section = instance.$section
+      ? instance.$section
+      : instance.section; /*for <x-section> */
     el.$section = section; // To accessible from element.
 
     CONSOLE.log(
@@ -146,8 +147,12 @@ const StylerDirective: ObjectDirective<
       "isEditing",
       builder?.isEditing ? "✅" : "❌",
     );
-    if(!section){
-      console.error("❌ Page builder | Styler | Section not found!", el,binding);
+    if (!section) {
+      console.error(
+        "❌ Page builder | Styler | Section not found!",
+        el,
+        binding,
+      );
     }
 
     const newNode = document.createElement("div");
@@ -200,6 +205,8 @@ const StylerDirective: ObjectDirective<
       stylerComponent = SStylerDiv;
     } else if (argument === "form") {
       stylerComponent = SStylerForm;
+    } else if (argument === "embed-page") {
+      stylerComponent = SStylerEmbedPage;
     } else {
       console.error("Styler component not found!", argument);
     }
@@ -207,7 +214,7 @@ const StylerDirective: ObjectDirective<
     const StylerComponent = defineComponent({
       render() {
         return h(stylerComponent, { builder });
-      }
+      },
     });
 
     // const props = getProps(instance, el, section, argument, expression, binding);
@@ -244,13 +251,13 @@ const StylerDirective: ObjectDirective<
     el.__container = newNode;
 
     /**
-         * Bottleneck! slow down performance!
+     * Bottleneck! slow down performance!
 
-         section.stylers.push({
-         instance: vnode_styler,
-         container: newNode,
-         argument: argument!,
-         });*/
+     section.stylers.push({
+     instance: vnode_styler,
+     container: newNode,
+     argument: argument!,
+     });*/
 
     if (!el.classList.contains("is-editable")) {
       el.classList.add("is-editable");
@@ -276,11 +283,11 @@ const StylerDirective: ObjectDirective<
         //console.log("Styler Directive Updated --------> ",existingStyler,'value', binding.value, "el", el);
         Object.assign(el.__props, binding.value);
       }
-    }else{
+    } else {
       // Just props change: (🚸🚸🚸 Added new to solve custom code issue)
-      if(binding.oldValue !== binding.value){
-       // console.log("UPDATE STYLER! A");
-       // console.log("Styler Directive Updated --------> ",binding.value, "el", el);
+      if (binding.oldValue !== binding.value) {
+        // console.log("UPDATE STYLER! A");
+        // console.log("Styler Directive Updated --------> ",binding.value, "el", el);
         Object.assign(el.__props, binding.value);
       }
     }

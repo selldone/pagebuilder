@@ -46,6 +46,10 @@
   <l-settings-code-editor></l-settings-code-editor>
   <l-settings-code-properties></l-settings-code-properties>
 
+
+  <l-settings-embed-page></l-settings-embed-page>
+
+
   <!-- ――――――――――――――――――――――  Dialog Master Style Image ―――――――――――――――――――― -->
 
   <l-settings-image-size></l-settings-image-size>
@@ -75,10 +79,12 @@ import LSettingsSwiper from "@selldone/page-builder/settings/swiper/LSettingsSwi
 import LSettingsImageSize from "@selldone/page-builder/settings/image/size/LSettingsImageSize.vue";
 import LSettingsBlogs from "@selldone/page-builder/settings/blogs/LSettingsBlogs.vue";
 import LSettingsAnimation from "@selldone/page-builder/settings/animation/LSettingsAnimation.vue";
+import LSettingsEmbedPage from "@selldone/page-builder/settings/embed/page/LSettingsEmbedPage.vue";
 
 export default defineComponent({
   name: "LSettings",
   components: {
+    LSettingsEmbedPage,
     LSettingsAnimation,
     LSettingsBlogs,
     LSettingsImageSize,

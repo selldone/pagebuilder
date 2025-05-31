@@ -12,9 +12,8 @@
  * Tread carefully, for you're treading on dreams.
  */
 
-import {XSectionObject} from "@selldone/page-builder/components/x/section/XSectionObject.ts";
-import {XContainerObject} from "@selldone/page-builder/components/x/container/XContainerObject.ts";
-import {XCodeObject} from "@selldone/page-builder/components/x/code/XCodeObject.ts";
+import { XSectionObject } from "@selldone/page-builder/components/x/section/XSectionObject.ts";
+import { XCodeObject } from "@selldone/page-builder/components/x/code/XCodeObject.ts";
 import coverImage from "@selldone/page-builder/assets/images/covers/LSectionHtml.svg";
 
 export class LSectionHtml {
@@ -31,8 +30,7 @@ export class LSectionHtml {
   static Seed = () => {
     // Initialize section
     const section = XSectionObject.Seed();
-    section.classes = ['pa-0'];
-
+    section.classes = ["pa-0"];
 
     const code = XCodeObject.Seed();
     section.addChild(code);

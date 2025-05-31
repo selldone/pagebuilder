@@ -74,6 +74,8 @@ import {XScrollerObject} from "@selldone/page-builder/components/x/scroller/XScr
 import UFadeScroll from "@selldone/components-vue/ui/fade-scroll/UFadeScroll.vue";
 import UPrice from "@selldone/components-vue/ui/price/UPrice.vue";
 import UCountDown from "@selldone/components-vue/ui/count-down/UCountDown.vue";
+import { XEmbedPageObject } from "@selldone/page-builder/components/x/embed/page/XEmbedPageObject.ts";
+import XEmbedPage from "@selldone/page-builder/components/x/embed/page/XEmbedPage.vue";
 
 export class LUtilsComponents {
   static XComponents: any[] = [
@@ -105,6 +107,7 @@ export class LUtilsComponents {
     XInputText,
     XFeederBlogs,
     XScroller,
+    XEmbedPage
   ];
 
   /**
@@ -142,6 +145,7 @@ export class LUtilsComponents {
     // XVideoBackgroundObject,
     XGalleryExpandableItemObject,
     XScrollerObject,
+    XEmbedPageObject
   ];
 
   static ComponentToObject: Record<string, LModelElement<any>> = {
@@ -169,6 +173,7 @@ export class LUtilsComponents {
     XMarquee: XMarqueeObject,
     XSearch: XSearchObject,
     XScroller: XScrollerObject,
+    XEmbedPage:XEmbedPageObject
   };
 
   static FindVueComponent(name: string): any {

@@ -319,6 +319,21 @@ export const LMixinEvents = defineComponent({
       });
     },
 
+
+
+    ShowLSettingsEmbedPage(
+      el_style: HTMLElement,
+      el_class: HTMLElement,
+      target: Object,
+    ) {
+      // Option: noSize: Has no sizing (Image mode) / prev_image: Filter preview image
+      EventBus.$emit("show:LSettingsEmbedPage", {
+        el_style,
+        el_class,
+        target,
+      });
+    },
+
     //―――――――――――――――――――――― Page builder global ――――――――――――――――――――
     /**
      * Close all except indicated code! (Almost we call it when a new tool open, and we want to close all other menus)

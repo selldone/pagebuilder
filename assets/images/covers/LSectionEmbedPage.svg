@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1813" height="686" viewBox="0 0 1813 686">
+    <!-- Top box -->
+    <rect x="0" y="0" width="1813" height="320" fill="#C2185B" />
+    <!-- Bottom box -->
+    <rect x="0" y="366" width="1813" height="320" fill="#FFA000" />
+
+    <!-- "PAGE" centered in the top box -->
+    <text
+            x="906.5"
+            y="160"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            font-family="Arial, sans-serif"
+            font-size="100"
+            fill="#fff"
+    >
+        EMBED
+    </text>
+
+    <!-- "PAGE" centered in the bottom box -->
+    <text
+            x="906.5"
+            y="526"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            font-family="Arial, sans-serif"
+            font-size="100"
+            fill="#fff"
+    >
+        PAGE
+    </text>
+</svg>
