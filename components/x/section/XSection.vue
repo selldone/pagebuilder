@@ -22,7 +22,7 @@
       { '-no-padding': noDefaultPadding, '-dark': object.background?.dark },
     ]"
     :style="[object.style, background_style]"
-    class="section z0"
+    class="section"
     placeholder="[Section] Drag & Drop.."
   >
     <!-- 📹 Background video -->
