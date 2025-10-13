@@ -27,23 +27,23 @@
     "@selldone/sdk-storefront": "latest",
     "@selldone/components-vue": "latest",
 
-    "axios": "^1.11.0",
+    "axios": "^1.12.2",
     "lodash-es": "^4.17.21",
-     "vue": "^3.5.18",
-    "vuetify": "^3.9.3",
-    "@floating-ui/dom": "^1.7.3",
+     "vue": "^3.5.22",
+    "vuetify": "^3.10.5",
+    "@floating-ui/dom": "^1.7.4",
     "sortablejs": "^1.15.6"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
-     "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
-    "eslint": "^9.32.0",
-    "eslint-plugin-prettier": "^5.5.3",
+     "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "eslint": "^9.37.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint-plugin-vue": "^10.4.0"
+    "eslint-plugin-vue": "^10.5.0"
   }
 }
