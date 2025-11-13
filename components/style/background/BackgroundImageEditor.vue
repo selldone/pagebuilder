@@ -244,7 +244,7 @@
         <s-setting-group
           icon="movie"
           title="Background video"
-          subtitle="Add a video that automatically plays in the background. If the background does not update after uploading, please save the changes and refresh the page."
+          subtitle="Add a video that automatically plays in the background. If the background does not update after uploading, please save the changes and refresh the page. Supported formats in most browsers: mp4, webm, ogg"
         ></s-setting-group>
 
         <s-setting-video
