@@ -27,7 +27,7 @@ export class LSectionHeroSearch {
   static label = "Animate Hero - Lottie Files";
   static help = {
     title: "Use this section to display Lottie animation files.",
-    video: "/app/videos/page-builder/Lottie.m4v",
+    video: "/app/videos/page-builder/Search.m4v",
   };
 
   static Seed = () => {
