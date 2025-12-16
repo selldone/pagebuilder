@@ -102,7 +102,7 @@
 
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
     <l-page-editor-artboard-side-extended
-      :aiAutoFillFunction="aiAutoFillFunction"
+      :aiAutoFillFunction="(section?.object?.children[0]?.component==='XCode')?null:aiAutoFillFunction"
       :notes="notes"
       :section="section"
       class="ignore-elements"

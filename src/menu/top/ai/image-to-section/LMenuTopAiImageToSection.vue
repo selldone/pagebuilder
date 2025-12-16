@@ -30,13 +30,14 @@
 
         <u-loading-progress v-if="uploading "></u-loading-progress>
 
+      <v-container>
         <p>
           Drag and drop (or paste) an image into the uploader below. The AI will analyze the image and automatically create a new section based on its content.
 
           For more accurate and flexible results, use this GPT:
 
           <v-btn
-            href="https://chatgpt.com/g/g-Bp0vE4zIR-selldone"
+            href="https://chatgpt.com/g/g-693547b4c4608191a0aab08eb1711d6a-selldone-landing-builder"
             target="_blank"
             class="tnt ma-1"
             rounded="xl"
@@ -51,7 +52,7 @@
               class="me-2"
               width="24"
             >
-            Create with ChatGPT
+            Create with ChatGPT + Selldone Page Builder
           </v-btn>
         </p>
 
@@ -78,6 +79,7 @@
           @onProcessFileStart="onStartUpload"
           @response="handleAiUploadImage"
         ></s-image-uploader>
+      </v-container>
       </v-card-text>
       <v-card-actions>
         <div class="widget-buttons">
