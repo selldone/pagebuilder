@@ -26,11 +26,15 @@
         Add to {{ title?.limitWords(2) }}
       </v-btn>
     </template>
-    <v-tabs v-model="tab" align-tabs="end" color="amber">
+    <v-tabs
+      v-model="tab"
+      align-tabs="start"
+      color="amber"
+      :scroll-to-active="false"
+    >
       <v-tab v-for="(_value, k) in modelValue" :key="k" :value="k" class="tnt">
         <div
-          class="text-ellipsis d-block overflow-hidden"
-          style="max-width: 60px"
+          class="text-ellipsis d-block overflow-hidden tab-content-two-lines"
         >
           {{
             _value.title
@@ -132,4 +136,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tab-content-two-lines {
+  display: -webkit-box; /* required for line-clamp */
+  -webkit-box-orient: vertical; /* required for line-clamp */
+  -webkit-line-clamp: 2; /* show max 2 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* allow wrapping */
+  word-break: break-word;
+  max-width: 60px;
+  font-size: 9px;
+}
+</style>
