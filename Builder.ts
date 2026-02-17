@@ -26,7 +26,6 @@ import * as types from "./src/types/types";
 import {LUtilsComponents} from "@selldone/page-builder/utils/components/LUtilsComponents.ts";
 import {LUtilsTypo} from "@selldone/page-builder/utils/typo/LUtilsTypo.ts";
 import {LandingCssHelper} from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
-import Builder from "@selldone/page-builder/Builder.ts";
 import {LModelElement} from "@selldone/page-builder/models/element/LModelElement.ts";
 import {CONSOLE} from "@selldone/core-js";
 import {builder, IPageCss} from "@selldone/page-builder/Builder.types.ts";
