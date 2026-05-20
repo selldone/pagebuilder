@@ -67,7 +67,11 @@
       <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
 
       <div v-if="busy" class="min-height-80vh">
-        <u-loading-ellipsis class="my-10" height="240px" css-mode></u-loading-ellipsis>
+        <u-loading-ellipsis
+          class="my-10"
+          height="240px"
+          css-mode
+        ></u-loading-ellipsis>
       </div>
 
       <LPageViewer
@@ -99,8 +103,7 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 import debounce from "lodash-es/debounce";
 import LPageViewer from "./page/viewer/LPageViewer.vue";
 import { StorefrontSDK } from "@selldone/sdk-storefront";
-import { AugmentHelper, CONSOLE } from "@selldone/core-js";
-import { BShopDashboardMixin } from "@app-backoffice/mixins/shop/BShopDashboardMixin.ts";
+import { AugmentHelper, CONSOLE, Shop } from "@selldone/core-js";
 import { defineAsyncComponent } from "vue";
 import ULoadingEllipsis from "@selldone/components-vue/ui/loading/ellipsis/ULoadingEllipsis.vue";
 
@@ -109,7 +112,7 @@ import ULoadingEllipsis from "@selldone/components-vue/ui/loading/ellipsis/ULoad
  */
 export default {
   name: "LandingRender",
-  mixins: [BShopDashboardMixin],
+  mixins: [],
   inject: ["$PageHyper"],
   components: {
     UHeatmap: defineAsyncComponent(
@@ -260,6 +263,54 @@ export default {
         0,
       );
     },
+    //―――――――――――――――――――――― Get Current Shop ――――――――――――――――――――
+
+    async fetchCurrentAdminShop(
+      shop_id: string | number,
+      callback: (shop: Shop) => void = null,
+      force_refresh = false,
+      offset = 0,
+      days = 30,
+    ) {
+
+      if(!window.API){
+        // Is standalone storefron we dont have access to dashboard API!
+        console.log("API endpoints are not defined. Please check your configuration.");
+        return null;
+      }
+
+
+      const shop = this.$store.getters.getCurrentAdminShop;
+      if (!force_refresh && shop && shop.id === shop_id) {
+        if (callback) callback(shop);
+        return shop;
+      }
+      console.style("<b>┣━━━━━━━━━ 🛸 Fetch Shop Data ━━━━━━━━━┫</b>");
+
+      return axios
+        .get(window.API.GET_MY_SHOP_INFO(shop_id), {
+          params: {
+            offset: offset,
+            days: days,
+          },
+        })
+        .then(({ data }) => {
+          if (data.error) {
+            return NotificationService.showErrorAlert(null, data.error_msg);
+          }
+          // Solve null problems:
+          if (!data.shop.info) data.shop.info = {};
+
+          this.$store.commit("setCurrentAdminShop", data.shop);
+          this.$store.commit("setCurrentAdminShopData", data.data);
+          this.$store.commit("setCurrentAdminShopApps", data.shop.shop_apps);
+          this.$store.commit("setCurrentAdminShopOrderQue", data.orderQue);
+          this.$store.commit("setCurrentAdminShopAvocadoQue", data.avocadoQue);
+
+          if (callback) callback(data.shop);
+        });
+    },
+
 
     onResize() {
       if (this.show_heat_map)
@@ -518,7 +569,7 @@ export default {
       /*  this.$emit("update:menu-transparent", this.menu_transparent);
         this.$emit("update:header-mode", this.header_mode);
         this.$emit("update:header-color", this.header_color);
-  
+
         if (this.menu_dark !== null || this.menu_dark !== undefined) {
           this.$emit("update:menu-dark", this.menu_dark);
         }*/

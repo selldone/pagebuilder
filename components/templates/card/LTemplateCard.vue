@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import { BEventBusMixin } from "@app-backoffice/mixins/event-bus/BEventBusMixin.ts";
+import { BEventBusMixin } from "@selldone/components-vue/utils/events/BEventBusMixin.ts";
 
 export default {
   name: "LTemplateCard",
