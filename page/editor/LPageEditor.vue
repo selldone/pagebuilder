@@ -368,6 +368,11 @@ export default defineComponent({
       type: Object,
     },
 
+    customFonts: {
+      type: Array,
+      default: null,
+    },
+
     hasSettingButton: {
       type: Boolean,
       default: false,
@@ -466,6 +471,15 @@ export default defineComponent({
   },
 
   computed: {
+    resolved_custom_fonts() {
+      if (Array.isArray(this.customFonts)) return this.customFonts;
+      if (Array.isArray(this.$shop?.custom_fonts))
+        return this.$shop.custom_fonts;
+      return Array.isArray(this.$PageHyperOptions?.customFonts)
+        ? this.$PageHyperOptions.customFonts
+        : [];
+    },
+
     isInitialized(): boolean {
       return this.$PageHyper?.isInitialized.value || false;
     },
@@ -516,6 +530,13 @@ export default defineComponent({
   },
 
   watch: {
+    resolved_custom_fonts: {
+      deep: true,
+      handler(fonts) {
+        this.$builder?.setCustomFonts(fonts);
+      },
+    },
+
     "$route.query.element_id"(element_id) {
       this.autoShowNote();
     },
@@ -590,6 +611,8 @@ export default defineComponent({
   },
 
   created() {
+    this.$builder.setCustomFonts(this.resolved_custom_fonts);
+
     // sets the initial data.
     if (this.modelValue) {
       this.onModelChanged(this.modelValue);

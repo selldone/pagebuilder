@@ -69,6 +69,7 @@
         }
       "
       :fonts="$builder.style.fonts"
+      :custom-fonts="$builder.customFonts"
       @update:fonts="
         (v) => {
           $builder.style.fonts = v;

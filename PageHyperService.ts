@@ -15,6 +15,7 @@
 import {App, ref, Ref} from "vue";
 import {builder} from "@selldone/page-builder/Builder.types.ts";
 import {SEO} from "@selldone/core-js/helper";
+import type {Shop} from "@selldone/core-js/models/shop/shop.model";
 
 /**
  * Interface representing the options required to initialize the Page Builder.
@@ -29,6 +30,8 @@ interface PageBuilderOptions {
    * Server-related configurations, including functions to generate upload URLs.
    */
   server: builder.IServer;
+  /** Shop-managed fonts. They are kept separate from page Google Fonts. */
+  customFonts?: Shop.CustomFont[];
 }
 
 /**

@@ -31,7 +31,9 @@
       <v-select
         :clearable="clearable"
         :disabled="disabled"
-        :items="fonts"
+        :items="font_items"
+        item-title="title"
+        item-value="value"
         :model-value="modelValue"
         class="v-input-small"
         style="min-width: 160px"
@@ -45,14 +47,38 @@
         @update:model-value="(val) => setValue(val)"
       >
         <template v-slot:selection="{ item }">
-          <span :style="{ fontFamily: item.raw }">
-            {{ item.raw }}
+          <span :style="{ fontFamily: item.raw.family }">
+            {{ item.raw.title }}
           </span>
+          <v-chip
+            v-if="item.raw.custom"
+            class="ms-2"
+            color="amber"
+            label
+            size="x-small"
+            variant="flat"
+          >
+            custom
+          </v-chip>
         </template>
         <template v-slot:item="{ item, props }">
-          <v-list-item class="text-start" v-bind="props">
+          <v-list-item
+            class="text-start"
+            :class="{ 'mt-1 border-t': item.raw.firstStandard }"
+            v-bind="props"
+          >
             <template v-slot:title>
-              <span :style="{ fontFamily: item.raw }">{{ item.raw }}</span>
+              <span :style="{ fontFamily: item.raw.family }">
+                {{ item.raw.title }}
+              </span>
+            </template>
+            <template v-if="item.raw.custom" v-slot:subtitle>
+              <code class="text-caption">{{ item.raw.value }}</code>
+            </template>
+            <template v-if="item.raw.custom" v-slot:append>
+              <v-chip color="amber" label size="x-small" variant="flat">
+                custom
+              </v-chip>
             </template>
           </v-list-item>
         </template>
@@ -159,7 +185,7 @@
             @click="dialog = false"
             prepend-icon="close"
           >
-            {{ $t("global.actions.close") }}
+            Close
           </v-btn>
         </div>
       </v-card-actions>
@@ -184,11 +210,38 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    customFonts: {
+      type: Array,
+      default: () => [],
+    },
     disabled: Boolean,
     clearable: Boolean,
     hasAdd: Boolean, // Add new font button!
   },
   computed: {
+    font_items() {
+      const custom = (Array.isArray(this.customFonts) ? this.customFonts : [])
+        .map((font) => ({
+          title: font?.name || font?.family,
+          value: font?.css_declaration || font?.family,
+          family: font?.css_declaration || font?.family,
+          custom: true,
+          firstStandard: false,
+        }))
+        .filter((font) => !!font.title && !!font.value);
+
+      const standard = (Array.isArray(this.fonts) ? this.fonts : [])
+        .filter((font) => typeof font === "string" && !!font.trim())
+        .map((font, index) => ({
+          title: font,
+          value: font,
+          family: font,
+          custom: false,
+          firstStandard: !!custom.length && index === 0,
+        }));
+
+      return [...custom, ...standard];
+    },
     filtered_fonts() {
       return FONTS.filter((i) => !this.fonts?.includes(i));
     },

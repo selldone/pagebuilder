@@ -62,7 +62,10 @@ import { Section } from "@selldone/page-builder/src/section/section.ts";
 
 export default {
   name: "LPageViewer",
-  inject: ["$PageHyper"],
+  inject: {
+    $PageHyper: { from: "$PageHyper" },
+    $shop: { from: "$shop", default: null },
+  },
   components: { XComponent },
   props: {
     initialPageData: {
@@ -74,6 +77,11 @@ export default {
     },
     initialPageCss: {},
 
+    customFonts: {
+      type: Array,
+      default: null,
+    },
+
     augment: {
       // Extra information to show to dynamic show in page content
     },
@@ -84,6 +92,15 @@ export default {
   }),
 
   computed: {
+    resolved_custom_fonts() {
+      if (Array.isArray(this.customFonts)) return this.customFonts;
+      if (Array.isArray(this.$shop?.custom_fonts))
+        return this.$shop.custom_fonts;
+      return Array.isArray(this.$PageHyperOptions?.customFonts)
+        ? this.$PageHyperOptions.customFonts
+        : [];
+    },
+
     isInitialized(): boolean {
       return this.$PageHyper?.isInitialized.value || false;
     },
@@ -116,6 +133,13 @@ export default {
     },
   },
   watch: {
+    resolved_custom_fonts: {
+      deep: true,
+      handler(fonts) {
+        this.$builder?.setCustomFonts(fonts);
+      },
+    },
+
     initialPageData() {
       this.$builder.setContent(this.initialPageData);
 
@@ -154,6 +178,7 @@ export default {
 
   created() {
     console.style("<b>🪐 Render page</b>");
+    this.$builder.setCustomFonts(this.resolved_custom_fonts);
     this.$builder.setContent(this.initialPageData);
 
     if (this.$PageHyper) {

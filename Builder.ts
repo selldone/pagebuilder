@@ -15,6 +15,7 @@
 import {Section} from "./src/section/section";
 import {App, reactive} from "vue";
 import {Page} from "@selldone/core-js/models/shop/page/page.model";
+import type {Shop} from "@selldone/core-js/models/shop/shop.model";
 import XVariants from "./components/x/variants/XVariants.vue";
 import XCountDown from "./components/x/count-down/XCountDown.vue";
 import XRating from "./components/x/rating/XRating.vue";
@@ -40,6 +41,7 @@ const BUILDER_OPTIONS: builder.IOptions = {
   sections: [],
   style: {},
   css: null,
+  customFonts: [],
   columnsPrefix: {
     mobile: "v-col-",
     tablet: "v-col-sm-",
@@ -57,6 +59,7 @@ export class Builder {
   public sections: Section[];
   public style: any;
   public css: IPageCss | null | undefined; // Pre compiled CSS
+  public customFonts: Shop.CustomFont[];
   public columnsPrefix: any;
   public server: builder.IServer | undefined | null;
 
@@ -137,6 +140,8 @@ export class Builder {
     this.sections = options.sections;
     this.style = options.style;
     this.css = options.css;
+    this.customFonts = [];
+    this.setCustomFonts(options.customFonts);
     this.columnsPrefix = options.columnsPrefix;
     this.server = options.server;
 
@@ -332,6 +337,16 @@ export class Builder {
   }
 
   /**
+   * Sets the shop-managed font catalog used by the editor and renderer.
+   * This catalog is not part of page content and must not be added to
+   * `style.fonts`, which is reserved for Google Fonts.
+   */
+  setCustomFonts(fonts?: Shop.CustomFont[] | null) {
+    this.customFonts = Array.isArray(fonts) ? fonts : [];
+    FontLoader.LoadCustomFonts(this.customFonts);
+  }
+
+  /**
    * Load page content from a JSON object.
    * @param content
    */
@@ -350,6 +365,7 @@ export class Builder {
       content.style = { font_size: 16, bg_color: "", fonts: [] };
 
     if (!content.style.font_size) content.style.font_size = 16;
+    if (!Array.isArray(content.style.fonts)) content.style.fonts = [];
     if (!content.style.bg_color) content.style.bg_color = "";
     if (!content.style.bg_gradient) content.style.bg_gradient = [];
     if (!content.style.bg_size) content.style.bg_size = "cover";
@@ -378,6 +394,7 @@ export class Builder {
 
     // Load fonts:
     if (content.style?.fonts) FontLoader.LoadFonts(content.style.fonts);
+    FontLoader.LoadCustomFonts(this.customFonts);
 
     this.title = content.title !== undefined ? content.title : this.title;
 

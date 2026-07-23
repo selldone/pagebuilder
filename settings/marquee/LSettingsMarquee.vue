@@ -68,6 +68,7 @@
               v-model="target.style.fontFamily"
               clearable
               :fonts="$builder.style.fonts"
+              :custom-fonts="$builder.customFonts"
               label="Font Family"
               icon="font_download"
             ></s-setting-font-family>

@@ -255,6 +255,7 @@
         <s-setting-font-family
           v-model="target.style.fontFamily"
           :fonts="fonts"
+          :custom-fonts="builder.customFonts"
           clearable
           label="Font"
           icon="font_download"

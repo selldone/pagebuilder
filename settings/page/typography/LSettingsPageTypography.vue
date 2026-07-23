@@ -32,8 +32,19 @@
         icon="text_fields"
         title="Font & Typo"
         subtitle="You can set the default page font and the size of text and headers here."
-        help-path="Landing.Style.PageTypography"
       ></s-setting-group>
+
+      <div v-if="custom_fonts_url" class="custom-fonts-shortcut">
+        <a
+          :href="custom_fonts_url"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <v-icon size="16">add</v-icon>
+          <span>Add custom fonts</span>
+          <v-icon size="14">open_in_new</v-icon>
+        </a>
+      </div>
 
       <v-expansion-panels v-model="tab" flat>
         <!-- ████████████████████ Font ████████████████████ -->
@@ -61,6 +72,7 @@
             <s-setting-font-family
               v-model:fonts="style.fonts"
               v-model="style.font"
+              :custom-fonts="$builder.customFonts"
               icon="title"
               label="Default font"
               clearable
@@ -268,7 +280,10 @@ export default {
     SSettingFontFamily,
   },
 
-  inject: ["$builder"],
+  inject: {
+    $builder: { from: "$builder" },
+    $shop: { from: "$shop", default: null },
+  },
   emits: ["change"],
   props: {},
   data: () => ({
@@ -288,6 +303,12 @@ export default {
   }),
 
   computed: {
+    custom_fonts_url() {
+      return this.$shop?.id
+        ? `/shuttle/shop/${encodeURIComponent(this.$shop.id)}/edit/theme#fonts`
+        : null;
+    },
+
     upload_bg_url() {
       return this.builder.getImageUploadUrl();
     },
@@ -360,4 +381,27 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom-fonts-shortcut {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 10px;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: rgb(var(--v-theme-on-surface));
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    opacity: 0.58;
+    transition: opacity 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+  }
+}
+</style>

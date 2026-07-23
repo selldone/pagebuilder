@@ -11,6 +11,7 @@ import { Section } from "./src/section/section";
 import { Page } from "@selldone/core-js/models/shop/page/page.model";
 import { Popup } from "@selldone/core-js/models/shop/popup/popup.model";
 import { ShopMenu } from "@selldone/core-js/models/shop/design/menu.model";
+import type { Shop } from "@selldone/core-js/models/shop/shop.model";
 
 /**
  * Namespace containing all Builder-related types and interfaces.
@@ -57,6 +58,7 @@ export namespace builder {
     sections: Section[];
     style: any;
     css: IPageCss | null | undefined;
+    customFonts?: Shop.CustomFont[];
     columnsPrefix: {
       mobile: string;
       tablet: string;
