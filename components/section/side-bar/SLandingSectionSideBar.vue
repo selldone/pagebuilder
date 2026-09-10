@@ -239,11 +239,12 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 import { defineComponent } from "vue";
 import { Section } from "@selldone/page-builder/src/section/section.ts";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
+import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArtboard.ts";
 
 export default defineComponent({
   name: "SLandingSectionSideBar",
   inject: ["$builder"],
-  mixins: [],
+  mixins: [LMixinArtboard],
 
   emits: ["update:pastHoverIndex"],
   props: {

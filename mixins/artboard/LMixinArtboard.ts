@@ -15,6 +15,7 @@
 import {defineComponent} from "vue";
 import {LUtilsFont} from "@selldone/page-builder/utils/font/LUtilsFont.ts";
 import {CONSOLE, FontLoader} from "@selldone/core-js/helper";
+import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 export const LMixinArtboard = defineComponent({
   data() {
