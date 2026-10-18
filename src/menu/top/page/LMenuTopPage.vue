@@ -13,7 +13,7 @@
   -->
 
 <template>
-  <div v-if="page" class="l--menu-top-tools" v-bind="$attrs">
+  <div class="l--menu-top-tools" v-bind="$attrs">
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
     <!-- ▃▃▃▃▃▃▃▃▃▃ Page Style ▃▃▃▃▃▃▃▃▃▃ -->
@@ -153,8 +153,7 @@ export default {
   emits: ["click:save"],
   props: {
     page: {
-      required: true,
-      type: Object,
+      require: true,
     },
   },
 
