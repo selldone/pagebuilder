@@ -29,11 +29,6 @@
       <v-card-subtitle class="text-wrap">
         Customize the appearance of the menu. this will apply to the top site
         menu when this page is viewed.
-        <s-widget-help
-          code="Landing.Header.Customize"
-          color="#fff"
-          inline
-        ></s-widget-help>
       </v-card-subtitle>
       <v-card-text>
         <s-setting-group
@@ -114,13 +109,11 @@ import SSettingGroup from "@selldone/page-builder/styler/settings/group/SSetting
 import SSettingToggle from "@selldone/page-builder/styler/settings/toggle/SSettingToggle.vue";
 import SSettingColor from "@selldone/page-builder/styler/settings/color/SSettingColor.vue";
 import SSettingBackdropFilter from "@selldone/page-builder/styler/settings/backdrop-filter/SSettingBackdropFilter.vue";
-import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
 
 export default defineComponent({
   name: "LStoreTopBarEditor",
   mixins: [LMixinEvents],
   components: {
-    SWidgetHelp,
     SSettingBackdropFilter,
     SSettingColor,
     SSettingToggle,

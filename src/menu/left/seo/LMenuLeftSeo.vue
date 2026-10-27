@@ -45,9 +45,6 @@
           <v-list-subheader
             >You can set the page title and the description meta tag of this
             page.
-
-            <s-widget-help code="Landing.SEO.Customize" inline></s-widget-help>
-
           </v-list-subheader>
 
           <v-text-field
@@ -116,12 +113,11 @@
 <script lang="ts">
 import BGooglePreview from "@selldone/components-vue/backoffice/google/preview/BGooglePreview.vue";
 import UProgressScore from "@selldone/components-vue/ui/progress/score/UProgressScore.vue";
-import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
 import UWidgetHeader from "@selldone/components-vue/ui/widget/header/UWidgetHeader.vue";
 
 export default {
   name: "LMenuLeftSeo",
-  components: {UWidgetHeader, SWidgetHelp, UProgressScore, BGooglePreview },
+  components: {UWidgetHeader, UProgressScore, BGooglePreview },
   inject: ["$builder"],
   props: {},
 

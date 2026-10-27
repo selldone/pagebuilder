@@ -31,9 +31,8 @@
       <v-spacer></v-spacer>
       <slot name="title-action"></slot>
     </v-card-title>
-    <v-card-subtitle v-if="subtitle || helpPath" class="small text-wrap pt-1"
+    <v-card-subtitle v-if="subtitle" class="small text-wrap pt-1"
       >{{ subtitle }}
-      <s-widget-help v-if="helpPath" :code="helpPath" color="#fff" inline></s-widget-help>
     </v-card-subtitle>
     <v-card class="my-2" color="#282828" rounded="lg" flat>
       <div class="-card-content">
@@ -45,17 +44,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SWidgetHelp from "@selldone/components-vue/ui/widget/help/SWidgetHelp.vue";
 
 export default defineComponent({
   name: "SSettingGroup",
-  components: { SWidgetHelp },
   props: {
     title: {},
     subtitle: {},
     icon: {},
     image: {},
-    helpPath:{},
   },
   computed: {},
   data() {
