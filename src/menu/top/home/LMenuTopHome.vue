@@ -24,9 +24,9 @@
   >
     <!-- ――――――――――――――――――――――  Tools A ―――――――――――――――――――― -->
 
-    <v-sheet  v-if="!demo" color="#fff" class="pa-1 ma-1" rounded="xl">
+    <v-sheet  v-if="!demo" color="#fff" class="l--menu-top-home__save-wrap pa-1 ma-1" rounded="xl">
       <v-btn
-
+        class="l--menu-top-home__save"
         :color="saveColor"
         :loading="busySave"
         stacked
@@ -105,6 +105,7 @@
     <div class="lmt-group">
       <v-btn
         :color="$builder.cloneStyle ? 'amber' : '#fff'"
+        :aria-pressed="$builder.cloneStyle"
         variant="text"
         @click.stop="$builder.toggleCloneStyleMode()"
         prepend-icon="colorize"

@@ -12,8 +12,8 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <div v-if="page" class="d-flex align-center">
-    <v-sheet elevation="3" rounded="lg" color="#000" class="ma-1 pa-1">
+  <div v-if="page" class="l--header-page d-flex align-center">
+    <v-sheet elevation="3" rounded="lg" color="#000" class="l--header-page__group ma-1 pa-1">
       <v-btn
         :prepend-icon="$t('icons.arrow_back')"
         :to="backTo"
@@ -95,7 +95,7 @@
 
     <v-spacer class="mx-1"></v-spacer>
 
-    <v-sheet elevation="3" rounded="lg" color="#000" class="ma-1 pa-1">
+    <v-sheet elevation="3" rounded="lg" color="#000" class="l--header-page__group ma-1 pa-1">
       <template v-if="hasLiveView">
         <v-btn
           class="tnt fadeIn delay_400"

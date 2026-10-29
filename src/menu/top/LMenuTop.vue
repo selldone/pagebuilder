@@ -12,7 +12,7 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <template>
-  <v-sheet v-bind="$attrs" color="#1e1e1e">
+  <v-sheet v-bind="$attrs" color="#1e1e1e" class="l--menu-top">
     <div style="max-width: 1720px; margin: auto" class="mb-2">
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Tabs ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -45,7 +45,7 @@
         color="#111"
         rounded="xl"
         height="100"
-        class="overflow-hidden"
+        class="l--menu-top__panels overflow-hidden"
         elevation="3"
       >
         <v-window v-model="tab">
