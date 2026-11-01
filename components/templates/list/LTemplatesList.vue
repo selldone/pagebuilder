@@ -13,8 +13,229 @@
   -->
 
 <template>
+  <section
+    v-if="modern"
+    class="l-templates-modern text-start"
+    :aria-busy="busy_fetch || !!busy_get_template"
+  >
+    <header v-if="hasHeader" class="l-templates-modern__heading">
+      <h2>{{ $t("page_builder.templates.picker_title") }}</h2>
+      <p>{{ $t("page_builder.templates.picker_subtitle") }}</p>
+    </header>
+    <template v-if="preview_template">
+      <v-btn
+        variant="text"
+        class="l-templates-modern__back"
+        :disabled="!!busy_get_template"
+        @click="backToTemplates()"
+      >
+        <v-icon start size="17">arrow_back</v-icon
+        >{{ $t("page_builder.templates.back_to_templates") }}
+      </v-btn>
+      <div class="l-templates-modern__detail">
+        <l-template-card
+          :template="preview_template"
+          modern
+          previewing
+          :selection="clickable"
+          :loading="!!busy_get_template"
+          @select="loadTemplate(preview_template)"
+        >
+          <template #details
+            ><div class="l-templates-modern__detail-info">
+              <p>{{ $t("page_builder.templates.prebuilt_page") }}</p>
+              <v-btn
+                v-if="preview_template.preview"
+                :href="preview_template.preview"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="text"
+                color="primary"
+                class="l-templates-modern__action"
+              >
+                {{ $t("page_builder.templates.full_preview")
+                }}<v-icon end size="16">north_east</v-icon>
+              </v-btn>
+            </div></template
+          >
+        </l-template-card>
+      </div>
+    </template>
+    <template v-else>
+      <div class="l-templates-modern__toolbar">
+        <v-text-field
+          ref="searchField"
+          v-model="search"
+          :placeholder="$t('page_builder.templates.search')"
+          :aria-label="$t('page_builder.templates.search')"
+          :disabled="!!busy_get_template"
+          class="l-templates-modern__search"
+          variant="outlined"
+          density="compact"
+          clearable
+          hide-details
+          prepend-inner-icon="search"
+        />
+        <span class="l-templates-modern__count" role="status">{{
+          busy_fetch && templates === null
+            ? $t("page_builder.templates.loading")
+            : $t("page_builder.templates.results_count", { count: total })
+        }}</span>
+      </div>
+      <nav
+        class="l-templates-modern__categories"
+        :aria-label="$t('landing_categories.all')"
+      >
+        <v-btn
+          v-for="item in categories.slice(0, 5)"
+          :key="item.code"
+          variant="text"
+          :aria-pressed="!search && selected_category === item.code"
+          :class="{
+            'l-templates-modern__category--selected':
+              !search && selected_category === item.code,
+          }"
+          :disabled="!!search || !!busy_get_template"
+          @click="selected_category = item.code"
+          >{{ $t(item.title) }}</v-btn
+        >
+        <v-menu v-if="categories.length > 5">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              variant="text"
+              :disabled="!!search || !!busy_get_template"
+              :class="{
+                'l-templates-modern__category--selected': more_category,
+              }"
+            >
+              {{
+                more_category
+                  ? $t(more_category.title)
+                  : $t("page_builder.templates.more_categories")
+              }}<v-icon end size="16">expand_more</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="item in categories.slice(5)"
+              :key="item.code"
+              :active="selected_category === item.code"
+              @click="selected_category = item.code"
+            >
+              <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </nav>
+      <v-select
+        v-model="selected_category"
+        class="l-templates-modern__category-select"
+        :items="categories"
+        item-value="code"
+        :item-title="(item) => $t(item.title)"
+        :label="$t('landing_categories.all')"
+        :disabled="!!search || !!busy_get_template"
+        variant="outlined"
+        density="compact"
+        hide-details
+      />
+      <p v-if="search" class="l-templates-modern__hint">
+        {{ $t("page_builder.templates.search_all_hint") }}
+      </p>
+      <div class="l-templates-modern__results">
+        <u-loading-progress
+          v-if="busy_fetch && templates !== null"
+          class="l-templates-modern__progress"
+        />
+        <div
+          v-if="blur || (busy_fetch && templates === null)"
+          class="l-templates-modern__grid"
+          :aria-label="$t('page_builder.templates.loading')"
+        >
+          <v-skeleton-loader
+            v-for="index in 6"
+            :key="index"
+            type="image, article"
+          />
+        </div>
+        <div
+          v-else-if="fetch_error"
+          class="l-templates-modern__empty"
+          role="alert"
+        >
+          <v-icon size="26" aria-hidden="true">cloud_off</v-icon>
+          <h3>{{ $t("page_builder.templates.load_error_title") }}</h3>
+          <p>{{ $t("page_builder.templates.load_error_description") }}</p>
+          <v-btn variant="outlined" @click="fetchTemplates()">{{
+            $t("page_builder.templates.retry")
+          }}</v-btn>
+        </div>
+        <div
+          v-else-if="selected_category === 'raw' && !search"
+          class="l-templates-modern__grid"
+        >
+          <v-card
+            v-for="(theme, index) in RawTemplate.List"
+            :key="index"
+            variant="outlined"
+            @click="selectRawTheme(theme)"
+          >
+            <v-img :src="theme.image" :aspect-ratio="1.52" cover />
+            <v-card-title>{{ theme.name }}</v-card-title>
+          </v-card>
+        </div>
+        <div
+          v-else-if="templates && !templates.length"
+          class="l-templates-modern__empty"
+          role="status"
+        >
+          <v-icon size="26" aria-hidden="true">search</v-icon>
+          <h3>{{ $t("page_builder.templates.empty_title") }}</h3>
+          <p>{{ $t("page_builder.templates.empty_description") }}</p>
+          <v-btn variant="outlined" @click="showAllTemplates()">{{
+            $t("page_builder.templates.show_all")
+          }}</v-btn>
+        </div>
+        <div v-else class="l-templates-modern__grid">
+          <l-template-card
+            v-for="item in templates || []"
+            :key="item.id"
+            ref="templateCards"
+            :template="item"
+            modern
+            :selection="clickable"
+            :loading="busy_get_template === item.id"
+            :disabled="busy_fetch || !!busy_get_template"
+            @select="clickable ? loadTemplate(item) : undefined"
+            @preview="showPreview(item)"
+          />
+        </div>
+      </div>
+      <footer
+        v-if="templates?.length && !fetch_error"
+        class="l-templates-modern__footer"
+      >
+        <span>{{
+          $t("page_builder.templates.showing", {
+            from: (page - 1) * limit + 1,
+            to: Math.min(page * limit, total),
+            total,
+          })
+        }}</span>
+        <v-pagination
+          v-if="page_count > 1"
+          v-model="page"
+          :length="page_count"
+          :disabled="busy_fetch || !!busy_get_template"
+          :total-visible="4"
+          @update:model-value="fetchTemplates()"
+        />
+      </footer>
+    </template>
+  </section>
   <v-card
-    v-if="blur"
+    v-else-if="blur"
     class="x--page-builder-templates d-flex align-center justify-center pa-3 text-h2 font-weight-thin text-muted overflow-hidden"
     min-height="60vh"
     style="--background: #fff"
@@ -28,7 +249,8 @@
           ><img
             height="55%"
             src="@selldone/components-vue/assets/selldone-logo/selldone-gradient-purple.svg"
-            width="55%" alt="SD"
+            width="55%"
+            alt="SD"
         /></span>
 
         {{ $t("page_builder.design.themes.title") }}
@@ -200,15 +422,21 @@ import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue"
 import { throttle } from "lodash-es";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 import { CONSOLE } from "@selldone/core-js";
+import { BEventBusMixin } from "@selldone/components-vue/utils/events/BEventBusMixin.ts";
 
 /**
  * <l-templates-list>
  */
 export default {
   name: "LTemplatesList",
+  mixins: [BEventBusMixin],
   components: { LTemplateCard },
-  emits: ["select:page", "select:raw-theme"],
+  emits: ["select:page", "select:raw-theme", "preview", "update:busy"],
   props: {
+    modern: Boolean,
+    previewInPlace: { type: Boolean, default: true },
+    initialPreview: Object,
+    loadFromQuery: { type: Boolean, default: true },
     hasHeader: { type: Boolean },
     clickable: Boolean,
 
@@ -222,7 +450,7 @@ export default {
       RawTemplate: RawTemplate,
 
       drawer: false,
-      selected_category: "raw",
+      selected_category: this.hasRawTemplates ? "raw" : "*",
 
       search: null,
       templates: null,
@@ -230,6 +458,11 @@ export default {
       limit: 20,
       page: 1,
       busy_fetch: false,
+      fetch_error: false,
+      catalogRequest: 0,
+      selectionRequest: 0,
+      searchThrottled: null,
+      preview_template: this.initialPreview || null,
 
       blur: false,
 
@@ -238,6 +471,14 @@ export default {
   },
 
   computed: {
+    more_category() {
+      return (
+        !this.search &&
+        this.categories
+          .slice(5)
+          .find((item) => item.code === this.selected_category)
+      );
+    },
     categories() {
       return [
         ...(this.hasRawTemplates
@@ -264,19 +505,32 @@ export default {
   },
 
   watch: {
-    search: throttle(function (newVal, oldVal) {
+    search() {
       this.page = 1;
-      this.fetchTemplates();
-    }, window.SERACH_THROTTLE),
+      this.resetCatalog();
+      this.searchThrottled();
+    },
 
     selected_category() {
       this.page = 1;
+      this.searchThrottled.cancel();
+      this.resetCatalog();
       this.fetchTemplates();
+    },
+    initialPreview(value) {
+      this.preview_template = value || null;
+    },
+    busy_get_template(value) {
+      this.$emit("update:busy", value !== null);
     },
   },
   created() {
+    this.searchThrottled = throttle(
+      () => this.fetchTemplates(),
+      window.SERACH_THROTTLE,
+    );
     // Auto select a template by query:
-    const template_id = this.$route.query.template_id;
+    const template_id = this.loadFromQuery && this.$route.query.template_id;
     if (template_id) {
       this.blur = true;
       this.loadTemplate({ id: template_id });
@@ -284,7 +538,7 @@ export default {
     }
 
     if (!this.hasRawTemplates) {
-      this.selected_category = "*";
+      this.fetchTemplates();
     }
 
     this.drawer = this.$vuetify.display.smAndUp;
@@ -293,16 +547,51 @@ export default {
 
   updated() {},
 
-  beforeUnmount() {},
+  beforeUnmount() {
+    this.searchThrottled.cancel();
+    this.catalogRequest++;
+    this.selectionRequest++;
+  },
   methods: {
+    resetCatalog() {
+      this.catalogRequest++;
+      this.templates = null;
+      this.total = 0;
+      this.fetch_error = false;
+      this.busy_fetch = false;
+    },
+    showAllTemplates() {
+      if (!this.search && this.selected_category === "*")
+        return this.fetchTemplates();
+      this.search = null;
+      this.selected_category = "*";
+    },
+    showPreview(item) {
+      if (this.previewInPlace) this.preview_template = item;
+      else this.$emit("preview", item);
+    },
+    backToTemplates() {
+      const id = this.preview_template.id;
+      this.preview_template = null;
+      this.$nextTick(() => {
+        const card = this.$refs.templateCards?.find(
+          (card) => card.template.id === id,
+        );
+        const target =
+          card?.$el.querySelector("button") ||
+          this.$refs.searchField?.$el.querySelector("input");
+        target?.focus();
+      });
+    },
     fetchTemplates() {
       if (this.selected_category === "raw" && !this.search) {
         // Local templates mode!
         return;
       }
-      this.templates = [];
+      const request = ++this.catalogRequest;
       this.busy_fetch = true;
-      axios
+      this.fetch_error = false;
+      return axios
         .get(window.GAPI.GET_PAGE_BUILDER_TEMPLATES(), {
           params: {
             search: this.search,
@@ -312,17 +601,39 @@ export default {
           },
         })
         .then(({ data }) => {
+          if (request !== this.catalogRequest) return;
+          if (
+            !data ||
+            (!data.error &&
+              (!Array.isArray(data.templates) ||
+                data.templates.some(
+                  (item) =>
+                    !item ||
+                    typeof item !== "object" ||
+                    item.id == null ||
+                    typeof item.name !== "string",
+                ) ||
+                !Number.isFinite(data.total) ||
+                data.total < 0))
+          ) {
+            this.fetch_error = true;
+            return;
+          }
           if (!data.error) {
             this.templates = data.templates;
             this.total = data.total;
           } else {
+            this.fetch_error = true;
             NotificationService.showErrorAlert(null, data.error_msg);
           }
         })
         .catch((error) => {
+          if (request !== this.catalogRequest) return;
+          this.fetch_error = true;
           NotificationService.showLaravelError(error);
         })
         .finally(() => {
+          if (request !== this.catalogRequest) return;
           this.busy_fetch = false;
           this.blur = false;
         });
@@ -334,21 +645,45 @@ export default {
     },
 
     loadTemplate(item) {
+      if (this.busy_fetch || this.busy_get_template !== null || !item?.id)
+        return;
+      if (item.premium && !this.USER()?.premium) {
+        this.showNeedSubscribePremium();
+        return;
+      }
+      const request = ++this.selectionRequest;
       this.busy_get_template = item.id;
-      axios
+      return axios
         .get(window.API.GET_PAGE_BUILDER_TEMPLATE_CONTENT(item.id))
         .then(({ data }) => {
-          if (!data.error) {
+          if (request !== this.selectionRequest) return;
+          if (
+            data &&
+            !data.error &&
+            data.page &&
+            typeof data.page === "object" &&
+            !Array.isArray(data.page) &&
+            data.page.content &&
+            typeof data.page.content === "object" &&
+            !Array.isArray(data.page.content)
+          ) {
             this.$emit("select:page", data.page);
           } else {
-            NotificationService.showErrorAlert(null, data.error_msg);
+            NotificationService.showErrorAlert(
+              null,
+              data?.error_msg ||
+                this.$t("page_builder.templates.load_error_description"),
+            );
           }
         })
         .catch((error) => {
+          if (request !== this.selectionRequest) return;
           NotificationService.showLaravelError(error);
         })
         .finally(() => {
+          if (request !== this.selectionRequest) return;
           this.busy_get_template = null;
+          this.blur = false;
         });
     },
   },
@@ -360,5 +695,197 @@ export default {
   overflow: hidden;
   text-align: start;
   border-radius: 26px;
+}
+.l-templates-modern {
+  --lt-line: rgba(var(--v-theme-on-surface), 0.12);
+  --lt-muted: rgba(var(--v-theme-on-surface), 0.66);
+  min-width: 0;
+  color: rgb(var(--v-theme-on-surface));
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  &__heading {
+    margin-block-end: 24px;
+    h2 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    p {
+      margin: 6px 0 14px;
+      color: var(--lt-muted);
+    }
+  }
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-block-end: 16px;
+  }
+  &__search {
+    max-width: 470px;
+    :deep(.v-field) {
+      border-radius: 10px;
+    }
+    :deep(.v-field__input) {
+      font: inherit;
+    }
+  }
+  &__count {
+    font-size: 12px;
+    color: var(--lt-muted);
+    white-space: nowrap;
+  }
+  &__categories {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    margin-block-end: 22px;
+  }
+  &__categories > .v-btn {
+    min-height: 36px;
+    height: auto;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    border-radius: 7px;
+  }
+  &__categories .l-templates-modern__category--selected {
+    color: rgb(var(--v-theme-primary));
+    background: rgba(var(--v-theme-primary), 0.08);
+  }
+  &__category-select {
+    display: none;
+  }
+  &__hint {
+    color: var(--lt-muted);
+    margin-block: 0 18px;
+  }
+  &__results {
+    position: relative;
+    min-height: 240px;
+    container: page-templates / inline-size;
+  }
+  &__progress {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px 18px;
+    align-items: stretch;
+  }
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 360px;
+    padding: 24px;
+    text-align: center;
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0;
+    }
+    p {
+      color: var(--lt-muted);
+      margin: 0 0 7px;
+    }
+  }
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-block-start: 24px;
+    color: var(--lt-muted);
+    font-size: 12px;
+    :deep(.v-pagination) {
+      margin-inline-start: auto;
+    }
+  }
+  &__back,
+  &__action {
+    min-height: 42px;
+    height: auto;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  &__back {
+    margin-block-end: 18px;
+  }
+  &__detail {
+    min-width: 0;
+  }
+  &__detail-info {
+    p {
+      margin: 0 0 12px;
+      color: var(--lt-muted);
+    }
+    .v-btn {
+      white-space: normal;
+    }
+  }
+  @container page-templates (min-width: 520px) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @container page-templates (min-width: 820px) {
+    &__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @container page-templates (min-width: 1120px) {
+    &__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @container page-templates (min-width: 1440px) {
+    &__grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    &__toolbar {
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+    &__search {
+      flex-basis: 100%;
+      max-width: none;
+      :deep(input) {
+        font-size: 16px;
+      }
+    }
+    &__categories {
+      display: none;
+    }
+    &__category-select {
+      display: block;
+      margin-block-end: 18px;
+    }
+    &__grid {
+      gap: 15px 10px;
+    }
+    &__detail {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+    &__back,
+    &__action {
+      min-height: 44px;
+    }
+  }
 }
 </style>
