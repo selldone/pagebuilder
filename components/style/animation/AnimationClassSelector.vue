@@ -13,7 +13,20 @@
   -->
 
 <template>
+  <v-select
+    v-if="modern"
+    :model-value="modelValue"
+    :items="animationClasses"
+    :item-title="getName"
+    :label="$t('popup_appearance.transition')"
+    :disabled="disabled"
+    clearable
+    variant="underlined"
+    class="animation-class-selector-modern sd-modern-underlined-field"
+    @update:model-value="value => $emit('update:modelValue', value)"
+  />
   <v-item-group
+    v-else
     :model-value="modelValue"
     @update:model-value="(val) => $emit('update:modelValue', val)"
   >
@@ -56,6 +69,8 @@ export default {
   emits: ["update:modelValue"],
   props: {
     modelValue: {},
+    modern: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
   },
   data: () => ({
     animationClasses: LUtilsClasses.AnimationsClasses(),

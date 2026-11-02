@@ -66,7 +66,8 @@
         class="mx-1 tnt"
         size="small"
         variant="text"
-        @click="popup.published = !popup.published"
+        :disabled="readOnly"
+        @click="!readOnly && (popup.published = !popup.published)"
       >
         <v-icon :color="popup.published ? '#fff' : 'red'" size="small" start>
           {{ popup.published ? "visibility" : "visibility_off" }}
@@ -135,6 +136,7 @@ export default defineComponent({
      * Back route
      */
     backTo: { required: true },
+    readOnly: { type: Boolean, default: false },
   },
 
   data: () => ({

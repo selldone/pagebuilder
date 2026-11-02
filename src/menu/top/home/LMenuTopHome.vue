@@ -399,24 +399,12 @@
       </v-sheet>
     </div>
 
-    <!-- ▃▃▃▃▃▃▃▃▃▃ Prebuilt Sections Repository ▃▃▃▃▃▃▃▃▃▃ -->
+    <!-- ▃▃▃▃▃▃▃▃▃▃ Set as home page ▃▃▃▃▃▃▃▃▃▃ -->
 
-    <v-divider vertical></v-divider>
+    <v-divider v-if="is_page && $shop && page" vertical></v-divider>
 
-    <div class="lmt-group">
-      <u-button-ai-large
-        v-if="aiPageGenerateFunction && page?.id"
-        :loading="busy_ai_page"
-        @click.stop="autoCreatePage"
-        title="Auto Generate Page"
-        size="small"
-        :avatar-size="18"
-        prefix-class=" "
-        class="flex-grow-0"
-      >
-      </u-button-ai-large>
-      <!-- ▃▃▃▃▃▃▃▃▃▃ Set as home page ▃▃▃▃▃▃▃▃▃▃ -->
-      <div v-if="is_page && $shop && page" class="mx-2">
+    <div v-if="is_page && $shop && page" class="lmt-group">
+      <div class="mx-2">
         <v-btn
           prepend-icon="home"
           class="tnt"
@@ -434,11 +422,6 @@
           <v-icon v-if="is_shop_home" end color="#009688">check_circle</v-icon>
         </v-btn>
       </div>
-    </div>
-
-    <div class="lmt-group" v-if="is_page && $shop && page?.id" >
-
-    <l-menu-top-ai-image-to-section :page="page" class="ma-2"></l-menu-top-ai-image-to-section>
     </div>
 
     <v-spacer></v-spacer>
@@ -616,19 +599,14 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 
 import { LMixinEvents } from "../../../../mixins/events/LMixinEvents.ts";
 import UDenseCirclesUsers from "@selldone/components-vue/ui/dense-circles/users/UDenseCirclesUsers.vue";
-import { CONSOLE } from "@selldone/core-js/helper/index";
-import UButtonAiLarge from "@selldone/components-vue/ui/button/ai/large/UButtonAiLarge.vue";
 import ClubMixin from "@selldone/components-vue/mixin/club/ClubMixin.ts";
 import SImageUploader from "@selldone/components-vue/ui/uploader/SImageUploader.vue";
-import LMenuTopAiImageToSection from "@selldone/page-builder/src/menu/top/ai/image-to-section/LMenuTopAiImageToSection.vue";
 
 export default {
   name: "LMenuTopHome",
   mixins: [LMixinEvents, ClubMixin],
   components: {
-    LMenuTopAiImageToSection,
     UDenseCirclesUsers,
-    UButtonAiLarge,
     SImageUploader
   },
 
@@ -660,18 +638,12 @@ export default {
 
     liveStream: {},
 
-    aiPageGenerateFunction: {
-      require: false,
-      type: Function,
-    },
   },
 
   data: () => ({
     show_hotkeys: false,
 
     visible_to_user: false,
-
-    busy_ai_page: false,
 
     busy_set_home: false,
 
@@ -744,26 +716,6 @@ export default {
         "setLandingShowElementsRepository",
         !this.landing_show_elements_repository,
       );
-    },
-
-    autoCreatePage() {
-      const promise = this.aiPageGenerateFunction();
-      if (!promise) return;
-
-      // console.log("section -> ", section);
-      this.busy_ai_page = true;
-
-      promise
-        .then((data) => {
-          if (data?.page) {
-            this.$builder.loadPage(data.page);
-            CONSOLE.log("🆎 AI created page.");
-          }
-        })
-
-        .finally(() => {
-          this.busy_ai_page = false;
-        });
     },
 
     setAsHome() {

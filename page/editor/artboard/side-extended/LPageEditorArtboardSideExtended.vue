@@ -15,10 +15,8 @@
 <template>
   <div
     :class="{
-      '-single': !aiAutoFillFunction && !hasNote,
-      '-double':
-        (!aiAutoFillFunction && hasNote) || (aiAutoFillFunction && !hasNote),
-      '-triple': aiAutoFillFunction && hasNote,
+      '-single': !hasNote,
+      '-double': hasNote,
     }"
     class="x-feeder"
     dir="ltr"
@@ -42,19 +40,6 @@
         Simple edit section contents.
       </v-tooltip>
     </v-btn>
-
-    <u-button-ai-small
-      v-if="aiAutoFillFunction"
-      :loading="loading_ai"
-      class="x-feeder-btn hover-scale-small force-top ml-6"
-      icon
-      tooltip="<b>AI</b><br>Auto generate contents."
-      tooltip-location="bottom"
-      x-large
-      :open-delay="500"
-      @click="autoComplete(section)"
-    >
-    </u-button-ai-small>
 
     <v-badge
       v-if="hasNote"
@@ -101,31 +86,18 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import UButtonAiSmall from "@selldone/components-vue/ui/button/ai/small/UButtonAiSmall.vue";
 import { LMixinNote } from "@selldone/page-builder/mixins/note/LMixinNote.ts";
 import { LMixinEvents } from "@selldone/page-builder/mixins/events/LMixinEvents.ts";
-import { Section } from "@selldone/page-builder/src/section/section.ts";
-import { CONSOLE } from "@selldone/core-js/helper";
 
 export default defineComponent({
   name: "LPageEditorArtboardSideExtended",
   mixins: [LMixinNote, LMixinEvents],
-  components: {
-    UButtonAiSmall,
-  },
   inject: ["$builder"],
   emits: ["click:note"],
   props: {
     section: Object,
-    aiAutoFillFunction: Function,
     notes: Array,
   },
-  data() {
-    return {
-      loading_ai: false,
-    };
-  },
-
   computed: {
     hasNote() {
       return this.$builder.type === "page" || this.$builder.type === "popup";
@@ -133,24 +105,6 @@ export default defineComponent({
   },
 
   methods: {
-    autoComplete(section: Section) {
-      const promise = this.aiAutoFillFunction(section);
-      if (!promise) return;
-
-      // console.log("section -> ", section);
-      this.loading_ai = true;
-
-      promise
-        .then((generated) => {
-          CONSOLE.log("🆎 AI created content.", section, generated);
-          section.object.updateObjectWithFeed(generated.object);
-        })
-
-        .finally(() => {
-          this.loading_ai = false;
-        });
-    },
-
     //――――――――――――――――――――――  Note ――――――――――――――――――――
 
     showWriteNote() {
@@ -195,12 +149,6 @@ export default defineComponent({
     --margin-left-bar: -100px;
     --width-bar: 224px;
     --left: -290px;
-  }
-
-  &.-triple {
-    --margin-left-bar: -175px;
-    --width-bar: 290px;
-    --left: -370px;
   }
 
   .x-feeder-btn {

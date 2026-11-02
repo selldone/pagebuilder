@@ -48,7 +48,7 @@
     >
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-      <l-header :backTo="backTo"></l-header>
+      <l-header :backTo="backTo" :read-only="popupReadOnly"></l-header>
 
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
@@ -57,13 +57,21 @@
         :saveFunction="saveFunction"
         :ai-page-generate-function="aiPageGenerateFunction"
         :demo="demo"
+        :read-only="popupReadOnly"
       >
+        <template v-if="$slots['extra-tabs']" #extra-tabs>
+          <slot name="extra-tabs"></slot>
+        </template>
+        <template v-if="$slots['extra-panels']" #extra-panels>
+          <slot name="extra-panels"></slot>
+        </template>
       </l-menu-top>
 
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
       <div
         v-scroll="onScroll"
         class="page-builder position-relative"
+        :inert="popupReadOnly"
         data-gramm="false"
         spellcheck="false"
         style="
@@ -78,6 +86,7 @@
 
         <l-templates-list
           v-if="show_templates"
+          :modern="popupWorkspace"
           has-header
           clickable
           @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
@@ -234,7 +243,7 @@
     </div>
 
     <div
-      v-if="drop_landing_file"
+      v-if="drop_landing_file && !popupReadOnly"
       @drop.stop="onDropFile"
       style="
         position: fixed;
@@ -272,7 +281,7 @@
     <!-- ――――――――――――――――――――――  Repository ―――――――――――――――――――― -->
 
     <l-page-editor-repository
-      v-if="inEditMode && !show_templates"
+      v-if="inEditMode && !show_templates && !popupReadOnly"
       :isVisible="!$builder.focusMode"
       :scale-down-mode="scale_down"
     >
@@ -281,7 +290,8 @@
     <!-- ――――――――――――――  Hierarchy / Sections / Elements / ... ―――――――――――――― -->
 
     <l-menu-left
-      v-if="!show_templates"
+      v-if="!show_templates && !popupReadOnly"
+      :popup-workspace="popupWorkspace"
       :is-visible="
         $builder.showLeftMenu &&
         inEditMode &&
@@ -295,13 +305,13 @@
     ></l-menu-left>
 
     <!-- ――――――――――――――――――――――  Settings ―――――――――――――――――――― -->
-    <l-settings></l-settings>
+    <l-settings v-if="!popupReadOnly"></l-settings>
 
     <!-- ――――――――――――――――――――――  Uploader Toolbar ―――――――――――――――――――― -->
-    <x-uploader-toolbar></x-uploader-toolbar>
+    <x-uploader-toolbar v-if="!popupReadOnly"></x-uploader-toolbar>
 
     <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
-    <l-feeder-dialog></l-feeder-dialog>
+    <l-feeder-dialog v-if="!popupReadOnly"></l-feeder-dialog>
   </template>
 </template>
 
@@ -357,7 +367,7 @@ export default defineComponent({
     LFeederDialog,
     LPageEditorRepository,
   },
-  emits: ["changeMode", "scale", "load:template"],
+  emits: ["changeMode", "scale", "load:template", "change:content"],
   props: {
     /**
      * If you want to have synced value model, then you must pass an object to modelValue!
@@ -388,6 +398,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    popupWorkspace: { type: Boolean, default: false },
+    popupReadOnly: { type: Boolean, default: false },
+    popupDialogOpen: { type: Boolean, default: false },
     isMenu: {
       type: Boolean,
       default: false,
@@ -573,7 +586,24 @@ export default defineComponent({
       this.$emit("changeMode", val);
     },
 
+    popupReadOnly(readOnly) {
+      if (readOnly) {
+        this.drop_landing_file = false;
+        this.CloseAllPageBuilderNavigationDrawerTools();
+      }
+      if (this.sortable) {
+        this.sortable.option(
+          "disabled",
+          readOnly || (!this.$builder.isSorting && !this.$builder.showLeftMenu),
+        );
+      }
+    },
+
     "$builder.isSorting"(sort) {
+      if (this.popupReadOnly) {
+        this.sortable?.option("disabled", true);
+        return;
+      }
       this.sortable.option("sort", sort); // Set sorting enabled or disabled
 
       if (sort) {
@@ -587,6 +617,10 @@ export default defineComponent({
       //  this.onSortingModeChange();
     },
     "$builder.showLeftMenu"(menu) {
+      if (this.popupReadOnly) {
+        this.sortable?.option("disabled", true);
+        return;
+      }
       this.sortable.option("disabled", !menu); // Can not drop if in sorting mode!
       if (menu) {
         this.$builder.isSorting = false; // Always make it false if menu is open!
@@ -691,6 +725,10 @@ export default defineComponent({
         chosenClass: "bg-amber", // Class name for the chosen item
 
         onAdd(evt) {
+          if (_self.popupReadOnly) {
+            evt.item.remove();
+            return;
+          }
           try {
             const seed = evt.item._dragData;
             // console.log("Drop seed", seed, "Event item", evt.item);
@@ -712,6 +750,7 @@ export default defineComponent({
           }
         },
         onUpdate(evt) {
+          if (_self.popupReadOnly) return;
           _self.$builder.sort(evt.oldIndex, evt.newIndex);
 
           CONSOLE.log("sortable : onUpdate");
@@ -742,7 +781,7 @@ export default defineComponent({
       //const t = this;
 
       this.key_listener_keydown = (event) => {
-        if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+        if (this.popupReadOnly || this.popupDialogOpen || window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
 
         //------------- Global key listener -----------
 
@@ -909,13 +948,14 @@ export default defineComponent({
       };
 
       this.updateRealtimePreview(_page);
+      if (this.popupWorkspace) this.$emit("change:content", _page.content);
     }, 1000),
 
     //―――――――――――――――――――――― Past > Register ――――――――――――――――――――
     registerPastListener() {
       // Add global past:
       this.onPast = (event) => {
-        if (window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+        if (this.popupReadOnly || this.popupDialogOpen || window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
 
         let paste = (event.clipboardData || window.clipboardData).getData(
           "text",
@@ -947,6 +987,7 @@ export default defineComponent({
     //――――――――――――――――――――――  Past Section ――――――――――――――――――――
 
     pastSection(index) {
+      if (this.popupReadOnly) return;
       if (!this.$builder._copy_section) {
         NotificationService.showWarningAlert(
           "First copy a section!",
@@ -1025,6 +1066,7 @@ export default defineComponent({
     },
 
     loadRawTemplate(theme: RawTemplate) {
+      if (this.popupReadOnly) return;
       CONSOLE.log("Page buildr | Load raw template", theme);
       (this.$builder as Builder).loadPage({ content: theme });
 
@@ -1037,6 +1079,7 @@ export default defineComponent({
     },
 
     loadPageTemplate(page) {
+      if (this.popupReadOnly) return;
       (this.$builder as Builder).loadPage(page);
 
       this.loadNextDelayed();
@@ -1129,7 +1172,7 @@ export default defineComponent({
     showList() {
       this.$builder.showLeftMenu = true;
       if (this.sortable) {
-        this.sortable.option("disabled", false);
+        this.sortable.option("disabled", this.popupReadOnly);
       }
     },
 
@@ -1218,6 +1261,7 @@ export default defineComponent({
     //-------------------------------------------------------------------------------------
 
     onDragEnter(event) {
+      if (this.popupReadOnly) return;
       // Check if there is a file with .landing extension
       const items = event.dataTransfer.items;
       for (let i = 0; i < items.length; i++) {
@@ -1237,6 +1281,10 @@ export default defineComponent({
     },
 
     onDropFile(event) {
+      if (this.popupReadOnly) {
+        event.preventDefault();
+        return;
+      }
       CONSOLE.log("Drop file!", event.dataTransfer.files);
       const files = event.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
@@ -1254,6 +1302,7 @@ export default defineComponent({
     },
 
     async processFile(file) {
+      if (this.popupReadOnly) return;
       this.busy_import = true;
       this.delay_load = 0;
       // Handle the .landing file

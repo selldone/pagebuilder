@@ -36,9 +36,7 @@
           {{ $t("global.commons.import") }}
         </v-tab>
 
-        <!-- ▃▃▃▃▃▃▃▃▃▃ AI ▃▃▃▃▃▃▃▃▃▃ -->
-
-        <l-menu-top-ai v-if="!demo" class="ms-2"></l-menu-top-ai>
+        <slot name="extra-tabs"></slot>
       </v-tabs>
 
       <v-sheet
@@ -51,25 +49,24 @@
         <v-window v-model="tab">
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ home ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-          <v-window-item value="home">
+          <v-window-item value="home" :inert="readOnly">
             <l-menu-top-home
+              v-if="!readOnly"
               :busySave="busySave"
               :page="page"
-              has-ai-button
               :demo="demo"
               @click:save="
                 () => {
-                  saveFunction($builder.export());
+                  if (!readOnly) saveFunction($builder.export());
                 }
               "
-              :ai-page-generate-function="aiPageGenerateFunction"
             >
             </l-menu-top-home>
           </v-window-item>
 
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ page ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-          <v-window-item value="page">
-            <l-menu-top-page :page="page"></l-menu-top-page>
+          <v-window-item value="page" :inert="readOnly">
+            <l-menu-top-page v-if="!readOnly" :page="page"></l-menu-top-page>
           </v-window-item>
 
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ export ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
@@ -78,9 +75,10 @@
           </v-window-item>
 
           <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ import ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
-          <v-window-item value="import">
-            <l-menu-top-import :page="page"></l-menu-top-import>
+          <v-window-item value="import" :inert="readOnly">
+            <l-menu-top-import v-if="!readOnly" :page="page"></l-menu-top-import>
           </v-window-item>
+          <slot name="extra-panels"></slot>
         </v-window>
       </v-sheet>
     </div>
@@ -92,12 +90,10 @@ import LMenuTopHome from "@selldone/page-builder/src/menu/top/home/LMenuTopHome.
 import LMenuTopExport from "@selldone/page-builder/src/menu/top/export/LMenuTopExport.vue";
 import LMenuTopPage from "@selldone/page-builder/src/menu/top/page/LMenuTopPage.vue";
 import LMenuTopImport from "@selldone/page-builder/src/menu/top/import/LMenuTopImport.vue";
-import LMenuTopAi from "@selldone/page-builder/src/menu/top/ai/LMenuTopAi.vue";
 
 export default defineComponent({
   name: "LMenuTop",
   components: {
-    LMenuTopAi,
     LMenuTopImport,
     LMenuTopPage,
     LMenuTopExport,
@@ -112,11 +108,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // Legacy editor hosts still pass this callback; generation stays disabled.
     aiPageGenerateFunction: {
       require: false,
       type: Function,
     },
     demo: Boolean,
+    readOnly: { type: Boolean, default: false },
   },
 
   data: () => ({

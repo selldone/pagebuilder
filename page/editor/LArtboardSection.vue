@@ -102,7 +102,6 @@
 
     <!-- ▃▃▃▃▃▃▃▃▃▃▃▃▃ Side Section Buttons - Start ▃▃▃▃▃▃▃▃▃▃▃▃▃ -->
     <l-page-editor-artboard-side-extended
-      :aiAutoFillFunction="(section?.object?.children[0]?.component==='XCode')?null:aiAutoFillFunction"
       :notes="notes"
       :section="section"
       class="ignore-elements"
@@ -179,6 +178,7 @@ export default defineComponent({
     },
 
     pastHoverIndex: {},
+    // Legacy editor hosts still pass this callback; generation stays disabled.
     aiAutoFillFunction: Function,
   },
 

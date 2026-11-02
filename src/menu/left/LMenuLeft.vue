@@ -54,15 +54,15 @@
       <l-menu-left-seo v-if="is_page" />
 
       <!-- ━━━━━━━━━━━━━━━ Filter ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-popup-filter v-if="is_popup"></l-menu-left-popup-filter>
+      <l-menu-left-popup-filter v-if="is_popup && !popupWorkspace"></l-menu-left-popup-filter>
 
       <!-- ━━━━━━━━━━━━━━━ Appearance ━━━━━━━━━━━━━━━ -->
       <l-menu-left-popup-appearance
-        v-if="is_popup"
+        v-if="is_popup && !popupWorkspace"
       ></l-menu-left-popup-appearance>
 
       <!-- ━━━━━━━━━━━━━━━ Settings ━━━━━━━━━━━━━━━ -->
-      <l-menu-left-setting></l-menu-left-setting>
+      <l-menu-left-setting v-if="!is_popup || !popupWorkspace"></l-menu-left-setting>
     </div>
 
     <div class="l-window overflow-auto thin-scroll">
@@ -166,6 +166,7 @@ export default defineComponent({
   },
   inject: ["$builder", "$shop"],
   props: {
+    popupWorkspace: { type: Boolean, default: false },
     isVisible: Boolean,
     isScrollDown: Boolean,
     histories: { required: true, type: Array },

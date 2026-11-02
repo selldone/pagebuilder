@@ -14,7 +14,11 @@
 
 <template>
   <l-header-page v-if="is_page" :backTo="backTo"></l-header-page>
-  <l-header-popup v-else-if="is_popup" :backTo="backTo"></l-header-popup>
+  <l-header-popup
+    v-else-if="is_popup"
+    :backTo="backTo"
+    :read-only="readOnly"
+  ></l-header-popup>
 </template>
 
 <script lang="ts">
@@ -33,6 +37,7 @@ export default defineComponent({
      * Back route
      */
     backTo: { required: true },
+    readOnly: { type: Boolean, default: false },
   },
 
   computed: {
