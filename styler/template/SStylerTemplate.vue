@@ -259,7 +259,7 @@ export default {
       this.setId(this.element_id);
     },
     setId(id) {
-      if (id && $(`#${id}`).length) {
+      if (id && document.getElementById(id)) {
         CONSOLE.log("Duplicate ID!");
         return;
       }

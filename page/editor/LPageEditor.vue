@@ -1023,7 +1023,7 @@ export default defineComponent({
         return false;
 
       // Check dialog open then prevent any undo / redo short key!
-      if ($(".v-dialog__content.v-dialog__content--active").length) {
+      if (document.querySelector(".v-dialog__content.v-dialog__content--active")) {
         // The element exists
         return false;
       }

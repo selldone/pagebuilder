@@ -113,7 +113,7 @@ export default {
 
       this.current_section = section;
       // Remove all 'element-focus-editing' classes from elements
-      $(".element-focus-editing").removeClass("element-focus-editing");
+      document.querySelectorAll(".element-focus-editing").forEach((element) => element.classList.remove("element-focus-editing"));
 
       section.object.$element?.classList.add("element-focus-editing");
 

@@ -233,7 +233,7 @@ export default {
         return;
       }
       // Remove all 'element-focus-editing' classes from elements
-      $(".element-focus-editing").removeClass("element-focus-editing");
+      document.querySelectorAll(".element-focus-editing").forEach((element) => element.classList.remove("element-focus-editing"));
       //    console.log('onHoverIn objects',this.object)
       this.object.$element?.classList.add("element-focus-editing");
 
