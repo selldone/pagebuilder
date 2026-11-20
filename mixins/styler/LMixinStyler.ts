@@ -56,14 +56,9 @@ export const LMixinStyler = defineComponent({
   watch: {
     isVisible(visible) {
       if (visible) {
-        this.checkLine().then(()=>{
-            if (this.line) {
-                this.line.show("draw");
-            }
-        })
-
-
-
+        this.checkLine().then(() => {
+          if (this.isVisible) this.line?.show("draw");
+        });
       } else {
         if (this.line) {
           // this.line.remove()
@@ -129,16 +124,17 @@ export const LMixinStyler = defineComponent({
       if (this.line) return;
 
       try {
-        const referenceEl = this.el;
-        const floatingEl = this.$refs.styler.$el
-            ? this.$refs.styler.$el /*Vue components*/
-            : this.$refs.styler; /*Native elements*/
-
         // Check if LeaderLine has already been imported
         if (!LeaderLineModule) {
           const { default: LeaderLine } = await import('vue3-leaderline');
           LeaderLineModule = LeaderLine;
         }
+
+        // The editor or its target may have been removed during the import.
+        const referenceEl = this.el;
+        const styler = this.$refs.styler;
+        const floatingEl = styler?.$el ?? styler;
+        if (this.line || !this.isVisible || !referenceEl?.isConnected || !floatingEl?.isConnected) return;
 
         this.line = new LeaderLineModule(referenceEl, floatingEl, {
           color: "#20262e",

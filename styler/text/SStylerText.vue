@@ -660,13 +660,13 @@ export default {
       );*/
     },
 
-    addLink(e) {
+    addLink() {
+      if (this.option !== "link") return;
+      // Restoring the selection can trigger another blur on the link input.
+      this.option = null;
       this.restoreSelection();
       if (this.url) this.execute("createLink", this.url);
       else this.execute("unlink");
-
-      e.preventDefault();
-      this.option = null;
     },
 
     //=====================================================================================
