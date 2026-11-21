@@ -75,7 +75,7 @@ export default {
   mixins: [LMixinEvents],
   components: {
     LMenuLeftSortItem,
-    draggable: defineAsyncComponent(() => import("vuedraggable")),
+    draggable: defineAsyncComponent(() => import("@selldone/components-vue/ui/sortable/USortableList.ts")),
   },
 
   inject: ["$builder"],

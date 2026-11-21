@@ -45,7 +45,7 @@
       variant="outlined"
       @update:model-value="(val) => setValue(val)"
     >
-      <template v-slot:chip="{ item, props }">
+      <template v-slot:chip="{ internalItem: item, props }">
         <v-chip v-bind="props">
           <v-icon
             v-if="isObject(item.raw) && item.raw.icon"
@@ -62,7 +62,7 @@
           }}
         </v-chip>
       </template>
-      <template v-slot:item="{ item, props }">
+      <template v-slot:item="{ internalItem: item, props }">
         <v-list-item
           :prepend-icon="item.raw.icon"
           :title="

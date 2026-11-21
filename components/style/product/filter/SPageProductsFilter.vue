@@ -276,7 +276,7 @@
         variant="outlined"
         class="mt-3"
       >
-        <template v-slot:chip="{ item, props }">
+        <template v-slot:chip="{ internalItem: item, props }">
           <v-chip v-bind="props">
             <v-avatar
               :color="

@@ -149,7 +149,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    draggable: defineAsyncComponent(() => import("vuedraggable")),
+    draggable: defineAsyncComponent(() => import("@selldone/components-vue/ui/sortable/USortableList.ts")),
     LMenuLeftHierarchyItem: self, // Directly referencing the component
   },
   emits: ["hover-in", "hover-out", "right-click"],

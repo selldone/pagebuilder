@@ -64,7 +64,7 @@
         rounded="lg"
         @update:model-value="(val) => setValue(val)"
       >
-        <template v-slot:selection="{ item }">
+        <template v-slot:selection="{ internalItem: item }">
           <v-icon v-if="is_object && item.raw.icon" class="me-2" size="20"
             >{{ item.raw.icon }}
           </v-icon>
@@ -85,7 +85,7 @@
               : item.raw
           }}
         </template>
-        <template v-slot:item="{ item, props }">
+        <template v-slot:item="{ internalItem: item, props }">
           <v-list-item
             v-bind="props"
             class="text-start"

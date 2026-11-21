@@ -46,7 +46,7 @@
         rounded="lg"
         @update:model-value="(val) => setValue(val)"
       >
-        <template v-slot:selection="{ item }">
+        <template v-slot:selection="{ internalItem: item }">
           <span :style="{ fontFamily: item.raw.family }">
             {{ item.raw.title }}
           </span>
@@ -61,7 +61,7 @@
             custom
           </v-chip>
         </template>
-        <template v-slot:item="{ item, props }">
+        <template v-slot:item="{ internalItem: item, props }">
           <v-list-item
             class="text-start"
             :class="{ 'mt-1 border-t': item.raw.firstStandard }"

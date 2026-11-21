@@ -102,13 +102,14 @@
                 @click="copyToClipboard(embed.head, 'Copy body code')"
                 class="max-width-container-820px mx-auto"
               >
-                <prism-editor
+                <u-code-editor
                   readonly
                   class="code-con"
                   :model-value="embed.head"
+                  aria-label="Head"
                   :highlight="highlighter"
                   language="html"
-                ></prism-editor>
+                ></u-code-editor>
               </div>
 
               <u-widget-header icon="code" title="Body"></u-widget-header>
@@ -117,12 +118,13 @@
                 @click="copyToClipboard(embed.body, 'Copy head code')"
                 class="max-width-container-820px mx-auto"
               >
-                <prism-editor
+                <u-code-editor
                   class="code-con"
                   :model-value="embed.body"
+                  aria-label="Body"
                   :highlight="highlighter"
                   language="html"
-                ></prism-editor>
+                ></u-code-editor>
               </div>
             </template>
           </v-card-text>
@@ -163,12 +165,11 @@
 <script lang="ts">
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
-//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
-import "prismjs";
+//―――――――――――――――――――――― Code highlighting ――――――――――――――――――――
+import Prism from "prismjs";
 import "prismjs/themes/prism.css";
 
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+import UCodeEditor from "@selldone/components-vue/ui/code/editor/UCodeEditor.vue";
 
 import { defineComponent } from "vue";
 import { SetupService } from "@selldone/core-js/server";
@@ -178,7 +179,7 @@ import {FileHelper} from "@selldone/core-js/utils";
 
 export default defineComponent({
   name: "LMenuTopExport",
-  components: { PrismEditor, LmtLargeButton },
+  components: { UCodeEditor, LmtLargeButton },
 
   inject: ["$builder"],
   props: {
@@ -208,7 +209,7 @@ export default defineComponent({
 
   methods: {
     highlighter(code) {
-      return Prism.highlight(code, Prism.languages.html);
+      return Prism.highlight(code, Prism.languages.html, "html");
     },
 
     exportFile() {

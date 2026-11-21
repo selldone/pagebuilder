@@ -99,8 +99,9 @@
 
           </v-row>
 
-          <prism-editor
+          <u-code-editor
             v-model="target.data.code"
+            :aria-label="$t('global.article.code_editor.code_label')"
             :highlight="highlighter"
             class="light-code scrollable-element-light"
             contenteditable="false"
@@ -110,7 +111,7 @@
             @blur="refreshScripts"
             @update:model-value="changed = true"
           >
-          </prism-editor>
+          </u-code-editor>
         </div>
 
         <div class="widget-box -large mb-5">
@@ -251,12 +252,11 @@
 </template>
 
 <script lang="ts">
-//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
-import "prismjs";
+//―――――――――――――――――――――― Code highlighting ――――――――――――――――――――
+import Prism from "prismjs";
 import "prismjs/themes/prism.css";
 
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+import UCodeEditor from "@selldone/components-vue/ui/code/editor/UCodeEditor.vue";
 
 import LEventsName from "../../../mixins/events/name/LEventsName";
 import { LMixinEvents } from "../../../mixins/events/LMixinEvents";
@@ -273,7 +273,7 @@ export default {
   mixins: [LMixinEvents],
 
   components: {
-    PrismEditor,
+    UCodeEditor,
   },
   inject: ["$builder"],
   props: {},

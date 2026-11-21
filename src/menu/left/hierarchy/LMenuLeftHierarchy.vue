@@ -139,7 +139,7 @@ export default {
   name: "LMenuLeftHierarchy",
   mixins: [LMixinEvents],
   components: {
-    draggable: defineAsyncComponent(() => import("vuedraggable")),
+    draggable: defineAsyncComponent(() => import("@selldone/components-vue/ui/sortable/USortableList.ts")),
     LMenuLeftHierarchyItem,
   },
 

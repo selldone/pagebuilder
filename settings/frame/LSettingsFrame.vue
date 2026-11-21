@@ -79,17 +79,18 @@
           </div>
 
           <v-sheet class="border pa-2 rounded-lg">
-            <prism-editor
+            <u-code-editor
               style="line-height: normal; font-size: 14px"
               class="prism-dark"
               v-model="frame_product.code"
+              aria-label="Product Frame Code"
               :highlight="highlighter"
               language="html"
               line-numbers
               auto-style-line-numbers
               @blur="onFrameCodeChange"
               @change="val_sample_product = null"
-            ></prism-editor>
+            ></u-code-editor>
           </v-sheet>
 
           <v-expansion-panels>
@@ -171,17 +172,18 @@
           </div>
 
           <v-sheet class="border pa-2 rounded-lg">
-            <prism-editor
+            <u-code-editor
               style="line-height: normal; font-size: 14px"
               class="prism-dark"
               v-model="frame_category.code"
+              aria-label="Category Frame Code"
               :highlight="highlighter"
               language="html"
               line-numbers
               auto-style-line-numbers
               @blur="onFrameCodeChange"
               @change="val_sample_category = null"
-            ></prism-editor>
+            ></u-code-editor>
           </v-sheet>
 
           <v-expansion-panels>
@@ -218,12 +220,11 @@
 </template>
 
 <script lang="ts">
-//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
-import "prismjs";
+//―――――――――――――――――――――― Code highlighting ――――――――――――――――――――
+import Prism from "prismjs";
 import "prismjs/themes/prism.css";
 
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+import UCodeEditor from "@selldone/components-vue/ui/code/editor/UCodeEditor.vue";
 
 import { LUtilsClasses } from "../../utils/classes/LUtilsClasses";
 
@@ -245,7 +246,7 @@ export default {
 
   components: {
     LSettingNavigation,
-    PrismEditor,
+    UCodeEditor,
     SSettingGroup,
     SSettingExpandable,
   },
@@ -373,7 +374,7 @@ export default {
 
   methods: {
     highlighter(code) {
-      return Prism.highlight(code, Prism.languages.html);
+      return Prism.highlight(code, Prism.languages.html, "html");
     },
 
     showProductsDialog() {

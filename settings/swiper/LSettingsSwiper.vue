@@ -162,7 +162,7 @@ export default {
   components: {
     LSettingNavigation,
     SSettingButton,
-    draggable: defineAsyncComponent(() => import("vuedraggable")),
+    draggable: defineAsyncComponent(() => import("@selldone/components-vue/ui/sortable/USortableList.ts")),
     LSettingsSwiperSlide,
     OSwiperKeyboard,
     OSwiperEffect,

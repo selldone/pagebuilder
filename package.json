@@ -25,17 +25,19 @@
   "dependencies": {
     "@selldone/core-js": "latest",
     "@selldone/sdk-storefront": "latest",
-    "@selldone/components-vue": "latest",
+    "@selldone/components-vue": "^1.9.0",
 
     "axios": "^1.13.4",
     "lodash-es": "^4.17.22",
      "vue": "^3.5.27",
-    "vuetify": "^3.11.8",
+    "vuetify": "^4.3.4",
     "@floating-ui/dom": "^1.7.5",
-    "sortablejs": "^1.15.6",
-    "swiper": "12.2.0"
+    "prismjs": "^1.30.0",
+    "sortablejs": "^1.15.7",
+    "swiper": "14.4.0"
   },
   "devDependencies": {
+    "@typescript/native-cli": "npm:typescript@^7.0.2",
     "@types/lodash-es": "^4.17.12",
      "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
@@ -43,7 +45,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "prettier": "^3.8.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "@vue/eslint-config-prettier": "^10.2.0",
     "eslint-plugin-vue": "^10.5.1"
   }

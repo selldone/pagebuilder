@@ -115,8 +115,9 @@ font-weight: 500;"
                 ></u-widget-header>
                 <v-list-subheader></v-list-subheader>
 
-                <prism-editor
+                <u-code-editor
                   :model-value="generated"
+                  aria-label="Compiled Css"
                   readonly
                   :highlight="highlighter"
                   class="prism-dark scrollable-element-light"
@@ -125,7 +126,7 @@ font-weight: 500;"
                   line-numbers
                   style="min-height: 50vh; font-size: 12px"
                 >
-                </prism-editor>
+                </u-code-editor>
               </v-col>
             </v-row>
           </v-container>
@@ -144,12 +145,11 @@ font-weight: 500;"
 </template>
 
 <script lang="ts">
-//―――――――――――――――――――――― vue-prism-editor ――――――――――――――――――――
-import "prismjs";
+//―――――――――――――――――――――― Code highlighting ――――――――――――――――――――
+import Prism from "prismjs";
 import "prismjs/themes/prism.css";
 
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+import UCodeEditor from "@selldone/components-vue/ui/code/editor/UCodeEditor.vue";
 import SSettingExpandable from "@selldone/page-builder/styler/settings/expandable/SSettingExpandable.vue";
 import { isObject } from "lodash-es";
 import { LandingCssHelper } from "@selldone/page-builder/src/menu/left/css/LandingCssHelper.ts";
@@ -157,7 +157,7 @@ import "prismjs/themes/prism-dark.css";
 
 export default {
   name: "LMenuLeftCss",
-  components: { SSettingExpandable, PrismEditor },
+  components: { SSettingExpandable, UCodeEditor },
   inject: ["$builder"],
   props: {},
 
