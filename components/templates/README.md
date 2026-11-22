@@ -17,7 +17,7 @@ The existing editor's raw starters, generated raw-theme events and `template_id`
 
 The new shop landing opens with the source-defined starters in `list/RawTemplate.ts`. The template library loads when opened. A starter preview renders the generated sections with the native viewer. Forms are disabled, and the collection shows where shop products will appear. Using a starter generates separate editable content and follows the existing page creation flow. The editing toolbar becomes available when the editing canvas is ready.
 
-Shop Collection pairs its native product listing and newsletter with three editable Raw HTML sections for the roaster's guide, pour-over recipe and shopping FAQs. The FAQ disclosures work in the preview and on the published page.
+Every starter includes editable Raw HTML sections in Vue mode. Each section declares its default values and field structure under `props.properties`. Selecting a starter saves independent values for its text, cards, lists or questions, which the Raw HTML Properties panel can edit. Shop Collection includes three Vue sections alongside its native product listing and newsletter. The preview shows the actual section count and links to every section.
 
 The card preview is a capture of the starter's native PageBuilder rendering. Refresh it when changing the starter's hero. The page content stores the platform's stable public photo URL so the sample image loads on custom shop domains. Update the English and Persian card labels in the dashboard locale files when adding a starter.
 

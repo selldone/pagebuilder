@@ -320,7 +320,7 @@
     <l-settings v-if="!popupReadOnly"></l-settings>
 
     <!-- ――――――――――――――――――――――  Uploader Toolbar ―――――――――――――――――――― -->
-    <x-uploader-toolbar v-if="!popupReadOnly"></x-uploader-toolbar>
+    <x-uploader-toolbar v-if="!show_templates && !popupReadOnly"></x-uploader-toolbar>
 
     <!-- ――――――――――――――――――――――  Feeder ―――――――――――――――――――― -->
     <l-feeder-dialog v-if="!popupReadOnly"></l-feeder-dialog>
