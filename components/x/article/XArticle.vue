@@ -32,7 +32,6 @@
 <script lang="ts">
 import LMixinXComponent from "@selldone/page-builder/mixins/x-component/LMixinXComponent";
 import { XArticleObject } from "@selldone/page-builder/components/x/article/XArticleObject.ts";
-import { Article } from "@selldone/core-js";
 import { defineAsyncComponent } from "vue";
 
 export default {
@@ -105,11 +104,7 @@ export default {
         return window.API.UPLOAD_ARTICLE_BLOG_IMAGE(this.$route.params.shop_id);
       }
 
-      // For official page:
-      return window.API.UPLOAD_ARTICLE_IMAGE(
-        Article.Types.SelldoneBlog.code,
-        null,
-      );
+      return this.$builder.server?.uploadArticleImageUrl?.() ?? null;
     },
   },
 };

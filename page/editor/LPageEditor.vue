@@ -16,7 +16,7 @@
   <template v-if="isInitialized">
     <v-fade-transition>
       <div
-        v-if="busyFetch"
+        v-if="busyFetch || (awaitingTemplatePage && busySave)"
         style="
           background: rgba(0, 0, 0, 0.6);
           position: fixed;
@@ -31,10 +31,17 @@
         <div
           class="center-fix loading-view-rect-center s--shadow-with-padding rounded-xl"
           style="z-index: 99999"
+          role="status"
         >
           <v-progress-circular color="#222" :size="50" indeterminate />
           <p class="mt-2">
-            {{ $t("page_builder.waiting_fetch") }}
+            {{
+              $t(
+                busyFetch
+                  ? "page_builder.waiting_fetch"
+                  : "global.article.saving",
+              )
+            }}
           </p>
         </div>
       </div>
@@ -48,11 +55,16 @@
     >
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Header ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
-      <l-header :backTo="backTo" :read-only="popupReadOnly"></l-header>
+      <l-header
+        v-if="!awaitingTemplatePage"
+        :backTo="backTo"
+        :read-only="popupReadOnly"
+      ></l-header>
 
       <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Top Tools ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
 
       <l-menu-top
+        v-if="!awaitingTemplatePage"
         :busy-save="busySave"
         :saveFunction="saveFunction"
         :ai-page-generate-function="aiPageGenerateFunction"
@@ -71,7 +83,7 @@
       <div
         v-scroll="onScroll"
         class="page-builder position-relative"
-        :inert="popupReadOnly"
+        :inert="popupReadOnly || (awaitingTemplatePage && busySave)"
         data-gramm="false"
         spellcheck="false"
         style="
@@ -86,7 +98,7 @@
 
         <l-templates-list
           v-if="show_templates"
-          :modern="popupWorkspace"
+          :modern="modernTemplates || popupWorkspace"
           has-header
           clickable
           @select:raw-theme="(_raw) => loadRawTemplate(_raw)"
@@ -204,7 +216,7 @@
                     "
                   >
                     <l-artboard-section
-                      v-for="(section, index) in $builder.sections"
+                      v-for="(section, index) in (awaitingTemplatePage ? [] : $builder.sections)"
                       :key="section.uid"
                       :section="section"
                       :loading="delay_load <= index"
@@ -343,7 +355,6 @@ import { LMixinArtboard } from "@selldone/page-builder/mixins/artboard/LMixinArt
 import XUploaderToolbar from "@selldone/page-builder/components/x/uploader/XUploaderToolbar.vue";
 import LHeader from "@selldone/page-builder/src/header/LHeader.vue";
 import { Page, Popup } from "@selldone/core-js/models";
-import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 import { CONSOLE } from "@selldone/core-js";
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
@@ -399,6 +410,8 @@ export default defineComponent({
       default: false,
     },
     popupWorkspace: { type: Boolean, default: false },
+    modernTemplates: Boolean,
+    templateFirst: Boolean,
     popupReadOnly: { type: Boolean, default: false },
     popupDialogOpen: { type: Boolean, default: false },
     isMenu: {
@@ -510,8 +523,15 @@ export default defineComponent({
       );
     },
 
+    awaitingTemplatePage() {
+      return this.templateFirst && !this.modelValue?.id;
+    },
+
     show_templates() {
-      return !this.$builder.model?.id && !this.$builder.sections.length;
+      return (
+        this.awaitingTemplatePage ||
+        (!this.$builder.model?.id && !this.$builder.sections.length)
+      );
     },
 
     load_percent() {
@@ -781,7 +801,12 @@ export default defineComponent({
       //const t = this;
 
       this.key_listener_keydown = (event) => {
-        if (this.popupReadOnly || this.popupDialogOpen || window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+        if (
+          this.awaitingTemplatePage ||
+          this.popupReadOnly ||
+          this.popupDialogOpen ||
+          window.PAGE_BUILDER_BLOCK_LISTEN_KEYS
+        ) return;
 
         //------------- Global key listener -----------
 
@@ -955,7 +980,12 @@ export default defineComponent({
     registerPastListener() {
       // Add global past:
       this.onPast = (event) => {
-        if (this.popupReadOnly || this.popupDialogOpen || window.PAGE_BUILDER_BLOCK_LISTEN_KEYS) return;
+        if (
+          this.awaitingTemplatePage ||
+          this.popupReadOnly ||
+          this.popupDialogOpen ||
+          window.PAGE_BUILDER_BLOCK_LISTEN_KEYS
+        ) return;
 
         let paste = (event.clipboardData || window.clipboardData).getData(
           "text",
@@ -1065,7 +1095,7 @@ export default defineComponent({
       }, 100);
     },
 
-    loadRawTemplate(theme: RawTemplate) {
+    loadRawTemplate(theme: Page.IContent) {
       if (this.popupReadOnly) return;
       CONSOLE.log("Page buildr | Load raw template", theme);
       (this.$builder as Builder).loadPage({ content: theme });
@@ -1261,7 +1291,7 @@ export default defineComponent({
     //-------------------------------------------------------------------------------------
 
     onDragEnter(event) {
-      if (this.popupReadOnly) return;
+      if (this.awaitingTemplatePage || this.popupReadOnly) return;
       // Check if there is a file with .landing extension
       const items = event.dataTransfer.items;
       for (let i = 0; i < items.length; i++) {
@@ -1281,7 +1311,7 @@ export default defineComponent({
     },
 
     onDropFile(event) {
-      if (this.popupReadOnly) {
+      if (this.awaitingTemplatePage || this.popupReadOnly) {
         event.preventDefault();
         return;
       }

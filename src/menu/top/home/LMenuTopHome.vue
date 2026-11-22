@@ -542,6 +542,7 @@
 
   <div
     style="
+      display: var(--page-builder-floating-home-tools-display, block);
       position: fixed;
       top: 8px;
       left: 50%;

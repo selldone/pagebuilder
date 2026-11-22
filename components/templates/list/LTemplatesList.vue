@@ -16,12 +16,57 @@
   <section
     v-if="modern"
     class="l-templates-modern text-start"
+    :class="{ 'l-templates-modern--with-starters': hasRawTemplates }"
     :aria-busy="busy_fetch || !!busy_get_template"
   >
-    <header v-if="hasHeader" class="l-templates-modern__heading">
-      <h2>{{ $t("page_builder.templates.picker_title") }}</h2>
-      <p>{{ $t("page_builder.templates.picker_subtitle") }}</p>
+    <header
+      v-if="hasHeader && !preview_raw"
+      class="l-templates-modern__heading"
+    >
+      <h2>
+        {{
+          $t(
+            hasRawTemplates
+              ? "page_builder.templates.starter_title"
+              : "page_builder.templates.picker_title",
+          )
+        }}
+      </h2>
+      <p>
+        {{
+          $t(
+            hasRawTemplates
+              ? "page_builder.templates.starter_subtitle"
+              : "page_builder.templates.picker_subtitle",
+          )
+        }}
+      </p>
     </header>
+    <nav
+      v-if="hasRawTemplates && !preview_template && !preview_raw"
+      class="l-template-starters__tabs"
+      :aria-label="$t('global.commons.templates')"
+    >
+      <v-btn
+        variant="text"
+        :aria-pressed="show_raw_templates"
+        :disabled="!!busy_get_template"
+        @click="
+          search = null;
+          selected_category = 'raw';
+        "
+      >
+        {{ $t("page_builder.templates.starter_tab") }}
+      </v-btn>
+      <v-btn
+        variant="text"
+        :aria-pressed="!show_raw_templates"
+        :disabled="!!busy_get_template"
+        @click="show_raw_templates && (selected_category = '*')"
+      >
+        {{ $t("page_builder.templates.library_tab") }}
+      </v-btn>
+    </nav>
     <template v-if="preview_template">
       <v-btn
         variant="text"
@@ -61,6 +106,137 @@
         </l-template-card>
       </div>
     </template>
+    <div
+      v-else-if="preview_raw && show_raw_templates"
+      class="l-template-starters"
+    >
+      <article class="l-template-starters__preview">
+        <header class="l-template-starters__preview-header">
+          <v-btn
+            ref="starterBack"
+            variant="text"
+            class="l-templates-modern__back"
+            @click="closeRawPreview()"
+          >
+            <v-icon
+              start
+              size="17"
+              class="l-template-starters__back-icon"
+              aria-hidden="true"
+            >arrow_back</v-icon>
+            {{ $t("page_builder.templates.back_to_templates") }}
+          </v-btn>
+          <div class="l-template-starters__preview-title">
+            <h2>{{ rawText(preview_raw.theme, "name") }}</h2>
+            <v-btn
+              color="primary"
+              variant="flat"
+              :aria-label="`${$t('page_builder.templates.use_template')} · ${rawText(preview_raw.theme, 'name')}`"
+              @click="selectRawTheme(preview_raw.theme)"
+            >
+              {{ $t("page_builder.templates.use_template") }}
+            </v-btn>
+          </div>
+          <nav
+            v-if="preview_raw.content.sections?.length"
+            class="l-template-starters__outline"
+            :aria-labelledby="`preview-section-count-${preview_raw.content.sections[0].uid}`"
+          >
+            <span :id="`preview-section-count-${preview_raw.content.sections[0].uid}`">
+              {{
+                $t(
+                  "page_builder.templates.section_count",
+                  { count: $n(preview_raw.content.sections.length) },
+                  preview_raw.content.sections.length,
+                )
+              }}
+            </span>
+            <ul>
+              <li
+                v-for="section in preview_raw.content.sections"
+                :key="section.uid"
+              >
+                <a
+                  :href="`#${section.uid}`"
+                  @click.prevent="scrollToRawSection(section.uid)"
+                >{{ section.label }}</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <fieldset
+          ref="starterPreviewContent"
+          class="l-template-starters__preview-content"
+          :aria-label="$t('global.commons.preview')"
+          disabled
+          @click.capture="followRawPreviewLink"
+          @submit.capture.prevent.stop
+        >
+          <l-page-viewer
+            :initial-page-data="preview_raw.content"
+            :custom-fonts="[]"
+            dir="ltr"
+          />
+        </fieldset>
+      </article>
+    </div>
+    <div v-else-if="show_raw_templates" class="l-template-starters">
+      <div ref="starterGrid" class="l-template-starters__grid">
+        <article
+          v-for="theme in RawTemplate.List"
+          :key="theme.id"
+          class="l-template-starters__card"
+        >
+          <v-img
+            class="l-template-starters__image"
+            :src="theme.image"
+            :aspect-ratio="1.6"
+            alt=""
+          >
+            <template #error>
+              <div class="l-template-starters__image-error">
+                {{ $t("page_builder.templates.preview_unavailable") }}
+              </div>
+            </template>
+          </v-img>
+          <div class="l-template-starters__body">
+            <div class="l-template-starters__title-line">
+              <h3>
+                {{ rawText(theme, "name") }}
+              </h3>
+              <span>
+                {{
+                  $t(
+                    "page_builder.templates.section_count",
+                    { count: $n(theme.sections.length) },
+                    theme.sections.length,
+                  )
+                }}
+              </span>
+            </div>
+            <p v-if="theme.description">{{ rawText(theme, "description") }}</p>
+            <div class="l-template-starters__actions">
+              <v-btn
+                variant="text"
+                :aria-label="`${$t('global.commons.preview')} · ${rawText(theme, 'name')}`"
+                :data-starter-preview="theme.id"
+                @click="openRawPreview(theme)"
+              >
+                {{ $t("global.commons.preview") }}
+              </v-btn>
+              <v-btn
+                color="primary"
+                variant="tonal"
+                :aria-label="`${$t('page_builder.templates.use_template')} · ${rawText(theme, 'name')}`"
+                @click="selectRawTheme(theme)"
+              >
+                {{ $t("page_builder.templates.use_template") }}
+              </v-btn>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
     <template v-else>
       <div class="l-templates-modern__toolbar">
         <v-text-field
@@ -87,7 +263,7 @@
         :aria-label="$t('landing_categories.all')"
       >
         <v-btn
-          v-for="item in categories.slice(0, 5)"
+          v-for="item in catalog_categories.slice(0, 5)"
           :key="item.code"
           variant="text"
           :aria-pressed="!search && selected_category === item.code"
@@ -99,7 +275,7 @@
           @click="selected_category = item.code"
           >{{ $t(item.title) }}</v-btn
         >
-        <v-menu v-if="categories.length > 5">
+        <v-menu v-if="catalog_categories.length > 5">
           <template #activator="{ props }">
             <v-btn
               v-bind="props"
@@ -118,7 +294,7 @@
           </template>
           <v-list>
             <v-list-item
-              v-for="item in categories.slice(5)"
+              v-for="item in catalog_categories.slice(5)"
               :key="item.code"
               :active="selected_category === item.code"
               @click="selected_category = item.code"
@@ -131,7 +307,7 @@
       <v-select
         v-model="selected_category"
         class="l-templates-modern__category-select"
-        :items="categories"
+        :items="catalog_categories"
         item-value="code"
         :item-title="(item) => $t(item.title)"
         :label="$t('landing_categories.all')"
@@ -170,20 +346,6 @@
           <v-btn variant="outlined" @click="fetchTemplates()">{{
             $t("page_builder.templates.retry")
           }}</v-btn>
-        </div>
-        <div
-          v-else-if="selected_category === 'raw' && !search"
-          class="l-templates-modern__grid"
-        >
-          <v-card
-            v-for="(theme, index) in RawTemplate.List"
-            :key="index"
-            variant="outlined"
-            @click="selectRawTheme(theme)"
-          >
-            <v-img :src="theme.image" :aspect-ratio="1.52" cover />
-            <v-card-title>{{ theme.name }}</v-card-title>
-          </v-card>
         </div>
         <div
           v-else-if="templates && !templates.length"
@@ -419,9 +581,11 @@
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
 import LTemplateCard from "../../../components/templates/card/LTemplateCard.vue";
+import LPageViewer from "../../../page/viewer/LPageViewer.vue";
 import { throttle } from "lodash-es";
 import { RawTemplate } from "@selldone/page-builder/components/templates/list/RawTemplate.ts";
 import { CONSOLE } from "@selldone/core-js";
+import type { Page } from "@selldone/core-js/models";
 import { BEventBusMixin } from "@selldone/components-vue/utils/events/BEventBusMixin.ts";
 
 /**
@@ -430,7 +594,7 @@ import { BEventBusMixin } from "@selldone/components-vue/utils/events/BEventBusM
 export default {
   name: "LTemplatesList",
   mixins: [BEventBusMixin],
-  components: { LTemplateCard },
+  components: { LTemplateCard, LPageViewer },
   emits: ["select:page", "select:raw-theme", "preview", "update:busy"],
   props: {
     modern: Boolean,
@@ -463,6 +627,7 @@ export default {
       selectionRequest: 0,
       searchThrottled: null,
       preview_template: this.initialPreview || null,
+      preview_raw: null as { theme: RawTemplate; content: Page.IContent } | null,
 
       blur: false,
 
@@ -471,10 +636,21 @@ export default {
   },
 
   computed: {
+    show_raw_templates() {
+      return (
+        this.hasRawTemplates &&
+        this.selected_category === "raw" &&
+        !this.search &&
+        !this.blur
+      );
+    },
+    catalog_categories() {
+      return this.categories.filter((item) => item.code !== "raw");
+    },
     more_category() {
       return (
         !this.search &&
-        this.categories
+        this.catalog_categories
           .slice(5)
           .find((item) => item.code === this.selected_category)
       );
@@ -569,6 +745,54 @@ export default {
     showPreview(item) {
       if (this.previewInPlace) this.preview_template = item;
       else this.$emit("preview", item);
+    },
+    rawText(theme: RawTemplate, field: "name" | "description") {
+      const key = `page_builder.templates.raw.${theme.id}.${field}`;
+      const translated = this.$t(key);
+      return translated === key ? theme[field] : translated;
+    },
+    openRawPreview(theme: RawTemplate) {
+      this.preview_raw = {
+        theme,
+        content: theme.generate({
+          productsPlaceholder: this.$t(
+            "page_builder.templates.starter_products_preview",
+            "Products from your store will appear here.",
+          ),
+        }),
+      };
+      this.$nextTick(() => this.$refs.starterBack?.$el.focus());
+    },
+    closeRawPreview() {
+      const id = this.preview_raw?.theme.id;
+      this.preview_raw = null;
+      this.$nextTick(() => {
+        const buttons =
+          this.$refs.starterGrid?.querySelectorAll("[data-starter-preview]") || [];
+        Array.from<HTMLButtonElement>(buttons)
+          .find((button) => button.dataset.starterPreview === id)
+          ?.focus();
+      });
+    },
+    followRawPreviewLink(event: MouseEvent) {
+      const link = (event.target as Element)?.closest("a");
+      if (!link) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      const href = link.getAttribute("href");
+      const section = this.preview_raw?.content.sections?.find(
+        ({ uid }) => href === `#${uid}`,
+      );
+      if (section) {
+        this.scrollToRawSection(section.uid);
+      }
+    },
+    scrollToRawSection(uid?: string) {
+      if (!uid) return;
+      (this.$refs.starterPreviewContent as HTMLElement | undefined)
+        ?.querySelector(`#${uid}`)
+        ?.scrollIntoView({ block: "start" });
     },
     backToTemplates() {
       const id = this.preview_template.id;
@@ -704,6 +928,14 @@ export default {
   font-family: inherit;
   font-size: 13px;
   line-height: 1.6;
+  &--with-starters {
+    max-inline-size: 1160px;
+    margin-inline: auto;
+    padding: clamp(22px, 4vw, 52px) clamp(14px, 3.4vw, 38px) 64px;
+    color: rgb(var(--v-theme-on-background));
+    background: rgb(var(--v-theme-background));
+    border-radius: 20px;
+  }
   &__heading {
     margin-block-end: 24px;
     h2 {
@@ -713,6 +945,19 @@ export default {
     p {
       margin: 6px 0 14px;
       color: var(--lt-muted);
+    }
+  }
+  &--with-starters &__heading {
+    margin-block-end: 26px;
+    h2 {
+      font-size: clamp(24px, 3.2vw, 36px);
+      line-height: 1.15;
+      font-weight: 650;
+      text-wrap: balance;
+    }
+    p {
+      margin-block: 10px 0;
+      font-size: 14px;
     }
   }
   &__toolbar {
@@ -885,6 +1130,211 @@ export default {
     &__back,
     &__action {
       min-height: 44px;
+    }
+  }
+}
+
+.l-template-starters {
+  container: landing-starters / inline-size;
+
+  &__tabs {
+    display: inline-flex;
+    max-inline-size: 100%;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-block-end: 22px;
+    padding: 4px;
+    background: rgba(var(--v-theme-on-surface), 0.05);
+    border: 1px solid var(--lt-line);
+    border-radius: 12px;
+
+    > .v-btn[aria-pressed="true"] {
+      background: rgb(var(--v-theme-surface));
+      color: rgb(var(--v-theme-on-surface));
+      box-shadow: 0 1px 3px rgba(var(--v-theme-on-surface), 0.1);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    color: rgb(var(--v-theme-on-surface));
+    background: rgb(var(--v-theme-surface));
+    border: 1px solid var(--lt-line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  &__image {
+    flex: none;
+    background: rgba(var(--v-theme-on-surface), 0.035);
+    border-block-end: 1px solid var(--lt-line);
+  }
+
+  &__image-error {
+    display: grid;
+    place-items: center;
+    min-block-size: 100%;
+    color: var(--lt-muted);
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-inline-size: 0;
+    padding: 16px;
+
+    > p {
+      margin: 6px 0 14px;
+      color: var(--lt-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+  }
+
+  &__title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    span {
+      color: var(--lt-muted);
+      font-size: 12px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-block-start: auto;
+    padding-block-start: 8px;
+  }
+
+  &__tabs > .v-btn,
+  &__actions > .v-btn,
+  &__preview-title > .v-btn {
+    min-block-size: 44px;
+    height: auto;
+    max-inline-size: 100%;
+    padding-block: 6px;
+    padding-inline: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: normal;
+  }
+
+  &__tabs > .v-btn:focus-visible,
+  &__actions > .v-btn:focus-visible,
+  &__preview-title > .v-btn:focus-visible {
+    outline: 2px solid rgb(var(--v-theme-primary));
+    outline-offset: 2px;
+  }
+
+  &__back-icon:dir(rtl) {
+    transform: scaleX(-1);
+  }
+
+  &__preview-header {
+    margin-block-end: 20px;
+  }
+
+  &__preview-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 20px;
+
+    h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.2;
+      font-weight: 650;
+    }
+  }
+
+  &__outline {
+    margin-block-start: 16px;
+
+    > span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--lt-muted);
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      padding: 0;
+      margin: 4px 0 0;
+      list-style: none;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: 44px;
+      padding-inline: 10px;
+      border: 1px solid var(--lt-line);
+      border-radius: 8px;
+      color: rgb(var(--v-theme-on-surface));
+      font-size: 13px;
+      text-decoration: none;
+
+      &:hover {
+        background: rgba(var(--v-theme-on-surface), 0.045);
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgb(var(--v-theme-primary));
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &__preview-content {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--lt-line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  @container landing-starters (min-width: 520px) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container landing-starters (min-width: 810px) {
+    &__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 }

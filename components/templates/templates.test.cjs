@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const { readFileSync } = require("node:fs");
+const { existsSync, readFileSync } = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
@@ -18,13 +18,15 @@ const files = {
   list: path.join(__dirname, "list/LTemplatesList.vue"),
   card: path.join(__dirname, "card/LTemplateCard.vue"),
   dialog: path.join(__dirname, "picker/LTemplatesPickerDialog.vue"),
+  code: path.join(packages, "page-builder/components/x/code/XCode.vue"),
 };
-const evaluate = (source, globals) => {
-  const exports = {};
+const flatten = (element) => [element, ...element.children.flatMap(flatten)];
+const evaluate = (source, globals, exports = {}) => {
   const result = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2022,
+      esModuleInterop: true,
     },
     reportDiagnostics: true,
   });
@@ -33,8 +35,7 @@ const evaluate = (source, globals) => {
   return exports;
 };
 
-// Mount the real feature and helper owners; only transport, UI leaves and
-// section seeds outside the picker are isolated.
+// Mount the real picker and native starter section models with isolated transport and UI leaves.
 async function fixture(t, options = {}) {
   const document = new JSDOM("<main></main>").window.document;
   const opener = document.createElement("button");
@@ -66,10 +67,12 @@ async function fixture(t, options = {}) {
     ...options,
   });
   const route = Vue.reactive(options.route || { params: {}, query: {} });
-  const throttle = (await import("lodash-es")).throttle;
+  const lodash = await import("lodash-es");
   const eventBus = { $emit: (...args) => bus.push(args) };
   const globals = {
     document,
+    DOMParser: document.defaultView.DOMParser,
+    URL,
     window: {
       SERACH_THROTTLE: 15,
       GAPI: { GET_PAGE_BUILDER_TEMPLATES: () => "/isolated/templates" },
@@ -90,52 +93,87 @@ async function fixture(t, options = {}) {
         ),
     },
   };
-  const dependency = (name) => {
-    if (name === "vue") return Vue;
-    if (name === "lodash-es") return { throttle };
+  const dependency = (name, from) => {
+    if (name === "vue" || name === "vue/dist/vue.esm-bundler.js") return Vue;
+    if (from === files.code && /LMixinXComponent|StylerDirective|DynamicScriptDirective/.test(name))
+      return {};
+    if (name === "lodash-es") return lodash;
     if (name.includes("NotificationService"))
       return {
-        default: {
-          showErrorAlert: (...args) => notifications.push(["server", ...args]),
-          showLaravelError: (...args) =>
-            notifications.push(["transport", ...args]),
-        },
+        showErrorAlert: (...args) => notifications.push(["server", ...args]),
+        showLaravelError: (...args) => notifications.push(["transport", ...args]),
       };
     if (name.endsWith("/BEventBusMixin.ts"))
       return loadModule(
         path.join(packages, "components-vue/utils/events/BEventBusMixin.ts"),
       );
     if (name.endsWith("/EventBus.ts")) return { EventBus: eventBus };
-    if (name.endsWith("/RawTemplate.ts"))
-      return loadModule(path.join(__dirname, "list/RawTemplate.ts"));
-    if (name.endsWith("LTemplateCard.vue"))
-      return { default: load(files.card) };
-    if (name.endsWith("LTemplatesList.vue"))
-      return { default: load(files.list) };
-    if (name.endsWith(".vue")) return { default: leaf("div") };
-    if (/\.(jpg|svg|png)$/.test(name)) return "/isolated/asset.svg";
-    if (name.includes("/sections/"))
-      return new Proxy(
-        {},
-        {
-          get: () => ({
-            label: "Fixture section",
-            Seed: () => ({ value: "fresh section" }),
-          }),
+    if (name.endsWith("LTemplateCard.vue")) return load(files.card);
+    if (name.endsWith("LTemplatesList.vue")) return load(files.list);
+    if (name.endsWith("LPageViewer.vue")) {
+      return Vue.defineComponent({
+        name: "LPageViewer",
+        props: ["initialPageData", "customFonts"],
+        setup(props) {
+          return () => Vue.h("div", props.initialPageData.sections.map(({ uid, object }) => {
+            const children = flatten(object).map(({ component, data }) => {
+              if (component === "XText") return Vue.h(data.tag, data.value);
+              if (component === "XButton" && data.href) {
+                return Vue.h("a", { href: data.href }, data.content);
+              }
+              if (component === "XForm") {
+                return Vue.h("form", { onSubmit: () => events.push(["submit"]) }, [
+                  Vue.h("button", { type: "submit" }, "Submit"),
+                ]);
+              }
+              if (component === "XCode" && data.mode === "html") {
+                return Vue.h("div", {
+                  "data-html-block": "",
+                  innerHTML: data.code,
+                });
+              }
+              if (component === "XCode" && data.mode === "vue") {
+                const { component: compiled } = starterCode(data.code);
+                return Vue.h("div", { "data-vue-block": "" }, [
+                  Vue.h(compiled, { properties: data.properties }),
+                ]);
+              }
+            });
+            return Vue.h("section", { id: uid }, children);
+          }));
         },
-      );
-    if (name === "@selldone/core-js") return { CONSOLE: { log() {} } };
+      });
+    }
+    if (name.endsWith(".vue")) return leaf("div");
+    if (/\.(jpg|svg|png|webp)$/.test(name)) return "/isolated/asset.svg";
+    if (name.endsWith("/SetupService.ts"))
+      return {
+        SetupService: { MainServiceUrl: () => "https://platform.example" },
+      };
+    if (["@selldone/core-js", "@selldone/core-js/helper"].includes(name))
+      return { CONSOLE: { log() {}, style() {} } };
+    const pageBuilder = path.join(packages, "page-builder") + path.sep;
+    const source = name.startsWith("@selldone/page-builder/")
+      ? path.join(packages, name.slice("@selldone/".length))
+      : from?.startsWith(pageBuilder) && name.startsWith(".")
+        ? path.resolve(path.dirname(from), name)
+        : null;
+    if (source) {
+      const file = source.endsWith(".ts") ? source : `${source}.ts`;
+      if (existsSync(file)) return loadModule(file);
+    }
     return {};
   };
   function loadModule(file) {
-    if (!cache.has(file))
-      cache.set(
-        file,
-        evaluate(readFileSync(file, "utf8"), {
-          ...globals,
-          require: dependency,
-        }),
+    if (!cache.has(file)) {
+      const exported = {};
+      cache.set(file, exported);
+      evaluate(
+        readFileSync(file, "utf8"),
+        { ...globals, require: (name) => dependency(name, file) },
+        exported,
       );
+    }
     return cache.get(file);
   }
   function load(file) {
@@ -147,7 +185,7 @@ async function fixture(t, options = {}) {
     const script = compileScript(descriptor, { id: "templates-test" });
     const component = evaluate(script.content, {
       ...globals,
-      require: dependency,
+      require: (name) => dependency(name, file),
     }).default;
     const template = compileTemplate({
       source: descriptor.template.content,
@@ -158,7 +196,7 @@ async function fixture(t, options = {}) {
     assert.deepEqual(template.errors, []);
     component.render = evaluate(template.code, {
       ...globals,
-      require: dependency,
+      require: (name) => dependency(name, file),
     }).render;
     const created = component.created;
     component.created = function () {
@@ -167,6 +205,28 @@ async function fixture(t, options = {}) {
     };
     cache.set(file, component);
     return component;
+  }
+  const generatedCode = new Map();
+  function starterCode(source) {
+    if (!generatedCode.has(source)) {
+      const { methods } = load(files.code);
+      const host = { parseHTML: methods.parseHTML };
+      // Exercise the same prop factories and runtime template extraction as Raw HTML.
+      const definition = methods.generateComponent.call(host, source);
+      const template = compileTemplate({
+        source: definition.template,
+        filename: files.code,
+        id: "starter-vue",
+      });
+      assert.deepEqual(template.errors, []);
+      const { render } = evaluate(template.code, { require: () => Vue });
+      generatedCode.set(source, {
+        component: Vue.markRaw({ ...definition, render }),
+        defaults: host.defaultValues,
+        structure: host.structure,
+      });
+    }
+    return generatedCode.get(source);
   }
   const renderer = Vue.createRenderer({
     createElement: (tag) => document.createElement(tag),
@@ -184,19 +244,21 @@ async function fixture(t, options = {}) {
     remove: (node) => node.parentNode?.removeChild(node),
     patchProp(node, key, previous, value) {
       if (/^on[A-Z]/.test(key)) {
-        const event = key.slice(2).toLowerCase();
+        const capture = key.endsWith("Capture");
+        const event = key.slice(2).replace(/Capture$/, "").toLowerCase();
         node.listeners ||= {};
         if (node.listeners[key])
-          node.removeEventListener(event, node.listeners[key]);
+          node.removeEventListener(event, node.listeners[key], capture);
         if (value) {
           node.listeners[key] = (e) =>
             (Array.isArray(value) ? value : [value]).forEach((handler) =>
               handler(e),
             );
-          node.addEventListener(event, node.listeners[key]);
+          node.addEventListener(event, node.listeners[key], capture);
         }
       } else if (key === "style" && value && typeof value === "object")
         Object.assign(node.style, value);
+      else if (key === "innerHTML") node.innerHTML = value ?? "";
       else if (value == null || value === false) node.removeAttribute(key);
       else node.setAttribute(key, String(value));
     },
@@ -395,6 +457,7 @@ async function fixture(t, options = {}) {
     sources,
     controls,
     dialogs,
+    starterCode,
     context: () => context,
     tick,
     destroy,
@@ -675,31 +738,248 @@ test("server and transport errors remain retryable and stale failures stay silen
   assert.match(f.document.body.textContent, /No templates found/);
 });
 
-test("modern and legacy raw starters retain real fresh generation without remote selection", async (t) => {
-  for (const modern of [false, true]) {
-    const f = await fixture(t, { raw: true, modern });
-    assert.equal(f.requests.length, 0);
-    assert.equal(f.context().selected_category, "raw");
-    assert.match(f.document.body.textContent, /Branding/);
-    const raw = f.context().RawTemplate.List[0];
-    f.context().selectRawTheme(raw);
-    f.context().selectRawTheme(raw);
-    const generated = f.events
-      .filter(([event]) => event === "select:raw-theme")
-      .map(([, value]) => value);
-    assert.equal(generated.length, 2);
-    assert.equal(generated[0].title, "Raw Template Branding");
-    assert.equal(generated[0].sections.length, 4);
-    assert.ok(
-      generated[0].sections.every((section) => section.uid.startsWith("auto_")),
+test("all six starter selections emit fresh native content with artwork and working page anchors", async (t) => {
+  const f = await fixture(t, { raw: true, clickable: true });
+  const cards = f.document.querySelectorAll(".l-template-starters__card");
+  assert.equal(cards.length, 6);
+  const titles = new Set();
+  const headlines = new Set();
+  const artworkUrls = new Set();
+  const heroPalettes = new Set();
+  const componentTypes = new Set();
+  const publicDirectory = path.resolve(packages, "../Backend/public");
+
+  for (const card of cards) {
+    const button = card.querySelector(
+      ".l-template-starters__actions button:last-child",
     );
-    assert.notEqual(generated[0].sections[0].uid, generated[1].sections[0].uid);
-    assert.notEqual(
-      generated[0].sections[0].object,
-      generated[1].sections[0].object,
+    button.click();
+    await f.tick();
+    const [event, page] = f.events.at(-1);
+    assert.equal(event, "select:raw-theme");
+    titles.add(page.title);
+    assert.equal(page.sections.length, page.title === "Shop Collection" ? 7 : 5);
+    assert.equal(
+      new Set(page.sections.map(({ uid }) => uid)).size,
+      page.sections.length,
     );
-    assert.equal(f.requests.length, 0);
+
+    const sections = page.sections.map(({ uid, object }) => ({
+      uid,
+      object: JSON.parse(JSON.stringify(object.toJson())),
+    }));
+    const [hero] = sections;
+    assert.equal(hero.object.component, "XSection");
+    heroPalettes.add(hero.object.background.bg_color);
+    const heroElements = flatten(hero.object);
+    const headline = heroElements.find((element) => element.data?.tag === "h1");
+    const image = heroElements.find((element) => element.component === "XUploader");
+    const action = heroElements.find((element) => element.component === "XButton");
+    assert.ok(headline.data.value);
+    headlines.add(headline.data.value);
+    assert.ok(image.data.alt);
+    const preview = card.querySelector(".l-template-starters__image").getAttribute("src");
+    assert.match(preview, /^\/assets\/img\/landing-starters\/[a-z]+-preview\.webp$/);
+    const heroImage = new URL(image.data.src);
+    assert.equal(heroImage.origin, "https://platform.example");
+    assert.equal(heroImage.pathname, preview.replace("-preview", ""));
+    for (const asset of [preview, heroImage.pathname]) {
+      const bytes = readFileSync(path.join(publicDirectory, asset));
+      assert.equal(bytes.toString("ascii", 8, 12), "WEBP", asset);
+    }
+    artworkUrls.add(image.data.src);
+    assert.ok(sections.slice(1).some(({ uid }) => action.data.href === `#${uid}`));
+    for (const section of sections) {
+      for (const element of flatten(section.object)) componentTypes.add(element.component);
+    }
+    const customBlocks = sections.flatMap(({ object }) =>
+      flatten(object).filter(({ component }) => component === "XCode"),
+    );
+    assert.equal(customBlocks.length, page.title === "Shop Collection" ? 3 : 2);
+    for (const { data } of customBlocks) {
+      assert.equal(data.mode, "vue");
+      const { defaults, structure } = f.starterCode(data.code);
+      assert.deepEqual(Object.keys(data.properties), Object.keys(defaults));
+      assert.deepEqual(Object.keys(structure), Object.keys(defaults));
+      for (const [key, field] of Object.entries(structure)) {
+        assert.equal(field.key, key);
+        assert.ok(field.title);
+        if (field.type === "array") assert.ok(Object.keys(field.structure).length);
+      }
+    }
+
+    // A merchant edit to one generated page must never leak into a later page.
+    const nativeHeadline = flatten(page.sections[0].object).find(
+      (element) => element.data?.tag === "h1",
+    );
+    nativeHeadline.data.setValue("Merchant edit");
+    button.click();
+    await f.tick();
+    const [, fresh] = f.events.at(-1);
+    assert.notEqual(fresh.sections[0].uid, page.sections[0].uid);
+    const freshHeadline = flatten(fresh.sections[0].object).find(
+      (element) => element.data?.tag === "h1",
+    );
+    assert.equal(freshHeadline.data.value, headline.data.value);
   }
+
+  for (const unique of [titles, headlines, artworkUrls, heroPalettes]) {
+    assert.equal(unique.size, 6);
+  }
+  for (const component of ["XArticle", "XForm", "XProducts"]) {
+    assert.ok(componentTypes.has(component), component);
+  }
+  assert.equal(f.requests.length, 0);
+});
+
+test("starter preview shows full read-only content and restores focus without loading the catalog", async (t) => {
+  const f = await fixture(t, { raw: true, clickable: true });
+  assert.equal(f.requests.length, 0);
+  await f.click("[data-starter-preview='studio']");
+  const preview = f.document.querySelector(
+    ".l-template-starters__preview fieldset.l-template-starters__preview-content[disabled]",
+  );
+  assert.ok(preview);
+  assert.equal(preview.firstElementChild.children.length, 5);
+  assert.equal(preview.querySelectorAll("[data-vue-block]").length, 2);
+  assert.match(preview.textContent, /Objects for slower days\./);
+  assert.match(preview.textContent, /Made with intention/);
+  assert.match(preview.textContent, /Notes from the studio/);
+  assert.equal(f.document.querySelector(".l-template-starters__image"), null);
+
+  const form = preview.querySelector("form");
+  assert.ok(form.querySelector("button:disabled"));
+  const submit = new f.document.defaultView.Event("submit", {
+    bubbles: true,
+    cancelable: true,
+  });
+  assert.equal(form.dispatchEvent(submit), false);
+
+  const link = preview.querySelector("a[href^='#']");
+  const section = preview.querySelector(link.getAttribute("href"));
+  let scrolledToSection = false;
+  section.scrollIntoView = () => {
+    scrolledToSection = true;
+  };
+  // JSDOM's click() treats every descendant of a disabled fieldset as disabled.
+  const click = new f.document.defaultView.MouseEvent("click", {
+    bubbles: true,
+    cancelable: true,
+  });
+  assert.equal(link.dispatchEvent(click), false);
+  assert.equal(scrolledToSection, true);
+  assert.equal(f.document.location.hash, "");
+  const outline = f.document.querySelector(".l-template-starters__outline");
+  assert.match(outline.textContent, /5 sections/);
+  assert.equal(outline.querySelectorAll("a").length, 5);
+  const jump = outline.querySelector(`a[href="${link.getAttribute("href")}"]`);
+  scrolledToSection = false;
+  jump.click();
+  assert.equal(scrolledToSection, true);
+
+  assert.equal(
+    f.document.activeElement,
+    f.document.querySelector(".l-template-starters .l-templates-modern__back"),
+  );
+  assert.equal(f.events.length, 0);
+  await f.click(".l-template-starters .l-templates-modern__back");
+  assert.equal(f.document.activeElement.dataset.starterPreview, "studio");
+  assert.equal(f.requests.length, 0);
+
+  await f.click(".l-template-starters__tabs button:last-child");
+  assert.equal(f.requests.length, 1);
+  assert.equal(f.requests[0].config.params.category, "*");
+  f.requests[0].resolve(catalog(rows()));
+  await f.tick();
+  assert.equal(f.document.querySelectorAll(".l-template-card-modern").length, 2);
+  await f.click(".l-template-starters__tabs button:first-child");
+  assert.equal(f.document.querySelectorAll(".l-template-starters__card").length, 6);
+  assert.equal(f.requests.length, 1);
+});
+
+test("the collection renders live Vue sections and preserves inspector values", async (t) => {
+  const f = await fixture(t, { raw: true, clickable: true });
+  await f.click("[data-starter-preview='collection']");
+  const preview = f.document.querySelector(".l-template-starters__preview-content");
+  const previewSections = [...preview.firstElementChild.children];
+  assert.equal(previewSections.length, 7);
+  assert.match(preview.textContent, /products.*appear here/i);
+  const previewBlocks = [...preview.querySelectorAll("[data-vue-block]")];
+  assert.deepEqual(
+    previewBlocks.map((block) => block.querySelector("h2").textContent.trim()),
+    ["From our roaster to your cup", "Your first pour-over", "Good to know"],
+  );
+  const questions = [...previewBlocks.at(-1).querySelectorAll("details")];
+  assert.ok(questions.length >= 3);
+  for (const question of questions) {
+    assert.equal(question.firstElementChild.tagName, "SUMMARY");
+    assert.ok(question.firstElementChild.textContent.trim());
+  }
+  const previewFirstBlock = f.context().preview_raw.content.sections
+    .flatMap(({ object }) => flatten(object))
+    .find(({ component }) => component === "XCode");
+  previewFirstBlock.data.properties.title = "<strong>Editable example</strong>";
+  await f.tick();
+  assert.equal(previewBlocks[0].querySelector("h2").textContent.trim(), "<strong>Editable example</strong>");
+  assert.equal(previewBlocks[0].querySelector("h2 strong"), null);
+  assert.equal(f.events.length, 0);
+  assert.equal(f.requests.length, 0);
+
+  const previewIds = new Set(previewSections.map(({ id }) => id));
+  await f.click(".l-template-starters__preview-title button");
+  const [event, page] = f.events.at(-1);
+  assert.equal(event, "select:raw-theme");
+  assert.equal(page.sections.length, 7);
+  assert.ok(page.sections.every(({ uid }) => !previewIds.has(uid)));
+  const listing = page.sections[2];
+  assert.ok(
+    flatten(listing.object).some(({ component }) => component === "XProducts"),
+  );
+  assert.ok(
+    flatten(page.sections[0].object).some(
+      ({ component, data }) =>
+        component === "XButton" && data.href === `#${listing.uid}`,
+    ),
+  );
+  assert.ok(
+    flatten(page.sections.at(-1).object).some(
+      ({ component }) => component === "XForm",
+    ),
+  );
+
+  const codeBlocks = Array.from(page.sections).flatMap(({ object }) =>
+    flatten(object).filter(({ component }) => component === "XCode"),
+  );
+  assert.equal(codeBlocks.length, 3);
+  for (const [index, block] of codeBlocks.entries()) {
+    const { code } = block.data;
+    const parsed = previewBlocks[index];
+    assert.equal(parsed.querySelector("script, iframe"), null);
+    assert.ok(
+      [...parsed.querySelectorAll("*")].every((element) =>
+        element.getAttributeNames().every((name) => !name.startsWith("on")),
+      ),
+    );
+
+    const stored = JSON.parse(JSON.stringify(block.toJson()));
+    const restored = block.constructor.JsonToInstance(stored);
+    assert.equal(restored.data.mode, "vue");
+    assert.equal(restored.data.code, code);
+    assert.deepEqual(restored.data.properties, stored.data.properties);
+    assert.notEqual(restored.data.properties.title, "<strong>Editable example</strong>");
+    restored.data.setCode("<p>Edited example</p>");
+    assert.equal(block.data.code, code);
+  }
+  assert.equal(f.requests.length, 0);
+});
+
+test("legacy starter selection still works without a remote request", async (t) => {
+  const f = await fixture(t, { raw: true, modern: false });
+  assert.equal(f.requests.length, 0);
+  assert.match(f.document.body.textContent, /Brand Studio/);
+  f.context().selectRawTheme(f.context().RawTemplate.List[0]);
+  assert.equal(f.events.at(-1)[1].title, "Brand Studio");
+  assert.equal(f.requests.length, 0);
 });
 
 test("deep links keep full-page selection while picker dialog ignores surrounding template queries", async (t) => {
@@ -888,6 +1168,9 @@ test("selection errors retain the dialog and permit retry without emitting empty
 
 test("actual EN/FA components render and all shared scripts, templates and scoped styles compile", async (t) => {
   for (const locale of ["en", "fa"]) {
+    const starters = await fixture(t, { raw: true, locale, listProps: { hasHeader: true } });
+    assert.equal(starters.document.querySelectorAll(".l-template-starters__card").length, 6);
+    assert.doesNotMatch(starters.document.body.textContent, /page_builder\.templates\./);
     const f = await fixture(t, { kind: "dialog", locale });
     f.requests[0].resolve(catalog(rows()));
     await f.tick();

@@ -205,12 +205,14 @@ export default {
   methods: {
     initializeViewer() {
       this.$nextTick(() => {
-        cleanDOM(this.$refs.render_container);
-        this.initAnimations(this.$refs.render_container);
+        const target = this.$refs.render_container;
+        if (!target) return;
+        cleanDOM(target);
+        this.initAnimations(target);
 
         LandingCssHelper.Inject(
           this.initialPageCss /*Css*/,
-          this.$refs.render_container,
+          target,
         );
       });
     },

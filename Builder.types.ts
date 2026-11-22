@@ -46,6 +46,7 @@ export namespace builder {
   export interface IServer {
     uploadImageUrl: IUploadUrlFunction;
     uploadVideoUrl: IUploadUrlFunction;
+    uploadArticleImageUrl?: () => string | null;
   }
 
   /**
