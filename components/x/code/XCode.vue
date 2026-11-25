@@ -217,8 +217,9 @@ export default {
               result,
             );
           }
-        } else {
-          console.error(
+        } else if (CODE_PROPS_PROPERTIES) {
+          // Editable properties are optional; only a malformed value is a mistake.
+          console.warn(
             "Properties in the props is not an object",
             "config",
             config,
